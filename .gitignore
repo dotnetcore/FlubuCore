@@ -8,3 +8,7 @@
 /dotnet-flubu/dotnet-flubu.xproj.user
 /flubu/flubu.xproj.user
 /flubu/flubu.core.xproj.user
+/flubu.core/bin/Debug/netstandard1.5
+/flubu.core/obj/Debug/netstandard1.5
+/flubu.core/flubu.core.xproj.user
+/flubu.core/project.lock.json
