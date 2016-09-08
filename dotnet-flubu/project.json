@@ -4,7 +4,9 @@
     "debugType": "portable",
     "emitEntryPoint": true
   },
-  "dependencies": {},
+  "dependencies": {
+    "flubu": 
+  },
   "frameworks": {
     "netcoreapp1.0": {
       "dependencies": {

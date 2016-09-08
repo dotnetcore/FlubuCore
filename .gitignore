@@ -1,2 +1,9 @@
 /flubu/bin
 /flubu/obj
+/flubu/project.lock.json
+/dotnet-flubu/project.lock.json
+/.vs
+/dotnet-flubu/bin/Debug/netcoreapp1.0
+/dotnet-flubu/obj/Debug/netcoreapp1.0
+/dotnet-flubu/dotnet-flubu.xproj.user
+/flubu/flubu.xproj.user
