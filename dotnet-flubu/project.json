@@ -1,20 +1,19 @@
 {
   "version": "1.0.0-*",
   "buildOptions": {
-    "debugType": "portable",
     "emitEntryPoint": true
   },
+
   "dependencies": {
-    "flubu": 
+    "Microsoft.NETCore.App": {
+      "type": "platform",
+      "version": "1.0.0-rc2-3002702"
+    },
+    "flubu.core": "1.0.0-*"
   },
+
   "frameworks": {
     "netcoreapp1.0": {
-      "dependencies": {
-        "Microsoft.NETCore.App": {
-          "type": "platform",
-          "version": "1.0.0"
-        }
-      },
       "imports": "dnxcore50"
     }
   }
