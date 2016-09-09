@@ -9,9 +9,8 @@
   "dependencies": {
     "Microsoft.NETCore.App": {
       "type": "platform",
-      "version": "1.0.0-rc2-3002702"
+      "version": "1.0.0"
     },
-    "Microsoft.DotNet.Cli.Utils": "1.0.0-preview2-003121",
     "Microsoft.Extensions.CommandLineUtils": "1.0.0",
     "flubu.core": "1.0.0-*"
   },
