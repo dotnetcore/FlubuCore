@@ -1,7 +1,9 @@
 {
   "version": "1.0.0-*",
   "buildOptions": {
-    "emitEntryPoint": true
+    "emitEntryPoint": true,
+    "warningsAsErrors": true,
+    "outputName": "dotnet-flubu"
   },
 
   "dependencies": {
@@ -9,12 +11,28 @@
       "type": "platform",
       "version": "1.0.0-rc2-3002702"
     },
+    "Microsoft.DotNet.Cli.Utils": "1.0.0-preview2-003121",
+    "Microsoft.Extensions.CommandLineUtils": "1.0.0",
     "flubu.core": "1.0.0-*"
   },
 
-    "frameworks": {
+  "frameworks": {
     "netcoreapp1.0": {
-      "imports": "dnxcore50"
+      
     }
+  },
+  "packOptions": {
+    "summary": "This extension for .NET Core CLI extends building capabilities.",
+    "repository": {
+      "type": "git",
+      "url": "https://bitbucket.org/zoroz/flubu.core"
+    },
+    "tags": [
+      ".NET Core CLI",
+      "flubu",
+      "project-json",
+      "dotnet",
+      "dotnet-flubu"
+    ]
   }
 }
