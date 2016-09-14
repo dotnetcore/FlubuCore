@@ -10,37 +10,42 @@ namespace flubu
 {
     public class Program
     {
+#pragma warning disable RECS0154 // Parameter is never used
         public static int Main(string[] args)
+#pragma warning restore RECS0154 // Parameter is never used
         {
-            DotnetCommandParams parameters = new DotnetCommandParams();
+            Compiler.Compile();
+            return 0;
 
-            parameters.Parse(args);
+            //DotnetCommandParams parameters = new DotnetCommandParams();
 
-            if (parameters.Help)
-            {
-                return 0;
-            }
+            //parameters.Parse(args);
 
-            if (string.IsNullOrEmpty(parameters.Command))
-            {
-                Reporter.Error.WriteLine("Missing argument <COMMAND>");
-                parameters.ShowHint();
-                return 1;
-            }
+            //if (parameters.Help)
+            //{
+            //    return 0;
+            //}
 
-            if (parameters.ParentProcessId.HasValue)
-            {
-                RegisterForParentProcessExit(parameters.ParentProcessId.Value);
-            }
+            //if (string.IsNullOrEmpty(parameters.Command))
+            //{
+            //    Reporter.Error.WriteLine("Missing argument <COMMAND>");
+            //    parameters.ShowHint();
+            //    return 1;
+            //}
 
-            IEnumerable<ProjectContext> projectContexts = CreateProjectContexts(parameters.ProjectPath);
-            ProjectContext projectContext = parameters.Framework != null
-                ? projectContexts.First(p => p.TargetFramework == parameters.Framework)
-                : projectContexts.First();
+            //if (parameters.ParentProcessId.HasValue)
+            //{
+            //    RegisterForParentProcessExit(parameters.ParentProcessId.Value);
+            //}
 
-            var runner = new CommandRunner(projectContext);
+            //IEnumerable<ProjectContext> projectContexts = CreateProjectContexts(parameters.ProjectPath);
+            //ProjectContext projectContext = parameters.Framework != null
+            //    ? projectContexts.First(p => p.TargetFramework == parameters.Framework)
+            //    : projectContexts.First();
 
-            return runner.Run(parameters);
+            //var runner = new CommandRunner(projectContext);
+
+            //return runner.Run(parameters);
         }
 
         private static IEnumerable<ProjectContext> CreateProjectContexts(string projectPath)

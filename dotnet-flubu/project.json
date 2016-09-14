@@ -12,12 +12,15 @@
       "version": "1.0.0"
     },
     "Microsoft.Extensions.CommandLineUtils": "1.0.0",
+    "Microsoft.CodeAnalysis.CSharp": "1.3.2",
+    "Microsoft.CodeAnalysis.Common": "1.3.2",
+    "Microsoft.CodeAnalysis.CSharp.Scripting": "1.3.2",
     "flubu.core": "1.0.0-*"
   },
 
   "frameworks": {
     "netcoreapp1.0": {
-      
+      "imports": "dotnet5.6"
     }
   },
   "packOptions": {
