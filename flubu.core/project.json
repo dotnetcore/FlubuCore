@@ -3,8 +3,8 @@
 
   "dependencies": {
     "NETStandard.Library": "1.6.0",
+    "Microsoft.Extensions.Logging.Abstractions": "1.0.0",
     "Microsoft.DotNet.Cli.Utils": "1.0.0-preview2-003121"
-
   },
 
   "frameworks": {

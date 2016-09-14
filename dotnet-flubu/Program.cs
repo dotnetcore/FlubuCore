@@ -14,7 +14,7 @@ namespace flubu
         public static int Main(string[] args)
 #pragma warning restore RECS0154 // Parameter is never used
         {
-            Compiler.Compile();
+            //Compiler.Compile();
             return 0;
 
             //DotnetCommandParams parameters = new DotnetCommandParams();
