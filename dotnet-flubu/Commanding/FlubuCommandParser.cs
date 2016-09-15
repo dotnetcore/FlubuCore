@@ -59,9 +59,9 @@ namespace flubu.Commanding
             }
 
             if (_frameworkOption.HasValue())
-            {
                 _parsed.Framework = NuGetFramework.Parse(_frameworkOption.Value());
-            }
+            else
+                _parsed.Framework = NuGetFramework.AnyFramework;
 
             _parsed.Output = _outputOption.Value();
             _parsed.BuildBasePath = _buildBasePath.Value();
