@@ -11,10 +11,11 @@
       "type": "platform"
     },
     "xunit": "2.1.0",
-    "dotnet-test-xunit": "1.0.0-rc2-build10015",
+    "dotnet-test-xunit": "1.0.0-rc2-build10025",
+    "Microsoft.CodeAnalysis.CSharp": "1.3.2",
+    "Microsoft.CodeAnalysis.Common": "1.3.2",
+    "Microsoft.CodeAnalysis.CSharp.Scripting": "1.3.2",
     "moq": "4.6.25-alpha",
-    "System.Runtime.Loader": "4.0.0",
-    "System.Dynamic.Runtime": "4.0.11",
     "dotnet-flubu": "1.0.0-*",
     "flubu.core": "1.0.0-*"
   },
@@ -24,7 +25,8 @@
       "dependencies": {
       },
       "imports": [
-        "dotnet5.6"
+        "dnxcore50",
+        "portable-net45+win8"
       ]
     }
   }
