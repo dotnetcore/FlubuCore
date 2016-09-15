@@ -8,7 +8,7 @@
 
   "frameworks": {
     "netstandard1.6": {
-      "imports": "dotnet5.6"
+      "imports": [ "dotnet5.6", "dnxcore50" ]
     }
   }
 }

@@ -1,4 +1,6 @@
-﻿using flubu.Scripting;
+﻿using flubu.Commanding;
+using flubu.Scripting;
+using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace flubu.Infrastructure
@@ -12,7 +14,15 @@ namespace flubu.Infrastructure
             services
                 .AddSingleton<IFileExistsService, FileExistsService>()
                 .AddSingleton<IBuildScriptLocator, BuildScriptLocator>()
-                .AddSingleton<IScriptLoader, ScriptLoader>();
+                .AddSingleton<IScriptLoader, ScriptLoader>()
+                .AddSingleton<IFlubuCommandParser, FlubuCommandParser>()
+                .AddSingleton<ICommandExecutor, CommandExecutor>()
+                .AddSingleton(new CommandLineApplication(false)
+                {
+                    Name = "dotnet flubu",
+                    FullName = ".netcore flubu",
+                    Description = "flubu"
+                });
 
             return services;
         }

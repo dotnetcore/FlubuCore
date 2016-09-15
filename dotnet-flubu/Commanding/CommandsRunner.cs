@@ -18,48 +18,48 @@ namespace flubu
             _projectContext = project;
         }
 
-        public int Run(DotnetCommandParams args)
-        {
-            var commandName = args.Command;
-            if (_commands.ContainsKey(args.Command))
-            {
-                commandName = _commands[args.Command];
-            }
+        //public int Run(DotnetCommandParams args)
+        //{
+        //    var commandName = args.Command;
+        //    if (_commands.ContainsKey(args.Command))
+        //    {
+        //        commandName = _commands[args.Command];
+        //    }
 
-            var commandFactory =
-                new ProjectDependenciesCommandFactory(
-                    _projectContext.TargetFramework,
-                    args.Config,
-                    args.Output,
-                    args.BuildBasePath,
-                    _projectContext.ProjectDirectory);
+        //    var commandFactory =
+        //        new ProjectDependenciesCommandFactory(
+        //            _projectContext.TargetFramework,
+        //            args.Config,
+        //            args.Output,
+        //            args.BuildBasePath,
+        //            _projectContext.ProjectDirectory);
 
-            var commandArgs = CommandGrammar.Process(commandName, v => null, false);
+        //    var commandArgs = CommandGrammar.Process(commandName, v => null, false);
 
-            Reporter.Verbose.WriteLine($"Running {commandName} {string.Join(" ", args.RemainingArguments)}");
+        //    Reporter.Verbose.WriteLine($"Running {commandName} {string.Join(" ", args.RemainingArguments)}");
 
-            var command = commandFactory.Create(
-                    commandArgs.First(),
-                    commandArgs.Skip(1).Concat(args.RemainingArguments),
-                    _projectContext.TargetFramework,
-                    args.Config);
+        //    var command = commandFactory.Create(
+        //            commandArgs.First(),
+        //            commandArgs.Skip(1).Concat(args.RemainingArguments),
+        //            _projectContext.TargetFramework,
+        //            args.Config);
 
-            var originalDir = Directory.GetCurrentDirectory();
-            try
-            {
-                Directory.SetCurrentDirectory(_projectContext.ProjectDirectory);
-                Reporter.Verbose.WriteLine("Working directory = " + _projectContext.ProjectDirectory);
+        //    var originalDir = Directory.GetCurrentDirectory();
+        //    try
+        //    {
+        //        Directory.SetCurrentDirectory(_projectContext.ProjectDirectory);
+        //        Reporter.Verbose.WriteLine("Working directory = " + _projectContext.ProjectDirectory);
 
-                return command
-                    .ForwardStdErr()
-                    .ForwardStdOut()
-                    .Execute()
-                    .ExitCode;
-            }
-            finally
-            {
-                Directory.SetCurrentDirectory(originalDir);
-            }
-        }
+        //        return command
+        //            .ForwardStdErr()
+        //            .ForwardStdOut()
+        //            .Execute()
+        //            .ExitCode;
+        //    }
+        //    finally
+        //    {
+        //        Directory.SetCurrentDirectory(originalDir);
+        //    }
+        //}
     }
 }

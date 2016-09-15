@@ -5,6 +5,7 @@ namespace flubu.Scripting
 {
     public class ExampleScript : DefaultBuildScript
     {
+
         protected override void ConfigureBuildProperties(TaskSession session)
         {
             System.Console.WriteLine("configure props");

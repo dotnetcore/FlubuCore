@@ -9,7 +9,7 @@
   "dependencies": {
     "Microsoft.NETCore.App": {
       "type": "platform",
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     "Microsoft.Extensions.CommandLineUtils": "1.0.0",
     "Microsoft.DotNet.Cli.Utils": "1.0.0-preview2-003121",
@@ -22,13 +22,17 @@
     "Microsoft.Extensions.Logging": "1.0.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "Microsoft.Extensions.DependencyInjection": "1.0.0",
-    "flubu.core": "1.0.0-*"
+    "flubu.core": "1.0.0-*",
+    "Microsoft.Extensions.Logging.Console": "1.0.0"
   },
 
   "frameworks": {
     "netcoreapp1.0": {
-      "imports": "dotnet5.6"
-    }
+      "imports": [
+        "dotnet5.6",
+        "dnxcore50"
+      ]
+      }
   },
   "packOptions": {
     "summary": "This extension for .NET Core CLI extends building capabilities.",
