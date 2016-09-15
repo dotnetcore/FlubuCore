@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Scripting;
 
-namespace flubu
+namespace flubu.Scripting
 {
     public class ScriptCompiler
     {

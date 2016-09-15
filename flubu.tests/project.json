@@ -1,0 +1,31 @@
+﻿{
+  "version": "1.0.0-*",
+  "testRunner": "xunit",
+  "buildOptions": {
+    "allowUnsafe": true
+  },
+  "dependencies": {
+    "NETStandard.Library": "1.6.0",
+    "Microsoft.NETCore.App": {
+      "version": "1.0.0",
+      "type": "platform"
+    },
+    "xunit": "2.1.0",
+    "dotnet-test-xunit": "1.0.0-rc2-build10015",
+    "moq": "4.6.25-alpha",
+    "System.Runtime.Loader": "4.0.0",
+    "System.Dynamic.Runtime": "4.0.11",
+    "dotnet-flubu": "1.0.0-*",
+    "flubu.core": "1.0.0-*"
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "dependencies": {
+      },
+      "imports": [
+        "dotnet5.6"
+      ]
+    }
+  }
+}

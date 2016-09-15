@@ -16,7 +16,7 @@ namespace flubu.Scripting
             set { interactiveSessionDetectionFunc = value; }
         }
 
-        public int Run(ICollection<string> args)
+        public int Run(string[] args)
         {
             try
             {

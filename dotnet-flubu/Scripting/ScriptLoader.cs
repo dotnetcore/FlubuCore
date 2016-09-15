@@ -1,42 +1,24 @@
-﻿using flubu.Scripting;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
+﻿using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
+using System.IO;
+using System.Threading.Tasks;
 
-namespace flubu.Console
+namespace flubu.Scripting
 {
     public interface IScriptLoader
     {
-        IBuildScript FindAndCreateBuildScriptInstance(string fileName);
+        Task<IBuildScript> FindAndCreateBuildScriptInstance(string fileName);
     }
 
     public class ScriptLoader : IScriptLoader
     {
-        public IBuildScript FindAndCreateBuildScriptInstance(string fileName)
+        public async Task<IBuildScript> FindAndCreateBuildScriptInstance(string fileName)
         {
-            //todo implement with roslyn
-            throw new NotImplementedException();
+            string code = File.ReadAllText(fileName);
 
-            //CSScript.AssemblyResolvingEnabled = true;
-            //Assembly assembly = CSScript.Load(fileName);
+            ScriptState<IBuildScript> res = await CSharpScript.RunAsync<IBuildScript>(code);
 
-            //Type myType = typeof(IBuildScript);
-            //List<Type> classes =
-            //    assembly.GetTypes().Where(i => myType.IsAssignableFrom(i)).ToList();
-            //if (classes.Count <= 0)
-            //{
-            //    string message = string.Format(
-            //        CultureInfo.InvariantCulture,
-            //        "Used build script file '{0}' but it does not contain any IBuildScript implementation.",
-            //        fileName);
-
-            //    throw new BuildScriptLocatorException(message);
-            //}
-
-            //object scriptInstance = assembly.CreateInstance(classes[0].FullName);
-            //return scriptInstance.AlignToInterface<IBuildScript>();
+            return res.ReturnValue;
         }
     }
 }

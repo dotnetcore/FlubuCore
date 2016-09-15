@@ -6,3 +6,5 @@
 /flubu.core/bin
 /flubu.core/obj
 /.idea/**
+/flubu.tests/bin
+/flubu.tests/obj
