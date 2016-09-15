@@ -1,61 +1,77 @@
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.CommandLineUtils;
-using Microsoft.Extensions.Logging;
 using NuGet.Frameworks;
 using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace flubu.Commanding
 {
     public interface IFlubuCommandParser
     {
-        Command Parse(string[] args);
+        CommandArguments Parse(string[] args);
+
         void ShowHelp();
     }
 
     public class FlubuCommandParser : IFlubuCommandParser
     {
-        public FlubuCommandParser(CommandLineApplication commandApp, ILogger<FlubuCommandParser> log)
-        {
-            _commandApp = commandApp;
-            _log = log;
-        }
+        private readonly CommandLineApplication _commandApp;
 
         private CommandOption _buildBasePath;
+
         private CommandArgument _command;
+
         private CommandOption _configurationOption;
+
         private CommandOption _frameworkOption;
-        private CommandOption _helpOption;
+
         private CommandOption _outputOption;
-        private CommandOption _parentProcessIdOption;
+
+        private CommandArguments _parsed;
+
         private CommandOption _projectPath;
-        private readonly CommandLineApplication _commandApp;
-        private readonly ILogger<FlubuCommandParser> _log;
-        private Command _parsed;
+        private CommandOption _scriptPath;
+
+        public FlubuCommandParser(CommandLineApplication commandApp)
+        {
+            _commandApp = commandApp;
+        }
+        public CommandArguments Parse(string[] args)
+        {
+            _parsed = new CommandArguments();
+
+            _commandApp.HelpOption("-?|-h|--help");
+
+            _command = _commandApp.Argument("<COMMAND> [arguments]", "The command to execute");
+
+            _configurationOption = _commandApp.Option("-c|--configuration <CONFIGURATION>", "Configuration under which to run", CommandOptionType.SingleValue);
+            _frameworkOption = _commandApp.Option("-f|--framework <FRAMEWORK>", "Looks for command binaries for a specific framework", CommandOptionType.SingleValue);
+            _outputOption = _commandApp.Option("-o|--output <OUTPUT_DIR>", "Directory in which to find the binaries to be run", CommandOptionType.SingleValue);
+            _buildBasePath = _commandApp.Option("-b|--build-base-path <OUTPUT_DIR>", "Directory in which to find temporary outputs", CommandOptionType.SingleValue);
+            _projectPath = _commandApp.Option("-p|--project <PROJECT>", "The project to execute command on, defaults to the current directory. Can be a path to a project.json or a project directory.", CommandOptionType.SingleValue);
+            _scriptPath = _commandApp.Option("-s|--script <SCRIPT>", "Build script file to use.", CommandOptionType.SingleValue);
+
+            _commandApp.OnExecute(() => PrepareDefaultArguments());
+
+            if (args == null)
+                args = new string[0];
+
+            _parsed.Help = true;
+
+            int res = _commandApp.Execute(args);
+            return _parsed;
+        }
+
+        public void ShowHelp() => _commandApp.ShowHelp();
 
         private int PrepareDefaultArguments()
         {
-            _parsed = new Command();
-
+            _parsed.Help = false;
             // Locate the project and get the name and full path
             _parsed.ProjectPath = _projectPath.Value();
             if (string.IsNullOrEmpty(_parsed.ProjectPath))
             {
                 _parsed.ProjectPath = Directory.GetCurrentDirectory();
-            }
-
-            if (_parentProcessIdOption.HasValue())
-            {
-                int processId;
-
-                if (!int.TryParse(_parentProcessIdOption.Value(), out processId))
-                {
-                    throw new InvalidOperationException(
-                        $"Invalid process id '{_parentProcessIdOption.Value()}'. Process id must be an integer.");
-                }
-
-                _parsed.ParentProcessId = processId;
             }
 
             if (_frameworkOption.HasValue())
@@ -67,37 +83,9 @@ namespace flubu.Commanding
             _parsed.BuildBasePath = _buildBasePath.Value();
             _parsed.Config = _configurationOption.Value() ?? Constants.DefaultConfiguration;
             _parsed.MainCommand = _command.Value;
-
+            _parsed.Script = _scriptPath.Value();
             _parsed.RemainingCommands = _commandApp.RemainingArguments;
-
-            _parsed.Help = _helpOption.Value() != null;
-
-            _log.LogInformation($"c:{_parsed.MainCommand}");
             return 0;
         }
-
-        public Command Parse(string[] args)
-        {
-            _helpOption = _commandApp.HelpOption("-?|-h|--help");
-
-            _command = _commandApp.Argument("<COMMAND> [arguments]", "The command to execute");
-
-            _configurationOption = _commandApp.Option("-c|--configuration <CONFIGURATION>","Configuration under which to run",CommandOptionType.SingleValue);
-            _frameworkOption = _commandApp.Option("-f|--framework <FRAMEWORK>","Looks for command binaries for a specific framework",CommandOptionType.SingleValue);
-            _outputOption = _commandApp.Option("-o|--output <OUTPUT_DIR>","Directory in which to find the binaries to be run",CommandOptionType.SingleValue);
-            _buildBasePath = _commandApp.Option("-b|--build-base-path <OUTPUT_DIR>","Directory in which to find temporary outputs",CommandOptionType.SingleValue);
-            _projectPath = _commandApp.Option("-p|--project <PROJECT>","The project to execute command on, defaults to the current directory. Can be a path to a project.json or a project directory.",CommandOptionType.SingleValue);
-            _parentProcessIdOption = _commandApp.Option("--parentProcessId","Used by IDEs to specify their process ID. Command will exit if the parent process does.",CommandOptionType.SingleValue);
-
-            _commandApp.OnExecute(()=>PrepareDefaultArguments());
-
-            _commandApp.Execute(args);
-
-            return _parsed;
-        }
-
-        public void ShowHelp() => _commandApp.ShowHelp();
-
-        public void ShowHint() => _commandApp.ShowHint();
     }
 }

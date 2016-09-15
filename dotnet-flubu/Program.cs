@@ -8,13 +8,14 @@ namespace flubu
 {
     public class Program
     {
-        private static IServiceCollection _services = new ServiceCollection();
+        private readonly static IServiceCollection _services = new ServiceCollection();
         private static IServiceProvider _provider;
 
-#pragma warning disable RECS0154 // Parameter is never used
         public static int Main(string[] args)
-#pragma warning restore RECS0154 // Parameter is never used
         {
+            if (args == null)
+                args = new string[0];
+
             _services.RegisterAll();
 
             _provider = _services.BuildServiceProvider();

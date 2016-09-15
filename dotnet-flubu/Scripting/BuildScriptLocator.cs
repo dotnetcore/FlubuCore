@@ -1,9 +1,6 @@
-﻿using flubu.core.Infrastructure;
-using flubu.Scripting;
+﻿using flubu.Commanding;
+using flubu.core.Infrastructure;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,7 +8,7 @@ namespace flubu.Scripting
 {
     public interface IBuildScriptLocator
     {
-        Task<IBuildScript> FindBuildScript(IList<string> args);
+        Task<IBuildScript> FindBuildScript(CommandArguments args);
     }
 
     public class BuildScriptLocator : IBuildScriptLocator
@@ -39,7 +36,7 @@ namespace flubu.Scripting
             _log = log;
         }
 
-        public Task<IBuildScript> FindBuildScript(IList<string> args)
+        public Task<IBuildScript> FindBuildScript(CommandArguments args)
         {
             string fileName = GetFileName(args);
 
@@ -65,12 +62,11 @@ namespace flubu.Scripting
             return scriptLoader.FindAndCreateBuildScriptInstance(fileName);
         }
 
-        private string GetFileName(IList<string> args)
+        private string GetFileName(CommandArguments args)
         {
-            if (args.Count > 0)
+            if (!string.IsNullOrEmpty(args.Script))
             {
-                if (args[0].EndsWith(".cs", StringComparison.OrdinalIgnoreCase))
-                    return TakeExplicitBuildScriptName(args);
+                return TakeExplicitBuildScriptName(args);
             }
 
             _log.Log("Build script file name was not explicitly specified, searching the default locations:");
@@ -89,22 +85,12 @@ namespace flubu.Scripting
             return null;
         }
 
-        private string TakeExplicitBuildScriptName(IList<string> args)
+        private string TakeExplicitBuildScriptName(CommandArguments args)
         {
-            string buildScriptName = args[0];
+            if (fileExistsService.FileExists(args.Script))
+                return args.Script;
 
-            if (!fileExistsService.FileExists(buildScriptName))
-            {
-                string message = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "The build script file specified ('{0}') does not exist.",
-                    buildScriptName);
-                throw new BuildScriptLocatorException(message);
-            }
-
-            args.RemoveAt(0);
-
-            return buildScriptName;
+            throw new BuildScriptLocatorException($"The build script file specified ('{args.Script}') does not exist.");
         }
     }
 }

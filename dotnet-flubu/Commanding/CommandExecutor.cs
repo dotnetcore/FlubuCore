@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using flubu.Scripting;
+using System.Collections.Generic;
 
 namespace flubu.Commanding
 {
@@ -10,15 +11,18 @@ namespace flubu.Commanding
     public class CommandExecutor : ICommandExecutor
     {
         private readonly IFlubuCommandParser _parser;
+        private readonly IScriptLoader _scriptLoader;
 
-        public CommandExecutor(IFlubuCommandParser parser)
+        public CommandExecutor(IFlubuCommandParser parser, IScriptLoader scriptLoader)
         {
             _parser = parser;
+            _scriptLoader = scriptLoader;
         }
 
         public int Execute(string[] args)
         {
-            Command commands = _parser.Parse(args);
+            CommandArguments commands = _parser.Parse(args);
+
             if (commands.Help)
             {
                 _parser.ShowHelp();
