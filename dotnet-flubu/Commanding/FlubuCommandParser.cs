@@ -11,6 +11,7 @@ namespace flubu.Commanding
     public interface IFlubuCommandParser
     {
         Command Parse(string[] args);
+        void ShowHelp();
     }
 
     public class FlubuCommandParser : IFlubuCommandParser
@@ -69,7 +70,8 @@ namespace flubu.Commanding
 
             _parsed.RemainingCommands = _commandApp.RemainingArguments;
 
-            _parsed.Help = false;
+            _parsed.Help = _helpOption.Value() != null;
+
             _log.LogInformation($"c:{_parsed.MainCommand}");
             return 0;
         }

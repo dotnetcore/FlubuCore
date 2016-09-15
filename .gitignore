@@ -8,3 +8,5 @@
 /.idea/**
 /flubu.tests/bin
 /flubu.tests/obj
+/flubu.console/bin
+/flubu.console/obj

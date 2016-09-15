@@ -19,6 +19,11 @@ namespace flubu.Commanding
         public int Execute(string[] args)
         {
             Command commands = _parser.Parse(args);
+            if (commands.Help)
+            {
+                _parser.ShowHelp();
+                return 1;
+            }
 
             return 0;
         }

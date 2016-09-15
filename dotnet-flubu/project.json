@@ -33,19 +33,5 @@
         "dnxcore50"
       ]
       }
-  },
-  "packOptions": {
-    "summary": "This extension for .NET Core CLI extends building capabilities.",
-    "repository": {
-      "type": "git",
-      "url": "https://bitbucket.org/zoroz/flubu.core"
-    },
-    "tags": [
-      ".NET Core CLI",
-      "flubu",
-      "project-json",
-      "dotnet",
-      "dotnet-flubu"
-    ]
   }
 }
