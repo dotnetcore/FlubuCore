@@ -35,6 +35,7 @@ namespace flubu.Commanding
 
         private int PrepareDefaultArguments()
         {
+            _parsed = new Command();
 
             // Locate the project and get the name and full path
             _parsed.ProjectPath = _projectPath.Value();
