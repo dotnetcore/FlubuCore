@@ -73,8 +73,6 @@ namespace flubu.Scripting
 
             foreach (string defaultScriptLocation in defaultScriptLocations)
             {
-                _log.Log("Looking for a build script file '{0}'.", defaultScriptLocation);
-
                 if (fileExistsService.FileExists(defaultScriptLocation))
                 {
                     _log.Log("Found it, using the build script file '{0}'.", defaultScriptLocation);

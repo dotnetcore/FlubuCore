@@ -16,6 +16,8 @@ namespace flubu.Scripting
             set { interactiveSessionDetectionFunc = value; }
         }
 
+        public string Name => nameof(DefaultBuildScript);
+
         public int Run(string[] args)
         {
             try

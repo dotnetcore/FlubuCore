@@ -17,6 +17,7 @@ namespace flubu.Infrastructure
                 .AddSingleton<IScriptLoader, ScriptLoader>()
                 .AddSingleton<IFlubuCommandParser, FlubuCommandParser>()
                 .AddSingleton<ICommandExecutor, CommandExecutor>()
+                .AddSingleton<IFileLoader, FileLoader>()
                 .AddSingleton(new CommandLineApplication(false)
                 {
                     Name = "dotnet flubu",

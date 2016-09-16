@@ -3,7 +3,8 @@
   "buildOptions": {
     "emitEntryPoint": true,
     "warningsAsErrors": true,
-    "outputName": "dotnet-flubu"
+    "outputName": "dotnet-flubu",
+    "allowUnsafe": true
   },
 
   "dependencies": {

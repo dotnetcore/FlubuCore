@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using Microsoft.Extensions.Logging;
 using flubu.Infrastructure;
+using Microsoft.DotNet.Cli.Utils;
 
 namespace flubu
 {
@@ -20,10 +21,10 @@ namespace flubu
 
             _provider = _services.BuildServiceProvider();
             ILoggerFactory factory = _provider.GetRequiredService<ILoggerFactory>();
-            factory.AddConsole();
+            factory.AddConsole(LogLevel.Trace);
 
             ICommandExecutor executor = _provider.GetRequiredService<ICommandExecutor>();
-            return executor.Execute(args);
+            return executor.Execute(args).Result;
         }
     }
 }

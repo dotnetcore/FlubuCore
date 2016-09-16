@@ -1,25 +1,30 @@
 ﻿using flubu.Scripting;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace flubu.Commanding
 {
     public interface ICommandExecutor
     {
-        int Execute(string[] args);
+        Task<int> Execute(string[] args);
     }
 
     public class CommandExecutor : ICommandExecutor
     {
         private readonly IFlubuCommandParser _parser;
-        private readonly IScriptLoader _scriptLoader;
+        private readonly IBuildScriptLocator _locator;
+        private readonly ILogger<CommandExecutor> _log;
 
-        public CommandExecutor(IFlubuCommandParser parser, IScriptLoader scriptLoader)
+        public CommandExecutor(IFlubuCommandParser parser,
+            IBuildScriptLocator locator, ILogger<CommandExecutor> log)
         {
             _parser = parser;
-            _scriptLoader = scriptLoader;
+            _locator = locator;
+            _log = log;
         }
 
-        public int Execute(string[] args)
+        public async Task<int> Execute(string[] args)
         {
             CommandArguments commands = _parser.Parse(args);
 
@@ -28,7 +33,16 @@ namespace flubu.Commanding
                 return 1;
             }
 
-            return 0;
+            IBuildScript script = await _locator.FindBuildScript(commands);
+
+            if (script==null)
+            {
+                _log.LogInformation("Script not found!");
+                return -1;
+            }
+
+            _log.LogInformation($"Executing script {script.Name}");
+            return script.Run(new string[0]);
         }
     }
 }
