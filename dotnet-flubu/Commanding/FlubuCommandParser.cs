@@ -85,6 +85,7 @@ namespace flubu.Commanding
             _parsed.MainCommand = _command.Value;
             _parsed.Script = _scriptPath.Value();
             _parsed.RemainingCommands = _commandApp.RemainingArguments;
+
             return 0;
         }
     }

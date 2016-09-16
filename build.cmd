@@ -8,6 +8,7 @@ dotnet restore
 dotnet pack
 
 cd ..
+mkdir flubu.console\nuget
 copy flubu.core\bin\Debug\*.nupkg flubu.console\nuget
 copy dotnet-flubu\bin\Debug\*.nupkg flubu.console\nuget
 
