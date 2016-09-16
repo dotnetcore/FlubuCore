@@ -25,7 +25,6 @@ namespace flubu.Commanding
 
             if (commands.Help)
             {
-                _parser.ShowHelp();
                 return 1;
             }
 
