@@ -72,21 +72,21 @@ namespace flubu.tests.Commanding
         }
 
         [Theory]
-        [InlineData("-s b.cs")]
-        [InlineData("--script b.cs")]
+        [InlineData("-s")]
+        [InlineData("--script")]
         public void ParseScript(string value)
         {
-            CommandArguments res = _parser.Parse(new string[] { "test", value });
+            CommandArguments res = _parser.Parse(new string[] { "test", value, "b.cs" });
 
             Assert.Equal("b.cs", res.Script);
         }
 
         [Theory]
-        [InlineData("-p testp")]
-        [InlineData("--project testp")]
+        [InlineData("-p")]
+        [InlineData("--project")]
         public void ParseProjectPath(string value)
         {
-            CommandArguments res = _parser.Parse(new string[] { "test", value });
+            CommandArguments res = _parser.Parse(new string[] { "test", value, "testp" });
 
             Assert.Equal("testp", res.ProjectPath);
         }

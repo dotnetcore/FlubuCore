@@ -2,7 +2,7 @@
   "profiles": {
     "dotnet-flubu": {
       "commandName": "Project",
-      "commandLineArgs": "flubu compile"
+      "commandLineArgs": "flubu compile -s test.cs"
     }
   }
 }
