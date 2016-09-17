@@ -42,7 +42,7 @@ namespace flubu.Commanding
             }
 
             _log.LogInformation($"Executing script {script.Name}");
-            return script.Run(new string[0]);
+            return script.Run(commands);
         }
     }
 }

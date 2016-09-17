@@ -3,36 +3,28 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Logging;
+using flubu.Scripting;
+using System.Diagnostics;
 
 namespace flubu
 {
     public class TaskContext : ITaskContext
     {
-        public TaskContext (ITaskContextProperties properties, IEnumerable<string> args)
+        public TaskContext (ITaskContextProperties properties, CommandArguments args)
         {
-            this.properties = properties;
-            this.args = new List<string>(args);
+            this.Properties = properties;
+            this.Args = args;
         }
 
-        public IList<string> Args
-        {
-            get { return args; }
-        }
+        public CommandArguments Args { get; }
 
-        public bool IsInteractive
-        {
-            get { return isInteractive; }
-            set { isInteractive = value; }
-        }
+        public bool IsInteractive { get; set; } = true;
 
-        public ITaskContextProperties Properties
-        {
-            get { return properties; }
-        }
+        public ITaskContextProperties Properties { get; }
 
         public TaskContext AddLogger (ILogger logger)
         {
-            loggers.Add(logger);
+            _log = logger;
             return this;
         }
 
@@ -46,22 +38,11 @@ namespace flubu
             executionDepth = 0;
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         public void WriteMessage(TaskMessageLevel level, string message)
         {
-            //todo implement with Ms logger
-            throw new NotImplementedException();
-
-            //foreach (ILogger logger in loggers)
-            //{
-            //    try
-            //    {
-            //        logger.WriteMessage(level, executionDepth, message);
-            //    }
-            //    catch
-            //    {
-            //    }
-            //}
+            Console.WriteLine(message);
+            Debug.WriteLine(message);
+            _log.LogInformation(message);
         }
 
         public void DecreaseDepth()
@@ -88,12 +69,10 @@ namespace flubu
 
             disposed = true;
         }
-
-        private readonly List<string> args;
         private bool disposed;
         private int executionDepth;
-        private readonly List<ILogger> loggers = new List<ILogger>();
-        private readonly ITaskContextProperties properties;
-        private bool isInteractive = true;
+        private ILogger _log;
+        private ITaskContextProperties taskContextProperties;
+        private CommandArguments args;
     }
 }

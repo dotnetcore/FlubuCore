@@ -1,6 +1,7 @@
 ﻿using flubu.Commanding;
 using flubu.core.Infrastructure;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,6 +43,8 @@ namespace flubu.Scripting
 
             if (fileName == null)
                 ReportUnspecifiedBuildScript();
+
+            Console.WriteLine("43443");
 
             return FindAndCreateBuildScriptInstance(fileName);
         }

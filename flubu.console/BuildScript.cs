@@ -2,9 +2,9 @@
 {
     public string Name => nameof(MyBuildScript);
 
-    public int Run(string[] args)
+    public int Run(flubu.Scripting.CommandArguments args)
     {
-        System.Console.WriteLine("Executed");
+        System.Console.WriteLine("111");
         return 0;
     }
 }

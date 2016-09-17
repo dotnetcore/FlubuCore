@@ -1,4 +1,5 @@
 ﻿using flubu.Commanding;
+using flubu.Scripting;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
 using Xunit;

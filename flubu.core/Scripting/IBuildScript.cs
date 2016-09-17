@@ -2,7 +2,7 @@ namespace flubu.Scripting
 {
     public interface IBuildScript
     {
-        int Run(string[] args);
+        int Run(CommandArguments args);
 
         string Name { get; }
     }

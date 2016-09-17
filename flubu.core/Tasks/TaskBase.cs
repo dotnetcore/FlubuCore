@@ -37,7 +37,7 @@ namespace flubu
         /// <remarks>This method implements the basic reporting and error handling for
         /// classes which inherit the <see cref="TaskBase"/> class.</remarks>
         /// <param name="context">The script execution environment.</param>
-        public void Execute (ITaskContext context)
+        public int Execute (ITaskContext context)
         {
             if (context == null)
                 throw new ArgumentNullException (nameof(context));
@@ -51,6 +51,7 @@ namespace flubu
             {
                 DoExecute (context);
                 taskStopwatch.Stop();
+                return 0;
             }
             finally
             {

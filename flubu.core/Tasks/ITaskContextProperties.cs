@@ -10,7 +10,7 @@ namespace flubu.Tasks
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get")]
         T Get<T>(string propertyName, T defaultValue);
         bool Has(string propertyName);
-        IEnumerable<KeyValuePair<string, object>> EnumerateProperties();
+        //IEnumerable<KeyValuePair<string, object>> EnumerateProperties();
 
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Set")]
         void Set<T>(string propertyName, T propertyValue);

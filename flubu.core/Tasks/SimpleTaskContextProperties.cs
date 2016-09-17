@@ -33,14 +33,14 @@ namespace flubu
             return properties.ContainsKey(propertyName);
         }
 
-        public IEnumerable<KeyValuePair<string, object>> EnumerateProperties()
-        {
-            return properties;
-        }
+        //public IEnumerable<KeyValuePair<string, object>> EnumerateProperties()
+        //{
+        //    return properties;
+        //}
 
         public void Set<T>(string propertyName, T propertyValue)
         {
-            properties[propertyName] = propertyValue;
+            properties[propertyName] = propertyValue.ToString();
         }
 
         public string this[string propertyName]
@@ -54,6 +54,6 @@ namespace flubu
             properties.Clear();
         }
 
-        private readonly Dictionary<string, object> properties = new Dictionary<string, object>();
+        private readonly Dictionary<string, string> properties = new Dictionary<string, string>();
     }
 }

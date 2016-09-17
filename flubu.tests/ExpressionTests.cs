@@ -95,7 +95,7 @@ namespace flubu.tests
             throw new NotImplementedException();
         }
 
-        public void Execute(ITaskContext context)
+        public int Execute(ITaskContext context)
         {
             throw new NotImplementedException();
         }

@@ -77,20 +77,13 @@ namespace flubu.Targeting
             executedTargets.Clear();
         }
 
-        public void RunTarget(ITaskContext taskContext, string targetName)
+        public int RunTarget(ITaskContext taskContext, string targetName)
         {
             if (false == targets.ContainsKey(targetName))
-            {
-                string message = string.Format(
-                    CultureInfo.InvariantCulture, 
-                    "The target '{0}' does not exist", 
-                    targetName);
-    
-                throw new ArgumentException(message);
-            }
+                throw new ArgumentException($"The target '{targetName}' does not exist");
 
             ITarget target = targets[targetName];
-            target.Execute(taskContext);
+            return target.Execute(taskContext);
         }
 
         public void SetDefaultTarget(ITarget target)

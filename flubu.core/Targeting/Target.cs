@@ -110,8 +110,7 @@ namespace flubu.Targeting
             targetTree.EnsureDependenciesExecuted(context, TargetName);
 
             // we can have action-less targets (that only depend on other targets)
-            if (targetAction != null)
-                targetAction(context);
+            targetAction?.Invoke(context);
         }
 
         protected override string DescriptionForLog

@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using flubu.Tasks;
 using flubu.Targeting;
+using flubu.Scripting;
+using Microsoft.Extensions.Logging;
 
 namespace flubu
 {
     public class TaskSession : TaskContext, ITaskSession
     {
-        public TaskSession(ITaskContextProperties taskContextProperties, IEnumerable<string> args) : base(taskContextProperties, args)
+        public TaskSession(ITaskContextProperties taskContextProperties, CommandArguments args) : base(taskContextProperties, args)
         {
             hasFailed = true;
             buildStopwatch.Start();
         }
 
-        public TaskSession (ITaskContextProperties taskContextProperties, IEnumerable<string> args, TargetTree targetTree)
+        public TaskSession (ITaskContextProperties taskContextProperties, CommandArguments args, TargetTree targetTree)
             : base(taskContextProperties, args)
         {
             hasFailed = true;

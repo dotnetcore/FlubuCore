@@ -1,9 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
-using Microsoft.Extensions.Logging;
 using System;
-using System.IO;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
@@ -17,18 +15,36 @@ namespace flubu.Scripting
 
     public class ScriptLoader : IScriptLoader
     {
+        private readonly IFileLoader _fileLoader;
+
+        public ScriptLoader(IFileLoader fileLoader)
+        {
+            _fileLoader = fileLoader;
+        }
+
         public async Task<IBuildScript> FindAndCreateBuildScriptInstance(string fileName)
         {
-            string code = File.ReadAllText(fileName);
+            Console.WriteLine("0");
 
+            string code = _fileLoader.LoadFile(fileName);
+
+            Console.WriteLine("1");
             ScriptOptions opts = ScriptOptions.Default
-                .AddImports("flubu.Scripting", "System", "System.Collections.Generic", "flubu.Targeting")
-                .AddReferences(LoadAssembly<IBuildScript>(), LoadAssembly<ScriptLoader>());
+                .AddImports("flubu.Scripting", "System", "System.Collections.Generic", "flubu.Targeting",
+                "flubu")
+                .AddReferences(LoadAssembly<IBuildScript>(),
+                LoadAssembly<ScriptLoader>(),
+                LoadAssembly<DefaultBuildScript>(),
+                LoadAssembly<Script>());
+            Console.WriteLine("2");
 
             //todo how to find class name??
             Script<IBuildScript> script = CSharpScript.Create<IBuildScript>($"{code} \r\nvar obj = new MyBuildScript();", opts);
+            Console.WriteLine("3");
 
             ScriptState<IBuildScript> result = await script.RunAsync();
+            Console.WriteLine("4");
+
             return result.Variables[0].Value as IBuildScript;
         }
 

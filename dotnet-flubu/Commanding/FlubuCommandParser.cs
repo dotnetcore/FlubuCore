@@ -1,3 +1,4 @@
+using flubu.Scripting;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.CommandLineUtils;
 using NuGet.Frameworks;
@@ -23,8 +24,6 @@ namespace flubu.Commanding
 
         private CommandOption _configurationOption;
 
-        private CommandOption _frameworkOption;
-
         private CommandOption _outputOption;
 
         private CommandArguments _parsed;
@@ -45,7 +44,6 @@ namespace flubu.Commanding
             _command = _commandApp.Argument("<COMMAND> [arguments]", "The command to execute");
 
             _configurationOption = _commandApp.Option("-c|--configuration <CONFIGURATION>", "Configuration under which to run", CommandOptionType.SingleValue);
-            _frameworkOption = _commandApp.Option("-f|--framework <FRAMEWORK>", "Looks for command binaries for a specific framework", CommandOptionType.SingleValue);
             _outputOption = _commandApp.Option("-o|--output <OUTPUT_DIR>", "Directory in which to find the binaries to be run", CommandOptionType.SingleValue);
             _buildBasePath = _commandApp.Option("-b|--build-base-path <OUTPUT_DIR>", "Directory in which to find temporary outputs", CommandOptionType.SingleValue);
             _projectPath = _commandApp.Option("-p|--project <PROJECT>", "The project to execute command on, defaults to the current directory. Can be a path to a project.json or a project directory.", CommandOptionType.SingleValue);
@@ -73,11 +71,6 @@ namespace flubu.Commanding
             {
                 _parsed.ProjectPath = Directory.GetCurrentDirectory();
             }
-
-            if (_frameworkOption.HasValue())
-                _parsed.Framework = NuGetFramework.Parse(_frameworkOption.Value());
-            else
-                _parsed.Framework = NuGetFramework.AnyFramework;
 
             _parsed.Output = _outputOption.Value();
             _parsed.BuildBasePath = _buildBasePath.Value();
