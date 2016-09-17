@@ -30,9 +30,9 @@ namespace flubu.tests
             return memberExpression.Member;
         }
 
-        public static string DependsOn<TProp>(this ITarget target, Expression<Func<TProp>> t)
+        public static ITarget DependsOn<TProp>(this ITarget target, Expression<Func<TProp>> t)
         {
-            return t.GetMemberInfo().Name;
+            return target.DependsOn(t.GetMemberInfo().Name);
         }
 
         public static void SampleCall()
