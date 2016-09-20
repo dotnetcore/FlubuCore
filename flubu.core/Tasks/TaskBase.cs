@@ -1,9 +1,28 @@
-using flubu.Tasks;
 using System;
 using System.Diagnostics;
 
 namespace flubu
 {
+    /// <summary>
+    /// Specifies basic properties and methods for a task.
+    /// </summary>
+    public interface ITask
+    {
+        /// <summary>
+        /// Gets the task description.
+        /// </summary>
+        /// <value>The task description.</value>
+        string Description { get; }
+
+        Stopwatch TaskStopwatch { get; }
+
+        /// <summary>
+        /// Executes the task using the specified script execution environment.
+        /// </summary>
+        /// <param name="context">The script execution environment.</param>
+        int Execute(ITaskContext context);
+    }
+
     /// <summary>
     /// A base abstract class from which tasks can be implemented.
     /// </summary>
@@ -26,10 +45,7 @@ namespace flubu
             get { return false; }
         }
 
-        public Stopwatch TaskStopwatch
-        {
-            get { return taskStopwatch; }
-        }
+        public Stopwatch TaskStopwatch { get; } = new Stopwatch();
 
         /// <summary>
         /// Executes the task using the specified script execution environment.
@@ -37,32 +53,29 @@ namespace flubu
         /// <remarks>This method implements the basic reporting and error handling for
         /// classes which inherit the <see cref="TaskBase"/> class.</remarks>
         /// <param name="context">The script execution environment.</param>
-        public int Execute (ITaskContext context)
+        public int Execute(ITaskContext context)
         {
             if (context == null)
-                throw new ArgumentNullException (nameof(context));
+                throw new ArgumentNullException(nameof(context));
 
-            taskStopwatch.Start();
+            TaskStopwatch.Start();
 
-            context.WriteInfo("{0}", DescriptionForLog);
+            context.WriteMessage(DescriptionForLog);
             context.IncreaseDepth();
 
             try
             {
-                DoExecute (context);
-                taskStopwatch.Stop();
+                DoExecute(context);
                 return 0;
             }
             finally
             {
+                TaskStopwatch.Stop();
                 context.DecreaseDepth();
 
                 if (LogDuration)
                 {
-                    context.WriteInfo(
-                        "{0} finished (took {1} seconds)", 
-                        DescriptionForLog, 
-                        (int)taskStopwatch.Elapsed.TotalSeconds);
+                    context.WriteMessage($"{DescriptionForLog} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
                 }
             }
         }
@@ -87,8 +100,6 @@ namespace flubu
         /// </summary>
         /// <remarks>This method has to be implemented by the inheriting task.</remarks>
         /// <param name="context">The script execution environment.</param>
-        protected abstract void DoExecute (ITaskContext context);
-
-        private readonly Stopwatch taskStopwatch = new Stopwatch();
+        protected abstract void DoExecute(ITaskContext context);
     }
 }

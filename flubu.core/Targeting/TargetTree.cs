@@ -1,7 +1,5 @@
-﻿using flubu.Tasks;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace flubu.Targeting
 {
@@ -11,9 +9,9 @@ namespace flubu.Targeting
         {
             AddTarget("help")
                 .SetDescription("Displays the available targets in the build")
-                .Do(TargetHelp);            
+                .Do(TargetHelp);
         }
-        
+
         /// <summary>
         /// Gets the default target for this runner.
         /// </summary>
@@ -72,7 +70,7 @@ namespace flubu.Targeting
             executedTargets.Add(target.TargetName);
         }
 
-        public void ResetTargetExecutionInfo ()
+        public void ResetTargetExecutionInfo()
         {
             executedTargets.Clear();
         }
@@ -97,7 +95,7 @@ namespace flubu.Targeting
         /// <param name="context">The task context.</param>
         public void TargetHelp(ITaskContext context)
         {
-            context.WriteInfo("Targets:");
+            context.WriteMessage("Targets:");
 
             // first sort the targets
             SortedList<string, ITarget> sortedTargets = new SortedList<string, ITarget>();
@@ -108,10 +106,7 @@ namespace flubu.Targeting
             // now display them in sorted order
             foreach (ITarget target in sortedTargets.Values)
                 if (false == target.IsHidden)
-                    context.WriteInfo(
-                        "  {0} : {1}", 
-                        target.TargetName, 
-                        target.Description);
+                    context.WriteMessage($"  {target.TargetName} : {target.Description}");
         }
 
         private ITarget defaultTarget;

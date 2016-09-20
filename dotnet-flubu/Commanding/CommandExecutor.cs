@@ -41,7 +41,6 @@ namespace flubu.Commanding
                 return -1;
             }
 
-            _log.LogInformation($"Executing script {script.Name}");
             return script.Run(commands);
         }
     }

@@ -1,11 +1,18 @@
-﻿public class MyBuildScript : flubu.Scripting.IBuildScript
-{
-    public string Name => nameof(MyBuildScript);
+﻿using flubu;
+using flubu.Scripting;
+using flubu.Targeting;
+using System;
 
-    public int Run(flubu.Scripting.CommandArguments args)
+public class MyBuildScript : DefaultBuildScript
+{
+    protected override void ConfigureBuildProperties(TaskSession session)
     {
-        System.Console.WriteLine("111");
-        return 0;
+        Console.WriteLine("1");
+    }
+
+    protected override void ConfigureTargets(TargetTree targetTree, CommandArguments args)
+    {
+        Console.WriteLine("2");
     }
 }
 

@@ -1,6 +1,4 @@
-﻿using flubu.Commanding;
-using flubu.core.Infrastructure;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,8 +42,6 @@ namespace flubu.Scripting
             if (fileName == null)
                 ReportUnspecifiedBuildScript();
 
-            Console.WriteLine("43443");
-
             return FindAndCreateBuildScriptInstance(fileName);
         }
 
@@ -72,13 +68,13 @@ namespace flubu.Scripting
                 return TakeExplicitBuildScriptName(args);
             }
 
-            _log.Log("Build script file name was not explicitly specified, searching the default locations:");
+            _log.LogInformation("Build script file name was not explicitly specified, searching the default locations:");
 
             foreach (string defaultScriptLocation in defaultScriptLocations)
             {
                 if (fileExistsService.FileExists(defaultScriptLocation))
                 {
-                    _log.Log("Found it, using the build script file '{0}'.", defaultScriptLocation);
+                    _log.LogInformation("Found it, using the build script file '{0}'.", defaultScriptLocation);
                     return defaultScriptLocation;
                 }
             }

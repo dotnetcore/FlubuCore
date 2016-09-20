@@ -15,8 +15,6 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "flubu.core", "flubu.core\fl
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "flubu.tests", "flubu.tests\flubu.tests.xproj", "{017609B9-48F0-4C56-827A-4EB56637CA93}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "flubu.console", "flubu.console\flubu.console.xproj", "{79865A4F-E9D4-418E-92E1-0B2DE5BEBB69}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,10 +33,6 @@ Global
 		{017609B9-48F0-4C56-827A-4EB56637CA93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{017609B9-48F0-4C56-827A-4EB56637CA93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{017609B9-48F0-4C56-827A-4EB56637CA93}.Release|Any CPU.Build.0 = Release|Any CPU
-		{79865A4F-E9D4-418E-92E1-0B2DE5BEBB69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79865A4F-E9D4-418E-92E1-0B2DE5BEBB69}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79865A4F-E9D4-418E-92E1-0B2DE5BEBB69}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79865A4F-E9D4-418E-92E1-0B2DE5BEBB69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

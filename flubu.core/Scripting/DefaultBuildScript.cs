@@ -1,20 +1,11 @@
 ﻿using flubu.Targeting;
-using flubu.Tasks;
-using Flubu.Builds;
 using System;
+using System.Collections.Generic;
 
 namespace flubu.Scripting
 {
     public abstract class DefaultBuildScript : IBuildScript
     {
-        //public Func<bool> InteractiveSessionDetectionFunc
-        //{
-        //    get { return interactiveSessionDetectionFunc; }
-        //    set { interactiveSessionDetectionFunc = value; }
-        //}
-
-        public string Name => nameof(DefaultBuildScript);
-
         public int Run(CommandArguments args)
         {
             try
@@ -23,7 +14,6 @@ namespace flubu.Scripting
                     throw new ArgumentNullException(nameof(args));
 
                 TargetTree targetTree = new TargetTree();
-                BuildTargets.FillBuildTargets(targetTree);
 
                 ConfigureTargets(targetTree, args);
 
@@ -45,15 +35,29 @@ namespace flubu.Scripting
             if (targetTree == null)
                 throw new ArgumentNullException(nameof(targetTree));
 
-            using (TaskSession session = new TaskSession(new SimpleTaskContextProperties(), args, targetTree))
+            using (TaskSession session = new TaskSession(args, targetTree))
             {
-                //session.IsInteractive = InteractiveSessionDetectionFunc();
+                session.Start(s =>
+                {
+                    SortedList<string, ITarget> sortedTargets = new SortedList<string, ITarget>();
 
-                BuildTargets.FillDefaultProperties(session);
-                session.Start(BuildTargets.OnBuildFinished);
+                    foreach (ITarget target in session.TargetTree.EnumerateExecutedTargets())
+                        sortedTargets.Add(target.TargetName, target);
 
-                //todo do we need logger??
-                //session.AddLogger(new MulticoloredConsoleLogger(Console.Out));
+                    foreach (ITarget target in sortedTargets.Values)
+                    {
+                        if (target.TaskStopwatch.ElapsedTicks > 0)
+                        {
+                            session.WriteMessage(
+                                $"Target {target.TargetName} took {(int)target.TaskStopwatch.Elapsed.TotalSeconds} s");
+                        }
+                    }
+
+                    if (session.HasFailed)
+                        session.WriteMessage("BUILD FAILED");
+                    else
+                        session.WriteMessage("BUILD SUCCESSFUL");
+                });
 
                 ConfigureBuildProperties(session);
 
@@ -72,13 +76,6 @@ namespace flubu.Scripting
             }
         }
 
-        //private static bool DefaultSessionInteractiveSessionDetectionFunc()
-        //{
-        //    return Environment.GetEnvironmentVariable("CI") == null
-        //           && Environment.GetEnvironmentVariable("APPVEYOR") == null
-        //           && Environment.GetEnvironmentVariable("BUILD_NUMBER") == null;
-        //}
-
         private static string ParseCmdLineArgs(CommandArguments args, ITaskContext context, TargetTree targetTree)
         {
             if (string.IsNullOrEmpty(args.MainCommand))
@@ -87,10 +84,8 @@ namespace flubu.Scripting
             if (targetTree.HasTarget(args.MainCommand))
                 return args.MainCommand;
 
-            context.WriteError($"ERROR: Target {args.MainCommand} not found.");
+            context.WriteMessage($"ERROR: Target {args.MainCommand} not found.");
             return null;
         }
-
-        //private Func<bool> interactiveSessionDetectionFunc = DefaultSessionInteractiveSessionDetectionFunc;
     }
 }

@@ -1,5 +1,6 @@
 rmdir %userprofile%\.nuget\packages\dotnet-flubu /S /Q
 rmdir %userprofile%\.nuget\packages\flubu.core /S /Q
+rmdir %userprofile%\.nuget\packages\.tools\dotnet-flubu /S /Q
 
 cd flubu.core
 dotnet restore

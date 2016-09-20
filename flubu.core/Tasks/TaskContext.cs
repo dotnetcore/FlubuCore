@@ -1,18 +1,29 @@
-﻿using flubu.Tasks;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using flubu.Scripting;
 using Microsoft.Extensions.Logging;
-using flubu.Scripting;
+using System;
 using System.Diagnostics;
 
 namespace flubu
 {
+    public interface ITaskContext : IDisposable
+    {
+        CommandArguments Args { get; }
+
+        bool IsInteractive { get; }
+
+        void DecreaseDepth();
+
+        void Fail(string message);
+
+        void IncreaseDepth();
+
+        void WriteMessage(string message);
+    }
+
     public class TaskContext : ITaskContext
     {
-        public TaskContext (ITaskContextProperties properties, CommandArguments args)
+        public TaskContext(CommandArguments args)
         {
-            this.Properties = properties;
             this.Args = args;
         }
 
@@ -20,9 +31,7 @@ namespace flubu
 
         public bool IsInteractive { get; set; } = true;
 
-        public ITaskContextProperties Properties { get; }
-
-        public TaskContext AddLogger (ILogger logger)
+        public TaskContext AddLogger(ILogger logger)
         {
             _log = logger;
             return this;
@@ -33,12 +42,7 @@ namespace flubu
             executionDepth++;
         }
 
-        public void ResetDepth()
-        {
-            executionDepth = 0;
-        }
-
-        public void WriteMessage(TaskMessageLevel level, string message)
+        public void WriteMessage(string message)
         {
             Console.WriteLine(message);
             Debug.WriteLine(message);
@@ -52,7 +56,7 @@ namespace flubu
 
         public void Fail(string message)
         {
-            WriteMessage(TaskMessageLevel.Error, message);
+            WriteMessage(message);
             throw new TaskExecutionException(message);
         }
 
@@ -69,10 +73,10 @@ namespace flubu
 
             disposed = true;
         }
+
         private bool disposed;
         private int executionDepth;
         private ILogger _log;
-        private ITaskContextProperties taskContextProperties;
         private CommandArguments args;
     }
 }

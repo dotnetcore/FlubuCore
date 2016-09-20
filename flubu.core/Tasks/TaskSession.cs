@@ -1,38 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using flubu.Tasks;
+﻿using flubu.Scripting;
 using flubu.Targeting;
-using flubu.Scripting;
-using Microsoft.Extensions.Logging;
+using System;
+using System.Diagnostics;
 
 namespace flubu
 {
+    public interface ITaskSession : ITaskContext
+    {
+        bool HasFailed { get; }
+        TargetTree TargetTree { get; }
+
+        void Start(Action<ITaskSession> onFinishDo);
+
+        void Complete();
+    }
+
     public class TaskSession : TaskContext, ITaskSession
     {
-        public TaskSession(ITaskContextProperties taskContextProperties, CommandArguments args) : base(taskContextProperties, args)
+        public TaskSession(CommandArguments args) : base(args)
         {
             hasFailed = true;
-            buildStopwatch.Start();
         }
 
-        public TaskSession (ITaskContextProperties taskContextProperties, CommandArguments args, TargetTree targetTree)
-            : base(taskContextProperties, args)
+        public TaskSession(CommandArguments args, TargetTree targetTree)
+            : base(args)
         {
             hasFailed = true;
-            buildStopwatch.Start();
-            this.targetTree = targetTree;
+            this.TargetTree = targetTree;
         }
 
-        public Stopwatch BuildStopwatch
-        {
-            get { return buildStopwatch; }
-        }
+        private Stopwatch _stopwatch = new Stopwatch();
 
-        public TargetTree TargetTree
-        {
-            get { return targetTree; }
-        }
+        public TargetTree TargetTree { get; }
 
         public bool HasFailed
         {
@@ -43,13 +42,13 @@ namespace flubu
         {
             this.onFinishDo = onFinishDo;
             hasFailed = true;
-            buildStopwatch.Start();
+
+            _stopwatch.Start();
         }
 
         public void Reset()
         {
-            targetTree.ResetTargetExecutionInfo();
-            Properties.Clear();
+            TargetTree.ResetTargetExecutionInfo();
         }
 
         /// <summary>
@@ -67,10 +66,9 @@ namespace flubu
             {
                 if (disposing)
                 {
-                    buildStopwatch.Stop();
+                    _stopwatch.Stop();
 
-                    if (onFinishDo != null)
-                        onFinishDo(this);
+                    onFinishDo?.Invoke(this);
                 }
 
                 disposed = true;
@@ -79,10 +77,8 @@ namespace flubu
             base.Dispose(disposing);
         }
 
-        private readonly Stopwatch buildStopwatch = new Stopwatch();
         private bool disposed;
         private bool hasFailed;
         private Action<ITaskSession> onFinishDo;
-        private readonly TargetTree targetTree;
     }
 }
