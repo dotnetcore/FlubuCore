@@ -30,6 +30,12 @@ namespace flubu.Targeting
             return target;
         }
 
+        public ITarget AddTarget(ITarget target)
+        {
+            targets.Add(target.TargetName, target);
+            return target;
+        }
+
         public void EnsureDependenciesExecuted(ITaskContext taskContext, string targetName)
         {
             ITarget target = targets[targetName];

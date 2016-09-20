@@ -30,7 +30,6 @@ namespace flubu.tests.Scripting
 }");
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstance("e.cs");
-
             t.Run(new CommandArguments());
         }
 

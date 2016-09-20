@@ -98,7 +98,22 @@ namespace flubu.Targeting
             return this;
         }
 
-        public ITarget Do(Action<ITaskContext> targetAction)
+        /// <summary>
+        /// Specifies targets on which this target depends on.
+        /// </summary>
+        /// <param name="targets">The dependency targets</param>
+        /// <returns>This same instance of <see cref="ITarget"/></returns>
+        public ITarget DependsOn(params ITarget[] targets)
+        {
+            foreach (var target in targets)
+            {
+                dependencies.Add(target.TargetName);
+            }
+
+            return this;
+        }
+
+        public ITarget Do (Action<ITaskContext> targetAction)
         {
             if (this.targetAction != null)
                 throw new ArgumentException("Target action was already set.");
