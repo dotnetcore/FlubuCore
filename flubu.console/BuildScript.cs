@@ -1,5 +1,4 @@
-﻿using flubu;
-using flubu.Scripting;
+﻿using flubu.Scripting;
 using flubu.Targeting;
 using System;
 

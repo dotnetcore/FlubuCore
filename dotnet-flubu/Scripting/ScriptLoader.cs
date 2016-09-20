@@ -27,15 +27,21 @@ namespace flubu.Scripting
             string code = _fileLoader.LoadFile(fileName);
 
             ScriptOptions opts = ScriptOptions.Default
-                .AddImports("flubu.Scripting", "System", "System.Collections.Generic", "flubu.Targeting",
-                "flubu", "System.Object")
-                //.AddReferences("d:\\System.Runtime.dll")
-                .AddReferences(LoadAssembly<IBuildScript>());
+                .WithReferences(LoadAssembly<System.Object>())
+                .WithReferences(LoadAssembly<DefaultBuildScript>())
+                .WithReferences(LoadAssembly<IBuildScript>())
+                .AddReferences("d:\\flubu.buildscript.dll")
+                .WithImports("flubu.buildscript");
+
+
 
             //todo how to find class name??
-            Script<IBuildScript> script = CSharpScript.Create<IBuildScript>($"{code} \r\nvar obj = new MyBuildScript();", opts);
+            Script script = CSharpScript
+                .Create(@"var sc = new flubu.buildscript.MyBuildScript();", opts);
+                //.Create(code, opts, globalsType: typeof(Globals))
+                //.ContinueWith("Script.Run(null)");
 
-            ScriptState<IBuildScript> result = await script.RunAsync();
+            ScriptState result = await script.RunAsync();
 
             return result.Variables[0].Value as IBuildScript;
         }

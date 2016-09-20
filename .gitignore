@@ -11,3 +11,5 @@
 /flubu.console/bin
 /flubu.console/obj
 /flubu.console/nuget
+/flubu.buildscript/bin
+/flubu.buildscript/obj

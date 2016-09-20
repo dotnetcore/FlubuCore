@@ -20,8 +20,6 @@ namespace flubu.tests.Scripting
         {
             _fileLoader.Setup(i => i.LoadFile("e.cs")).Returns(@"public class MyBuildScript : flubu.Scripting.IBuildScript
 {
-    public string Name => nameof(MyBuildScript);
-
     public int Run(flubu.Scripting.CommandArguments args)
     {
         System.Console.WriteLine(""11"");
@@ -36,18 +34,22 @@ namespace flubu.tests.Scripting
         [Fact]
         public async Task LoadDefaultScript()
         {
-            _fileLoader.Setup(i => i.LoadFile("e.cs")).Returns(@"public class MyBuildScript : flubu.Scripting.DefaultBuildScript
+            _fileLoader.Setup(i => i.LoadFile("e.cs")).Returns(@"
+using System;
+using System.Diagnostics;
+
+public partial class MyBuildScript
 {
     protected override void ConfigureBuildProperties(flubu.TaskSession session)
     {
-        System.Console.WriteLine(""2222"");
-        System.Diagnostics.Debug.WriteLine(""2222"");
+        Console.WriteLine(""2222"");
+        Debug.WriteLine(""2222"");
         }
 
         protected override void ConfigureTargets(flubu.Targeting.TargetTree targetTree, flubu.Scripting.CommandArguments args)
         {
-            System.Console.WriteLine(""2222"");
-            System.Diagnostics.Debug.WriteLine(""2222"");
+            WriteLine(""2222"");
+            Debug.WriteLine(""2222"");
         }
     }");
 
