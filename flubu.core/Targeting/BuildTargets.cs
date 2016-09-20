@@ -13,10 +13,20 @@ namespace Flubu.Builds
     {
         public static void FillBuildTargets(TargetTree targetTree)
         {
-            targetTree.AddTarget("clean.output")
+
+            var loadSolution = new Target(targetTree, "load.solution")
+               .SetDescription("Load & analyze VS solution")
+               .Do(TargetLoadSolution)
+               .SetAsHidden();
+
+            targetTree.AddTarget(loadSolution);
+
+            var cleanOutput = new Target(targetTree, "clean.output")
                 .SetDescription("Clean solution outputs")
-                .DependsOn("load.solution")
+                .DependsOn(loadSolution)
                 .Do(TargetCleanOutput);
+
+            targetTree.AddTarget(cleanOutput);
 
             targetTree.AddTarget("before.compile")
                 .SetDescription("Steps before compiling the VS solution")
@@ -41,10 +51,7 @@ namespace Flubu.Builds
                 .DependsOn("fetch.build.version")
                 .Do(TargetGenerateCommonAssemblyInfo);
 
-            targetTree.AddTarget("load.solution")
-                .SetDescription("Load & analyze VS solution")
-                .Do(TargetLoadSolution)
-                .SetAsHidden ();
+           
 
             targetTree.AddTarget("prepare.build.dir")
                 .SetDescription("Prepare the build directory")

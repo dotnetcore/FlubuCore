@@ -90,6 +90,12 @@ namespace flubu.tests
             throw new NotImplementedException();
         }
 
+
+        public ITarget DependsOn(params ITarget[] targets)
+        {
+            throw new NotImplementedException();
+        }
+
         public ITarget Do(Action<ITaskContext> targetAction)
         {
             throw new NotImplementedException();

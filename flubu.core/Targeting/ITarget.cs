@@ -25,6 +25,13 @@ namespace flubu.Targeting
         /// <returns>This same instance of <see cref="ITarget"/>.</returns>
         ITarget DependsOn(params string[] targetNames);
 
+        /// <summary>
+        /// Specifies targets on which this target depends on.
+        /// </summary>
+        /// <param name="targets">The dependency targets</param>
+        /// <returns>This same instance of <see cref="ITarget"/></returns>
+        ITarget DependsOn(params ITarget[] targets);
+
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Do")]
         ITarget Do(Action<ITaskContext> targetAction);
         
