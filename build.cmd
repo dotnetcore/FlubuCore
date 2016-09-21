@@ -19,3 +19,7 @@ copy dotnet-flubu\bin\Debug\*.nupkg flubu.console\nuget /Y
 cd flubu.console
 dotnet restore -f nuget
 cd ..
+
+cd flubu.tests
+dotnet test
+cd..
