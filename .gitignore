@@ -13,3 +13,8 @@
 /flubu.console/nuget
 /flubu.buildscript/bin
 /flubu.buildscript/obj
+/test/flubu.buildscript/bin
+/test/flubu.buildscript/obj
+/test/flubu.console/bin
+/test/flubu.console/nuget
+/test/flubu.console/obj
