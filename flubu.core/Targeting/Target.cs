@@ -47,10 +47,21 @@ namespace flubu.Targeting
         /// </summary>
         /// <returns>This same instance of <see cref="ITarget"/>.</returns>
         ITarget SetAsHidden();
+
+        /// <summary>
+        /// Adds this target to target tree. 
+        /// </summary>
+        /// <param name="targetTree">The <see cref="TargetTree"/> that target will be added to.</param>
+        void AddToTargetTree(TargetTree targetTree);
     }
 
     public class Target : TaskBase, ITarget
     {
+        public Target(string targetName)
+        {
+            this.targetName = targetName;
+        }
+
         public Target(TargetTree targetTree, string targetName)
         {
             this.targetTree = targetTree;
@@ -138,6 +149,11 @@ namespace flubu.Targeting
             return this;
         }
 
+        /// <summary>
+        /// Set's the description of the target,
+        /// </summary>
+        /// <param name="description">The description</param>
+        /// <returns>this target</returns>
         public ITarget SetDescription(string description)
         {
             this.description = description;
@@ -155,6 +171,16 @@ namespace flubu.Targeting
             return this;
         }
 
+        /// <summary>
+        /// Adds this target to target tree. 
+        /// </summary>
+        /// <param name="targetTree">The <see cref="TargetTree"/> that target will be added to.</param>
+        public void AddToTargetTree(TargetTree targetTree)
+        {
+            this.targetTree = targetTree;
+            targetTree.AddTarget(this);
+        }
+
         protected override bool LogDuration
         {
             get
@@ -165,6 +191,10 @@ namespace flubu.Targeting
 
         protected override void DoExecute(ITaskContext context)
         {
+            if (targetTree == null)
+            {
+                throw new ArgumentNullException("targetTree" ,"TargetTree must be set before Execution of target.");
+            }
             targetTree.MarkTargetAsExecuted(this);
             targetTree.EnsureDependenciesExecuted(context, TargetName);
 
@@ -183,7 +213,7 @@ namespace flubu.Targeting
         private readonly List<string> dependencies = new List<string>();
         private string description;
         private bool isHidden;
-        private readonly TargetTree targetTree;
+        private TargetTree targetTree;
         private readonly string targetName;
         private Action<ITaskContext> targetAction;
     }

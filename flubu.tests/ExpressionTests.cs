@@ -84,6 +84,11 @@ namespace flubu.tests
             }
         }
 
+        public void AddToTargetTree(TargetTree targetTree)
+        {
+            throw new NotImplementedException();
+        }
+
         public ITarget DependsOn(params string[] targetNames)
         {
             throw new NotImplementedException();
