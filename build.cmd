@@ -20,6 +20,15 @@ cd flubu.console
 dotnet restore -f nuget
 cd ..
 
+cd flubu.core
+dotnet build
+cd..
+
+cd dotnet-flubu
+dotnet build
+cd.. 
+
 cd flubu.tests
+dotnet build
 dotnet test
 cd..
