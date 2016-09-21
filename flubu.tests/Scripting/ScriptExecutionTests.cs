@@ -31,7 +31,7 @@ namespace flubu.tests.Scripting
             t.Run(new CommandArguments());
         }
 
-        [Fact]
+        [Fact(Skip="buildscript not available in automatic tests")]
         public async Task LoadDefaultScript()
         {
             _fileLoader.Setup(i => i.LoadFile("e.cs")).Returns(@"

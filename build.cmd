@@ -13,22 +13,14 @@ dotnet pack
 
 cd ..
 mkdir flubu.console\nuget
-copy flubu.core\bin\Debug\*.nupkg flubu.console\nuget /Y
-copy dotnet-flubu\bin\Debug\*.nupkg flubu.console\nuget /Y
+copy flubu.core\bin\Debug\*.nupkg test\flubu.console\nuget /Y
+copy dotnet-flubu\bin\Debug\*.nupkg test\flubu.console\nuget /Y
 
-cd flubu.console
+cd test\flubu.console
 dotnet restore -f nuget
 cd ..
-
-cd flubu.core
-dotnet build
-cd..
-
-cd dotnet-flubu
-dotnet build
-cd.. 
+cd ..
 
 cd flubu.tests
-dotnet build
 dotnet test
 cd..
