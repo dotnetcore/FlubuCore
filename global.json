@@ -1,5 +1,5 @@
 ﻿{
-  "projects": [ "flubu.core", "dotnet-flubu", "flubu.console" ],
+  "projects": [ "flubu.core", "dotnet-flubu" ],
   "sdk": {
     "version": "1.0.0-preview2-003121"
   }
