@@ -47,11 +47,15 @@ public partial class MyBuildScript
         public async Task LoadSimpleScript()
         {
             fileLoader.Setup(i => i.LoadFile("e.cs"))
-                .Returns(@"public class MyBuildScript : flubu.Scripting.IBuildScript
+                .Returns(@"
+using Flubu.Scripting;
+using System;
+
+public class MyBuildScript : IBuildScript
 {
-    public int Run(flubu.Scripting.CommandArguments args)
+    public int Run(CommandArguments args)
     {
-        System.Console.WriteLine(""11"");
+        Console.WriteLine(""11"");
         return 0;
     }
 }");

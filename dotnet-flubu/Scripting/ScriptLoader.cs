@@ -28,7 +28,6 @@ namespace Flubu.Scripting
             //// .AddReferences("d:\\flubu.buildscript.dll")
             //// .WithImports("flubu.buildscript");
 
-            ////todo how to find class name??
             Script script = CSharpScript
                 //// .Create(@"var sc = new MyBuildScript();", opts);
                 .Create(code, opts)
@@ -43,10 +42,10 @@ namespace Flubu.Scripting
         {
             byte* fl;
             int length;
-            var assembly = typeof(T).GetTypeInfo().Assembly; ////let's grab the current in-memory assembly
+            Assembly assembly = typeof(T).GetTypeInfo().Assembly; ////let's grab the current in-memory assembly
             assembly.TryGetRawMetadata(out fl, out length);
-            var moduleMetadata = ModuleMetadata.CreateFromMetadata((IntPtr)fl, length);
-            var assemblyMetadata = AssemblyMetadata.Create(moduleMetadata);
+            ModuleMetadata moduleMetadata = ModuleMetadata.CreateFromMetadata((IntPtr)fl, length);
+            AssemblyMetadata assemblyMetadata = AssemblyMetadata.Create(moduleMetadata);
             return assemblyMetadata.GetReference();
         }
     }
