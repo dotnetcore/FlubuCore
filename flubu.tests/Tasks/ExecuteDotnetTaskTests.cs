@@ -1,4 +1,5 @@
 ﻿using Flubu.Tasks.Dotnet;
+using Microsoft.DotNet.Cli.Utils;
 using Xunit;
 
 namespace Flubu.Tests.Tasks
@@ -6,11 +7,11 @@ namespace Flubu.Tests.Tasks
     public class ExecuteDotnetTaskTests : TaskTestBase
     {
         [Fact]
-        public void SimpleExecute()
+        public void ExecuteNonExistentCommand()
         {
-            ExecuteDotnetTask task = new ExecuteDotnetTask("test");
+            ExecuteDotnetTask task = new ExecuteDotnetTask("nonexist");
 
-            task.Execute(Context.Object);
+            Assert.Throws<CommandUnknownException>(() => task.Execute(Context.Object));
         }
     }
 }
