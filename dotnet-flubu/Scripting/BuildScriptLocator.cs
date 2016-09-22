@@ -14,20 +14,20 @@ namespace Flubu.Scripting
             "buildscripts\\buildscript.cs"
         };
 
-        private readonly ILogger<BuildScriptLocator> log;
+        private readonly ILogger<BuildScriptLocator> _log;
 
-        private readonly IFileExistsService fileExistsService;
+        private readonly IFileExistsService _fileExistsService;
 
-        private readonly IScriptLoader scriptLoader;
+        private readonly IScriptLoader _scriptLoader;
 
         public BuildScriptLocator(
             IFileExistsService fileExistsService,
             ILogger<BuildScriptLocator> log,
             IScriptLoader scriptLoader)
         {
-            this.fileExistsService = fileExistsService;
-            this.scriptLoader = scriptLoader;
-            this.log = log;
+            _fileExistsService = fileExistsService;
+            _scriptLoader = scriptLoader;
+            _log = log;
         }
 
         public Task<IBuildScript> FindBuildScript(CommandArguments args)
@@ -57,7 +57,7 @@ namespace Flubu.Scripting
 
         private Task<IBuildScript> FindAndCreateBuildScriptInstance(string fileName)
         {
-            return scriptLoader.FindAndCreateBuildScriptInstance(fileName);
+            return _scriptLoader.FindAndCreateBuildScriptInstance(fileName);
         }
 
         private string GetFileName(CommandArguments args)
@@ -67,13 +67,13 @@ namespace Flubu.Scripting
                 return TakeExplicitBuildScriptName(args);
             }
 
-            log.LogInformation("Build script file name was not explicitly specified, searching the default locations:");
+            _log.LogInformation("Build script file name was not explicitly specified, searching the default locations:");
 
             foreach (var defaultScriptLocation in DefaultScriptLocations)
             {
-                if (fileExistsService.FileExists(defaultScriptLocation))
+                if (_fileExistsService.FileExists(defaultScriptLocation))
                 {
-                    log.LogInformation("Found it, using the build script file '{0}'.", defaultScriptLocation);
+                    _log.LogInformation("Found it, using the build script file '{0}'.", defaultScriptLocation);
                     return defaultScriptLocation;
                 }
             }
@@ -83,7 +83,7 @@ namespace Flubu.Scripting
 
         private string TakeExplicitBuildScriptName(CommandArguments args)
         {
-            if (fileExistsService.FileExists(args.Script))
+            if (_fileExistsService.FileExists(args.Script))
             {
                 return args.Script;
             }

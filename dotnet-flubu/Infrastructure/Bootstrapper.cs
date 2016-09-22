@@ -5,7 +5,7 @@ namespace Flubu.Infrastructure
 {
     public static class Bootstrapper
     {
-        private static IServiceCollection services = new ServiceCollection();
+        private static IServiceCollection _services = new ServiceCollection();
 
         public static void Init()
         {

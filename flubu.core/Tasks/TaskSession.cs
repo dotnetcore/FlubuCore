@@ -7,11 +7,11 @@ namespace Flubu.Tasks
 {
     public class TaskSession : TaskContext, ITaskSession
     {
-        private readonly Stopwatch stopwatch = new Stopwatch();
+        private readonly Stopwatch _stopwatch = new Stopwatch();
 
-        private bool disposed;
+        private bool _disposed;
 
-        private Action<ITaskSession> onFinishDo;
+        private Action<ITaskSession> _onFinishDo;
 
         public TaskSession(CommandArguments args)
             : base(args)
@@ -32,10 +32,10 @@ namespace Flubu.Tasks
 
         public void Start(Action<ITaskSession> onFinishDo)
         {
-            this.onFinishDo = onFinishDo;
+            _onFinishDo = onFinishDo;
             HasFailed = true;
 
-            stopwatch.Start();
+            _stopwatch.Start();
         }
 
         /// <summary>
@@ -54,16 +54,16 @@ namespace Flubu.Tasks
 
         protected override void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
-                    stopwatch.Stop();
+                    _stopwatch.Stop();
 
-                    onFinishDo?.Invoke(this);
+                    _onFinishDo?.Invoke(this);
                 }
 
-                disposed = true;
+                _disposed = true;
             }
 
             base.Dispose(disposing);

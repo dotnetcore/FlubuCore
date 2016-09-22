@@ -6,8 +6,9 @@ namespace Flubu.Targeting
 {
     public class TargetTree
     {
-        private readonly HashSet<string> executedTargets = new HashSet<string>();
-        private readonly Dictionary<string, ITarget> targets = new Dictionary<string, ITarget>();
+        private readonly HashSet<string> _executedTargets = new HashSet<string>();
+
+        private readonly Dictionary<string, ITarget> _targets = new Dictionary<string, ITarget>();
 
         public TargetTree()
         {
@@ -29,22 +30,22 @@ namespace Flubu.Targeting
         public ITarget AddTarget(string targetName)
         {
             ITarget target = new Target(this, targetName);
-            targets.Add(target.TargetName, target);
+            _targets.Add(target.TargetName, target);
             return target;
         }
 
         public ITarget AddTarget(ITarget target)
         {
-            targets.Add(target.TargetName, target);
+            _targets.Add(target.TargetName, target);
             return target;
         }
 
         public void EnsureDependenciesExecuted(ITaskContext taskContext, string targetName)
         {
-            var target = targets[targetName];
+            var target = _targets[targetName];
             foreach (var dependency in target.Dependencies)
             {
-                if (!executedTargets.Contains(dependency))
+                if (!_executedTargets.Contains(dependency))
                 {
                     RunTarget(taskContext, dependency);
                 }
@@ -53,15 +54,15 @@ namespace Flubu.Targeting
 
         public IEnumerable<ITarget> EnumerateExecutedTargets()
         {
-            foreach (var targetId in executedTargets)
+            foreach (var targetId in _executedTargets)
             {
-                yield return targets[targetId];
+                yield return _targets[targetId];
             }
         }
 
         public ITarget GetTarget(string targetName)
         {
-            return targets[targetName];
+            return _targets[targetName];
         }
 
         /// <summary>
@@ -73,27 +74,27 @@ namespace Flubu.Targeting
         /// </returns>
         public bool HasTarget(string targetName)
         {
-            return targets.ContainsKey(targetName);
+            return _targets.ContainsKey(targetName);
         }
 
         public void MarkTargetAsExecuted(ITarget target)
         {
-            executedTargets.Add(target.TargetName);
+            _executedTargets.Add(target.TargetName);
         }
 
         public void ResetTargetExecutionInfo()
         {
-            executedTargets.Clear();
+            _executedTargets.Clear();
         }
 
         public int RunTarget(ITaskContext taskContext, string targetName)
         {
-            if (!targets.ContainsKey(targetName))
+            if (!_targets.ContainsKey(targetName))
             {
                 throw new ArgumentException($"The target '{targetName}' does not exist");
             }
 
-            var target = targets[targetName];
+            var target = _targets[targetName];
             return target.Execute(taskContext);
         }
 
@@ -113,7 +114,7 @@ namespace Flubu.Targeting
             // first sort the targets
             var sortedTargets = new SortedList<string, ITarget>();
 
-            foreach (var target in targets.Values)
+            foreach (var target in _targets.Values)
             {
                 sortedTargets.Add(target.TargetName, target);
             }

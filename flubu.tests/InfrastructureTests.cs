@@ -8,21 +8,21 @@ namespace Flubu.Tests
 {
     public class InfrastructureTests
     {
-        private readonly IServiceCollection services = new ServiceCollection();
+        private readonly IServiceCollection _services = new ServiceCollection();
 
-        private readonly IServiceProvider provider;
+        private readonly IServiceProvider _provider;
 
         public InfrastructureTests()
         {
-            services.RegisterAll();
+            _services.RegisterAll();
 
-            provider = services.BuildServiceProvider();
+            _provider = _services.BuildServiceProvider();
         }
 
         [Fact]
         public void Resolve()
         {
-            var executor = provider.GetRequiredService<ICommandExecutor>();
+            var executor = _provider.GetRequiredService<ICommandExecutor>();
 
             Assert.IsType<CommandExecutor>(executor);
         }

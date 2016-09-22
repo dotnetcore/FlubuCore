@@ -7,76 +7,76 @@ namespace Flubu.Commanding
 {
     public class FlubuCommandParser : IFlubuCommandParser
     {
-        private readonly CommandLineApplication commandApp;
+        private readonly CommandLineApplication _commandApp;
 
-        private CommandOption buildBasePath;
+        private CommandOption _buildBasePath;
 
-        private CommandArgument command;
+        private CommandArgument _command;
 
-        private CommandOption configurationOption;
+        private CommandOption _configurationOption;
 
-        private CommandOption outputOption;
+        private CommandOption _outputOption;
 
-        private CommandArguments parsed;
+        private CommandArguments _parsed;
 
-        private CommandOption projectPath;
+        private CommandOption _projectPath;
 
-        private CommandOption scriptPath;
+        private CommandOption _scriptPath;
 
         public FlubuCommandParser(CommandLineApplication commandApp)
         {
-            this.commandApp = commandApp;
+            _commandApp = commandApp;
         }
 
         public CommandArguments Parse(string[] args)
         {
-            parsed = new CommandArguments();
+            _parsed = new CommandArguments();
 
-            commandApp.HelpOption("-?|-h|--help");
+            _commandApp.HelpOption("-?|-h|--help");
 
-            command = commandApp.Argument("<COMMAND> [arguments]", "The command to execute");
+            _command = _commandApp.Argument("<COMMAND> [arguments]", "The command to execute");
 
-            configurationOption = commandApp.Option("-c|--configuration <CONFIGURATION>", "Configuration under which to run", CommandOptionType.SingleValue);
-            outputOption = commandApp.Option("-o|--output <OUTPUT_DIR>", "Directory in which to find the binaries to be run", CommandOptionType.SingleValue);
-            buildBasePath = commandApp.Option("-b|--build-base-path <OUTPUT_DIR>", "Directory in which to find temporary outputs", CommandOptionType.SingleValue);
-            projectPath = commandApp.Option(
+            _configurationOption = _commandApp.Option("-c|--configuration <CONFIGURATION>", "Configuration under which to run", CommandOptionType.SingleValue);
+            _outputOption = _commandApp.Option("-o|--output <OUTPUT_DIR>", "Directory in which to find the binaries to be run", CommandOptionType.SingleValue);
+            _buildBasePath = _commandApp.Option("-b|--build-base-path <OUTPUT_DIR>", "Directory in which to find temporary outputs", CommandOptionType.SingleValue);
+            _projectPath = _commandApp.Option(
                 "-p|--project <PROJECT>",
                 "The project to execute command on, defaults to the current directory. Can be a path to a project.json or a project directory.",
                 CommandOptionType.SingleValue);
 
-            scriptPath = commandApp.Option("-s|--script <SCRIPT>", "Build script file to use.", CommandOptionType.SingleValue);
+            _scriptPath = _commandApp.Option("-s|--script <SCRIPT>", "Build script file to use.", CommandOptionType.SingleValue);
 
-            commandApp.OnExecute(() => PrepareDefaultArguments());
+            _commandApp.OnExecute(() => PrepareDefaultArguments());
 
             if (args == null)
             {
                 args = new string[0];
             }
 
-            parsed.Help = true;
+            _parsed.Help = true;
 
-            var res = commandApp.Execute(args);
-            return parsed;
+            var res = _commandApp.Execute(args);
+            return _parsed;
         }
 
-        public void ShowHelp() => commandApp.ShowHelp();
+        public void ShowHelp() => _commandApp.ShowHelp();
 
         private int PrepareDefaultArguments()
         {
-            parsed.Help = false;
+            _parsed.Help = false;
             //// Locate the project and get the name and full path
-            parsed.ProjectPath = projectPath.Value();
-            if (string.IsNullOrEmpty(parsed.ProjectPath))
+            _parsed.ProjectPath = _projectPath.Value();
+            if (string.IsNullOrEmpty(_parsed.ProjectPath))
             {
-                parsed.ProjectPath = Directory.GetCurrentDirectory();
+                _parsed.ProjectPath = Directory.GetCurrentDirectory();
             }
 
-            parsed.Output = outputOption.Value();
-            parsed.BuildBasePath = buildBasePath.Value();
-            parsed.Config = configurationOption.Value() ?? Constants.DefaultConfiguration;
-            parsed.MainCommand = command.Value;
-            parsed.Script = scriptPath.Value();
-            parsed.RemainingCommands = commandApp.RemainingArguments;
+            _parsed.Output = _outputOption.Value();
+            _parsed.BuildBasePath = _buildBasePath.Value();
+            _parsed.Config = _configurationOption.Value() ?? Constants.DefaultConfiguration;
+            _parsed.MainCommand = _command.Value;
+            _parsed.Script = _scriptPath.Value();
+            _parsed.RemainingCommands = _commandApp.RemainingArguments;
 
             return 0;
         }

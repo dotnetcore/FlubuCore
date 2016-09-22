@@ -6,10 +6,13 @@ namespace Flubu.Targeting
 {
     public class Target : TaskBase, ITarget
     {
-        private readonly List<string> dependencies = new List<string>();
-        private string description;
-        private Action<ITaskContext> targetAction;
-        private TargetTree targetTree;
+        private readonly List<string> _dependencies = new List<string>();
+
+        private string _description;
+
+        private Action<ITaskContext> _targetAction;
+
+        private TargetTree _targetTree;
 
         public Target(string targetName)
         {
@@ -18,13 +21,13 @@ namespace Flubu.Targeting
 
         public Target(TargetTree targetTree, string targetName)
         {
-            this.targetTree = targetTree;
+            _targetTree = targetTree;
             TargetName = targetName;
         }
 
         public ICollection<string> Dependencies
         {
-            get { return dependencies; }
+            get { return _dependencies; }
         }
 
         /// <summary>
@@ -33,7 +36,7 @@ namespace Flubu.Targeting
         /// <value>The description of the target.</value>
         public override string Description
         {
-            get { return description; }
+            get { return _description; }
         }
 
         /// <summary>
@@ -64,7 +67,7 @@ namespace Flubu.Targeting
         {
             foreach (var dependentTargetName in targetNames)
             {
-                dependencies.Add(dependentTargetName);
+                _dependencies.Add(dependentTargetName);
             }
 
             return this;
@@ -72,18 +75,18 @@ namespace Flubu.Targeting
 
         public ITarget Do(Action<ITaskContext> targetAction)
         {
-            if (this.targetAction != null)
+            if (_targetAction != null)
             {
                 throw new ArgumentException("Target action was already set.");
             }
 
-            this.targetAction = targetAction;
+            _targetAction = targetAction;
             return this;
         }
 
         public ITarget OverrideDo(Action<ITaskContext> targetAction)
         {
-            this.targetAction = targetAction;
+            _targetAction = targetAction;
             return this;
         }
 
@@ -93,7 +96,7 @@ namespace Flubu.Targeting
         /// <returns>This same instance of <see cref="ITarget" />.</returns>
         public ITarget SetAsDefault()
         {
-            targetTree.SetDefaultTarget(this);
+            _targetTree.SetDefaultTarget(this);
             return this;
         }
 
@@ -104,7 +107,7 @@ namespace Flubu.Targeting
         /// <returns>this target</returns>
         public ITarget SetDescription(string description)
         {
-            this.description = description;
+            _description = description;
             return this;
         }
 
@@ -125,7 +128,7 @@ namespace Flubu.Targeting
         /// <param name="targetTree">The <see cref="TargetTree" /> that target will be added to.</param>
         public void AddToTargetTree(TargetTree targetTree)
         {
-            this.targetTree = targetTree;
+            _targetTree = targetTree;
             targetTree.AddTarget(this);
         }
 
@@ -138,7 +141,7 @@ namespace Flubu.Targeting
         {
             foreach (var target in targets)
             {
-                dependencies.Add(target.TargetName);
+                _dependencies.Add(target.TargetName);
             }
 
             return this;
@@ -146,16 +149,16 @@ namespace Flubu.Targeting
 
         protected override void DoExecute(ITaskContext context)
         {
-            if (targetTree == null)
+            if (_targetTree == null)
             {
                 throw new ArgumentNullException("targetTree", "TargetTree must be set before Execution of target.");
             }
 
-            targetTree.MarkTargetAsExecuted(this);
-            targetTree.EnsureDependenciesExecuted(context, TargetName);
+            _targetTree.MarkTargetAsExecuted(this);
+            _targetTree.EnsureDependenciesExecuted(context, TargetName);
 
             // we can have action-less targets (that only depend on other targets)
-            targetAction?.Invoke(context);
+            _targetAction?.Invoke(context);
         }
     }
 }

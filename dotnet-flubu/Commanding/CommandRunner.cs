@@ -5,13 +5,14 @@ namespace Flubu.Commanding
 {
     public class CommandRunner
     {
-        private readonly IDictionary<string, string> commands;
-        private readonly ProjectContext projectContext;
+        private readonly IDictionary<string, string> _commands;
+
+        private readonly ProjectContext _projectContext;
 
         public CommandRunner(ProjectContext project)
         {
-            commands = project.ProjectFile.Commands;
-            projectContext = project;
+            _commands = project.ProjectFile.Commands;
+            _projectContext = project;
         }
 
         ////    var commandName = args.Command;

@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="Copy of Microsoft Managed Recommended Rules" Description="These rules focus on the most critical problems in your code, including potential security holes, application crashes, and other important logic and design errors. You should include this rule set in any custom rule set you create for your projects." ToolsVersion="14.0">
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
-    <Rule Id="SA0000" Action="Warning" />
     <Rule Id="SA1000" Action="Error" />
     <Rule Id="SA1001" Action="Error" />
     <Rule Id="SA1002" Action="Error" />
@@ -65,6 +64,8 @@
     <Rule Id="SA1133" Action="Error" />
     <Rule Id="SA1134" Action="Error" />
     <Rule Id="SA1200" Action="None" />
+    <Rule Id="SA1201" Action="Error" />
+    <Rule Id="SA1202" Action="Error" />
     <Rule Id="SA1203" Action="Error" />
     <Rule Id="SA1204" Action="Error" />
     <Rule Id="SA1205" Action="Error" />
@@ -83,11 +84,11 @@
     <Rule Id="SA1302" Action="Error" />
     <Rule Id="SA1303" Action="Error" />
     <Rule Id="SA1304" Action="Error" />
-    <Rule Id="SA1305" Action="Warning" />
+    <Rule Id="SA1305" Action="Error" />
     <Rule Id="SA1306" Action="Error" />
     <Rule Id="SA1307" Action="Error" />
     <Rule Id="SA1308" Action="Error" />
-    <Rule Id="SA1309" Action="Error" />
+    <Rule Id="SA1309" Action="None" />
     <Rule Id="SA1310" Action="Error" />
     <Rule Id="SA1311" Action="Error" />
     <Rule Id="SA1312" Action="Error" />
@@ -124,6 +125,7 @@
     <Rule Id="SA1518" Action="Error" />
     <Rule Id="SA1519" Action="Error" />
     <Rule Id="SA1520" Action="Error" />
+    <Rule Id="SA1600" Action="Error" />
     <Rule Id="SA1601" Action="Error" />
     <Rule Id="SA1602" Action="Error" />
     <Rule Id="SA1604" Action="Error" />
@@ -166,5 +168,7 @@
     <Rule Id="SA1651" Action="Error" />
     <Rule Id="SA1652" Action="None" />
     <Rule Id="SX1101" Action="Error" />
+    <Rule Id="SX1309" Action="Error" />
+    <Rule Id="SX1309S" Action="Error" />
   </Rules>
 </RuleSet>

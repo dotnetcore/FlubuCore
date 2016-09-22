@@ -10,16 +10,16 @@ namespace Flubu.Scripting
 {
     public class ScriptLoader : IScriptLoader
     {
-        private readonly IFileLoader fileLoader;
+        private readonly IFileLoader _fileLoader;
 
         public ScriptLoader(IFileLoader fileLoader)
         {
-            this.fileLoader = fileLoader;
+            _fileLoader = fileLoader;
         }
 
         public async Task<IBuildScript> FindAndCreateBuildScriptInstance(string fileName)
         {
-            var code = fileLoader.LoadFile(fileName);
+            var code = _fileLoader.LoadFile(fileName);
 
             var opts = ScriptOptions.Default
                 .WithReferences(LoadAssembly<object>())

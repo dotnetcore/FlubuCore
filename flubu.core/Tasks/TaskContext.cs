@@ -7,11 +7,11 @@ namespace Flubu.Tasks
 {
     public class TaskContext : ITaskContext
     {
-        private ILogger log;
+        private ILogger _log;
 
-        private bool disposed;
+        private bool _disposed;
 
-        private int executionDepth;
+        private int _executionDepth;
 
         public TaskContext(CommandArguments args)
         {
@@ -24,19 +24,19 @@ namespace Flubu.Tasks
 
         public void IncreaseDepth()
         {
-            executionDepth++;
+            _executionDepth++;
         }
 
         public void WriteMessage(string message)
         {
             Console.WriteLine(message);
             Debug.WriteLine(message);
-            log.LogInformation(message);
+            _log.LogInformation(message);
         }
 
         public void DecreaseDepth()
         {
-            executionDepth--;
+            _executionDepth--;
         }
 
         public void Fail(string message)
@@ -53,18 +53,18 @@ namespace Flubu.Tasks
 
         public TaskContext AddLogger(ILogger logger)
         {
-            log = logger;
+            _log = logger;
             return this;
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposed || !disposing)
+            if (_disposed || !disposing)
             {
                 return;
             }
 
-            disposed = true;
+            _disposed = true;
         }
     }
 }
