@@ -1,37 +1,19 @@
-﻿using flubu.Commanding;
-using flubu.Scripting;
+﻿using Flubu.Commanding;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
-namespace flubu.tests.Commanding
+namespace Flubu.Tests.Commanding
 {
     public class CommandParserTests
     {
-        private readonly ILoggerFactory _logFactory = new LoggerFactory();
-        private readonly FlubuCommandParser _parser;
+        private readonly ILoggerFactory logFactory = new LoggerFactory();
+
+        private readonly FlubuCommandParser parser;
 
         public CommandParserTests()
         {
-            _parser = new FlubuCommandParser(new CommandLineApplication(false));
-        }
-
-        [Fact]
-        public void ParseNull()
-        {
-            CommandArguments res = _parser.Parse(null);
-
-            Assert.Equal("Debug", res.Config);
-            Assert.False(res.Help);
-        }
-
-        [Fact]
-        public void ParseEmpty()
-        {
-            CommandArguments res = _parser.Parse(new string[0]);
-
-            Assert.Equal("Debug", res.Config);
-            Assert.False(res.Help);
+            parser = new FlubuCommandParser(new CommandLineApplication(false));
         }
 
         [Theory]
@@ -40,7 +22,7 @@ namespace flubu.tests.Commanding
         [InlineData("-?")]
         public void ParseHelp(string value)
         {
-            CommandArguments res = _parser.Parse(new string[] { value });
+            var res = parser.Parse(new[] { value });
 
             Assert.Null(res.Config);
             Assert.True(res.Help);
@@ -52,7 +34,7 @@ namespace flubu.tests.Commanding
         [InlineData("package")]
         public void ParseOneCommand(string value)
         {
-            CommandArguments res = _parser.Parse(new string[] { value });
+            var res = parser.Parse(new[] { value });
 
             Assert.Equal(value, res.MainCommand);
             Assert.Empty(res.RemainingCommands);
@@ -65,7 +47,7 @@ namespace flubu.tests.Commanding
         [InlineData("package")]
         public void ParseMultipleCommands(string value)
         {
-            CommandArguments res = _parser.Parse(new string[] { value, "another", "another1" });
+            var res = parser.Parse(new[] { value, "another", "another1" });
 
             Assert.Equal(value, res.MainCommand);
             Assert.Equal(2, res.RemainingCommands.Count);
@@ -77,7 +59,7 @@ namespace flubu.tests.Commanding
         [InlineData("--script")]
         public void ParseScript(string value)
         {
-            CommandArguments res = _parser.Parse(new string[] { "test", value, "b.cs" });
+            var res = parser.Parse(new[] { "test", value, "b.cs" });
 
             Assert.Equal("b.cs", res.Script);
         }
@@ -87,9 +69,27 @@ namespace flubu.tests.Commanding
         [InlineData("--project")]
         public void ParseProjectPath(string value)
         {
-            CommandArguments res = _parser.Parse(new string[] { "test", value, "testp" });
+            var res = parser.Parse(new[] { "test", value, "testp" });
 
             Assert.Equal("testp", res.ProjectPath);
+        }
+
+        [Fact]
+        public void ParseEmpty()
+        {
+            var res = parser.Parse(new string[0]);
+
+            Assert.Equal("Debug", res.Config);
+            Assert.False(res.Help);
+        }
+
+        [Fact]
+        public void ParseNull()
+        {
+            var res = parser.Parse(null);
+
+            Assert.Equal("Debug", res.Config);
+            Assert.False(res.Help);
         }
     }
 }

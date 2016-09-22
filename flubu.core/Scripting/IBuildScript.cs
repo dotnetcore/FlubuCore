@@ -1,4 +1,4 @@
-namespace flubu.Scripting
+namespace Flubu.Scripting
 {
     public interface IBuildScript
     {

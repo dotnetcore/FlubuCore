@@ -1,29 +1,31 @@
-﻿using flubu.Commanding;
+﻿using System;
+using Flubu.Commanding;
+using Flubu.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using Microsoft.Extensions.Logging;
-using flubu.Infrastructure;
-using Microsoft.DotNet.Cli.Utils;
 
-namespace flubu
+namespace Flubu
 {
     public class Program
     {
-        private readonly static IServiceCollection _services = new ServiceCollection();
-        private static IServiceProvider _provider;
+        private static readonly IServiceCollection Services = new ServiceCollection();
+
+        private static IServiceProvider provider;
 
         public static int Main(string[] args)
         {
             if (args == null)
+            {
                 args = new string[0];
+            }
 
-            _services.RegisterAll();
+            Services.RegisterAll();
 
-            _provider = _services.BuildServiceProvider();
-            ILoggerFactory factory = _provider.GetRequiredService<ILoggerFactory>();
+            provider = Services.BuildServiceProvider();
+            var factory = provider.GetRequiredService<ILoggerFactory>();
             factory.AddConsole(LogLevel.Trace);
 
-            ICommandExecutor executor = _provider.GetRequiredService<ICommandExecutor>();
+            var executor = provider.GetRequiredService<ICommandExecutor>();
             return executor.Execute(args).Result;
         }
     }

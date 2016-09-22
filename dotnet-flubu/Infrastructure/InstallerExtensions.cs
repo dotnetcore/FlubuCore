@@ -1,9 +1,9 @@
-﻿using flubu.Commanding;
-using flubu.Scripting;
+﻿using Flubu.Commanding;
+using Flubu.Scripting;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace flubu.Infrastructure
+namespace Flubu.Infrastructure
 {
     public static class InstallerExtensions
     {

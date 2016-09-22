@@ -1,12 +1,7 @@
 ﻿using System.IO;
 
-namespace flubu.Scripting
+namespace Flubu.Scripting
 {
-    public interface IFileExistsService
-    {
-        bool FileExists(string fileName);
-    }
-
     public class FileExistsService : IFileExistsService
     {
         public bool FileExists(string fileName)

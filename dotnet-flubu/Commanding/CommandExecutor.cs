@@ -1,43 +1,39 @@
-﻿using flubu.Scripting;
+﻿using System.Threading.Tasks;
+using Flubu.Scripting;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace flubu.Commanding
+namespace Flubu.Commanding
 {
-    public interface ICommandExecutor
-    {
-        Task<int> Execute(string[] args);
-    }
-
     public class CommandExecutor : ICommandExecutor
     {
-        private readonly IFlubuCommandParser _parser;
-        private readonly IBuildScriptLocator _locator;
-        private readonly ILogger<CommandExecutor> _log;
+        private readonly IBuildScriptLocator locator;
+        private readonly ILogger<CommandExecutor> log;
+        private readonly IFlubuCommandParser parser;
 
-        public CommandExecutor(IFlubuCommandParser parser,
-            IBuildScriptLocator locator, ILogger<CommandExecutor> log)
+        public CommandExecutor(
+            IFlubuCommandParser parser,
+            IBuildScriptLocator locator,
+            ILogger<CommandExecutor> log)
         {
-            _parser = parser;
-            _locator = locator;
-            _log = log;
+            this.parser = parser;
+            this.locator = locator;
+            this.log = log;
         }
 
         public async Task<int> Execute(string[] args)
         {
-            CommandArguments commands = _parser.Parse(args);
+            var commands = parser.Parse(args);
 
             if (commands.Help)
             {
                 return 1;
             }
 
-            IBuildScript script = await _locator.FindBuildScript(commands);
+            var script = await locator.FindBuildScript(commands);
 
-            if (script==null)
+            if (script == null)
             {
-                _log.LogInformation("Script not found!");
+                log.LogInformation("Script not found!");
                 return -1;
             }
 

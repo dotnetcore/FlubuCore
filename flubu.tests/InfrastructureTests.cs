@@ -1,27 +1,28 @@
-﻿using flubu.Commanding;
-using flubu.Infrastructure;
+﻿using System;
+using Flubu.Commanding;
+using Flubu.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using Xunit;
 
-namespace flubu.tests
+namespace Flubu.Tests
 {
     public class InfrastructureTests
     {
-        private readonly IServiceCollection _services = new ServiceCollection();
-        private IServiceProvider _provider;
+        private readonly IServiceCollection services = new ServiceCollection();
+
+        private readonly IServiceProvider provider;
 
         public InfrastructureTests()
         {
-            _services.RegisterAll();
+            services.RegisterAll();
 
-            _provider = _services.BuildServiceProvider();
+            provider = services.BuildServiceProvider();
         }
 
         [Fact]
         public void Resolve()
         {
-            ICommandExecutor executor = _provider.GetRequiredService<ICommandExecutor>();
+            var executor = provider.GetRequiredService<ICommandExecutor>();
 
             Assert.IsType<CommandExecutor>(executor);
         }

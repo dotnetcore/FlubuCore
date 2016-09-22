@@ -1,22 +1,25 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace flubu.Infrastructure
+namespace Flubu.Infrastructure
 {
     public static class Bootstrapper
     {
-        private static IServiceCollection _services = new ServiceCollection();
+        private static IServiceCollection services = new ServiceCollection();
 
         public static void Init()
         {
-            //todo implement
+            ////todo implement
+
             throw new NotImplementedException();
-            //_services.AddSingleton<I>
+
+            ////_services.AddSingleton<I>
         }
 
         public static void Run()
         {
-            //todo implement
+            ////todo implement
+
             throw new NotImplementedException();
         }
     }

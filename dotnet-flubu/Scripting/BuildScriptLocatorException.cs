@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace flubu.Scripting
+namespace Flubu.Scripting
 {
     public class BuildScriptLocatorException : Exception
     {

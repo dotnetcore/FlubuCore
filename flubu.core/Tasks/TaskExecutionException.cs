@@ -1,14 +1,15 @@
 using System;
 
-namespace flubu
+namespace Flubu.Tasks
 {
     public class TaskExecutionException : Exception
     {
-        public TaskExecutionException ()
+        public TaskExecutionException()
         {
         }
 
-        public TaskExecutionException (string message) : base (message)
+        public TaskExecutionException(string message)
+            : base(message)
         {
         }
     }

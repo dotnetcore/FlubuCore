@@ -1,49 +1,50 @@
-﻿using flubu.Scripting;
-using flubu.Targeting;
-using System;
+﻿using System;
 using System.Diagnostics;
+using Flubu.Scripting;
+using Flubu.Targeting;
 
-namespace flubu
+namespace Flubu.Tasks
 {
-    public interface ITaskSession : ITaskContext
-    {
-        bool HasFailed { get; }
-        TargetTree TargetTree { get; }
-
-        void Start(Action<ITaskSession> onFinishDo);
-
-        void Complete();
-    }
-
     public class TaskSession : TaskContext, ITaskSession
     {
-        public TaskSession(CommandArguments args) : base(args)
+        private readonly Stopwatch stopwatch = new Stopwatch();
+
+        private bool disposed;
+
+        private Action<ITaskSession> onFinishDo;
+
+        public TaskSession(CommandArguments args)
+            : base(args)
         {
-            hasFailed = true;
+            HasFailed = true;
         }
 
         public TaskSession(CommandArguments args, TargetTree targetTree)
             : base(args)
         {
-            hasFailed = true;
-            this.TargetTree = targetTree;
+            HasFailed = true;
+            TargetTree = targetTree;
         }
-
-        private Stopwatch _stopwatch = new Stopwatch();
 
         public TargetTree TargetTree { get; }
 
-        public bool HasFailed
-        {
-            get { return hasFailed; }
-        }
+        public bool HasFailed { get; private set; }
 
         public void Start(Action<ITaskSession> onFinishDo)
         {
             this.onFinishDo = onFinishDo;
-            hasFailed = true;
+            HasFailed = true;
 
-            _stopwatch.Start();
+            stopwatch.Start();
+        }
+
+        /// <summary>
+        ///     Marks the runner as having completed its work successfully. This is the last method
+        ///     that should be called on the runner before it gets disposed.
+        /// </summary>
+        public void Complete()
+        {
+            HasFailed = false;
         }
 
         public void Reset()
@@ -51,22 +52,13 @@ namespace flubu
             TargetTree.ResetTargetExecutionInfo();
         }
 
-        /// <summary>
-        /// Marks the runner as having completed its work successfully. This is the last method
-        /// that should be called on the runner before it gets disposed.
-        /// </summary>
-        public void Complete()
-        {
-            hasFailed = false;
-        }
-
         protected override void Dispose(bool disposing)
         {
-            if (false == disposed)
+            if (!disposed)
             {
                 if (disposing)
                 {
-                    _stopwatch.Stop();
+                    stopwatch.Stop();
 
                     onFinishDo?.Invoke(this);
                 }
@@ -76,9 +68,5 @@ namespace flubu
 
             base.Dispose(disposing);
         }
-
-        private bool disposed;
-        private bool hasFailed;
-        private Action<ITaskSession> onFinishDo;
     }
 }

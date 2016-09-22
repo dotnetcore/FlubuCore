@@ -1,47 +1,40 @@
-﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
-using Microsoft.CodeAnalysis.Scripting;
-using System;
+﻿using System;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
 
-namespace flubu.Scripting
+namespace Flubu.Scripting
 {
-    public interface IScriptLoader
-    {
-        Task<IBuildScript> FindAndCreateBuildScriptInstance(string fileName);
-    }
-
     public class ScriptLoader : IScriptLoader
     {
-        private readonly IFileLoader _fileLoader;
+        private readonly IFileLoader fileLoader;
 
         public ScriptLoader(IFileLoader fileLoader)
         {
-            _fileLoader = fileLoader;
+            this.fileLoader = fileLoader;
         }
 
         public async Task<IBuildScript> FindAndCreateBuildScriptInstance(string fileName)
         {
-            string code = _fileLoader.LoadFile(fileName);
+            var code = fileLoader.LoadFile(fileName);
 
-            ScriptOptions opts = ScriptOptions.Default
-                .WithReferences(LoadAssembly<System.Object>())
+            var opts = ScriptOptions.Default
+                .WithReferences(LoadAssembly<object>())
                 .WithReferences(LoadAssembly<DefaultBuildScript>())
                 .WithReferences(LoadAssembly<IBuildScript>());
-                //.AddReferences("d:\\flubu.buildscript.dll")
-                //.WithImports("flubu.buildscript");
+            //// .AddReferences("d:\\flubu.buildscript.dll")
+            //// .WithImports("flubu.buildscript");
 
-
-
-            //todo how to find class name??
+            ////todo how to find class name??
             Script script = CSharpScript
-                //.Create(@"var sc = new MyBuildScript();", opts);
+                //// .Create(@"var sc = new MyBuildScript();", opts);
                 .Create(code, opts)
                 .ContinueWith("var sc = new MyBuildScript();");
 
-            ScriptState result = await script.RunAsync();
+            var result = await script.RunAsync();
 
             return result.Variables[0].Value as IBuildScript;
         }
@@ -50,10 +43,10 @@ namespace flubu.Scripting
         {
             byte* fl;
             int length;
-            Assembly assembly = typeof(T).GetTypeInfo().Assembly; //let's grab the current in-memory assembly
+            var assembly = typeof(T).GetTypeInfo().Assembly; ////let's grab the current in-memory assembly
             assembly.TryGetRawMetadata(out fl, out length);
-            ModuleMetadata moduleMetadata = ModuleMetadata.CreateFromMetadata((IntPtr)fl, length);
-            AssemblyMetadata assemblyMetadata = AssemblyMetadata.Create(moduleMetadata);
+            var moduleMetadata = ModuleMetadata.CreateFromMetadata((IntPtr)fl, length);
+            var assemblyMetadata = AssemblyMetadata.Create(moduleMetadata);
             return assemblyMetadata.GetReference();
         }
     }

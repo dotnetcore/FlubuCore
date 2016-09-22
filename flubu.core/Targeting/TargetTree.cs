@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using Flubu.Tasks;
 
-namespace flubu.Targeting
+namespace Flubu.Targeting
 {
     public class TargetTree
     {
+        private readonly HashSet<string> executedTargets = new HashSet<string>();
+        private readonly Dictionary<string, ITarget> targets = new Dictionary<string, ITarget>();
+
         public TargetTree()
         {
             AddTarget("help")
@@ -13,15 +17,14 @@ namespace flubu.Targeting
         }
 
         /// <summary>
-        /// Gets the default target for this runner.
+        ///     Gets the default target for this runner.
         /// </summary>
-        /// <remarks>The default target is the one which will be executed if
-        /// the target is not specified in the command line.</remarks>
+        /// <remarks>
+        ///     The default target is the one which will be executed if
+        ///     the target is not specified in the command line.
+        /// </remarks>
         /// <value>The default target.</value>
-        public ITarget DefaultTarget
-        {
-            get { return defaultTarget; }
-        }
+        public ITarget DefaultTarget { get; private set; }
 
         public ITarget AddTarget(string targetName)
         {
@@ -38,10 +41,10 @@ namespace flubu.Targeting
 
         public void EnsureDependenciesExecuted(ITaskContext taskContext, string targetName)
         {
-            ITarget target = targets[targetName];
-            foreach (string dependency in target.Dependencies)
+            var target = targets[targetName];
+            foreach (var dependency in target.Dependencies)
             {
-                if (false == executedTargets.Contains(dependency))
+                if (!executedTargets.Contains(dependency))
                 {
                     RunTarget(taskContext, dependency);
                 }
@@ -50,8 +53,10 @@ namespace flubu.Targeting
 
         public IEnumerable<ITarget> EnumerateExecutedTargets()
         {
-            foreach (string targetId in executedTargets)
+            foreach (var targetId in executedTargets)
+            {
                 yield return targets[targetId];
+            }
         }
 
         public ITarget GetTarget(string targetName)
@@ -60,7 +65,7 @@ namespace flubu.Targeting
         }
 
         /// <summary>
-        /// Determines whether the specified target exists.
+        ///     Determines whether the specified target exists.
         /// </summary>
         /// <param name="targetName">Name of the target.</param>
         /// <returns>
@@ -83,20 +88,22 @@ namespace flubu.Targeting
 
         public int RunTarget(ITaskContext taskContext, string targetName)
         {
-            if (false == targets.ContainsKey(targetName))
+            if (!targets.ContainsKey(targetName))
+            {
                 throw new ArgumentException($"The target '{targetName}' does not exist");
+            }
 
-            ITarget target = targets[targetName];
+            var target = targets[targetName];
             return target.Execute(taskContext);
         }
 
         public void SetDefaultTarget(ITarget target)
         {
-            defaultTarget = target;
+            DefaultTarget = target;
         }
 
         /// <summary>
-        /// The target for displaying help in the command line.
+        ///     The target for displaying help in the command line.
         /// </summary>
         /// <param name="context">The task context.</param>
         public void TargetHelp(ITaskContext context)
@@ -104,19 +111,21 @@ namespace flubu.Targeting
             context.WriteMessage("Targets:");
 
             // first sort the targets
-            SortedList<string, ITarget> sortedTargets = new SortedList<string, ITarget>();
+            var sortedTargets = new SortedList<string, ITarget>();
 
-            foreach (ITarget target in targets.Values)
+            foreach (var target in targets.Values)
+            {
                 sortedTargets.Add(target.TargetName, target);
+            }
 
             // now display them in sorted order
-            foreach (ITarget target in sortedTargets.Values)
-                if (false == target.IsHidden)
+            foreach (var target in sortedTargets.Values)
+            {
+                if (target.IsHidden == false)
+                {
                     context.WriteMessage($"  {target.TargetName} : {target.Description}");
+                }
+            }
         }
-
-        private ITarget defaultTarget;
-        private readonly HashSet<string> executedTargets = new HashSet<string>();
-        private readonly Dictionary<string, ITarget> targets = new Dictionary<string, ITarget>();
     }
 }

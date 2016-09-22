@@ -1,18 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Text;
+﻿using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
-namespace flubu.Scripting
+namespace Flubu.Scripting
 {
-    public interface IBuildScriptLocator
-    {
-        Task<IBuildScript> FindBuildScript(CommandArguments args);
-    }
-
     public class BuildScriptLocator : IBuildScriptLocator
     {
-        private static readonly string[] defaultScriptLocations =
+        private static readonly string[] DefaultScriptLocations =
         {
             "buildscript.cs",
             "deployscript.cs",
@@ -20,38 +14,43 @@ namespace flubu.Scripting
             "buildscripts\\buildscript.cs"
         };
 
-        private readonly ILogger<BuildScriptLocator> _log;
+        private readonly ILogger<BuildScriptLocator> log;
 
         private readonly IFileExistsService fileExistsService;
 
         private readonly IScriptLoader scriptLoader;
 
-        public BuildScriptLocator(IFileExistsService fileExistsService,
+        public BuildScriptLocator(
+            IFileExistsService fileExistsService,
             ILogger<BuildScriptLocator> log,
             IScriptLoader scriptLoader)
         {
             this.fileExistsService = fileExistsService;
             this.scriptLoader = scriptLoader;
-            _log = log;
+            this.log = log;
         }
 
         public Task<IBuildScript> FindBuildScript(CommandArguments args)
         {
-            string fileName = GetFileName(args);
+            var fileName = GetFileName(args);
 
             if (fileName == null)
+            {
                 ReportUnspecifiedBuildScript();
+            }
 
             return FindAndCreateBuildScriptInstance(fileName);
         }
 
         private static void ReportUnspecifiedBuildScript()
         {
-            StringBuilder errorMsg = new StringBuilder();
-            errorMsg.Append(
-                "The build script file was not specified. Please specify it as the first argument or use some of the default paths for script file: ");
-            foreach (var defaultScriptLocation in defaultScriptLocations)
+            var errorMsg = new StringBuilder();
+            errorMsg
+                .Append("The build script file was not specified. Please specify it as the first argument or use some of the default paths for script file: ");
+            foreach (var defaultScriptLocation in DefaultScriptLocations)
+            {
                 errorMsg.AppendLine(defaultScriptLocation);
+            }
 
             throw new BuildScriptLocatorException(errorMsg.ToString());
         }
@@ -68,13 +67,13 @@ namespace flubu.Scripting
                 return TakeExplicitBuildScriptName(args);
             }
 
-            _log.LogInformation("Build script file name was not explicitly specified, searching the default locations:");
+            log.LogInformation("Build script file name was not explicitly specified, searching the default locations:");
 
-            foreach (string defaultScriptLocation in defaultScriptLocations)
+            foreach (var defaultScriptLocation in DefaultScriptLocations)
             {
                 if (fileExistsService.FileExists(defaultScriptLocation))
                 {
-                    _log.LogInformation("Found it, using the build script file '{0}'.", defaultScriptLocation);
+                    log.LogInformation("Found it, using the build script file '{0}'.", defaultScriptLocation);
                     return defaultScriptLocation;
                 }
             }
@@ -85,7 +84,9 @@ namespace flubu.Scripting
         private string TakeExplicitBuildScriptName(CommandArguments args)
         {
             if (fileExistsService.FileExists(args.Script))
+            {
                 return args.Script;
+            }
 
             throw new BuildScriptLocatorException($"The build script file specified ('{args.Script}') does not exist.");
         }

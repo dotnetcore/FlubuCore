@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.IO;
 
-namespace flubu.Scripting
+namespace Flubu.Scripting
 {
-    public interface IFileLoader
-    {
-        string LoadFile(string fileName);
-    }
-
     public class FileLoader : IFileLoader
     {
         public string LoadFile(string fileName)

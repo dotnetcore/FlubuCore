@@ -1,11 +1,8 @@
-﻿using flubu.Targeting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using Flubu.Targeting;
 using Xunit;
 
-namespace flubu.tests
+namespace Flubu.Tests
 {
     public class TargetTests
     {
@@ -15,7 +12,7 @@ namespace flubu.tests
             var targetTree = new TargetTree();
 
             new Target("test target")
-            .AddToTargetTree(targetTree);
+                .AddToTargetTree(targetTree);
 
             Assert.True(targetTree.HasTarget("test target"));
         }

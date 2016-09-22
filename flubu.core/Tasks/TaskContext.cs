@@ -1,41 +1,26 @@
-﻿using flubu.Scripting;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Diagnostics;
+using Flubu.Scripting;
+using Microsoft.Extensions.Logging;
 
-namespace flubu
+namespace Flubu.Tasks
 {
-    public interface ITaskContext : IDisposable
-    {
-        CommandArguments Args { get; }
-
-        bool IsInteractive { get; }
-
-        void DecreaseDepth();
-
-        void Fail(string message);
-
-        void IncreaseDepth();
-
-        void WriteMessage(string message);
-    }
-
     public class TaskContext : ITaskContext
     {
+        private ILogger log;
+
+        private bool disposed;
+
+        private int executionDepth;
+
         public TaskContext(CommandArguments args)
         {
-            this.Args = args;
+            Args = args;
         }
 
         public CommandArguments Args { get; }
 
         public bool IsInteractive { get; set; } = true;
-
-        public TaskContext AddLogger(ILogger logger)
-        {
-            _log = logger;
-            return this;
-        }
 
         public void IncreaseDepth()
         {
@@ -46,7 +31,7 @@ namespace flubu
         {
             Console.WriteLine(message);
             Debug.WriteLine(message);
-            _log.LogInformation(message);
+            log.LogInformation(message);
         }
 
         public void DecreaseDepth()
@@ -66,17 +51,20 @@ namespace flubu
             GC.SuppressFinalize(this);
         }
 
+        public TaskContext AddLogger(ILogger logger)
+        {
+            log = logger;
+            return this;
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (disposed || !disposing)
+            {
                 return;
+            }
 
             disposed = true;
         }
-
-        private bool disposed;
-        private int executionDepth;
-        private ILogger _log;
-        private CommandArguments args;
     }
 }
