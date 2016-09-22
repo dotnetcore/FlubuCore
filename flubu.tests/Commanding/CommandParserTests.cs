@@ -7,13 +7,13 @@ namespace Flubu.Tests.Commanding
 {
     public class CommandParserTests
     {
-        private readonly ILoggerFactory logFactory = new LoggerFactory();
+        private readonly ILoggerFactory _logFactory = new LoggerFactory();
 
-        private readonly FlubuCommandParser parser;
+        private readonly FlubuCommandParser _parser;
 
         public CommandParserTests()
         {
-            parser = new FlubuCommandParser(new CommandLineApplication(false));
+            _parser = new FlubuCommandParser(new CommandLineApplication(false));
         }
 
         [Theory]
@@ -22,7 +22,7 @@ namespace Flubu.Tests.Commanding
         [InlineData("-?")]
         public void ParseHelp(string value)
         {
-            var res = parser.Parse(new[] { value });
+            var res = _parser.Parse(new[] { value });
 
             Assert.Null(res.Config);
             Assert.True(res.Help);
@@ -34,7 +34,7 @@ namespace Flubu.Tests.Commanding
         [InlineData("package")]
         public void ParseOneCommand(string value)
         {
-            var res = parser.Parse(new[] { value });
+            var res = _parser.Parse(new[] { value });
 
             Assert.Equal(value, res.MainCommand);
             Assert.Empty(res.RemainingCommands);
@@ -47,7 +47,7 @@ namespace Flubu.Tests.Commanding
         [InlineData("package")]
         public void ParseMultipleCommands(string value)
         {
-            var res = parser.Parse(new[] { value, "another", "another1" });
+            var res = _parser.Parse(new[] { value, "another", "another1" });
 
             Assert.Equal(value, res.MainCommand);
             Assert.Equal(2, res.RemainingCommands.Count);
@@ -59,7 +59,7 @@ namespace Flubu.Tests.Commanding
         [InlineData("--script")]
         public void ParseScript(string value)
         {
-            var res = parser.Parse(new[] { "test", value, "b.cs" });
+            var res = _parser.Parse(new[] { "test", value, "b.cs" });
 
             Assert.Equal("b.cs", res.Script);
         }
@@ -69,7 +69,7 @@ namespace Flubu.Tests.Commanding
         [InlineData("--project")]
         public void ParseProjectPath(string value)
         {
-            var res = parser.Parse(new[] { "test", value, "testp" });
+            var res = _parser.Parse(new[] { "test", value, "testp" });
 
             Assert.Equal("testp", res.ProjectPath);
         }
@@ -77,7 +77,7 @@ namespace Flubu.Tests.Commanding
         [Fact]
         public void ParseEmpty()
         {
-            var res = parser.Parse(new string[0]);
+            var res = _parser.Parse(new string[0]);
 
             Assert.Equal("Debug", res.Config);
             Assert.False(res.Help);
@@ -86,7 +86,7 @@ namespace Flubu.Tests.Commanding
         [Fact]
         public void ParseNull()
         {
-            var res = parser.Parse(null);
+            var res = _parser.Parse(null);
 
             Assert.Equal("Debug", res.Config);
             Assert.False(res.Help);
