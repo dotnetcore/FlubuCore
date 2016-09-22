@@ -7,19 +7,19 @@ namespace Flubu.Tests.Scripting
 {
     public class ScriptExecutionTests
     {
-        private readonly Mock<IFileLoader> _fileLoader = new Mock<IFileLoader>();
+        private readonly Mock<IFileLoader> fileLoader = new Mock<IFileLoader>();
 
-        private readonly IScriptLoader _loader;
+        private readonly IScriptLoader loader;
 
         public ScriptExecutionTests()
         {
-            _loader = new ScriptLoader(_fileLoader.Object);
+            loader = new ScriptLoader(fileLoader.Object);
         }
 
         [Fact(Skip = "buildscript not available in automatic tests")]
         public async Task LoadDefaultScript()
         {
-            _fileLoader.Setup(i => i.LoadFile("e.cs")).Returns(@"
+            fileLoader.Setup(i => i.LoadFile("e.cs")).Returns(@"
 using System;
 using System.Diagnostics;
 
@@ -38,7 +38,7 @@ public partial class MyBuildScript
         }
     }");
 
-            var t = await _loader.FindAndCreateBuildScriptInstance("e.cs");
+            var t = await loader.FindAndCreateBuildScriptInstance("e.cs");
 
             t.Run(new CommandArguments());
         }
@@ -46,17 +46,21 @@ public partial class MyBuildScript
         [Fact]
         public async Task LoadSimpleScript()
         {
-            _fileLoader.Setup(i => i.LoadFile("e.cs"))
-                .Returns(@"public class MyBuildScript : flubu.Scripting.IBuildScript
+            fileLoader.Setup(i => i.LoadFile("e.cs"))
+                .Returns(@"
+using Flubu.Scripting;
+using System;
+
+public class MyBuildScript : IBuildScript
 {
-    public int Run(flubu.Scripting.CommandArguments args)
+    public int Run(CommandArguments args)
     {
-        System.Console.WriteLine(""11"");
+        Console.WriteLine(""11"");
         return 0;
     }
 }");
 
-            var t = await _loader.FindAndCreateBuildScriptInstance("e.cs");
+            var t = await loader.FindAndCreateBuildScriptInstance("e.cs");
             t.Run(new CommandArguments());
         }
     }
