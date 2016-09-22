@@ -65,7 +65,7 @@ namespace Flubu.Commanding
         private int PrepareDefaultArguments()
         {
             _parsed.Help = false;
-            // Locate the project and get the name and full path
+            //// Locate the project and get the name and full path
             _parsed.ProjectPath = _projectPath.Value();
             if (string.IsNullOrEmpty(_parsed.ProjectPath))
             {

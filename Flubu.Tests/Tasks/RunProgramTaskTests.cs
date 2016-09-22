@@ -6,7 +6,7 @@ namespace Flubu.Tests.Tasks
 {
     public class RunProgramTaskTests : TaskTestBase
     {
-        [Fact]
+        [Fact(Skip = "Implement task first")]
         public void ExecuteCommand()
         {
             ExecuteDotnetTask task = new ExecuteDotnetTask("D:/apps/adb/adb.exe");
