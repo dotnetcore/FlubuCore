@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using Microsoft.DotNet.Cli.Utils;
-using Microsoft.DotNet.Cli.Utils.CommandParsing;
 using NuGet.Frameworks;
 
 namespace Flubu.Tasks.Dotnet
@@ -18,39 +17,6 @@ namespace Flubu.Tasks.Dotnet
 
         protected override void DoExecute(ITaskContext context)
         {
-            ProjectDependenciesCommandFactory commandFactory =
-                new ProjectDependenciesCommandFactory(
-                    NuGetFramework.AnyFramework,
-                    "Debug",
-                    ".",
-                    ".",
-                    ".");
-
-            string[] commandArgs = CommandGrammar.Process(Command, v => null, false);
-
-            Reporter.Verbose.WriteLine($"Running {Command}");
-
-            ICommand command = commandFactory.Create(
-                    Command,
-                    null,
-                    NuGetFramework.AnyFramework,
-                    "Debug");
-
-            var originalDir = Directory.GetCurrentDirectory();
-            try
-            {
-                Directory.SetCurrentDirectory(".");
-                Reporter.Verbose.WriteLine("Working directory = " + ".");
-
-                command
-                    .ForwardStdErr()
-                    .ForwardStdOut()
-                    .Execute();
-            }
-            finally
-            {
-                Directory.SetCurrentDirectory(originalDir);
-            }
         }
     }
 }
