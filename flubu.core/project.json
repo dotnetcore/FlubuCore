@@ -1,23 +1,19 @@
 {
-    "version": "1.0.0-*",
-    "buildOptions": {
-        "warningsAsErrors": true,
-        "additionalArguments": [ "/ruleset:../Stylecop.ruleset" ]
-    },
-    "dependencies": {
-        "NETStandard.Library": "1.6.0",
-        "System.Runtime.Loader": "4.0.0",
-        "System.Dynamic.Runtime": "4.0.11",
-        "System.Threading.Tasks.Parallel": "4.0.1",
-        "Microsoft.Extensions.Logging.Abstractions": "1.0.0",
-        "StyleCop.Analyzers": "1.0.0",
-        "Documentation.Analyser": "1.0.6092.26771"
-    },
-
-    "frameworks": {
-        "netstandard1.6": {
-            "imports": [ "dotnet5.6", "dnxcore50" ]
-        }
+  "version": "1.0.0-*",
+  "buildOptions": {
+    "warningsAsErrors": true,
+    "additionalArguments": [ "/ruleset:../Stylecop.ruleset" ]
+  },
+  "dependencies": {
+    "NETStandard.Library": "1.6.0",
+    "Microsoft.Extensions.Logging.Abstractions": "1.0.0",
+    "StyleCop.Analyzers": "1.0.0",
+    "Documentation.Analyser": "1.0.6092.26771",
+    "Microsoft.DotNet.Cli.Utils": "1.0.0-preview2-003121"
+  },
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": [ "dotnet5.6", "dnxcore50" ]
     }
-
+  }
 }
