@@ -17,7 +17,7 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void ExecuteCommand()
         {
-            RunProgramTask task = new RunProgramTask("D:/apps/android/adb.exe");
+            RunProgramTask task = new RunProgramTask("C:/Program Files/dotnet/dotnet.exe");
 
             task.Execute(Context);
         }

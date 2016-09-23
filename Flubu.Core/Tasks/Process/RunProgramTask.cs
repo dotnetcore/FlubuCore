@@ -33,14 +33,18 @@ namespace Flubu.Tasks.Process
                 using (MemoryStream s = new MemoryStream())
                 using (TextWriter w = new StreamWriter(s))
                 {
-                    command
+                    int res = command
                         .ForwardStdErr(w)
                         .ForwardStdOut(w)
-                        .Execute();
+                        .Execute()
+                        .ExitCode;
 
                     w.Flush();
                     string data = Encoding.UTF8.GetString(s.ToArray());
                     context.WriteMessage(data);
+
+                    if(res != 0)
+                        context.Fail($"External program failed with {res}");
                 }
             }
             finally
