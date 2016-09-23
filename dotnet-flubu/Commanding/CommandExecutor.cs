@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Flubu.Scripting;
 using Flubu.Tasks;
 using Microsoft.Extensions.Logging;
@@ -32,15 +33,23 @@ namespace Flubu.Commanding
                 return 1;
             }
 
-            IBuildScript script = await _locator.FindBuildScript(_args);
-
-            if (script == null)
+            try
             {
-                _log.LogInformation("Script not found!");
-                return -1;
-            }
+                IBuildScript script = await _locator.FindBuildScript(_args);
 
-            return script.Run(_taskSession);
+                if (script == null)
+                {
+                    _log.LogInformation("Script not found!");
+                    return -1;
+                }
+
+                return script.Run(_taskSession);
+            }
+            catch (Exception e)
+            {
+                _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{e.Message}", null, (t, ex) => t);
+                return 3;
+            }
         }
     }
 }

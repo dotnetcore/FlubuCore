@@ -1,4 +1,5 @@
-﻿using Flubu.Tasks.Dotnet;
+﻿using Flubu.Tasks;
+using Flubu.Tasks.NetCore;
 using Microsoft.DotNet.Cli.Utils;
 using Xunit;
 
@@ -15,12 +16,25 @@ namespace Flubu.Tests.Tasks
             _fixture = fixture;
         }
 
-        [Fact(Skip = "Implement task first")]
+        [Fact]
         public void ExecuteNonExistentCommand()
         {
             ExecuteDotnetTask task = new ExecuteDotnetTask("nonexist");
 
-            Assert.Throws<CommandUnknownException>(() => task.Execute(Context));
+            TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.Execute(Context));
+
+            Assert.Equal(1, e.ErrorCode);
+        }
+
+        [Fact]
+        public void ExecuteWrongArgsCommand()
+        {
+            ExecuteDotnetTask task = new ExecuteDotnetTask("build")
+                .WithArguments("Flubu.NonExtstProj");
+
+            TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.Execute(Context));
+
+            Assert.Equal(1, e.ErrorCode);
         }
     }
 }

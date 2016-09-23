@@ -3,6 +3,7 @@ using Flubu.Commanding;
 using Flubu.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 
 namespace Flubu
 {
@@ -24,7 +25,7 @@ namespace Flubu
 
             _provider = Services.BuildServiceProvider();
             ILoggerFactory factory = _provider.GetRequiredService<ILoggerFactory>();
-            factory.AddConsole((s, l) => l >= LogLevel.Information);
+            factory.AddProvider(new FlubuLoggerProvider());
 
             ICommandExecutor executor = _provider.GetRequiredService<ICommandExecutor>();
             return executor.ExecuteAsync().Result;

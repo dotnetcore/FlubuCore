@@ -48,26 +48,18 @@ namespace Flubu.Tasks.Process
 
             string currentDirectory = Directory.GetCurrentDirectory();
 
-            using (MemoryStream s = new MemoryStream())
-            using (TextWriter w = new StreamWriter(s))
+            int res = command
+                .CaptureStdErr()
+                .CaptureStdOut()
+                .WorkingDirectory(_workingFolder ?? currentDirectory)
+                .OnErrorLine(context.WriteMessage)
+                .OnOutputLine(context.WriteMessage)
+                .Execute()
+                .ExitCode;
+
+            if (res != 0)
             {
-                int res = command
-                    .CaptureStdErr()
-                    .CaptureStdOut()
-                    .WorkingDirectory(_workingFolder ?? currentDirectory)
-                    .OnErrorLine(context.WriteMessage)
-                    .OnOutputLine(context.WriteMessage)
-                    .Execute()
-                    .ExitCode;
-
-                w.Flush();
-
-                context.WriteMessage(Encoding.UTF8.GetString(s.ToArray()));
-
-                if (res != 0)
-                {
-                    context.Fail($"External program {_programToExecute} failed with {res}");
-                }
+                context.Fail($"External program {_programToExecute} failed with {res}", res);
             }
         }
     }

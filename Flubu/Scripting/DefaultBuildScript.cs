@@ -13,10 +13,15 @@ namespace Flubu.Scripting
             {
                 return RunBuild(taskSession);
             }
+            catch (TaskExecutionException e)
+            {
+                taskSession.WriteMessage(e.Message);
+                return 1;
+            }
             catch (Exception ex)
             {
                 taskSession.WriteMessage(ex.ToString());
-                return 1;
+                return 2;
             }
         }
 

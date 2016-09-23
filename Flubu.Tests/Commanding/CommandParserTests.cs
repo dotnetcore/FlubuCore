@@ -1,14 +1,11 @@
 ﻿using Flubu.Commanding;
 using Microsoft.Extensions.CommandLineUtils;
-using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace Flubu.Tests.Commanding
 {
     public class CommandParserTests
     {
-        private readonly ILoggerFactory _logFactory = new LoggerFactory();
-
         private readonly FlubuCommandParser _parser;
 
         public CommandParserTests()

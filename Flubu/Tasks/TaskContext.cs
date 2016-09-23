@@ -37,10 +37,10 @@ namespace Flubu.Tasks
             _executionDepth--;
         }
 
-        public void Fail(string message)
+        public void Fail(string message, int errorCode = 0)
         {
             WriteMessage(message);
-            throw new TaskExecutionException(message);
+            throw new TaskExecutionException(message, errorCode);
         }
 
         public void Dispose()

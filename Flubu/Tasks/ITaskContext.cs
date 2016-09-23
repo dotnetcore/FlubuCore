@@ -14,7 +14,7 @@ namespace Flubu.Tasks
 
         void DecreaseDepth();
 
-        void Fail(string message);
+        void Fail(string message, int errorCode);
 
         void IncreaseDepth();
 
