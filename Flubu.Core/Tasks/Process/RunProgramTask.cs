@@ -23,7 +23,7 @@ namespace Flubu.Tasks.Process
             // $"Running program '{programExePath}': (work.dir='{workingDirectory}',args = '{null}', timeout = {executionTimeout})");
             CommandFactory commandFactory = new CommandFactory();
 
-            ICommand command = commandFactory.Create(_programToExecute, new List<string>());
+            ICommand command = commandFactory.Create(_programToExecute, new List<string> { "--version" });
 
             string originalDir = Directory.GetCurrentDirectory();
 
@@ -34,14 +34,16 @@ namespace Flubu.Tasks.Process
                 using (TextWriter w = new StreamWriter(s))
                 {
                     int res = command
-                        .ForwardStdErr(w)
-                        .ForwardStdOut(w)
+                        .CaptureStdErr()
+                        .CaptureStdOut()
+                        .OnErrorLine(context.WriteMessage)
+                        .OnOutputLine(context.WriteMessage)
                         .Execute()
                         .ExitCode;
 
                     w.Flush();
-                    string data = Encoding.UTF8.GetString(s.ToArray());
-                    context.WriteMessage(data);
+
+                    context.WriteMessage(Encoding.UTF8.GetString(s.ToArray()));
 
                     if (res != 0)
                     {
