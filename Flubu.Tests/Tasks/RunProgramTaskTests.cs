@@ -3,8 +3,17 @@ using Xunit;
 
 namespace Flubu.Tests.Tasks
 {
+    [Collection(nameof(TaskTestCollection))]
     public class RunProgramTaskTests : TaskTestBase
     {
+        private readonly TaskTestFixture _fixture;
+
+        public RunProgramTaskTests(TaskTestFixture fixture)
+            : base(fixture.LoggerFactory)
+        {
+            _fixture = fixture;
+        }
+
         [Fact]
         public void ExecuteCommand()
         {

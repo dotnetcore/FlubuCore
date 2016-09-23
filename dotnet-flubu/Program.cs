@@ -24,7 +24,7 @@ namespace Flubu
 
             _provider = Services.BuildServiceProvider();
             ILoggerFactory factory = _provider.GetRequiredService<ILoggerFactory>();
-            factory.AddConsole(LogLevel.Trace);
+            factory.AddConsole((s, l) => l >= LogLevel.Information);
 
             ICommandExecutor executor = _provider.GetRequiredService<ICommandExecutor>();
             return executor.ExecuteAsync().Result;

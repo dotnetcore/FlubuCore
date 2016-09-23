@@ -4,8 +4,17 @@ using Xunit;
 
 namespace Flubu.Tests.Tasks
 {
+    [Collection(nameof(TaskTestCollection))]
     public class ExecuteDotnetTaskTests : TaskTestBase
     {
+        private readonly TaskTestFixture _fixture;
+
+        public ExecuteDotnetTaskTests(TaskTestFixture fixture)
+            : base(fixture.LoggerFactory)
+        {
+            _fixture = fixture;
+        }
+
         [Fact(Skip = "Implement task first")]
         public void ExecuteNonExistentCommand()
         {
