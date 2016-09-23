@@ -19,7 +19,9 @@ namespace Flubu.Tests.Tasks
         {
             RunProgramTask task = new RunProgramTask("C:/Program Files/dotnet/dotnet.exe");
 
-            task.Execute(Context);
+            task
+                .WithArguments("--version")
+                .Execute(Context);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Flubu.Tasks
+﻿using System.Collections.Generic;
+
+namespace Flubu.Tasks
 {
     public static class TaskContextExtensions
     {
@@ -20,6 +22,11 @@
             }
 
             context.WriteMessage(message);
+        }
+
+        public static string ListToString<T>(this IList<T> list)
+        {
+            return string.Join(",", list);
         }
     }
 }
