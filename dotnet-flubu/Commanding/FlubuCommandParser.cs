@@ -1,5 +1,4 @@
 using System.IO;
-using Flubu.Scripting;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.CommandLineUtils;
 
