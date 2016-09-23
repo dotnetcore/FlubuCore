@@ -32,7 +32,7 @@ public partial class MyBuildScript
         Debug.WriteLine(""2222"");
         }
 
-        protected override void ConfigureTargets(flubu.Targeting.TargetTree targetTree, flubu.Scripting.CommandArguments args)
+        protected override void ConfigureTargets(Flubu.Targeting.TargetTree targetTree, Flubu.Scripting.CommandArguments args)
         {
             WriteLine(""2222"");
             Debug.WriteLine(""2222"");
