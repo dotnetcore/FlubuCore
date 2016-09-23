@@ -43,8 +43,10 @@ namespace Flubu.Tasks.Process
                     string data = Encoding.UTF8.GetString(s.ToArray());
                     context.WriteMessage(data);
 
-                    if(res != 0)
+                    if (res != 0)
+                    {
                         context.Fail($"External program failed with {res}");
+                    }
                 }
             }
             finally
