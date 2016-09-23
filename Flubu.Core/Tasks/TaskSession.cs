@@ -2,31 +2,27 @@
 using System.Diagnostics;
 using Flubu.Scripting;
 using Flubu.Targeting;
+using Microsoft.Extensions.Logging;
 
 namespace Flubu.Tasks
 {
     public class TaskSession : TaskContext, ITaskSession
     {
+        private readonly ILogger<TaskSession> _log;
         private readonly Stopwatch _stopwatch = new Stopwatch();
 
         private bool _disposed;
 
         private Action<ITaskSession> _onFinishDo;
 
-        public TaskSession(CommandArguments args)
-            : base(args)
+        public TaskSession(ILogger<TaskSession> log, CommandArguments args)
+            : base(log, args)
         {
+            _log = log;
             HasFailed = true;
         }
 
-        public TaskSession(CommandArguments args, TargetTree targetTree)
-            : base(args)
-        {
-            HasFailed = true;
-            TargetTree = targetTree;
-        }
-
-        public TargetTree TargetTree { get; }
+        public TargetTree TargetTree { get; set; }
 
         public bool HasFailed { get; private set; }
 

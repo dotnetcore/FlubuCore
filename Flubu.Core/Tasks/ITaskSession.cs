@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Flubu.Targeting;
 
 namespace Flubu.Tasks
@@ -10,7 +7,7 @@ namespace Flubu.Tasks
     {
         bool HasFailed { get; }
 
-        TargetTree TargetTree { get; }
+        TargetTree TargetTree { get; set; }
 
         void Start(Action<ITaskSession> onFinishDo);
 

@@ -1,7 +1,9 @@
+using Flubu.Tasks;
+
 namespace Flubu.Scripting
 {
     public interface IBuildScript
     {
-        int Run(CommandArguments args);
+        int Run(ITaskSession taskSession);
     }
 }

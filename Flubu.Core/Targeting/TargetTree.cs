@@ -94,7 +94,7 @@ namespace Flubu.Targeting
                 throw new ArgumentException($"The target '{targetName}' does not exist");
             }
 
-            var target = _targets[targetName];
+            ITarget target = _targets[targetName];
             return target.Execute(taskContext);
         }
 

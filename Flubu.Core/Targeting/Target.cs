@@ -25,19 +25,13 @@ namespace Flubu.Targeting
             TargetName = targetName;
         }
 
-        public ICollection<string> Dependencies
-        {
-            get { return _dependencies; }
-        }
+        public ICollection<string> Dependencies => _dependencies;
 
         /// <summary>
         ///     Gets the description of the target.
         /// </summary>
         /// <value>The description of the target.</value>
-        public override string Description
-        {
-            get { return _description; }
-        }
+        public override string Description => _description;
 
         /// <summary>
         ///     Gets a value indicating whether this target is hidden. Hidden targets will not be
@@ -48,15 +42,9 @@ namespace Flubu.Targeting
 
         public string TargetName { get; }
 
-        protected override bool LogDuration
-        {
-            get { return true; }
-        }
+        protected override bool LogDuration => true;
 
-        protected override string DescriptionForLog
-        {
-            get { return TargetName; }
-        }
+        protected override string DescriptionForLog => TargetName;
 
         /// <summary>
         ///     Specifies targets on which this target depends on.
@@ -151,7 +139,7 @@ namespace Flubu.Targeting
         {
             if (_targetTree == null)
             {
-                throw new ArgumentNullException("targetTree", "TargetTree must be set before Execution of target.");
+                throw new ArgumentNullException(nameof(_targetTree), "TargetTree must be set before Execution of target.");
             }
 
             _targetTree.MarkTargetAsExecuted(this);

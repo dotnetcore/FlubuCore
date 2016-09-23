@@ -7,62 +7,64 @@ namespace Flubu.Scripting
 {
     public abstract class DefaultBuildScript : IBuildScript
     {
-        public int Run(CommandArguments args)
+        public int Run(ITaskSession taskSession)
         {
             try
             {
-                if (args == null)
-                {
-                    throw new ArgumentNullException(nameof(args));
-                }
-
-                var targetTree = new TargetTree();
-
-                ConfigureTargets(targetTree, args);
-
-                return RunBuild(args, targetTree);
+                return RunBuild(taskSession);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                taskSession.WriteMessage(ex.ToString());
                 return 1;
             }
         }
 
-        protected abstract void ConfigureBuildProperties(TaskSession session);
+        protected abstract void ConfigureBuildProperties(ITaskSession session);
 
-        protected abstract void ConfigureTargets(TargetTree targetTree, CommandArguments args);
+        protected abstract TargetTree ConfigureTargets(ITaskSession session);
 
-        private static string ParseCmdLineArgs(CommandArguments args, ITaskContext context, TargetTree targetTree)
+        private static string ParseCmdLineArgs(ITaskContext context, TargetTree targetTree)
         {
-            if (string.IsNullOrEmpty(args.MainCommand))
+            if (string.IsNullOrEmpty(context.Args.MainCommand))
             {
                 return null;
             }
 
-            if (targetTree.HasTarget(args.MainCommand))
+            if (targetTree.HasTarget(context.Args.MainCommand))
             {
-                return args.MainCommand;
+                return context.Args.MainCommand;
             }
 
-            context.WriteMessage($"ERROR: Target {args.MainCommand} not found.");
+            context.WriteMessage($"ERROR: Target {context.Args.MainCommand} not found.");
             return null;
         }
 
-        private int RunBuild(CommandArguments args, TargetTree targetTree)
+        private int RunBuild(ITaskSession taskSession)
         {
-            if (targetTree == null)
+            taskSession.TargetTree = ConfigureTargets(taskSession);
+
+            ConfigureBuildProperties(taskSession);
+
+            string targetToRun = ParseCmdLineArgs(taskSession, taskSession.TargetTree);
+
+            if (string.IsNullOrEmpty(targetToRun))
             {
-                throw new ArgumentNullException(nameof(targetTree));
+                ITarget defaultTarget = taskSession.TargetTree.DefaultTarget;
+
+                if (defaultTarget == null)
+                {
+                    throw new InvalidOperationException("The default build target is not defined");
+                }
+
+                targetToRun = defaultTarget.TargetName;
             }
 
-            using (var session = new TaskSession(args, targetTree))
-            {
-                session.Start(s =>
+            taskSession.Start(s =>
                 {
-                    var sortedTargets = new SortedList<string, ITarget>();
+                    SortedList<string, ITarget> sortedTargets = new SortedList<string, ITarget>();
 
-                    foreach (var target in session.TargetTree.EnumerateExecutedTargets())
+                    foreach (ITarget target in s.TargetTree.EnumerateExecutedTargets())
                     {
                         sortedTargets.Add(target.TargetName, target);
                     }
@@ -71,37 +73,14 @@ namespace Flubu.Scripting
                     {
                         if (target.TaskStopwatch.ElapsedTicks > 0)
                         {
-                            session.WriteMessage($"Target {target.TargetName} took {(int)target.TaskStopwatch.Elapsed.TotalSeconds} s");
+                            s.WriteMessage($"Target {target.TargetName} took {(int)target.TaskStopwatch.Elapsed.TotalSeconds} s");
                         }
                     }
 
-                    if (session.HasFailed)
-                    {
-                        session.WriteMessage("BUILD FAILED");
-                    }
-                    else
-                    {
-                        session.WriteMessage("BUILD SUCCESSFUL");
-                    }
+                    s.WriteMessage(s.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
                 });
 
-                ConfigureBuildProperties(session);
-
-                var targetToRun = ParseCmdLineArgs(args, session, targetTree);
-
-                if (string.IsNullOrEmpty(targetToRun))
-                {
-                    var defaultTarget = targetTree.DefaultTarget;
-                    if (defaultTarget == null)
-                    {
-                        throw new InvalidOperationException("The default build target is not defined");
-                    }
-
-                    return targetTree.RunTarget(session, defaultTarget.TargetName);
-                }
-
-                return targetTree.RunTarget(session, targetToRun);
-            }
+            return taskSession.TargetTree.RunTarget(taskSession, targetToRun);
         }
     }
 }

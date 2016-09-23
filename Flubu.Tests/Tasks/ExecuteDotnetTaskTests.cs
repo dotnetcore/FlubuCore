@@ -11,7 +11,7 @@ namespace Flubu.Tests.Tasks
         {
             ExecuteDotnetTask task = new ExecuteDotnetTask("nonexist");
 
-            Assert.Throws<CommandUnknownException>(() => task.Execute(Context.Object));
+            Assert.Throws<CommandUnknownException>(() => task.Execute(Context));
         }
     }
 }

@@ -51,7 +51,7 @@ namespace Flubu.Commanding
         ////        return command
         ////            .ForwardStdErr()
         ////            .ForwardStdOut()
-        ////            .Execute()
+        ////            .ExecuteAsync()
         ////            .ExitCode;
         ////    }
         ////    finally

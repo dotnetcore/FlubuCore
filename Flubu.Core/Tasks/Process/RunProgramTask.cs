@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Microsoft.DotNet.Cli.Utils;
 
 namespace Flubu.Tasks.Process
 {
     public class RunProgramTask : TaskBase
     {
-        private string _programToExecute;
+        private readonly string _programToExecute;
 
         public RunProgramTask(string programToExecute)
         {
@@ -28,11 +30,18 @@ namespace Flubu.Tasks.Process
             try
             {
                 Directory.SetCurrentDirectory(".");
+                using (MemoryStream s = new MemoryStream())
+                using (TextWriter w = new StreamWriter(s))
+                {
+                    command
+                        .ForwardStdErr(w)
+                        .ForwardStdOut(w)
+                        .Execute();
 
-                command
-                    .ForwardStdErr()
-                    .ForwardStdOut()
-                    .Execute();
+                    w.Flush();
+                    string data = Encoding.UTF8.GetString(s.ToArray());
+                    context.WriteMessage(data);
+                }
             }
             finally
             {

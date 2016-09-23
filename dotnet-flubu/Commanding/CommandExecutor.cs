@@ -1,37 +1,38 @@
 ﻿using System.Threading.Tasks;
 using Flubu.Scripting;
+using Flubu.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace Flubu.Commanding
 {
     public class CommandExecutor : ICommandExecutor
     {
+        private readonly CommandArguments _args;
         private readonly IBuildScriptLocator _locator;
+        private readonly ITaskSession _taskSession;
 
         private readonly ILogger<CommandExecutor> _log;
 
-        private readonly IFlubuCommandParser _parser;
-
         public CommandExecutor(
-            IFlubuCommandParser parser,
+            CommandArguments args,
             IBuildScriptLocator locator,
+            ITaskSession taskSession,
             ILogger<CommandExecutor> log)
         {
-            _parser = parser;
+            _args = args;
             _locator = locator;
+            _taskSession = taskSession;
             _log = log;
         }
 
-        public async Task<int> Execute(string[] args)
+        public async Task<int> ExecuteAsync()
         {
-            var commands = _parser.Parse(args);
-
-            if (commands.Help)
+            if (_args.Help)
             {
                 return 1;
             }
 
-            var script = await _locator.FindBuildScript(commands);
+            IBuildScript script = await _locator.FindBuildScript(_args);
 
             if (script == null)
             {
@@ -39,7 +40,7 @@ namespace Flubu.Commanding
                 return -1;
             }
 
-            return script.Run(commands);
+            return script.Run(_taskSession);
         }
     }
 }

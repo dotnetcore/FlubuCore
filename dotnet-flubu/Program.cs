@@ -8,7 +8,7 @@ namespace Flubu
 {
     public class Program
     {
-        private static readonly IServiceCollection _Services = new ServiceCollection();
+        private static readonly IServiceCollection Services = new ServiceCollection();
 
         private static IServiceProvider _provider;
 
@@ -19,14 +19,15 @@ namespace Flubu
                 args = new string[0];
             }
 
-            _Services.RegisterAll();
+            Services.RegisterAll();
+            Services.AddArguments(args);
 
-            _provider = _Services.BuildServiceProvider();
-            var factory = _provider.GetRequiredService<ILoggerFactory>();
+            _provider = Services.BuildServiceProvider();
+            ILoggerFactory factory = _provider.GetRequiredService<ILoggerFactory>();
             factory.AddConsole(LogLevel.Trace);
 
-            var executor = _provider.GetRequiredService<ICommandExecutor>();
-            return executor.Execute(args).Result;
+            ICommandExecutor executor = _provider.GetRequiredService<ICommandExecutor>();
+            return executor.ExecuteAsync().Result;
         }
     }
 }

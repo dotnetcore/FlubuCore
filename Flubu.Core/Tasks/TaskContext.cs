@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Flubu.Scripting;
 using Microsoft.Extensions.Logging;
 
@@ -7,14 +6,15 @@ namespace Flubu.Tasks
 {
     public class TaskContext : ITaskContext
     {
-        private ILogger _log;
+        private readonly ILogger _log;
 
         private bool _disposed;
 
         private int _executionDepth;
 
-        public TaskContext(CommandArguments args)
+        public TaskContext(ILogger log, CommandArguments args)
         {
+            _log = log;
             Args = args;
         }
 
@@ -29,9 +29,7 @@ namespace Flubu.Tasks
 
         public void WriteMessage(string message)
         {
-            Console.WriteLine(message);
-            Debug.WriteLine(message);
-            _log.LogInformation(message);
+            _log?.LogInformation(message);
         }
 
         public void DecreaseDepth()
@@ -49,12 +47,6 @@ namespace Flubu.Tasks
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        public TaskContext AddLogger(ILogger logger)
-        {
-            _log = logger;
-            return this;
         }
 
         protected virtual void Dispose(bool disposing)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Flubu.Commanding;
 using Flubu.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +15,9 @@ namespace Flubu.Tests
 
         public InfrastructureTests()
         {
-            _services.RegisterAll();
+            _services
+                .RegisterAll()
+                .AddArguments(new string[] { });
 
             _provider = _services.BuildServiceProvider();
         }

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Flubu.Scripting;
+using Flubu.Tasks;
 using Moq;
 using Xunit;
 
@@ -38,9 +39,9 @@ public partial class MyBuildScript
         }
     }");
 
-            var t = await _loader.FindAndCreateBuildScriptInstance("e.cs");
+            IBuildScript t = await _loader.FindAndCreateBuildScriptInstance("e.cs");
 
-            t.Run(new CommandArguments());
+            t.Run(new TaskSession(null, new CommandArguments()));
         }
 
         [Fact]
@@ -50,18 +51,19 @@ public partial class MyBuildScript
                 .Returns(@"
 using Flubu.Scripting;
 using System;
+using Flubu.Tasks;
 
 public class MyBuildScript : IBuildScript
 {
-    public int Run(CommandArguments args)
+    public int Run(ITaskSession session)
     {
         Console.WriteLine(""11"");
         return 0;
     }
 }");
 
-            var t = await _loader.FindAndCreateBuildScriptInstance("e.cs");
-            t.Run(new CommandArguments());
+            IBuildScript t = await _loader.FindAndCreateBuildScriptInstance("e.cs");
+            t.Run(new TaskSession(null, new CommandArguments()));
         }
     }
 }

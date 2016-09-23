@@ -1,4 +1,6 @@
-﻿using Flubu.Tasks;
+﻿using Flubu.Scripting;
+using Flubu.Tasks;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace Flubu.Tests.Tasks
@@ -7,9 +9,10 @@ namespace Flubu.Tests.Tasks
     {
         protected TaskTestBase()
         {
-            Context = new Mock<ITaskContext>();
+            LoggerFactory factory = new LoggerFactory();
+            Context = new TaskContext(factory.CreateLogger<TaskSession>(), new CommandArguments());
         }
 
-        protected Mock<ITaskContext> Context { get; set; }
+        protected ITaskContext Context { get; set; }
     }
 }
