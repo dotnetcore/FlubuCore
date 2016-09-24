@@ -8,6 +8,8 @@ namespace Flubu.Tasks
 {
     public interface ITaskContext : IDisposable
     {
+        ITaskContextSession Properties { get; }
+
         CommandArguments Args { get; }
 
         bool IsInteractive { get; }
