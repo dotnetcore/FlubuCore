@@ -10,7 +10,7 @@
     "StyleCop.Analyzers": "1.0.0",
     "Documentation.Analyser": "1.0.6092.26771",
     "Microsoft.DotNet.Cli.Utils": "1.0.0-preview2-003121",
-        "System.IO.Compression.ZipFile": "4.0.1"
+    "System.IO.Compression.ZipFile": "4.0.1",
     "Newtonsoft.Json": "9.0.1"
   },
   "frameworks": {
