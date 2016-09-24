@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flubu.Tasks
 {
-    public interface ITaskContextProperties
+    public interface ITaskContextSession
     {
         /// <summary>
         /// Property indexer.

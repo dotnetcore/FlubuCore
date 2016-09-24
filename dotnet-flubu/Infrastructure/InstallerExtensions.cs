@@ -18,7 +18,7 @@ namespace Flubu.Infrastructure
                 .AddSingleton<IScriptLoader, ScriptLoader>()
                 .AddSingleton<ICommandExecutor, CommandExecutor>()
                 .AddSingleton<IFileLoader, FileLoader>()
-                .AddSingleton<ITaskContextProperties, TaskContextProperties>()
+                .AddSingleton<ITaskContextSession, TaskContextSession>()
                 .AddSingleton<ITaskSession, TaskSession>();
 
             return services;

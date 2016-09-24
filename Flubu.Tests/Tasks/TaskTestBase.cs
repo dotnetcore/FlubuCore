@@ -8,7 +8,7 @@ namespace Flubu.Tests.Tasks
     {
         protected TaskTestBase(ILoggerFactory loggerFactory)
         {
-            Context = new TaskContext(loggerFactory.CreateLogger<TaskSession>(), new TaskContextProperties(), new CommandArguments());
+            Context = new TaskContext(loggerFactory.CreateLogger<TaskSession>(), new TaskContextSession(), new CommandArguments());
         }
 
         protected ITaskContext Context { get; set; }

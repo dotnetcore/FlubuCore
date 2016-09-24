@@ -9,7 +9,7 @@ namespace Flubu.Tasks
     /// <summary>
     /// Used for storing task context properties into session.
     /// </summary>
-    public class TaskContextProperties : ITaskContextProperties
+    public class TaskContextSession : ITaskContextSession
     {
         /// <summary>
         /// name value dictionary used for storing differend task context properties.

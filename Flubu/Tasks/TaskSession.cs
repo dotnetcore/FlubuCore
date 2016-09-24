@@ -16,7 +16,7 @@ namespace Flubu.Tasks
 
         private Action<ITaskSession> _onFinishDo;
 
-        public TaskSession(ILogger<TaskSession> log, ITaskContextProperties taskContextProperties, CommandArguments args)
+        public TaskSession(ILogger<TaskSession> log, ITaskContextSession taskContextProperties, CommandArguments args)
             : base(log, taskContextProperties, args)
         {
             _log = log;
