@@ -1,6 +1,5 @@
 ﻿using Flubu.Tasks;
 using Flubu.Tasks.NetCore;
-using Microsoft.DotNet.Cli.Utils;
 using Xunit;
 
 namespace Flubu.Tests.Tasks
