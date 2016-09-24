@@ -12,11 +12,14 @@ namespace Flubu.Tasks
 
         private int _executionDepth;
 
-        public TaskContext(ILogger log, CommandArguments args)
+        public TaskContext(ILogger log, ITaskContextProperties taskContextProperties, CommandArguments args)
         {
             _log = log;
             Args = args;
+            Properties = taskContextProperties;
         }
+
+        public ITaskContextProperties Properties { get; }
 
         public CommandArguments Args { get; }
 

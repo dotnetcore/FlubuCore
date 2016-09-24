@@ -41,7 +41,7 @@ public partial class MyBuildScript
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstance("e.cs");
 
-            t.Run(new TaskSession(null, new CommandArguments()));
+            t.Run(new TaskSession(null, new TaskContextProperties(),  new CommandArguments()));
         }
 
         [Fact]
@@ -63,7 +63,7 @@ public class MyBuildScript : IBuildScript
 }");
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstance("e.cs");
-            t.Run(new TaskSession(null, new CommandArguments()));
+            t.Run(new TaskSession(null, new TaskContextProperties(),  new CommandArguments()));
         }
     }
 }
