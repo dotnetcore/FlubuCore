@@ -1,4 +1,7 @@
-﻿using Flubu.Tasks;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using Flubu.Tasks;
 using Flubu.Tasks.Text;
 using Newtonsoft.Json.Linq;
 using Xunit;
@@ -27,21 +30,21 @@ namespace Flubu.Tests.Tasks
             Assert.Equal(1, e.ErrorCode);
         }
 
-        [Fact(Skip = "Fix test on build server. Path is wrong for project.json")]
+        [Fact]
         public void MissingUpdates()
         {
-            UpdateJsonFileTask task = new UpdateJsonFileTask("project.json");
+            UpdateJsonFileTask task = new UpdateJsonFileTask("TestData/testproject.json".ExpandToExecutingPath());
 
             TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.Execute(Context));
 
-            Assert.Equal("Nothing to update in file project.json!", e.Message);
+            Assert.StartsWith("Nothing to update in file", e.Message);
             Assert.Equal(2, e.ErrorCode);
         }
 
-        [Fact(Skip = "Fix test on build server. Path is wrong for project.json")]
+        [Fact]
         public void OpenProjectJsonFile()
         {
-            UpdateJsonFileTask task = new UpdateJsonFileTask("project.json");
+            UpdateJsonFileTask task = new UpdateJsonFileTask("TestData/testproject.json".ExpandToExecutingPath());
 
             task
                 .Update("version", JValue.CreateString("2.0.0.0"))
