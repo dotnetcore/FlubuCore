@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Flubu.Tasks.Text;
-using Newtonsoft.Json.Linq;
 
 namespace Flubu.Tasks.Versioning
 {
     public class UpdateNetCoreVersionTask : TaskBase
     {
         private readonly List<string> _files = new List<string>();
+        private readonly List<string> _additionalProperies = new List<string>();
 
         private Version _version;
 
@@ -29,6 +29,12 @@ namespace Flubu.Tasks.Versioning
             return this;
         }
 
+        public UpdateNetCoreVersionTask AdditionalProp(params string[] args)
+        {
+            _additionalProperies.AddRange(args);
+            return this;
+        }
+
         protected override int DoExecute(ITaskContext context)
         {
             if (_version == null)
@@ -42,16 +48,22 @@ namespace Flubu.Tasks.Versioning
             }
 
             string newVersion = _version.ToString(3);
+            int res = 0;
 
             foreach (string file in _files)
             {
                 UpdateJsonFileTask task = new UpdateJsonFileTask(file);
+
                 task
-                    .Update("version", newVersion)
-                    .Execute(context);
+                    .FailIfPropertyNotFound(false)
+                    .Update("version", newVersion);
+
+                _additionalProperies.ForEach(i => task.Update(i, newVersion));
+
+                task.Execute(context);
             }
 
-            return 0;
+            return res;
         }
     }
 }
