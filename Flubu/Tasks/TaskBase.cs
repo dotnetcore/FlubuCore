@@ -14,10 +14,7 @@ namespace Flubu.Tasks
         /// <value>
         ///     <c>true</c> if this instance is safe to execute in dry run mode; otherwise, <c>false</c>.
         /// </value>
-        public virtual bool IsSafeToExecuteInDryRun
-        {
-            get { return false; }
-        }
+        public virtual bool IsSafeToExecuteInDryRun => false;
 
         /// <summary>
         ///     Gets the task description.
@@ -27,20 +24,14 @@ namespace Flubu.Tasks
 
         public Stopwatch TaskStopwatch { get; } = new Stopwatch();
 
-        protected virtual string DescriptionForLog
-        {
-            get { return Description; }
-        }
+        protected virtual string DescriptionForLog => Description;
 
         /// <summary>
         ///     Gets a value indicating whether the duration of the task should be logged after the task
         ///     has finished.
         /// </summary>
         /// <value><c>true</c> if duration should be logged; otherwise, <c>false</c>.</value>
-        protected virtual bool LogDuration
-        {
-            get { return false; }
-        }
+        protected virtual bool LogDuration => false;
 
         /// <summary>
         ///     Executes the task using the specified script execution environment.
@@ -64,8 +55,7 @@ namespace Flubu.Tasks
 
             try
             {
-                DoExecute(context);
-                return 0;
+                return DoExecute(context);
             }
             finally
             {
@@ -84,6 +74,6 @@ namespace Flubu.Tasks
         /// </summary>
         /// <remarks>This method has to be implemented by the inheriting task.</remarks>
         /// <param name="context">The script execution environment.</param>
-        protected abstract void DoExecute(ITaskContext context);
+        protected abstract int DoExecute(ITaskContext context);
     }
 }

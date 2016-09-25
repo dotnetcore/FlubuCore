@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Flubu.Tasks
 {
@@ -26,6 +22,14 @@ namespace Flubu.Tasks
         /// <param name="propertyName">The property name</param>
         /// <returns>The property</returns>
         T Get<T>(string propertyName);
+
+        /// <summary>
+        /// Get's the property by property name. If it doesn't exist null is returned.
+        /// </summary>
+        /// <typeparam name="T">Type of returned property</typeparam>
+        /// <param name="propertyName">The property name</param>
+        /// <returns>The property</returns>
+        T TryGet<T>(string propertyName);
 
         /// <summary>
         /// Get's the property by property name.

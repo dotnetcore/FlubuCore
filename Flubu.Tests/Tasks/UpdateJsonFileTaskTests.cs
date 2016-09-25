@@ -1,9 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using Flubu.Tasks;
+﻿using Flubu.Tasks;
 using Flubu.Tasks.Text;
-using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace Flubu.Tests.Tasks
@@ -42,14 +38,67 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void OpenProjectJsonFile()
+        public void FailOnUpdateNotFound()
+        {
+            UpdateJsonFileTask task = new UpdateJsonFileTask("TestData/testproject.json".ExpandToExecutingPath());
+            task.Update("notfoundproperty", "test");
+
+            TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.Execute(Context));
+
+            Assert.StartsWith("Propety notfoundproperty not found in", e.Message);
+            Assert.Equal(3, e.ErrorCode);
+        }
+
+        [Fact]
+        public void FailOnTypeMissmatch()
+        {
+            UpdateJsonFileTask task = new UpdateJsonFileTask("TestData/testproject.json".ExpandToExecutingPath());
+            task
+                .FailOnTypeMismatch(true)
+                .Update("version", 1);
+
+            TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.Execute(Context));
+
+            Assert.StartsWith("Propety version type mismatch.", e.Message);
+            Assert.Equal(4, e.ErrorCode);
+        }
+
+        [Fact]
+        public void DontFailOnUpdateNotFound()
+        {
+            UpdateJsonFileTask task = new UpdateJsonFileTask("TestData/testproject.json".ExpandToExecutingPath());
+            task
+                .FailIfPropertyNotFound(false)
+                .Update("notfoundproperty", "test");
+
+            int res = task.Execute(Context);
+            Assert.Equal(3, res);
+        }
+
+        [Fact]
+        public void UpdateSucess()
         {
             UpdateJsonFileTask task = new UpdateJsonFileTask("TestData/testproject.json".ExpandToExecutingPath());
 
-            task
-                .Update("version", JValue.CreateString("2.0.0.0"))
+            int res = task
+                .Update("version", "2.0.0.0")
                 .Output("project.json.new")
                 .Execute(Context);
+
+            Assert.Equal(0, res);
+        }
+
+        [Fact]
+        public void UpdateSuccessTypeMismatch()
+        {
+            UpdateJsonFileTask task = new UpdateJsonFileTask("TestData/testproject.json".ExpandToExecutingPath());
+
+            int res = task
+                .Update("version", 2)
+                .Output("project.json.new")
+                .Execute(Context);
+
+            Assert.Equal(4, res);
         }
     }
 }

@@ -135,7 +135,7 @@ namespace Flubu.Targeting
             return this;
         }
 
-        protected override void DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContext context)
         {
             if (_targetTree == null)
             {
@@ -147,6 +147,7 @@ namespace Flubu.Targeting
 
             // we can have action-less targets (that only depend on other targets)
             _targetAction?.Invoke(context);
+            return 0;
         }
     }
 }

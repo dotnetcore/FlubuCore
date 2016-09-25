@@ -39,11 +39,11 @@ namespace Flubu.Tasks.NetCore
             return this;
         }
 
-        protected override void DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContext context)
         {
             RunProgramTask task = new RunProgramTask("dotnet");
 
-            task
+            return task
                 .WithArguments(_command)
                 .WithArguments(_arguments.ToArray())
                 .WorkingFolder(_workingFolder)

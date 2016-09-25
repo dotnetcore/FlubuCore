@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,13 +36,23 @@ namespace Flubu.Tasks
         /// <returns>The property</returns>
         public T Get<T>(string propertyName)
         {
+            propertyName = propertyName.ToLowerInvariant();
+
             if (!_properties.ContainsKey(propertyName))
             {
-                string message = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "Task context property '{0}' is missing.",
-                    propertyName);
-                throw new KeyNotFoundException(message);
+                throw new KeyNotFoundException($"Task context property '{propertyName}' is missing.");
+            }
+
+            return (T)Convert.ChangeType(_properties[propertyName], typeof(T), CultureInfo.InvariantCulture);
+        }
+
+        public T TryGet<T>(string propertyName)
+        {
+            propertyName = propertyName.ToLowerInvariant();
+
+            if (!_properties.ContainsKey(propertyName))
+            {
+                return default(T);
             }
 
             return (T)Convert.ChangeType(_properties[propertyName], typeof(T), CultureInfo.InvariantCulture);
@@ -56,6 +67,8 @@ namespace Flubu.Tasks
         /// <returns>The property</returns>
         public T Get<T>(string propertyName, T defaultValue)
         {
+            propertyName = propertyName.ToLowerInvariant();
+
             if (!_properties.ContainsKey(propertyName))
             {
                 return defaultValue;

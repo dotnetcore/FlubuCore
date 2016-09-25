@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Microsoft.DotNet.Cli.Utils;
 
 namespace Flubu.Tasks.Process
@@ -37,7 +35,7 @@ namespace Flubu.Tasks.Process
             return this;
         }
 
-        protected override void DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContext context)
         {
             context.WriteMessage(
                 $"Running program '{_programToExecute}': (work.dir='{_workingFolder}',args = '{_arguments.ListToString()}')");
@@ -61,6 +59,8 @@ namespace Flubu.Tasks.Process
             {
                 context.Fail($"External program {_programToExecute} failed with {res}", res);
             }
+
+            return res;
         }
     }
 }
