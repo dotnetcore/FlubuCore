@@ -14,9 +14,9 @@ build_script:
 
     dotnet pack dotnet-flubu -c Release --version-suffix %APPVEYOR_BUILD_NUMBER%
 
-    appveyor PushArtifact dotnet-flubu\bin\Release\*.nupkg
+    appveyor PushArtifact dotnet-flubu\bin\Release\dotnet-flubu.1.0.0.%APPVEYOR_BUILD_NUMBER%.nupkg
 
-    appveyor PushArtifact Flubu\bin\Release\*.nupkg
+    appveyor PushArtifact Flubu\bin\Release\Flubu.1.0.0.%APPVEYOR_BUILD_NUMBER%.nupkg
 test_script:
 - cmd: dotnet test Flubu.Tests -xml results.xml
 artifacts:
