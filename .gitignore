@@ -7,10 +7,9 @@
 /flubu/obj
 /flubu.tests/bin
 /flubu.tests/obj
-flubu.core/obj/
-flubu.core/bin/Debug/flubu.core.1.0.0.nupkg
-flubu.core/bin/
 /Flubu.Tests/project.json.new
 /project.json.new
 /Flubu.BuildScript/bin
 /Flubu.BuildScript/obj
+/bin
+/obj

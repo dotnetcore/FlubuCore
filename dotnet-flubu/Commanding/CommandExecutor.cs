@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 using Flubu.Context;
 using Flubu.Scripting;
-using Flubu.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace Flubu.Commanding
@@ -40,7 +40,7 @@ namespace Flubu.Commanding
 
                 if (script == null)
                 {
-                    _log.LogInformation("Script not found!");
+                    ReportUnspecifiedBuildScript();
                     return -1;
                 }
 
@@ -51,6 +51,17 @@ namespace Flubu.Commanding
                 _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{e.Message}", null, (t, ex) => t);
                 return 3;
             }
+        }
+
+        private static void ReportUnspecifiedBuildScript()
+        {
+            StringBuilder errorMsg = new StringBuilder("The build script file was not specified. Please specify it as the first argument or use some of the default paths for script file: ");
+            foreach (var defaultScriptLocation in BuildScriptLocator.DefaultScriptLocations)
+            {
+                errorMsg.AppendLine(defaultScriptLocation);
+            }
+
+            throw new BuildScriptLocatorException(errorMsg.ToString());
         }
     }
 }

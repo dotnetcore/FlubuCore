@@ -1,12 +1,11 @@
-﻿using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace Flubu.Scripting
 {
     public class BuildScriptLocator : IBuildScriptLocator
     {
-        private static readonly string[] DefaultScriptLocations =
+        internal static readonly string[] DefaultScriptLocations =
         {
             "buildscript.cs",
             "deployscript.cs",
@@ -32,30 +31,12 @@ namespace Flubu.Scripting
 
         public Task<IBuildScript> FindBuildScript(CommandArguments args)
         {
-            var fileName = GetFileName(args);
+            string fileName = GetFileName(args);
 
-            if (fileName == null)
-            {
-                ReportUnspecifiedBuildScript();
-            }
-
-            return FindAndCreateBuildScriptInstance(fileName);
+            return FindAndCreateBuildScriptInstanceAsync(fileName);
         }
 
-        private static void ReportUnspecifiedBuildScript()
-        {
-            var errorMsg = new StringBuilder();
-            errorMsg
-                .Append("The build script file was not specified. Please specify it as the first argument or use some of the default paths for script file: ");
-            foreach (var defaultScriptLocation in DefaultScriptLocations)
-            {
-                errorMsg.AppendLine(defaultScriptLocation);
-            }
-
-            throw new BuildScriptLocatorException(errorMsg.ToString());
-        }
-
-        private Task<IBuildScript> FindAndCreateBuildScriptInstance(string fileName)
+        private Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(string fileName)
         {
             return _scriptLoader.FindAndCreateBuildScriptInstance(fileName);
         }

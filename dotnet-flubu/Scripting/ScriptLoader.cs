@@ -21,8 +21,6 @@ namespace Flubu.Scripting
 
         public async Task<IBuildScript> FindAndCreateBuildScriptInstance(string fileName)
         {
-            var code = _fileLoader.LoadFile(fileName);
-
             var opts = ScriptOptions.Default
                 .WithReferences(LoadAssembly<object>())
                 .WithReferences(LoadAssembly<DefaultBuildScript>())
@@ -39,6 +37,8 @@ namespace Flubu.Scripting
             }
             else
             {
+                string code = _fileLoader.LoadFile(fileName);
+
                 script = CSharpScript
                     .Create(code, opts)
                     .ContinueWith("var sc = new MyBuildScript();");
