@@ -1,6 +1,5 @@
 ﻿using System;
 using Flubu.Scripting;
-using Flubu.Tasks;
 
 namespace Flubu.Context
 {
