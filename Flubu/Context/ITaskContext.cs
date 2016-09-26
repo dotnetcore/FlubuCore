@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Flubu.Scripting;
+using Flubu.Tasks;
 
-namespace Flubu.Tasks
+namespace Flubu.Context
 {
     public interface ITaskContext : IDisposable
     {

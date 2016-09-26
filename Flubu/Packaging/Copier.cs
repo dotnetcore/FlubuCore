@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Flubu.Context;
 using Flubu.IO;
 using Flubu.Tasks;
 

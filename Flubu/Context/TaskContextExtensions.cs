@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Flubu.Tasks
+namespace Flubu.Context
 {
     public static class TaskContextExtensions
     {

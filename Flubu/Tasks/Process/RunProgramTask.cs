@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using Flubu.Context;
 using Microsoft.DotNet.Cli.Utils;
 
 namespace Flubu.Tasks.Process

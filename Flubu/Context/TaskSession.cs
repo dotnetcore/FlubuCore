@@ -4,12 +4,10 @@ using Flubu.Scripting;
 using Flubu.Targeting;
 using Microsoft.Extensions.Logging;
 
-namespace Flubu.Tasks
+namespace Flubu.Context
 {
     public class TaskSession : TaskContext, ITaskSession
     {
-        private readonly ILogger<TaskSession> _log;
-
         private readonly Stopwatch _stopwatch = new Stopwatch();
 
         private bool _disposed;
@@ -19,7 +17,6 @@ namespace Flubu.Tasks
         public TaskSession(ILogger<TaskSession> log, ITaskContextSession taskContextProperties, CommandArguments args)
             : base(log, taskContextProperties, args)
         {
-            _log = log;
             HasFailed = true;
         }
 

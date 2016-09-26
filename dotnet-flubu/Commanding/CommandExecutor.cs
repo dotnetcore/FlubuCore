@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Flubu.Context;
 using Flubu.Scripting;
 using Flubu.Tasks;
 using Microsoft.Extensions.Logging;

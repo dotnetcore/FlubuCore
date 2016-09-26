@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
+using Flubu.Context;
 using Flubu.Scripting;
-using Flubu.Tasks;
 using Moq;
 using Xunit;
 
@@ -51,7 +51,7 @@ public partial class MyBuildScript
                 .Returns(@"
 using Flubu.Scripting;
 using System;
-using Flubu.Tasks;
+using Flubu.Context;
 
 public class MyBuildScript : IBuildScript
 {

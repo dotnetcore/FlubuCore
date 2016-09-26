@@ -1,4 +1,4 @@
-﻿using Flubu.Tasks;
+﻿using Flubu.Context;
 using Flubu.Tasks.NetCore;
 using Xunit;
 

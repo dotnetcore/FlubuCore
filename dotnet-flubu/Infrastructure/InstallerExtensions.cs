@@ -1,4 +1,5 @@
 ﻿using Flubu.Commanding;
+using Flubu.Context;
 using Flubu.Scripting;
 using Flubu.Tasks;
 using Microsoft.Extensions.CommandLineUtils;

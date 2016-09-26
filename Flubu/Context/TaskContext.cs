@@ -1,8 +1,9 @@
 ﻿using System;
+using Flubu.Context;
 using Flubu.Scripting;
 using Microsoft.Extensions.Logging;
 
-namespace Flubu.Tasks
+namespace Flubu.Context
 {
     public class TaskContext : ITaskContext
     {
