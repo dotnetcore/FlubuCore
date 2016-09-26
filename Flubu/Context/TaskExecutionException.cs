@@ -4,11 +4,6 @@ namespace Flubu.Context
 {
     public class TaskExecutionException : Exception
     {
-        public TaskExecutionException(string message)
-            : base(message)
-        {
-        }
-
         public TaskExecutionException(string message, int errorCode)
             : base(message)
         {

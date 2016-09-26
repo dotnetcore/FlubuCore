@@ -45,7 +45,7 @@ namespace Flubu.Tasks.Versioning
 
             if (_version == null)
             {
-                throw new TaskExecutionException("Version is not set!");
+                throw new TaskExecutionException("Version is not set!", 1);
             }
 
             string newVersion = _version.ToString(3);
