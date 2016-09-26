@@ -19,7 +19,7 @@ namespace Flubu.Scripting
             _args = args;
         }
 
-        public async Task<IBuildScript> FindAndCreateBuildScriptInstance(string fileName)
+        public async Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(string fileName)
         {
             var opts = ScriptOptions.Default
                 .WithReferences(LoadAssembly<object>())
@@ -31,7 +31,10 @@ namespace Flubu.Scripting
 
             if (!string.IsNullOrEmpty(_args.ScriptAssembly))
             {
-                opts.WithReferences(_args.ScriptAssembly);
+                opts
+                    .AddReferences(_args.ScriptAssembly)
+                    .AddImports("Flubu.BuildScript");
+
                 script = CSharpScript
                     .Create(@"var sc = new MyBuildScript();", opts);
             }

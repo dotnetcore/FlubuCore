@@ -40,7 +40,7 @@ public partial class MyBuildScript
         }
     }");
 
-            IBuildScript t = await _loader.FindAndCreateBuildScriptInstance("e.cs");
+            IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync("e.cs");
 
             t.Run(new TaskSession(null, new TaskContextSession(), new TargetTree(), new CommandArguments()));
         }
@@ -63,7 +63,21 @@ public class MyBuildScript : IBuildScript
     }
 }");
 
-            IBuildScript t = await _loader.FindAndCreateBuildScriptInstance("e.cs");
+            IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync("e.cs");
+            t.Run(new TaskSession(null, new TaskContextSession(), new TargetTree(), new CommandArguments()));
+        }
+
+        [Fact(Skip = "Fix test")]
+        public async Task AssemblyLoad()
+        {
+            var args = new CommandArguments
+            {
+                ScriptAssembly = @"D:\src\flubu.core\Flubu.BuildScript\bin\Debug\netcoreapp1.0\Flubu.BuildScript.dll"
+            };
+
+            ScriptLoader loader = new ScriptLoader(_fileLoader.Object, args);
+
+            IBuildScript t = await loader.FindAndCreateBuildScriptInstanceAsync("e.cs");
             t.Run(new TaskSession(null, new TaskContextSession(), new TargetTree(), new CommandArguments()));
         }
     }

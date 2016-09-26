@@ -38,7 +38,7 @@ namespace Flubu.Scripting
 
         private Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(string fileName)
         {
-            return _scriptLoader.FindAndCreateBuildScriptInstance(fileName);
+            return _scriptLoader.FindAndCreateBuildScriptInstanceAsync(fileName);
         }
 
         private string GetFileName(CommandArguments args)
