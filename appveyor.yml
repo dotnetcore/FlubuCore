@@ -1,0 +1,34 @@
+version: 1.0.{build}
+nuget:
+  account_feed: true
+  project_feed: true
+build_script:
+- cmd: >-
+    dotnet restore Flubu
+
+    dotnet restore dotnet-flubu
+
+    dotnet restore Flubu.Tests
+
+    dotnet pack Flubu -c Release --version-suffix %APPVEYOR_BUILD_NUMBER%
+
+    dotnet pack dotnet-flubu -c Release --version-suffix %APPVEYOR_BUILD_NUMBER%
+
+    appveyor PushArtifact dotnet-flubu\bin\Release\*.nupkg
+
+    appveyor PushArtifact Flubu\bin\Release\*.nupkg
+test_script:
+- cmd: dotnet test Flubu.Tests -xml results.xml
+artifacts:
+- path: Flubu\bin\Release\*.nupkg
+  name: Flubu
+- path: dotnet-flubu\bin\Release\*.nupkg
+  name: dotnet-flubu
+notifications:
+- provider: Email
+  to:
+  - zoro.zorec@gmail.com
+  - mzorec@gmail.com
+  on_build_success: false
+  on_build_failure: true
+  on_build_status_changed: true
