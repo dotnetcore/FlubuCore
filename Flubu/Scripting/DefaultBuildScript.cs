@@ -28,7 +28,7 @@ namespace Flubu.Scripting
 
         protected abstract void ConfigureBuildProperties(ITaskSession session);
 
-        protected abstract TargetTree ConfigureTargets(ITaskSession session);
+        protected abstract void ConfigureTargets(ITaskSession session);
 
         private static string ParseCmdLineArgs(ITaskContext context, TargetTree targetTree)
         {
@@ -48,7 +48,7 @@ namespace Flubu.Scripting
 
         private int RunBuild(ITaskSession taskSession)
         {
-            taskSession.TargetTree = ConfigureTargets(taskSession);
+            ConfigureTargets(taskSession);
 
             ConfigureBuildProperties(taskSession);
 

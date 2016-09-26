@@ -4,8 +4,6 @@ namespace Flubu.Scripting
 {
     public class CommandArguments
     {
-        public string BuildBasePath { get; set; }
-
         public string Config { get; set; }
 
         public bool Help { get; set; }
@@ -14,10 +12,10 @@ namespace Flubu.Scripting
 
         public string Output { get; set; }
 
-        public string ProjectPath { get; set; }
-
         public List<string> RemainingCommands { get; set; }
 
         public string Script { get; set; }
+
+        public string ScriptAssembly { get; set; }
     }
 }

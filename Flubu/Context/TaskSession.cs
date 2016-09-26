@@ -14,13 +14,14 @@ namespace Flubu.Context
 
         private Action<ITaskSession> _onFinishDo;
 
-        public TaskSession(ILogger<TaskSession> log, ITaskContextSession taskContextProperties, CommandArguments args)
+        public TaskSession(ILogger<TaskSession> log, ITaskContextSession taskContextProperties, TargetTree targetTree, CommandArguments args)
             : base(log, taskContextProperties, args)
         {
             HasFailed = true;
+            TargetTree = targetTree;
         }
 
-        public TargetTree TargetTree { get; set; }
+        public TargetTree TargetTree { get; }
 
         public bool HasFailed { get; private set; }
 

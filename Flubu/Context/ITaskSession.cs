@@ -7,7 +7,7 @@ namespace Flubu.Context
     {
         bool HasFailed { get; }
 
-        TargetTree TargetTree { get; set; }
+        TargetTree TargetTree { get; }
 
         void Start(Action<ITaskSession> onFinishDo);
 

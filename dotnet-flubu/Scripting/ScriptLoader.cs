@@ -11,10 +11,12 @@ namespace Flubu.Scripting
     public class ScriptLoader : IScriptLoader
     {
         private readonly IFileLoader _fileLoader;
+        private readonly CommandArguments _args;
 
-        public ScriptLoader(IFileLoader fileLoader)
+        public ScriptLoader(IFileLoader fileLoader, CommandArguments args)
         {
             _fileLoader = fileLoader;
+            _args = args;
         }
 
         public async Task<IBuildScript> FindAndCreateBuildScriptInstance(string fileName)
@@ -25,15 +27,24 @@ namespace Flubu.Scripting
                 .WithReferences(LoadAssembly<object>())
                 .WithReferences(LoadAssembly<DefaultBuildScript>())
                 .WithReferences(LoadAssembly<IBuildScript>());
-            //// .AddReferences("d:\\flubu.buildscript.dll")
-            //// .WithImports("flubu.buildscript");
 
-            Script script = CSharpScript
-                //// .Create(@"var sc = new MyBuildScript();", opts);
-                .Create(code, opts)
-                .ContinueWith("var sc = new MyBuildScript();");
+            // todo create correct class
+            Script script;
 
-            var result = await script.RunAsync();
+            if (!string.IsNullOrEmpty(_args.ScriptAssembly))
+            {
+                opts.WithReferences(_args.ScriptAssembly);
+                script = CSharpScript
+                    .Create(@"var sc = new MyBuildScript();", opts);
+            }
+            else
+            {
+                script = CSharpScript
+                    .Create(code, opts)
+                    .ContinueWith("var sc = new MyBuildScript();");
+            }
+
+            ScriptState result = await script.RunAsync();
 
             return result.Variables[0].Value as IBuildScript;
         }

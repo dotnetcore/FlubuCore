@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Flubu.Context;
 using Flubu.Scripting;
+using Flubu.Targeting;
 using Moq;
 using Xunit;
 
@@ -14,7 +15,7 @@ namespace Flubu.Tests.Scripting
 
         public ScriptExecutionTests()
         {
-            _loader = new ScriptLoader(_fileLoader.Object);
+            _loader = new ScriptLoader(_fileLoader.Object, new CommandArguments());
         }
 
         [Fact(Skip = "buildscript not available in automatic tests")]
@@ -41,7 +42,7 @@ public partial class MyBuildScript
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstance("e.cs");
 
-            t.Run(new TaskSession(null, new TaskContextSession(),  new CommandArguments()));
+            t.Run(new TaskSession(null, new TaskContextSession(), new TargetTree(), new CommandArguments()));
         }
 
         [Fact]
@@ -63,7 +64,7 @@ public class MyBuildScript : IBuildScript
 }");
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstance("e.cs");
-            t.Run(new TaskSession(null, new TaskContextSession(),  new CommandArguments()));
+            t.Run(new TaskSession(null, new TaskContextSession(), new TargetTree(), new CommandArguments()));
         }
     }
 }

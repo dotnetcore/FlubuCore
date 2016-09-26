@@ -56,37 +56,37 @@ namespace Flubu.Tasks.Versioning
         protected override int DoExecute(ITaskContext context)
         {
             if (string.IsNullOrEmpty(BuildConfiguration))
-                BuildConfiguration = context.TryGet<string>(ContextPropertiesExtensions.BuildConfiguration);
+                BuildConfiguration = context.TryGet<string>(BuildProps.BuildConfiguration);
 
             if (BuildVersion == null)
-                BuildVersion = context.TryGet<Version>(ContextPropertiesExtensions.BuildVersion);
+                BuildVersion = context.TryGet<Version>(BuildProps.BuildVersion);
 
             if (string.IsNullOrEmpty(CompanyCopyright))
-                CompanyCopyright = context.TryGet(ContextPropertiesExtensions.CompanyCopyright, string.Empty);
+                CompanyCopyright = context.TryGet(BuildProps.CompanyCopyright, string.Empty);
 
             if (string.IsNullOrEmpty(CompanyName))
-                CompanyName = context.TryGet(ContextPropertiesExtensions.CompanyName, string.Empty);
+                CompanyName = context.TryGet(BuildProps.CompanyName, string.Empty);
 
             if (string.IsNullOrEmpty(CompanyTrademark))
-                CompanyTrademark = context.TryGet(ContextPropertiesExtensions.CompanyTrademark, string.Empty);
+                CompanyTrademark = context.TryGet(BuildProps.CompanyTrademark, string.Empty);
 
             if (string.IsNullOrEmpty(ProductName))
             {
-                string productId = context.TryGet<string>(ContextPropertiesExtensions.ProductId);
-                ProductName = context.TryGet(ContextPropertiesExtensions.ProductName, productId);
+                string productId = context.TryGet<string>(BuildProps.ProductId);
+                ProductName = context.TryGet(BuildProps.ProductName, productId);
             }
 
             if (string.IsNullOrEmpty(ProductRootDir))
-                ProductRootDir = context.TryGet(ContextPropertiesExtensions.ProductRootDir, ".");
+                ProductRootDir = context.TryGet(BuildProps.ProductRootDir, ".");
 
             if (!_generateAssemblyVersionSet)
-                _generateAssemblyVersion = context.TryGet(ContextPropertiesExtensions.AutoAssemblyVersion, true);
+                _generateAssemblyVersion = context.TryGet(BuildProps.AutoAssemblyVersion, true);
 
             if (string.IsNullOrEmpty(InformationalVersion))
-                InformationalVersion = context.TryGet<string>(ContextPropertiesExtensions.InformationalVersion);
+                InformationalVersion = context.TryGet<string>(BuildProps.InformationalVersion);
 
             if (ProductVersionFieldCount <= 0)
-                ProductVersionFieldCount = context.TryGet(ContextPropertiesExtensions.ProductVersionFieldCount, 2);
+                ProductVersionFieldCount = context.TryGet(BuildProps.ProductVersionFieldCount, 2);
 
             if (BuildVersion == null)
             {

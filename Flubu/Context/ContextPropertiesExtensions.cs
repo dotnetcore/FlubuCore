@@ -5,26 +5,14 @@ namespace Flubu.Context
 {
     public static class ContextPropertiesExtensions
     {
-        public const string BuildVersion = "build_version";
-        public const string BuildConfiguration = "build_configuration";
-        public const string CompanyCopyright = "company_copyright";
-        public const string CompanyName = "company_name";
-        public const string CompanyTrademark = "company_trademark";
-        public const string ProductId = "product_id";
-        public const string ProductName = "product_name";
-        public const string ProductRootDir = "product_root_dir";
-        public const string AutoAssemblyVersion = "auto_assembly_version";
-        public const string InformationalVersion = "informational_version";
-        public const string ProductVersionFieldCount = "product_version_field_count";
-
         public static Version GetBuildVersion(this ITaskContext context)
         {
-            return context.Properties.TryGet<Version>(BuildVersion);
+            return context.Properties.TryGet<Version>(BuildProps.BuildVersion);
         }
 
         public static Version SetBuildVersion(this ITaskContext context, Version version)
         {
-            context.Properties.Set<Version>(BuildVersion, version);
+            context.Properties.Set<Version>(BuildProps.BuildVersion, version);
             return version;
         }
 

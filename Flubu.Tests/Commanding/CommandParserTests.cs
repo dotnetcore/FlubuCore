@@ -62,13 +62,13 @@ namespace Flubu.Tests.Commanding
         }
 
         [Theory]
-        [InlineData("-p")]
-        [InlineData("--project")]
+        [InlineData("-a")]
+        [InlineData("--assembly")]
         public void ParseProjectPath(string value)
         {
             var res = _parser.Parse(new[] { "test", value, "testp" });
 
-            Assert.Equal("testp", res.ProjectPath);
+            Assert.Equal("testp", res.ScriptAssembly);
         }
 
         [Fact]
