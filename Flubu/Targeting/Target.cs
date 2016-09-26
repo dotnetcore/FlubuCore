@@ -9,6 +9,8 @@ namespace Flubu.Targeting
     {
         private readonly List<string> _dependencies = new List<string>();
 
+        private readonly List<ITask> _tasks = new List<ITask>();
+
         private string _description;
 
         private Action<ITaskContext> _targetAction;
@@ -46,6 +48,11 @@ namespace Flubu.Targeting
         protected override bool LogDuration => true;
 
         protected override string DescriptionForLog => TargetName;
+
+        public static ITarget Create(string targetName)
+        {
+            return new Target(targetName);
+        }
 
         /// <summary>
         ///     Specifies targets on which this target depends on.
@@ -115,10 +122,11 @@ namespace Flubu.Targeting
         ///     Adds this target to target tree.
         /// </summary>
         /// <param name="targetTree">The <see cref="TargetTree" /> that target will be added to.</param>
-        public void AddToTargetTree(TargetTree targetTree)
+        public TargetTree AddToTargetTree(TargetTree targetTree)
         {
             _targetTree = targetTree;
             targetTree.AddTarget(this);
+            return targetTree;
         }
 
         /// <summary>
@@ -136,6 +144,12 @@ namespace Flubu.Targeting
             return this;
         }
 
+        public ITarget AddTask(params ITask[] tasks)
+        {
+            _tasks.AddRange(tasks);
+            return this;
+        }
+
         protected override int DoExecute(ITaskContext context)
         {
             if (_targetTree == null)
@@ -148,7 +162,15 @@ namespace Flubu.Targeting
 
             // we can have action-less targets (that only depend on other targets)
             _targetAction?.Invoke(context);
-            return 0;
+
+            int res = 0;
+
+            foreach (ITask task in _tasks)
+            {
+                res = task.Execute(context);
+            }
+
+            return res;
         }
     }
 }

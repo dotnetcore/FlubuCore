@@ -56,6 +56,8 @@ namespace Flubu.Targeting
         ///     Adds this target to target tree.
         /// </summary>
         /// <param name="targetTree">The <see cref="TargetTree" /> that target will be added to.</param>
-        void AddToTargetTree(TargetTree targetTree);
+        TargetTree AddToTargetTree(TargetTree targetTree);
+
+        ITarget AddTask(params ITask[] tasks);
     }
 }
