@@ -19,11 +19,6 @@ build_script:
     appveyor PushArtifact Flubu\bin\Release\Flubu.1.0.0-%APPVEYOR_BUILD_NUMBER%.nupkg
 test_script:
 - cmd: dotnet test Flubu.Tests -xml results.xml
-artifacts:
-- path: Flubu\bin\Release\*.nupkg
-  name: Flubu
-- path: dotnet-flubu\bin\Release\*.nupkg
-  name: dotnet-flubu
 notifications:
 - provider: Email
   to:
