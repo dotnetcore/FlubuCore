@@ -6,10 +6,9 @@ namespace Flubu.Packaging
 {
     public interface IZipper
     {
-        ////void ZipFiles(
-        ////    FileFullPath zipFileName,
-        ////    FullPath baseDir,
-        ////    int? compressionLevel,
-        ////    IEnumerable<FileFullPath> filesToZip);
+        void ZipFiles(
+            FileFullPath zipFileName,
+            FullPath baseDir,
+            IEnumerable<FileFullPath> filesToZip);
     }
 }

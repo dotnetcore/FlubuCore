@@ -59,7 +59,7 @@ namespace Flubu.Packaging
                 }
             }
 
-            ////zipper.ZipFiles(zipFileName, baseDir, compressionLevel, filesToZip);
+            _zipper.ZipFiles(_zipFileName, _baseDir, filesToZip);
 
             SingleFileSource singleFileSource = new SingleFileSource("zip", _zipFileName);
             zippedPackageDef.AddFilesSource(singleFileSource);

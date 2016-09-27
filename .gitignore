@@ -15,3 +15,7 @@
 /obj
 /results.xml
 /Flubu.BuildScript/.vscode
+flubu.tests/tmp/
+flubu.core/bin/
+flubu.core/obj/Debug/netstandard1.6/.IncrementalCache
+flubu.core/obj/
