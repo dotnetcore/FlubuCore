@@ -61,16 +61,6 @@ namespace Flubu.Tests.Commanding
             Assert.Equal("b.cs", res.Script);
         }
 
-        [Theory]
-        [InlineData("-a")]
-        [InlineData("--assembly")]
-        public void ParseProjectPath(string value)
-        {
-            var res = _parser.Parse(new[] { "test", value, "testp" });
-
-            Assert.Equal("testp", res.ScriptAssembly);
-        }
-
         [Fact]
         public void ParseEmpty()
         {

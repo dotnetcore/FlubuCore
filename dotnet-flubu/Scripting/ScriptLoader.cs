@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
@@ -22,35 +25,38 @@ namespace DotNet.Cli.Flubu.Scripting
 
         public async Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(string fileName)
         {
-            var opts = ScriptOptions.Default
-                .WithReferences(LoadAssembly<object>())
-                .WithReferences(LoadAssembly<DefaultBuildScript>())
-                .WithReferences(LoadAssembly<IBuildScript>());
+            var dd = typeof(Enumerable).GetTypeInfo().Assembly.Location;
+            var coreDir = Directory.GetParent(dd);
 
-            // todo create correct class
+            List<MetadataReference> references = new List<MetadataReference>
+            {
+                // Here we get the path to the mscorlib and private mscorlib
+                // libraries that are required for compilation to succeed.
+                MetadataReference.CreateFromFile(coreDir.FullName + Path.DirectorySeparatorChar + "mscorlib.dll"),
+                MetadataReference.CreateFromFile(typeof(object).GetTypeInfo().Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(DefaultBuildScript).GetTypeInfo().Assembly.Location)
+            };
+
+            // Enumerate all assemblies referenced by this executing assembly
+            // and provide them as references to the build script we're about to
+            // compile.
+            AssemblyName[] referencedAssemblies = Assembly.GetEntryAssembly().GetReferencedAssemblies();
+            foreach (var referencedAssembly in referencedAssemblies)
+            {
+                Assembly loadedAssembly = Assembly.Load(referencedAssembly);
+                references.Add(MetadataReference.CreateFromFile(loadedAssembly.Location));
+            }
+
+            var opts = ScriptOptions.Default
+                .WithReferences(references);
+
             Script script;
 
-            if (!string.IsNullOrEmpty(_args.ScriptAssembly))
-            {
-                Console.WriteLine($"Loading assembly {_args.ScriptAssembly}");
+            string code = _fileLoader.LoadFile(fileName);
 
-                opts
-                    .AddReferences(_args.ScriptAssembly)
-                    .WithReferences(_args.ScriptAssembly)
-                    .AddReferences("d:\\flubu.buildscript.dll")
-                    .WithReferences("d:\\flubu.buildscript.dll");
-
-                script = CSharpScript
-                    .Create(@"var sc = new MyBuildScript();", opts);
-            }
-            else
-            {
-                string code = _fileLoader.LoadFile(fileName);
-
-                script = CSharpScript
-                    .Create(code, opts)
-                    .ContinueWith("var sc = new MyBuildScript();");
-            }
+            script = CSharpScript
+                .Create(code, opts)
+                .ContinueWith("var sc = new MyBuildScript();");
 
             ScriptState result = await script.RunAsync();
 

@@ -15,7 +15,5 @@ namespace FlubuCore.Scripting
         public List<string> RemainingCommands { get; set; }
 
         public string Script { get; set; }
-
-        public string ScriptAssembly { get; set; }
     }
 }

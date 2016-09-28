@@ -19,25 +19,24 @@ namespace Flubu.Tests.Scripting
             _loader = new ScriptLoader(_fileLoader.Object, new CommandArguments());
         }
 
-        [Fact(Skip = "buildscript not available in automatic tests")]
+        [Fact]
         public async Task LoadDefaultScript()
         {
             _fileLoader.Setup(i => i.LoadFile("e.cs")).Returns(@"
 using System;
-using System.Diagnostics;
+using FlubuCore.Context;
+using FlubuCore.Scripting;
 
-public partial class MyBuildScript
+public class MyBuildScript : DefaultBuildScript
 {
-    protected override void ConfigureBuildProperties(flubu.TaskSession session)
+    protected override void ConfigureBuildProperties(ITaskSession session)
     {
-        Console.WriteLine(""2222"");
-        Debug.WriteLine(""2222"");
+        System.Console.WriteLine(""2222"");
         }
 
-        protected override void ConfigureTargets(Flubu.Targeting.TargetTree targetTree, Flubu.Scripting.CommandArguments args)
+        protected override void ConfigureTargets(ITaskSession session)
         {
-            WriteLine(""2222"");
-            Debug.WriteLine(""2222"");
+            Console.WriteLine(""2222"");
         }
     }");
 
@@ -65,20 +64,6 @@ public class MyBuildScript : IBuildScript
 }");
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync("e.cs");
-            t.Run(new TaskSession(null, new TaskContextSession(), new TargetTree(), new CommandArguments()));
-        }
-
-        [Fact(Skip = "Fix test")]
-        public async Task AssemblyLoad()
-        {
-            var args = new CommandArguments
-            {
-                ScriptAssembly = @"D:\src\flubu.core\Flubu.BuildScript\bin\Debug\netcoreapp1.0\Flubu.BuildScript.dll"
-            };
-
-            ScriptLoader loader = new ScriptLoader(_fileLoader.Object, args);
-
-            IBuildScript t = await loader.FindAndCreateBuildScriptInstanceAsync("e.cs");
             t.Run(new TaskSession(null, new TaskContextSession(), new TargetTree(), new CommandArguments()));
         }
     }
