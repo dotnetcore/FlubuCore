@@ -32,9 +32,13 @@ namespace DotNet.Cli.Flubu.Scripting
 
             if (!string.IsNullOrEmpty(_args.ScriptAssembly))
             {
+                Console.WriteLine($"Loading assembly {_args.ScriptAssembly}");
+
                 opts
                     .AddReferences(_args.ScriptAssembly)
-                    .AddImports("Flubu.BuildScript");
+                    .WithReferences(_args.ScriptAssembly)
+                    .AddReferences("d:\\flubu.buildscript.dll")
+                    .WithReferences("d:\\flubu.buildscript.dll");
 
                 script = CSharpScript
                     .Create(@"var sc = new MyBuildScript();", opts);
