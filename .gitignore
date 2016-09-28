@@ -19,3 +19,5 @@ flubu.tests/tmp/
 flubu.core/bin/
 flubu.core/obj/Debug/netstandard1.6/.IncrementalCache
 flubu.core/obj/
+/FlubuCore/bin
+/FlubuCore/obj

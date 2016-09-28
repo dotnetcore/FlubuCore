@@ -4,19 +4,19 @@ nuget:
   project_feed: true
 build_script:
 - cmd: >-
-    dotnet restore Flubu
+    dotnet restore FlubuCore
 
     dotnet restore dotnet-flubu
 
     dotnet restore Flubu.Tests
 
-    dotnet pack Flubu -c Release --version-suffix %APPVEYOR_BUILD_NUMBER%
+    dotnet pack FlubuCore -c Release --version-suffix %APPVEYOR_BUILD_NUMBER%
 
     dotnet pack dotnet-flubu -c Release --version-suffix %APPVEYOR_BUILD_NUMBER%
 
     appveyor PushArtifact dotnet-flubu\bin\Release\dotnet-flubu.1.0.0-%APPVEYOR_BUILD_NUMBER%.nupkg
 
-    appveyor PushArtifact Flubu\bin\Release\Flubu.1.0.0-%APPVEYOR_BUILD_NUMBER%.nupkg
+    appveyor PushArtifact FlubuCore\bin\Release\FlubuCore.1.0.0-%APPVEYOR_BUILD_NUMBER%.nupkg
 test_script:
 - cmd: dotnet test Flubu.Tests -xml results.xml
 notifications:

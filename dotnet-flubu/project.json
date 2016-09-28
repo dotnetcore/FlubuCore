@@ -24,7 +24,7 @@
         "Microsoft.Extensions.Logging": "1.0.0",
         "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
         "Microsoft.Extensions.DependencyInjection": "1.0.0",
-        "Flubu": "1.0.0-*",
+        "FlubuCore": "1.0.0-*",
         "Microsoft.Extensions.Logging.Console": "1.0.0",
         "StyleCop.Analyzers": "1.0.0",
         "Documentation.Analyser": "1.0.6092.26771"
