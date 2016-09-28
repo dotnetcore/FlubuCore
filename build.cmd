@@ -8,7 +8,7 @@ dotnet restore FlubuCore
 dotnet restore dotnet-flubu
 dotnet restore Flubu.Tests
 
-dotnet pack FlubuCore -c Release --version-suffix %1
-dotnet pack dotnet-flubu -c Release --version-suffix %1
+dotnet pack FlubuCore -c Release
+dotnet pack dotnet-flubu -c Release
 
 dotnet test Flubu.Tests -xml results.xml
