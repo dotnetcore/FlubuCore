@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using Flubu.Commanding;
-using Flubu.Infrastructure;
+using DotNet.Cli.Flubu.Commanding;
+using DotNet.Cli.Flubu.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

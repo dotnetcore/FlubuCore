@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Flubu.Context;
-using Flubu.Tasks;
+using FlubuCore.Context;
+using FlubuCore.Tasks;
 
-namespace Flubu.Targeting
+namespace FlubuCore.Targeting
 {
     public class Target : TaskBase, ITarget
     {

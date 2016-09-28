@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Flubu.Context;
-using Flubu.Tasks.Text;
+using FlubuCore.Context;
+using FlubuCore.Tasks.Text;
 
-namespace Flubu.Tasks.Versioning
+namespace FlubuCore.Tasks.Versioning
 {
     public class UpdateNetCoreVersionTask : TaskBase
     {

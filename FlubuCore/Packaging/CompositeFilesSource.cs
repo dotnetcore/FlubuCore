@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Flubu.Packaging
+namespace FlubuCore.Packaging
 {
     public class CompositeFilesSource : ICompositeFilesSource
     {

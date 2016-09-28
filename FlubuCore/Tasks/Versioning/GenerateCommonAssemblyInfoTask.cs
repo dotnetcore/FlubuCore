@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
-using Flubu.Context;
+using FlubuCore.Context;
 
-namespace Flubu.Tasks.Versioning
+namespace FlubuCore.Tasks.Versioning
 {
     public class GenerateCommonAssemblyInfoTask : TaskBase
     {

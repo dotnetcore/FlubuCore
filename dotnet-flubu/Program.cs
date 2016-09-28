@@ -1,11 +1,10 @@
 ﻿using System;
-using Flubu.Commanding;
-using Flubu.Infrastructure;
+using DotNet.Cli.Flubu.Commanding;
+using DotNet.Cli.Flubu.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 
-namespace Flubu
+namespace DotNet.Cli.Flubu
 {
     public class Program
     {

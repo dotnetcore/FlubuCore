@@ -1,7 +1,6 @@
-using Flubu.Context;
-using Flubu.Tasks;
+using FlubuCore.Context;
 
-namespace Flubu.Scripting
+namespace FlubuCore.Scripting
 {
     public interface IBuildScript
     {

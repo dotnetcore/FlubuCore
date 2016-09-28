@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Flubu.Context
+namespace FlubuCore.Context
 {
     public static class ContextPropertiesExtensions
     {

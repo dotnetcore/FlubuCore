@@ -1,6 +1,6 @@
-﻿using Flubu.Scripting;
+﻿using FlubuCore.Scripting;
 
-namespace Flubu.Commanding
+namespace DotNet.Cli.Flubu.Commanding
 {
     public interface IFlubuCommandParser
     {

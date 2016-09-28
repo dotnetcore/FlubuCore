@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Flubu.Tasks.Solution
+namespace FlubuCore.Tasks.Solution
 {
     public interface IFetchBuildVersionTask : ITask
     {

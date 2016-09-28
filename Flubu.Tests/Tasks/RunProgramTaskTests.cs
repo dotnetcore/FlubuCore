@@ -1,4 +1,4 @@
-﻿using Flubu.Tasks.Process;
+﻿using FlubuCore.Tasks.Process;
 using Xunit;
 
 namespace Flubu.Tests.Tasks

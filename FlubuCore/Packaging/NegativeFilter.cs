@@ -1,4 +1,4 @@
-namespace Flubu.Packaging
+namespace FlubuCore.Packaging
 {
     public class NegativeFilter : IFileFilter
     {

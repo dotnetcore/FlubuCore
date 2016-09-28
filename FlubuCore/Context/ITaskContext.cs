@@ -1,7 +1,7 @@
 ﻿using System;
-using Flubu.Scripting;
+using FlubuCore.Scripting;
 
-namespace Flubu.Context
+namespace FlubuCore.Context
 {
     public interface ITaskContext : IDisposable
     {

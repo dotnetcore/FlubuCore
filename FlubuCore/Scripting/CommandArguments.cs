@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Flubu.Scripting
+namespace FlubuCore.Scripting
 {
     public class CommandArguments
     {

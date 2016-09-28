@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Flubu.Packaging
+namespace FlubuCore.Packaging
 {
     public interface ICompositeFilesSource : IFilesSource
     {

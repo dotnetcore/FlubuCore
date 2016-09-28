@@ -1,6 +1,6 @@
 using System;
 
-namespace Flubu.Context
+namespace FlubuCore.Context
 {
     public class TaskExecutionException : Exception
     {

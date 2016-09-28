@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
+using FlubuCore.Scripting;
 using Microsoft.Extensions.Logging;
 
-namespace Flubu.Scripting
+namespace DotNet.Cli.Flubu.Scripting
 {
     public class BuildScriptLocator : IBuildScriptLocator
     {

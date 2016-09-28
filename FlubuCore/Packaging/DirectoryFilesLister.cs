@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Flubu.Packaging
+namespace FlubuCore.Packaging
 {
     public class DirectoryFilesLister : IDirectoryFilesLister
     {

@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Flubu.Packaging
+namespace FlubuCore.Packaging
 {
     public class RegexFileFilter : IFileFilter
     {

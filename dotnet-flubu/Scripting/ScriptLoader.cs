@@ -2,11 +2,12 @@
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
+using FlubuCore.Scripting;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 
-namespace Flubu.Scripting
+namespace DotNet.Cli.Flubu.Scripting
 {
     public class ScriptLoader : IScriptLoader
     {

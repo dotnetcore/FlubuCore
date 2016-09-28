@@ -1,14 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using Flubu.Context;
-using Flubu.IO;
-using Flubu.Tasks;
+using FlubuCore.Context;
+using FlubuCore.IO;
 
-namespace Flubu.Packaging
+namespace FlubuCore.Packaging
 {
     public class CopyProcessor : IPackageProcessor
     {

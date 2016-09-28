@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Flubu.Context;
+using FlubuCore.Context;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NuGet.Packaging;
 
-namespace Flubu.Tasks.Text
+namespace FlubuCore.Tasks.Text
 {
     public class UpdateJsonFileTask : TaskBase
     {

@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Flubu.Context;
-using Flubu.Scripting;
-using Flubu.Targeting;
+using DotNet.Cli.Flubu.Scripting;
+using FlubuCore.Context;
+using FlubuCore.Scripting;
+using FlubuCore.Targeting;
 using Moq;
 using Xunit;
 
@@ -50,9 +51,9 @@ public partial class MyBuildScript
         {
             _fileLoader.Setup(i => i.LoadFile("e.cs"))
                 .Returns(@"
-using Flubu.Scripting;
+using FlubuCore.Scripting;
 using System;
-using Flubu.Context;
+using FlubuCore.Context;
 
 public class MyBuildScript : IBuildScript
 {

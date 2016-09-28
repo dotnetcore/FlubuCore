@@ -1,10 +1,8 @@
-using System;
 using System.IO;
-using Flubu.Context;
-using Flubu.IO;
-using Flubu.Tasks;
+using FlubuCore.Context;
+using FlubuCore.IO;
 
-namespace Flubu.Packaging
+namespace FlubuCore.Packaging
 {
     public class Copier : ICopier
     {

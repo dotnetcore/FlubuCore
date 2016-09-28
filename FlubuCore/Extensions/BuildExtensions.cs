@@ -1,7 +1,7 @@
-﻿using Flubu.Targeting;
-using Flubu.Tasks.NetCore;
+﻿using FlubuCore.Targeting;
+using FlubuCore.Tasks.NetCore;
 
-namespace Flubu.Extensions
+namespace FlubuCore.Extensions
 {
     public static class BuildExtensions
     {

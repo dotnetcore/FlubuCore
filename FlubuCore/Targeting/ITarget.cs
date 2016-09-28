@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Flubu.Context;
-using Flubu.Tasks;
+using FlubuCore.Context;
+using FlubuCore.Tasks;
 
-namespace Flubu.Targeting
+namespace FlubuCore.Targeting
 {
     public interface ITarget : ITask
     {

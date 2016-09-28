@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Flubu.Context;
-using Flubu.Targeting;
-using Flubu.Tasks;
+using FlubuCore.Context;
+using FlubuCore.Targeting;
 
-namespace Flubu.Scripting
+namespace FlubuCore.Scripting
 {
     public abstract class DefaultBuildScript : IBuildScript
     {

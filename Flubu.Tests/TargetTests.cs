@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Flubu.Targeting;
+using FlubuCore.Targeting;
 using Xunit;
 
 namespace Flubu.Tests

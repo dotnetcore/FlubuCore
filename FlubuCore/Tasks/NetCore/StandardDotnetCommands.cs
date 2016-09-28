@@ -1,4 +1,4 @@
-﻿namespace Flubu.Tasks.NetCore
+﻿namespace FlubuCore.Tasks.NetCore
 {
     public enum StandardDotnetCommands
     {

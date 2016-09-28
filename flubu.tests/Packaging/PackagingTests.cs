@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Threading.Tasks;
-using Flubu.Context;
-using Flubu.IO;
-using Flubu.Packaging;
 using Flubu.Tests.Tasks;
-using Microsoft.Extensions.Logging;
+using FlubuCore.IO;
+using FlubuCore.Packaging;
 using Xunit;
 
 namespace Flubu.Tests.Packaging

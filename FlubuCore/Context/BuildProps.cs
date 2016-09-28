@@ -1,4 +1,4 @@
-﻿namespace Flubu.Context
+﻿namespace FlubuCore.Context
 {
     public static class BuildProps
     {

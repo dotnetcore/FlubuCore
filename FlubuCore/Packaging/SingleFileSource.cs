@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Flubu.IO;
+using FlubuCore.IO;
 
-namespace Flubu.Packaging
+namespace FlubuCore.Packaging
 {
     public class SingleFileSource : IFilesSource
     {

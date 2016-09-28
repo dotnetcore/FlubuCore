@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Flubu.Packaging
+namespace FlubuCore.Packaging
 {
     [Flags]
     public enum CopyProcessorTransformationOptions

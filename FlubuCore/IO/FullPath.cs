@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Flubu.IO
+namespace FlubuCore.IO
 {
     public class FullPath : IPathBuilder
     {

@@ -1,8 +1,8 @@
 using System;
 using System.Diagnostics;
-using Flubu.Context;
+using FlubuCore.Context;
 
-namespace Flubu.Tasks
+namespace FlubuCore.Tasks
 {
     /// <summary>
     ///     A base abstract class from which tasks can be implemented.

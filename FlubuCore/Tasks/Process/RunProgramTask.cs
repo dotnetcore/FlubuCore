@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Flubu.Context;
+using FlubuCore.Context;
 using Microsoft.DotNet.Cli.Utils;
 
-namespace Flubu.Tasks.Process
+namespace FlubuCore.Tasks.Process
 {
     public class RunProgramTask : TaskBase
     {

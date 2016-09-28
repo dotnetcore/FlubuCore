@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Flubu.Context;
+using FlubuCore.Context;
 
-namespace Flubu.Tasks
+namespace FlubuCore.Tasks
 {
     /// <summary>
     ///     Specifies basic properties and methods for a task.

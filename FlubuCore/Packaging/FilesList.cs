@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Flubu.Packaging
+namespace FlubuCore.Packaging
 {
     public class FilesList : IFilesSource
     {

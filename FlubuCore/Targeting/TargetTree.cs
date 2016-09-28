@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Flubu.Context;
+using FlubuCore.Context;
 
-namespace Flubu.Targeting
+namespace FlubuCore.Targeting
 {
     public class TargetTree
     {

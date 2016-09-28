@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Flubu.Context;
-using Flubu.Tasks.Process;
+using FlubuCore.Context;
+using FlubuCore.Tasks.Process;
 
-namespace Flubu.Tasks.NetCore
+namespace FlubuCore.Tasks.NetCore
 {
     public class ExecuteDotnetTask : TaskBase
     {

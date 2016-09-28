@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Flubu.Scripting
+namespace DotNet.Cli.Flubu.Scripting
 {
     public class BuildScriptLocatorException : Exception
     {

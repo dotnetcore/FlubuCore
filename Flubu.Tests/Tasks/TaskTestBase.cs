@@ -1,6 +1,5 @@
-﻿using Flubu.Context;
-using Flubu.Scripting;
-using Flubu.Tasks;
+﻿using FlubuCore.Context;
+using FlubuCore.Scripting;
 using Microsoft.Extensions.Logging;
 
 namespace Flubu.Tests.Tasks

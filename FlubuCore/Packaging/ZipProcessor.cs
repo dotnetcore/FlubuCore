@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using Flubu.Context;
-using Flubu.IO;
-using Flubu.Tasks;
+using FlubuCore.Context;
+using FlubuCore.IO;
 
-namespace Flubu.Packaging
+namespace FlubuCore.Packaging
 {
     public class ZipProcessor : IPackageProcessor
     {

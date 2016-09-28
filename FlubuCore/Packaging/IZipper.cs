@@ -1,8 +1,7 @@
 using System.Collections.Generic;
+using FlubuCore.IO;
 
-using Flubu.IO;
-
-namespace Flubu.Packaging
+namespace FlubuCore.Packaging
 {
     public interface IZipper
     {

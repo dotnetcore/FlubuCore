@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
-using Flubu.Scripting;
-using Flubu.Targeting;
+using FlubuCore.Scripting;
+using FlubuCore.Targeting;
 using Microsoft.Extensions.Logging;
 
-namespace Flubu.Context
+namespace FlubuCore.Context
 {
     public class TaskSession : TaskContext, ITaskSession
     {

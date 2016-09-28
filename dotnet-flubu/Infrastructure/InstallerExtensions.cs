@@ -1,12 +1,11 @@
-﻿using Flubu.Commanding;
-using Flubu.Context;
-using Flubu.Scripting;
-using Flubu.Targeting;
-using Flubu.Tasks;
+﻿using DotNet.Cli.Flubu.Commanding;
+using DotNet.Cli.Flubu.Scripting;
+using FlubuCore.Context;
+using FlubuCore.Targeting;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Flubu.Infrastructure
+namespace DotNet.Cli.Flubu.Infrastructure
 {
     public static class InstallerExtensions
     {

@@ -1,7 +1,6 @@
-using Flubu.Context;
-using Flubu.Tasks;
+using FlubuCore.Context;
 
-namespace Flubu.Packaging
+namespace FlubuCore.Packaging
 {
     public static class LoggingHelper
     {

@@ -1,7 +1,7 @@
 ﻿using System;
-using Flubu.Targeting;
+using FlubuCore.Targeting;
 
-namespace Flubu.Context
+namespace FlubuCore.Context
 {
     public interface ITaskSession : ITaskContext
     {

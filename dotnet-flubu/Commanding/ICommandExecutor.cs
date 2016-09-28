@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Flubu.Commanding
+namespace DotNet.Cli.Flubu.Commanding
 {
     public interface ICommandExecutor
     {

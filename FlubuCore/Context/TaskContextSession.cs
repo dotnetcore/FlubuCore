@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Flubu.Context;
+using FlubuCore.Context;
 
-namespace Flubu.Context
+namespace FlubuCore.Context
 {
     /// <summary>
     /// Used for storing task context properties into session.

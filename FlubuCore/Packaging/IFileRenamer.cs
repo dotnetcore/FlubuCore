@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace Flubu.Packaging
+namespace FlubuCore.Packaging
 {
     public interface IFileRenamer
     {

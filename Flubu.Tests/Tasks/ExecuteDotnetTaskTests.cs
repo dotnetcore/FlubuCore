@@ -1,5 +1,5 @@
-﻿using Flubu.Context;
-using Flubu.Tasks.NetCore;
+﻿using FlubuCore.Context;
+using FlubuCore.Tasks.NetCore;
 using Xunit;
 
 namespace Flubu.Tests.Tasks

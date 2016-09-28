@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Flubu.Scripting
+namespace DotNet.Cli.Flubu.Scripting
 {
     public class FileExistsService : IFileExistsService
     {

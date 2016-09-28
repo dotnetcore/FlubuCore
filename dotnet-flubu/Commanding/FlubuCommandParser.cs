@@ -1,9 +1,9 @@
 using System.IO;
-using Flubu.Scripting;
+using FlubuCore.Scripting;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.CommandLineUtils;
 
-namespace Flubu.Commanding
+namespace DotNet.Cli.Flubu.Commanding
 {
     public class FlubuCommandParser : IFlubuCommandParser
     {

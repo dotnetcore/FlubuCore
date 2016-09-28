@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
-using Flubu.Context;
+using FlubuCore.Context;
 
-namespace Flubu.Tasks.Solution
+namespace FlubuCore.Tasks.Solution
 {
     public class FetchBuildVersionFromFileTask : TaskBase, IFetchBuildVersionTask
     {
