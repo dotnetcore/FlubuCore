@@ -7,19 +7,18 @@
       "version": "1.0.1"
     },
     "dotnet-flubu": {
-      "version": "1.0.0-49",
+      "version": "1.0.61",
       "type": "build"
     }
   },
   "frameworks": {
     "netcoreapp1.0": {
       "imports": [
-        "dotnet5.6",
-        "dnxcore50"
+        "dotnet5.6"
       ]
         }
   },
   "tools": {
-    "dotnet-flubu": "1.0.0-49"
+    "dotnet-flubu": "1.0.61"
   }
 }
