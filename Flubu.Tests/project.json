@@ -17,22 +17,23 @@
     },
     "xunit": "2.1.0",
     "dotnet-test-xunit": "1.0.0-rc2-build10025",
-    "Microsoft.CodeAnalysis.CSharp": "1.3.2",
-    "Microsoft.CodeAnalysis.Common": "1.3.2",
-    "Microsoft.CodeAnalysis.CSharp.Scripting": "1.3.2",
     "moq": "4.6.25-alpha",
-    "dotnet-flubu": "1.0.61",
-    "FlubuCore": "1.0.61",
-    "StyleCop.Analyzers": "1.0.0",
-    "Documentation.Analyser": "1.0.6092.26771"
+    "dotnet-flubu": "1.0.65",
+    "FlubuCore": "1.0.65",
+    "StyleCop.Analyzers": {
+      "type": "build",
+      "version": "1.0.0"
+    },
+    "Documentation.Analyser": {
+      "type": "build",
+      "version": "1.0.6092.26771"
+    }
   },
 
   "frameworks": {
     "netcoreapp1.0": {
-      "dependencies": {
-
-      },
       "imports": [
+        "dotnet5.6",
         "dnxcore50",
         "portable-net45+win8"
       ]
