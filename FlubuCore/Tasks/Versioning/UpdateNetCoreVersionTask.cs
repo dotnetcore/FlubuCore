@@ -40,7 +40,7 @@ namespace FlubuCore.Tasks.Versioning
         {
             if (_version == null)
             {
-                _version = context.Properties.TryGet<Version>("version");
+                _version = context.GetBuildVersion();
             }
 
             if (_version == null)

@@ -49,6 +49,8 @@ namespace FlubuCore.Scripting
         {
             ConfigureTargets(taskSession);
 
+            taskSession.SetBuildVersion(new Version(1, 0));
+
             ConfigureBuildProperties(taskSession);
 
             string targetToRun = ParseCmdLineArgs(taskSession, taskSession.TargetTree);
