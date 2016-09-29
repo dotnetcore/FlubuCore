@@ -8,9 +8,9 @@ build_script:
 
     dotnet flubu compile
 
-    appveyor PushArtifact dotnet-flubu\bin\Release\dotnet-flubu.1.0.%APPVEYOR_BUILD_VERSION%.nupkg
+    appveyor PushArtifact dotnet-flubu\bin\Release\dotnet-flubu.1.0.%APPVEYOR_BUILD_NUMBER%.nupkg
 
-    appveyor PushArtifact FlubuCore\bin\Release\FlubuCore.1.0.%APPVEYOR_BUILD_VERSION%.nupkg
+    appveyor PushArtifact FlubuCore\bin\Release\FlubuCore.1.0.%APPVEYOR_BUILD_NUMBER%.nupkg
 test_script:
 - cmd: dotnet test Flubu.Tests -xml results.xml
 notifications:
