@@ -14,8 +14,6 @@ namespace FlubuCore.Packaging
 
         private readonly FullPath _baseDir;
 
-        private readonly int? _compressionLevel;
-
         private List<string> _sourcesToZip = new List<string>();
 
         private IFileFilter _filter;
@@ -25,14 +23,26 @@ namespace FlubuCore.Packaging
             IZipper zipper,
             FileFullPath zipFileName,
             FullPath baseDir,
-            int? compressionLevel,
             params string[] sources)
         {
             _taskContext = taskContext;
             _zipper = zipper;
             _zipFileName = zipFileName;
             _baseDir = baseDir;
-            _compressionLevel = compressionLevel;
+            _sourcesToZip.AddRange(sources);
+        }
+
+        public ZipProcessor(
+           ITaskContext taskContext,
+           IZipper zipper,
+           FileFullPath zipFileName,
+           FullPath baseDir,
+           List<string> sources)
+        {
+            _taskContext = taskContext;
+            _zipper = zipper;
+            _zipFileName = zipFileName;
+            _baseDir = baseDir;
             _sourcesToZip.AddRange(sources);
         }
 
