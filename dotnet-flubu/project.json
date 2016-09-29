@@ -1,5 +1,5 @@
 {
-  "version": "1.0.65",
+  "version": "1.0.66",
   "buildOptions": {
     "emitEntryPoint": true,
     "warningsAsErrors": true,
@@ -22,7 +22,7 @@
     "Microsoft.Extensions.Logging": "1.0.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "Microsoft.Extensions.DependencyInjection": "1.0.0",
-    "FlubuCore": "1.0.65",
+    "FlubuCore": "1.0.66",
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "StyleCop.Analyzers": {
       "type": "build",
