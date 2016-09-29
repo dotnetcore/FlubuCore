@@ -19,16 +19,15 @@ namespace Flubu.Tests.Tasks
             : base(fixture.LoggerFactory)
         {
             _fixture = fixture;
-        }
-
-        [Fact(Skip = "Fix test")]
-        public void PackagingWihoutFiltersTest()
-        {
             if (Directory.Exists("tmp"))
             {
                 Directory.Delete("tmp", true);
             }
+        }
 
+        [Fact]
+        public void PackagingWihoutFiltersTest()
+        {
             Directory.CreateDirectory("tmp");
             Directory.CreateDirectory(@"tmp\Test");
             using (File.Create(@"tmp\Test\test.txt"))
@@ -47,26 +46,21 @@ namespace Flubu.Tests.Tasks
             new PackageTask(@"tmp\output")
                 .AddDirectoryToPackage("test", @"tmp\test", "test")
                 .AddDirectoryToPackage("test2", @"tmp\test2", "test2")
-                .ZipPackage("@tmp\test.zip")
+                .ZipPackage(@"tmp\test.zip")
                 .Execute(Context);
 
             using (ZipArchive archive = ZipFile.OpenRead("tmp\\test.zip"))
             {
                 Assert.Equal(3, archive.Entries.Count);
                 Assert.Equal(@"test\test.txt", archive.Entries[0].FullName);
-                Assert.Equal(@"test\test1.txt", archive.Entries[0].FullName);
-                Assert.Equal(@"test2\test2.txt", archive.Entries[1].FullName);
+                Assert.Equal(@"test\test1.txt", archive.Entries[1].FullName);
+                Assert.Equal(@"test2\test2.txt", archive.Entries[2].FullName);
             }
         }
 
-        [Fact(Skip = "Fix test")]
+        [Fact]
         public void PackagingWithFiltersTest()
         {
-            if (Directory.Exists("tmp"))
-            {
-                Directory.Delete("tmp", true);
-            }
-
             Directory.CreateDirectory("tmp");
             Directory.CreateDirectory(@"tmp\Test");
             using (File.Create(@"tmp\Test\test.txt"))
@@ -89,7 +83,7 @@ namespace Flubu.Tests.Tasks
             new PackageTask(@"tmp\output")
                 .AddDirectoryToPackage("test", @"tmp\test", "test", new RegexFileFilter(@".fln"))
                 .AddDirectoryToPackage("test2", @"tmp\test2", "test2", new RegexFileFilter(@".bl"))
-                .ZipPackage("@tmp\test.zip")
+                .ZipPackage(@"tmp\test.zip")
                 .Execute(Context);
 
             using (ZipArchive archive = ZipFile.OpenRead("tmp\\test.zip"))
@@ -103,11 +97,6 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void PackagingWihoutZippingTest()
         {
-            if (Directory.Exists("tmp"))
-            {
-                Directory.Delete("tmp", true);
-            }
-
             Directory.CreateDirectory("tmp");
             Directory.CreateDirectory(@"tmp\Test");
             using (File.Create(@"tmp\Test\test.txt"))
