@@ -4,15 +4,9 @@ nuget:
   project_feed: true
 build_script:
 - cmd: >-
-    dotnet restore FlubuCore
+    dotnet restore project.json
 
-    dotnet restore dotnet-flubu
-
-    dotnet restore Flubu.Tests
-
-    dotnet pack FlubuCore -c Release
-
-    dotnet pack dotnet-flubu -c Release
+    dotnet flubu compile
 
     appveyor PushArtifact dotnet-flubu\bin\Release\dotnet-flubu.1.0.77.nupkg
 

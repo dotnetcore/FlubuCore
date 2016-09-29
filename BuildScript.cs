@@ -3,6 +3,8 @@ using FlubuCore.Context;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks.NetCore;
+using FlubuCore.Tasks.Text;
+using FlubuCore.Tasks.Versioning;
 
 public class MyBuildScript : DefaultBuildScript
 {
@@ -13,10 +15,17 @@ public class MyBuildScript : DefaultBuildScript
 
     protected override void ConfigureTargets(ITaskSession session)
     {
-        Target
-            .Create("compile")
-            .AddTask(new ExecuteDotnetTask("build").WithArguments("FlubuCore"))
-            .AddToTargetTree(session.TargetTree);
+        session
+            .CreateTarget("compile")
+            .AddTask(new FetchVersionFromExternalSourceTask())
+            .AddTask(new UpdateNetCoreVersionTask("FlubuCore/project.json", "dotnet-flubu/project.json",
+                    "Flubu.Tests/project.json")
+                .AdditionalProp("dependencies.FlubuCore", "dependencies.dotnet-flubu"))
+            .AddTask(new ExecuteDotnetTask("restore").WithArguments("FlubuCore"))
+            .AddTask(new ExecuteDotnetTask("restore").WithArguments("dotnet-flubu"))
+            .AddTask(new ExecuteDotnetTask("restore").WithArguments("Flubu.Tests"))
+            .AddTask(new ExecuteDotnetTask("pack").WithArguments("FlubuCore", "-c", "Release"))
+            .AddTask(new ExecuteDotnetTask("pack").WithArguments("dotnet-flubu", "-c", "Release"));
     }
 }
 
