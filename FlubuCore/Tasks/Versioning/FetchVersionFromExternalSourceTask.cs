@@ -10,7 +10,7 @@ namespace FlubuCore.Tasks.Versioning
         {
             "APPVEYOR_BUILD_VERSION"
         };
-                 
+
         public override string Description => "Fetch version from external source";
 
         protected override int DoExecute(ITaskContext context)
