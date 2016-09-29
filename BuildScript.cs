@@ -8,6 +8,7 @@ public class MyBuildScript : DefaultBuildScript
 {
     protected override void ConfigureBuildProperties(ITaskSession session)
     {
+        Console.WriteLine("1");
     }
 
     protected override void ConfigureTargets(ITaskSession session)
@@ -18,3 +19,4 @@ public class MyBuildScript : DefaultBuildScript
             .AddToTargetTree(session.TargetTree);
     }
 }
+
