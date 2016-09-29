@@ -1,5 +1,5 @@
 {
-  "version": "1.0.68",
+  "version": "1.0.70",
   "buildOptions": {
     "emitEntryPoint": true,
     "warningsAsErrors": true,
@@ -15,6 +15,8 @@
     },
     "Microsoft.Extensions.CommandLineUtils": "1.0.0",
     "Microsoft.DotNet.Cli.Utils": "1.0.0-preview2-003121",
+    "Microsoft.CodeAnalysis.CSharp": "1.3.2",
+    "Microsoft.CodeAnalysis.Common": "1.3.2",
     "Microsoft.CodeAnalysis.CSharp.Scripting": "1.3.2",
     "NLog.Extensions.Logging": "1.0.0-rtm-alpha2",
     "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0",
@@ -22,7 +24,7 @@
     "Microsoft.Extensions.Logging": "1.0.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "Microsoft.Extensions.DependencyInjection": "1.0.0",
-    "FlubuCore": "1.0.68",
+    "FlubuCore": "1.0.70",
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "StyleCop.Analyzers": {
       "type": "build",

@@ -18,8 +18,8 @@
     "xunit": "2.1.0",
     "dotnet-test-xunit": "1.0.0-rc2-build10025",
     "moq": "4.6.25-alpha",
-    "dotnet-flubu": "1.0.68",
-    "FlubuCore": "1.0.68",
+    "dotnet-flubu": "1.0.70",
+    "FlubuCore": "1.0.70",
     "StyleCop.Analyzers": {
       "type": "build",
       "version": "1.0.0"
