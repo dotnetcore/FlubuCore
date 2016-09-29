@@ -34,6 +34,10 @@ namespace Flubu.Tests.Tasks
             {
             }
 
+            using (File.Create(@"tmp\Test\test1.txt"))
+            {
+            }
+
             Directory.CreateDirectory(@"tmp\Test2");
             using (File.Create(@"tmp\Test2\test2.txt"))
             {
@@ -46,8 +50,9 @@ namespace Flubu.Tests.Tasks
 
             using (ZipArchive archive = ZipFile.OpenRead("tmp\\test.zip"))
             {
-                Assert.Equal(2, archive.Entries.Count);
+                Assert.Equal(3, archive.Entries.Count);
                 Assert.Equal(@"test\test.txt", archive.Entries[0].FullName);
+                Assert.Equal(@"test\test1.txt", archive.Entries[0].FullName);
                 Assert.Equal(@"test2\test2.txt", archive.Entries[1].FullName);
             }
         }
