@@ -49,7 +49,7 @@ namespace FlubuCore.Scripting
         {
             ConfigureTargets(taskSession);
 
-            taskSession.SetBuildVersion(new Version(1, 0));
+            taskSession.SetBuildVersion(new Version(1, 0, 0, 0));
 
             ConfigureBuildProperties(taskSession);
 
