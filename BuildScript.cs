@@ -17,10 +17,9 @@ public class MyBuildScript : DefaultBuildScript
     {
         session
             .CreateTarget("compile")
-            //.AddTask(new FetchVersionFromExternalSourceTask())
+            .AddTask(new FetchVersionFromExternalSourceTask())
             .AddTask(new UpdateNetCoreVersionTask("FlubuCore/project.json", "dotnet-flubu/project.json",
                     "Flubu.Tests/project.json")
-                .FixedVersion(new Version(1, 0, 82, 0))
                 .AdditionalProp("dependencies.FlubuCore", "dependencies.dotnet-flubu"))
             .AddTask(new ExecuteDotnetTask("restore").WithArguments("FlubuCore"))
             .AddTask(new ExecuteDotnetTask("restore").WithArguments("dotnet-flubu"))
