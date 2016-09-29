@@ -13,24 +13,25 @@ namespace FlubuCore.Tasks.Packaging
 
         private string _zipFileName;
 
-        public PackageTask(string destinationRootDir, string zipFileName)
+        public PackageTask(string destinationRootDir)
         {
             _sourcesToPackage = new List<SourceToPackage>();
             _destinationRootDir = new FullPath(destinationRootDir);
-            _zipFileName = zipFileName;
         }
 
         public override string Description => "Packages specified folders.";
 
-        public PackageTask AddDirectoryToPackage(string sourceId, string path, string destinationDir)
+        private bool ShouldPackageBeZipped => !string.IsNullOrEmpty(_zipFileName);
+
+        public PackageTask AddDirectoryToPackage(string sourceId, string sourceDirectoryPath, string destinationDirectory)
         {
-            _sourcesToPackage.Add(new SourceToPackage(sourceId, path, destinationDir));
+            _sourcesToPackage.Add(new SourceToPackage(sourceId, sourceDirectoryPath, destinationDirectory));
             return this;
         }
 
-        public PackageTask AddDirectoryToPackage(string sourceId, string path, string destinationDir, params IFileFilter[] fileFilters)
+        public PackageTask AddDirectoryToPackage(string sourceId, string sourceDirectoryPath, string destinationDirectory, params IFileFilter[] fileFilters)
         {
-            var sourceToPackage = new SourceToPackage(sourceId, path, destinationDir);
+            var sourceToPackage = new SourceToPackage(sourceId, sourceDirectoryPath, destinationDirectory);
 
             foreach (var filter in fileFilters)
             {
@@ -38,6 +39,12 @@ namespace FlubuCore.Tasks.Packaging
             }
 
             _sourcesToPackage.Add(sourceToPackage);
+            return this;
+        }
+
+        public PackageTask ZipPackage(string zipFileName)
+        {
+            _zipFileName = zipFileName;
             return this;
         }
 
@@ -67,8 +74,12 @@ namespace FlubuCore.Tasks.Packaging
             }
 
             IPackageDef copiedPackageDef = copyProcessor.Process(packageDef);
-            ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(_zipFileName), _destinationRootDir, sourceIds);
-            zipProcessor.Process(copiedPackageDef);
+
+            if (ShouldPackageBeZipped)
+            {
+                ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(_zipFileName), _destinationRootDir, sourceIds);
+                zipProcessor.Process(copiedPackageDef);
+            }
 
             return 0;
         }
