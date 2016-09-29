@@ -22,7 +22,7 @@ namespace Flubu.Tests.Packaging
             }
         }
 
-        [Fact(Skip = "Fix test")]
+        [Fact]
         public void BasePackagingWithCopyProcessorAndZipProcessorTest()
         {
             Directory.CreateDirectory("tmp");
