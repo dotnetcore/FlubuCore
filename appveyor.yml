@@ -14,9 +14,9 @@ build_script:
 
     dotnet pack dotnet-flubu -c Release
 
-    appveyor PushArtifact dotnet-flubu\bin\Release\dotnet-flubu.1.0.74.nupkg
+    appveyor PushArtifact dotnet-flubu\bin\Release\dotnet-flubu.1.0.76.nupkg
 
-    appveyor PushArtifact FlubuCore\bin\Release\FlubuCore.1.0.74.nupkg
+    appveyor PushArtifact FlubuCore\bin\Release\FlubuCore.1.0.76.nupkg
 test_script:
 - cmd: dotnet test Flubu.Tests -xml results.xml
 notifications:

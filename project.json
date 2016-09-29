@@ -7,12 +7,12 @@
       "type": "platform",
       "version": "1.0.1"
     },
-    "FlubuCore": "1.0.74",
-    "dotnet-flubu": "1.0.74"
+    "FlubuCore": "1.0.76",
+    "dotnet-flubu": "1.0.76"
   },
   "tools": {
     "dotnet-flubu": {
-      "version": "1.0.74",
+      "version": "1.0.76",
       "imports": [
         "dotnet5.6"
       ]
