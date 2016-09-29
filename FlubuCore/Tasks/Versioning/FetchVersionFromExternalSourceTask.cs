@@ -8,7 +8,7 @@ namespace FlubuCore.Tasks.Versioning
     {
         private readonly List<string> _environmentVariables = new List<string>
         {
-            "APPVEYOR_BUILD_VERSION"
+            "APPVEYOR_BUILD_NUMBER"
         };
 
         public override string Description => "Fetch version from external source";
