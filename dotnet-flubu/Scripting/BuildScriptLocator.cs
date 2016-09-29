@@ -9,7 +9,9 @@ namespace DotNet.Cli.Flubu.Scripting
         internal static readonly string[] DefaultScriptLocations =
         {
             "buildscript.cs",
+            "BuildScript.cs",
             "deployscript.cs",
+            "DeployScript.cs",
             "buildscript\\buildscript.cs",
             "buildscripts\\buildscript.cs"
         };
