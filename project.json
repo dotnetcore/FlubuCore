@@ -7,7 +7,7 @@
       "version": "1.0.1"
     },
     "dotnet-flubu": {
-      "version": "1.0.66",
+      "version": "1.0.68",
       "type": "build"
     }
   },
@@ -20,6 +20,6 @@
         }
   },
   "tools": {
-    "dotnet-flubu": "1.0.66"
+    "dotnet-flubu": "1.0.68"
   }
 }
