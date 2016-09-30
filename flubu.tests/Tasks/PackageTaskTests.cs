@@ -120,5 +120,28 @@ namespace Flubu.Tests.Tasks
             Assert.True(File.Exists(@"tmp\output\test\test.txt"));
             Assert.True(File.Exists(@"tmp\output\test2\test2.txt"));
         }
+
+        [Fact]
+        public void PackagingWihAddFileTest()
+        {
+            Directory.CreateDirectory("tmp");
+            Directory.CreateDirectory(@"tmp\Test");
+            using (File.Create(@"tmp\Test\test.txt"))
+            {
+            }
+
+            Directory.CreateDirectory(@"tmp\Test2");
+            using (File.Create(@"tmp\Test2\test2.txt"))
+            {
+            }
+
+            new PackageTask(@"tmp\output")
+                .AddDirectoryToPackage("test", @"tmp\test", "test")
+                .AddFileToPackage("test2", @"tmp\Test2\test2.txt", @"test")
+                .Execute(Context);
+
+            Assert.True(File.Exists(@"tmp\output\test\test.txt"));
+            Assert.True(File.Exists(@"tmp\output\test\test2.txt"));
+        }
     }
 }

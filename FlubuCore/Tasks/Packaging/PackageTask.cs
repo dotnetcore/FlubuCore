@@ -25,13 +25,13 @@ namespace FlubuCore.Tasks.Packaging
 
         public PackageTask AddDirectoryToPackage(string sourceId, string sourceDirectoryPath, string destinationDirectory)
         {
-            _sourcesToPackage.Add(new SourceToPackage(sourceId, sourceDirectoryPath, destinationDirectory));
+            _sourcesToPackage.Add(new SourceToPackage(sourceId, SourceType.Directory,  sourceDirectoryPath, destinationDirectory));
             return this;
         }
 
         public PackageTask AddDirectoryToPackage(string sourceId, string sourceDirectoryPath, string destinationDirectory, params IFileFilter[] fileFilters)
         {
-            var sourceToPackage = new SourceToPackage(sourceId, sourceDirectoryPath, destinationDirectory);
+            var sourceToPackage = new SourceToPackage(sourceId, SourceType.Directory, sourceDirectoryPath, destinationDirectory);
 
             foreach (var filter in fileFilters)
             {
@@ -39,6 +39,12 @@ namespace FlubuCore.Tasks.Packaging
             }
 
             _sourcesToPackage.Add(sourceToPackage);
+            return this;
+        }
+
+        public PackageTask AddFileToPackage(string sourceId, string sourceFilePath, string destinationDirectory)
+        {
+            _sourcesToPackage.Add(new SourceToPackage(sourceId, SourceType.File, sourceFilePath, destinationDirectory));
             return this;
         }
 
@@ -66,9 +72,18 @@ namespace FlubuCore.Tasks.Packaging
             List<string> sourceIds = new List<string>();
             foreach (var sourceToPackage in _sourcesToPackage)
             {
-                DirectorySource directorySource = new DirectorySource(context, directoryFilesLister, sourceToPackage.SourceId, sourceToPackage.SourcePath);
-                directorySource.SetFilter(sourceToPackage.FileFilters);
-                packageDef.AddFilesSource(directorySource);
+                if (sourceToPackage.SourceType == SourceType.Directory)
+                {
+                    DirectorySource directorySource = new DirectorySource(context, directoryFilesLister, sourceToPackage.SourceId, new FullPath(sourceToPackage.SourcePath));
+                    directorySource.SetFilter(sourceToPackage.FileFilters);
+                    packageDef.AddFilesSource(directorySource);
+                }
+                else
+                {
+                    SingleFileSource fileSource = new SingleFileSource(sourceToPackage.SourceId, new FileFullPath(sourceToPackage.SourcePath));
+                    packageDef.AddFilesSource(fileSource);
+                }
+
                 copyProcessor.AddTransformation(sourceToPackage.SourceId, sourceToPackage.DestinationPath);
                 sourceIds.Add(sourceToPackage.SourceId);
             }

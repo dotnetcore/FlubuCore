@@ -9,17 +9,20 @@ namespace FlubuCore.Tasks.Packaging
 {
     public class SourceToPackage
     {
-        public SourceToPackage(string sourceId, string sourcePath, string destinationPath)
+        public SourceToPackage(string sourceId, SourceType sourceType, string sourcePath, string destinationPath)
         {
             SourceId = sourceId;
-            SourcePath = new FullPath(sourcePath);
+            SourcePath = sourcePath;
+            SourceType = sourceType;
             DestinationPath = new LocalPath(destinationPath);
             FileFilters = new FilterCollection();
         }
 
         public string SourceId { get; set; }
 
-        public FullPath SourcePath { get; set; }
+        public SourceType SourceType { get; set; }
+
+        public string SourcePath { get; set; }
 
         public LocalPath DestinationPath { get; set; }
 
