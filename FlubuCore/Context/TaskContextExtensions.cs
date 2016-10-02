@@ -4,9 +4,9 @@ namespace FlubuCore.Context
 {
     public static class TaskContextExtensions
     {
-        public static string ListToString<T>(this IList<T> list)
+        public static string ListToArgsString<T>(this IList<T> list)
         {
-            return string.Join(",", list);
+            return string.Join(" ", list);
         }
     }
 }

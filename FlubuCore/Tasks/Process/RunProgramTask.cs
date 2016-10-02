@@ -39,7 +39,7 @@ namespace FlubuCore.Tasks.Process
         protected override int DoExecute(ITaskContext context)
         {
             context.WriteMessage(
-                $"Running program '{_programToExecute}': (work.dir='{_workingFolder}',args = '{_arguments.ListToString()}')");
+                $"Running program '{_programToExecute}': (work.dir='{_workingFolder}',args = '{_arguments.ListToArgsString()}')");
 
             CommandFactory commandFactory = new CommandFactory();
 
