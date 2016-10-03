@@ -13,5 +13,7 @@
         public const string AutoAssemblyVersion = "auto_assembly_version";
         public const string InformationalVersion = "informational_version";
         public const string ProductVersionFieldCount = "product_version_field_count";
+
+        public const string DotNetExecutable = "dotnet_executable";
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using FlubuCore.Context;
 using FlubuCore.Targeting;
 
@@ -49,7 +50,7 @@ namespace FlubuCore.Scripting
         {
             ConfigureTargets(taskSession);
 
-            taskSession.SetBuildVersion(new Version(1, 0, 0, 0));
+            ConfigureDefaultProps(taskSession);
 
             ConfigureBuildProperties(taskSession);
 
@@ -88,6 +89,21 @@ namespace FlubuCore.Scripting
                 });
 
             return taskSession.TargetTree.RunTarget(taskSession, targetToRun);
+        }
+
+        private void ConfigureDefaultProps(ITaskSession taskSession)
+        {
+            taskSession.SetBuildVersion(new Version(1, 0, 0, 0));
+            bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
+            if (isWindows)
+            {
+                taskSession.SetDotnetExecutable("C:/Program Files/dotnet/dotnet.exe");
+            }
+            else
+            {
+                taskSession.SetDotnetExecutable("/usr/bin/dotnet");
+            }
         }
     }
 }

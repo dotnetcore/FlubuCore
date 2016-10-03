@@ -8,8 +8,6 @@ namespace FlubuCore.Tasks.Versioning
     {
         private string _versionFilename = "version.txt";
 
-        public override string Description { get; } = "Fetch version from file";
-
         public FetchVersionFromFileTask UseFile(string fileName)
         {
             _versionFilename = fileName;
@@ -18,6 +16,8 @@ namespace FlubuCore.Tasks.Versioning
 
         protected override int DoExecute(ITaskContext context)
         {
+            context.WriteMessage($"Fetch versio from file {_versionFilename}");
+
             string ver = File.ReadAllText(_versionFilename);
 
             context.SetBuildVersion(Version.Parse(ver));

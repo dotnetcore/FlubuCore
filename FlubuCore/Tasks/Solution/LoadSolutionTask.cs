@@ -11,10 +11,10 @@ namespace FlubuCore.Tasks.Solution
             _solutionFile = solutionFile;
         }
 
-        public override string Description => $"Load solution {_solutionFile} properties";
-
         protected override int DoExecute(ITaskContext context)
         {
+            context.WriteMessage($"Load solution {_solutionFile} properties");
+
             return 0;
         }
     }

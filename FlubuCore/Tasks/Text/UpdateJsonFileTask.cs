@@ -22,8 +22,6 @@ namespace FlubuCore.Tasks.Text
             _fileName = fileName;
         }
 
-        public override string Description => $"Update JSON file {_fileName} to file {_output ?? _fileName}";
-
         public UpdateJsonFileTask Output(string fullFilePath)
         {
             _output = fullFilePath;
@@ -98,6 +96,7 @@ namespace FlubuCore.Tasks.Text
                 return 2;
             }
 
+            context.WriteMessage($"Update JSON file {_fileName} to file {_output ?? _fileName}");
             string file = File.ReadAllText(_fileName);
             JObject json = JObject.Parse(file);
             int res = 0;

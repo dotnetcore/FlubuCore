@@ -16,6 +16,17 @@ namespace FlubuCore.Context
             return version;
         }
 
+        public static string GetDotnetExecutable(this ITaskContext context)
+        {
+            return context.Properties.TryGet<string>(BuildProps.DotNetExecutable);
+        }
+
+        public static string SetDotnetExecutable(this ITaskContext context, string fullPath)
+        {
+            context.Properties.Set<string>(BuildProps.DotNetExecutable, fullPath);
+            return fullPath;
+        }
+
         public static T TryGet<T>(this ITaskContext context, string propName, T defaultValue = default(T))
         {
             T ret = context.Properties.TryGet<T>(propName);

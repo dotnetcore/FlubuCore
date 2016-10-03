@@ -16,8 +16,6 @@ namespace FlubuCore.Tasks.Testing
             _inputFiles.AddRange(inputFiles);
         }
 
-        public override string Description => "Generate coverage report";
-
         public CoverageReportTask TargetFolder(string path)
         {
             _targetFolder = path;

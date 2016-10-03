@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using FlubuCore.Targeting;
+﻿using FlubuCore.Targeting;
 
 namespace FlubuCore.Tasks.NetCore
 {

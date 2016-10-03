@@ -11,8 +11,6 @@ namespace FlubuCore.Tasks.Versioning
             "APPVEYOR_BUILD_NUMBER"
         };
 
-        public override string Description => "Fetch version from external source";
-
         protected override int DoExecute(ITaskContext context)
         {
             foreach (string itm in _environmentVariables)

@@ -20,8 +20,6 @@ namespace FlubuCore.Tasks.NetCore
             _command = command.ToString().ToLowerInvariant();
         }
 
-        public override string Description => $"Execute dotnet command";
-
         public ExecuteDotnetTask WithArguments(string arg)
         {
             _arguments.Add(arg);
@@ -42,7 +40,15 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override int DoExecute(ITaskContext context)
         {
-            RunProgramTask task = new RunProgramTask("dotnet");
+            string program = context.GetDotnetExecutable();
+
+            if (string.IsNullOrWhiteSpace(program))
+            {
+                context.Fail("Dotnet executable not set!", -1);
+                return -1;
+            }
+
+            RunProgramTask task = new RunProgramTask(program);
 
             return task
                 .WithArguments(_command)

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
 
@@ -12,6 +10,8 @@ namespace FlubuCore.Targeting
         ICollection<string> Dependencies { get; }
 
         string TargetName { get; }
+
+        string Description { get; }
 
         /// <summary>
         ///     Gets a value indicating whether this target is hidden. Hidden targets will not be

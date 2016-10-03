@@ -34,7 +34,7 @@ namespace FlubuCore.Targeting
         ///     Gets the description of the target.
         /// </summary>
         /// <value>The description of the target.</value>
-        public override string Description => _description;
+        public string Description => _description;
 
         /// <summary>
         ///     Gets a value indicating whether this target is hidden. Hidden targets will not be

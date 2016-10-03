@@ -18,8 +18,6 @@ namespace FlubuCore.Tasks.Solution
             _productId = productId;
         }
 
-        public override string Description => "Fetch build version";
-
         public Version BuildVersion => _buildVersion;
 
         public string ProjectVersionFileName { get; set; }

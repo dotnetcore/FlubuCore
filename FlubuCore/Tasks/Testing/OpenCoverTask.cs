@@ -16,8 +16,6 @@ namespace FlubuCore.Tasks.Testing
         private string _output = "coverage.xml";
         private string _workingFolder = ".";
 
-        public override string Description => "Execute OpenCover";
-
         public OpenCoverTask WorkingFolder(string path)
         {
             _workingFolder = path;

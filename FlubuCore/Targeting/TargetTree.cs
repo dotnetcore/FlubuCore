@@ -120,7 +120,7 @@ namespace FlubuCore.Targeting
             }
 
             // now display them in sorted order
-            foreach (var target in sortedTargets.Values)
+            foreach (ITarget target in sortedTargets.Values)
             {
                 if (target.IsHidden == false)
                 {

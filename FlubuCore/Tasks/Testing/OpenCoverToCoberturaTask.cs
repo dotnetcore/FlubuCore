@@ -16,8 +16,6 @@ namespace FlubuCore.Tasks.Testing
             _output = outputFile;
         }
 
-        public override string Description => "Convert open cover to cobertura report";
-
         public OpenCoverToCoberturaTask WorkingFolder(string path)
         {
             _workingFolder = path;

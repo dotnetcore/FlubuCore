@@ -19,8 +19,6 @@ namespace FlubuCore.Tasks.Packaging
             _destinationRootDir = new FullPath(destinationRootDir);
         }
 
-        public override string Description => "Packages specified folders.";
-
         private bool ShouldPackageBeZipped => !string.IsNullOrEmpty(_zipFileName);
 
         public PackageTask AddDirectoryToPackage(string sourceId, string sourceDirectoryPath, string destinationDirectory)

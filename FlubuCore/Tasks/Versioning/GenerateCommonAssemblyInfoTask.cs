@@ -51,8 +51,6 @@ namespace FlubuCore.Tasks.Versioning
 
         public string InformationalVersion { get; set; }
 
-        public override string Description => "Generate CommonAssemblyInfo.cs file";
-
         protected override int DoExecute(ITaskContext context)
         {
             if (string.IsNullOrEmpty(BuildConfiguration))

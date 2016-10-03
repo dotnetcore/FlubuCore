@@ -24,8 +24,6 @@ namespace FlubuCore.Tasks.Process
             _programToExecute = programToExecute;
         }
 
-        public override string Description => "Run program";
-
         public RunProgramTask WithArguments(string arg)
         {
             _arguments.Add(arg);

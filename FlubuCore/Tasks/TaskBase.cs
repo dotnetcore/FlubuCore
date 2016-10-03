@@ -17,15 +17,9 @@ namespace FlubuCore.Tasks
         /// </value>
         public virtual bool IsSafeToExecuteInDryRun => false;
 
-        /// <summary>
-        ///     Gets the task description.
-        /// </summary>
-        /// <value>The task description.</value>
-        public abstract string Description { get; }
-
         public Stopwatch TaskStopwatch { get; } = new Stopwatch();
 
-        protected virtual string DescriptionForLog => Description;
+        protected virtual string DescriptionForLog => null;
 
         /// <summary>
         ///     Gets a value indicating whether the duration of the task should be logged after the task
@@ -51,7 +45,11 @@ namespace FlubuCore.Tasks
 
             TaskStopwatch.Start();
 
-            context.WriteMessage(DescriptionForLog);
+            if (!string.IsNullOrEmpty(DescriptionForLog))
+            {
+                context.WriteMessage(DescriptionForLog);
+            }
+
             context.IncreaseDepth();
 
             try
