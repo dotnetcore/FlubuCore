@@ -87,7 +87,7 @@ namespace FlubuCore.Tasks.Testing
                     $"-output:{_output}");
 
             if (!string.IsNullOrEmpty(_testExecutableArgs))
-                task.WithArguments($"-targetargs:{_testExecutableArgs}");
+                task.WithArguments($"-targetargs:\"{_testExecutableArgs}\"");
 
             string filter = PrepareFilter();
 

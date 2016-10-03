@@ -40,7 +40,7 @@ namespace FlubuCore.Tasks.Testing
             }
 
             return new OpenCoverTask()
-                .WorkingFolder(projectPath)
+                .TestExecutableArgs($"test {projectPath}")
                 .Output(output)
                 .UseDotNet()
                 .AddExclude(excludeList);
