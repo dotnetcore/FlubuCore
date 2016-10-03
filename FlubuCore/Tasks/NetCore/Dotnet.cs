@@ -1,4 +1,7 @@
-﻿namespace FlubuCore.Tasks.NetCore
+﻿using System.Collections.Generic;
+using FlubuCore.Targeting;
+
+namespace FlubuCore.Tasks.NetCore
 {
     public static class Dotnet
     {
@@ -7,6 +10,16 @@
             return new ExecuteDotnetTask(StandardDotnetCommands.Build)
                 .WorkingFolder(workingFolder)
                 .WithArguments(projectName);
+        }
+
+        public static ITarget Build(ITarget target, params string[] projects)
+        {
+            foreach (string project in projects)
+            {
+                target.AddTask(Dotnet.Build(project));
+            }
+
+            return target;
         }
 
         public static ExecuteDotnetTask Restore(string projectName = null, string workingFolder = null)
