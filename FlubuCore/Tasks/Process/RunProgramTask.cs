@@ -60,7 +60,7 @@ namespace FlubuCore.Tasks.Process
 
             if (!info.Exists)
             {
-                context.Fail($"{_programToExecute} not found.", -1);
+                context.Fail($"{_programToExecute} not found. Full path:{info.FullName}", -1);
                 return -1;
             }
 
@@ -77,7 +77,7 @@ namespace FlubuCore.Tasks.Process
 
             if (res != 0)
             {
-                context.Fail($"External program {_programToExecute} failed with {res}", res);
+                context.Fail($"External program {_programToExecute} failed with {res}. Full path:{info.FullName}", res);
             }
 
             return res;
