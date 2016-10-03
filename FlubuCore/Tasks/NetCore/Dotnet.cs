@@ -23,9 +23,19 @@ namespace FlubuCore.Tasks.NetCore
 
         public static ExecuteDotnetTask Restore(string projectName = null, string workingFolder = null)
         {
-            return new ExecuteDotnetTask(StandardDotnetCommands.Restore)
-                .WorkingFolder(workingFolder)
-                .WithArguments(projectName);
+            ExecuteDotnetTask ret = new ExecuteDotnetTask(StandardDotnetCommands.Restore);
+
+            if (!string.IsNullOrEmpty(workingFolder))
+            {
+                ret.WorkingFolder(workingFolder);
+            }
+
+            if (!string.IsNullOrEmpty(projectName))
+            {
+                ret.WithArguments(projectName);
+            }
+
+            return ret;
         }
 
         public static ExecuteDotnetTask Pack(string projectName = null, string workingFolder = null)

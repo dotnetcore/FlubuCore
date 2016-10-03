@@ -33,5 +33,33 @@ namespace Flubu.Tests.Tasks
 
             Assert.Equal(-1, e.ErrorCode);
         }
+
+        [Fact]
+        public void ExecuteCommandDotnetNotSet()
+        {
+            ExecuteDotnetTask task = new ExecuteDotnetTask("help");
+
+            var e = Assert.Throws<TaskExecutionException>(() => task.Execute(Context));
+            Assert.Equal(-1, e.ErrorCode);
+        }
+
+        [Fact]
+        public void ExecuteCommand()
+        {
+            ExecuteDotnetTask task = new ExecuteDotnetTask("help");
+            task.DotnetExecutable("C:/Program Files/dotnet/dotnet.exe");
+            int res = task.Execute(Context);
+            Assert.Equal(0, res);
+        }
+
+        [Fact]
+        public void ExecuteCommandTargetTreeCreate()
+        {
+            ExecuteDotnetTask task = Dotnet.Restore();
+            task.DotnetExecutable("C:/Program Files/dotnet/dotnet.exe");
+
+            int res = task.Execute(Context);
+            Assert.Equal(0, res);
+        }
     }
 }

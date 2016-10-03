@@ -9,6 +9,7 @@ namespace FlubuCore.Tasks.NetCore
         private readonly string _command;
         private readonly List<string> _arguments = new List<string>();
         private string _workingFolder;
+        private string _dotnetExecutable;
 
         public ExecuteDotnetTask(string command)
         {
@@ -38,11 +39,22 @@ namespace FlubuCore.Tasks.NetCore
             return this;
         }
 
+        public ExecuteDotnetTask DotnetExecutable(string fullPath)
+        {
+            _dotnetExecutable = fullPath;
+            return this;
+        }
+
         protected override int DoExecute(ITaskContext context)
         {
-            string program = context.GetDotnetExecutable();
+            string program = _dotnetExecutable;
 
-            if (string.IsNullOrWhiteSpace(program))
+            if (string.IsNullOrEmpty(program))
+            {
+                program = context.GetDotnetExecutable();
+            }
+
+            if (string.IsNullOrEmpty(program))
             {
                 context.Fail("Dotnet executable not set!", -1);
                 return -1;
