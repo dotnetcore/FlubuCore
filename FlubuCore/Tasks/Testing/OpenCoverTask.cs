@@ -50,12 +50,18 @@ namespace FlubuCore.Tasks.Testing
 
         public OpenCoverTask AddInclude(params string[] args)
         {
+            if (args == null)
+                return this;
+
             _includeList.AddRange(args);
             return this;
         }
 
         public OpenCoverTask AddExclude(params string[] args)
         {
+            if (args == null)
+                return this;
+
             _excludeList.AddRange(args);
             return this;
         }
