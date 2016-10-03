@@ -56,12 +56,6 @@ namespace FlubuCore.Tasks.Process
 
             FileInfo info = new FileInfo(_programToExecute);
 
-            if (!info.Exists)
-            {
-                context.Fail($"{_programToExecute} not found. Full path:{info.FullName}", -1);
-                return -1;
-            }
-
             ICommand command = _commandFactory.Create(info.FullName, _arguments);
 
             int res = command
