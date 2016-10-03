@@ -31,7 +31,7 @@ namespace Flubu.Tests.Tasks
 
             TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.Execute(Context));
 
-            Assert.Equal(1, e.ErrorCode);
+            Assert.Equal(-1, e.ErrorCode);
         }
     }
 }

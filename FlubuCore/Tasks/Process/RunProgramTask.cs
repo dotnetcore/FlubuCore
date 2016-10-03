@@ -9,10 +9,18 @@ namespace FlubuCore.Tasks.Process
     {
         private readonly string _programToExecute;
         private readonly List<string> _arguments = new List<string>();
+
+        private ICommandFactory _commandFactory;
         private string _workingFolder;
 
         public RunProgramTask(string programToExecute)
         {
+            _programToExecute = programToExecute;
+        }
+
+        public RunProgramTask(ICommandFactory commandFactory, string programToExecute)
+        {
+            _commandFactory = commandFactory;
             _programToExecute = programToExecute;
         }
 
@@ -41,11 +49,22 @@ namespace FlubuCore.Tasks.Process
             context.WriteMessage(
                 $"Running program '{_programToExecute}': (work.dir='{_workingFolder}',args = '{_arguments.ListToArgsString()}')");
 
-            CommandFactory commandFactory = new CommandFactory();
-
-            ICommand command = commandFactory.Create(_programToExecute, _arguments);
+            if (_commandFactory == null)
+            {
+                _commandFactory = new CommandFactory();
+            }
 
             string currentDirectory = Directory.GetCurrentDirectory();
+
+            FileInfo info = new FileInfo(_programToExecute);
+
+            if (!info.Exists)
+            {
+                context.Fail($"{_programToExecute} not found.", -1);
+                return -1;
+            }
+
+            ICommand command = _commandFactory.Create(info.FullName, _arguments);
 
             int res = command
                 .CaptureStdErr()
