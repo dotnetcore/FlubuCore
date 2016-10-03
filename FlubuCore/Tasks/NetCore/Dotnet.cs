@@ -12,7 +12,7 @@ namespace FlubuCore.Tasks.NetCore
                 .WithArguments(projectName);
         }
 
-        public static ITarget Build(ITarget target, params string[] projects)
+        public static ITarget Build(this ITarget target, params string[] projects)
         {
             foreach (string project in projects)
             {

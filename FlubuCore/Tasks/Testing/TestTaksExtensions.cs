@@ -6,7 +6,7 @@ namespace FlubuCore.Tasks.Testing
 {
     public static class TestTaksExtensions
     {
-        public static ITarget UnitTest(ITarget target, params string[] projects)
+        public static ITarget UnitTest(this ITarget target, params string[] projects)
         {
             foreach (string project in projects)
             {
@@ -16,7 +16,7 @@ namespace FlubuCore.Tasks.Testing
             return target;
         }
 
-        public static ITarget Coverage(ITarget target, params string[] projects)
+        public static ITarget Coverage(this ITarget target, params string[] projects)
         {
             foreach (string project in projects)
             {
