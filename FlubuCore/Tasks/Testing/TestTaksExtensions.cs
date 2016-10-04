@@ -6,8 +6,7 @@ namespace FlubuCore.Tasks.Testing
 {
     public static class TestTaksExtensions
     {
-        // todo rename to DotnetUnitTest
-        public static ITarget UnitTest(this ITarget target, params string[] projects)
+        public static ITarget DotnetUnitTest(this ITarget target, params string[] projects)
         {
             foreach (string project in projects)
             {
@@ -17,23 +16,23 @@ namespace FlubuCore.Tasks.Testing
             return target;
         }
 
-        public static ITarget CoverageDotnet(this ITarget target, params string[] projects)
+        public static ITarget DotnetCoverage(this ITarget target, params string[] projects)
         {
             foreach (string project in projects)
             {
-                target.AddTask(CoverageDotnet(project, null, null));
+                target.AddTask(DotnetCoverage(project, null, null));
             }
 
             return target;
         }
 
-        public static ITarget CoverageDotnet(this ITarget target, string projectPath, string output, params string[] excludeList)
+        public static ITarget DotnetCoverage(this ITarget target, string projectPath, string output, params string[] excludeList)
         {
-            target.AddTask(CoverageDotnet(projectPath, output, excludeList));
+            target.AddTask(DotnetCoverage(projectPath, output, excludeList));
             return target;
         }
 
-        public static OpenCoverTask CoverageDotnet(string projectPath, string output, params string[] excludeList)
+        public static OpenCoverTask DotnetCoverage(string projectPath, string output, params string[] excludeList)
         {
             if (string.IsNullOrEmpty(output))
                 output = $"{Path.GetFileNameWithoutExtension(projectPath)}cover.xml";

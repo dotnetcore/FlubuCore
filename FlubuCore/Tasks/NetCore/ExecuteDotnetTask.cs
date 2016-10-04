@@ -45,6 +45,13 @@ namespace FlubuCore.Tasks.NetCore
             return this;
         }
 
+        public ExecuteDotnetTask XmlOutput(string fullPath)
+        {
+            _arguments.Add("-xml");
+            _arguments.Add(fullPath);
+            return this;
+        }
+
         protected override int DoExecute(ITaskContext context)
         {
             string program = _dotnetExecutable;

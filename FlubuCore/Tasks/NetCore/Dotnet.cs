@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.IO;
+using System.Runtime.InteropServices;
 using FlubuCore.IO;
 using FlubuCore.Targeting;
 
@@ -51,6 +52,7 @@ namespace FlubuCore.Tasks.NetCore
         {
             return new ExecuteDotnetTask(StandardDotnetCommands.Test)
                 .WorkingFolder(workingFolder)
+                .XmlOutput($"{Path.GetFileNameWithoutExtension(projectName)}result.xml")
                 .WithArguments(projectName);
         }
 
