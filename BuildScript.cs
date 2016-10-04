@@ -31,6 +31,6 @@ public class MyBuildScript : DefaultBuildScript
 
         session
             .CreateTarget("test")
-            .UnitTest("Flubu.Tests");
+            .DotnetUnitTest("Flubu.Tests");
     }
 }
