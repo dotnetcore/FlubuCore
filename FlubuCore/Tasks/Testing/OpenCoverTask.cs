@@ -15,7 +15,8 @@ namespace FlubuCore.Tasks.Testing
         private string _testExecutable;
         private string _testExecutableArgs;
         private string _output = "coverage.xml";
-        private string _workingFolder = ".";
+        private string _workingFolder;
+
         private UnitTestProvider _provider;
 
         public OpenCoverTask WorkingFolder(string path)
@@ -57,6 +58,12 @@ namespace FlubuCore.Tasks.Testing
             return this;
         }
 
+        public OpenCoverTask IncludeAll()
+        {
+            _includeList.Add("[*]*");
+            return this;
+        }
+
         public OpenCoverTask AddExclude(params string[] args)
         {
             if (args == null)
@@ -86,12 +93,14 @@ namespace FlubuCore.Tasks.Testing
             string testExecutable = GetExecutable();
 
             task
-                .WorkingFolder(_workingFolder)
                 .WithArguments(
                     $"-target:\"{testExecutable}\"",
                     "-register:user",
                     "-oldstyle",
-                    $"-output:{_output}");
+                    $"-output:\"{_output}\"");
+
+            if (!string.IsNullOrEmpty(_workingFolder))
+                task.WorkingFolder(_workingFolder);
 
             if (!string.IsNullOrEmpty(_testExecutableArgs))
                 task.WithArguments($"-targetargs:\"{_testExecutableArgs}\"");
@@ -137,7 +146,7 @@ namespace FlubuCore.Tasks.Testing
                 b.Append($"-{s} ");
             }
 
-            return b.ToString();
+            return b.ToString().Trim();
         }
     }
 }
