@@ -1,4 +1,5 @@
-﻿using FlubuCore.Targeting;
+﻿using System.Runtime.InteropServices;
+using FlubuCore.Targeting;
 
 namespace FlubuCore.Tasks.NetCore
 {
@@ -64,6 +65,13 @@ namespace FlubuCore.Tasks.NetCore
             return new ExecuteDotnetTask(StandardDotnetCommands.Run)
                 .WorkingFolder(workingFolder)
                 .WithArguments(projectName);
+        }
+
+        public static string FindDotnetExecutable()
+        {
+            bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
+            return isWindows ? "C:/Program Files/dotnet/dotnet.exe" : "/usr/bin/dotnet";
         }
     }
 }

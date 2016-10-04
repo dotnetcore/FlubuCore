@@ -1,10 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace FlubuCore.Context
 {
     public static class ContextPropertiesExtensions
     {
+        public static OSPlatform GetOSPlatform(this ITaskContext context)
+        {
+            return context.Properties.TryGet<OSPlatform>(BuildProps.OSPlatform);
+        }
+
+        public static OSPlatform SetOSPlatform(this ITaskContext context, OSPlatform version)
+        {
+            context.Properties.Set<OSPlatform>(BuildProps.OSPlatform, version);
+            return version;
+        }
+
         public static Version GetBuildVersion(this ITaskContext context)
         {
             return context.Properties.TryGet<Version>(BuildProps.BuildVersion);

@@ -11,7 +11,7 @@ namespace FlubuCore.Tasks.Testing
         private readonly List<string> _includeList = new List<string>();
         private readonly List<string> _excludeList = new List<string>();
         private string _openCoverPath = "tools/opencover/OpenCover.Console.exe";
-        private string _testExecutable = "C:/Program Files/dotnet/dotnet.exe";
+        private string _testExecutable;
         private string _testExecutableArgs = "test";
         private string _output = "coverage.xml";
         private string _workingFolder = ".";
@@ -66,8 +66,7 @@ namespace FlubuCore.Tasks.Testing
 
         public OpenCoverTask UseDotNet(string executablePath = null)
         {
-            // todo find dotnet executable
-            _testExecutable = executablePath ?? "C:/Program Files/dotnet/dotnet.exe";
+            _testExecutable = executablePath;
             _testExecutableArgs = "test";
             return this;
         }
@@ -85,12 +84,12 @@ namespace FlubuCore.Tasks.Testing
                     $"-output:{_output}");
 
             if (!string.IsNullOrEmpty(_testExecutableArgs))
-                task.WithArguments($"-targetargs:\"{_testExecutableArgs}\"");
+                task.WithArguments($"\"-targetargs:{_testExecutableArgs}\"");
 
             string filter = PrepareFilter();
 
             if (!string.IsNullOrEmpty(filter))
-                task.WithArguments($"-filter:\"{filter}\"");
+                task.WithArguments($"\"-filter:{filter}\"");
 
             return task.Execute(context);
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using FlubuCore.Context;
 using FlubuCore.Targeting;
+using FlubuCore.Tasks.NetCore;
 
 namespace FlubuCore.Scripting
 {
@@ -94,15 +95,17 @@ namespace FlubuCore.Scripting
         private void ConfigureDefaultProps(ITaskSession taskSession)
         {
             taskSession.SetBuildVersion(new Version(1, 0, 0, 0));
+            taskSession.SetDotnetExecutable(Dotnet.FindDotnetExecutable());
             bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+            taskSession.SetOSPlatform(isWindows ? OSPlatform.Windows : OSPlatform.Linux);
 
             if (isWindows)
             {
-                taskSession.SetDotnetExecutable("C:/Program Files/dotnet/dotnet.exe");
+                // do windows specific tasks
             }
             else
             {
-                taskSession.SetDotnetExecutable("/usr/bin/dotnet");
+                // do linux specific tasks
             }
         }
     }

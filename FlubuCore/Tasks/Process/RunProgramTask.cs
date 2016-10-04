@@ -30,9 +30,25 @@ namespace FlubuCore.Tasks.Process
             return this;
         }
 
+        public RunProgramTask WithEnclosedArguments(string arg)
+        {
+            _arguments.Add($"\"{arg}\"");
+            return this;
+        }
+
         public RunProgramTask WithArguments(params string[] args)
         {
             _arguments.AddRange(args);
+            return this;
+        }
+
+        public RunProgramTask WithEnclosedArguments(params string[] args)
+        {
+            foreach (string s in args)
+            {
+                WithEnclosedArguments(s);
+            }
+
             return this;
         }
 

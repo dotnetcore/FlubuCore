@@ -2,6 +2,7 @@
 {
     public static class BuildProps
     {
+        public const string OSPlatform = "os_platform";
         public const string BuildVersion = "build_version";
         public const string BuildConfiguration = "build_configuration";
         public const string CompanyCopyright = "company_copyright";
