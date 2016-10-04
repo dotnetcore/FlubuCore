@@ -13,7 +13,7 @@ namespace FlubuCore.Tasks.NetCore
                 .WithArguments(projectName);
         }
 
-        public static ITarget Build(this ITarget target, params string[] projects)
+        public static ITarget DotnetBuild(this ITarget target, params string[] projects)
         {
             foreach (string project in projects)
             {
@@ -59,6 +59,16 @@ namespace FlubuCore.Tasks.NetCore
             return new ExecuteDotnetTask(StandardDotnetCommands.Publish)
                 .WorkingFolder(workingFolder)
                 .WithArguments(projectName);
+        }
+
+        public static ITarget DotnetPublish(this ITarget target, params string[] projects)
+        {
+            foreach (string project in projects)
+            {
+                target.AddTask(Dotnet.Publish(project));
+            }
+
+            return target;
         }
 
         public static ExecuteDotnetTask Run(string projectName = null, string workingFolder = null)
