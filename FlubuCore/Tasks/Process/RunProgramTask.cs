@@ -60,9 +60,6 @@ namespace FlubuCore.Tasks.Process
 
         protected override int DoExecute(ITaskContext context)
         {
-            context.WriteMessage(
-                $"Running program '{_programToExecute}': (work.dir='{_workingFolder}',args = '{_arguments.ListToArgsString()}')");
-
             if (_commandFactory == null)
             {
                 _commandFactory = new CommandFactory();
@@ -74,13 +71,17 @@ namespace FlubuCore.Tasks.Process
 
             ICommand command = _commandFactory.Create(info.FullName, _arguments);
 
-            int res = command
+            command
                 .CaptureStdErr()
                 .CaptureStdOut()
                 .WorkingDirectory(_workingFolder ?? currentDirectory)
                 .OnErrorLine(context.WriteMessage)
-                .OnOutputLine(context.WriteMessage)
-                .Execute()
+                .OnOutputLine(context.WriteMessage);
+
+            context.WriteMessage(
+                $"Running program '{command.CommandName}':(work.dir='{_workingFolder}',args='{command.CommandArgs}')");
+
+            int res = command.Execute()
                 .ExitCode;
 
             if (res != 0)
