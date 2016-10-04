@@ -27,6 +27,13 @@ namespace FlubuCore.Targeting
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITarget DependsOn(params string[] targetNames);
 
+        /// <summary>
+        ///     Specifies targets on which this target depends on.
+        /// </summary>
+        /// <param name="targets">The dependency target names.</param>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
+        ITarget DependsOn(params ITarget[] targets);
+
         ITarget Do(Action<ITaskContext> targetAction);
 
         /// <summary>

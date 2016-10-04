@@ -35,9 +35,7 @@ namespace FlubuCore.Tasks.Testing
         public static OpenCoverTask CoverageDotnet(string projectPath, string output, params string[] excludeList)
         {
             if (string.IsNullOrEmpty(output))
-            {
                 output = $"{Path.GetFileNameWithoutExtension(projectPath)}cover.xml";
-            }
 
             return new OpenCoverTask()
                 .TestExecutableArgs($"test {projectPath}")

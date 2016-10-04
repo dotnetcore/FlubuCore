@@ -29,9 +29,7 @@ namespace FlubuCore.Tasks.Solution
                 : Path.Combine(_productRootDir, $"{_productId}.ProjectVersion.txt");
 
             if (!File.Exists(projectVersionFileName))
-            {
                 throw new InvalidOperationException($"Project version file '{projectVersionFileName}' is missing.");
-            }
 
             using (Stream stream = File.Open(projectVersionFileName, FileMode.Open))
             {
