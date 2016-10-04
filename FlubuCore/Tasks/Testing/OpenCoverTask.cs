@@ -13,7 +13,7 @@ namespace FlubuCore.Tasks.Testing
         private readonly List<string> _excludeList = new List<string>();
         private string _openCoverPath = "tools/opencover/OpenCover.Console.exe";
         private string _testExecutable;
-        private string _testExecutableArgs = "test";
+        private string _testExecutableArgs;
         private string _output = "coverage.xml";
         private string _workingFolder = ".";
         private UnitTestProvider _provider;
@@ -69,7 +69,12 @@ namespace FlubuCore.Tasks.Testing
         public OpenCoverTask UseDotNet(string executablePath = null)
         {
             _testExecutable = executablePath;
-            _testExecutableArgs = "test";
+
+            if (string.IsNullOrEmpty(_testExecutableArgs))
+            {
+                _testExecutableArgs = "test";
+            }
+
             _provider = UnitTestProvider.DotnetCore;
             return this;
         }

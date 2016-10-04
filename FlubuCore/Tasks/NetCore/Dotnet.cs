@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using FlubuCore.IO;
 using FlubuCore.Targeting;
 
 namespace FlubuCore.Tasks.NetCore
@@ -71,7 +72,7 @@ namespace FlubuCore.Tasks.NetCore
         {
             bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
-            return isWindows ? "C:/Program Files/dotnet/dotnet.exe" : "/usr/bin/dotnet";
+            return IOExtensions.GetFullPath(isWindows ? "C:/Program Files/dotnet/dotnet.exe" : "/usr/bin/dotnet");
         }
     }
 }
