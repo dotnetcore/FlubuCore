@@ -87,19 +87,19 @@ namespace FlubuCore.Tasks.Testing
 
             task
                 .WorkingFolder(_workingFolder)
-                .WithEnclosedArguments($"-target:{testExecutable}")
                 .WithArguments(
+                    $"-target:\"{testExecutable}\"",
                     "-register:user",
                     "-oldstyle",
                     $"-output:{_output}");
 
             if (!string.IsNullOrEmpty(_testExecutableArgs))
-                task.WithEnclosedArguments($"-targetargs:{_testExecutableArgs}");
+                task.WithArguments($"-targetargs:\"{_testExecutableArgs}\"");
 
             string filter = PrepareFilter();
 
             if (!string.IsNullOrEmpty(filter))
-                task.WithEnclosedArguments($"-filter:{filter}");
+                task.WithArguments($"-filter:\"{filter}\"");
 
             return task.Execute(context);
         }
