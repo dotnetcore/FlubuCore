@@ -22,12 +22,12 @@
       "type": "platform",
       "version": "1.0.1"
     },
-    "FlubuCore": "1.0.113",
-    "dotnet-flubu": "1.0.113"
+    "FlubuCore": "1.0.115",
+    "dotnet-flubu": "1.0.115"
   },
   "tools": {
     "dotnet-flubu": {
-      "version": "1.0.113",
+      "version": "1.0.115",
       "imports": [
         "dotnet5.6"
       ]
