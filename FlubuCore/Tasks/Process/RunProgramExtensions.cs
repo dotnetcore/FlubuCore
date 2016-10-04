@@ -11,6 +11,7 @@ namespace FlubuCore.Tasks.Process
             {
                 target.AddTask(RunProgram(program, null));
             }
+
             return target;
         }
 
