@@ -4,7 +4,7 @@ nuget:
   project_feed: true
 build_script:
 - cmd: >-
-    dotnet restore project.json
+    dotnet restore project.json --no-cache
 
     dotnet flubu compile
 

@@ -6,6 +6,7 @@ namespace FlubuCore.Tasks.Testing
 {
     public static class TestTaksExtensions
     {
+        // todo rename to DotnetUnitTest
         public static ITarget UnitTest(this ITarget target, params string[] projects)
         {
             foreach (string project in projects)

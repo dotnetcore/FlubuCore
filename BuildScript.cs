@@ -1,16 +1,18 @@
-﻿using System;
-using FlubuCore.Context;
+﻿using FlubuCore.Context;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks.NetCore;
-using FlubuCore.Tasks.Text;
+using FlubuCore.Tasks.Testing;
 using FlubuCore.Tasks.Versioning;
 
 public class MyBuildScript : DefaultBuildScript
 {
     protected override void ConfigureBuildProperties(ITaskSession session)
     {
-        Console.WriteLine("1");
+        session.Properties.Set(BuildProps.CompanyName, "Flubu");
+        session.Properties.Set(BuildProps.CompanyCopyright, "Copyright (C) 2010-2016 Flubu");
+        session.Properties.Set(BuildProps.ProductId, "FlubuCore");
+        session.Properties.Set(BuildProps.ProductName, "FlubuCore");
     }
 
     protected override void ConfigureTargets(ITaskSession session)
@@ -26,5 +28,9 @@ public class MyBuildScript : DefaultBuildScript
             .AddTask(new ExecuteDotnetTask("restore").WithArguments("Flubu.Tests"))
             .AddTask(new ExecuteDotnetTask("pack").WithArguments("FlubuCore", "-c", "Release"))
             .AddTask(new ExecuteDotnetTask("pack").WithArguments("dotnet-flubu", "-c", "Release"));
+
+        session
+            .CreateTarget("test")
+            .UnitTest("Flubu.Tests");
     }
 }

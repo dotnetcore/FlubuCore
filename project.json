@@ -1,18 +1,33 @@
 ﻿{
   "version": "1.0.0-*",
-
+  "buildOptions": {
+    "compile": {
+      "includeFiles": [
+        "BuildScript.cs"
+      ],
+      "include": [
+        "BuildScript.cs"
+      ],
+      "exclude": [
+        "dotnet-flubu/**",
+        "FlubuCore/**",
+        "Flubu.Tests/**",
+        "CommonAssemblyInfo.cs"
+      ]
+    }
+  },
   "dependencies": {
     "NETStandard.Library": "1.6.0",
     "Microsoft.NETCore.App": {
       "type": "platform",
       "version": "1.0.1"
     },
-    "FlubuCore": "1.0.82",
-    "dotnet-flubu": "1.0.82"
+    "FlubuCore": "1.0.110",
+    "dotnet-flubu": "1.0.110"
   },
   "tools": {
     "dotnet-flubu": {
-      "version": "1.0.82",
+      "version": "1.0.110",
       "imports": [
         "dotnet5.6"
       ]
