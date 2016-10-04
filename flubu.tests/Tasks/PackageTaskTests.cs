@@ -122,7 +122,7 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void PackagingWihAddFileTest()
+        public void PackagingWithAddFileToPackageTest()
         {
             Directory.CreateDirectory("tmp");
             Directory.CreateDirectory(@"tmp\Test");

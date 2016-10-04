@@ -1,8 +1,10 @@
 ﻿using System.Threading.Tasks;
 using DotNet.Cli.Flubu.Scripting;
 using FlubuCore.Context;
+using FlubuCore.Infrastructure;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
+using Microsoft.DotNet.Cli.Utils;
 using Moq;
 using Xunit;
 
@@ -42,7 +44,7 @@ public class MyBuildScript : DefaultBuildScript
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync("e.cs");
 
-            t.Run(new TaskSession(null, new TaskContextSession(), new TargetTree(), new CommandArguments()));
+            t.Run(new TaskSession(null, new TaskContextSession(), new TargetTree(), new CommandArguments(), new ComponentProvider(new CommandFactory())));
         }
 
         [Fact]
@@ -64,7 +66,7 @@ public class MyBuildScript : IBuildScript
 }");
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync("e.cs");
-            t.Run(new TaskSession(null, new TaskContextSession(), new TargetTree(), new CommandArguments()));
+            t.Run(new TaskSession(null, new TaskContextSession(), new TargetTree(), new CommandArguments(), new ComponentProvider(new CommandFactory())));
         }
     }
 }

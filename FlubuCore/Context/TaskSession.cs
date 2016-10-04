@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using FlubuCore.Infrastructure;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
 using Microsoft.Extensions.Logging;
@@ -14,14 +15,17 @@ namespace FlubuCore.Context
 
         private Action<ITaskSession> _onFinishDo;
 
-        public TaskSession(ILogger<TaskSession> log, ITaskContextSession taskContextProperties, TargetTree targetTree, CommandArguments args)
+        public TaskSession(ILogger<TaskSession> log, ITaskContextSession taskContextProperties, TargetTree targetTree, CommandArguments args, IComponentProvider componentProvider)
             : base(log, taskContextProperties, args)
         {
             HasFailed = true;
             TargetTree = targetTree;
+            ComponentProvider = componentProvider;
         }
 
         public TargetTree TargetTree { get; }
+
+        public IComponentProvider ComponentProvider { get; }
 
         public bool HasFailed { get; private set; }
 
