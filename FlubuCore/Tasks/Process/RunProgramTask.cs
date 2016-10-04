@@ -30,25 +30,9 @@ namespace FlubuCore.Tasks.Process
             return this;
         }
 
-        public RunProgramTask WithEnclosedArguments(string arg)
-        {
-            _arguments.Add($"\"{arg}\"");
-            return this;
-        }
-
         public RunProgramTask WithArguments(params string[] args)
         {
             _arguments.AddRange(args);
-            return this;
-        }
-
-        public RunProgramTask WithEnclosedArguments(params string[] args)
-        {
-            foreach (string s in args)
-            {
-                WithEnclosedArguments(s);
-            }
-
             return this;
         }
 
@@ -61,9 +45,7 @@ namespace FlubuCore.Tasks.Process
         protected override int DoExecute(ITaskContext context)
         {
             if (_commandFactory == null)
-            {
                 _commandFactory = new CommandFactory();
-            }
 
             string currentDirectory = Directory.GetCurrentDirectory();
 
@@ -85,9 +67,7 @@ namespace FlubuCore.Tasks.Process
                 .ExitCode;
 
             if (res != 0)
-            {
                 context.Fail($"External program {_programToExecute} failed with {res}. Full path:{info.FullName}", res);
-            }
 
             return res;
         }

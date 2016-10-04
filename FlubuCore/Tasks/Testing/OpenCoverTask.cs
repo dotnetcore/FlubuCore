@@ -94,21 +94,21 @@ namespace FlubuCore.Tasks.Testing
 
             task
                 .WithArguments(
-                    $"-target:\"{testExecutable}\"",
+                    $"-target:{testExecutable}",
                     "-register:user",
                     "-oldstyle",
-                    $"-output:\"{_output}\"");
+                    $"-output:{_output}");
 
             if (!string.IsNullOrEmpty(_workingFolder))
                 task.WorkingFolder(_workingFolder);
 
             if (!string.IsNullOrEmpty(_testExecutableArgs))
-                task.WithArguments($"-targetargs:\"{_testExecutableArgs}\"");
+                task.WithArguments($"-targetargs:{_testExecutableArgs}");
 
             string filter = PrepareFilter();
 
             if (!string.IsNullOrEmpty(filter))
-                task.WithArguments($"-filter:\"{filter}\"");
+                task.WithArguments($"-filter:{filter}");
 
             return task.Execute(context);
         }
