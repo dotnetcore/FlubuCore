@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Testing
 
         public OpenCoverTask TestExecutableArgs(string args)
         {
-            _testExecutable = args;
+            _testExecutableArgs = args;
             return this;
         }
 
