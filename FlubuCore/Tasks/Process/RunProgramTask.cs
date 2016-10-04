@@ -6,7 +6,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace FlubuCore.Tasks.Process
 {
-    public class RunProgramTask : TaskBase
+    public class RunProgramTask : TaskBase, IRunProgramTask
     {
         private readonly string _programToExecute;
         private readonly List<string> _arguments = new List<string>();
@@ -25,19 +25,19 @@ namespace FlubuCore.Tasks.Process
             _programToExecute = programToExecute;
         }
 
-        public RunProgramTask WithArguments(string arg)
+        public IRunProgramTask WithArguments(string arg)
         {
             _arguments.Add(arg);
             return this;
         }
 
-        public RunProgramTask WithArguments(params string[] args)
+        public IRunProgramTask WithArguments(params string[] args)
         {
             _arguments.AddRange(args);
             return this;
         }
 
-        public RunProgramTask WorkingFolder(string folder)
+        public IRunProgramTask WorkingFolder(string folder)
         {
             if (string.IsNullOrEmpty(folder) || folder.Equals(".", StringComparison.OrdinalIgnoreCase))
                 return this;
