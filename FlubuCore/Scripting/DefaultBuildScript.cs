@@ -50,11 +50,11 @@ namespace FlubuCore.Scripting
 
         private int RunBuild(ITaskSession taskSession)
         {
-            ConfigureTargets(taskSession);
-
             ConfigureDefaultProps(taskSession);
 
             ConfigureBuildProperties(taskSession);
+
+            ConfigureTargets(taskSession);
 
             string targetToRun = ParseCmdLineArgs(taskSession, taskSession.TargetTree);
 
