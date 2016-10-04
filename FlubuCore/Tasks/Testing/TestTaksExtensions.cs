@@ -43,6 +43,7 @@ namespace FlubuCore.Tasks.Testing
                 .TestExecutableArgs($"test {projectPath}")
                 .Output(output)
                 .UseDotNet()
+                .IncludeAll()
                 .AddExclude(excludeList);
         }
 
