@@ -16,7 +16,7 @@ namespace Flubu.Tests.Scripting
 
         public ScriptExecutionTests()
         {
-            _loader = new ScriptLoader(_fileLoader.Object, new CommandArguments());
+            _loader = new ScriptLoader(_fileLoader.Object);
         }
 
         [Fact]
