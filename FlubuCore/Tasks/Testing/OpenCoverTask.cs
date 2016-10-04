@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Testing
@@ -15,6 +16,7 @@ namespace FlubuCore.Tasks.Testing
         private string _testExecutableArgs = "test";
         private string _output = "coverage.xml";
         private string _workingFolder = ".";
+        private UnitTestProvider _provider;
 
         public OpenCoverTask WorkingFolder(string path)
         {
@@ -68,6 +70,7 @@ namespace FlubuCore.Tasks.Testing
         {
             _testExecutable = executablePath;
             _testExecutableArgs = "test";
+            _provider = UnitTestProvider.DotnetCore;
             return this;
         }
 
@@ -75,10 +78,12 @@ namespace FlubuCore.Tasks.Testing
         {
             RunProgramTask task = new RunProgramTask(_openCoverPath);
 
+            string testExecutable = GetExecutable();
+
             task
                 .WorkingFolder(_workingFolder)
                 .WithArguments(
-                    $"-target:{_testExecutable}",
+                    $"-target:{testExecutable}",
                     "-register:user",
                     "-oldstyle",
                     $"-output:{_output}");
@@ -92,6 +97,22 @@ namespace FlubuCore.Tasks.Testing
                 task.WithArguments($"\"-filter:{filter}\"");
 
             return task.Execute(context);
+        }
+
+        private string GetExecutable()
+        {
+            if (!string.IsNullOrEmpty(_testExecutable))
+            {
+                return _testExecutable;
+            }
+
+            switch (_provider)
+            {
+                case UnitTestProvider.DotnetCore:
+                    return Dotnet.FindDotnetExecutable();
+                default:
+                    throw new NotSupportedException($"Provider {_provider} not supported yet. Set test executable manually.");
+            }
         }
 
         private string PrepareFilter()
