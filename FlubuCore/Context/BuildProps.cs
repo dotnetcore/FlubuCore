@@ -16,5 +16,9 @@
         public const string ProductVersionFieldCount = "product_version_field_count";
 
         public const string DotNetExecutable = "dotnet_executable";
+
+        public const string NodeExecutablePath = "node_executable_path";
+        public const string UserHomeFolder = "user_home_folder";
+        public const string NpmPath = "npm_path";
     }
 }

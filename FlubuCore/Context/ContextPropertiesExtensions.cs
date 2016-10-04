@@ -17,6 +17,39 @@ namespace FlubuCore.Context
             return version;
         }
 
+        public static string GetNodeExecutablePath(this ITaskContext context)
+        {
+            return context.Properties.TryGet<string>(BuildProps.NodeExecutablePath);
+        }
+
+        public static string SetNodeExecutablePath(this ITaskContext context, string path)
+        {
+            context.Properties.Set<string>(BuildProps.NodeExecutablePath, path);
+            return path;
+        }
+
+        public static string GetNpmPath(this ITaskContext context)
+        {
+            return context.Properties.TryGet<string>(BuildProps.NpmPath);
+        }
+
+        public static string SetNpmPath(this ITaskContext context, string path)
+        {
+            context.Properties.Set<string>(BuildProps.NpmPath, path);
+            return path;
+        }
+
+        public static string GetProfileFolder(this ITaskContext context)
+        {
+            return context.Properties.TryGet<string>(BuildProps.UserHomeFolder);
+        }
+
+        public static string SetProfileFolder(this ITaskContext context, string path)
+        {
+            context.Properties.Set<string>(BuildProps.UserHomeFolder, path);
+            return path;
+        }
+
         public static Version GetBuildVersion(this ITaskContext context)
         {
             return context.Properties.TryGet<Version>(BuildProps.BuildVersion);

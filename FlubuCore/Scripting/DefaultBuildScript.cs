@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using FlubuCore.Context;
+using FlubuCore.IO;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks.NetCore;
 
@@ -98,6 +99,9 @@ namespace FlubuCore.Scripting
             taskSession.SetDotnetExecutable(Dotnet.FindDotnetExecutable());
             bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
             taskSession.SetOSPlatform(isWindows ? OSPlatform.Windows : OSPlatform.Linux);
+            taskSession.SetNodeExecutablePath(IOExtensions.GetNodePath(isWindows));
+            taskSession.SetProfileFolder(IOExtensions.GetUserProfileFolder(isWindows));
+            taskSession.SetNpmPath(IOExtensions.GetNpmPath(isWindows));
 
             if (isWindows)
             {
