@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using FlubuCore.Context;
 using Microsoft.DotNet.Cli.Utils;
@@ -38,6 +39,9 @@ namespace FlubuCore.Tasks.Process
 
         public RunProgramTask WorkingFolder(string folder)
         {
+            if (string.IsNullOrEmpty(folder) || folder.Equals(".", StringComparison.OrdinalIgnoreCase))
+                return this;
+
             _workingFolder = folder;
             return this;
         }
