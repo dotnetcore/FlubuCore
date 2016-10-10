@@ -7,13 +7,6 @@ namespace FlubuCore.Tasks.NetCore
 {
     public static class Dotnet
     {
-        public static ExecuteDotnetTask Build(string projectName = null, string workingFolder = null)
-        {
-            return new ExecuteDotnetTask(StandardDotnetCommands.Build)
-                .WorkingFolder(workingFolder)
-                .WithArguments(projectName);
-        }
-
         public static ITarget DotnetBuild(this ITarget target, params string[] projects)
         {
             foreach (string project in projects)
@@ -22,6 +15,23 @@ namespace FlubuCore.Tasks.NetCore
             }
 
             return target;
+        }
+
+        public static ITarget DotnetPublish(this ITarget target, params string[] projects)
+        {
+            foreach (string project in projects)
+            {
+                target.AddTask(Dotnet.Publish(project));
+            }
+
+            return target;
+        }
+
+        public static ExecuteDotnetTask Build(string projectName = null, string workingFolder = null)
+        {
+            return new ExecuteDotnetTask(StandardDotnetCommands.Build)
+                .WorkingFolder(workingFolder)
+                .WithArguments(projectName);
         }
 
         public static ExecuteDotnetTask Restore(string projectName = null, string workingFolder = null)
@@ -61,16 +71,6 @@ namespace FlubuCore.Tasks.NetCore
             return new ExecuteDotnetTask(StandardDotnetCommands.Publish)
                 .WorkingFolder(workingFolder)
                 .WithArguments(projectName);
-        }
-
-        public static ITarget DotnetPublish(this ITarget target, params string[] projects)
-        {
-            foreach (string project in projects)
-            {
-                target.AddTask(Dotnet.Publish(project));
-            }
-
-            return target;
         }
 
         public static ExecuteDotnetTask Run(string projectName = null, string workingFolder = null)
