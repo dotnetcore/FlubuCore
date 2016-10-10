@@ -25,6 +25,13 @@ namespace FlubuCore.Tasks.NetCore
             return target;
         }
 
+        public static ITarget DotnetEfDropDatabase(this ITarget target, string workingFolder)
+        {
+            target.AddTask(EfDropDatabase(workingFolder));
+
+            return target;
+        }
+
         public static ExecuteDotnetTask AddEfMigration(string workingFolder, string migrationName = "default")
         {
             return new ExecuteDotnetTask("ef")
@@ -44,11 +51,18 @@ namespace FlubuCore.Tasks.NetCore
             return task;
         }
 
-        public static ExecuteDotnetTask EfUpdateDatabase(string workingFolder, string migrationName = "default")
+        public static ExecuteDotnetTask EfUpdateDatabase(string workingFolder)
         {
             return new ExecuteDotnetTask("ef")
                 .WorkingFolder(workingFolder)
                 .WithArguments("database", "update");
+        }
+
+        public static ExecuteDotnetTask EfDropDatabase(string workingFolder)
+        {
+            return new ExecuteDotnetTask("ef")
+                .WorkingFolder(workingFolder)
+                .WithArguments("database", "drop", "--force");
         }
     }
 }
