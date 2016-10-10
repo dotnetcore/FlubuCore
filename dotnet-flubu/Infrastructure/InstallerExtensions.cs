@@ -1,7 +1,10 @@
 ﻿using DotNet.Cli.Flubu.Commanding;
 using DotNet.Cli.Flubu.Scripting;
 using FlubuCore.Context;
+using FlubuCore.Infrastructure;
+using FlubuCore.Services;
 using FlubuCore.Targeting;
+using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,7 +24,9 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddSingleton<IFileLoader, FileLoader>()
                 .AddSingleton<ITaskContextSession, TaskContextSession>()
                 .AddSingleton<TargetTree>()
-                .AddSingleton<ITaskSession, TaskSession>();
+                .AddSingleton<ITaskSession, TaskSession>()
+                .AddSingleton<IComponentProvider, ComponentProvider>()
+                .AddSingleton<ICommandFactory, CommandFactory>();
 
             return services;
         }
