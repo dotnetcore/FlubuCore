@@ -35,7 +35,6 @@ namespace DotNet.Cli.Flubu.Scripting
         public Task<IBuildScript> FindBuildScript(CommandArguments args)
         {
             string fileName = GetFileName(args);
-
             return FindAndCreateBuildScriptInstanceAsync(fileName);
         }
 

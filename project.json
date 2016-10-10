@@ -9,10 +9,7 @@
         "BuildScript.cs"
       ],
       "exclude": [
-        "dotnet-flubu/**",
-        "FlubuCore/**",
-        "Flubu.Tests/**",
-        "CommonAssemblyInfo.cs"
+        "**"
       ]
     }
   },

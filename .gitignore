@@ -22,3 +22,7 @@ flubu.core/obj/
 /FlubuCore/bin
 /FlubuCore/obj
 tmp/
+/Flubu.VisualStudio/bin/Debug
+/Flubu.VisualStudio/obj/Debug
+/Flubu.VisualStudio/Flubu.VisualStudio.csproj.user
+/packages
