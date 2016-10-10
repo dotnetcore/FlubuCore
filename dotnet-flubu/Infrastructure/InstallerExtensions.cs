@@ -2,6 +2,7 @@
 using DotNet.Cli.Flubu.Scripting;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
+using FlubuCore.Services;
 using FlubuCore.Targeting;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.CommandLineUtils;

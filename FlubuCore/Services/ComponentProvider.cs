@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FlubuCore.Services;
 using FlubuCore.Tasks.Process;
 using Microsoft.DotNet.Cli.Utils;
 
@@ -19,6 +20,11 @@ namespace FlubuCore.Infrastructure
         public IRunProgramTask CreateRunProgramTask(string programToExecute)
         {
             return new RunProgramTask(_commandFactory, programToExecute);
+        }
+
+        public IFlubuEnviromentService CreateFlubuEnviromentService()
+        {
+            return new FlubuEnviromentService();
         }
     }
 }
