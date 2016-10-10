@@ -97,6 +97,7 @@ namespace FlubuCore.Tasks.Testing
                     $"-target:{testExecutable}",
                     "-register:user",
                     "-oldstyle",
+                    "-returntargetcode",
                     $"-output:{_output}");
 
             if (!string.IsNullOrEmpty(_workingFolder))

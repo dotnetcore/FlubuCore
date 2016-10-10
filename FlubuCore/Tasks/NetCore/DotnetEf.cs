@@ -25,13 +25,6 @@ namespace FlubuCore.Tasks.NetCore
             return target;
         }
 
-        public static ITarget DotnetEfRecreate(this ITarget target, string workingFolder, string migrationName = "default")
-        {
-            target.AddTask(EfUpdateDatabase(workingFolder));
-
-            return target;
-        }
-
         public static ExecuteDotnetTask AddEfMigration(string workingFolder, string migrationName = "default")
         {
             return new ExecuteDotnetTask("ef")
