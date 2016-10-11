@@ -74,7 +74,7 @@ namespace FlubuCore.Tasks.Solution
                 task.WorkingFolder(Path.GetDirectoryName(_solutionFileName));
 
             if (_target != null)
-                task.WithArguments("/t:", _target);
+                task.WithArguments($"/t:{_target}");
 
             task.Execute(context);
 
