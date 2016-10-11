@@ -65,16 +65,16 @@ namespace FlubuCore.Tasks.Solution
             IRunProgramTask task = _componentProvider.CreateRunProgramTask(msbuildPath);
             task
                 .WithArguments(_solutionFileName)
-                .WithArguments("/p:Configuration={0}", _buildConfiguration)
+                .WithArguments("/p:Configuration=", _buildConfiguration)
                 .WithArguments("/p:Platform=Any CPU")
                 .WithArguments("/consoleloggerparameters:NoSummary")
-                .WithArguments("/maxcpucount:{0}", _maxCpuCount.ToString());
+                .WithArguments("/maxcpucount:", _maxCpuCount.ToString());
 
             if (_useSolutionDirAsWorkingDir)
                 task.WorkingFolder(Path.GetDirectoryName(_solutionFileName));
 
             if (_target != null)
-                task.WithArguments("/t:{0}", _target);
+                task.WithArguments("/t:", _target);
 
             task.Execute(context);
 
