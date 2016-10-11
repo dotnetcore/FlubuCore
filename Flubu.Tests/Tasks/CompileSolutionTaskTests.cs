@@ -105,10 +105,10 @@ namespace Flubu.Tests.Tasks
         private void SetupRunProgramTask()
         {
             _runProgramTask.Setup(x => x.WithArguments("x.sln")).Returns(_runProgramTask.Object);
-            _runProgramTask.Setup(x => x.WithArguments("/p:Configuration={0}", "Release")).Returns(_runProgramTask.Object);
+            _runProgramTask.Setup(x => x.WithArguments("/p:Configuration=", "Release")).Returns(_runProgramTask.Object);
             _runProgramTask.Setup(x => x.WithArguments("/p:Platform=Any CPU")).Returns(_runProgramTask.Object);
             _runProgramTask.Setup(x => x.WithArguments("/consoleloggerparameters:NoSummary")).Returns(_runProgramTask.Object);
-            _runProgramTask.Setup(x => x.WithArguments("/maxcpucount:{0}", "3")).Returns(_runProgramTask.Object);
+            _runProgramTask.Setup(x => x.WithArguments("/maxcpucount:", "3")).Returns(_runProgramTask.Object);
         }
     }
 }
