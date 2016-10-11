@@ -86,7 +86,7 @@ namespace FlubuCore.Tasks.Solution
             string msbuildPath;
             var flubuEnvironmentService = _componentProvider.CreateFlubuEnviromentService();
             IDictionary<Version, string> msbuilds = flubuEnvironmentService.ListAvailableMSBuildToolsVersions();
-            if (msbuilds.Count == 0)
+            if (msbuilds == null || msbuilds.Count == 0)
                 throw new TaskExecutionException("No MSBuild tools found on the system", 0);
 
             if (_toolsVersion != null)

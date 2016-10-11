@@ -9,7 +9,7 @@ namespace FlubuCore.Services
     {
         public IDictionary<Version, string> ListAvailableMSBuildToolsVersions()
         {
-            return null;
+           return FlubuEnviroment.ListAvailableMSBuildToolsVersions();
         }
     }
 }
