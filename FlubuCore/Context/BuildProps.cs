@@ -20,5 +20,8 @@
         public const string NodeExecutablePath = "node_executable_path";
         public const string UserHomeFolder = "user_home_folder";
         public const string NpmPath = "npm_path";
+
+        public const string Solution = "Solution";
+        public const string NUnitConsolePath = "nunit_console_path";
     }
 }
