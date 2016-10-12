@@ -1,6 +1,6 @@
 ﻿using System;
-using FlubuCore.Context;
 using FlubuCore.Scripting;
+using FlubuCore.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace FlubuCore.Context
@@ -8,14 +8,20 @@ namespace FlubuCore.Context
     public class TaskContext : ITaskContext
     {
         private readonly ILogger _log;
+        private readonly ITaskFactory _taskFactory;
 
         private bool _disposed;
 
         private int _executionDepth;
 
-        public TaskContext(ILogger log, ITaskContextSession taskContextProperties, CommandArguments args)
+        public TaskContext(
+            ILogger log,
+            ITaskContextSession taskContextProperties,
+            CommandArguments args,
+            ITaskFactory taskFactory)
         {
             _log = log;
+            _taskFactory = taskFactory;
             Args = args;
             Properties = taskContextProperties;
         }
@@ -39,6 +45,18 @@ namespace FlubuCore.Context
         public void LogError(string message)
         {
             _log?.LogError(message);
+        }
+
+        public T CreateTask<T>()
+            where T : TaskBase
+        {
+            return _taskFactory.Create<T>();
+        }
+
+        public T CreateTask<T>(params object[] constructorArgs)
+            where T : TaskBase
+        {
+            return _taskFactory.Create<T>(constructorArgs);
         }
 
         public void DecreaseDepth()

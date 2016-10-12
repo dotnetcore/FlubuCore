@@ -1,5 +1,8 @@
-﻿using FlubuCore.Context;
+﻿using System;
+using FlubuCore.Context;
 using FlubuCore.Scripting;
+using FlubuCore.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace Flubu.Tests.Tasks
@@ -8,9 +11,12 @@ namespace Flubu.Tests.Tasks
     {
         protected TaskTestBase(ILoggerFactory loggerFactory)
         {
-            Context = new TaskContext(loggerFactory.CreateLogger<TaskSession>(), new TaskContextSession(), new CommandArguments());
+            ServiceProvider = new ServiceCollection().BuildServiceProvider();
+            Context = new TaskContext(loggerFactory.CreateLogger<TaskSession>(), new TaskContextSession(), new CommandArguments(), new DotnetTaskFactory(ServiceProvider));
         }
 
         protected ITaskContext Context { get; set; }
+
+        protected IServiceProvider ServiceProvider { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using FlubuCore.Scripting;
+using FlubuCore.Tasks;
 
 namespace FlubuCore.Context
 {
@@ -20,5 +21,8 @@ namespace FlubuCore.Context
         void LogInfo(string message);
 
         void LogError(string message);
+
+        T CreateTask<T>()
+            where T : TaskBase;
     }
 }

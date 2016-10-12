@@ -3,6 +3,7 @@ using System.Diagnostics;
 using FlubuCore.Scripting;
 using FlubuCore.Services;
 using FlubuCore.Targeting;
+using FlubuCore.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace FlubuCore.Context
@@ -20,8 +21,9 @@ namespace FlubuCore.Context
             ITaskContextSession taskContextProperties,
             TargetTree targetTree,
             CommandArguments args,
-            IComponentProvider componentProvider)
-            : base(log, taskContextProperties, args)
+            IComponentProvider componentProvider,
+            ITaskFactory taskFactory)
+            : base(log, taskContextProperties, args, taskFactory)
         {
             HasFailed = true;
             TargetTree = targetTree;

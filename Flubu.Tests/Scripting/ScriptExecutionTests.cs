@@ -45,7 +45,13 @@ public class MyBuildScript : DefaultBuildScript
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync("e.cs");
             var provider = new ServiceCollection().BuildServiceProvider();
-            t.Run(new TaskSession(null, new TaskContextSession(), new TargetTree(provider, new DotnetTaskFactory(provider)), new CommandArguments(), new ComponentProvider(new CommandFactory())));
+            t.Run(new TaskSession(
+                null,
+                new TaskContextSession(),
+                new TargetTree(provider, new DotnetTaskFactory(provider)),
+                new CommandArguments(),
+                new ComponentProvider(new CommandFactory()),
+                new DotnetTaskFactory(provider)));
         }
 
         [Fact]
@@ -69,7 +75,13 @@ public class MyBuildScript : IBuildScript
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync("e.cs");
 
             var provider = new ServiceCollection().BuildServiceProvider();
-            t.Run(new TaskSession(null, new TaskContextSession(), new TargetTree(provider, new DotnetTaskFactory(provider)), new CommandArguments(), new ComponentProvider(new CommandFactory())));
+            t.Run(new TaskSession(
+                null,
+                new TaskContextSession(),
+                new TargetTree(provider, new DotnetTaskFactory(provider)),
+                new CommandArguments(),
+                new ComponentProvider(new CommandFactory()),
+                new DotnetTaskFactory(provider)));
         }
     }
 }
