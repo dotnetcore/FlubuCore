@@ -1,4 +1,5 @@
 ﻿using System;
+using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks;
@@ -11,7 +12,10 @@ namespace Flubu.Tests.Tasks
     {
         protected TaskTestBase(ILoggerFactory loggerFactory)
         {
-            ServiceProvider = new ServiceCollection().BuildServiceProvider();
+            ServiceProvider = new ServiceCollection()
+                .AddCoreComponents()
+                .BuildServiceProvider();
+
             Context = new TaskContext(loggerFactory.CreateLogger<TaskSession>(), new TaskContextSession(), new CommandArguments(), new DotnetTaskFactory(ServiceProvider));
         }
 

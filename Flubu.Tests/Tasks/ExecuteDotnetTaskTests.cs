@@ -18,7 +18,9 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void ExecuteNonExistentCommand()
         {
-            ExecuteDotnetTask task = new ExecuteDotnetTask("nonexist");
+            ExecuteDotnetTask task = Context
+                .CreateTask<ExecuteDotnetTask>("nonexist")
+                .DotnetExecutable("C:/Program Files/dotnet/dotnet.exe");
 
             TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.Execute(Context));
         }
@@ -27,11 +29,12 @@ namespace Flubu.Tests.Tasks
         public void ExecuteWrongArgsCommand()
         {
             ExecuteDotnetTask task = new ExecuteDotnetTask("build")
+                .DotnetExecutable("C:/Program Files/dotnet/dotnet.exe")
                 .WithArguments("Flubu.NonExtstProj");
 
             TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.Execute(Context));
 
-            Assert.Equal(-1, e.ErrorCode);
+            Assert.Equal(1, e.ErrorCode);
         }
 
         [Fact]
@@ -46,8 +49,10 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void ExecuteCommand()
         {
-            ExecuteDotnetTask task = new ExecuteDotnetTask("help");
-            task.DotnetExecutable("C:/Program Files/dotnet/dotnet.exe");
+            ExecuteDotnetTask task = Context
+                .CreateTask<ExecuteDotnetTask>("help")
+                .DotnetExecutable("C:/Program Files/dotnet/dotnet.exe");
+
             int res = task.Execute(Context);
             Assert.Equal(0, res);
         }

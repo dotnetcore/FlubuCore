@@ -24,5 +24,8 @@ namespace FlubuCore.Context
 
         T CreateTask<T>()
             where T : TaskBase;
+
+        T CreateTask<T>(params object[] constructorArgs)
+            where T : TaskBase;
     }
 }

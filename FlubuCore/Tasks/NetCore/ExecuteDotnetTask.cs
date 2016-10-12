@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using FlubuCore.Context;
 using FlubuCore.Tasks.Process;
-using Microsoft.DotNet.Cli.Utils;
 
 namespace FlubuCore.Tasks.NetCore
 {
@@ -68,7 +67,7 @@ namespace FlubuCore.Tasks.NetCore
                 return -1;
             }
 
-            RunProgramTask task = new RunProgramTask(new CommandFactory(), program);
+            RunProgramTask task = context.CreateTask<RunProgramTask>(program);
 
             return task
                 .WithArguments(_command)
