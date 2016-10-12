@@ -1,15 +1,30 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Targeting;
+using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace Flubu.Tests
 {
     public class TargetTests
     {
+        private readonly IServiceCollection _services = new ServiceCollection();
+        private readonly IServiceProvider _provider;
+
+        public TargetTests()
+        {
+            _services
+                .AddCoreComponents()
+                .AddArguments(new string[] { });
+
+            _provider = _services.BuildServiceProvider();
+        }
+
         [Fact]
         public void AddToTargetTreeTest()
         {
-            var targetTree = new TargetTree();
+            var targetTree = _provider.GetService<TargetTree>();
 
             new Target("test target")
                 .AddToTargetTree(targetTree);

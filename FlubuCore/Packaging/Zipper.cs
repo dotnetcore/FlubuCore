@@ -19,7 +19,7 @@ namespace FlubuCore.Packaging
             FullPath baseDir,
             IEnumerable<FileFullPath> filesToZip)
         {
-            _taskContext.WriteMessage(string.Format("Zipping {0}", zipFileName));
+            _taskContext.LogInfo(string.Format("Zipping {0}", zipFileName));
 
             using (ZipArchive newFile = ZipFile.Open(zipFileName.ToFullPath(), ZipArchiveMode.Create))
             {

@@ -4,7 +4,6 @@ using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
-using System.Xml.XPath;
 using FlubuCore.IO;
 
 namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing

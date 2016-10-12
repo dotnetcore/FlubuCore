@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using FlubuCore.Infrastructure;
 using FlubuCore.Scripting;
 using FlubuCore.Services;
 using FlubuCore.Targeting;
@@ -16,7 +15,12 @@ namespace FlubuCore.Context
 
         private Action<ITaskSession> _onFinishDo;
 
-        public TaskSession(ILogger<TaskSession> log, ITaskContextSession taskContextProperties, TargetTree targetTree, CommandArguments args, IComponentProvider componentProvider)
+        public TaskSession(
+            ILogger<TaskSession> log,
+            ITaskContextSession taskContextProperties,
+            TargetTree targetTree,
+            CommandArguments args,
+            IComponentProvider componentProvider)
             : base(log, taskContextProperties, args)
         {
             HasFailed = true;

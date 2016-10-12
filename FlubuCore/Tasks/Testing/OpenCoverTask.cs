@@ -4,6 +4,7 @@ using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Process;
+using Microsoft.DotNet.Cli.Utils;
 
 namespace FlubuCore.Tasks.Testing
 {
@@ -88,7 +89,7 @@ namespace FlubuCore.Tasks.Testing
 
         protected override int DoExecute(ITaskContext context)
         {
-            RunProgramTask task = new RunProgramTask(_openCoverPath);
+            RunProgramTask task = new RunProgramTask(new CommandFactory(), _openCoverPath);
 
             string testExecutable = GetExecutable();
 

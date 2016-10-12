@@ -13,7 +13,7 @@ namespace FlubuCore.Tasks.Solution
 
         protected override int DoExecute(ITaskContext context)
         {
-            context.WriteMessage($"Load solution {_solutionFile} properties");
+            context.LogInfo($"Load solution {_solutionFile} properties");
 
             return 0;
         }

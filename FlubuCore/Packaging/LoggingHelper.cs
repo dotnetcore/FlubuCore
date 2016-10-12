@@ -8,7 +8,7 @@ namespace FlubuCore.Packaging
         {
             if (filter != null && !filter.IsPassedThrough(fileName))
             {
-                taskContext.WriteMessage(string.Format("File '{0}' has been filtered out.", fileName));
+                taskContext.LogInfo(string.Format("File '{0}' has been filtered out.", fileName));
                 return false;
             }
 

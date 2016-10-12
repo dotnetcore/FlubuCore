@@ -17,6 +17,8 @@ namespace FlubuCore.Context
 
         void IncreaseDepth();
 
-        void WriteMessage(string message);
+        void LogInfo(string message);
+
+        void LogError(string message);
     }
 }

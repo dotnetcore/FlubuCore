@@ -47,7 +47,7 @@ namespace FlubuCore.Tasks
 
             if (!string.IsNullOrEmpty(DescriptionForLog))
             {
-                context.WriteMessage(DescriptionForLog);
+                context.LogInfo(DescriptionForLog);
             }
 
             context.IncreaseDepth();
@@ -63,7 +63,7 @@ namespace FlubuCore.Tasks
 
                 if (LogDuration)
                 {
-                    context.WriteMessage($"{DescriptionForLog} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
+                    context.LogInfo($"{DescriptionForLog} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
                 }
             }
         }

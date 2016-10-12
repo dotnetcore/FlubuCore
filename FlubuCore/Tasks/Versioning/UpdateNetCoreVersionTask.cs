@@ -46,7 +46,7 @@ namespace FlubuCore.Tasks.Versioning
                 throw new TaskExecutionException("Version is not set!", 1);
             }
 
-            context.WriteMessage($"Update version to {_version}");
+            context.LogInfo($"Update version to {_version}");
 
             string newVersion = _version.ToString(3);
             int res = 0;

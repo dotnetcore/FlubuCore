@@ -22,7 +22,7 @@ namespace FlubuCore.Tasks.Versioning
                     Version current = context.GetBuildVersion();
                     var newVer = new Version(current.Major, current.Minor, int.Parse(val));
                     context.SetBuildVersion(newVer);
-                    context.WriteMessage($"Updated version to {newVer.ToString(3)}");
+                    context.LogInfo($"Updated version to {newVer.ToString(3)}");
                     break;
                 }
             }

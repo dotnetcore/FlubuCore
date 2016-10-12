@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using FlubuCore.Context;
 using FlubuCore.Tasks.Process;
+using Microsoft.DotNet.Cli.Utils;
 
 namespace FlubuCore.Tasks.Testing
 {
@@ -24,7 +25,7 @@ namespace FlubuCore.Tasks.Testing
 
         protected override int DoExecute(ITaskContext context)
         {
-            RunProgramTask task = new RunProgramTask(_toolPath);
+            RunProgramTask task = new RunProgramTask(new CommandFactory(), _toolPath);
 
             task
                 .WorkingFolder(_workingFolder)

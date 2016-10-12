@@ -41,7 +41,7 @@ namespace FlubuCore.Tasks.Solution
             }
 
             context.SetBuildVersion(_buildVersion);
-            context.WriteMessage($"Project build version (from file): {_buildVersion}");
+            context.LogInfo($"Project build version (from file): {_buildVersion}");
             return 0;
         }
     }

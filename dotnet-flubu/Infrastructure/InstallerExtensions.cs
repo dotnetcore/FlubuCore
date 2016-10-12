@@ -4,6 +4,7 @@ using FlubuCore.Context;
 using FlubuCore.Infrastructure;
 using FlubuCore.Services;
 using FlubuCore.Targeting;
+using FlubuCore.Tasks;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +13,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
 {
     public static class InstallerExtensions
     {
-        public static IServiceCollection RegisterAll(this IServiceCollection services)
+        public static IServiceCollection AddCoreComponents(this IServiceCollection services)
         {
             services.AddLogging();
 
@@ -26,7 +27,8 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddSingleton<TargetTree>()
                 .AddSingleton<ITaskSession, TaskSession>()
                 .AddSingleton<IComponentProvider, ComponentProvider>()
-                .AddSingleton<ICommandFactory, CommandFactory>();
+                .AddSingleton<ICommandFactory, CommandFactory>()
+                .AddSingleton<ITaskFactory, DotnetTaskFactory>();
 
             return services;
         }

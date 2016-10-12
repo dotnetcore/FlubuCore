@@ -14,11 +14,6 @@ namespace FlubuCore.Tasks.Process
         private ICommandFactory _commandFactory;
         private string _workingFolder;
 
-        public RunProgramTask(string programToExecute)
-        {
-            _programToExecute = programToExecute;
-        }
-
         public RunProgramTask(ICommandFactory commandFactory, string programToExecute)
         {
             _commandFactory = commandFactory;
@@ -61,10 +56,10 @@ namespace FlubuCore.Tasks.Process
                 .CaptureStdErr()
                 .CaptureStdOut()
                 .WorkingDirectory(_workingFolder ?? currentDirectory)
-                .OnErrorLine(context.WriteMessage)
-                .OnOutputLine(context.WriteMessage);
+                .OnErrorLine(context.LogInfo)
+                .OnOutputLine(context.LogInfo);
 
-            context.WriteMessage(
+            context.LogInfo(
                 $"Running program '{command.CommandName}':(work.dir='{_workingFolder}',args='{command.CommandArgs}')");
 
             int res = command.Execute()

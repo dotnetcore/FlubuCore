@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.FileSystem
 
         protected override int DoExecute(ITaskContext context)
         {
-            context.WriteMessage($"Delete files from directory {_directoryPath} matching pattern '{_filePattern}'");
+            context.LogInfo($"Delete files from directory {_directoryPath} matching pattern '{_filePattern}'");
 
             var searchOption = SearchOption.TopDirectoryOnly;
 
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.FileSystem
             foreach (var file in Directory.EnumerateFiles(_directoryPath, _filePattern, searchOption))
             {
                 File.Delete(file);
-                context.WriteMessage($"Deleted file '{file}'");
+                context.LogInfo($"Deleted file '{file}'");
             }
 
             return 0;

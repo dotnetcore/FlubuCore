@@ -8,8 +8,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
 {
     public class FlubuConsoleLogger : ILogger
     {
-        private static readonly object _lock = new object();
-        private static readonly string _loglevelPadding = ": ";
+        private static readonly object Lock = new object();
 
         [ThreadStatic]
         private static StringBuilder _logBuilder;
@@ -18,9 +17,8 @@ namespace DotNet.Cli.Flubu.Infrastructure
         private readonly ConsoleColor? _defaultConsoleColor = null;
 
         private IConsole _console;
-        private Func<string, LogLevel, bool> _filter;
 
-        public FlubuConsoleLogger(string name, Func<string, LogLevel, bool> filter)
+        public FlubuConsoleLogger(string name)
         {
             if (name == null)
             {
@@ -28,7 +26,6 @@ namespace DotNet.Cli.Flubu.Infrastructure
             }
 
             Name = name;
-            Filter = filter ?? ((category, logLevel) => true);
 
             Console = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
                 ? (IConsole)new WindowsLogConsole()
@@ -50,24 +47,6 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 }
 
                 _console = value;
-            }
-        }
-
-        public Func<string, LogLevel, bool> Filter
-        {
-            get
-            {
-                return _filter;
-            }
-
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-
-                _filter = value;
             }
         }
 
@@ -120,9 +99,6 @@ namespace DotNet.Cli.Flubu.Infrastructure
             if (!string.IsNullOrEmpty(message))
             {
                 logLevelColors = GetLogLevelConsoleColors(logLevel);
-                logLevelString = GetLogLevelString(logLevel);
-
-                logBuilder.Append(_loglevelPadding);
 
                 logBuilder.AppendLine(message);
             }
@@ -136,7 +112,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
             {
                 var logMessage = logBuilder.ToString();
 
-                lock (_lock)
+                lock (Lock)
                 {
                     if (!string.IsNullOrEmpty(logLevelString))
                     {
@@ -167,33 +143,12 @@ namespace DotNet.Cli.Flubu.Infrastructure
 
         public bool IsEnabled(LogLevel logLevel)
         {
-            return Filter(Name, logLevel);
+            return true;
         }
 
         public IDisposable BeginScope<TState>(TState state)
         {
             throw new NotSupportedException();
-        }
-
-        private static string GetLogLevelString(LogLevel logLevel)
-        {
-            switch (logLevel)
-            {
-                case LogLevel.Trace:
-                    return "trce";
-                case LogLevel.Debug:
-                    return "dbug";
-                case LogLevel.Information:
-                    return "info";
-                case LogLevel.Warning:
-                    return "warn";
-                case LogLevel.Error:
-                    return "fail";
-                case LogLevel.Critical:
-                    return "crit";
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(logLevel));
-            }
         }
 
         private ConsoleColors GetLogLevelConsoleColors(LogLevel logLevel)

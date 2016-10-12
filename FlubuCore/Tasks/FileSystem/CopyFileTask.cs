@@ -32,7 +32,7 @@ namespace FlubuCore.Tasks.FileSystem
 
         protected override int DoExecute(ITaskContext context)
         {
-            context.WriteMessage($"Copy file '{_sourceFileName}' to '{_destinationFileName}'");
+            context.LogInfo($"Copy file '{_sourceFileName}' to '{_destinationFileName}'");
 
             var dir = Path.GetDirectoryName(_destinationFileName);
             if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))

@@ -18,12 +18,12 @@ namespace FlubuCore.Scripting
             }
             catch (TaskExecutionException e)
             {
-                taskSession.WriteMessage(e.Message);
+                taskSession.LogInfo(e.Message);
                 return 1;
             }
             catch (Exception ex)
             {
-                taskSession.WriteMessage(ex.ToString());
+                taskSession.LogInfo(ex.ToString());
                 return 2;
             }
         }
@@ -44,7 +44,7 @@ namespace FlubuCore.Scripting
                 return context.Args.MainCommand;
             }
 
-            context.WriteMessage($"ERROR: Target {context.Args.MainCommand} not found.");
+            context.LogInfo($"ERROR: Target {context.Args.MainCommand} not found.");
             return null;
         }
 
@@ -79,15 +79,15 @@ namespace FlubuCore.Scripting
                         sortedTargets.Add(target.TargetName, target);
                     }
 
-                    foreach (var target in sortedTargets.Values)
+                    foreach (ITarget target in sortedTargets.Values)
                     {
                         if (target.TaskStopwatch.ElapsedTicks > 0)
                         {
-                            s.WriteMessage($"Target {target.TargetName} took {(int)target.TaskStopwatch.Elapsed.TotalSeconds} s");
+                            s.LogInfo($"Target {target.TargetName} took {(int)target.TaskStopwatch.Elapsed.TotalSeconds} s");
                         }
                     }
 
-                    s.WriteMessage(s.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
+                    s.LogInfo(s.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
                 });
 
             return taskSession.TargetTree.RunTarget(taskSession, targetToRun);

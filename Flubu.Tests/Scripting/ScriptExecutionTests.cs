@@ -1,10 +1,11 @@
-﻿using System.Threading.Tasks;
-using DotNet.Cli.Flubu.Scripting;
+﻿using DotNet.Cli.Flubu.Scripting;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
+using FlubuCore.Tasks;
 using Microsoft.DotNet.Cli.Utils;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
 
@@ -22,7 +23,7 @@ namespace Flubu.Tests.Scripting
         }
 
         [Fact]
-        public async Task LoadDefaultScript()
+        public async System.Threading.Tasks.Task LoadDefaultScript()
         {
             _fileLoader.Setup(i => i.LoadFile("e.cs")).Returns(@"
 using System;
@@ -43,12 +44,12 @@ public class MyBuildScript : DefaultBuildScript
     }");
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync("e.cs");
-
-            t.Run(new TaskSession(null, new TaskContextSession(), new TargetTree(), new CommandArguments(), new ComponentProvider(new CommandFactory())));
+            var provider = new ServiceCollection().BuildServiceProvider();
+            t.Run(new TaskSession(null, new TaskContextSession(), new TargetTree(provider, new DotnetTaskFactory(provider)), new CommandArguments(), new ComponentProvider(new CommandFactory())));
         }
 
         [Fact]
-        public async Task LoadSimpleScript()
+        public async System.Threading.Tasks.Task LoadSimpleScript()
         {
             _fileLoader.Setup(i => i.LoadFile("e.cs"))
                 .Returns(@"
@@ -66,7 +67,9 @@ public class MyBuildScript : IBuildScript
 }");
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync("e.cs");
-            t.Run(new TaskSession(null, new TaskContextSession(), new TargetTree(), new CommandArguments(), new ComponentProvider(new CommandFactory())));
+
+            var provider = new ServiceCollection().BuildServiceProvider();
+            t.Run(new TaskSession(null, new TaskContextSession(), new TargetTree(provider, new DotnetTaskFactory(provider)), new CommandArguments(), new ComponentProvider(new CommandFactory())));
         }
     }
 }

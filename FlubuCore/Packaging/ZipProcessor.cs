@@ -62,7 +62,7 @@ namespace FlubuCore.Packaging
                             continue;
                         }
 
-                        _taskContext.WriteMessage(string.Format("Adding file '{0}' to zip package", file.FileFullPath));
+                        _taskContext.LogInfo(string.Format("Adding file '{0}' to zip package", file.FileFullPath));
                         filesToZip.Add(file.FileFullPath);
                     }
                 }

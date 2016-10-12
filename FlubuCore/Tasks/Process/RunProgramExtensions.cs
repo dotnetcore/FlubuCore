@@ -1,5 +1,6 @@
 ﻿using System;
 using FlubuCore.Targeting;
+using Microsoft.DotNet.Cli.Utils;
 
 namespace FlubuCore.Tasks.Process
 {
@@ -24,7 +25,7 @@ namespace FlubuCore.Tasks.Process
 
         private static ITask RunProgram(string program, string workingFolder, params string[] args)
         {
-            RunProgramTask task = new RunProgramTask(program);
+            RunProgramTask task = new RunProgramTask(new CommandFactory(), program);
 
             return task
                 .WorkingFolder(workingFolder)

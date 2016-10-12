@@ -1,6 +1,7 @@
 ﻿using System;
 using DotNet.Cli.Flubu.Commanding;
 using DotNet.Cli.Flubu.Infrastructure;
+using FlubuCore.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -19,8 +20,10 @@ namespace DotNet.Cli.Flubu
                 args = new string[0];
             }
 
-            Services.RegisterAll();
-            Services.AddArguments(args);
+            Services
+                .AddCoreComponents()
+                .AddArguments(args)
+                .AddTasks();
 
             _provider = Services.BuildServiceProvider();
             ILoggerFactory factory = _provider.GetRequiredService<ILoggerFactory>();

@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.IO;
 using FlubuCore.Tasks.Process;
 using FlubuCore.Tasks.Solution.VSSolutionBrowsing;
+using Microsoft.DotNet.Cli.Utils;
 
 namespace FlubuCore.Tasks.Testing
 {
@@ -20,7 +19,7 @@ namespace FlubuCore.Tasks.Testing
     {
         private readonly List<string> _nunitCommandLineOptions = new List<string>();
 
-        private readonly string _projectName = null;
+        private readonly string _projectName;
 
         private string _nunitConsoleFileName;
 
@@ -194,7 +193,7 @@ namespace FlubuCore.Tasks.Testing
                 _nunitConsoleFileName = context.Properties.Get<string>(BuildProps.NUnitConsolePath);
             }
 
-            RunProgramTask task = new RunProgramTask(_nunitConsoleFileName);
+            RunProgramTask task = new RunProgramTask(new CommandFactory(), _nunitConsoleFileName);
 
             SetAssemblyFileNameAndWorkingDirFromProjectName(context);
             Validate();

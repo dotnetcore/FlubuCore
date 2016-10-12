@@ -31,9 +31,14 @@ namespace FlubuCore.Context
             _executionDepth++;
         }
 
-        public void WriteMessage(string message)
+        public void LogInfo(string message)
         {
             _log?.LogInformation(message);
+        }
+
+        public void LogError(string message)
+        {
+            _log?.LogError(message);
         }
 
         public void DecreaseDepth()
@@ -43,7 +48,7 @@ namespace FlubuCore.Context
 
         public void Fail(string message, int errorCode = 0)
         {
-            WriteMessage(message);
+            LogError(message);
             throw new TaskExecutionException(message, errorCode);
         }
 

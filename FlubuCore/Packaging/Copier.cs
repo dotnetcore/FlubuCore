@@ -21,12 +21,12 @@ namespace FlubuCore.Packaging
             {
                 if (!Directory.Exists(directoryName))
                 {
-                    _taskContext.WriteMessage(string.Format("Creating directory '{0}'", directoryName));
+                    _taskContext.LogInfo(string.Format("Creating directory '{0}'", directoryName));
                     Directory.CreateDirectory(directoryName);
                 }
             }
 
-            _taskContext.WriteMessage(string.Format("Copying file '{0}' to '{1}'", sourceFileName, destinationFileName));
+            _taskContext.LogInfo(string.Format("Copying file '{0}' to '{1}'", sourceFileName, destinationFileName));
             File.Copy(sourceFileName.ToString(), destinationFileName.ToString(), true);
         }
     }

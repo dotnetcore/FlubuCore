@@ -1,20 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using FlubuCore.Context;
+using FlubuCore.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FlubuCore.Targeting
 {
     public class TargetTree
     {
+        private readonly IServiceProvider _provider;
+        private readonly ITaskFactory _taskFactory;
         private readonly HashSet<string> _executedTargets = new HashSet<string>();
 
         private readonly Dictionary<string, ITarget> _targets = new Dictionary<string, ITarget>();
 
-        public TargetTree()
+        public TargetTree(IServiceProvider provider, ITaskFactory taskFactory)
         {
+            _provider = provider;
+            _taskFactory = taskFactory;
+
             AddTarget("help")
                 .SetDescription("Displays the available targets in the build")
                 .Do(TargetHelp);
+
+            AddTarget("tasks")
+                .SetDescription("Displays all registered tasks")
+                .Do(TasksHelp);
         }
 
         /// <summary>
@@ -109,7 +120,7 @@ namespace FlubuCore.Targeting
         /// <param name="context">The task context.</param>
         public void TargetHelp(ITaskContext context)
         {
-            context.WriteMessage("Targets:");
+            context.LogInfo("Targets:");
 
             // first sort the targets
             var sortedTargets = new SortedList<string, ITarget>();
@@ -124,8 +135,22 @@ namespace FlubuCore.Targeting
             {
                 if (target.IsHidden == false)
                 {
-                    context.WriteMessage($"  {target.TargetName} : {target.Description}");
+                    context.LogInfo($"  {target.TargetName} : {target.Description}");
                 }
+            }
+        }
+
+        private void TasksHelp(ITaskContext context)
+        {
+            context.LogInfo("Tasks:");
+
+            // first sort the targets
+            IEnumerable<TaskBase> tasks = _provider.GetServices<TaskBase>();
+
+            // now display them in sorted order
+            foreach (TaskBase task in tasks)
+            {
+                context.LogInfo($"  {task.GetType().FullName}");
             }
         }
     }

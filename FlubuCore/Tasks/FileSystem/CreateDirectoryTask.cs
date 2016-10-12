@@ -23,7 +23,7 @@ namespace FlubuCore.Tasks.FileSystem
 
         protected override int DoExecute(ITaskContext context)
         {
-            context.WriteMessage($"Create directory '{DirectoryPath}'");
+            context.LogInfo($"Create directory '{DirectoryPath}'");
 
             if (Directory.Exists(DirectoryPath))
             {

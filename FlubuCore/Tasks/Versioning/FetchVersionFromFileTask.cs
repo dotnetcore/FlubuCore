@@ -16,7 +16,7 @@ namespace FlubuCore.Tasks.Versioning
 
         protected override int DoExecute(ITaskContext context)
         {
-            context.WriteMessage($"Fetch versio from file {_versionFilename}");
+            context.LogInfo($"Fetch versio from file {_versionFilename}");
 
             string ver = File.ReadAllText(_versionFilename);
 

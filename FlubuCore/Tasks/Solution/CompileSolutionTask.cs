@@ -97,14 +97,14 @@ namespace FlubuCore.Tasks.Solution
                     if (higherVersion.Equals(default(KeyValuePair<Version, string>)))
                         throw new TaskExecutionException(string.Format("Requested MSBuild tools version {0} not found and there are no higher versions", _toolsVersion), 0);
 
-                    context.WriteMessage(string.Format("Requested MSBuild tools version {0} not found, using a higher version {1}", _toolsVersion, higherVersion.Key));
+                    context.LogInfo(string.Format("Requested MSBuild tools version {0} not found, using a higher version {1}", _toolsVersion, higherVersion.Key));
                     msbuildPath = higherVersion.Value;
                 }
             }
             else
             {
                 KeyValuePair<Version, string> highestVersion = msbuilds.Last();
-                context.WriteMessage(string.Format("Since MSBuild tools version was not explicity specified, using the highest MSBuild tools version found ({0})", highestVersion.Key));
+                context.LogInfo(string.Format("Since MSBuild tools version was not explicity specified, using the highest MSBuild tools version found ({0})", highestVersion.Key));
                 msbuildPath = highestVersion.Value;
             }
 
