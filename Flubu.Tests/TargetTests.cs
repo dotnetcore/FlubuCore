@@ -24,10 +24,9 @@ namespace Flubu.Tests
         [Fact]
         public void AddToTargetTreeTest()
         {
-            var targetTree = _provider.GetService<TargetTree>();
+            TargetTree targetTree = _provider.GetService<TargetTree>();
 
-            new Target("test target")
-                .AddToTargetTree(targetTree);
+            targetTree.AddTarget("test target");
 
             Assert.True(targetTree.HasTarget("test target"));
         }
@@ -35,11 +34,13 @@ namespace Flubu.Tests
         [Fact]
         public void DependsOnTargetTest()
         {
-            var target1 = new Target("target 1");
+            TargetTree targetTree = _provider.GetService<TargetTree>();
 
-            var target2 = new Target("target 2");
+            var target1 = targetTree.AddTarget("target 1");
 
-            var target3 = new Target("target 3");
+            var target2 = targetTree.AddTarget("target 2");
+
+            var target3 = targetTree.AddTarget("target 3");
             target3.DependsOn(target1, target2);
             var dependencies = target3.Dependencies.ToList();
             Assert.Equal(2, dependencies.Count);

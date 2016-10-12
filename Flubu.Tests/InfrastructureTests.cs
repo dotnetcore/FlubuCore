@@ -36,7 +36,6 @@ namespace Flubu.Tests
         public void ResolveRunProgramTask()
         {
             IServiceCollection sc = new ServiceCollection();
-            sc.AddTransient<IRunProgramTask, RunProgramTask>();
             sc.AddTransient<ICommandFactory, CommandFactory>();
 
             IServiceProvider pr = sc.BuildServiceProvider();

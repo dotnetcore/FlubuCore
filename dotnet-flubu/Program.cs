@@ -22,8 +22,7 @@ namespace DotNet.Cli.Flubu
 
             Services
                 .AddCoreComponents()
-                .AddArguments(args)
-                .AddTasks();
+                .AddArguments(args);
 
             _provider = Services.BuildServiceProvider();
             ILoggerFactory factory = _provider.GetRequiredService<ILoggerFactory>();

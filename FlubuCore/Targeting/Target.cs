@@ -11,18 +11,13 @@ namespace FlubuCore.Targeting
 
         private readonly List<ITask> _tasks = new List<ITask>();
 
+        private readonly TargetTree _targetTree;
+
         private string _description;
 
         private Action<ITaskContext> _targetAction;
 
-        private TargetTree _targetTree;
-
-        public Target(string targetName)
-        {
-            TargetName = targetName;
-        }
-
-        public Target(TargetTree targetTree, string targetName)
+        internal Target(TargetTree targetTree, string targetName)
         {
             _targetTree = targetTree;
             TargetName = targetName;
@@ -48,11 +43,6 @@ namespace FlubuCore.Targeting
         protected override bool LogDuration => true;
 
         protected override string DescriptionForLog => TargetName;
-
-        public static ITarget Create(string targetName)
-        {
-            return new Target(targetName);
-        }
 
         /// <summary>
         ///     Specifies targets on which this target depends on.
@@ -116,17 +106,6 @@ namespace FlubuCore.Targeting
         {
             IsHidden = true;
             return this;
-        }
-
-        /// <summary>
-        ///     Adds this target to target tree.
-        /// </summary>
-        /// <param name="targetTree">The <see cref="TargetTree" /> that target will be added to.</param>
-        public TargetTree AddToTargetTree(TargetTree targetTree)
-        {
-            _targetTree = targetTree;
-            targetTree.AddTarget(this);
-            return targetTree;
         }
 
         /// <summary>

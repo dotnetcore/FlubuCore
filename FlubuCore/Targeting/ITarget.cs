@@ -59,12 +59,6 @@ namespace FlubuCore.Targeting
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITarget SetAsHidden();
 
-        /// <summary>
-        ///     Adds this target to target tree.
-        /// </summary>
-        /// <param name="targetTree">The <see cref="TargetTree" /> that target will be added to.</param>
-        TargetTree AddToTargetTree(TargetTree targetTree);
-
         ITarget AddTask(params ITask[] tasks);
     }
 }
