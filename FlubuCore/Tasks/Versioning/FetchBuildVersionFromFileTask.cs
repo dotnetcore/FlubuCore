@@ -1,22 +1,15 @@
 ﻿using System;
 using System.IO;
 using FlubuCore.Context;
+using FlubuCore.Tasks.Solution;
 
-namespace FlubuCore.Tasks.Solution
+namespace FlubuCore.Tasks.Versioning
 {
     public class FetchBuildVersionFromFileTask : TaskBase, IFetchBuildVersionTask
     {
-        private readonly string _productRootDir;
-        private readonly string _productId;
+        private string _productRootDir;
+        private string _productId;
         private Version _buildVersion;
-
-        public FetchBuildVersionFromFileTask(
-            string productRootDir,
-            string productId)
-        {
-            _productRootDir = productRootDir;
-            _productId = productId;
-        }
 
         public Version BuildVersion => _buildVersion;
 
@@ -24,6 +17,9 @@ namespace FlubuCore.Tasks.Solution
 
         protected override int DoExecute(ITaskContext context)
         {
+            _productRootDir = context.Properties.Get<string>(BuildProps.ProductRootDir);
+            _productId = context.Properties.Get<string>(BuildProps.ProductId);
+
             string projectVersionFileName = !string.IsNullOrEmpty(ProjectVersionFileName)
                 ? Path.Combine(_productRootDir, ProjectVersionFileName)
                 : Path.Combine(_productRootDir, $"{_productId}.ProjectVersion.txt");

@@ -9,12 +9,6 @@ namespace FlubuCore.Tasks.Versioning
         private bool _generateAssemblyVersion;
         private bool _generateAssemblyVersionSet;
 
-        public GenerateCommonAssemblyInfoTask(string productRootDir, Version buildVersion)
-        {
-            ProductRootDir = productRootDir;
-            BuildVersion = buildVersion;
-        }
-
         public Version BuildVersion { get; set; }
 
         public string ProductRootDir { get; set; }
