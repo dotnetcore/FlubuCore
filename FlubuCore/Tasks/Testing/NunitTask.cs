@@ -190,7 +190,7 @@ namespace FlubuCore.Tasks.Testing
         {
             if (_nunitConsoleFileName == null)
             {
-                _nunitConsoleFileName = context.Properties.Get<string>(BuildProps.NUnitConsolePath);
+                _nunitConsoleFileName = context.Properties.Get<string>(BuildProps.NUnitConsolePath, null);
             }
 
             RunProgramTask task = new RunProgramTask(new CommandFactory(), _nunitConsoleFileName);
@@ -200,7 +200,7 @@ namespace FlubuCore.Tasks.Testing
 
             task
                 .WorkingFolder(_workingDirectory)
-                .WithArguments(string.Format(CultureInfo.InvariantCulture, "\"{0}\"", _testAssemblyFileName));
+                .WithArguments(string.Format(_testAssemblyFileName));
 
             foreach (var nunitCommandLineOption in _nunitCommandLineOptions)
             {
@@ -208,10 +208,10 @@ namespace FlubuCore.Tasks.Testing
             }
 
             if (!string.IsNullOrEmpty(_targetFramework))
-                task.WithArguments("/framework:{0}", _targetFramework);
+                task.WithArguments($"/framework:{_targetFramework}");
 
             if (!string.IsNullOrEmpty(_categories))
-                task.WithArguments("--where \"{0}\"", _categories);
+                task.WithArguments($"--where \"{_categories}\"");
 
            return task.Execute(context);
         }
