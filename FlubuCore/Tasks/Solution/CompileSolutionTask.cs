@@ -8,13 +8,16 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Solution
 {
+    /// <summary>
+    /// Task compiles solution with MsBuild.
+    /// </summary>
     public class CompileSolutionTask : TaskBase
     {
         private readonly IComponentProvider _componentProvider;
 
-        private readonly string _solutionFileName;
+        private string _solutionFileName;
 
-        private readonly string _buildConfiguration;
+        private string _buildConfiguration;
 
         private string _target;
 
@@ -24,6 +27,22 @@ namespace FlubuCore.Tasks.Solution
 
         private int _maxCpuCount = 3;
 
+        /// <summary>
+        /// Task compiles specified solution with MSBuild.
+        /// </summary>
+        /// <param name="componentProvider"></param>
+        public CompileSolutionTask(
+          IComponentProvider componentProvider)
+        {
+            _componentProvider = componentProvider;
+        }
+
+        /// <summary>
+        /// Task compiles specified solution with MSBuild.
+        /// </summary>
+        /// <param name="buildConfiguration"></param>
+        /// <param name="componentProvider"></param>
+        /// <param name="solutionFileName"></param>
         public CompileSolutionTask(
            string solutionFileName,
            string buildConfiguration,
@@ -61,6 +80,17 @@ namespace FlubuCore.Tasks.Solution
         protected override int DoExecute(ITaskContext context)
         {
             string msbuildPath = FindMSBuildPath(context);
+            if (string.IsNullOrEmpty(_solutionFileName))
+            {
+                _solutionFileName = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
+            }
+
+            if (string.IsNullOrEmpty(_buildConfiguration))
+            {
+                _buildConfiguration = context.Properties.Get<string>(BuildProps.BuildConfiguration, null);
+            }
+
+            Validate();
 
             IRunProgramTask task = _componentProvider.CreateRunProgramTask(msbuildPath);
             task
@@ -109,6 +139,19 @@ namespace FlubuCore.Tasks.Solution
             }
 
             return Path.Combine(msbuildPath, "MSBuild.exe");
+        }
+
+        private void Validate()
+        {
+            if (string.IsNullOrEmpty(_solutionFileName))
+            {
+                throw new TaskExecutionException("Solution file name is not set. Set it through constructor or build properties.", 0);
+            }
+
+            if (string.IsNullOrEmpty(_buildConfiguration))
+            {
+                throw new TaskExecutionException("Build configuraiton is not set. Set it through constructor or build properties.", 0);
+            }
         }
     }
 }
