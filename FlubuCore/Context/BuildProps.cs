@@ -21,7 +21,8 @@
         public const string UserHomeFolder = "user_home_folder";
         public const string NpmPath = "npm_path";
 
-        public const string Solution = "Solution";
+        public const string SolutionFileName = "solution_file_name";
+        public const string Solution = "solution";
         public const string NUnitConsolePath = "nunit_console_path";
     }
 }
