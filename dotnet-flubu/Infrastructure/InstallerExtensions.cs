@@ -2,6 +2,7 @@
 using DotNet.Cli.Flubu.Scripting;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
+using FlubuCore.IO.Wrappers;
 using FlubuCore.Services;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
@@ -18,11 +19,10 @@ namespace DotNet.Cli.Flubu.Infrastructure
             services.AddLogging();
 
             services
-                .AddSingleton<IFileExistsService, FileExistsService>()
+                .AddSingleton<IFileWrapper, FileWrapper>()
                 .AddSingleton<IBuildScriptLocator, BuildScriptLocator>()
                 .AddSingleton<IScriptLoader, ScriptLoader>()
                 .AddSingleton<ICommandExecutor, CommandExecutor>()
-                .AddSingleton<IFileLoader, FileLoader>()
                 .AddSingleton<ITaskContextSession, TaskContextSession>()
                 .AddSingleton<TargetTree>()
                 .AddSingleton<ITaskSession, TaskSession>()

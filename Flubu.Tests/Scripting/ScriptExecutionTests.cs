@@ -1,6 +1,7 @@
 ﻿using DotNet.Cli.Flubu.Scripting;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
+using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
@@ -13,7 +14,7 @@ namespace Flubu.Tests.Scripting
 {
     public class ScriptExecutionTests
     {
-        private readonly Mock<IFileLoader> _fileLoader = new Mock<IFileLoader>();
+        private readonly Mock<IFileWrapper> _fileLoader = new Mock<IFileWrapper>();
 
         private readonly IScriptLoader _loader;
 
@@ -25,7 +26,7 @@ namespace Flubu.Tests.Scripting
         [Fact]
         public async System.Threading.Tasks.Task LoadDefaultScript()
         {
-            _fileLoader.Setup(i => i.LoadFile("e.cs")).Returns(@"
+            _fileLoader.Setup(i => i.ReadAllText("e.cs")).Returns(@"
 using System;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
@@ -57,7 +58,7 @@ public class MyBuildScript : DefaultBuildScript
         [Fact]
         public async System.Threading.Tasks.Task LoadSimpleScript()
         {
-            _fileLoader.Setup(i => i.LoadFile("e.cs"))
+            _fileLoader.Setup(i => i.ReadAllText("e.cs"))
                 .Returns(@"
 using FlubuCore.Scripting;
 using System;

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using Microsoft.Extensions.Logging;
 
@@ -18,16 +19,16 @@ namespace DotNet.Cli.Flubu.Scripting
 
         private readonly ILogger<BuildScriptLocator> _log;
 
-        private readonly IFileExistsService _fileExistsService;
+        private readonly IFileWrapper _file;
 
         private readonly IScriptLoader _scriptLoader;
 
         public BuildScriptLocator(
-            IFileExistsService fileExistsService,
+            IFileWrapper file,
             ILogger<BuildScriptLocator> log,
             IScriptLoader scriptLoader)
         {
-            _fileExistsService = fileExistsService;
+            _file = file;
             _scriptLoader = scriptLoader;
             _log = log;
         }
@@ -54,7 +55,7 @@ namespace DotNet.Cli.Flubu.Scripting
 
             foreach (var defaultScriptLocation in DefaultScriptLocations)
             {
-                if (_fileExistsService.FileExists(defaultScriptLocation))
+                if (_file.Exists(defaultScriptLocation))
                 {
                     _log.LogInformation("Found it, using the build script file '{0}'.", defaultScriptLocation);
                     return defaultScriptLocation;
@@ -66,7 +67,7 @@ namespace DotNet.Cli.Flubu.Scripting
 
         private string TakeExplicitBuildScriptName(CommandArguments args)
         {
-            if (_fileExistsService.FileExists(args.Script))
+            if (_file.Exists(args.Script))
             {
                 return args.Script;
             }

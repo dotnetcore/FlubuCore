@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
@@ -12,11 +13,11 @@ namespace DotNet.Cli.Flubu.Scripting
 {
     public class ScriptLoader : IScriptLoader
     {
-        private readonly IFileLoader _fileLoader;
+        private readonly IFileWrapper _file;
 
-        public ScriptLoader(IFileLoader fileLoader)
+        public ScriptLoader(IFileWrapper file)
         {
-            _fileLoader = fileLoader;
+            _file = file;
         }
 
         public async Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(string fileName)
@@ -46,7 +47,7 @@ namespace DotNet.Cli.Flubu.Scripting
             var opts = ScriptOptions.Default
                 .WithReferences(references);
 
-            string code = _fileLoader.LoadFile(fileName);
+            string code = _file.ReadAllText(fileName);
 
             Script script = CSharpScript
                 .Create(code, opts)
