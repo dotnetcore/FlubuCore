@@ -9,6 +9,7 @@
             "type": "build",
             "version": "1.0.6092.26771"
         },
+        "Microsoft.DotNet.Cli.Utils": "1.0.0-preview2-003121",
         "Microsoft.Extensions.CommandLineUtils": "1.0.0",
         "Microsoft.Extensions.Logging.Abstractions": "1.0.0",
         "Microsoft.Extensions.DependencyInjection": "1.0.0",
