@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console.Internal;
 
-namespace DotNet.Cli.Flubu.Infrastructure
+namespace FlubuCore.Infrastructure
 {
     public class FlubuConsoleLogger : ILogger
     {

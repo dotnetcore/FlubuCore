@@ -1,8 +1,7 @@
-﻿using DotNet.Cli.Flubu.Commanding;
-using DotNet.Cli.Flubu.Scripting;
+﻿using FlubuCore.Commanding;
 using FlubuCore.Context;
-using FlubuCore.Infrastructure;
 using FlubuCore.IO.Wrappers;
+using FlubuCore.Scripting;
 using FlubuCore.Services;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
@@ -10,7 +9,7 @@ using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DotNet.Cli.Flubu.Infrastructure
+namespace FlubuCore.Infrastructure
 {
     public static class InstallerExtensions
     {

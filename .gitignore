@@ -26,3 +26,6 @@ tmp/
 /Flubu.VisualStudio/obj/Debug
 /Flubu.VisualStudio/Flubu.VisualStudio.csproj.user
 /packages
+Flubu.Runner/obj/
+Flubu.Runner/bin/Debug/Flubu.Runner.exe
+Flubu.Runner/bin/

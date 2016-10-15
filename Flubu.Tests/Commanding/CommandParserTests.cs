@@ -1,4 +1,4 @@
-﻿using DotNet.Cli.Flubu.Commanding;
+﻿using FlubuCore.Commanding;
 using Microsoft.Extensions.CommandLineUtils;
 using Xunit;
 

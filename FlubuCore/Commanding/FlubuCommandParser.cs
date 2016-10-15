@@ -2,7 +2,7 @@ using FlubuCore.Scripting;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.CommandLineUtils;
 
-namespace DotNet.Cli.Flubu.Commanding
+namespace FlubuCore.Commanding
 {
     public class FlubuCommandParser : IFlubuCommandParser
     {
