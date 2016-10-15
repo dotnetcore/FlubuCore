@@ -21,11 +21,13 @@
     },
     "System.IO.Compression.ZipFile": "4.0.1"
   },
-  "frameworks": {
-    "netstandard1.6": {
-      "imports": [ "dotnet5.6" ]
-    }
-  },
+    "frameworks": {
+        "netstandard1.6": {
+            "imports": [ "dotnet5.6" ]
+        },
+        "net46": {
+        }
+    },
   "packOptions": {
     "summary": "dotnet core fluent builder.",
     "tags": [ "dotnet", "flubu" ],
