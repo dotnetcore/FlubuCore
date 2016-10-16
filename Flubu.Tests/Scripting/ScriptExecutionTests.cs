@@ -1,4 +1,5 @@
-﻿using FlubuCore.Context;
+﻿using DotNet.Cli.Flubu.Scripting;
+using FlubuCore.Context;
 using FlubuCore.Infrastructure;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;

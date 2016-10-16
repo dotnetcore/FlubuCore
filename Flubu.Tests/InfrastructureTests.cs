@@ -1,6 +1,6 @@
 ﻿using System;
-using FlubuCore.Commanding;
-using FlubuCore.Infrastructure;
+using DotNet.Cli.Flubu.Commanding;
+using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Tasks.Process;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.DependencyInjection;

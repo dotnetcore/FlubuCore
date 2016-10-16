@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
+using FlubuCore.Scripting;
 
-namespace FlubuCore.Scripting
+namespace DotNet.Cli.Flubu.Scripting
 {
     public interface IBuildScriptLocator
     {

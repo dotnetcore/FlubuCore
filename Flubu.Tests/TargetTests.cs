@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using FlubuCore.Infrastructure;
+using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Targeting;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
