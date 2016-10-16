@@ -26,3 +26,5 @@ tmp/
 /Flubu.VisualStudio/obj/Debug
 /Flubu.VisualStudio/Flubu.VisualStudio.csproj.user
 /packages
+Flubu.VisualStudio/bin/
+Flubu.VisualStudio/obj/
