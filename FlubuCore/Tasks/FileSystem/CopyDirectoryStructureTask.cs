@@ -70,7 +70,7 @@ namespace FlubuCore.Tasks.FileSystem
             bool overwriteExisting)
         {
             context
-                .CreateTask<CopyDirectoryStructureTask>(sourcePath, destinationPath, overwriteExisting)
+                .Tasks().CopyDirectoryStructureTask(sourcePath, destinationPath, overwriteExisting)
                 .Execute(context);
         }
 

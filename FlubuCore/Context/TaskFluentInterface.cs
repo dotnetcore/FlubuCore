@@ -5,9 +5,9 @@ namespace FlubuCore.Context
 {
     public class TaskFluentInterface
     {
-        private readonly ITaskContext _context;
+        private readonly TaskContext _context;
 
-        public TaskFluentInterface(ITaskContext context)
+        public TaskFluentInterface(TaskContext context)
         {
             _context = context;
         }

@@ -74,13 +74,13 @@ namespace FlubuCore.Context
             GC.SuppressFinalize(this);
         }
 
-        public T CreateTask<T>()
+        internal T CreateTask<T>()
             where T : TaskBase
         {
             return _taskFactory.Create<T>();
         }
 
-        public T CreateTask<T>(params object[] constructorArgs)
+        internal T CreateTask<T>(params object[] constructorArgs)
             where T : TaskBase
         {
             return _taskFactory.Create<T>(constructorArgs);
