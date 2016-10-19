@@ -1,5 +1,7 @@
 ﻿using Flubu.Tests.Tasks;
+using FlubuCore.Infrastructure;
 using FlubuCore.Tasks.NetCore;
+using Microsoft.DotNet.Cli.Utils;
 using Xunit;
 
 namespace Flubu.Tests.Context
@@ -37,6 +39,24 @@ namespace Flubu.Tests.Context
         public void ResolveExecuteDotNetTask2Test()
         {
             Context.CoreTasks().ExecuteDotnetTask(StandardDotnetCommands.Publish);
+        }
+
+        [Fact]
+        public void ResloveCompileSolutionTaskTest()
+        {
+            Context.Tasks().CompileSolutionTask(new ComponentProvider(new CommandFactory()));
+        }
+
+        [Fact]
+        public void ResloveCompileSolutionTask2Test()
+        {
+            Context.Tasks().CompileSolutionTask("sln", "release", new ComponentProvider(new CommandFactory()));
+        }
+
+        [Fact]
+        public void ResolvePublishNugetPackageTaskTest()
+        {
+            Context.Tasks().PublishNuGetPackageTask("packageId", "nuspec");
         }
     }
 }
