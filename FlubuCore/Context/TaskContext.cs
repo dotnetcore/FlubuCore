@@ -52,16 +52,9 @@ namespace FlubuCore.Context
             return new TaskFluentInterface(this);
         }
 
-        public T CreateTask<T>()
-            where T : TaskBase
+        public CoreTaskFluentInterface CoreTasks()
         {
-            return _taskFactory.Create<T>();
-        }
-
-        public T CreateTask<T>(params object[] constructorArgs)
-            where T : TaskBase
-        {
-            return _taskFactory.Create<T>(constructorArgs);
+           return new CoreTaskFluentInterface(this);
         }
 
         public void DecreaseDepth()
@@ -79,6 +72,18 @@ namespace FlubuCore.Context
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public T CreateTask<T>()
+            where T : TaskBase
+        {
+            return _taskFactory.Create<T>();
+        }
+
+        public T CreateTask<T>(params object[] constructorArgs)
+            where T : TaskBase
+        {
+            return _taskFactory.Create<T>(constructorArgs);
         }
 
         protected virtual void Dispose(bool disposing)

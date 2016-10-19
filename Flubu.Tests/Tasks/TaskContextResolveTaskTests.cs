@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using FlubuCore.Tasks.NetCore;
+using Xunit;
 
 namespace Flubu.Tests.Tasks
 {
@@ -23,6 +24,18 @@ namespace Flubu.Tests.Tasks
         public void ResolveDirectoryStructureTaskTest()
         {
             Context.Tasks().CopyDirectoryStructureTask("test", "test2", true);
+        }
+
+        [Fact]
+        public void ResolveExecuteDotNetTaskTest()
+        {
+            Context.CoreTasks().ExecuteDotnetTask("command");
+        }
+
+        [Fact]
+        public void ResolveExecuteDotNetTask2Test()
+        {
+            Context.CoreTasks().ExecuteDotnetTask(StandardDotnetCommands.Publish);
         }
     }
 }
