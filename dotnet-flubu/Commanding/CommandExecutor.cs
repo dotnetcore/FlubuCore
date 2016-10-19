@@ -49,7 +49,7 @@ namespace DotNet.Cli.Flubu.Commanding
             }
             catch (Exception e)
             {
-                _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{e.Message}", null, (t, ex) => t);
+                _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{e}", null, (t, ex) => t);
                 return 3;
             }
         }
