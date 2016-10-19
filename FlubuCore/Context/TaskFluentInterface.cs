@@ -1,5 +1,4 @@
-﻿using FlubuCore.Services;
-using FlubuCore.Tasks.FileSystem;
+﻿using FlubuCore.Tasks.FileSystem;
 using FlubuCore.Tasks.Nuget;
 using FlubuCore.Tasks.Packaging;
 using FlubuCore.Tasks.Process;
@@ -12,9 +11,9 @@ namespace FlubuCore.Context
 {
     public class TaskFluentInterface
     {
-        private readonly TaskContext _context;
+        private readonly ITaskContext _context;
 
-        public TaskFluentInterface(TaskContext context)
+        public TaskFluentInterface(ITaskContext context)
         {
             _context = context;
         }
@@ -51,14 +50,14 @@ namespace FlubuCore.Context
             return _context.CreateTask<PackageTask>(destinationRootDir);
         }
 
-        public CompileSolutionTask CompileSolutionTask(IComponentProvider componentProvider)
+        public CompileSolutionTask CompileSolutionTask()
         {
-            return _context.CreateTask<CompileSolutionTask>(componentProvider);
+            return _context.CreateTask<CompileSolutionTask>();
         }
 
-        public CompileSolutionTask CompileSolutionTask(string solutionFileName, string buildConfiguration, IComponentProvider componentProvider)
+        public CompileSolutionTask CompileSolutionTask(string solutionFileName, string buildConfiguration)
         {
-            return _context.CreateTask<CompileSolutionTask>(solutionFileName, buildConfiguration, componentProvider);
+            return _context.CreateTask<CompileSolutionTask>(solutionFileName, buildConfiguration);
         }
 
         public LoadSolutionTask LoadSolutionTask()

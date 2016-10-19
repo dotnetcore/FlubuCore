@@ -25,5 +25,11 @@ namespace FlubuCore.Context
         CoreTaskFluentInterface CoreTasks();
 
         TaskFluentInterface Tasks();
+
+        T CreateTask<T>(params object[] constructorArgs)
+            where T : TaskBase;
+
+        T CreateTask<T>()
+            where T : TaskBase;
     }
 }

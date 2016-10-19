@@ -1,6 +1,5 @@
 ﻿using DotNet.Cli.Flubu.Scripting;
 using FlubuCore.Context;
-using FlubuCore.Infrastructure;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
@@ -51,7 +50,6 @@ public class MyBuildScript : DefaultBuildScript
                 new TaskContextSession(),
                 new TargetTree(provider, new DotnetTaskFactory(provider)),
                 new CommandArguments(),
-                new ComponentProvider(new CommandFactory()),
                 new DotnetTaskFactory(provider)));
         }
 
@@ -81,7 +79,6 @@ public class MyBuildScript : IBuildScript
                 new TaskContextSession(),
                 new TargetTree(provider, new DotnetTaskFactory(provider)),
                 new CommandArguments(),
-                new ComponentProvider(new CommandFactory()),
                 new DotnetTaskFactory(provider)));
         }
     }

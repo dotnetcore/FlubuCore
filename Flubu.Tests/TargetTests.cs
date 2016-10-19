@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using DotNet.Cli.Flubu.Infrastructure;
+using FlubuCore.Extensions;
 using FlubuCore.Targeting;
+using FlubuCore.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -16,7 +18,9 @@ namespace Flubu.Tests
         {
             _services
                 .AddCoreComponents()
-                .AddArguments(new string[] { });
+                .AddCommandComponents()
+                .AddArguments(new string[] { })
+                .AddTasks();
 
             _provider = _services.BuildServiceProvider();
         }

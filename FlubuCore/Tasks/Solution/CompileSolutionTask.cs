@@ -13,8 +13,7 @@ namespace FlubuCore.Tasks.Solution
     /// </summary>
     public class CompileSolutionTask : TaskBase
     {
-        private readonly IComponentProvider _componentProvider;
-
+        private readonly IFlubuEnviromentService _enviromentService;
         private string _solutionFileName;
 
         private string _buildConfiguration;
@@ -30,27 +29,26 @@ namespace FlubuCore.Tasks.Solution
         /// <summary>
         /// Task compiles specified solution with MSBuild.
         /// </summary>
-        /// <param name="componentProvider"></param>
-        public CompileSolutionTask(
-          IComponentProvider componentProvider)
+        /// <param name="enviromentService"></param>
+        public CompileSolutionTask(IFlubuEnviromentService enviromentService)
         {
-            _componentProvider = componentProvider;
+            _enviromentService = enviromentService;
         }
 
         /// <summary>
         /// Task compiles specified solution with MSBuild.
         /// </summary>
         /// <param name="buildConfiguration"></param>
-        /// <param name="componentProvider"></param>
+        /// <param name="enviromentService"></param>
         /// <param name="solutionFileName"></param>
         public CompileSolutionTask(
            string solutionFileName,
            string buildConfiguration,
-           IComponentProvider componentProvider)
+           IFlubuEnviromentService enviromentService)
         {
            _solutionFileName = solutionFileName;
            _buildConfiguration = buildConfiguration;
-           _componentProvider = componentProvider;
+            _enviromentService = enviromentService;
         }
 
         public int MaxCpuCount
@@ -92,7 +90,7 @@ namespace FlubuCore.Tasks.Solution
 
             Validate();
 
-            IRunProgramTask task = _componentProvider.CreateRunProgramTask(msbuildPath);
+            IRunProgramTask task = context.Tasks().RunProgramTask(msbuildPath);
             task
                 .WithArguments(_solutionFileName)
                 .WithArguments($"/p:Configuration={_buildConfiguration}")
@@ -114,8 +112,7 @@ namespace FlubuCore.Tasks.Solution
         private string FindMSBuildPath(ITaskContext context)
         {
             string msbuildPath;
-            var flubuEnvironmentService = _componentProvider.CreateFlubuEnviromentService();
-            IDictionary<Version, string> msbuilds = flubuEnvironmentService.ListAvailableMSBuildToolsVersions();
+            IDictionary<Version, string> msbuilds = _enviromentService.ListAvailableMSBuildToolsVersions();
             if (msbuilds == null || msbuilds.Count == 0)
                 throw new TaskExecutionException("No MSBuild tools found on the system", 0);
 

@@ -1,12 +1,5 @@
 ﻿using DotNet.Cli.Flubu.Commanding;
 using DotNet.Cli.Flubu.Scripting;
-using FlubuCore.Context;
-using FlubuCore.Infrastructure;
-using FlubuCore.IO.Wrappers;
-using FlubuCore.Services;
-using FlubuCore.Targeting;
-using FlubuCore.Tasks;
-using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,28 +7,20 @@ namespace DotNet.Cli.Flubu.Infrastructure
 {
     public static class InstallerExtensions
     {
-        public static IServiceCollection AddCoreComponents(this IServiceCollection services)
+        public static IServiceCollection AddCommandComponents(this IServiceCollection services)
         {
-            services.AddLogging();
-
             services
-                .AddSingleton<IFileWrapper, FileWrapper>()
+                .AddLogging()
                 .AddSingleton<IBuildScriptLocator, BuildScriptLocator>()
                 .AddSingleton<IScriptLoader, ScriptLoader>()
-                .AddSingleton<ICommandExecutor, CommandExecutor>()
-                .AddSingleton<ITaskContextSession, TaskContextSession>()
-                .AddSingleton<TargetTree>()
-                .AddSingleton<ITaskSession, TaskSession>()
-                .AddSingleton<IComponentProvider, ComponentProvider>()
-                .AddSingleton<ICommandFactory, CommandFactory>()
-                .AddSingleton<ITaskFactory, DotnetTaskFactory>();
+                .AddSingleton<ICommandExecutor, CommandExecutor>();
 
             return services;
         }
 
         public static IServiceCollection AddArguments(this IServiceCollection services, string[] args)
         {
-            CommandLineApplication app = new CommandLineApplication();
+            var app = new CommandLineApplication();
             IFlubuCommandParser parser = new FlubuCommandParser(app);
 
             services

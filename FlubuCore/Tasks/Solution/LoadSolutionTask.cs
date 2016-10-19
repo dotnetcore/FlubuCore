@@ -5,8 +5,6 @@ namespace FlubuCore.Tasks.Solution
 {
     public class LoadSolutionTask : TaskBase
     {
-        private string _solutionFile;
-
         /// <summary>
         /// Task load's solution to <see cref="TaskContextSession"/> solution file name is retieved from <see cref="TaskContextSession"/>
         /// </summary>
@@ -16,23 +14,25 @@ namespace FlubuCore.Tasks.Solution
 
         public LoadSolutionTask(string solutionFile)
         {
-            _solutionFile = solutionFile;
+            SolutionFile = solutionFile;
         }
+
+        public string SolutionFile { get; private set; }
 
         protected override int DoExecute(ITaskContext context)
         {
-            context.LogInfo($"Load solution {_solutionFile} properties");
+            context.LogInfo($"Load solution {SolutionFile} properties");
 
-            if (string.IsNullOrEmpty(_solutionFile))
+            if (string.IsNullOrEmpty(SolutionFile))
             {
-                _solutionFile = context.Properties.Get<string>(BuildProps.SolutionFileName);
-                if (string.IsNullOrEmpty(_solutionFile))
+                SolutionFile = context.Properties.Get<string>(BuildProps.SolutionFileName);
+                if (string.IsNullOrEmpty(SolutionFile))
                 {
                     throw new TaskExecutionException("Solution file name not set", 0);
                 }
             }
 
-            VSSolution solution = VSSolution.Load(_solutionFile);
+            VSSolution solution = VSSolution.Load(SolutionFile);
             context.Properties.Set(BuildProps.Solution, solution);
             solution.LoadProjects();
             return 0;

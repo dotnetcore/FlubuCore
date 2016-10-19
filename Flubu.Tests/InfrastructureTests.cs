@@ -1,6 +1,8 @@
 ﻿using System;
 using DotNet.Cli.Flubu.Commanding;
 using DotNet.Cli.Flubu.Infrastructure;
+using FlubuCore.Extensions;
+using FlubuCore.Tasks;
 using FlubuCore.Tasks.Process;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +21,9 @@ namespace Flubu.Tests
         {
             _services
                 .AddCoreComponents()
-                .AddArguments(new string[] { });
+                .AddCommandComponents()
+                .AddArguments(new string[] { })
+                .AddTasks();
 
             _provider = _services.BuildServiceProvider();
         }

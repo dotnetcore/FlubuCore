@@ -6,20 +6,21 @@ namespace FlubuCore.Tasks.NetCore
 {
     public class ExecuteDotnetTask : TaskBase
     {
-        private readonly string _command;
         private readonly List<string> _arguments = new List<string>();
         private string _workingFolder;
         private string _dotnetExecutable;
 
         public ExecuteDotnetTask(string command)
         {
-            _command = command;
+            Command = command;
         }
 
         public ExecuteDotnetTask(StandardDotnetCommands command)
         {
-            _command = command.ToString().ToLowerInvariant();
+            Command = command.ToString().ToLowerInvariant();
         }
+
+        public string Command { get; private set; }
 
         public ExecuteDotnetTask WithArguments(string arg)
         {
@@ -70,7 +71,7 @@ namespace FlubuCore.Tasks.NetCore
             RunProgramTask task = context.Tasks().RunProgramTask(program);
 
             return task
-                .WithArguments(_command)
+                .WithArguments(Command)
                 .WithArguments(_arguments.ToArray())
                 .WorkingFolder(_workingFolder)
                 .Execute(context);

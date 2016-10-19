@@ -1,5 +1,4 @@
 ﻿using System;
-using FlubuCore.Services;
 using FlubuCore.Targeting;
 
 namespace FlubuCore.Context
@@ -9,8 +8,6 @@ namespace FlubuCore.Context
         bool HasFailed { get; }
 
         TargetTree TargetTree { get; }
-
-        IComponentProvider ComponentProvider { get; }
 
         void Start(Action<ITaskSession> onFinishDo);
 

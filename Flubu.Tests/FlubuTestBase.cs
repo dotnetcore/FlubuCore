@@ -1,6 +1,7 @@
 ﻿using System;
 using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Context;
+using FlubuCore.Extensions;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,13 +15,19 @@ namespace Flubu.Tests
         {
             ServiceProvider = new ServiceCollection()
                 .AddCoreComponents()
+                .AddCommandComponents()
+                .AddTasks()
                 .BuildServiceProvider();
 
-            Context = new TaskContext(loggerFactory.CreateLogger<TaskSession>(), new TaskContextSession(), new CommandArguments(), new DotnetTaskFactory(ServiceProvider));
+            Factory = new DotnetTaskFactory(ServiceProvider);
+
+            Context = new TaskContext(loggerFactory.CreateLogger<TaskSession>(), new TaskContextSession(), new CommandArguments(), Factory);
         }
 
-        protected ITaskContext Context { get; set; }
+        protected ITaskFactory Factory { get; }
 
-        protected IServiceProvider ServiceProvider { get; set; }
+        protected ITaskContext Context { get; }
+
+        protected IServiceProvider ServiceProvider { get; }
     }
 }
