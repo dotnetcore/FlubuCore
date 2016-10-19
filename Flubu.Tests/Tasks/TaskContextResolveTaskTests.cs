@@ -18,5 +18,11 @@ namespace Flubu.Tests.Tasks
         {
             Context.Tasks().RunProgramTask("test");
         }
+
+        [Fact]
+        public void ResolveDirectoryStructureTaskTest()
+        {
+            Context.Tasks().CopyDirectoryStructureTask("test", "test2", true);
+        }
     }
 }
