@@ -22,6 +22,8 @@ namespace FlubuCore.Context
 
         void LogError(string message);
 
+        TaskFluentInterface Tasks();
+
         T CreateTask<T>()
             where T : TaskBase;
 

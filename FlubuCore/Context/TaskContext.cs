@@ -47,6 +47,11 @@ namespace FlubuCore.Context
             _log?.LogError(message);
         }
 
+        public TaskFluentInterface Tasks()
+        {
+            return new TaskFluentInterface(this);
+        }
+
         public T CreateTask<T>()
             where T : TaskBase
         {
