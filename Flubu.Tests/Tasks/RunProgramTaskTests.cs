@@ -10,14 +10,14 @@ using Xunit;
 
 namespace Flubu.Tests.Tasks
 {
-    [Collection(nameof(TaskTestCollection))]
-    public class RunProgramTaskTests : TaskTestBase
+    [Collection(nameof(FlubuTestCollection))]
+    public class RunProgramTaskTests : FlubuTestBase
     {
-        private readonly TaskTestFixture _fixture;
+        private readonly FlubuTestFixture _fixture;
         private readonly Mock<ICommandFactory> _commandFactory = new Mock<ICommandFactory>();
         private readonly Mock<ICommand> _command = new Mock<ICommand>();
 
-        public RunProgramTaskTests(TaskTestFixture fixture)
+        public RunProgramTaskTests(FlubuTestFixture fixture)
             : base(fixture.LoggerFactory)
         {
             _fixture = fixture;

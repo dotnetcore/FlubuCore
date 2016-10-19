@@ -6,11 +6,11 @@ using FlubuCore.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Flubu.Tests.Tasks
+namespace Flubu.Tests
 {
-    public abstract class TaskTestBase
+    public abstract class FlubuTestBase
     {
-        protected TaskTestBase(ILoggerFactory loggerFactory)
+        protected FlubuTestBase(ILoggerFactory loggerFactory)
         {
             ServiceProvider = new ServiceCollection()
                 .AddCoreComponents()

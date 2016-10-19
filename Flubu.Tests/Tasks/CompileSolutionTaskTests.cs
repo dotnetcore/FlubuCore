@@ -9,8 +9,8 @@ using Xunit;
 
 namespace Flubu.Tests.Tasks
 {
-    [Collection(nameof(TaskTestCollection))]
-    public class CompileSolutionTaskTests : TaskTestBase
+    [Collection(nameof(FlubuTestCollection))]
+    public class CompileSolutionTaskTests : FlubuTestBase
     {
         private CompileSolutionTask _task;
 
@@ -20,7 +20,7 @@ namespace Flubu.Tests.Tasks
 
         private Mock<IRunProgramTask> _runProgramTask;
 
-        public CompileSolutionTaskTests(TaskTestFixture fixture)
+        public CompileSolutionTaskTests(FlubuTestFixture fixture)
             : base(fixture.LoggerFactory)
         {
             _componentProvider = new Mock<IComponentProvider>();

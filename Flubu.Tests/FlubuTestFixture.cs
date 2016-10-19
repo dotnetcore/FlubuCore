@@ -1,11 +1,11 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
 
-namespace Flubu.Tests.Tasks
+namespace Flubu.Tests
 {
-    public class TaskTestFixture : IDisposable
+    public class FlubuTestFixture : IDisposable
     {
-        public TaskTestFixture()
+        public FlubuTestFixture()
         {
             LoggerFactory = new LoggerFactory();
             LoggerFactory.AddConsole((s, l) => l >= LogLevel.Information);

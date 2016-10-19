@@ -1,9 +1,10 @@
-﻿using Xunit;
+﻿using Flubu.Tests.Tasks;
+using Xunit;
 
-namespace Flubu.Tests.Tasks
+namespace Flubu.Tests
 {
-    [CollectionDefinition(nameof(TaskTestCollection))]
-    public class TaskTestCollection : ICollectionFixture<TaskTestFixture>
+    [CollectionDefinition(nameof(FlubuTestCollection))]
+    public class FlubuTestCollection : ICollectionFixture<FlubuTestFixture>
     {
         // This class has no code, and is never created. Its purpose is simply
         // to be the place to apply [CollectionDefinition] and all the

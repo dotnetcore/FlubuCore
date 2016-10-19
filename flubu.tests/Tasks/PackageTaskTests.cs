@@ -10,12 +10,12 @@ using Xunit;
 
 namespace Flubu.Tests.Tasks
 {
-    [Collection(nameof(TaskTestCollection))]
-    public class PackageTaskTests : TaskTestBase
+    [Collection(nameof(FlubuTestCollection))]
+    public class PackageTaskTests : FlubuTestBase
     {
-        private readonly TaskTestFixture _fixture;
+        private readonly FlubuTestFixture _fixture;
 
-        public PackageTaskTests(TaskTestFixture fixture)
+        public PackageTaskTests(FlubuTestFixture fixture)
             : base(fixture.LoggerFactory)
         {
             _fixture = fixture;

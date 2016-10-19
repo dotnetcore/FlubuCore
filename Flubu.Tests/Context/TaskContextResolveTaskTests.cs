@@ -1,14 +1,15 @@
-﻿using FlubuCore.Tasks.NetCore;
+﻿using Flubu.Tests.Tasks;
+using FlubuCore.Tasks.NetCore;
 using Xunit;
 
-namespace Flubu.Tests.Tasks
+namespace Flubu.Tests.Context
 {
-    [Collection(nameof(TaskTestCollection))]
-    public class TaskContextResolveTaskTests : TaskTestBase
+    [Collection(nameof(FlubuTestCollection))]
+    public class TaskContextResolveTaskTests : FlubuTestBase
     {
-        private readonly TaskTestFixture _fixture;
+        private readonly FlubuTestFixture _fixture;
 
-        public TaskContextResolveTaskTests(TaskTestFixture fixture)
+        public TaskContextResolveTaskTests(FlubuTestFixture fixture)
             : base(fixture.LoggerFactory)
         {
             _fixture = fixture;

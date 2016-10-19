@@ -4,12 +4,12 @@ using Xunit;
 
 namespace Flubu.Tests.Tasks
 {
-    [Collection(nameof(TaskTestCollection))]
-    public class UpdateJsonFileTaskTests : TaskTestBase
+    [Collection(nameof(FlubuTestCollection))]
+    public class UpdateJsonFileTaskTests : FlubuTestBase
     {
-        private readonly TaskTestFixture _fixture;
+        private readonly FlubuTestFixture _fixture;
 
-        public UpdateJsonFileTaskTests(TaskTestFixture fixture)
+        public UpdateJsonFileTaskTests(FlubuTestFixture fixture)
             : base(fixture.LoggerFactory)
         {
             _fixture = fixture;

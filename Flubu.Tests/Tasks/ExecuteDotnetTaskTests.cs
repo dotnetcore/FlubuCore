@@ -4,12 +4,12 @@ using Xunit;
 
 namespace Flubu.Tests.Tasks
 {
-    [Collection(nameof(TaskTestCollection))]
-    public class ExecuteDotnetTaskTests : TaskTestBase
+    [Collection(nameof(FlubuTestCollection))]
+    public class ExecuteDotnetTaskTests : FlubuTestBase
     {
-        private readonly TaskTestFixture _fixture;
+        private readonly FlubuTestFixture _fixture;
 
-        public ExecuteDotnetTaskTests(TaskTestFixture fixture)
+        public ExecuteDotnetTaskTests(FlubuTestFixture fixture)
             : base(fixture.LoggerFactory)
         {
             _fixture = fixture;

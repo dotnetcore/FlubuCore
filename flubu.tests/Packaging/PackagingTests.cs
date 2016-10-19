@@ -7,12 +7,12 @@ using Xunit;
 
 namespace Flubu.Tests.Packaging
 {
-    [Collection(nameof(TaskTestCollection))]
-    public class PackagingTests : TaskTestBase
+    [Collection(nameof(FlubuTestCollection))]
+    public class PackagingTests : FlubuTestBase
     {
-        private readonly TaskTestFixture _fixture;
+        private readonly FlubuTestFixture _fixture;
 
-        public PackagingTests(TaskTestFixture fixture)
+        public PackagingTests(FlubuTestFixture fixture)
             : base(fixture.LoggerFactory)
         {
             _fixture = fixture;
