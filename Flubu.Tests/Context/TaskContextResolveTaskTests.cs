@@ -58,5 +58,89 @@ namespace Flubu.Tests.Context
         {
             Context.Tasks().PublishNuGetPackageTask("packageId", "nuspec");
         }
+
+        [Fact(Skip = "Task Factory doesnt work correctly.")]
+        public void ResolveNunitTaskTest()
+        {
+            Context.Tasks().NUnitTask("pn");
+        }
+
+        [Fact(Skip = "Task Factory doesnt work correctly.")]
+        public void ResolveNunitTas2Test2()
+        {
+            Context.Tasks().NUnitTask("pn", "tt");
+        }
+
+        [Fact]
+        public void ResolveNunitTaskTest3()
+        {
+            Context.Tasks().NUnitTask("pn", "tt", "xx");
+        }
+
+        [Fact]
+        public void ResolveNunitTaskForNunitV3Test()
+        {
+            Context.Tasks().NUnitTaskForNunitV3("test");
+        }
+
+        [Fact]
+        public void ResolveNunitTaskForNunitV2Test()
+        {
+            Context.Tasks().NUnitTaskForNunitV2("test");
+        }
+
+        [Fact(Skip = "Task Factory doesnt work correctly.")]
+        public void ResolveCoverageReportTaskTest()
+        {
+            Context.Tasks().CoverageReportTask("a", "b");
+        }
+
+        [Fact(Skip = "Task Factory doesnt work correctly.")]
+        public void ResolveLoadSolutionTaskTest()
+        {
+            Context.Tasks().LoadSolutionTask();
+        }
+
+        [Fact]
+        public void ResolveLoadSolutionTaskTest2()
+        {
+            Context.Tasks().LoadSolutionTask("test");
+        }
+
+        [Fact(Skip = "Task Factory doesnt work correctly.")]
+        public void ResolveFetchBuildVersionFromFileTest()
+        {
+            Context.Tasks().FetchBuildVersionFromFileTask();
+        }
+
+        [Fact(Skip = "Task Factory doesnt work correctly.")]
+        public void ResolveFetchVersionFromExternalSourceTaskTest()
+        {
+            Context.Tasks().FetchVersionFromExternalSourceTask();
+        }
+
+        [Fact(Skip = "Task Factory doesnt work correctly.")]
+        public void ResolveGenerateCommonAssemblyInfoTaskTest()
+        {
+            Context.Tasks().GenerateCommonAssemblyInfoTask();
+        }
+
+        [Fact]
+        public void ResolveReplaceTokensTaskTest()
+        {
+            Context.Tasks().ReplaceTokensTask("a", "b");
+        }
+
+        [Fact]
+        public void ResolveUpdateJsonFileTaskTest()
+        {
+            Context.Tasks().UpdateJsonFileTask("a");
+        }
+
+        [Fact(Skip = "Task Factory doesnt work correctly.")]
+        public void ResolveUpdateNetCoreVersionTaskTest()
+        {
+            Context.CoreTasks().UpdateNetCoreVersionTask("test");
+        }
     }
 }
