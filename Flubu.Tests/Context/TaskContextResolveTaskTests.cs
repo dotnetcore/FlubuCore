@@ -56,19 +56,19 @@ namespace Flubu.Tests.Context
             Context.Tasks().PublishNuGetPackageTask("packageId", "nuspec");
         }
 
-        [Fact(Skip = "Task Factory doesnt work correctly.")]
+        [Fact]
         public void ResolveNunitTaskTest()
         {
             Context.Tasks().NUnitTask("pn");
         }
 
-        [Fact(Skip = "Task Factory doesnt work correctly.")]
+        [Fact]
         public void ResolveNunitTas2Test2()
         {
             Context.Tasks().NUnitTask("pn", "tt");
         }
 
-        [Fact]
+        [Fact(Skip = "Not supported for now.")]
         public void ResolveNunitTaskTest3()
         {
             Context.Tasks().NUnitTask("pn", "tt", "xx");
@@ -86,13 +86,13 @@ namespace Flubu.Tests.Context
             Context.Tasks().NUnitTaskForNunitV2("test");
         }
 
-        [Fact(Skip = "Task Factory doesnt work correctly.")]
+        [Fact(Skip = "Not supported for now.")]
         public void ResolveCoverageReportTaskTest()
         {
             Context.Tasks().CoverageReportTask("a", "b");
         }
 
-        [Fact(Skip = "Task Factory doesnt work correctly.")]
+        [Fact]
         public void ResolveLoadSolutionTaskTest()
         {
             Context.Tasks().LoadSolutionTask();
@@ -104,19 +104,19 @@ namespace Flubu.Tests.Context
             Context.Tasks().LoadSolutionTask("test");
         }
 
-        [Fact(Skip = "Task Factory doesnt work correctly.")]
+        [Fact]
         public void ResolveFetchBuildVersionFromFileTest()
         {
             Context.Tasks().FetchBuildVersionFromFileTask();
         }
 
-        [Fact(Skip = "Task Factory doesnt work correctly.")]
+        [Fact]
         public void ResolveFetchVersionFromExternalSourceTaskTest()
         {
             Context.Tasks().FetchVersionFromExternalSourceTask();
         }
 
-        [Fact(Skip = "Task Factory doesnt work correctly.")]
+        [Fact]
         public void ResolveGenerateCommonAssemblyInfoTaskTest()
         {
             Context.Tasks().GenerateCommonAssemblyInfoTask();
@@ -134,7 +134,7 @@ namespace Flubu.Tests.Context
             Context.Tasks().UpdateJsonFileTask("a");
         }
 
-        [Fact(Skip = "Task Factory doesnt work correctly.")]
+        [Fact]
         public void ResolveUpdateNetCoreVersionTaskTest()
         {
             Context.CoreTasks().UpdateNetCoreVersionTask("test");

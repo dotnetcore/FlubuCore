@@ -1,4 +1,5 @@
-﻿using FlubuCore.Tasks.FileSystem;
+﻿using System;
+using FlubuCore.Tasks.FileSystem;
 using FlubuCore.Tasks.Nuget;
 using FlubuCore.Tasks.Packaging;
 using FlubuCore.Tasks.Process;
@@ -95,12 +96,7 @@ namespace FlubuCore.Context
             return Tasks.Testing.NUnitTask.ForNunitV2(projectName);
         }
 
-        public NUnitTask NUnitTask(string nunitConsoleFileName, string projectName)
-        {
-            return _context.CreateTask<NUnitTask>(nunitConsoleFileName, projectName);
-        }
-
-        public NUnitTask NUnitTask(string projectName)
+        public NUnitTask NUnitTask(string projectName, string nunitConsoleFileName = null)
         {
             return _context.CreateTask<NUnitTask>(projectName);
         }
@@ -110,7 +106,8 @@ namespace FlubuCore.Context
           string nunitConsoleFileName,
           string workingDirectory)
         {
-            return _context.CreateTask<NUnitTask>(testAssemblyFileName, nunitConsoleFileName, workingDirectory);
+            throw new NotSupportedException("Not supported for now.");
+            ////return _context.CreateTask<NUnitTask>(testAssemblyFileName, nunitConsoleFileName, workingDirectory);
         }
 
         public ReplaceTokensTask ReplaceTokensTask(
