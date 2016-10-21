@@ -68,7 +68,7 @@ namespace FlubuCore.Tasks.NetCore
                 return -1;
             }
 
-            RunProgramTask task = context.Tasks().RunProgramTask(program);
+            IRunProgramTask task = context.Tasks().RunProgramTask(program);
 
             return task
                 .WithArguments(Command)

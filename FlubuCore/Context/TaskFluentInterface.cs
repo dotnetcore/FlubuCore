@@ -14,7 +14,7 @@ namespace FlubuCore.Context
     {
         public TaskContext Context { get; set; }
 
-        public RunProgramTask RunProgramTask(string programToExecute)
+        public IRunProgramTask RunProgramTask(string programToExecute)
         {
             return Context.CreateTask<RunProgramTask>(programToExecute);
         }

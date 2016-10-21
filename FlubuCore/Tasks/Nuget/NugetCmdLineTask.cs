@@ -76,7 +76,7 @@ namespace FlubuCore.Tasks.Nuget
                 return -1;
             }
 
-            RunProgramTask runProgramTask = context.Tasks().RunProgramTask(nugetCmdLinePath);
+            IRunProgramTask runProgramTask = context.Tasks().RunProgramTask(nugetCmdLinePath);
 
             if (_workingDirectory != null)
                 runProgramTask.WorkingFolder(_workingDirectory);

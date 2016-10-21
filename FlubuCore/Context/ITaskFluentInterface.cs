@@ -17,7 +17,7 @@ namespace FlubuCore.Context
     {
         TaskContext Context { get; set; }
 
-        RunProgramTask RunProgramTask(string programToExecute);
+        IRunProgramTask RunProgramTask(string programToExecute);
 
         CopyDirectoryStructureTask CopyDirectoryStructureTask(string sourcePath, string destinationPath, bool overwriteExisting);
 

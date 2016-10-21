@@ -26,7 +26,7 @@ namespace FlubuCore.Packaging
             {
                 File.Delete(zipFileFullPath);
             }
-              
+
             using (ZipArchive newFile = ZipFile.Open(zipFileFullPath, ZipArchiveMode.Create))
             {
                 foreach (var fileToZip in filesToZip)
