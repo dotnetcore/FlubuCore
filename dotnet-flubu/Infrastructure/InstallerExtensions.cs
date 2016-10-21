@@ -1,5 +1,6 @@
 ﻿using DotNet.Cli.Flubu.Commanding;
 using DotNet.Cli.Flubu.Scripting;
+using FlubuCore.Context;
 using FlubuCore.Tasks.Testing;
 using FlubuCore.Tasks.Versioning;
 using Microsoft.Extensions.CommandLineUtils;
@@ -16,6 +17,8 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddSingleton<IBuildScriptLocator, BuildScriptLocator>()
                 .AddSingleton<IScriptLoader, ScriptLoader>()
                 .AddSingleton<ICommandExecutor, CommandExecutor>()
+                .AddSingleton<ITaskFluentInterface, TaskFluentInterface>()
+                .AddSingleton<ICoreTaskFluentInterface, CoreTaskFluentInterface>()
                 .AddTransient<GenerateCommonAssemblyInfoTask>()
                 .AddTransient<FetchBuildVersionFromFileTask>()
                 .AddTransient<FetchVersionFromExternalSourceTask>();

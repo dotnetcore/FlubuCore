@@ -10,18 +10,13 @@ using FlubuCore.Tasks.Versioning;
 
 namespace FlubuCore.Context
 {
-    public class TaskFluentInterface
+    public class TaskFluentInterface : ITaskFluentInterface
     {
-        private readonly ITaskContext _context;
-
-        public TaskFluentInterface(ITaskContext context)
-        {
-            _context = context;
-        }
+        public TaskContext Context { get; set; }
 
         public RunProgramTask RunProgramTask(string programToExecute)
         {
-            return _context.CreateTask<RunProgramTask>(programToExecute);
+            return Context.CreateTask<RunProgramTask>(programToExecute);
         }
 
         /// <summary>
@@ -33,47 +28,47 @@ namespace FlubuCore.Context
         /// <param name="overwriteExisting">if set to <c>true</c> the task will overwrite existing destination files.</param>
         public CopyDirectoryStructureTask CopyDirectoryStructureTask(string sourcePath, string destinationPath, bool overwriteExisting)
         {
-            return _context.CreateTask<CopyDirectoryStructureTask>(sourcePath, destinationPath, overwriteExisting);
+            return Context.CreateTask<CopyDirectoryStructureTask>(sourcePath, destinationPath, overwriteExisting);
         }
 
         public NuGetCmdLineTask NuGetCmdLineTask(string command, string workingDirectory = null)
         {
-            return _context.CreateTask<NuGetCmdLineTask>(command, workingDirectory);
+            return Context.CreateTask<NuGetCmdLineTask>(command, workingDirectory);
         }
 
         public PublishNuGetPackageTask PublishNuGetPackageTask(string packageId, string nuspecFileName)
         {
-            return _context.CreateTask<PublishNuGetPackageTask>(packageId, nuspecFileName);
+            return Context.CreateTask<PublishNuGetPackageTask>(packageId, nuspecFileName);
         }
 
         public PackageTask PackageTask(string destinationRootDir)
         {
-            return _context.CreateTask<PackageTask>(destinationRootDir);
+            return Context.CreateTask<PackageTask>(destinationRootDir);
         }
 
         public CompileSolutionTask CompileSolutionTask()
         {
-            return _context.CreateTask<CompileSolutionTask>();
+            return Context.CreateTask<CompileSolutionTask>();
         }
 
         public CompileSolutionTask CompileSolutionTask(string solutionFileName, string buildConfiguration)
         {
-            return _context.CreateTask<CompileSolutionTask>(solutionFileName, buildConfiguration);
+            return Context.CreateTask<CompileSolutionTask>(solutionFileName, buildConfiguration);
         }
 
         public LoadSolutionTask LoadSolutionTask()
         {
-            return _context.CreateTask<LoadSolutionTask>();
+            return Context.CreateTask<LoadSolutionTask>();
         }
 
         public LoadSolutionTask LoadSolutionTask(string solutionFile)
         {
-            return _context.CreateTask<LoadSolutionTask>(solutionFile);
+            return Context.CreateTask<LoadSolutionTask>(solutionFile);
         }
 
         public CoverageReportTask CoverageReportTask(params string[] inputFiles)
         {
-            return _context.CreateTask<CoverageReportTask>(inputFiles);
+            return Context.CreateTask<CoverageReportTask>(inputFiles);
         }
 
         /// <summary>
@@ -98,7 +93,7 @@ namespace FlubuCore.Context
 
         public NUnitTask NUnitTask(string projectName, string nunitConsoleFileName = null)
         {
-            return _context.CreateTask<NUnitTask>(projectName);
+            return Context.CreateTask<NUnitTask>(projectName);
         }
 
         public NUnitTask NUnitTask(
@@ -114,27 +109,27 @@ namespace FlubuCore.Context
             string sourceFileName,
             string destinationFileName)
         {
-            return _context.CreateTask<ReplaceTokensTask>(sourceFileName, destinationFileName);
+            return Context.CreateTask<ReplaceTokensTask>(sourceFileName, destinationFileName);
         }
 
         public UpdateJsonFileTask UpdateJsonFileTask(string fileName)
         {
-            return _context.CreateTask<UpdateJsonFileTask>(fileName);
+            return Context.CreateTask<UpdateJsonFileTask>(fileName);
         }
 
         public FetchBuildVersionFromFileTask FetchBuildVersionFromFileTask()
         {
-            return _context.CreateTask<FetchBuildVersionFromFileTask>();
+            return Context.CreateTask<FetchBuildVersionFromFileTask>();
         }
 
         public FetchVersionFromExternalSourceTask FetchVersionFromExternalSourceTask()
         {
-            return _context.CreateTask<FetchVersionFromExternalSourceTask>();
+            return Context.CreateTask<FetchVersionFromExternalSourceTask>();
         }
 
         public GenerateCommonAssemblyInfoTask GenerateCommonAssemblyInfoTask()
         {
-            return _context.CreateTask<GenerateCommonAssemblyInfoTask>();
+            return Context.CreateTask<GenerateCommonAssemblyInfoTask>();
         }
     }
 }

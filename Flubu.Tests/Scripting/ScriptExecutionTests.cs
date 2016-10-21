@@ -50,7 +50,9 @@ public class MyBuildScript : DefaultBuildScript
                 new TaskContextSession(),
                 new TargetTree(provider, new DotnetTaskFactory(provider)),
                 new CommandArguments(),
-                new DotnetTaskFactory(provider)));
+                new DotnetTaskFactory(provider),
+                new CoreTaskFluentInterface(),
+                new TaskFluentInterface()));
         }
 
         [Fact]
@@ -79,7 +81,9 @@ public class MyBuildScript : IBuildScript
                 new TaskContextSession(),
                 new TargetTree(provider, new DotnetTaskFactory(provider)),
                 new CommandArguments(),
-                new DotnetTaskFactory(provider)));
+                new DotnetTaskFactory(provider),
+                new CoreTaskFluentInterface(),
+                new TaskFluentInterface()));
         }
     }
 }

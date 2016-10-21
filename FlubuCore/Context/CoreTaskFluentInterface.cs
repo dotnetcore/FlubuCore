@@ -9,33 +9,28 @@ using FlubuCore.Tasks.Versioning;
 
 namespace FlubuCore.Context
 {
-    public class CoreTaskFluentInterface
+    public class CoreTaskFluentInterface : ICoreTaskFluentInterface
     {
-        private readonly TaskContext _context;
-
-        public CoreTaskFluentInterface(TaskContext context)
-        {
-            _context = context;
-        }
+        public TaskContext Context { get; set; }
 
         public ExecuteDotnetTask ExecuteDotnetTask(string command)
         {
-            return _context.CreateTask<ExecuteDotnetTask>(command);
+            return Context.CreateTask<ExecuteDotnetTask>(command);
         }
 
         public ExecuteDotnetTask ExecuteDotnetTask(StandardDotnetCommands command)
         {
-            return _context.CreateTask<ExecuteDotnetTask>(command);
+            return Context.CreateTask<ExecuteDotnetTask>(command);
         }
 
         public UpdateNetCoreVersionTask UpdateNetCoreVersionTask(string filePath)
         {
-            return _context.CreateTask<UpdateNetCoreVersionTask>(filePath);
+            return Context.CreateTask<UpdateNetCoreVersionTask>(filePath);
         }
 
         public UpdateNetCoreVersionTask UpdateNetCoreVersionTask(params string[] files)
         {
-            return _context.CreateTask<UpdateNetCoreVersionTask>(files);
+            return Context.CreateTask<UpdateNetCoreVersionTask>(files);
         }
     }
 }

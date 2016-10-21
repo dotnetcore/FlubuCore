@@ -33,7 +33,7 @@ namespace Flubu.Tests.Tasks
 
             _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
             _task.UseSolutionDirAsWorkingDir = false;
-            _context.Setup(i => i.Tasks()).Returns(new TaskFluentInterface(_context.Object));
+            _context.Setup(i => i.Tasks()).Returns(new TaskFluentInterface());
             _context.Setup(i => i.CreateTask<RunProgramTask>()).Returns(_runProgramTask.Object);
             _task.Execute(_context.Object);
         }

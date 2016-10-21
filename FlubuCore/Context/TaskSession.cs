@@ -20,8 +20,10 @@ namespace FlubuCore.Context
             ITaskContextSession taskContextProperties,
             TargetTree targetTree,
             CommandArguments args,
-            ITaskFactory taskFactory)
-            : base(log, taskContextProperties, args, taskFactory)
+            ITaskFactory taskFactory,
+            ICoreTaskFluentInterface coreTaskFluentInterface,
+            ITaskFluentInterface taskFluentInterface)
+            : base(log, taskContextProperties, args, taskFactory, coreTaskFluentInterface, taskFluentInterface)
         {
             HasFailed = true;
             TargetTree = targetTree;

@@ -8,7 +8,12 @@ namespace FlubuCore.Context
     public class TaskContext : ITaskContext
     {
         private readonly ILogger _log;
+
         private readonly ITaskFactory _taskFactory;
+
+        private readonly ITaskFluentInterface _taskFluentInterface;
+
+        private readonly ICoreTaskFluentInterface _coreTaskFluentInterface;
 
         private bool _disposed;
 
@@ -18,12 +23,18 @@ namespace FlubuCore.Context
             ILogger log,
             ITaskContextSession taskContextProperties,
             CommandArguments args,
-            ITaskFactory taskFactory)
+            ITaskFactory taskFactory,
+            ICoreTaskFluentInterface coreTaskFluentInterface,
+            ITaskFluentInterface taskFluentInterface)
         {
             _log = log;
             _taskFactory = taskFactory;
             Args = args;
             Properties = taskContextProperties;
+            _coreTaskFluentInterface = coreTaskFluentInterface;
+            _taskFluentInterface = taskFluentInterface;
+            _taskFluentInterface.Context = this;
+            _coreTaskFluentInterface.Context = this;
         }
 
         public ITaskContextSession Properties { get; }
@@ -47,14 +58,14 @@ namespace FlubuCore.Context
             _log?.LogError(message);
         }
 
-        public TaskFluentInterface Tasks()
+        public ITaskFluentInterface Tasks()
         {
-            return new TaskFluentInterface(this);
+            return _taskFluentInterface;
         }
 
-        public CoreTaskFluentInterface CoreTasks()
+        public ICoreTaskFluentInterface CoreTasks()
         {
-           return new CoreTaskFluentInterface(this);
+            return _coreTaskFluentInterface;
         }
 
         public void DecreaseDepth()
