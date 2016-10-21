@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Flubu.Tests.Tasks
 {
-    public class CompileSolutionTaskTests
+    public class CompileSolutionTaskUnitTests
     {
         private readonly Mock<IFlubuEnviromentService> _flubuEnviroment;
         private readonly Mock<IRunProgramTask> _runProgramTask;
@@ -17,7 +17,7 @@ namespace Flubu.Tests.Tasks
         private readonly Mock<ITaskFluentInterface> _taskFluentInterface;
         private CompileSolutionTask _task;
 
-        public CompileSolutionTaskTests()
+        public CompileSolutionTaskUnitTests()
         {
             _flubuEnviroment = new Mock<IFlubuEnviromentService>();
             _runProgramTask = new Mock<IRunProgramTask>(MockBehavior.Loose);
