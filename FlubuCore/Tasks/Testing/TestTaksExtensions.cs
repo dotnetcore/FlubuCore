@@ -32,6 +32,14 @@ namespace FlubuCore.Tasks.Testing
             return target;
         }
 
+        public static ITarget DotnetCoverage(this ITarget target, string projectPath, string[] includeList, string[] excludeList)
+        {
+            OpenCoverTask task = DotnetCoverage(projectPath, null, excludeList)
+                .AddInclude(includeList);
+
+            return target.AddTask(task);
+        }
+
         public static OpenCoverTask DotnetCoverage(string projectPath, string output, params string[] excludeList)
         {
             if (string.IsNullOrEmpty(output))

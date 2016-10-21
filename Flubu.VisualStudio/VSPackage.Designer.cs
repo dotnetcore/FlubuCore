@@ -38,7 +38,7 @@ namespace build.Flubu.VisualStudio {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("flubu.core.Flubu.VisualStudio.VSPackage", typeof(VSPackage).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("build.Flubu.VisualStudio.VSPackage", typeof(VSPackage).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
