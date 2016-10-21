@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Testing
         {
             foreach (string project in projects)
             {
-                target.AddTask(DotnetCoverage(project, null, null));
+                target.AddTask(DotnetCoverage(project, null, null, null));
             }
 
             return target;
@@ -28,34 +28,13 @@ namespace FlubuCore.Tasks.Testing
 
         public static ITarget DotnetCoverage(this ITarget target, string projectPath, string output, params string[] excludeList)
         {
-            target.AddTask(DotnetCoverage(projectPath, output, excludeList));
+            target.AddTask(DotnetCoverage(projectPath, output, null, excludeList));
             return target;
         }
 
         public static ITarget DotnetCoverage(this ITarget target, string projectPath, string[] includeList, string[] excludeList)
         {
-            OpenCoverTask task = DotnetCoverage(projectPath, null, excludeList)
-                .AddInclude(includeList);
-
-            return target.AddTask(task);
-        }
-
-        public static OpenCoverTask DotnetCoverage(string projectPath, string output, params string[] excludeList)
-        {
-            if (string.IsNullOrEmpty(output))
-                output = $"{Path.GetFileNameWithoutExtension(projectPath)}cover.xml";
-
-            return new OpenCoverTask()
-                .TestExecutableArgs($"test {projectPath}")
-                .Output(output)
-                .UseDotNet()
-                .IncludeAll()
-                .AddExclude(excludeList);
-        }
-
-        public static OpenCoverToCoberturaTask ConvertToCobertura(string input, string output)
-        {
-            return new OpenCoverToCoberturaTask(input, output);
+            return target.AddTask(DotnetCoverage(projectPath, null, includeList, excludeList));
         }
 
         public static ITarget ConvertToCobertura(this ITarget target, string input, string output)
@@ -64,16 +43,40 @@ namespace FlubuCore.Tasks.Testing
             return target;
         }
 
-        public static CoverageReportTask CoverageReport(string targetDir, params string[] inputFiles)
+        public static ITarget CoverageReport(this ITarget target, params string[] inputFiles)
+        {
+            target.AddTask(CoverageReport("coverage", inputFiles));
+            return target;
+        }
+
+        private static OpenCoverToCoberturaTask ConvertToCobertura(string input, string output)
+        {
+            return new OpenCoverToCoberturaTask(input, output);
+        }
+
+        private static CoverageReportTask CoverageReport(string targetDir, params string[] inputFiles)
         {
             return new CoverageReportTask(inputFiles)
                 .TargetFolder(targetDir);
         }
 
-        public static ITarget CoverageReport(this ITarget target, params string[] inputFiles)
+        private static OpenCoverTask DotnetCoverage(string projectPath, string output, string[] includeList, string[] excludeList)
         {
-            target.AddTask(CoverageReport("coverage", inputFiles));
-            return target;
+            if (string.IsNullOrEmpty(output))
+                output = $"{Path.GetFileNameWithoutExtension(projectPath)}cover.xml";
+
+            OpenCoverTask task = new OpenCoverTask()
+                .TestExecutableArgs($"test {projectPath}")
+                .Output(output)
+                .UseDotNet()
+                .AddExclude(excludeList);
+
+            if (includeList == null || includeList.Length <= 0)
+                task.IncludeAll();
+            else
+                task.AddInclude(includeList);
+
+            return task;
         }
     }
 }
