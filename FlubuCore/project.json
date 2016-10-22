@@ -19,7 +19,8 @@
       "type": "build",
       "version": "1.0.0"
     },
-    "System.IO.Compression.ZipFile": "4.0.1"
+    "System.IO.Compression.ZipFile": "4.0.1",
+    "Microsoft.Web.Administration": "10.0.0-rc1"
   },
     "frameworks": {
         "netstandard1.6": {
