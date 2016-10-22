@@ -7,9 +7,9 @@ using FlubuCore.Packaging;
 
 namespace FlubuCore.Tasks.Packaging
 {
-    public class SourceToPackage
+    public class SourcePackagingInfo
     {
-        public SourceToPackage(string sourceId, SourceType sourceType, string sourcePath, string destinationPath)
+        public SourcePackagingInfo(string sourceId, SourceType sourceType, string sourcePath, string destinationPath)
         {
             SourceId = sourceId;
             SourcePath = sourcePath;
@@ -27,5 +27,7 @@ namespace FlubuCore.Tasks.Packaging
         public LocalPath DestinationPath { get; set; }
 
         public FilterCollection FileFilters { get; set; }
+
+        public bool Recursive { get; set; }
     }
 }

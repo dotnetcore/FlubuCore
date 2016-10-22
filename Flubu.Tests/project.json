@@ -1,14 +1,17 @@
 {
   "version": "1.0.0",
   "testRunner": "xunit",
-  "buildOptions": {
-    "allowUnsafe": true,
-    "warningsAsErrors": true,
-    "additionalArguments": [ "/ruleset:../Stylecop.ruleset" ],
-    "copyToOutput": [
-      "TestData/*"
-    ]
-  },
+    "buildOptions": {
+        "allowUnsafe": true,
+        "warningsAsErrors": true,
+        "additionalArguments": [ "/ruleset:../Stylecop.ruleset" ],
+        "copyToOutput": [
+            "TestData/*"
+        ],
+        "compile": {
+            "exclude": [ "tmp", "TestData" ]
+        }
+    },
   "dependencies": {
     "NETStandard.Library": "1.6.0",
     "Microsoft.NETCore.App": {

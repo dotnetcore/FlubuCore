@@ -7,7 +7,7 @@ namespace FlubuCore.Tasks.Packaging
 {
     public class PackageTask : TaskBase
     {
-        private List<SourceToPackage> _sourcesToPackage;
+        private List<SourcePackagingInfo> _sourcePackagingInfos;
 
         private FullPath _destinationRootDir;
 
@@ -15,7 +15,7 @@ namespace FlubuCore.Tasks.Packaging
 
         public PackageTask(string destinationRootDir)
         {
-            _sourcesToPackage = new List<SourceToPackage>();
+            _sourcePackagingInfos = new List<SourcePackagingInfo>();
             _destinationRootDir = new FullPath(destinationRootDir);
         }
 
@@ -23,26 +23,34 @@ namespace FlubuCore.Tasks.Packaging
 
         public PackageTask AddDirectoryToPackage(string sourceId, string sourceDirectoryPath, string destinationDirectory)
         {
-            _sourcesToPackage.Add(new SourceToPackage(sourceId, SourceType.Directory,  sourceDirectoryPath, destinationDirectory));
+            _sourcePackagingInfos.Add(new SourcePackagingInfo(sourceId, SourceType.Directory,  sourceDirectoryPath, destinationDirectory));
+            return this;
+        }
+
+        public PackageTask AddDirectoryToPackage(string sourceId, string sourceDirectoryPath, string destinationDirectory, bool recursive)
+        {
+            var directory = new SourcePackagingInfo(sourceId, SourceType.Directory, sourceDirectoryPath, destinationDirectory);
+            directory.Recursive = recursive;
+            _sourcePackagingInfos.Add(directory);
             return this;
         }
 
         public PackageTask AddDirectoryToPackage(string sourceId, string sourceDirectoryPath, string destinationDirectory, params IFileFilter[] fileFilters)
         {
-            var sourceToPackage = new SourceToPackage(sourceId, SourceType.Directory, sourceDirectoryPath, destinationDirectory);
+            var sourceToPackage = new SourcePackagingInfo(sourceId, SourceType.Directory, sourceDirectoryPath, destinationDirectory);
 
             foreach (var filter in fileFilters)
             {
                 sourceToPackage.FileFilters.Add(filter);
             }
 
-            _sourcesToPackage.Add(sourceToPackage);
+            _sourcePackagingInfos.Add(sourceToPackage);
             return this;
         }
 
         public PackageTask AddFileToPackage(string sourceId, string sourceFilePath, string destinationDirectory)
         {
-            _sourcesToPackage.Add(new SourceToPackage(sourceId, SourceType.File, sourceFilePath, destinationDirectory));
+            _sourcePackagingInfos.Add(new SourcePackagingInfo(sourceId, SourceType.File, sourceFilePath, destinationDirectory));
             return this;
         }
 
@@ -54,7 +62,7 @@ namespace FlubuCore.Tasks.Packaging
 
         protected override int DoExecute(ITaskContext context)
         {
-            if (_sourcesToPackage.Count == 0)
+            if (_sourcePackagingInfos.Count == 0)
             {
                 return 0;
             }
@@ -68,11 +76,11 @@ namespace FlubuCore.Tasks.Packaging
             copier,
             _destinationRootDir);
             List<string> sourceIds = new List<string>();
-            foreach (var sourceToPackage in _sourcesToPackage)
+            foreach (var sourceToPackage in _sourcePackagingInfos)
             {
                 if (sourceToPackage.SourceType == SourceType.Directory)
                 {
-                    DirectorySource directorySource = new DirectorySource(context, directoryFilesLister, sourceToPackage.SourceId, new FullPath(sourceToPackage.SourcePath));
+                    DirectorySource directorySource = new DirectorySource(context, directoryFilesLister, sourceToPackage.SourceId, new FullPath(sourceToPackage.SourcePath),sourceToPackage.Recursive);
                     directorySource.SetFilter(sourceToPackage.FileFilters);
                     packageDef.AddFilesSource(directorySource);
                 }
