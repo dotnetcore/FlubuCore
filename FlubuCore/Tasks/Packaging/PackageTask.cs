@@ -21,30 +21,24 @@ namespace FlubuCore.Tasks.Packaging
 
         private bool ShouldPackageBeZipped => !string.IsNullOrEmpty(_zipFileName);
 
-        public PackageTask AddDirectoryToPackage(string sourceId, string sourceDirectoryPath, string destinationDirectory)
+        public PackageTask AddDirectoryToPackage(string sourceId, string sourceDirectoryPath, string destinationDirectory, bool recursive = false)
         {
-            _sourcePackagingInfos.Add(new SourcePackagingInfo(sourceId, SourceType.Directory,  sourceDirectoryPath, destinationDirectory));
+            var directoryToPackage = new SourcePackagingInfo(sourceId, SourceType.Directory, sourceDirectoryPath, destinationDirectory);
+            directoryToPackage.Recursive = recursive;
+            _sourcePackagingInfos.Add(directoryToPackage);
             return this;
         }
 
-        public PackageTask AddDirectoryToPackage(string sourceId, string sourceDirectoryPath, string destinationDirectory, bool recursive)
+        public PackageTask AddDirectoryToPackage(string sourceId, string sourceDirectoryPath, string destinationDirectory, bool recursive, params IFileFilter[] fileFilters)
         {
-            var directory = new SourcePackagingInfo(sourceId, SourceType.Directory, sourceDirectoryPath, destinationDirectory);
-            directory.Recursive = recursive;
-            _sourcePackagingInfos.Add(directory);
-            return this;
-        }
-
-        public PackageTask AddDirectoryToPackage(string sourceId, string sourceDirectoryPath, string destinationDirectory, params IFileFilter[] fileFilters)
-        {
-            var sourceToPackage = new SourcePackagingInfo(sourceId, SourceType.Directory, sourceDirectoryPath, destinationDirectory);
-
+            var directoryToPackage = new SourcePackagingInfo(sourceId, SourceType.Directory, sourceDirectoryPath, destinationDirectory);
+            directoryToPackage.Recursive = recursive;
             foreach (var filter in fileFilters)
             {
-                sourceToPackage.FileFilters.Add(filter);
+                directoryToPackage.FileFilters.Add(filter);
             }
 
-            _sourcePackagingInfos.Add(sourceToPackage);
+            _sourcePackagingInfos.Add(directoryToPackage);
             return this;
         }
 
@@ -80,7 +74,7 @@ namespace FlubuCore.Tasks.Packaging
             {
                 if (sourceToPackage.SourceType == SourceType.Directory)
                 {
-                    DirectorySource directorySource = new DirectorySource(context, directoryFilesLister, sourceToPackage.SourceId, new FullPath(sourceToPackage.SourcePath),sourceToPackage.Recursive);
+                    DirectorySource directorySource = new DirectorySource(context, directoryFilesLister, sourceToPackage.SourceId, new FullPath(sourceToPackage.SourcePath), sourceToPackage.Recursive);
                     directorySource.SetFilter(sourceToPackage.FileFilters);
                     packageDef.AddFilesSource(directorySource);
                 }
