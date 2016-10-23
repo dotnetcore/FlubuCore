@@ -8,10 +8,17 @@ using FlubuCore.Tasks.Testing;
 using FlubuCore.Tasks.Text;
 using FlubuCore.Tasks.Versioning;
 
-namespace FlubuCore.Context
+namespace FlubuCore.Context.FluentInterface
 {
     public class TaskFluentInterface : ITaskFluentInterface
     {
+        private readonly IIisTaskFluentInterface _iisTasksFluentInterface;
+
+        public TaskFluentInterface(IIisTaskFluentInterface iisTasksFluentInterface)
+        {
+            _iisTasksFluentInterface = iisTasksFluentInterface;
+        }
+
         public TaskContext Context { get; set; }
 
         public IRunProgramTask RunProgramTask(string programToExecute)
@@ -130,6 +137,12 @@ namespace FlubuCore.Context
         public GenerateCommonAssemblyInfoTask GenerateCommonAssemblyInfoTask()
         {
             return Context.CreateTask<GenerateCommonAssemblyInfoTask>();
+        }
+
+        public IIisTaskFluentInterface IisTasks()
+        {
+            _iisTasksFluentInterface.Context = Context;
+            return _iisTasksFluentInterface;
         }
     }
 }

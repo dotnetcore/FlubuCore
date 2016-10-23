@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FlubuCore.Tasks.FileSystem;
+﻿using FlubuCore.Tasks.FileSystem;
 using FlubuCore.Tasks.Nuget;
 using FlubuCore.Tasks.Packaging;
 using FlubuCore.Tasks.Process;
@@ -11,7 +7,7 @@ using FlubuCore.Tasks.Testing;
 using FlubuCore.Tasks.Text;
 using FlubuCore.Tasks.Versioning;
 
-namespace FlubuCore.Context
+namespace FlubuCore.Context.FluentInterface
 {
     public interface ITaskFluentInterface
     {
@@ -54,5 +50,7 @@ namespace FlubuCore.Context
         FetchVersionFromExternalSourceTask FetchVersionFromExternalSourceTask();
 
         GenerateCommonAssemblyInfoTask GenerateCommonAssemblyInfoTask();
+
+        IIisTaskFluentInterface IisTasks();
     }
 }

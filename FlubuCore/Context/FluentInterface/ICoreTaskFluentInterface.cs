@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FlubuCore.Tasks.NetCore;
+﻿using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Versioning;
 
-namespace FlubuCore.Context
+namespace FlubuCore.Context.FluentInterface
 {
     public interface ICoreTaskFluentInterface
     {

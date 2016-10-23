@@ -1,6 +1,7 @@
 ﻿using System;
 using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Context;
+using FlubuCore.Context.FluentInterface;
 using FlubuCore.Extensions;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks;
@@ -21,7 +22,7 @@ namespace Flubu.Tests
 
             Factory = new DotnetTaskFactory(ServiceProvider);
 
-            Context = new TaskContext(loggerFactory.CreateLogger<TaskSession>(), new TaskContextSession(), new CommandArguments(), Factory, new CoreTaskFluentInterface(), new TaskFluentInterface());
+            Context = new TaskContext(loggerFactory.CreateLogger<TaskSession>(), new TaskContextSession(), new CommandArguments(), Factory, new CoreTaskFluentInterface(), new TaskFluentInterface(new IisTaskFluentInterface()));
         }
 
         protected ITaskFactory Factory { get; }

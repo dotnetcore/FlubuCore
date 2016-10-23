@@ -1,5 +1,6 @@
 ﻿using DotNet.Cli.Flubu.Scripting;
 using FlubuCore.Context;
+using FlubuCore.Context.FluentInterface;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
@@ -52,7 +53,7 @@ public class MyBuildScript : DefaultBuildScript
                 new CommandArguments(),
                 new DotnetTaskFactory(provider),
                 new CoreTaskFluentInterface(),
-                new TaskFluentInterface()));
+                new TaskFluentInterface(new IisTaskFluentInterface())));
         }
 
         [Fact]
@@ -83,7 +84,7 @@ public class MyBuildScript : IBuildScript
                 new CommandArguments(),
                 new DotnetTaskFactory(provider),
                 new CoreTaskFluentInterface(),
-                new TaskFluentInterface()));
+                new TaskFluentInterface(new IisTaskFluentInterface())));
         }
     }
 }

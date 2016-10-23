@@ -135,6 +135,42 @@ namespace Flubu.Tests.Context
         }
 
         [Fact]
+        public void ResolveCreateWebsiteTaskTaskTest()
+        {
+            Context.Tasks().IisTasks().CreateWebsiteTask();
+        }
+
+        [Fact]
+        public void ResolveCreateWebApplicationTaskTest()
+        {
+            Context.Tasks().IisTasks().CreateWebApplicationTask();
+        }
+
+        [Fact]
+        public void ResolveCreateAppPoolTaskTest()
+        {
+            Context.Tasks().IisTasks().CreateAppPoolTask();
+        }
+
+        [Fact]
+        public void ResolveAddWebsiteBindingTaskTest()
+        {
+            Context.Tasks().IisTasks().AddWebsiteBindingTask();
+        }
+
+        [Fact]
+        public void ResolveDeleteAppPoolTaskTest()
+        {
+            Context.Tasks().IisTasks().DeleteAppPoolTask();
+        }
+
+        [Fact]
+        public void ResolveControlAppPoolTaskTest()
+        {
+            Context.Tasks().IisTasks().ControlAppPoolTask();
+        }
+
+        [Fact]
         public void ResolveUpdateNetCoreVersionTaskTest()
         {
             Context.CoreTasks().UpdateNetCoreVersionTask("test");
