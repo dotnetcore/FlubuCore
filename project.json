@@ -17,14 +17,14 @@
   "dependencies": {
     "NETStandard.Library": "1.6.0",
     "Microsoft.NETCore.App": {
-      "type": "platform",
-      "version": "1.0.1"
+        "type": "platform",
+        "version": "1.0.1"
     },
-    "dotnet-flubu": "1.0.115"
+    "dotnet-flubu": "1.0.182"
   },
   "tools": {
     "dotnet-flubu": {
-      "version": "1.0.115",
+      "version": "1.0.182",
       "imports": [
         "dotnet5.6"
       ]
