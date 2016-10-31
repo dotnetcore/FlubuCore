@@ -19,7 +19,6 @@
       "type": "platform"
     },
     "xunit": "2.1.0",
-    "dotnet-test-xunit": "1.0.0-rc2-build10025",
     "moq": "4.6.25-alpha",
     "dotnet-flubu": "1.0.77",
     "FlubuCore": "1.0.77",
@@ -28,9 +27,10 @@
       "version": "1.0.0"
     },
     "Documentation.Analyser": {
-      "type": "build",
-      "version": "1.0.6092.26771"
-    }
+        "type": "build",
+        "version": "1.0.6092.26771"
+    },
+    "dotnet-test-xunit": "2.2.0-preview2-build1029"
   },
 
   "frameworks": {
