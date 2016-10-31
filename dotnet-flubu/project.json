@@ -28,8 +28,8 @@
         "type": "build",
         "version": "1.0.6092.26771"
     },
-    "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0",
-    "Microsoft.Extensions.DependencyInjection": "1.1.0-preview1-final"
+    "Microsoft.Extensions.DependencyInjection": "1.1.0-preview1-final",
+    "Microsoft.Extensions.DependencyInjection.Abstractions": "1.1.0-preview1-final"
   },
 
     "frameworks": {
