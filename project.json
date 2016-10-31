@@ -14,14 +14,11 @@
       ]
     }
   },
-  "dependencies": {
-    "Microsoft.NETCore.App": {
-        "type": "platform",
-        "version": "1.0.1"
+    "dependencies": {
+        "dotnet-flubu": "1.0.182",
+        "Microsoft.NETCore.App": "1.1.0-preview1-001100-00",
+        "NETStandard.Library": "1.6.1-preview1-24530-04"
     },
-    "dotnet-flubu": "1.0.182",
-    "NETStandard.Library": "1.6.1-preview1-24530-04"
-  },
   "tools": {
     "dotnet-flubu": {
       "version": "1.0.182",

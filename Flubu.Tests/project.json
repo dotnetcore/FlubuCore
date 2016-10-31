@@ -13,10 +13,6 @@
         }
     },
   "dependencies": {
-    "Microsoft.NETCore.App": {
-      "version": "1.0.1",
-      "type": "platform"
-    },
     "xunit": "2.1.0",
     "moq": "4.6.25-alpha",
     "dotnet-flubu": "1.0.77",
@@ -30,7 +26,8 @@
         "version": "1.0.6092.26771"
     },
     "dotnet-test-xunit": "2.2.0-preview2-build1029",
-    "NETStandard.Library": "1.6.1-preview1-24530-04"
+    "NETStandard.Library": "1.6.1-preview1-24530-04",
+    "Microsoft.NETCore.App": "1.1.0-preview1-001100-00"
   },
 
   "frameworks": {
