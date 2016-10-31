@@ -38,7 +38,10 @@
                 "dotnet5.6"
             ],
             "dependencies": {
-                "Microsoft.NETCore.App": "1.1.0-preview1-001100-00"
+                "Microsoft.NETCore.App": {
+                    "type": "platform",
+                    "version": "1.0.1"
+                }
             }
             },
         "net46": {
