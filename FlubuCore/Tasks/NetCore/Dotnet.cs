@@ -7,6 +7,16 @@ namespace FlubuCore.Tasks.NetCore
 {
     public static class Dotnet
     {
+        public static ITarget DotnetRestore(this ITarget target, params string[] projects)
+        {
+            foreach (string project in projects)
+            {
+                target.AddTask(Dotnet.Restore(project));
+            }
+
+            return target;
+        }
+
         public static ITarget DotnetBuild(this ITarget target, params string[] projects)
         {
             foreach (string project in projects)

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text.RegularExpressions;
 using FlubuCore.Context;
@@ -55,24 +54,6 @@ namespace FlubuCore.Tasks.FileSystem
         /// </remarks>
         /// <value>The inclusion pattern.</value>
         public string InclusionPattern { get; set; }
-
-        /// <summary>
-        ///     Copies a directory tree from the source to the destination.
-        /// </summary>
-        /// <param name="context">The script execution environment.</param>
-        /// <param name="sourcePath">The source path.</param>
-        /// <param name="destinationPath">The destination path.</param>
-        /// <param name="overwriteExisting">if set to <c>true</c> the task will overwrite existing destination files.</param>
-        public static void Execute(
-            ITaskContext context,
-            string sourcePath,
-            string destinationPath,
-            bool overwriteExisting)
-        {
-            context
-                .Tasks().CopyDirectoryStructureTask(sourcePath, destinationPath, overwriteExisting)
-                .Execute(context);
-        }
 
         /// <summary>
         ///     Internal task execution code.

@@ -20,16 +20,6 @@ namespace FlubuCore.Tasks.FileSystem
             _overwrite = overwrite;
         }
 
-        public static void Execute(
-            ITaskContext context,
-            string sourceFileName,
-            string destinationFileName,
-            bool overwrite)
-        {
-            var task = new CopyFileTask(sourceFileName, destinationFileName, overwrite);
-            task.Execute(context);
-        }
-
         protected override int DoExecute(ITaskContext context)
         {
             context.LogInfo($"Copy file '{_sourceFileName}' to '{_destinationFileName}'");
