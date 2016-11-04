@@ -1,4 +1,5 @@
 ﻿using System;
+using FlubuCore.Context.FluentInterface;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks;
 
@@ -22,14 +23,8 @@ namespace FlubuCore.Context
 
         void LogError(string message);
 
-        CoreTaskFluentInterface CoreTasks();
+        ICoreTaskFluentInterface CoreTasks();
 
-        TaskFluentInterface Tasks();
-
-        T CreateTask<T>(params object[] constructorArgs)
-            where T : TaskBase;
-
-        T CreateTask<T>()
-            where T : TaskBase;
+        ITaskFluentInterface Tasks();
     }
 }

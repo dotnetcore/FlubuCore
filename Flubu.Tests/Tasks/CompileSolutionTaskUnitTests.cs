@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FlubuCore.Context;
+using FlubuCore.Context.FluentInterface;
 using FlubuCore.Services;
 using FlubuCore.Tasks.Process;
 using FlubuCore.Tasks.Solution;
@@ -9,23 +10,24 @@ using Xunit;
 
 namespace Flubu.Tests.Tasks
 {
-    [Collection(nameof(FlubuTestCollection))]
-    public class CompileSolutionTaskTests : FlubuTestBase
+    public class CompileSolutionTaskUnitTests
     {
         private readonly Mock<IFlubuEnviromentService> _flubuEnviroment;
-        private readonly Mock<RunProgramTask> _runProgramTask;
+        private readonly Mock<IRunProgramTask> _runProgramTask;
         private readonly Mock<ITaskContext> _context;
+        private readonly Mock<ITaskFluentInterface> _taskFluentInterface;
         private CompileSolutionTask _task;
 
-        public CompileSolutionTaskTests(FlubuTestFixture fixture)
-            : base(fixture.LoggerFactory)
+        public CompileSolutionTaskUnitTests()
         {
             _flubuEnviroment = new Mock<IFlubuEnviromentService>();
-            _runProgramTask = new Mock<RunProgramTask>(MockBehavior.Loose);
+            _runProgramTask = new Mock<IRunProgramTask>(MockBehavior.Loose);
             _context = new Mock<ITaskContext>();
+            _taskFluentInterface = new Mock<ITaskFluentInterface>();
+            _context.Setup(x => x.Tasks()).Returns(_taskFluentInterface.Object);
         }
 
-        [Fact(Skip = "Fix test. Mock class")]
+        [Fact]
         public void IfToolsVersionIsNotSpecifiedUseHighestOne()
         {
             SetupMSBuildVersions();
@@ -33,12 +35,10 @@ namespace Flubu.Tests.Tasks
 
             _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
             _task.UseSolutionDirAsWorkingDir = false;
-            _context.Setup(i => i.Tasks()).Returns(new TaskFluentInterface(_context.Object));
-            _context.Setup(i => i.CreateTask<RunProgramTask>()).Returns(_runProgramTask.Object);
             _task.Execute(_context.Object);
         }
 
-        [Fact(Skip = "Fix test. Mock class")]
+        [Fact]
         public void ExactToolsVersionWasFound()
         {
             SetupMSBuildVersions();
@@ -47,10 +47,10 @@ namespace Flubu.Tests.Tasks
             _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
             _task.ToolsVersion = new Version("4.0");
             _task.UseSolutionDirAsWorkingDir = false;
-            _task.Execute(Context);
+            _task.Execute(_context.Object);
         }
 
-        [Fact(Skip = "Fix test. Mock class")]
+        [Fact]
         public void ToolsVersionWasNotFoundButThereIsNewerOne()
         {
             SetupMSBuildVersions(include40: false);
@@ -60,7 +60,7 @@ namespace Flubu.Tests.Tasks
             _task.ToolsVersion = new Version("4.0");
 
             _task.UseSolutionDirAsWorkingDir = false;
-            _task.Execute(Context);
+            _task.Execute(_context.Object);
         }
 
         [Fact]
@@ -71,7 +71,7 @@ namespace Flubu.Tests.Tasks
             _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
             _task.ToolsVersion = new Version("4.0");
             _task.UseSolutionDirAsWorkingDir = false;
-            TaskExecutionException ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context));
+            TaskExecutionException ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(_context.Object));
             Assert.Equal("Requested MSBuild tools version 4.0 not found and there are no higher versions", ex.Message);
         }
 
@@ -89,6 +89,7 @@ namespace Flubu.Tests.Tasks
 
         private void SetupRunProgramTask()
         {
+            _taskFluentInterface.Setup(x => x.RunProgramTask(It.IsAny<string>())).Returns(_runProgramTask.Object);
             _runProgramTask.Setup(x => x.WithArguments("x.sln")).Returns(_runProgramTask.Object);
             _runProgramTask.Setup(x => x.WithArguments("/p:Configuration=Release")).Returns(_runProgramTask.Object);
             _runProgramTask.Setup(x => x.WithArguments("/p:Platform=Any CPU")).Returns(_runProgramTask.Object);

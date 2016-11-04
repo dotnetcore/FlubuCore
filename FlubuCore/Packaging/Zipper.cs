@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Compression;
 using FlubuCore.Context;
 using FlubuCore.IO;
@@ -20,8 +21,13 @@ namespace FlubuCore.Packaging
             IEnumerable<FileFullPath> filesToZip)
         {
             _taskContext.LogInfo(string.Format("Zipping {0}", zipFileName));
+            var zipFileFullPath = zipFileName.ToFullPath();
+            if (File.Exists(zipFileFullPath))
+            {
+                File.Delete(zipFileFullPath);
+            }
 
-            using (ZipArchive newFile = ZipFile.Open(zipFileName.ToFullPath(), ZipArchiveMode.Create))
+            using (ZipArchive newFile = ZipFile.Open(zipFileFullPath, ZipArchiveMode.Create))
             {
                 foreach (var fileToZip in filesToZip)
                 {

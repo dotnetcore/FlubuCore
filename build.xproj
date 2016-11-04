@@ -4,7 +4,6 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
-
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
     <ProjectGuid>eba46866-c1e3-4eb9-bd93-5fa53b2ec853</ProjectGuid>
@@ -13,9 +12,22 @@
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
   </PropertyGroup>
-
   <PropertyGroup>
     <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <DnxInvisibleFolder Include=".git\" />
+    <DnxInvisibleFolder Include=".vs\" />
+    <DnxInvisibleFolder Include="Flubu.VisualStudio\" />
+    <DnxInvisibleFolder Include="packages\" />
+    <DnxInvisibleFolder Include="tools\" />
+    <DnxInvisibleFolder Include="FlubuCore\" />
+    <DnxInvisibleFolder Include="Flubu.Tests\" />
+    <DnxInvisibleFolder Include="dotnet-flubu\" />
+  </ItemGroup>
+  <ItemGroup>
+    <DnxInvisibleContent Include="appveyor.yml" />
+    <DnxInvisibleContent Include="flubu.sln.DotSettings" />
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>

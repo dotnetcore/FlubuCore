@@ -4,6 +4,7 @@ using FlubuCore.Targeting;
 using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Testing;
 using FlubuCore.Tasks.Versioning;
+using System.IO;
 
 public class MyBuildScript : DefaultBuildScript
 {
@@ -29,8 +30,34 @@ public class MyBuildScript : DefaultBuildScript
             .AddTask(new ExecuteDotnetTask("pack").WithArguments("FlubuCore", "-c", "Release"))
             .AddTask(new ExecuteDotnetTask("pack").WithArguments("dotnet-flubu", "-c", "Release"));
 
+        session.CreateTarget("merge")
+            .Do(TargetIlMerge);
+
         session
             .CreateTarget("test")
             .DotnetUnitTest("Flubu.Tests");
+    }
+
+    private static void TargetIlMerge(ITaskContext context)
+    {
+        var progTask = context.Tasks().RunProgramTask(@"tools\IlMerge\IlMerge.exe");
+        
+        progTask
+            .WorkingFolder(@"dotnet-flubu\bin\Debug\net46\win7-x64")
+            .WithArguments("/t:exe")
+            .WithArguments("/xmldocs")
+            .WithArguments(@"/targetplatform:v4,C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETCore\v4.5.1")
+            .WithArguments("/closed")
+            .WithArguments("/out:..\\..\\..\\..\\..\\Build.exe")
+            .WithArguments("dotnet-flubu.exe")
+            .WithArguments("FlubuCore.dll")
+            .WithArguments("Microsoft.Extensions.DependencyInjection.dll")
+            .WithArguments("Microsoft.Extensions.DependencyInjection.Abstractions.dll")
+            .WithArguments("Microsoft.Extensions.Logging.Abstractions.dll")
+            .WithArguments("Microsoft.DotNet.Cli.Utils.dll")
+            .WithArguments("Microsoft.Extensions.CommandLineUtils.dll")
+            .WithArguments("System.Runtime.InteropServices.RuntimeInformation.dll")
+            .WithArguments("Microsoft.CodeAnalysis.Scripting.dll")
+            .Execute(context);
     }
 }

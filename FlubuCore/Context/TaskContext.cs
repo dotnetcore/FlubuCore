@@ -1,4 +1,5 @@
 ﻿using System;
+using FlubuCore.Context.FluentInterface;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks;
 using Microsoft.Extensions.Logging;
@@ -8,7 +9,12 @@ namespace FlubuCore.Context
     public class TaskContext : ITaskContext
     {
         private readonly ILogger _log;
+
         private readonly ITaskFactory _taskFactory;
+
+        private readonly ITaskFluentInterface _taskFluentInterface;
+
+        private readonly ICoreTaskFluentInterface _coreTaskFluentInterface;
 
         private bool _disposed;
 
@@ -18,12 +24,18 @@ namespace FlubuCore.Context
             ILogger log,
             ITaskContextSession taskContextProperties,
             CommandArguments args,
-            ITaskFactory taskFactory)
+            ITaskFactory taskFactory,
+            ICoreTaskFluentInterface coreTaskFluentInterface,
+            ITaskFluentInterface taskFluentInterface)
         {
             _log = log;
             _taskFactory = taskFactory;
             Args = args;
             Properties = taskContextProperties;
+            _coreTaskFluentInterface = coreTaskFluentInterface;
+            _taskFluentInterface = taskFluentInterface;
+            _taskFluentInterface.Context = this;
+            _coreTaskFluentInterface.Context = this;
         }
 
         public ITaskContextSession Properties { get; }
@@ -47,14 +59,14 @@ namespace FlubuCore.Context
             _log?.LogError(message);
         }
 
-        public TaskFluentInterface Tasks()
+        public ITaskFluentInterface Tasks()
         {
-            return new TaskFluentInterface(this);
+            return _taskFluentInterface;
         }
 
-        public CoreTaskFluentInterface CoreTasks()
+        public ICoreTaskFluentInterface CoreTasks()
         {
-           return new CoreTaskFluentInterface(this);
+            return _coreTaskFluentInterface;
         }
 
         public void DecreaseDepth()
@@ -74,13 +86,13 @@ namespace FlubuCore.Context
             GC.SuppressFinalize(this);
         }
 
-        public T CreateTask<T>()
+        internal T CreateTask<T>()
             where T : TaskBase
         {
             return _taskFactory.Create<T>();
         }
 
-        public T CreateTask<T>(params object[] constructorArgs)
+        internal T CreateTask<T>(params object[] constructorArgs)
             where T : TaskBase
         {
             return _taskFactory.Create<T>(constructorArgs);

@@ -81,8 +81,8 @@ namespace Flubu.Tests.Tasks
             }
 
             new PackageTask(@"tmp\output")
-                .AddDirectoryToPackage("test", @"tmp\test", "test", new RegexFileFilter(@".fln"))
-                .AddDirectoryToPackage("test2", @"tmp\test2", "test2", new RegexFileFilter(@".bl"))
+                .AddDirectoryToPackage("test", @"tmp\test", "test", false, new RegexFileFilter(@".fln"))
+                .AddDirectoryToPackage("test2", @"tmp\test2", "test2", false, new RegexFileFilter(@".bl"))
                 .ZipPackage(@"tmp\test.zip")
                 .Execute(Context);
 

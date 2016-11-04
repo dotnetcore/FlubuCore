@@ -18,11 +18,18 @@ namespace FlubuCore.Tasks.Versioning
         protected override int DoExecute(ITaskContext context)
         {
             _productRootDir = context.Properties.Get<string>(BuildProps.ProductRootDir);
-            _productId = context.Properties.Get<string>(BuildProps.ProductId);
 
-            string projectVersionFileName = !string.IsNullOrEmpty(ProjectVersionFileName)
-                ? Path.Combine(_productRootDir, ProjectVersionFileName)
-                : Path.Combine(_productRootDir, $"{_productId}.ProjectVersion.txt");
+            string projectVersionFileName;
+
+            if (!string.IsNullOrEmpty(ProjectVersionFileName))
+            {
+                projectVersionFileName = Path.Combine(_productRootDir, ProjectVersionFileName);
+            }
+            else
+            {
+                _productId = context.Properties.Get<string>(BuildProps.ProductId);
+                projectVersionFileName = Path.Combine(_productRootDir, $"{_productId}.ProjectVersion.txt");
+            }
 
             if (!File.Exists(projectVersionFileName))
                 throw new InvalidOperationException($"Project version file '{projectVersionFileName}' is missing.");

@@ -43,39 +43,30 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         private string _targetFramework;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NUnitTask"/> class.
-        /// </summary>
-        /// <param name="testAssemblyFileName">File name of the assembly containing the test code.</param>
-        /// <param name="nunitConsoleFileName">Path to the NUnit-console.exe</param>
-        /// <param name="workingDirectory">Working directory to use.</param>
-        public NUnitTask(
-            string testAssemblyFileName,
-            string nunitConsoleFileName,
-            string workingDirectory)
-        {
-            _nunitConsoleFileName = nunitConsoleFileName;
-            _testAssemblyFileName = testAssemblyFileName;
-            _workingDirectory = workingDirectory;
-        }
+        ///// <summary>
+        ///// Initializes a new instance of the <see cref="NUnitTask"/> class.
+        ///// </summary>
+        ///// <param name="testAssemblyFileName">File name of the assembly containing the test code.</param>
+        ///// <param name="nunitConsoleFileName">Path to the NUnit-console.exe</param>
+        ///// <param name="workingDirectory">Working directory to use.</param>
+        ////public NUnitTask(
+        ////    string testAssemblyFileName,
+        ////    string nunitConsoleFileName,
+        ////    string workingDirectory)
+        ////{
+        ////    _nunitConsoleFileName = nunitConsoleFileName;
+        ////    _testAssemblyFileName = testAssemblyFileName;
+        ////    _workingDirectory = workingDirectory;
+        ////}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NUnitTask"/> class.
         /// </summary>
         /// <param name="nunitConsoleFileName">full file path to nunit console</param>
         /// <param name="projectName">Unit test project name.</param>
-        public NUnitTask(string nunitConsoleFileName, string projectName)
+        public NUnitTask(string projectName, string nunitConsoleFileName = null)
         {
             _nunitConsoleFileName = nunitConsoleFileName;
-            _projectName = projectName;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NUnitTask"/> class.
-        /// </summary>
-        /// <param name="projectName">Unit test project name.</param>
-        public NUnitTask(string projectName)
-        {
             _projectName = projectName;
         }
 
