@@ -10,17 +10,19 @@ namespace FlubuCore.Tasks.Packaging
             return target.AddTask(Unzip(zip, destination));
         }
 
-        public static ITarget Package(this ITarget target, string zipPath, params string[] folders)
+        public static ITarget DotnetPackage(this ITarget target, string zipPath, params string[] folders)
         {
             PackageTask task = new PackageTask("output")
                 .ZipPackage(zipPath);
 
             foreach (var folder in folders)
             {
+                var fullFolder = Path.Combine(folder, "bin/Debug/netcoreapp1.0/publish");
+
                 task.AddDirectoryToPackage(
                     folder.GetHashCode().ToString(),
-                    folder,
-                    Path.GetDirectoryName(folder),
+                    fullFolder,
+                    Path.GetFileName(folder),
                     true);
             }
 
