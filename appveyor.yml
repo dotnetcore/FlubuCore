@@ -18,6 +18,6 @@ notifications:
   auth_token:
     secure: jpaZeRBn76BJkajJ9wviftUAMHzXnGLCUdpn636vUeWjTPPrwK40o23OXQnB7PCLUrwTuyTmuIOEdK/TLG2j85qQXpa52+Nvovq4eBDpDbU=
   channel: '#appveyor'
-  on_build_success: false
+  on_build_success: true
   on_build_failure: true
   on_build_status_changed: true
