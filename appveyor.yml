@@ -14,10 +14,10 @@ build_script:
 test_script:
 - cmd: dotnet test Flubu.Tests -xml results.xml
 notifications:
-- provider: Email
-  to:
-  - zoro.zorec@gmail.com
-  - mzorec@gmail.com
+- provider: Slack
+  auth_token:
+    secure: 7XqzccV11cUEmlu5fVc5Hh8NB3FFauquscxGGbryn03f3fRzSOFsoMwcbVPiYnnS
+  channel: #appveyor
   on_build_success: false
   on_build_failure: true
   on_build_status_changed: true
