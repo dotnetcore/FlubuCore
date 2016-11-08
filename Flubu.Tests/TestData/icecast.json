@@ -1,0 +1,8 @@
+﻿{
+  "Icecast": {
+    "Host": "10.10.1.142",
+    "Port": 8000,
+    "Password": "abcd1234",
+    "AdminPassword": "abcd1234"
+  }
+}

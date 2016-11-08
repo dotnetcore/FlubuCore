@@ -1,0 +1,5 @@
+﻿{
+  "IceshoutHttpClient": {
+    "BaseUrl": "http://10.10.1.142:9001/api/"
+  }
+}

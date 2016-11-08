@@ -1,0 +1,7 @@
+﻿{
+  "Database": {
+    "CatalogConnection": "User ID=postgres;Password=aa;Host=sqldb;Port=5432;Database=8d;Pooling=true",
+    "StreamingConnection": "User ID=postgres;Password=aa;Host=sqldb;Port=5432;Database=8d_stream;Pooling=true",
+    "ReportingConnection": "User ID=postgres;Password=aa;Host=sqldb;Port=5432;Database=8d_report;Pooling=true"
+  }
+}

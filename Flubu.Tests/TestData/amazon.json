@@ -1,0 +1,9 @@
+﻿{
+  "AmazonS3": {
+    "AmazonBaseUrl": "http://d299zc656o34b0kk.cloudfront.net/", //cloudfront url when configured
+    "AmazonS3BaseUrl": "http://545454.amazonaws.com/",
+    "BucketName": "55467",
+    "AccessKey": "cvbhr4r",
+    "KeySecret": "ertet"
+  }
+}
