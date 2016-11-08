@@ -14,6 +14,16 @@ namespace FlubuCore.Tasks.FileSystem
             return target.AddTask(CopyDirectory(source, destination, overwrite));
         }
 
+        public static ITarget DeleteDirectory(this ITarget target, string path, bool failIfNotExist)
+        {
+            return target.AddTask(new DeleteDirectoryTask(path, failIfNotExist));
+        }
+
+        public static ITarget CreateDirectory(this ITarget target, string path, bool forceRecreate)
+        {
+            return target.AddTask(new CreateDirectoryTask(path, forceRecreate));
+        }
+
         public static CopyFileTask CopyFile(
             string sourceFileName,
             string destinationFileName,

@@ -30,6 +30,9 @@ namespace FlubuCore.Tasks.Versioning
 
         public UpdateNetCoreVersionTask AdditionalProp(params string[] args)
         {
+            if (args == null || args.Length <= 0)
+                return this;
+
             _additionalProperties.AddRange(args);
             return this;
         }

@@ -19,6 +19,9 @@ namespace FlubuCore.Tasks.Versioning
         {
             _productRootDir = context.Properties.Get<string>(BuildProps.ProductRootDir);
 
+            if (string.IsNullOrEmpty(_productRootDir))
+                _productRootDir = ".";
+
             string projectVersionFileName;
 
             if (!string.IsNullOrEmpty(ProjectVersionFileName))

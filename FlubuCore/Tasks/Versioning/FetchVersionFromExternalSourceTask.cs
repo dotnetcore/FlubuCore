@@ -8,7 +8,8 @@ namespace FlubuCore.Tasks.Versioning
     {
         private readonly List<string> _environmentVariables = new List<string>
         {
-            "APPVEYOR_BUILD_NUMBER"
+            "APPVEYOR_BUILD_NUMBER",
+            "BUILD_NUMBER"
         };
 
         protected override int DoExecute(ITaskContext context)
