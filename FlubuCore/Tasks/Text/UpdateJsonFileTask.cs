@@ -107,9 +107,9 @@ namespace FlubuCore.Tasks.Text
                 if (token == null)
                 {
                     if (_failIfNotFound)
-                    {
                         context.Fail($"Propety {pair.Key} not found in {_fileName}", 3);
-                    }
+                    else
+                        context.LogInfo($"Propety {pair.Key} not found in {_fileName}");
 
                     res = 3;
                     break;
@@ -123,9 +123,12 @@ namespace FlubuCore.Tasks.Text
                         break;
                     }
 
+                    context.LogInfo($"Propety {pair.Key} type mismatch.");
+
                     res = 4;
                 }
 
+                context.LogInfo($"Replacing {token.Path} with {pair.Value}.");
                 token.Replace(pair.Value);
             }
 
