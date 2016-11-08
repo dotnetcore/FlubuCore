@@ -12,7 +12,7 @@ namespace FlubuCore.Tasks.Packaging
 
         public static ITarget DotnetPackage(this ITarget target, string zipPath, params string[] folders)
         {
-            PackageTask task = new PackageTask("output")
+            PackageTask task = new PackageTask()
                 .ZipPackage(zipPath);
 
             foreach (var folder in folders)

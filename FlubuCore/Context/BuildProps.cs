@@ -25,5 +25,6 @@
         public const string Solution = "solution";
         public const string NUnitConsolePath = "nunit_console_path";
         public const string BuildDir = "build_dir";
+        public const string OutputDir = "output_dir";
     }
 }

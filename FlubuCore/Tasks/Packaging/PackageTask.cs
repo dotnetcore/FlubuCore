@@ -7,32 +7,40 @@ namespace FlubuCore.Tasks.Packaging
 {
     public class PackageTask : TaskBase
     {
-        private List<SourcePackagingInfo> _sourcePackagingInfos;
+        private readonly List<SourcePackagingInfo> _sourcePackagingInfos;
 
-        private FullPath _destinationRootDir;
+        private string _destinationRootDir;
 
         private string _zipFileName;
 
-        public PackageTask(string destinationRootDir)
+        public PackageTask(string destinationRootDir = null)
         {
+            _destinationRootDir = destinationRootDir;
             _sourcePackagingInfos = new List<SourcePackagingInfo>();
-            _destinationRootDir = new FullPath(destinationRootDir);
         }
 
         private bool ShouldPackageBeZipped => !string.IsNullOrEmpty(_zipFileName);
 
         public PackageTask AddDirectoryToPackage(string sourceId, string sourceDirectoryPath, string destinationDirectory, bool recursive = false)
         {
-            var directoryToPackage = new SourcePackagingInfo(sourceId, SourceType.Directory, sourceDirectoryPath, destinationDirectory);
-            directoryToPackage.Recursive = recursive;
+            SourcePackagingInfo directoryToPackage = new SourcePackagingInfo(
+                sourceId,
+                SourceType.Directory,
+                sourceDirectoryPath,
+                destinationDirectory) { Recursive = recursive };
+
             _sourcePackagingInfos.Add(directoryToPackage);
             return this;
         }
 
         public PackageTask AddDirectoryToPackage(string sourceId, string sourceDirectoryPath, string destinationDirectory, bool recursive, params IFileFilter[] fileFilters)
         {
-            var directoryToPackage = new SourcePackagingInfo(sourceId, SourceType.Directory, sourceDirectoryPath, destinationDirectory);
-            directoryToPackage.Recursive = recursive;
+            SourcePackagingInfo directoryToPackage = new SourcePackagingInfo(
+                sourceId,
+                SourceType.Directory,
+                sourceDirectoryPath,
+                destinationDirectory) { Recursive = recursive };
+
             foreach (var filter in fileFilters)
             {
                 directoryToPackage.FileFilters.Add(filter);
@@ -61,15 +69,19 @@ namespace FlubuCore.Tasks.Packaging
                 return 0;
             }
 
+            if (string.IsNullOrEmpty(_destinationRootDir))
+                _destinationRootDir = context.GetOutputDir();
+
+            FullPath df = new FullPath(_destinationRootDir);
             ICopier copier = new Copier(context);
             IZipper zipper = new Zipper(context);
             IDirectoryFilesLister directoryFilesLister = new DirectoryFilesLister();
             StandardPackageDef packageDef = new StandardPackageDef();
-            CopyProcessor copyProcessor = new CopyProcessor(
-            context,
-            copier,
-            _destinationRootDir);
+
+            CopyProcessor copyProcessor = new CopyProcessor(context, copier, df);
+
             List<string> sourceIds = new List<string>();
+
             foreach (var sourceToPackage in _sourcePackagingInfos)
             {
                 if (sourceToPackage.SourceType == SourceType.Directory)
@@ -92,7 +104,7 @@ namespace FlubuCore.Tasks.Packaging
 
             if (ShouldPackageBeZipped)
             {
-                ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(_zipFileName), _destinationRootDir, sourceIds);
+                ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(_zipFileName), df, sourceIds);
                 zipProcessor.Process(copiedPackageDef);
             }
 

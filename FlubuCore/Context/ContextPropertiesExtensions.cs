@@ -72,6 +72,39 @@ namespace FlubuCore.Context
             return fullPath;
         }
 
+        public static string SetBuildDir(this ITaskContext context, string path)
+        {
+            context.Properties.Set<string>(BuildProps.BuildDir, path);
+            return path;
+        }
+
+        public static string GetBuildDir(this ITaskContext context)
+        {
+            return context.Properties.TryGet<string>(BuildProps.BuildDir);
+        }
+
+        public static string SetOutputDir(this ITaskContext context, string path)
+        {
+            context.Properties.Set<string>(BuildProps.OutputDir, path);
+            return path;
+        }
+
+        public static string GetOutputDir(this ITaskContext context)
+        {
+            return context.Properties.TryGet<string>(BuildProps.OutputDir);
+        }
+
+        public static string SetProductRootDir(this ITaskContext context, string path)
+        {
+            context.Properties.Set<string>(BuildProps.ProductRootDir, path);
+            return path;
+        }
+
+        public static string GetProductRootDir(this ITaskContext context)
+        {
+            return context.Properties.TryGet<string>(BuildProps.ProductRootDir);
+        }
+
         public static T TryGet<T>(this ITaskContext context, string propName, T defaultValue = default(T))
         {
             T ret = context.Properties.TryGet<T>(propName);
