@@ -7,7 +7,6 @@ namespace FlubuCore.Tasks.Versioning
 {
     public class UpdateNetCoreVersionTask : TaskBase
     {
-        private readonly List<string> _additionalProperties = new List<string>();
         private readonly List<string> _files = new List<string>();
 
         private Version _version;
@@ -22,6 +21,8 @@ namespace FlubuCore.Tasks.Versioning
             _files.AddRange(files);
         }
 
+        internal List<string> AdditionalProperties { get; } = new List<string>();
+
         public UpdateNetCoreVersionTask FixedVersion(Version version)
         {
             _version = version;
@@ -33,7 +34,7 @@ namespace FlubuCore.Tasks.Versioning
             if (args == null || args.Length <= 0)
                 return this;
 
-            _additionalProperties.AddRange(args);
+            AdditionalProperties.AddRange(args);
             return this;
         }
 
@@ -62,7 +63,7 @@ namespace FlubuCore.Tasks.Versioning
                     .FailIfPropertyNotFound(false)
                     .Update("version", newVersion);
 
-                _additionalProperties.ForEach(i => task.Update(i, newVersion));
+                AdditionalProperties.ForEach(i => task.Update(i, newVersion));
 
                 task.Execute(context);
             }

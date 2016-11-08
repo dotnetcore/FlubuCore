@@ -14,7 +14,7 @@ namespace FlubuCore.Tasks.Versioning
             return target.AddTask(new FetchVersionFromExternalSourceTask());
         }
 
-        public static ITarget UpdateDotnetVersion(this ITarget target, string[] projectFiles, params string[] additionalProps)
+        public static ITarget UpdateDotnetVersion(this ITarget target, string[] projectFiles, string[] additionalProps)
         {
             return target.AddTask(
                 new UpdateNetCoreVersionTask(projectFiles)
