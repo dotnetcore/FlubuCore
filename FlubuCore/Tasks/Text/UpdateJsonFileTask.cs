@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Text;
 using FlubuCore.Context;
@@ -96,10 +97,11 @@ namespace FlubuCore.Tasks.Text
                 return 2;
             }
 
-            context.LogInfo($"Update JSON file {_fileName} to file {_output ?? _fileName}");
+            context.LogInfo($"Update JSON file {_fileName} to file {_output ?? _fileName}. With {_updates.Count} updates");
             string file = File.ReadAllText(_fileName);
             JObject json = JObject.Parse(file);
             int res = 0;
+
             foreach (KeyValuePair<string, JValue> pair in _updates)
             {
                 JToken token = json.SelectToken(pair.Key, false);
@@ -112,7 +114,7 @@ namespace FlubuCore.Tasks.Text
                         context.LogInfo($"Propety {pair.Key} not found in {_fileName}");
 
                     res = 3;
-                    break;
+                    continue;
                 }
 
                 if (token.Type != pair.Value.Type)
@@ -120,7 +122,7 @@ namespace FlubuCore.Tasks.Text
                     if (_failOnTypeMismatch)
                     {
                         context.Fail($"Propety {pair.Key} type mismatch.", 4);
-                        break;
+                        continue;
                     }
 
                     context.LogInfo($"Propety {pair.Key} type mismatch.");
