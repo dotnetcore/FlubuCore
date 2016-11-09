@@ -40,24 +40,18 @@ public class MyBuildScript : DefaultBuildScript
 
     private static void TargetIlMerge(ITaskContext context)
     {
-        var progTask = context.Tasks().RunProgramTask(@"tools\IlMerge\IlMerge.exe");
+        var progTask = context.Tasks().RunProgramTask(@"tools\LibZ.Tool\1.2.0\tools\libz.exe");
         
         progTask
             .WorkingFolder(@"dotnet-flubu\bin\Debug\net46\win7-x64")
-            .WithArguments("/t:exe")
-            .WithArguments("/xmldocs")
-            .WithArguments(@"/targetplatform:v4,C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETCore\v4.5.1")
-            .WithArguments("/closed")
-            .WithArguments("/out:..\\..\\..\\..\\..\\Build.exe")
+            .WithArguments("inject-dll")
+            .WithArguments("--assembly")
             .WithArguments("dotnet-flubu.exe")
-            .WithArguments("FlubuCore.dll")
-            .WithArguments("Microsoft.Extensions.DependencyInjection.dll")
-            .WithArguments("Microsoft.Extensions.DependencyInjection.Abstractions.dll")
-            .WithArguments("Microsoft.Extensions.Logging.Abstractions.dll")
-            .WithArguments("Microsoft.DotNet.Cli.Utils.dll")
-            .WithArguments("Microsoft.Extensions.CommandLineUtils.dll")
-            .WithArguments("System.Runtime.InteropServices.RuntimeInformation.dll")
-            .WithArguments("Microsoft.CodeAnalysis.Scripting.dll")
+            .WithArguments("--include")
+            .WithArguments("*.dll")
+            
+            .WithArguments("--move")
+
             .Execute(context);
     }
 }

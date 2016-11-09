@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>LibZ.Tool</id>
+    <version>1.2.0.0</version>
+    <title>LibZ.Tool</title>
+    <authors>Milosz Krajewski</authors>
+    <owners>Milosz Krajewski</owners>
+    <licenseUrl>https://github.com/MiloszKrajewski/LibZ/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/MiloszKrajewski/LibZ</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/MiloszKrajewski/LibZ/master/doc/libz-icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>LibZ is an alternative to ILMerge. It allows to distribute your applications or libraries as single file with assemblies embedded into it or combined together into container file. This package contains: command-line tool. Please refer to project homepage if unsure which packages you need.</description>
+    <summary>LibZ - alternative to ILMerge</summary>
+    <releaseNotes>- --safe-load option forcing assemblies to be loaded from disk
+- fixes for mono compatibility (still work in progress)
+- removed plugabble compressor (configuration pain with no major benefit)
+- minor bugfixes
+- changed structure of NuGet packages</releaseNotes>
+    <copyright>Milosz Krajewski</copyright>
+    <language>en-GB</language>
+    <tags>ILMerge distribute compression jar xap</tags>
+  </metadata>
+</package>
