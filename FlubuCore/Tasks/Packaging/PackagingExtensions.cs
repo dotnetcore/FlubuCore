@@ -12,25 +12,11 @@ namespace FlubuCore.Tasks.Packaging
 
         public static ITarget DotnetPackage(this ITarget target, string zipPath, params string[] folders)
         {
-            PackageTask task = new PackageTask()
-                .ZipPackage(zipPath);
-
-            foreach (var folder in folders)
-            {
-                var fullFolder = Path.Combine(folder, "bin/Debug/netcoreapp1.0/publish");
-
-                task.AddDirectoryToPackage(
-                    folder.GetHashCode().ToString(),
-                    fullFolder,
-                    Path.GetFileName(folder),
-                    true);
-            }
-
             target.CreateDotnetPackage(zipPath, folders);
             return target;
         }
 
-        public static ITask CreateDotnetPackage(this ITarget target, string zipPath, params string[] folders)
+        public static PackageTask CreateDotnetPackage(this ITarget target, string zipPath, params string[] folders)
         {
             PackageTask task = new PackageTask()
                 .ZipPackage(zipPath);
