@@ -33,7 +33,7 @@ namespace FlubuCore.Tasks.Text
 
                 foreach (JToken child in src.Children())
                 {
-                    dest.Add(child.Path, child.Root);
+                    dest.Add(child.Root);
                 }
             }
 

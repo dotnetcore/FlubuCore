@@ -26,7 +26,28 @@ namespace FlubuCore.Tasks.Packaging
                     true);
             }
 
-            return target.AddTask(task);
+            target.CreateDotnetPackage(zipPath, folders);
+            return target;
+        }
+
+        public static ITask CreateDotnetPackage(this ITarget target, string zipPath, params string[] folders)
+        {
+            PackageTask task = new PackageTask()
+                .ZipPackage(zipPath);
+
+            foreach (var folder in folders)
+            {
+                var fullFolder = Path.Combine(folder, "bin/Debug/netcoreapp1.0/publish");
+
+                task.AddDirectoryToPackage(
+                    folder.GetHashCode().ToString(),
+                    fullFolder,
+                    Path.GetFileName(folder),
+                    true);
+            }
+
+            target.AddTask(task);
+            return task;
         }
 
         public static UnzipTask Unzip(string zip, string destination)
