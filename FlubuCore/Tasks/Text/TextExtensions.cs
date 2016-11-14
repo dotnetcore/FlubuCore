@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using FlubuCore.Targeting;
 
 namespace FlubuCore.Tasks.Text

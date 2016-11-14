@@ -1,4 +1,5 @@
-﻿using FlubuCore.Tasks.FileSystem;
+﻿using System;
+using FlubuCore.Tasks.FileSystem;
 using FlubuCore.Tasks.Nuget;
 using FlubuCore.Tasks.Packaging;
 using FlubuCore.Tasks.Process;
@@ -52,5 +53,9 @@ namespace FlubuCore.Context.FluentInterface
         GenerateCommonAssemblyInfoTask GenerateCommonAssemblyInfoTask();
 
         IIisTaskFluentInterface IisTasks();
+
+        MergeConfigurationTask MergeConfiguration(string outFile, params string[] sourceFiles);
+
+        ReplaceTextTask ReplaceText(string sourceFile, params Tuple<string, string>[] tokens);
     }
 }
