@@ -15,20 +15,20 @@ namespace FlubuCore.Tasks
         }
 
         public T Create<T>()
-            where T : TaskMarker
+            where T : ITask
         {
             return _provider.GetRequiredService<T>();
         }
 
         public T Create<T>(params object[] constructorArgs)
-            where T : TaskMarker
+            where T : ITask
         {
             return ActivatorUtilities.CreateInstance<T>(_provider, constructorArgs);
         }
 
-        public IReadOnlyList<TaskMarker> ListAll()
+        public IReadOnlyList<ITask> ListAll()
         {
-            return _provider.GetServices<TaskMarker>().ToList();
+            return _provider.GetServices<ITask>().ToList();
         }
     }
 }

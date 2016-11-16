@@ -145,10 +145,10 @@ namespace FlubuCore.Targeting
             context.LogInfo("Tasks:");
 
             // first sort the targets
-            IEnumerable<TaskMarker> tasks = _provider.GetServices<TaskMarker>();
+            IEnumerable<ITask> tasks = _provider.GetServices<ITask>();
 
             // now display them in sorted order
-            foreach (TaskMarker task in tasks)
+            foreach (ITask task in tasks)
             {
                 context.LogInfo($"  {task.GetType().FullName}");
             }

@@ -7,7 +7,7 @@ namespace FlubuCore.Tasks
     /// <summary>
     ///     A base abstract class from which tasks can be implemented.
     /// </summary>
-    public abstract class TaskBase<T> : TaskMarker, ITaskOfT<T>
+    public abstract class TaskBase<T> : ITaskOfT<T>
     {
         /// <summary>
         ///     Gets a value indicating whether this instance is safe to execute in dry run mode.

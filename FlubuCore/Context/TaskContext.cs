@@ -87,13 +87,13 @@ namespace FlubuCore.Context
         }
 
         internal T CreateTask<T>()
-            where T : TaskMarker
+            where T : ITask
         {
             return _taskFactory.Create<T>();
         }
 
         internal T CreateTask<T>(params object[] constructorArgs)
-            where T : TaskMarker
+            where T : ITask
         {
             return _taskFactory.Create<T>(constructorArgs);
         }
