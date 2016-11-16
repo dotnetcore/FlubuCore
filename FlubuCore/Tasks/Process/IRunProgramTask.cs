@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FlubuCore.Tasks.Process
 {
-    public interface IRunProgramTask : ITask
+    public interface IRunProgramTask : ITaskOfT<int>
     {
         IRunProgramTask WithArguments(string arg);
 

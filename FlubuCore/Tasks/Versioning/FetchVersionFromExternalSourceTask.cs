@@ -4,7 +4,7 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.Versioning
 {
-    public class FetchVersionFromExternalSourceTask : TaskBase
+    public class FetchVersionFromExternalSourceTask : TaskBase<Version>
     {
         private readonly List<string> _environmentVariables = new List<string>
         {
@@ -12,8 +12,9 @@ namespace FlubuCore.Tasks.Versioning
             "BUILD_NUMBER"
         };
 
-        protected override int DoExecute(ITaskContext context)
+        protected override Version DoExecute(ITaskContext context)
         {
+            Version newVer = null;
             foreach (string itm in _environmentVariables)
             {
                 string val = Environment.GetEnvironmentVariable(itm);
@@ -21,14 +22,14 @@ namespace FlubuCore.Tasks.Versioning
                 if (!string.IsNullOrEmpty(val))
                 {
                     Version current = context.GetBuildVersion();
-                    var newVer = new Version(current.Major, current.Minor, int.Parse(val));
+                    newVer = new Version(current.Major, current.Minor, int.Parse(val));
                     context.SetBuildVersion(newVer);
                     context.LogInfo($"Updated version to {newVer.ToString(3)}");
                     break;
                 }
             }
 
-            return 0;
+            return newVer;
         }
     }
 }

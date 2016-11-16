@@ -7,7 +7,7 @@ namespace FlubuCore.Tasks
     /// <summary>
     ///     A base abstract class from which tasks can be implemented.
     /// </summary>
-    public abstract class TaskBase : ITask
+    public abstract class TaskBase<T> : TaskMarker, ITaskOfT<T>
     {
         /// <summary>
         ///     Gets a value indicating whether this instance is safe to execute in dry run mode.
@@ -28,15 +28,23 @@ namespace FlubuCore.Tasks
         /// <value><c>true</c> if duration should be logged; otherwise, <c>false</c>.</value>
         protected virtual bool LogDuration => false;
 
+        public void Execute(ITaskContext context)
+        {
+            ExecuteWithResult(context);
+        }
+
         /// <summary>
         ///     Executes the task using the specified script execution environment.
         /// </summary>
         /// <remarks>
         ///     This method implements the basic reporting and error handling for
-        ///     classes which inherit the <see cref="TaskBase" /> class.
+        ///     classes which inherit the <see>
+        ///         <cref>TaskBase</cref>
+        ///     </see>
+        ///     class.
         /// </remarks>
         /// <param name="context">The script execution environment.</param>
-        public int Execute(ITaskContext context)
+        public T ExecuteWithResult(ITaskContext context)
         {
             if (context == null)
             {
@@ -73,6 +81,6 @@ namespace FlubuCore.Tasks
         /// </summary>
         /// <remarks>This method has to be implemented by the inheriting task.</remarks>
         /// <param name="context">The script execution environment.</param>
-        protected abstract int DoExecute(ITaskContext context);
+        protected abstract T DoExecute(ITaskContext context);
     }
 }

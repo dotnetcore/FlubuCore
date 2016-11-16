@@ -41,7 +41,7 @@ namespace Flubu.Tests.Tasks
 
             int res = task
                 .WithArguments("--version")
-                .Execute(Context);
+                .ExecuteWithResult(Context);
 
             Assert.Equal(0, res);
         }

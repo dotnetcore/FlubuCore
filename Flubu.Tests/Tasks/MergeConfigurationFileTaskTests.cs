@@ -24,7 +24,7 @@ namespace Flubu.Tests.Tasks
                 "TestData/database.json".ExpandToExecutingPath());
 
             int res = task
-                .Execute(Context);
+                .ExecuteWithResult(Context);
 
             Assert.Equal(0, res);
         }

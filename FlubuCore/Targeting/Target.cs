@@ -5,7 +5,7 @@ using FlubuCore.Tasks;
 
 namespace FlubuCore.Targeting
 {
-    public class Target : TaskBase, ITarget
+    public class Target : TaskBase<int>, ITarget
     {
         private readonly List<string> _dependencies = new List<string>();
 
@@ -142,14 +142,12 @@ namespace FlubuCore.Targeting
             // we can have action-less targets (that only depend on other targets)
             _targetAction?.Invoke(context);
 
-            int res = 0;
-
             foreach (ITask task in _tasks)
             {
-                res = task.Execute(context);
+                 task.Execute(context);
             }
 
-            return res;
+            return 0;
         }
     }
 }

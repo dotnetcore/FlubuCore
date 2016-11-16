@@ -3,7 +3,7 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.FileSystem
 {
-    public class CopyFileTask : TaskBase
+    public class CopyFileTask : TaskBase<int>
     {
         private readonly string _destinationFileName;
         private readonly bool _overwrite;

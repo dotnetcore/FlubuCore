@@ -10,21 +10,19 @@ namespace FlubuCore.Scripting
 {
     public abstract class DefaultBuildScript : IBuildScript
     {
-        public int Run(ITaskSession taskSession)
+        public void Run(ITaskSession taskSession)
         {
             try
             {
-                return RunBuild(taskSession);
+                RunBuild(taskSession);
             }
             catch (TaskExecutionException e)
             {
                 taskSession.LogInfo(e.Message);
-                return 1;
             }
             catch (Exception ex)
             {
                 taskSession.LogInfo(ex.ToString());
-                return 2;
             }
         }
 
@@ -48,7 +46,7 @@ namespace FlubuCore.Scripting
             return null;
         }
 
-        private int RunBuild(ITaskSession taskSession)
+        private void RunBuild(ITaskSession taskSession)
         {
             ConfigureDefaultProps(taskSession);
 
@@ -71,26 +69,26 @@ namespace FlubuCore.Scripting
             }
 
             taskSession.Start(s =>
+            {
+                SortedList<string, ITarget> sortedTargets = new SortedList<string, ITarget>();
+
+                foreach (ITarget target in s.TargetTree.EnumerateExecutedTargets())
                 {
-                    SortedList<string, ITarget> sortedTargets = new SortedList<string, ITarget>();
+                    sortedTargets.Add(target.TargetName, target);
+                }
 
-                    foreach (ITarget target in s.TargetTree.EnumerateExecutedTargets())
+                foreach (ITarget target in sortedTargets.Values)
+                {
+                    if (target.TaskStopwatch.ElapsedTicks > 0)
                     {
-                        sortedTargets.Add(target.TargetName, target);
+                        s.LogInfo($"Target {target.TargetName} took {(int)target.TaskStopwatch.Elapsed.TotalSeconds} s");
                     }
+                }
 
-                    foreach (ITarget target in sortedTargets.Values)
-                    {
-                        if (target.TaskStopwatch.ElapsedTicks > 0)
-                        {
-                            s.LogInfo($"Target {target.TargetName} took {(int)target.TaskStopwatch.Elapsed.TotalSeconds} s");
-                        }
-                    }
+                s.LogInfo(s.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
+            });
 
-                    s.LogInfo(s.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
-                });
-
-            return taskSession.TargetTree.RunTarget(taskSession, targetToRun);
+            taskSession.TargetTree.RunTarget(taskSession, targetToRun);
         }
 
         private void ConfigureDefaultProps(ITaskSession taskSession)

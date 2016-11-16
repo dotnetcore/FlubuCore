@@ -3,7 +3,7 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.FileSystem
 {
-    public class DeleteFilesTask : TaskBase
+    public class DeleteFilesTask : TaskBase<int>
     {
         private readonly string _directoryPath;
         private readonly string _filePattern;

@@ -4,7 +4,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace FlubuCore.Tasks.Testing
 {
-    public class OpenCoverToCoberturaTask : TaskBase
+    public class OpenCoverToCoberturaTask : TaskBase<int>
     {
         private readonly string _input;
         private readonly string _output;
@@ -31,7 +31,9 @@ namespace FlubuCore.Tasks.Testing
                 .WorkingFolder(_workingFolder)
                 .WithArguments($"-input:{_input}", $"-output:{_output}");
 
-            return task.Execute(context);
+            task.Execute(context);
+
+            return 0;
         }
     }
 }

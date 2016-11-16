@@ -8,7 +8,7 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.Text
 {
-    public class ReplaceTokensTask : TaskBase
+    public class ReplaceTokensTask : TaskBase<int>
     {
         private readonly string _destinationFileName;
 

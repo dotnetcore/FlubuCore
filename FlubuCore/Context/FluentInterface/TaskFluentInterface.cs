@@ -139,16 +139,6 @@ namespace FlubuCore.Context.FluentInterface
             return Context.CreateTask<GenerateCommonAssemblyInfoTask>();
         }
 
-        public MergeConfigurationTask MergeConfiguration(string outFile, params string[] sourceFiles)
-        {
-            return new MergeConfigurationTask(outFile, sourceFiles);
-        }
-
-        public ReplaceTextTask ReplaceText(string sourceFile, params Tuple<string, string>[] tokens)
-        {
-            return new ReplaceTextTask(sourceFile).Replace(tokens);
-        }
-
         public IIisTaskFluentInterface IisTasks()
         {
             _iisTasksFluentInterface.Context = Context;

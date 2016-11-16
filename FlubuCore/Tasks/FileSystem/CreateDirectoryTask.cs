@@ -3,7 +3,7 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.FileSystem
 {
-    public class CreateDirectoryTask : TaskBase
+    public class CreateDirectoryTask : TaskBase<int>
     {
         private readonly bool _forceRecreate;
 

@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 
 namespace FlubuCore.Tasks.Text
 {
-    public class MergeConfigurationTask : TaskBase
+    public class MergeConfigurationTask : TaskBase<int>
     {
         private readonly string _fileName;
         private readonly List<string> _sourceFiles = new List<string>();

@@ -31,7 +31,7 @@ namespace Flubu.Tests.Tasks
                 .DotnetExecutable("C:/Program Files/dotnet/dotnet.exe")
                 .WithArguments("Flubu.NonExtstProj");
 
-            TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.Execute(Context));
+            TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.ExecuteWithResult(Context));
 
             Assert.Equal(1, e.ErrorCode);
         }
@@ -41,7 +41,7 @@ namespace Flubu.Tests.Tasks
         {
             ExecuteDotnetTask task = new ExecuteDotnetTask("help");
 
-            var e = Assert.Throws<TaskExecutionException>(() => task.Execute(Context));
+            var e = Assert.Throws<TaskExecutionException>(() => task.ExecuteWithResult(Context));
             Assert.Equal(-1, e.ErrorCode);
         }
 
@@ -51,7 +51,8 @@ namespace Flubu.Tests.Tasks
             ExecuteDotnetTask task = Context.CoreTasks().ExecuteDotnetTask("help")
                 .DotnetExecutable("C:/Program Files/dotnet/dotnet.exe");
 
-            int res = task.Execute(Context);
+           var res = task.ExecuteWithResult(Context);
+
             Assert.Equal(0, res);
         }
 
@@ -61,7 +62,7 @@ namespace Flubu.Tests.Tasks
             ExecuteDotnetTask task = Dotnet.Restore();
             task.DotnetExecutable("C:/Program Files/dotnet/dotnet.exe");
 
-            int res = task.Execute(Context);
+            int res = task.ExecuteWithResult(Context);
             Assert.Equal(0, res);
         }
     }

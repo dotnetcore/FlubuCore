@@ -8,7 +8,7 @@ namespace FlubuCore.Tasks.FileSystem
     /// <summary>
     ///     Copies a directory tree from the source to the destination.
     /// </summary>
-    public class CopyDirectoryStructureTask : TaskBase
+    public class CopyDirectoryStructureTask : TaskBase<int>
     {
         private readonly string _destinationPath;
         private readonly bool _overwriteExisting;

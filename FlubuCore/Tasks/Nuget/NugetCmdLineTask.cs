@@ -9,7 +9,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Nuget
 {
-    public class NuGetCmdLineTask : TaskBase
+    public class NuGetCmdLineTask : TaskBase<int>
     {
         private const string PackagesDirName = "packages";
 
@@ -91,7 +91,7 @@ namespace FlubuCore.Tasks.Nuget
             foreach (string arg in _args)
                 runProgramTask.WithArguments(arg);
 
-            return runProgramTask.Execute(context);
+            return runProgramTask.ExecuteWithResult(context);
         }
 
         private string FindNuGetCmdLinePath()

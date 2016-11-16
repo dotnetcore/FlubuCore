@@ -5,7 +5,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace FlubuCore.Tasks.Testing
 {
-    public class CoverageReportTask : TaskBase
+    public class CoverageReportTask : TaskBase<int>
     {
         private readonly List<string> _inputFiles = new List<string>();
         private string _toolPath = "tools/reportgenerator/ReportGenerator.exe";
@@ -31,7 +31,9 @@ namespace FlubuCore.Tasks.Testing
                 .WorkingFolder(_workingFolder)
                 .WithArguments($"-targetdir:{_targetFolder}", $"-reports:{string.Join(";", _inputFiles)}");
 
-            return task.Execute(context);
+            task.Execute(context);
+
+            return 0;
         }
     }
 }

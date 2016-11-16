@@ -9,7 +9,7 @@ using Microsoft.Web.Administration;
 
 namespace FlubuCore.Tasks.Iis
 {
-    public class AddWebsiteBindingTask : TaskBase, IAddWebsiteBindingTask
+    public class AddWebsiteBindingTask : TaskBase<int>, IAddWebsiteBindingTask
     {
         private string _siteName;
 

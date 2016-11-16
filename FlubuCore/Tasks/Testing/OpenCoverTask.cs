@@ -8,7 +8,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace FlubuCore.Tasks.Testing
 {
-    public class OpenCoverTask : TaskBase
+    public class OpenCoverTask : TaskBase<int>
     {
         private readonly List<string> _includeList = new List<string>();
         private readonly List<string> _excludeList = new List<string>();
@@ -112,7 +112,9 @@ namespace FlubuCore.Tasks.Testing
             if (!string.IsNullOrEmpty(filter))
                 task.WithArguments($"-filter:{filter}");
 
-            return task.Execute(context);
+            task.Execute(context);
+
+            return 0;
         }
 
         private string GetExecutable()

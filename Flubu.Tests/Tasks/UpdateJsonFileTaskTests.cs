@@ -71,7 +71,7 @@ namespace Flubu.Tests.Tasks
                 .FailIfPropertyNotFound(false)
                 .Update("notfoundproperty", "test");
 
-            int res = task.Execute(Context);
+            int res = task.ExecuteWithResult(Context);
             Assert.Equal(3, res);
         }
 
@@ -83,7 +83,7 @@ namespace Flubu.Tests.Tasks
             int res = task
                 .Update("version", "2.0.0.0")
                 .Output("project.json.new")
-                .Execute(Context);
+                .ExecuteWithResult(Context);
 
             Assert.Equal(0, res);
         }
@@ -96,7 +96,7 @@ namespace Flubu.Tests.Tasks
             int res = task
                 .Update("version", 2)
                 .Output("project.json.new")
-                .Execute(Context);
+                .ExecuteWithResult(Context);
 
             Assert.Equal(4, res);
         }

@@ -8,7 +8,7 @@ using Microsoft.Web.Administration;
 
 namespace FlubuCore.Tasks.Iis
 {
-    public class DeleteAppPoolTask : TaskBase, IDeleteAppPoolTask
+    public class DeleteAppPoolTask : TaskBase<int>, IDeleteAppPoolTask
     {
         public string ApplicationPoolName { get; set; }
 

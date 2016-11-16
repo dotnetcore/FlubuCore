@@ -8,7 +8,7 @@ using Microsoft.Web.Administration;
 
 namespace FlubuCore.Tasks.Iis
 {
-    public abstract class IisTaskBase : TaskBase
+    public abstract class IisTaskBase : TaskBase<int>
     {
         /// <summary>
         /// Adds mime types.

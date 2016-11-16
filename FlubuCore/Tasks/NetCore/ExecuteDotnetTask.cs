@@ -4,7 +4,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.NetCore
 {
-    public class ExecuteDotnetTask : TaskBase
+    public class ExecuteDotnetTask : TaskBase<int>
     {
         private readonly List<string> _arguments = new List<string>();
         private string _workingFolder;
@@ -70,11 +70,13 @@ namespace FlubuCore.Tasks.NetCore
 
             IRunProgramTask task = context.Tasks().RunProgramTask(program);
 
-            return task
+            task
                 .WithArguments(Command)
                 .WithArguments(_arguments.ToArray())
                 .WorkingFolder(_workingFolder)
                 .Execute(context);
+
+            return 0;
         }
     }
 }

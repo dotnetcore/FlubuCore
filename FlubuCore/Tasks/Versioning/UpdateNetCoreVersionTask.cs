@@ -5,7 +5,7 @@ using FlubuCore.Tasks.Text;
 
 namespace FlubuCore.Tasks.Versioning
 {
-    public class UpdateNetCoreVersionTask : TaskBase
+    public class UpdateNetCoreVersionTask : TaskBase<int>
     {
         private readonly List<string> _files = new List<string>();
 
@@ -65,7 +65,7 @@ namespace FlubuCore.Tasks.Versioning
 
                 AdditionalProperties.ForEach(i => task.Update(i, newVersion));
 
-                task.Execute(context);
+                var ret = task.ExecuteWithResult(context);
             }
 
             return res;

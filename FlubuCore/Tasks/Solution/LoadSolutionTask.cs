@@ -3,7 +3,7 @@ using FlubuCore.Tasks.Solution.VSSolutionBrowsing;
 
 namespace FlubuCore.Tasks.Solution
 {
-    public class LoadSolutionTask : TaskBase
+    public class LoadSolutionTask : TaskBase<int>
     {
         /// <summary>
         /// Task load's solution to <see cref="TaskContextSession"/> solution file name is retieved from <see cref="TaskContextSession"/>

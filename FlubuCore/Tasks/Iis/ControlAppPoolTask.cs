@@ -10,7 +10,7 @@ using Microsoft.Web.Administration;
 
 namespace FlubuCore.Tasks.Iis
 {
-    public class ControlAppPoolTask : TaskBase, IControlAppPoolTask
+    public class ControlAppPoolTask : TaskBase<int>, IControlAppPoolTask
     {
         private string _applicationPoolName;
 

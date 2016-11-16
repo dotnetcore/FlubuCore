@@ -98,7 +98,7 @@ namespace FlubuCore.Targeting
             _executedTargets.Clear();
         }
 
-        public int RunTarget(ITaskContext taskContext, string targetName)
+        public void RunTarget(ITaskContext taskContext, string targetName)
         {
             if (!_targets.ContainsKey(targetName))
             {
@@ -106,7 +106,7 @@ namespace FlubuCore.Targeting
             }
 
             ITarget target = _targets[targetName];
-            return target.Execute(taskContext);
+            target.Execute(taskContext);
         }
 
         public void SetDefaultTarget(ITarget target)
@@ -145,10 +145,10 @@ namespace FlubuCore.Targeting
             context.LogInfo("Tasks:");
 
             // first sort the targets
-            IEnumerable<TaskBase> tasks = _provider.GetServices<TaskBase>();
+            IEnumerable<TaskMarker> tasks = _provider.GetServices<TaskMarker>();
 
             // now display them in sorted order
-            foreach (TaskBase task in tasks)
+            foreach (TaskMarker task in tasks)
             {
                 context.LogInfo($"  {task.GetType().FullName}");
             }

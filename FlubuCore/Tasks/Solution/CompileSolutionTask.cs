@@ -11,7 +11,7 @@ namespace FlubuCore.Tasks.Solution
     /// <summary>
     /// Task compiles solution with MsBuild.
     /// </summary>
-    public class CompileSolutionTask : TaskBase
+    public class CompileSolutionTask : TaskBase<int>
     {
         private readonly IFlubuEnviromentService _enviromentService;
         private string _solutionFileName;

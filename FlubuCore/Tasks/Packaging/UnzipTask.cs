@@ -4,7 +4,7 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.Packaging
 {
-    public class UnzipTask : TaskBase
+    public class UnzipTask : TaskBase<int>
     {
         private readonly string _fileName;
         private readonly string _destination;
