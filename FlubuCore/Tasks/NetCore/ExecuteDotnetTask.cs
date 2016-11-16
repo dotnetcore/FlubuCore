@@ -74,7 +74,7 @@ namespace FlubuCore.Tasks.NetCore
                 .WithArguments(Command)
                 .WithArguments(_arguments.ToArray())
                 .WorkingFolder(_workingFolder)
-                .Execute(context);
+                .ExecuteVoid(context);
 
             return 0;
         }

@@ -91,7 +91,7 @@ namespace FlubuCore.Tasks.Nuget
             foreach (string arg in _args)
                 runProgramTask.WithArguments(arg);
 
-            return runProgramTask.ExecuteWithResult(context);
+            return runProgramTask.Execute(context);
         }
 
         private string FindNuGetCmdLinePath()

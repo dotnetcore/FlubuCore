@@ -142,9 +142,9 @@ namespace FlubuCore.Targeting
             // we can have action-less targets (that only depend on other targets)
             _targetAction?.Invoke(context);
 
-            foreach (ITask task in _tasks)
+            foreach (var task in _tasks)
             {
-                 task.Execute(context);
+                 task.ExecuteVoid(context);
             }
 
             return 0;

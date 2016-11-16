@@ -28,7 +28,7 @@ namespace Flubu.Tests.Tasks
             UpdateNetCoreVersionTask task = new UpdateNetCoreVersionTask("nonext.json")
                 .AdditionalProp("dep.test");
 
-            TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.Execute(Context));
+            TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.ExecuteVoid(Context));
 
             Assert.Equal(1, task.AdditionalProperties.Count);
             Assert.Equal(1, e.ErrorCode);
@@ -42,7 +42,7 @@ namespace Flubu.Tests.Tasks
             UpdateNetCoreVersionTask task = new UpdateNetCoreVersionTask("nonext.json")
                 .AdditionalProp("dep.test", "dep.test1", "dep.test2");
 
-            TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.Execute(Context));
+            TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.ExecuteVoid(Context));
 
             Assert.Equal(3, task.AdditionalProperties.Count);
             Assert.Equal(1, e.ErrorCode);

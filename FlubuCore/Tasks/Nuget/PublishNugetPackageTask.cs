@@ -81,7 +81,7 @@ namespace FlubuCore.Tasks.Nuget
                 _nuspecFileName,
                 destNuspecFile.ToString());
             task.AddTokenValue("version", context.Properties.Get<Version>(BuildProps.BuildVersion).ToString());
-            task.Execute(context);
+            task.ExecuteVoid(context);
 
             // package it
             context.LogInfo("Creating a NuGet package file");
@@ -95,7 +95,7 @@ namespace FlubuCore.Tasks.Nuget
                 nugetTask.AddArgument("-BasePath").AddArgument(_basePath);
 
             nugetTask
-                .Execute(context);
+                .ExecuteVoid(context);
 
             string nupkgFileName = string.Format(
                 CultureInfo.InvariantCulture,
@@ -126,7 +126,7 @@ namespace FlubuCore.Tasks.Nuget
 
             nugetTask
                 .AddArgument(nupkgFileName)
-                .Execute(context);
+                .ExecuteVoid(context);
 
             return 0;
         }

@@ -23,7 +23,7 @@ namespace FlubuCore.Tasks.FileSystem
             bool recursive)
         {
             var task = new DeleteFilesTask(directoryPath, filePattern, recursive);
-            task.Execute(context);
+            task.ExecuteVoid(context);
         }
 
         protected override int DoExecute(ITaskContext context)

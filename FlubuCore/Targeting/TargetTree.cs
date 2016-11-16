@@ -106,7 +106,7 @@ namespace FlubuCore.Targeting
             }
 
             ITarget target = _targets[targetName];
-            target.Execute(taskContext);
+            target.ExecuteVoid(taskContext);
         }
 
         public void SetDefaultTarget(ITarget target)

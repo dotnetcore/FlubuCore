@@ -26,7 +26,7 @@ namespace Flubu.Tests.Tasks
             Context.Properties.Set(BuildProps.ProductRootDir, ".");
             var task = new FetchBuildVersionFromFileTask();
             task.ProjectVersionFileName = @"TestData\Flubu.ProjectVersion.txt".ExpandToExecutingPath();
-            task.Execute(Context);
+            task.ExecuteVoid(Context);
             var buildVersion = task.BuildVersion;
             Assert.Equal(4, buildVersion.Major);
             Assert.Equal(5, buildVersion.Build);

@@ -28,9 +28,9 @@ namespace FlubuCore.Tasks
         /// <value><c>true</c> if duration should be logged; otherwise, <c>false</c>.</value>
         protected virtual bool LogDuration => false;
 
-        public void Execute(ITaskContext context)
+        public void ExecuteVoid(ITaskContext context)
         {
-            ExecuteWithResult(context);
+            Execute(context);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace FlubuCore.Tasks
         ///     class.
         /// </remarks>
         /// <param name="context">The script execution environment.</param>
-        public T ExecuteWithResult(ITaskContext context)
+        public T Execute(ITaskContext context)
         {
             if (context == null)
             {

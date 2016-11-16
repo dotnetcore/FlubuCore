@@ -204,7 +204,7 @@ namespace FlubuCore.Tasks.Testing
             if (!string.IsNullOrEmpty(_categories))
                 task.WithArguments($"--where \"{_categories}\"");
 
-            task.Execute(context);
+            task.ExecuteVoid(context);
 
             return 0;
         }

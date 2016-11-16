@@ -31,7 +31,7 @@ namespace FlubuCore.Tasks.Testing
                 .WorkingFolder(_workingFolder)
                 .WithArguments($"-input:{_input}", $"-output:{_output}");
 
-            task.Execute(context);
+            task.ExecuteVoid(context);
 
             return 0;
         }

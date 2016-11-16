@@ -41,7 +41,7 @@ namespace Flubu.Tests.Tasks
 
             int res = task
                 .WithArguments("--version")
-                .ExecuteWithResult(Context);
+                .Execute(Context);
 
             Assert.Equal(0, res);
         }
@@ -65,7 +65,7 @@ namespace Flubu.Tests.Tasks
             RunProgramTask task = new RunProgramTask(_commandFactory.Object, command);
 
             task
-                .Execute(Context);
+                .ExecuteVoid(Context);
         }
 
         [Fact]
@@ -88,7 +88,7 @@ namespace Flubu.Tests.Tasks
 
             task
                 .WorkingFolder("test")
-                .Execute(Context);
+                .ExecuteVoid(Context);
         }
     }
 }

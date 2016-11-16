@@ -31,7 +31,7 @@ namespace FlubuCore.Tasks.Testing
                 .WorkingFolder(_workingFolder)
                 .WithArguments($"-targetdir:{_targetFolder}", $"-reports:{string.Join(";", _inputFiles)}");
 
-            task.Execute(context);
+            task.ExecuteVoid(context);
 
             return 0;
         }

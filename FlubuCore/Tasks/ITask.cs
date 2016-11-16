@@ -15,6 +15,6 @@ namespace FlubuCore.Tasks
         ///     Executes the task using the specified script execution environment.
         /// </summary>
         /// <param name="context">The script execution environment.</param>
-        void Execute(ITaskContext context);
+        void ExecuteVoid(ITaskContext context);
     }
 }

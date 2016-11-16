@@ -35,7 +35,7 @@ namespace Flubu.Tests.Tasks
 
             _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
             _task.UseSolutionDirAsWorkingDir = false;
-            _task.Execute(_context.Object);
+            _task.ExecuteVoid(_context.Object);
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace Flubu.Tests.Tasks
             _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
             _task.ToolsVersion = new Version("4.0");
             _task.UseSolutionDirAsWorkingDir = false;
-            _task.Execute(_context.Object);
+            _task.ExecuteVoid(_context.Object);
         }
 
         [Fact]
@@ -60,7 +60,7 @@ namespace Flubu.Tests.Tasks
             _task.ToolsVersion = new Version("4.0");
 
             _task.UseSolutionDirAsWorkingDir = false;
-            _task.Execute(_context.Object);
+            _task.ExecuteVoid(_context.Object);
         }
 
         [Fact]
@@ -71,7 +71,7 @@ namespace Flubu.Tests.Tasks
             _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
             _task.ToolsVersion = new Version("4.0");
             _task.UseSolutionDirAsWorkingDir = false;
-            TaskExecutionException ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(_context.Object));
+            TaskExecutionException ex = Assert.Throws<TaskExecutionException>(() => _task.ExecuteVoid(_context.Object));
             Assert.Equal("Requested MSBuild tools version 4.0 not found and there are no higher versions", ex.Message);
         }
 

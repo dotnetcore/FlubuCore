@@ -18,7 +18,7 @@ namespace FlubuCore.Tasks.FileSystem
         public static void Execute(ITaskContext context, string directoryPath, bool forceRecreate)
         {
             var task = new CreateDirectoryTask(directoryPath, forceRecreate);
-            task.Execute(context);
+            task.ExecuteVoid(context);
         }
 
         protected override int DoExecute(ITaskContext context)

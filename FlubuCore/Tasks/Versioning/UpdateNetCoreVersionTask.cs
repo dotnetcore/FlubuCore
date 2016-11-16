@@ -65,7 +65,7 @@ namespace FlubuCore.Tasks.Versioning
 
                 AdditionalProperties.ForEach(i => task.Update(i, newVersion));
 
-                var ret = task.ExecuteWithResult(context);
+                var ret = task.Execute(context);
             }
 
             return res;

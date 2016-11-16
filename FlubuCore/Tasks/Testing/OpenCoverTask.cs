@@ -112,7 +112,7 @@ namespace FlubuCore.Tasks.Testing
             if (!string.IsNullOrEmpty(filter))
                 task.WithArguments($"-filter:{filter}");
 
-            task.Execute(context);
+            task.ExecuteVoid(context);
 
             return 0;
         }

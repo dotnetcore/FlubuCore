@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.FileSystem
             bool failIfNotExists)
         {
             var task = new DeleteDirectoryTask(directoryPath, failIfNotExists);
-            task.Execute(context);
+            task.ExecuteVoid(context);
         }
 
         protected override int DoExecute(ITaskContext context)

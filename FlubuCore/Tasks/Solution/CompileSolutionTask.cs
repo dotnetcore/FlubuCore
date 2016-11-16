@@ -104,7 +104,7 @@ namespace FlubuCore.Tasks.Solution
             if (_target != null)
                 task.WithArguments($"/t:{_target}");
 
-            task.Execute(context);
+            task.ExecuteVoid(context);
 
             return 0;
         }
