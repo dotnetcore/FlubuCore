@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -48,14 +49,36 @@ namespace DotNet.Cli.Flubu.Scripting
                 .WithReferences(references);
 
             string code = _file.ReadAllText(fileName);
-
+            var className = GetClassNameFromBuildScriptCode(code);
             Script script = CSharpScript
                 .Create(code, opts)
-                .ContinueWith("var sc = new MyBuildScript();");
+                .ContinueWith(string.Format("var sc = new {0}();", className));
 
             ScriptState result = await script.RunAsync();
 
             return result.Variables[0].Value as IBuildScript;
+        }
+
+        public string GetClassNameFromBuildScriptCode(string scriptCode)
+        {
+            using (StringReader sr = new StringReader(scriptCode))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    var i = line.IndexOf("class", StringComparison.Ordinal);
+                    if (i != -1)
+                    {
+                        var tmp = line.Substring(i + 6);
+                        tmp = tmp.TrimStart();
+                        i = tmp.IndexOf(" ", StringComparison.Ordinal);
+                        var className = tmp.Substring(0, i);
+                        return className;
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }
