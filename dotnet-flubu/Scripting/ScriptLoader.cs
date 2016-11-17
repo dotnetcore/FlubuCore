@@ -72,6 +72,11 @@ namespace DotNet.Cli.Flubu.Scripting
                         var tmp = line.Substring(i + 6);
                         tmp = tmp.TrimStart();
                         i = tmp.IndexOf(" ", StringComparison.Ordinal);
+                        if (i == -1)
+                        {
+                            i = tmp.Length;
+                        }
+
                         var className = tmp.Substring(0, i);
                         return className;
                     }
