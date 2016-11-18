@@ -1,6 +1,6 @@
 ﻿{
   "name": "build", 
-  "version": "1.0.0-*",
+  "version": "1.1.0",
   "buildOptions": {
     "compile": {
       "includeFiles": [
@@ -15,25 +15,28 @@
     }
   },
   "dependencies": {
-    "NETStandard.Library": "1.6.0",
+    "NETStandard.Library": "1.6.1",
     "Microsoft.NETCore.App": {
         "type": "platform",
-        "version": "1.0.1"
+        "version": "1.1.0"
     },
-    "dotnet-flubu": "1.0.182"
+    "dotnet-flubu": "1.0.222"
   },
   "tools": {
     "dotnet-flubu": {
-      "version": "1.0.182",
+      "version": "1.0.222",
       "imports": [
-        "dotnet5.6"
+        "dotnet5.6",
+        "netstandard1.6.1"
       ]
     }
   },
   "frameworks": {
-    "netcoreapp1.0": {
+    "netcoreapp1.1": {
       "imports": [
-        "dotnet5.6"
+        "dotnet5.6",
+        "netstandard1.6.1",
+        "netstandard1.6"
       ]
     }
   }

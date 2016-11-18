@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "testRunner": "xunit",
     "buildOptions": {
         "allowUnsafe": true,
@@ -13,31 +13,29 @@
         }
     },
   "dependencies": {
-    "NETStandard.Library": "1.6.0",
+    "System.Runtime.Serialization.Primitives": "4.3.0",
     "Microsoft.NETCore.App": {
-      "version": "1.0.1",
+      "version": "1.1.0",
       "type": "platform"
     },
     "xunit": "2.1.0",
     "moq": "4.6.25-alpha",
-    "dotnet-flubu": "1.0.77",
-    "FlubuCore": "1.0.77",
+    "dotnet-flubu": "1.1.0*",
+    "FlubuCore": "1.1.0*",
     "StyleCop.Analyzers": {
       "type": "build",
       "version": "1.0.0"
     },
-    "Documentation.Analyser": {
-        "type": "build",
-        "version": "1.0.6092.26771"
-    },
-    "dotnet-test-xunit": "2.2.0-preview2-build1029"
+    "dotnet-test-xunit": "2.2.0-preview2-build1029",
+    "Documentation.Analyser": "1.0.6166.19031"
   },
 
   "frameworks": {
-    "netcoreapp1.0": {
+    "netcoreapp1.1": {
       "imports": [
         "dotnet5.6",
         "dnxcore50",
+        "netstandard1.6.1",
         "portable-net45+win8"
       ]
     }

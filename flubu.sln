@@ -3,11 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BD4FA388-514F-4027-AF61-2E604A390B7B}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
-EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "dotnet-flubu", "dotnet-flubu\dotnet-flubu.xproj", "{F9F3CB01-F4B5-4278-8423-2643CE84C5D5}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "FlubuCore", "FlubuCore\FlubuCore.xproj", "{0880D8F4-1D35-4237-9012-C510C6962C94}"
