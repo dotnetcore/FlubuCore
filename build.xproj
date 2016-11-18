@@ -26,7 +26,6 @@
     <DnxInvisibleFolder Include="dotnet-flubu\" />
   </ItemGroup>
   <ItemGroup>
-    <DnxInvisibleContent Include="appveyor.yml" />
     <DnxInvisibleContent Include="flubu.sln.DotSettings" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.targets" Condition="'$(VSToolsPath)' != ''" />
