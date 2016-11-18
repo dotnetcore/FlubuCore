@@ -1,5 +1,5 @@
 {
-  "version": "1.1.1",
+  "version": "1.1.0",
   "buildOptions": {
     "emitEntryPoint": true,
     "warningsAsErrors": true,
@@ -8,9 +8,12 @@
   },
 
   "dependencies": {
-    "Microsoft.DotNet.Cli.Utils": "1.0.0-preview3-004056",
+    "Microsoft.DotNet.Cli.Utils": "1.0.0-preview2-003121",
+    "Microsoft.CodeAnalysis.CSharp": "1.3.2",
+    "Microsoft.CodeAnalysis.Common": "1.3.2",
+    "Microsoft.CodeAnalysis.CSharp.Scripting": "1.3.2",
     "NLog.Extensions.Logging": "1.0.0-rtm-alpha2",
-    "FlubuCore": "1.1.1*",
+    "FlubuCore": "1.1.0*",
     "StyleCop.Analyzers": {
       "type": "build",
       "version": "1.0.0"
@@ -23,12 +26,7 @@
     "Microsoft.Extensions.DependencyInjection.Abstractions": "1.1.0",
     "Microsoft.Extensions.Logging": "1.1.0",
     "Microsoft.Extensions.Logging.Console": "1.1.0",
-    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
-    "Microsoft.CodeAnalysis.CSharp": "2.0.0-rc",
-    "Microsoft.CodeAnalysis.CSharp.Scripting": "2.0.0-rc",
-    "Microsoft.CodeAnalysis.Scripting": "2.0.0-rc",
-    "Microsoft.CodeAnalysis.Scripting.Common": "2.0.0-rc",
-    "Microsoft.CodeAnalysis.Common": "2.0.0-rc"
+    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0"
   },
 
   "frameworks": {
@@ -46,7 +44,7 @@
     },
     "net46": {
       "dependencies": {
-        "Microsoft.CodeAnalysis.CSharp.Scripting": "2.0.0-rc"
+            
       }
     }
   }

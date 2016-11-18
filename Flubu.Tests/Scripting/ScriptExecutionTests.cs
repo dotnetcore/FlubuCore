@@ -31,7 +31,7 @@ using System;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
 
-public class MyBuildScript : FlubuCore.Scripting.DefaultBuildScript
+public class MyBuildScript : DefaultBuildScript
 {
     protected override void ConfigureBuildProperties(ITaskSession session)
     {
@@ -45,9 +45,6 @@ public class MyBuildScript : FlubuCore.Scripting.DefaultBuildScript
     }");
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync("e.cs");
-
-            Assert.NotNull(t);
-
             var provider = new ServiceCollection().BuildServiceProvider();
             t.Run(new TaskSession(
                 null,

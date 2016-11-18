@@ -1,11 +1,11 @@
 {
-  "version": "1.1.1",
+  "version": "1.1.0",
   "buildOptions": {
     "warningsAsErrors": true,
     "additionalArguments": [ "/ruleset:../Stylecop.ruleset" ]
   },
   "dependencies": {
-    "Microsoft.DotNet.Cli.Utils": "1.0.0-preview3-004056",
+    "Microsoft.DotNet.Cli.Utils": "1.0.0-preview2-003121",
     "Newtonsoft.Json": "9.0.1",
     "StyleCop.Analyzers": {
       "type": "build",
