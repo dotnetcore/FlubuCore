@@ -1,32 +1,33 @@
 {
-  "version": "1.1.0",
+  "version": "1.0.77",
   "buildOptions": {
     "warningsAsErrors": true,
     "additionalArguments": [ "/ruleset:../Stylecop.ruleset" ]
   },
   "dependencies": {
+    "Documentation.Analyser": {
+      "type": "build",
+      "version": "1.0.6092.26771"
+    },
     "Microsoft.DotNet.Cli.Utils": "1.0.0-preview2-003121",
+    "Microsoft.Extensions.Logging.Abstractions": "1.0.0",
+    "Microsoft.Extensions.DependencyInjection": "1.0.0",
+    "Microsoft.Win32.Registry": "4.0.0",
+    "NETStandard.Library": "1.6.0",
     "Newtonsoft.Json": "9.0.1",
     "StyleCop.Analyzers": {
       "type": "build",
       "version": "1.0.0"
     },
-    "Microsoft.Web.Administration": "10.0.0-rc1",
-    "Documentation.Analyser": "1.0.6166.19031",
-    "Microsoft.Extensions.DependencyInjection": "1.1.0",
-    "Microsoft.Extensions.Logging.Abstractions": "1.1.0",
-    "NETStandard.Library": "1.6.1",
-    "System.IO.Compression.ZipFile": "4.3.0",
-    "Microsoft.Win32.Registry": "4.3.0"
+    "System.IO.Compression.ZipFile": "4.0.1",
+    "Microsoft.Web.Administration": "10.0.0-rc1"
   },
     "frameworks": {
-        "netstandard1.6.1": {
+        "netstandard1.6": {
             "imports": [ "dotnet5.6" ]
         },
-      "net46": {
-        "dependencies": {
+        "net46": {
         }
-      }
     },
   "packOptions": {
     "summary": "dotnet core fluent builder.",
