@@ -80,7 +80,7 @@ namespace FlubuCore.Tasks.Nuget
             ReplaceTokensTask task = new ReplaceTokensTask(
                 _nuspecFileName,
                 destNuspecFile.ToString());
-            task.AddTokenValue("version", context.Properties.Get<Version>(BuildProps.BuildVersion).ToString());
+            task.AddTokenValue("version", context.GetBuildVersion().ToString());
             task.ExecuteVoid(context);
 
             // package it
@@ -101,7 +101,7 @@ namespace FlubuCore.Tasks.Nuget
                 CultureInfo.InvariantCulture,
                 "{0}.{1}.nupkg",
                 _packageId,
-                context.Properties.Get<Version>(BuildProps.BuildVersion));
+                context.GetBuildVersion());
             context.LogInfo(string.Format("NuGet package file {0} created", nupkgFileName));
 
             // do not push new packages from a local build
