@@ -115,7 +115,7 @@ namespace FlubuCore.Tasks.Packaging
                 string zipFile = _zipFileName;
 
                 if (string.IsNullOrEmpty(zipFile))
-                    zipFile = Path.Combine(_destinationRootDir, $"{_zipFileName}_{context.GetBuildVersion().ToString(3)}.zip");
+                    zipFile = Path.Combine(_destinationRootDir, $"{_zipPrefix}_{context.GetBuildVersion().ToString(3)}.zip");
 
                 ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(zipFile), df, sourceIds);
                 zipProcessor.Process(copiedPackageDef);
