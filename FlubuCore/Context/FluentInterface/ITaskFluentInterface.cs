@@ -52,5 +52,7 @@ namespace FlubuCore.Context.FluentInterface
         GenerateCommonAssemblyInfoTask GenerateCommonAssemblyInfoTask();
 
         IIisTaskFluentInterface IisTasks();
+
+        ILinuxTaskFluentInterface LinuxTasks();
     }
 }
