@@ -8,12 +8,12 @@ using System.IO;
 
 public class MyBuildScript : DefaultBuildScript
 {
-    protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
+    protected override void ConfigureBuildProperties(ITaskSession session)
     {
-        context.Properties.Set(BuildProps.CompanyName, "Flubu");
-        context.Properties.Set(BuildProps.CompanyCopyright, "Copyright (C) 2010-2016 Flubu");
-        context.Properties.Set(BuildProps.ProductId, "FlubuCore");
-        context.Properties.Set(BuildProps.ProductName, "FlubuCore");
+        session.Properties.Set(BuildProps.CompanyName, "Flubu");
+        session.Properties.Set(BuildProps.CompanyCopyright, "Copyright (C) 2010-2016 Flubu");
+        session.Properties.Set(BuildProps.ProductId, "FlubuCore");
+        session.Properties.Set(BuildProps.ProductName, "FlubuCore");
     }
 
     protected override void ConfigureTargets(ITaskSession session)
