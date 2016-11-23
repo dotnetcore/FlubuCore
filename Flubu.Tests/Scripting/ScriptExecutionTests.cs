@@ -33,7 +33,7 @@ using FlubuCore.Scripting;
 
 public class MyBuildScript : DefaultBuildScript
 {
-    protected override void ConfigureBuildProperties(ITaskSession session)
+    protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
     {
         System.Console.WriteLine(""2222"");
         }
