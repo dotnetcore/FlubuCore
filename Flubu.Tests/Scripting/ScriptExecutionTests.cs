@@ -53,7 +53,7 @@ public class MyBuildScript : DefaultBuildScript
                 new CommandArguments(),
                 new DotnetTaskFactory(provider),
                 new CoreTaskFluentInterface(),
-                new TaskFluentInterface(new IisTaskFluentInterface())));
+                new TaskFluentInterface(new IisTaskFluentInterface(), new LinuxTaskFluentInterface())));
         }
 
         [Fact]
@@ -83,7 +83,7 @@ public class MyBuildScript : IBuildScript
                 new CommandArguments(),
                 new DotnetTaskFactory(provider),
                 new CoreTaskFluentInterface(),
-                new TaskFluentInterface(new IisTaskFluentInterface())));
+                new TaskFluentInterface(new IisTaskFluentInterface(), new LinuxTaskFluentInterface())));
         }
 
         [Theory]

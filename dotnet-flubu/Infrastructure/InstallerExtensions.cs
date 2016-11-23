@@ -23,6 +23,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddSingleton<ITaskFluentInterface, TaskFluentInterface>()
                 .AddSingleton<IIisTaskFluentInterface, IisTaskFluentInterface>()
                 .AddSingleton<ICoreTaskFluentInterface, CoreTaskFluentInterface>()
+                .AddSingleton<ILinuxTaskFluentInterface, LinuxTaskFluentInterface>()
                 .AddTransient<GenerateCommonAssemblyInfoTask>()
                 .AddTransient<FetchBuildVersionFromFileTask>()
                 .AddTransient<FetchVersionFromExternalSourceTask>()

@@ -22,7 +22,13 @@ namespace Flubu.Tests
 
             Factory = new DotnetTaskFactory(ServiceProvider);
 
-            Context = new TaskContext(loggerFactory.CreateLogger<TaskSession>(), new TaskContextSession(), new CommandArguments(), Factory, new CoreTaskFluentInterface(), new TaskFluentInterface(new IisTaskFluentInterface()));
+            Context = new TaskContext(
+                loggerFactory.CreateLogger<TaskSession>(),
+                new TaskContextSession(),
+                new CommandArguments(),
+                Factory,
+                new CoreTaskFluentInterface(),
+                new TaskFluentInterface(new IisTaskFluentInterface(), new LinuxTaskFluentInterface()));
         }
 
         protected ITaskFactory Factory { get; }

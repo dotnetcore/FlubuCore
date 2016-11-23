@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DotNet.Cli.Flubu
 {
-    public class Program
+    public static class Program
     {
         private static readonly IServiceCollection Services = new ServiceCollection();
 

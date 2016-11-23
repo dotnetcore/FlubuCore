@@ -13,10 +13,12 @@ namespace FlubuCore.Context.FluentInterface
     public class TaskFluentInterface : ITaskFluentInterface
     {
         private readonly IIisTaskFluentInterface _iisTasksFluentInterface;
+        private readonly ILinuxTaskFluentInterface _linuxFluent;
 
-        public TaskFluentInterface(IIisTaskFluentInterface iisTasksFluentInterface)
+        public TaskFluentInterface(IIisTaskFluentInterface iisTasksFluentInterface, ILinuxTaskFluentInterface linuxFluent)
         {
             _iisTasksFluentInterface = iisTasksFluentInterface;
+            _linuxFluent = linuxFluent;
         }
 
         public TaskContext Context { get; set; }
@@ -143,6 +145,12 @@ namespace FlubuCore.Context.FluentInterface
         {
             _iisTasksFluentInterface.Context = Context;
             return _iisTasksFluentInterface;
+        }
+
+        public ILinuxTaskFluentInterface LinuxTasks()
+        {
+            _linuxFluent.Context = Context;
+            return _linuxFluent;
         }
     }
 }
