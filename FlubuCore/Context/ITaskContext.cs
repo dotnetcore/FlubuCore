@@ -5,10 +5,8 @@ using FlubuCore.Tasks;
 
 namespace FlubuCore.Context
 {
-    public interface ITaskContext : IDisposable
+    public interface ITaskContext : IBuildPropertiesContext, IDisposable
     {
-        ITaskContextSession Properties { get; }
-
         CommandArguments Args { get; }
 
         bool IsInteractive { get; }

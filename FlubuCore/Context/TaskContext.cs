@@ -22,7 +22,7 @@ namespace FlubuCore.Context
 
         public TaskContext(
             ILogger log,
-            ITaskContextSession taskContextProperties,
+            IBuildPropertiesSession taskContextProperties,
             CommandArguments args,
             ITaskFactory taskFactory,
             ICoreTaskFluentInterface coreTaskFluentInterface,
@@ -38,7 +38,7 @@ namespace FlubuCore.Context
             _coreTaskFluentInterface.Context = this;
         }
 
-        public ITaskContextSession Properties { get; }
+        public IBuildPropertiesSession Properties { get; }
 
         public CommandArguments Args { get; }
 

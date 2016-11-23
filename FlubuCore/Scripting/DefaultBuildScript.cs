@@ -26,7 +26,7 @@ namespace FlubuCore.Scripting
             }
         }
 
-        protected abstract void ConfigureBuildProperties(ITaskSession session);
+        protected abstract void ConfigureBuildProperties(IBuildPropertiesContext context);
 
         protected abstract void ConfigureTargets(ITaskSession session);
 

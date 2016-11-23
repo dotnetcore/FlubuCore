@@ -14,7 +14,7 @@ namespace FlubuCore.Extensions
         {
             services
                 .AddSingleton<IFileWrapper, FileWrapper>()
-                .AddSingleton<ITaskContextSession, TaskContextSession>()
+                .AddSingleton<IBuildPropertiesSession, TaskContextSession>()
                 .AddSingleton<TargetTree>()
                 .AddSingleton<ITaskSession, TaskSession>()
                 .AddSingleton<IFlubuEnviromentService, FlubuEnviromentService>()

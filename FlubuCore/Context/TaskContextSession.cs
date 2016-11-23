@@ -8,7 +8,7 @@ namespace FlubuCore.Context
     /// <summary>
     /// Used for storing task context properties into session.
     /// </summary>
-    public class TaskContextSession : ITaskContextSession
+    public class TaskContextSession : IBuildPropertiesSession
     {
         /// <summary>
         /// name value dictionary used for storing differend task context properties.

@@ -18,7 +18,7 @@ namespace FlubuCore.Context
 
         public TaskSession(
             ILogger<TaskSession> log,
-            ITaskContextSession taskContextProperties,
+            IBuildPropertiesSession taskContextProperties,
             TargetTree targetTree,
             CommandArguments args,
             ITaskFactory taskFactory,

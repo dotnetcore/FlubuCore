@@ -2,7 +2,7 @@
 
 namespace FlubuCore.Context
 {
-    public interface ITaskContextSession
+    public interface IBuildPropertiesSession
     {
         /// <summary>
         /// Property indexer.
