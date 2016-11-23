@@ -48,7 +48,14 @@ namespace FlubuCore.Tasks.Process
 
             string currentDirectory = Directory.GetCurrentDirectory();
 
-            ICommand command = _commandFactory.Create(_programToExecute, _arguments);
+            FileInfo info = new FileInfo(_programToExecute);
+
+            string cmd = _programToExecute;
+
+            if (info.Exists)
+                cmd = info.FullName;
+
+            ICommand command = _commandFactory.Create(cmd, _arguments);
 
             command
                 .CaptureStdErr()
@@ -64,7 +71,7 @@ namespace FlubuCore.Tasks.Process
                 .ExitCode;
 
             if (res != 0)
-                context.Fail($"External program {_programToExecute} failed with {res}.", res);
+                context.Fail($"External program {cmd} failed with {res}.", res);
 
             return res;
         }
