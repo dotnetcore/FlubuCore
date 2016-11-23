@@ -16,10 +16,10 @@ namespace FlubuCore.Tasks.Packaging
             return target;
         }
 
-        public static PackageTask CreateDotnetPackage(this ITarget target, string zipPath, params string[] folders)
+        public static PackageTask CreateDotnetPackage(this ITarget target, string zipPrefix, params string[] folders)
         {
             PackageTask task = new PackageTask()
-                .ZipPackage(zipPath);
+                .ZipPrefix(zipPrefix);
 
             foreach (var folder in folders)
             {

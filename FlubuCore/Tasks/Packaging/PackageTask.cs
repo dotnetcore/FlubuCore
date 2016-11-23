@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using FlubuCore.Context;
 using FlubuCore.IO;
 using FlubuCore.Packaging;
@@ -12,6 +13,7 @@ namespace FlubuCore.Tasks.Packaging
         private string _destinationRootDir;
 
         private string _zipFileName;
+        private string _zipPrefix;
 
         public PackageTask(string destinationRootDir = null)
         {
@@ -19,7 +21,7 @@ namespace FlubuCore.Tasks.Packaging
             _sourcePackagingInfos = new List<SourcePackagingInfo>();
         }
 
-        private bool ShouldPackageBeZipped => !string.IsNullOrEmpty(_zipFileName);
+        private bool ShouldPackageBeZipped => !string.IsNullOrEmpty(_zipFileName) || !string.IsNullOrEmpty(_zipPrefix);
 
         public PackageTask AddDirectoryToPackage(string sourceId, string sourceDirectoryPath, string destinationDirectory, bool recursive = false)
         {
@@ -56,9 +58,15 @@ namespace FlubuCore.Tasks.Packaging
             return this;
         }
 
-        public PackageTask ZipPackage(string zipFileName)
+        public PackageTask ZipPackage(string fullZipFile)
         {
-            _zipFileName = zipFileName;
+            _zipFileName = fullZipFile;
+            return this;
+        }
+
+        public PackageTask ZipPrefix(string zipPrefix)
+        {
+            _zipPrefix = zipPrefix;
             return this;
         }
 
@@ -104,7 +112,12 @@ namespace FlubuCore.Tasks.Packaging
 
             if (ShouldPackageBeZipped)
             {
-                ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(_zipFileName), df, sourceIds);
+                string zipFile = _zipFileName;
+
+                if (string.IsNullOrEmpty(zipFile))
+                    zipFile = Path.Combine(_destinationRootDir, $"{_zipPrefix}_{context.GetBuildVersion().ToString(3)}.zip");
+
+                ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(zipFile), df, sourceIds);
                 zipProcessor.Process(copiedPackageDef);
             }
 

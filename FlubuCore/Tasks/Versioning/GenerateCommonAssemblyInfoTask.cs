@@ -51,7 +51,7 @@ namespace FlubuCore.Tasks.Versioning
                 BuildConfiguration = context.TryGet<string>(BuildProps.BuildConfiguration);
 
             if (BuildVersion == null)
-                BuildVersion = context.TryGet<Version>(BuildProps.BuildVersion);
+                BuildVersion = context.GetBuildVersion();
 
             if (string.IsNullOrEmpty(CompanyCopyright))
                 CompanyCopyright = context.TryGet(BuildProps.CompanyCopyright, string.Empty);
