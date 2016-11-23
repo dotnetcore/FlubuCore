@@ -8,7 +8,7 @@ namespace FlubuCore.Tasks.Testing
     public class CoverageReportTask : TaskBase<int>
     {
         private readonly List<string> _inputFiles = new List<string>();
-        private string _toolPath = "tools/reportgenerator/ReportGenerator.exe";
+        private string _toolPath = "./tools/reportgenerator/ReportGenerator.exe";
         private string _workingFolder = ".";
         private string _targetFolder = "coverage";
 

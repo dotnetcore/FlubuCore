@@ -12,7 +12,7 @@ namespace FlubuCore.Tasks.Testing
     {
         private readonly List<string> _includeList = new List<string>();
         private readonly List<string> _excludeList = new List<string>();
-        private string _openCoverPath = "tools/opencover/OpenCover.Console.exe";
+        private string _openCoverPath = "./tools/opencover/OpenCover.Console.exe";
         private string _testExecutable;
         private string _testExecutableArgs;
         private string _output = "coverage.xml";

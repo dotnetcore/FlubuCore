@@ -8,7 +8,7 @@ namespace FlubuCore.Tasks.Testing
     {
         private readonly string _input;
         private readonly string _output;
-        private string _toolPath = "tools/tocobertura/OpenCoverToCoberturaConverter.exe";
+        private string _toolPath = "./tools/tocobertura/OpenCoverToCoberturaConverter.exe";
         private string _workingFolder = ".";
 
         public OpenCoverToCoberturaTask(string inputFile, string outputFile)
