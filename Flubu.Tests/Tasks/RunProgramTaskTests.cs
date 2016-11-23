@@ -28,7 +28,7 @@ namespace Flubu.Tests.Tasks
         {
             string currentFolder = Directory.GetCurrentDirectory();
 
-            _commandFactory.Setup(i => i.Create("C:\\Program Files\\dotnet\\dotnet.exe", new List<string> { "--version" }, null, "Debug")).Returns(_command.Object);
+            _commandFactory.Setup(i => i.Create("C:/Program Files/dotnet/dotnet.exe", new List<string> { "--version" }, null, "Debug")).Returns(_command.Object);
 
             _command.Setup(i => i.CaptureStdErr()).Returns(_command.Object);
             _command.Setup(i => i.CaptureStdOut()).Returns(_command.Object);
@@ -53,7 +53,7 @@ namespace Flubu.Tests.Tasks
             string file = Directory.EnumerateFiles(currentFolder).FirstOrDefault();
             string command = Path.GetFileName(file);
 
-            _commandFactory.Setup(i => i.Create(file, new List<string>(), null, "Debug")).Returns(_command.Object);
+            _commandFactory.Setup(i => i.Create(command, new List<string>(), null, "Debug")).Returns(_command.Object);
 
             _command.Setup(i => i.CaptureStdErr()).Returns(_command.Object);
             _command.Setup(i => i.CaptureStdOut()).Returns(_command.Object);
@@ -75,7 +75,7 @@ namespace Flubu.Tests.Tasks
             string file = Directory.EnumerateFiles(currentFolder).FirstOrDefault();
             string command = Path.GetFileName(file);
 
-            _commandFactory.Setup(i => i.Create(file, new List<string>(), null, "Debug")).Returns(_command.Object);
+            _commandFactory.Setup(i => i.Create(command, new List<string>(), null, "Debug")).Returns(_command.Object);
 
             _command.Setup(i => i.CaptureStdErr()).Returns(_command.Object);
             _command.Setup(i => i.CaptureStdOut()).Returns(_command.Object);
