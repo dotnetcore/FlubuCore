@@ -4,7 +4,7 @@ namespace FlubuCore.Packaging
 {
     public static class LoggingHelper
     {
-        public static bool LogIfFilteredOut(string fileName, IFileFilter filter, ITaskContext taskContext)
+        public static bool LogIfFilteredOut(string fileName, IFileFilter filter, ITaskContextInternal taskContext)
         {
             if (filter != null && !filter.IsPassedThrough(fileName))
             {

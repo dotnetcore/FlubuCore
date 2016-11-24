@@ -22,7 +22,7 @@ namespace Flubu.Tests
 
             Factory = new DotnetTaskFactory(ServiceProvider);
 
-            Context = new TaskContext(
+            Context = new TaskContextInternal(
                 loggerFactory.CreateLogger<TaskSession>(),
                 new TaskContextSession(),
                 new CommandArguments(),
@@ -33,7 +33,7 @@ namespace Flubu.Tests
 
         protected ITaskFactory Factory { get; }
 
-        protected ITaskContext Context { get; }
+        protected ITaskContextInternal Context { get; }
 
         protected IServiceProvider ServiceProvider { get; }
     }

@@ -51,7 +51,7 @@ namespace FlubuCore.Targeting
             return target;
         }
 
-        public void EnsureDependenciesExecuted(ITaskContext taskContext, string targetName)
+        public void EnsureDependenciesExecuted(ITaskContextInternal taskContext, string targetName)
         {
             var target = _targets[targetName];
             foreach (var dependency in target.Dependencies)
@@ -98,7 +98,7 @@ namespace FlubuCore.Targeting
             _executedTargets.Clear();
         }
 
-        public void RunTarget(ITaskContext taskContext, string targetName)
+        public void RunTarget(ITaskContextInternal taskContext, string targetName)
         {
             if (!_targets.ContainsKey(targetName))
             {
@@ -118,7 +118,7 @@ namespace FlubuCore.Targeting
         ///     The target for displaying help in the command line.
         /// </summary>
         /// <param name="context">The task context.</param>
-        public void TargetHelp(ITaskContext context)
+        public void TargetHelp(ITaskContextInternal context)
         {
             context.LogInfo("Targets:");
 
@@ -140,7 +140,7 @@ namespace FlubuCore.Targeting
             }
         }
 
-        private void TasksHelp(ITaskContext context)
+        private void TasksHelp(ITaskContextInternal context)
         {
             context.LogInfo("Tasks:");
 

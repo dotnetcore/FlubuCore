@@ -15,7 +15,7 @@ namespace FlubuCore.Tasks.Packaging
             _destination = destinationFolder;
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             if (!Directory.Exists(_destination))
                 Directory.CreateDirectory(_destination);

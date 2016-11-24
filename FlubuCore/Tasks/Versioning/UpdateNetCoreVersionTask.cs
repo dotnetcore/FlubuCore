@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Versioning
             return this;
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             if (_version == null)
             {

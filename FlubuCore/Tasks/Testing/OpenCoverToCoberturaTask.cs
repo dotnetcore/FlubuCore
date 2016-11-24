@@ -23,7 +23,7 @@ namespace FlubuCore.Tasks.Testing
             return this;
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             RunProgramTask task = new RunProgramTask(new CommandFactory(), _toolPath);
 

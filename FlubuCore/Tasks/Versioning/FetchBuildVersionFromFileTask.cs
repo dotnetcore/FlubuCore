@@ -15,7 +15,7 @@ namespace FlubuCore.Tasks.Versioning
 
         public string ProjectVersionFileName { get; set; }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             _productRootDir = context.Properties.Get<string>(BuildProps.ProductRootDir);
 

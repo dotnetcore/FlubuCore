@@ -55,7 +55,7 @@ namespace FlubuCore.Tasks.Iis
 
         public IList<MimeType> MimeTypes { get; set; }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             if (string.IsNullOrEmpty(ApplicationName))
             {

@@ -53,7 +53,7 @@ namespace FlubuCore.Tasks.NetCore
             return this;
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             string program = _dotnetExecutable;
 

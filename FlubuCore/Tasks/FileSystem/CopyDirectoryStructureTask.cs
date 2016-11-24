@@ -59,7 +59,7 @@ namespace FlubuCore.Tasks.FileSystem
         ///     Internal task execution code.
         /// </summary>
         /// <param name="context">The script execution environment.</param>
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             context.LogInfo($"Copy directory structure from '{_sourcePath}' to '{_destinationPath}");
             _copiedFilesList = new List<string>();
@@ -78,7 +78,7 @@ namespace FlubuCore.Tasks.FileSystem
         }
 
         private void CopyStructureRecursive(
-            ITaskContext context,
+            ITaskContextInternal context,
             string sourcePathRecursive,
             string destinationPathRecursive,
             Regex inclusionRegex,

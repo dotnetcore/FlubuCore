@@ -45,7 +45,7 @@ namespace FlubuCore.Tasks.Versioning
 
         public string InformationalVersion { get; set; }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             if (string.IsNullOrEmpty(BuildConfiguration))
                 BuildConfiguration = context.TryGet<string>(BuildProps.BuildConfiguration);

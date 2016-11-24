@@ -63,7 +63,7 @@ namespace FlubuCore.Tasks.Nuget
             return this;
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             string nugetCmdLinePath = FindNuGetCmdLinePath();
 

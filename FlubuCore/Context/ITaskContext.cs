@@ -1,25 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using FlubuCore.Context.FluentInterface;
-using FlubuCore.Scripting;
-using FlubuCore.Tasks;
+using FlubuCore.Targeting;
 
 namespace FlubuCore.Context
 {
-    public interface ITaskContext : IBuildPropertiesContext, IDisposable
+    public interface ITaskContext : IBuildPropertiesContext
     {
-        CommandArguments Args { get; }
-
-        bool IsInteractive { get; }
-
-        void DecreaseDepth();
-
-        void Fail(string message, int errorCode);
-
-        void IncreaseDepth();
-
-        void LogInfo(string message);
-
-        void LogError(string message);
+        TargetTree TargetTree { get; }
 
         ICoreTaskFluentInterface CoreTasks();
 

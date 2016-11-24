@@ -46,6 +46,7 @@ namespace FlubuCore.Tasks
         /// <param name="context">The script execution environment.</param>
         public T Execute(ITaskContext context)
         {
+            ITaskContextInternal contextInternal = (ITaskContextInternal)context;
             if (context == null)
             {
                 throw new ArgumentNullException(nameof(context));
@@ -55,23 +56,23 @@ namespace FlubuCore.Tasks
 
             if (!string.IsNullOrEmpty(DescriptionForLog))
             {
-                context.LogInfo(DescriptionForLog);
+                contextInternal.LogInfo(DescriptionForLog);
             }
 
-            context.IncreaseDepth();
+            contextInternal.IncreaseDepth();
 
             try
             {
-                return DoExecute(context);
+                return DoExecute(contextInternal);
             }
             finally
             {
                 TaskStopwatch.Stop();
-                context.DecreaseDepth();
+                contextInternal.DecreaseDepth();
 
                 if (LogDuration)
                 {
-                    context.LogInfo($"{DescriptionForLog} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
+                    contextInternal.LogInfo($"{DescriptionForLog} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
                 }
             }
         }
@@ -81,6 +82,6 @@ namespace FlubuCore.Tasks
         /// </summary>
         /// <remarks>This method has to be implemented by the inheriting task.</remarks>
         /// <param name="context">The script execution environment.</param>
-        protected abstract T DoExecute(ITaskContext context);
+        protected abstract T DoExecute(ITaskContextInternal context);
     }
 }

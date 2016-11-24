@@ -43,7 +43,7 @@ namespace FlubuCore.Tasks.Iis
             return this;
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             if (string.IsNullOrEmpty(_siteName))
                 throw new TaskExecutionException("Site name missing!", 1);

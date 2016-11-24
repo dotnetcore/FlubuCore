@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FlubuCore.Context
 {
-    public class TaskSession : TaskContext, ITaskSession
+    public class TaskSession : TaskContextInternal, ITaskSession
     {
         private readonly Stopwatch _stopwatch = new Stopwatch();
 
@@ -18,19 +18,16 @@ namespace FlubuCore.Context
 
         public TaskSession(
             ILogger<TaskSession> log,
-            IBuildPropertiesSession taskContextProperties,
             TargetTree targetTree,
             CommandArguments args,
             ITaskFactory taskFactory,
             ICoreTaskFluentInterface coreTaskFluentInterface,
-            ITaskFluentInterface taskFluentInterface)
-            : base(log, taskContextProperties, args, taskFactory, coreTaskFluentInterface, taskFluentInterface)
+            ITaskFluentInterface taskFluentInterface,
+            IBuildPropertiesSession properties)
+            : base(log, properties, args, taskFactory, coreTaskFluentInterface, taskFluentInterface)
         {
             HasFailed = true;
-            TargetTree = targetTree;
         }
-
-        public TargetTree TargetTree { get; }
 
         public bool HasFailed { get; private set; }
 

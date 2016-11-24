@@ -177,7 +177,7 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         /// <remarks>This method has to be implemented by the inheriting task.</remarks>
         /// <param name="context">The script execution environment.</param>
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             if (_nunitConsoleFileName == null)
             {
@@ -226,7 +226,7 @@ namespace FlubuCore.Tasks.Testing
             }
         }
 
-        private void SetAssemblyFileNameAndWorkingDirFromProjectName(ITaskContext context)
+        private void SetAssemblyFileNameAndWorkingDirFromProjectName(ITaskContextInternal context)
         {
             if (_projectName != null)
             {

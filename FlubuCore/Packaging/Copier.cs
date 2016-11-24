@@ -6,9 +6,9 @@ namespace FlubuCore.Packaging
 {
     public class Copier : ICopier
     {
-        private readonly ITaskContext _taskContext;
+        private readonly ITaskContextInternal _taskContext;
 
-        public Copier(ITaskContext taskContext)
+        public Copier(ITaskContextInternal taskContext)
         {
            _taskContext = taskContext;
         }

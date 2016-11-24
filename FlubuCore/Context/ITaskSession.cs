@@ -3,11 +3,9 @@ using FlubuCore.Targeting;
 
 namespace FlubuCore.Context
 {
-    public interface ITaskSession : ITaskContext
+    public interface ITaskSession : ITaskContextInternal
     {
         bool HasFailed { get; }
-
-        TargetTree TargetTree { get; }
 
         void Start(Action<ITaskSession> onFinishDo);
 

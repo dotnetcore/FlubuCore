@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Solution
 
         public string SolutionFile { get; private set; }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             context.LogInfo($"Load solution {SolutionFile} properties");
 

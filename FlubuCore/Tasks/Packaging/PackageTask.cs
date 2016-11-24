@@ -70,7 +70,7 @@ namespace FlubuCore.Tasks.Packaging
             return this;
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             if (_sourcePackagingInfos.Count == 0)
             {

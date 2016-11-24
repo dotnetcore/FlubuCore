@@ -48,12 +48,12 @@ public class MyBuildScript : DefaultBuildScript
             var provider = new ServiceCollection().BuildServiceProvider();
             t.Run(new TaskSession(
                 null,
-                new TaskContextSession(),
                 new TargetTree(provider, new DotnetTaskFactory(provider)),
                 new CommandArguments(),
                 new DotnetTaskFactory(provider),
                 new CoreTaskFluentInterface(),
-                new TaskFluentInterface(new IisTaskFluentInterface(), new LinuxTaskFluentInterface())));
+                new TaskFluentInterface(new IisTaskFluentInterface(), new LinuxTaskFluentInterface()),
+                new TaskContextSession()));
         }
 
         [Fact]
@@ -78,12 +78,12 @@ public class MyBuildScript : IBuildScript
             var provider = new ServiceCollection().BuildServiceProvider();
             t.Run(new TaskSession(
                 null,
-                new TaskContextSession(),
                 new TargetTree(provider, new DotnetTaskFactory(provider)),
                 new CommandArguments(),
                 new DotnetTaskFactory(provider),
                 new CoreTaskFluentInterface(),
-                new TaskFluentInterface(new IisTaskFluentInterface(), new LinuxTaskFluentInterface())));
+                new TaskFluentInterface(new IisTaskFluentInterface(), new LinuxTaskFluentInterface()),
+                new TaskContextSession()));
         }
 
         [Theory]

@@ -69,7 +69,7 @@ namespace FlubuCore.Tasks.Iis
         /// Creates or updated the web site.
         /// </summary>
         /// <param name="context">The task context</param>
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             Validate();
             using (ServerManager serverManager = new ServerManager())

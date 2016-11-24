@@ -6,7 +6,7 @@ namespace FlubuCore.Packaging
 {
     public class ZipProcessor : IPackageProcessor
     {
-        private readonly ITaskContext _taskContext;
+        private readonly ITaskContextInternal _taskContext;
 
         private readonly IZipper _zipper;
 
@@ -19,7 +19,7 @@ namespace FlubuCore.Packaging
         private IFileFilter _filter;
 
         public ZipProcessor(
-            ITaskContext taskContext,
+            ITaskContextInternal taskContext,
             IZipper zipper,
             FileFullPath zipFileName,
             FullPath baseDir,
@@ -33,7 +33,7 @@ namespace FlubuCore.Packaging
         }
 
         public ZipProcessor(
-           ITaskContext taskContext,
+           ITaskContextInternal taskContext,
            IZipper zipper,
            FileFullPath zipFileName,
            FullPath baseDir,

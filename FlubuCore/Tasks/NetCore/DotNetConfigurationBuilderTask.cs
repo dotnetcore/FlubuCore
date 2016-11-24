@@ -23,7 +23,7 @@ namespace FlubuCore.Tasks.NetCore
             _sourceFiles.AddRange(sourceConfigFiles);
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < _sourceFiles.Count; i++)

@@ -8,9 +8,9 @@ namespace FlubuCore.Packaging
 {
     public class Zipper : IZipper
     {
-        private readonly ITaskContext _taskContext;
+        private readonly ITaskContextInternal _taskContext;
 
-        public Zipper(ITaskContext taskContext)
+        public Zipper(ITaskContextInternal taskContext)
         {
             _taskContext = taskContext;
         }

@@ -15,13 +15,13 @@ namespace FlubuCore.Tasks.FileSystem
 
         public string DirectoryPath { get; set; }
 
-        public static void Execute(ITaskContext context, string directoryPath, bool forceRecreate)
+        public static void Execute(ITaskContextInternal context, string directoryPath, bool forceRecreate)
         {
             var task = new CreateDirectoryTask(directoryPath, forceRecreate);
             task.ExecuteVoid(context);
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             context.LogInfo($"Create directory '{DirectoryPath}'");
 

@@ -14,7 +14,7 @@ namespace Flubu.Tests.Tasks
     {
         private readonly Mock<IFlubuEnviromentService> _flubuEnviroment;
         private readonly Mock<IRunProgramTask> _runProgramTask;
-        private readonly Mock<ITaskContext> _context;
+        private readonly Mock<ITaskContextInternal> _context;
         private readonly Mock<ITaskFluentInterface> _taskFluentInterface;
         private CompileSolutionTask _task;
 
@@ -22,7 +22,7 @@ namespace Flubu.Tests.Tasks
         {
             _flubuEnviroment = new Mock<IFlubuEnviromentService>();
             _runProgramTask = new Mock<IRunProgramTask>(MockBehavior.Loose);
-            _context = new Mock<ITaskContext>();
+            _context = new Mock<ITaskContextInternal>();
             _taskFluentInterface = new Mock<ITaskFluentInterface>();
             _context.Setup(x => x.Tasks()).Returns(_taskFluentInterface.Object);
         }
