@@ -16,7 +16,7 @@ public class MyBuildScript : DefaultBuildScript
         context.Properties.Set(BuildProps.ProductName, "FlubuCore");
     }
 
-    protected override void ConfigureTargets(ITaskContext session)
+    protected override void ConfigureTargets(ITaskSession session)
     {
         session
             .CreateTarget("compile")
@@ -29,7 +29,7 @@ public class MyBuildScript : DefaultBuildScript
             .AddTask(new ExecuteDotnetTask("restore").WithArguments("Flubu.Tests"))
             .AddTask(new ExecuteDotnetTask("pack").WithArguments("FlubuCore", "-c", "Release"))
             .AddTask(new ExecuteDotnetTask("pack").WithArguments("dotnet-flubu", "-c", "Release"));
-        
+
         session.CreateTarget("merge")
             .Do(TargetIlMerge);
 
