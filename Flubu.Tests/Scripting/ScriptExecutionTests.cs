@@ -38,7 +38,7 @@ public class MyBuildScript : DefaultBuildScript
         System.Console.WriteLine(""2222"");
         }
 
-        protected override void ConfigureTargets(ITaskSession session)
+        protected override void ConfigureTargets(ITaskContext context)
         {
             Console.WriteLine(""2222"");
         }
