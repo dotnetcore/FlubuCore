@@ -1,6 +1,7 @@
 ﻿using System;
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.Scripting;
+using FlubuCore.Targeting;
 using FlubuCore.Tasks;
 using Microsoft.Extensions.Logging;
 
@@ -16,10 +17,11 @@ namespace FlubuCore.Context
             ILogger log,
             IBuildPropertiesSession taskContextProperties,
             CommandArguments args,
+            TargetTree targetTree,
             ITaskFactory taskFactory,
             ICoreTaskFluentInterface coreTaskFluentInterface,
             ITaskFluentInterface taskFluentInterface)
-            : base(log, taskFactory, coreTaskFluentInterface, taskFluentInterface, taskContextProperties)
+            : base(log, taskFactory, coreTaskFluentInterface, taskFluentInterface, targetTree, taskContextProperties)
         {
             Args = args;
         }

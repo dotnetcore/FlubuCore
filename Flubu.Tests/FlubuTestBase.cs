@@ -4,6 +4,7 @@ using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.Extensions;
 using FlubuCore.Scripting;
+using FlubuCore.Targeting;
 using FlubuCore.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -26,6 +27,7 @@ namespace Flubu.Tests
                 loggerFactory.CreateLogger<TaskSession>(),
                 new TaskContextSession(),
                 new CommandArguments(),
+                new TargetTree(ServiceProvider, Factory),
                 Factory,
                 new CoreTaskFluentInterface(),
                 new TaskFluentInterface(new IisTaskFluentInterface(), new LinuxTaskFluentInterface()));

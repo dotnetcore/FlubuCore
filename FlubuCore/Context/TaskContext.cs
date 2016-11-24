@@ -24,6 +24,7 @@ namespace FlubuCore.Context
             ITaskFactory taskFactory,
             ICoreTaskFluentInterface coreTaskFluentInterface,
             ITaskFluentInterface taskFluentInterface,
+            TargetTree targetTree,
             IBuildPropertiesSession properties)
             : base(properties)
         {
@@ -31,6 +32,7 @@ namespace FlubuCore.Context
             _taskFactory = taskFactory;
             _taskFluentInterface = taskFluentInterface;
             _coreTaskFluentInterface = coreTaskFluentInterface;
+            TargetTree = targetTree;
             _taskFluentInterface.Context = this;
             _coreTaskFluentInterface.Context = this;
         }
