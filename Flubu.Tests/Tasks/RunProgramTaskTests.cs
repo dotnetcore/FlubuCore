@@ -24,11 +24,11 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void ExecuteCommand()
+        public void ExecuteDotNetCommandWithFullPath()
         {
             string currentFolder = Directory.GetCurrentDirectory();
 
-            _commandFactory.Setup(i => i.Create("C:/Program Files/dotnet/dotnet.exe", new List<string> { "--version" }, null, "Debug")).Returns(_command.Object);
+            _commandFactory.Setup(i => i.Create("C:\\Program Files\\dotnet\\dotnet.exe", new List<string> { "--version" }, null, "Debug")).Returns(_command.Object);
 
             _command.Setup(i => i.CaptureStdErr()).Returns(_command.Object);
             _command.Setup(i => i.CaptureStdOut()).Returns(_command.Object);
@@ -47,13 +47,36 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
+        public void ExecuteCommand()
+        {
+            string currentFolder = Directory.GetCurrentDirectory();
+
+            _commandFactory.Setup(i => i.Create("dotnet", new List<string> { "--version" }, null, "Debug")).Returns(_command.Object);
+
+            _command.Setup(i => i.CaptureStdErr()).Returns(_command.Object);
+            _command.Setup(i => i.CaptureStdOut()).Returns(_command.Object);
+            _command.Setup(i => i.WorkingDirectory(currentFolder)).Returns(_command.Object);
+            _command.Setup(i => i.OnErrorLine(It.IsAny<Action<string>>())).Returns(_command.Object);
+            _command.Setup(i => i.OnOutputLine(It.IsAny<Action<string>>())).Returns(_command.Object);
+            _command.Setup(i => i.Execute()).Returns(new CommandResult(new ProcessStartInfo { Arguments = "aa" }, 0, string.Empty, string.Empty));
+
+            RunProgramTask task = new RunProgramTask(_commandFactory.Object, "dotnet");
+
+            int res = task
+                .WithArguments("--version")
+                .Execute(Context);
+
+            Assert.Equal(0, res);
+        }
+
+        [Fact]
         public void ResolveExecutableWithDefaultWorkingFolder()
         {
             string currentFolder = Directory.GetCurrentDirectory();
             string file = Directory.EnumerateFiles(currentFolder).FirstOrDefault();
             string command = Path.GetFileName(file);
 
-            _commandFactory.Setup(i => i.Create(command, new List<string>(), null, "Debug")).Returns(_command.Object);
+            _commandFactory.Setup(i => i.Create(file, new List<string>(), null, "Debug")).Returns(_command.Object);
 
             _command.Setup(i => i.CaptureStdErr()).Returns(_command.Object);
             _command.Setup(i => i.CaptureStdOut()).Returns(_command.Object);
@@ -75,7 +98,7 @@ namespace Flubu.Tests.Tasks
             string file = Directory.EnumerateFiles(currentFolder).FirstOrDefault();
             string command = Path.GetFileName(file);
 
-            _commandFactory.Setup(i => i.Create(command, new List<string>(), null, "Debug")).Returns(_command.Object);
+            _commandFactory.Setup(i => i.Create(file, new List<string>(), null, "Debug")).Returns(_command.Object);
 
             _command.Setup(i => i.CaptureStdErr()).Returns(_command.Object);
             _command.Setup(i => i.CaptureStdOut()).Returns(_command.Object);
