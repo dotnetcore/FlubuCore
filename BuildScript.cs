@@ -16,9 +16,9 @@ public class MyBuildScript : DefaultBuildScript
         context.Properties.Set(BuildProps.ProductName, "FlubuCore");
     }
 
-    protected override void ConfigureTargets(ITaskSession session)
+    protected override void ConfigureTargets(ITaskContext context)
     {
-        session
+        context
             .CreateTarget("compile")
             .AddTask(new FetchVersionFromExternalSourceTask())
             .AddTask(new UpdateNetCoreVersionTask("FlubuCore/project.json", "dotnet-flubu/project.json",
@@ -29,11 +29,11 @@ public class MyBuildScript : DefaultBuildScript
             .AddTask(new ExecuteDotnetTask("restore").WithArguments("Flubu.Tests"))
             .AddTask(new ExecuteDotnetTask("pack").WithArguments("FlubuCore", "-c", "Release"))
             .AddTask(new ExecuteDotnetTask("pack").WithArguments("dotnet-flubu", "-c", "Release"));
-
-        session.CreateTarget("merge")
+        
+        context.CreateTarget("merge")
             .Do(TargetIlMerge);
 
-        session
+        context
             .CreateTarget("test")
             .DotnetUnitTest("Flubu.Tests");
     }
@@ -49,9 +49,7 @@ public class MyBuildScript : DefaultBuildScript
             .WithArguments("dotnet-flubu.exe")
             .WithArguments("--include")
             .WithArguments("*.dll")
-            
             .WithArguments("--move")
-
             .Execute(context);
     }
 }
