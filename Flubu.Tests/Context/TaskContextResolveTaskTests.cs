@@ -175,5 +175,59 @@ namespace Flubu.Tests.Context
         {
             Context.CoreTasks().UpdateNetCoreVersionTask("test");
         }
+
+        [Fact]
+        public void ResolveCopyFileTask()
+        {
+            Context.Tasks().CopyFileTask("a", "b", true);
+        }
+
+        [Fact]
+        public void ResolveCreateDirectoryTask()
+        {
+            Context.Tasks().CreateDirectoryTask("a", true);
+        }
+
+        [Fact]
+        public void ResolveDeleteDirectoryTask()
+        {
+            Context.Tasks().DeleteDirectoryTask("a", true);
+        }
+
+        [Fact]
+        public void ResolveDeleteFilesTask()
+        {
+            Context.Tasks().DeleteFilesTask("a", "b", false);
+        }
+
+        [Fact]
+        public void ResolveMergeConfigFileTask()
+        {
+            Context.Tasks().MergeConfigurationTask("out");
+        }
+
+        [Fact]
+        public void ResolveUnzipFileTask()
+        {
+            Context.Tasks().UnzipTask("t", "d");
+        }
+
+        [Fact]
+        public void ResolveOpenCoverTask()
+        {
+            Context.Tasks().OpenCoverTask();
+        }
+
+        [Fact]
+        public void ResolveOpenCoverToCoberturaTask()
+        {
+            Context.Tasks().OpenCoverToCoberturaTask("in", "out");
+        }
+
+        [Fact]
+        public void ResolveLinuxSystemCtlTask()
+        {
+            Context.CoreTasks().LinuxTasks().SystemCtlTask("cmd", "srvice");
+        }
     }
 }
