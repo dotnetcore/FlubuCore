@@ -14,5 +14,7 @@ namespace FlubuCore.Context.FluentInterface
         UpdateNetCoreVersionTask UpdateNetCoreVersionTask(string filePath);
 
         UpdateNetCoreVersionTask UpdateNetCoreVersionTask(params string[] files);
+
+        ILinuxTaskFluentInterface LinuxTasks();
     }
 }

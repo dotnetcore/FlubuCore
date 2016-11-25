@@ -51,8 +51,8 @@ public class MyBuildScript : DefaultBuildScript
                 new TargetTree(provider, new DotnetTaskFactory(provider)),
                 new CommandArguments(),
                 new DotnetTaskFactory(provider),
-                new CoreTaskFluentInterface(),
-                new TaskFluentInterface(new IisTaskFluentInterface(), new LinuxTaskFluentInterface()),
+                new CoreTaskFluentInterface(new LinuxTaskFluentInterface()),
+                new TaskFluentInterface(new IisTaskFluentInterface()),
                 new TaskContextSession()));
         }
 
@@ -81,8 +81,8 @@ public class MyBuildScript : IBuildScript
                 new TargetTree(provider, new DotnetTaskFactory(provider)),
                 new CommandArguments(),
                 new DotnetTaskFactory(provider),
-                new CoreTaskFluentInterface(),
-                new TaskFluentInterface(new IisTaskFluentInterface(), new LinuxTaskFluentInterface()),
+                new CoreTaskFluentInterface(new LinuxTaskFluentInterface()),
+                new TaskFluentInterface(new IisTaskFluentInterface()),
                 new TaskContextSession()));
         }
 

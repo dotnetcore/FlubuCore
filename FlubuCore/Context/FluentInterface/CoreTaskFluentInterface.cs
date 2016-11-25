@@ -5,6 +5,13 @@ namespace FlubuCore.Context.FluentInterface
 {
     public class CoreTaskFluentInterface : ICoreTaskFluentInterface
     {
+        private readonly ILinuxTaskFluentInterface _linuxFluent;
+
+        public CoreTaskFluentInterface(ILinuxTaskFluentInterface linuxFluent)
+        {
+            _linuxFluent = linuxFluent;
+        }
+
         public TaskContext Context { get; set; }
 
         public ExecuteDotnetTask ExecuteDotnetTask(string command)
@@ -25,6 +32,12 @@ namespace FlubuCore.Context.FluentInterface
         public UpdateNetCoreVersionTask UpdateNetCoreVersionTask(params string[] files)
         {
             return Context.CreateTask<UpdateNetCoreVersionTask>(files);
+        }
+
+        public ILinuxTaskFluentInterface LinuxTasks()
+        {
+            _linuxFluent.Context = Context;
+            return _linuxFluent;
         }
     }
 }

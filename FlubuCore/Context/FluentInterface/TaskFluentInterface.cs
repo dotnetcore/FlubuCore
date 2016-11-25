@@ -13,12 +13,10 @@ namespace FlubuCore.Context.FluentInterface
     public class TaskFluentInterface : ITaskFluentInterface
     {
         private readonly IIisTaskFluentInterface _iisTasksFluentInterface;
-        private readonly ILinuxTaskFluentInterface _linuxFluent;
 
-        public TaskFluentInterface(IIisTaskFluentInterface iisTasksFluentInterface, ILinuxTaskFluentInterface linuxFluent)
+        public TaskFluentInterface(IIisTaskFluentInterface iisTasksFluentInterface)
         {
             _iisTasksFluentInterface = iisTasksFluentInterface;
-            _linuxFluent = linuxFluent;
         }
 
         public TaskContext Context { get; set; }
@@ -75,11 +73,6 @@ namespace FlubuCore.Context.FluentInterface
             return Context.CreateTask<LoadSolutionTask>(solutionFile);
         }
 
-        public CoverageReportTask CoverageReportTask(params string[] inputFiles)
-        {
-            return Context.CreateTask<CoverageReportTask>(inputFiles);
-        }
-
         /// <summary>
         /// Initializes NunitTask with default command line options for nunit V3.
         /// </summary>
@@ -110,7 +103,7 @@ namespace FlubuCore.Context.FluentInterface
           string nunitConsoleFileName,
           string workingDirectory)
         {
-            throw new NotSupportedException("Not supported for now.");
+            throw new NotSupportedException("Not supported for now. Create new task without fluent interface.");
             ////return _context.CreateTask<NUnitTask>(testAssemblyFileName, nunitConsoleFileName, workingDirectory);
         }
 
@@ -141,16 +134,55 @@ namespace FlubuCore.Context.FluentInterface
             return Context.CreateTask<GenerateCommonAssemblyInfoTask>();
         }
 
+        public CoverageReportTask CoverageReportTask(params string[] inputFiles)
+        {
+            return Context.CreateTask<CoverageReportTask>(inputFiles);
+        }
+
+        public OpenCoverToCoberturaTask OpenCoverToCoberturaTask(string input, string output)
+        {
+            return Context.CreateTask<OpenCoverToCoberturaTask>(input, output);
+        }
+
+        public OpenCoverTask OpenCoverTask()
+        {
+            return Context.CreateTask<OpenCoverTask>();
+        }
+
+        public UnzipTask UnzipTask(string zip, string destination)
+        {
+            return Context.CreateTask<UnzipTask>(zip, destination);
+        }
+
         public IIisTaskFluentInterface IisTasks()
         {
             _iisTasksFluentInterface.Context = Context;
             return _iisTasksFluentInterface;
         }
 
-        public ILinuxTaskFluentInterface LinuxTasks()
+        public CopyFileTask CopyFileTask(string sourceFileName, string destinationFileName, bool overwrite)
         {
-            _linuxFluent.Context = Context;
-            return _linuxFluent;
+            return Context.CreateTask<CopyFileTask>(sourceFileName, destinationFileName, overwrite);
+        }
+
+        public CreateDirectoryTask CreateDirectoryTask(string directoryPath, bool forceRecreate)
+        {
+            return Context.CreateTask<CreateDirectoryTask>(directoryPath, forceRecreate);
+        }
+
+        public DeleteDirectoryTask DeleteDirectoryTask(string directoryPath, bool failIfNotExists)
+        {
+            return Context.CreateTask<DeleteDirectoryTask>(directoryPath, failIfNotExists);
+        }
+
+        public DeleteFilesTask DeleteFilesTask(string directoryPath, string filePattern, bool recursive)
+        {
+            return Context.CreateTask<DeleteFilesTask>(directoryPath, filePattern, recursive);
+        }
+
+        public MergeConfigurationTask MergeConfigurationTask(string outFile)
+        {
+            return Context.CreateTask<MergeConfigurationTask>(outFile);
         }
     }
 }

@@ -6,6 +6,7 @@ namespace FlubuCore.Tasks.FileSystem
     public class DeleteDirectoryTask : TaskBase<int>
     {
         private readonly string _directoryPath;
+
         private readonly bool _failIfNotExists;
 
         public DeleteDirectoryTask(string directoryPath, bool failIfNotExists)

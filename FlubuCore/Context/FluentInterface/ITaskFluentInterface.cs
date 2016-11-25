@@ -51,8 +51,22 @@ namespace FlubuCore.Context.FluentInterface
 
         GenerateCommonAssemblyInfoTask GenerateCommonAssemblyInfoTask();
 
+        OpenCoverToCoberturaTask OpenCoverToCoberturaTask(string input, string output);
+
+        OpenCoverTask OpenCoverTask();
+
+        UnzipTask UnzipTask(string zip, string destionation);
+
         IIisTaskFluentInterface IisTasks();
 
-        ILinuxTaskFluentInterface LinuxTasks();
+        CopyFileTask CopyFileTask(string sourceFileName, string destinationFileName, bool overwrite);
+
+        CreateDirectoryTask CreateDirectoryTask(string directoryPath, bool forceRecreate);
+
+        DeleteDirectoryTask DeleteDirectoryTask(string directoryPath, bool failIfNotExists);
+
+        DeleteFilesTask DeleteFilesTask(string directoryPath, string filePattern, bool recursive);
+
+        MergeConfigurationTask MergeConfigurationTask(string outFile);
     }
 }
