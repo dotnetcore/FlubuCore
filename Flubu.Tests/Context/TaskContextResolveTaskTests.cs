@@ -227,7 +227,7 @@ namespace Flubu.Tests.Context
         [Fact]
         public void ResolveLinuxSystemCtlTask()
         {
-            Context.CoreTasks().LinuxTasks().SystemCtlTask("cmd", "srvice");
+          Assert.NotNull(Context.CoreTasks().LinuxTasks().SystemCtlTask("cmd", "srvice"));
         }
     }
 }

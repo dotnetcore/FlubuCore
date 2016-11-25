@@ -32,7 +32,8 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddTransient<CreateWebApplicationTask>()
                 .AddTransient<ControlAppPoolTask>()
                 .AddTransient<DeleteAppPoolTask>()
-                .AddTransient<AddWebsiteBindingTask>();
+                .AddTransient<AddWebsiteBindingTask>()
+                .AddTransient<OpenCoverTask>();
 
             return services;
         }
