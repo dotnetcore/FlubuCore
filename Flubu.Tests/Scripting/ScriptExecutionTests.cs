@@ -53,6 +53,7 @@ public class MyBuildScript : DefaultBuildScript
                 new DotnetTaskFactory(provider),
                 new CoreTaskFluentInterface(new LinuxTaskFluentInterface()),
                 new TaskFluentInterface(new IisTaskFluentInterface()),
+                new TargetFluentInterface(),
                 new TaskContextSession()));
         }
 
@@ -83,6 +84,7 @@ public class MyBuildScript : IBuildScript
                 new DotnetTaskFactory(provider),
                 new CoreTaskFluentInterface(new LinuxTaskFluentInterface()),
                 new TaskFluentInterface(new IisTaskFluentInterface()),
+                new TargetFluentInterface(),
                 new TaskContextSession()));
         }
 

@@ -1,6 +1,6 @@
 ﻿using FlubuCore.Tasks.Linux;
 
-namespace FlubuCore.Context.FluentInterface
+namespace FlubuCore.Context.FluentInterface.Interfaces
 {
     public interface ILinuxTaskFluentInterface
     {

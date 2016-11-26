@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Tasks.Iis;
 using FlubuCore.Tasks.Iis.Interfaces;
 

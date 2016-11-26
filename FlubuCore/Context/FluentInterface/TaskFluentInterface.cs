@@ -1,4 +1,5 @@
 ﻿using System;
+using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Tasks.FileSystem;
 using FlubuCore.Tasks.Nuget;
 using FlubuCore.Tasks.Packaging;

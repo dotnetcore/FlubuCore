@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FlubuCore.Context.FluentInterface;
+using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
 using Microsoft.Extensions.Logging;
@@ -17,6 +18,8 @@ namespace FlubuCore.Context
 
         private readonly ITaskFactory _taskFactory;
 
+        private readonly ITargetFluentInterface _createTargetFluentInterface;
+
         private readonly ILogger _log;
 
         public TaskContext(
@@ -24,6 +27,7 @@ namespace FlubuCore.Context
             ITaskFactory taskFactory,
             ICoreTaskFluentInterface coreTaskFluentInterface,
             ITaskFluentInterface taskFluentInterface,
+            ITargetFluentInterface createTargetFluentInterface,
             TargetTree targetTree,
             IBuildPropertiesSession properties)
             : base(properties)
@@ -33,6 +37,7 @@ namespace FlubuCore.Context
             _taskFluentInterface = taskFluentInterface;
             _coreTaskFluentInterface = coreTaskFluentInterface;
             TargetTree = targetTree;
+            _createTargetFluentInterface = createTargetFluentInterface;
             _taskFluentInterface.Context = this;
             _coreTaskFluentInterface.Context = this;
         }
@@ -42,6 +47,13 @@ namespace FlubuCore.Context
         public ITaskFluentInterface Tasks()
         {
             return _taskFluentInterface;
+        }
+
+        public ITargetFluentInterface CreateTarget2(string name)
+        {
+            var target = TargetTree.AddTarget(name);
+            _createTargetFluentInterface.Target = target;
+            return _createTargetFluentInterface;
         }
 
         public ICoreTaskFluentInterface CoreTasks()

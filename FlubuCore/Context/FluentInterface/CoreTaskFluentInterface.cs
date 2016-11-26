@@ -1,4 +1,5 @@
-﻿using FlubuCore.Tasks.NetCore;
+﻿using FlubuCore.Context.FluentInterface.Interfaces;
+using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Versioning;
 
 namespace FlubuCore.Context.FluentInterface

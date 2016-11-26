@@ -7,7 +7,7 @@ using FlubuCore.Tasks.Testing;
 using FlubuCore.Tasks.Text;
 using FlubuCore.Tasks.Versioning;
 
-namespace FlubuCore.Context.FluentInterface
+namespace FlubuCore.Context.FluentInterface.Interfaces
 {
     public interface ITaskFluentInterface
     {

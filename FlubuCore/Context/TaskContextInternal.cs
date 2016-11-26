@@ -1,5 +1,6 @@
 ﻿using System;
 using FlubuCore.Context.FluentInterface;
+using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
@@ -20,8 +21,9 @@ namespace FlubuCore.Context
             TargetTree targetTree,
             ITaskFactory taskFactory,
             ICoreTaskFluentInterface coreTaskFluentInterface,
-            ITaskFluentInterface taskFluentInterface)
-            : base(log, taskFactory, coreTaskFluentInterface, taskFluentInterface, targetTree, taskContextProperties)
+            ITaskFluentInterface taskFluentInterface,
+            ITargetFluentInterface targetFluentInterface)
+            : base(log, taskFactory, coreTaskFluentInterface, taskFluentInterface, targetFluentInterface, targetTree, taskContextProperties)
         {
             Args = args;
         }

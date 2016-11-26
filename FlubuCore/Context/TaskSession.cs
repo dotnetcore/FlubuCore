@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using FlubuCore.Context.FluentInterface;
+using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
@@ -23,8 +24,9 @@ namespace FlubuCore.Context
             ITaskFactory taskFactory,
             ICoreTaskFluentInterface coreTaskFluentInterface,
             ITaskFluentInterface taskFluentInterface,
+            ITargetFluentInterface targetFluentInterface,
             IBuildPropertiesSession properties)
-            : base(log, properties, args, targetTree, taskFactory, coreTaskFluentInterface, taskFluentInterface)
+            : base(log, properties, args, targetTree, taskFactory, coreTaskFluentInterface, taskFluentInterface, targetFluentInterface)
         {
             HasFailed = true;
         }
