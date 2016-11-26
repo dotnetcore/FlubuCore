@@ -42,6 +42,8 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITargetFluentInterface SetAsHidden();
 
-        ITargetFluentInterface AddTask(params ITask[] tasks);
+        ITargetFluentInterface AddTask(Func<ITaskFluentInterface, ITask> task);
+
+        ITargetFluentInterface AddCoreTask(Func<ICoreTaskFluentInterface, ITask> task);
     }
 }

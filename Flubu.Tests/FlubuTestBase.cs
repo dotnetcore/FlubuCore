@@ -31,7 +31,7 @@ namespace Flubu.Tests
                 Factory,
                 new CoreTaskFluentInterface(new LinuxTaskFluentInterface()),
                 new TaskFluentInterface(new IisTaskFluentInterface()),
-                new TargetFluentInterface());
+                new TargetFluentInterface(new TaskFluentInterface(new IisTaskFluentInterface()), new CoreTaskFluentInterface(new LinuxTaskFluentInterface())));
         }
 
         protected ITaskFactory Factory { get; }

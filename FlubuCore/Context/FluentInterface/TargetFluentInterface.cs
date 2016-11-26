@@ -11,6 +11,17 @@ namespace FlubuCore.Context.FluentInterface
 {
     public class TargetFluentInterface : ITargetFluentInterface
     {
+        private readonly ITaskFluentInterface _taskFluentInterface;
+
+        private readonly ICoreTaskFluentInterface _coreTaskFluentInterface;
+
+        public TargetFluentInterface(ITaskFluentInterface taskFluentInterface, ICoreTaskFluentInterface coreTaskFluentInterface)
+        {
+            _taskFluentInterface = taskFluentInterface;
+
+            _coreTaskFluentInterface = coreTaskFluentInterface;
+        }
+
         public ITarget Target { get; set; }
 
         public ITargetFluentInterface DependsOn(params string[] targetNames)
@@ -49,9 +60,17 @@ namespace FlubuCore.Context.FluentInterface
             return this;
         }
 
-        public ITargetFluentInterface AddTask(params ITask[] tasks)
+        public ITargetFluentInterface AddTask(Func<ITaskFluentInterface, ITask> task)
         {
-            Target.AddTask(tasks);
+            var result = task(_taskFluentInterface);
+            Target.AddTask(result);
+            return this;
+        }
+
+        public ITargetFluentInterface AddCoreTask(Func<ICoreTaskFluentInterface, ITask> task)
+        {
+            var result = task(_coreTaskFluentInterface);
+            Target.AddTask(result);
             return this;
         }
     }
