@@ -20,11 +20,11 @@
         "type": "platform",
         "version": "1.0.1"
     },
-    "dotnet-flubu": "1.0.248"
+    "dotnet-flubu": "1.0.255"
   },
   "tools": {
     "dotnet-flubu": {
-      "version": "1.0.248",
+      "version": "1.0.255",
       "imports": [
         "dotnet5.6"
       ]
