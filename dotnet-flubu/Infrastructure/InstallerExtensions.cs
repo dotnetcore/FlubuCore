@@ -3,6 +3,7 @@ using DotNet.Cli.Flubu.Scripting;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.Context.FluentInterface.Interfaces;
+using FlubuCore.Context.FluentInterface.TaskExtensions;
 using FlubuCore.Tasks.Iis;
 using FlubuCore.Tasks.Iis.Interfaces;
 using FlubuCore.Tasks.Testing;
@@ -26,6 +27,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddSingleton<ICoreTaskFluentInterface, CoreTaskFluentInterface>()
                 .AddSingleton<ILinuxTaskFluentInterface, LinuxTaskFluentInterface>()
                 .AddSingleton<ITargetFluentInterface, TargetFluentInterface>()
+                .AddSingleton<ITaskExtensionsFluentInterface, TaskExtensionsFluentInterface>()
                 .AddTransient<GenerateCommonAssemblyInfoTask>()
                 .AddTransient<FetchBuildVersionFromFileTask>()
                 .AddTransient<FetchVersionFromExternalSourceTask>()
