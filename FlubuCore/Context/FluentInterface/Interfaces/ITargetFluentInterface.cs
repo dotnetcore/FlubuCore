@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FlubuCore.Context.FluentInterface.TaskExtensions;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
 
@@ -45,5 +46,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         ITargetFluentInterface AddTask(Func<ITaskFluentInterface, ITask> task);
 
         ITargetFluentInterface AddCoreTask(Func<ICoreTaskFluentInterface, ITask> task);
+
+        ITaskExtensionsFluentInterface TaskExtensions();
     }
 }

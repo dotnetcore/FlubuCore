@@ -2,6 +2,7 @@
 using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
+using FlubuCore.Context.FluentInterface.TaskExtensions;
 using FlubuCore.Extensions;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
@@ -31,7 +32,7 @@ namespace Flubu.Tests
                 Factory,
                 new CoreTaskFluentInterface(new LinuxTaskFluentInterface()),
                 new TaskFluentInterface(new IisTaskFluentInterface()),
-                new TargetFluentInterface(new TaskFluentInterface(new IisTaskFluentInterface()), new CoreTaskFluentInterface(new LinuxTaskFluentInterface())));
+                new TargetFluentInterface(new TaskFluentInterface(new IisTaskFluentInterface()), new CoreTaskFluentInterface(new LinuxTaskFluentInterface()), new TaskExtensionsFluentInterface()));
         }
 
         protected ITaskFactory Factory { get; }

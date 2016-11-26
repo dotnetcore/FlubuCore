@@ -1,6 +1,7 @@
 ﻿using DotNet.Cli.Flubu.Scripting;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
+using FlubuCore.Context.FluentInterface.TaskExtensions;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
@@ -53,7 +54,7 @@ public class MyBuildScript : DefaultBuildScript
                 new DotnetTaskFactory(provider),
                 new CoreTaskFluentInterface(new LinuxTaskFluentInterface()),
                 new TaskFluentInterface(new IisTaskFluentInterface()),
-                new TargetFluentInterface(new TaskFluentInterface(new IisTaskFluentInterface()), new CoreTaskFluentInterface(new LinuxTaskFluentInterface())),
+                new TargetFluentInterface(new TaskFluentInterface(new IisTaskFluentInterface()), new CoreTaskFluentInterface(new LinuxTaskFluentInterface()), new TaskExtensionsFluentInterface()),
                 new TaskContextSession()));
         }
 
@@ -84,7 +85,7 @@ public class MyBuildScript : IBuildScript
                 new DotnetTaskFactory(provider),
                 new CoreTaskFluentInterface(new LinuxTaskFluentInterface()),
                 new TaskFluentInterface(new IisTaskFluentInterface()),
-                new TargetFluentInterface(new TaskFluentInterface(new IisTaskFluentInterface()), new CoreTaskFluentInterface(new LinuxTaskFluentInterface())),
+                new TargetFluentInterface(new TaskFluentInterface(new IisTaskFluentInterface()), new CoreTaskFluentInterface(new LinuxTaskFluentInterface()), new TaskExtensionsFluentInterface()),
                 new TaskContextSession()));
         }
 

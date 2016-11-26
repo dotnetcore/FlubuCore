@@ -16,6 +16,6 @@ namespace FlubuCore.Context
 
         ITaskFluentInterface Tasks();
 
-        ITargetFluentInterface CreateTarget2(string name);
+        ITargetFluentInterface CreateTarget(string name);
     }
 }

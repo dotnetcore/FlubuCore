@@ -22,8 +22,8 @@ namespace FlubuCore.Context
             ITaskFactory taskFactory,
             ICoreTaskFluentInterface coreTaskFluentInterface,
             ITaskFluentInterface taskFluentInterface,
-            ITargetFluentInterface targetFluentInterface)
-            : base(log, taskFactory, coreTaskFluentInterface, taskFluentInterface, targetFluentInterface, targetTree, taskContextProperties)
+            ITargetFluentInterface targetFluent)
+            : base(log, taskFactory, coreTaskFluentInterface, taskFluentInterface, targetFluent, targetTree, taskContextProperties)
         {
             Args = args;
         }

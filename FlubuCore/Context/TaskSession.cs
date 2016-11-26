@@ -24,9 +24,9 @@ namespace FlubuCore.Context
             ITaskFactory taskFactory,
             ICoreTaskFluentInterface coreTaskFluentInterface,
             ITaskFluentInterface taskFluentInterface,
-            ITargetFluentInterface targetFluentInterface,
+            ITargetFluentInterface targetFluent,
             IBuildPropertiesSession properties)
-            : base(log, properties, args, targetTree, taskFactory, coreTaskFluentInterface, taskFluentInterface, targetFluentInterface)
+            : base(log, properties, args, targetTree, taskFactory, coreTaskFluentInterface, taskFluentInterface, targetFluent)
         {
             HasFailed = true;
         }

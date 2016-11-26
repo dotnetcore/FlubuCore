@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using FlubuCore.Context.FluentInterface.Interfaces;
+using FlubuCore.Context.FluentInterface.TaskExtensions;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
 
@@ -11,18 +12,24 @@ namespace FlubuCore.Context.FluentInterface
 {
     public class TargetFluentInterface : ITargetFluentInterface
     {
-        private readonly ITaskFluentInterface _taskFluentInterface;
+        private readonly ITaskFluentInterface _taskFluent;
 
-        private readonly ICoreTaskFluentInterface _coreTaskFluentInterface;
+        private readonly ICoreTaskFluentInterface _coreTaskFluent;
 
-        public TargetFluentInterface(ITaskFluentInterface taskFluentInterface, ICoreTaskFluentInterface coreTaskFluentInterface)
+        private readonly ITaskExtensionsFluentInterface _taskExtensionsFluent;
+
+        public TargetFluentInterface(ITaskFluentInterface taskFluent, ICoreTaskFluentInterface coreTaskFluent, ITaskExtensionsFluentInterface taskExtensionsFluent)
         {
-            _taskFluentInterface = taskFluentInterface;
+            _taskFluent = taskFluent;
 
-            _coreTaskFluentInterface = coreTaskFluentInterface;
+            _coreTaskFluent = coreTaskFluent;
+
+            _taskExtensionsFluent = taskExtensionsFluent;
         }
 
         public ITarget Target { get; set; }
+
+        public TaskContextInternal Context { protected get; set; }
 
         public ITargetFluentInterface DependsOn(params string[] targetNames)
         {
@@ -62,16 +69,24 @@ namespace FlubuCore.Context.FluentInterface
 
         public ITargetFluentInterface AddTask(Func<ITaskFluentInterface, ITask> task)
         {
-            var result = task(_taskFluentInterface);
+            var result = task(_taskFluent);
             Target.AddTask(result);
             return this;
         }
 
         public ITargetFluentInterface AddCoreTask(Func<ICoreTaskFluentInterface, ITask> task)
         {
-            var result = task(_coreTaskFluentInterface);
+            var result = task(_coreTaskFluent);
             Target.AddTask(result);
             return this;
+        }
+
+        public ITaskExtensionsFluentInterface TaskExtensions()
+        {
+            var taskExtensionFluent = (TaskExtensionsFluentInterface)_taskExtensionsFluent;
+            taskExtensionFluent.Target = this;
+            taskExtensionFluent.Context = Context;
+            return _taskExtensionsFluent;
         }
     }
 }
