@@ -20,21 +20,20 @@ public class MyBuildScript : DefaultBuildScript
     {
         context
             .CreateTarget("compile")
-            .AddTask(new FetchVersionFromExternalSourceTask())
-            .AddTask(new UpdateNetCoreVersionTask("FlubuCore/project.json", "dotnet-flubu/project.json",
-                    "Flubu.Tests/project.json")
+            .AddTask(x => x.FetchVersionFromExternalSourceTask())
+            .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/project.json", "dotnet-flubu/project.json","Flubu.Tests/project.json")
                 .AdditionalProp("dependencies.FlubuCore", "dependencies.dotnet-flubu"))
-            .AddTask(new ExecuteDotnetTask("restore").WithArguments("FlubuCore"))
-            .AddTask(new ExecuteDotnetTask("restore").WithArguments("dotnet-flubu"))
-            .AddTask(new ExecuteDotnetTask("restore").WithArguments("Flubu.Tests"))
-            .AddTask(new ExecuteDotnetTask("pack").WithArguments("FlubuCore", "-c", "Release"))
-            .AddTask(new ExecuteDotnetTask("pack").WithArguments("dotnet-flubu", "-c", "Release"));
+            .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("FlubuCore"))
+            .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("dotnet-flubu"))
+            .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("Flubu.Tests"))
+            .AddCoreTask(x => x.ExecuteDotnetTask("pack").WithArguments("FlubuCore", "-c", "Release"))
+            .AddCoreTask(x => x.ExecuteDotnetTask("pack").WithArguments("dotnet-flubu", "-c", "Release"));
         
         context.CreateTarget("merge")
             .Do(TargetIlMerge);
 
-        context
-            .CreateTarget("test")
+        context.CreateTarget("test")
+            .TaskExtensions()
             .DotnetUnitTest("Flubu.Tests");
     }
 
