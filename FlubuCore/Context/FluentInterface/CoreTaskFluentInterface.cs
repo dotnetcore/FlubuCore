@@ -32,7 +32,9 @@ namespace FlubuCore.Context.FluentInterface
 
         public UpdateNetCoreVersionTask UpdateNetCoreVersionTask(params string[] files)
         {
-            return Context.CreateTask<UpdateNetCoreVersionTask>(files);
+            var task = Context.CreateTask<UpdateNetCoreVersionTask>(string.Empty);
+            task.AddFiles(files);
+            return task;
         }
 
         public ILinuxTaskFluentInterface LinuxTasks()

@@ -173,7 +173,7 @@ namespace Flubu.Tests.Context
         [Fact]
         public void ResolveUpdateNetCoreVersionTaskTest()
         {
-            Context.CoreTasks().UpdateNetCoreVersionTask("test");
+            Context.CoreTasks().UpdateNetCoreVersionTask("test", "test2");
         }
 
         [Fact]
