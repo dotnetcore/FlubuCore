@@ -78,7 +78,7 @@ namespace FlubuCore.Tasks.Packaging
             }
 
             if (string.IsNullOrEmpty(_destinationRootDir))
-                _destinationRootDir = context.GetOutputDir();
+                _destinationRootDir = context.Properties.GetOutputDir();
 
             FullPath df = new FullPath(_destinationRootDir);
             ICopier copier = new Copier(context);
@@ -115,7 +115,7 @@ namespace FlubuCore.Tasks.Packaging
                 string zipFile = _zipFileName;
 
                 if (string.IsNullOrEmpty(zipFile))
-                    zipFile = Path.Combine(_destinationRootDir, $"{_zipPrefix}_{context.GetBuildVersion().ToString(3)}.zip");
+                    zipFile = Path.Combine(_destinationRootDir, $"{_zipPrefix}_{context.Properties.GetBuildVersion().ToString(3)}.zip");
 
                 ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(zipFile), df, sourceIds);
                 zipProcessor.Process(copiedPackageDef);

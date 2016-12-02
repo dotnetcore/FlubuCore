@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.IO;
 using FlubuCore.Tasks.Text;
@@ -76,33 +73,34 @@ namespace FlubuCore.Tasks.Nuget
 
             FileFullPath destNuspecFile = packagesDir.AddFileName("{0}.nuspec", _packageId);
 
-            context.LogInfo(string.Format("Preparing the {0} file", destNuspecFile));
+            context.LogInfo($"Preparing the {destNuspecFile} file");
             ReplaceTokensTask task = new ReplaceTokensTask(
                 _nuspecFileName,
                 destNuspecFile.ToString());
-            task.AddTokenValue("version", context.GetBuildVersion().ToString());
+            task.AddTokenValue("version", context.Properties.GetBuildVersion().ToString());
             task.ExecuteVoid(context);
 
             // package it
             context.LogInfo("Creating a NuGet package file");
             string nugetWorkingDir = destNuspecFile.Directory.ToString();
-            NuGetCmdLineTask nugetTask = new NuGetCmdLineTask("pack", nugetWorkingDir);
-            nugetTask.Verbosity = NuGetCmdLineTask.NuGetVerbosity.Detailed;
-            nugetTask
-                .AddArgument(destNuspecFile.FileName);
+            NuGetCmdLineTask nugetTask = new NuGetCmdLineTask("pack", nugetWorkingDir)
+            {
+                Verbosity = NuGetCmdLineTask.NuGetVerbosity.Detailed
+            };
+
+            nugetTask.AddArgument(destNuspecFile.FileName);
 
             if (_basePath != null)
                 nugetTask.AddArgument("-BasePath").AddArgument(_basePath);
 
-            nugetTask
-                .ExecuteVoid(context);
+            nugetTask.ExecuteVoid(context);
 
             string nupkgFileName = string.Format(
                 CultureInfo.InvariantCulture,
                 "{0}.{1}.nupkg",
                 _packageId,
-                context.GetBuildVersion());
-            context.LogInfo(string.Format("NuGet package file {0} created", nupkgFileName));
+                context.Properties.GetBuildVersion());
+            context.LogInfo($"NuGet package file {nupkgFileName} created");
 
             // do not push new packages from a local build
             if (context.IsInteractive && !_allowPushOnInteractiveBuild)
@@ -118,9 +116,12 @@ namespace FlubuCore.Tasks.Nuget
             // publish the package file
             context.LogInfo("Pushing the NuGet package to the repository");
 
-            nugetTask = new NuGetCmdLineTask("push", nugetWorkingDir);
-            nugetTask.Verbosity = NuGetCmdLineTask.NuGetVerbosity.Detailed;
-            nugetTask.ApiKey = apiKey;
+            nugetTask = new NuGetCmdLineTask("push", nugetWorkingDir)
+            {
+                Verbosity = NuGetCmdLineTask.NuGetVerbosity.Detailed,
+                ApiKey = apiKey
+            };
+
             if (_nuGetServerUrl != null)
                 nugetTask.AddArgument("-Source").AddArgument(_nuGetServerUrl);
 
@@ -135,7 +136,7 @@ namespace FlubuCore.Tasks.Nuget
         {
             if (!File.Exists(fileName))
             {
-                context.Fail(string.Format("NuGet API key file ('{0}') does not exist, cannot publish the package.", fileName), 1);
+                context.Fail($"NuGet API key file ('{fileName}') does not exist, cannot publish the package.", 1);
                 return null;
             }
 
@@ -148,7 +149,7 @@ namespace FlubuCore.Tasks.Nuget
 
             if (string.IsNullOrEmpty(apiKey))
             {
-                context.Fail(string.Format("NuGet API key environment variable ('{0}') does not exist, cannot publish the package.", environmentVariableName), 1);
+                context.Fail($"NuGet API key environment variable ('{environmentVariableName}') does not exist, cannot publish the package.", 1);
                 return null;
             }
 

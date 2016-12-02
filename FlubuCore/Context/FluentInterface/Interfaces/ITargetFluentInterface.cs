@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FlubuCore.Context.FluentInterface.TaskExtensions;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
 

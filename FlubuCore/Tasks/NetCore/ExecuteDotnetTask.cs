@@ -59,7 +59,7 @@ namespace FlubuCore.Tasks.NetCore
 
             if (string.IsNullOrEmpty(program))
             {
-                program = context.GetDotnetExecutable();
+                program = context.Properties.GetDotnetExecutable();
             }
 
             if (string.IsNullOrEmpty(program))

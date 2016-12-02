@@ -48,37 +48,37 @@ namespace FlubuCore.Tasks.Versioning
         protected override int DoExecute(ITaskContextInternal context)
         {
             if (string.IsNullOrEmpty(BuildConfiguration))
-                BuildConfiguration = context.TryGet<string>(BuildProps.BuildConfiguration);
+                BuildConfiguration = context.Properties.TryGet<string>(BuildProps.BuildConfiguration);
 
             if (BuildVersion == null)
-                BuildVersion = context.GetBuildVersion();
+                BuildVersion = context.Properties.GetBuildVersion();
 
             if (string.IsNullOrEmpty(CompanyCopyright))
-                CompanyCopyright = context.TryGet(BuildProps.CompanyCopyright, string.Empty);
+                CompanyCopyright = context.Properties.TryGet(BuildProps.CompanyCopyright, string.Empty);
 
             if (string.IsNullOrEmpty(CompanyName))
-                CompanyName = context.TryGet(BuildProps.CompanyName, string.Empty);
+                CompanyName = context.Properties.TryGet(BuildProps.CompanyName, string.Empty);
 
             if (string.IsNullOrEmpty(CompanyTrademark))
-                CompanyTrademark = context.TryGet(BuildProps.CompanyTrademark, string.Empty);
+                CompanyTrademark = context.Properties.TryGet(BuildProps.CompanyTrademark, string.Empty);
 
             if (string.IsNullOrEmpty(ProductName))
             {
-                string productId = context.TryGet<string>(BuildProps.ProductId);
-                ProductName = context.TryGet(BuildProps.ProductName, productId);
+                string productId = context.Properties.TryGet<string>(BuildProps.ProductId);
+                ProductName = context.Properties.TryGet(BuildProps.ProductName, productId);
             }
 
             if (string.IsNullOrEmpty(ProductRootDir))
-                ProductRootDir = context.TryGet(BuildProps.ProductRootDir, ".");
+                ProductRootDir = context.Properties.TryGet(BuildProps.ProductRootDir, ".");
 
             if (!_generateAssemblyVersionSet)
-                _generateAssemblyVersion = context.TryGet(BuildProps.AutoAssemblyVersion, true);
+                _generateAssemblyVersion = context.Properties.TryGet(BuildProps.AutoAssemblyVersion, true);
 
             if (string.IsNullOrEmpty(InformationalVersion))
-                InformationalVersion = context.TryGet<string>(BuildProps.InformationalVersion);
+                InformationalVersion = context.Properties.TryGet<string>(BuildProps.InformationalVersion);
 
             if (ProductVersionFieldCount <= 0)
-                ProductVersionFieldCount = context.TryGet(BuildProps.ProductVersionFieldCount, 2);
+                ProductVersionFieldCount = context.Properties.TryGet(BuildProps.ProductVersionFieldCount, 2);
 
             if (BuildVersion == null)
             {

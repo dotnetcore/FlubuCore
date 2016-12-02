@@ -51,7 +51,7 @@ namespace FlubuCore.Tasks.Versioning
         {
             if (_version == null)
             {
-                _version = context.GetBuildVersion();
+                _version = context.Properties.GetBuildVersion();
             }
 
             if (_version == null)
@@ -74,7 +74,7 @@ namespace FlubuCore.Tasks.Versioning
 
                 AdditionalProperties.ForEach(i => task.Update(i, newVersion));
 
-                var ret = task.Execute(context);
+                task.Execute(context);
             }
 
             return res;

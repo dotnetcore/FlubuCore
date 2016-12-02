@@ -21,7 +21,7 @@ namespace FlubuCore.Tasks.Versioning
 
                 if (!string.IsNullOrEmpty(val))
                 {
-                    Version current = context.GetBuildVersion();
+                    Version current = context.Properties.GetBuildVersion();
                     newVer = new Version(current.Major, current.Minor, int.Parse(val));
                     context.SetBuildVersion(newVer);
                     context.LogInfo($"Updated version to {newVer.ToString(3)}");
