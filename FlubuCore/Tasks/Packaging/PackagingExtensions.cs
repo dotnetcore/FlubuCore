@@ -23,7 +23,7 @@ namespace FlubuCore.Tasks.Packaging
 
             foreach (var folder in folders)
             {
-                var fullFolder = Path.Combine(folder, "bin/Debug/netcoreapp1.0/publish");
+                var fullFolder = Path.Combine(folder, "bin/Release/netcoreapp1.1/publish");
 
                 task.AddDirectoryToPackage(
                     folder.GetHashCode().ToString(),

@@ -80,7 +80,7 @@ namespace FlubuCore.Tasks.NetCore
         {
             return new ExecuteDotnetTask(StandardDotnetCommands.Publish)
                 .WorkingFolder(workingFolder)
-                .WithArguments(projectName);
+                .WithArguments(projectName, "-c Release");
         }
 
         public static ExecuteDotnetTask Run(string projectName = null, string workingFolder = null)
