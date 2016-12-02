@@ -69,9 +69,9 @@ namespace FlubuCore.Context.FluentInterface
             return Context.CreateTask<LoadSolutionTask>();
         }
 
-        public LoadSolutionTask LoadSolutionTask(string solutionFile)
+        public LoadSolutionTask LoadSolutionTask(string solutionFileName)
         {
-            return Context.CreateTask<LoadSolutionTask>(solutionFile);
+            return Context.CreateTask<LoadSolutionTask>(solutionFileName);
         }
 
         /// <summary>
