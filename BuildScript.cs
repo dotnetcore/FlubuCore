@@ -20,6 +20,7 @@ public class MyBuildScript : DefaultBuildScript
     {
         context
             .CreateTarget("compile")
+            .SetDescription("Compiles the VS solution")
             .AddTask(x => x.FetchVersionFromExternalSourceTask())
             .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/project.json", "dotnet-flubu/project.json","Flubu.Tests/project.json")
                 .AdditionalProp("dependencies.FlubuCore", "dependencies.dotnet-flubu"))
@@ -30,9 +31,11 @@ public class MyBuildScript : DefaultBuildScript
             .AddCoreTask(x => x.ExecuteDotnetTask("pack").WithArguments("dotnet-flubu", "-c", "Release"));
         
         context.CreateTarget("merge")
+            .SetDescription("Merge's all assemblyes into .net flubu console application")
             .Do(TargetIlMerge);
 
         context.CreateTarget("test")
+            .SetDescription("Runs all tests in solution.")
             .TaskExtensions()
             .DotnetUnitTest("Flubu.Tests");
     }
