@@ -1,11 +1,11 @@
 ﻿using DotNet.Cli.Flubu.Commanding;
 using DotNet.Cli.Flubu.Scripting;
-using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Context.FluentInterface.TaskExtensions;
+using FlubuCore.Tasks;
 using FlubuCore.Tasks.Iis;
-using FlubuCore.Tasks.Iis.Interfaces;
+using FlubuCore.Tasks.Solution;
 using FlubuCore.Tasks.Testing;
 using FlubuCore.Tasks.Versioning;
 using Microsoft.Extensions.CommandLineUtils;
@@ -18,11 +18,16 @@ namespace DotNet.Cli.Flubu.Infrastructure
         public static IServiceCollection AddCommandComponents(this IServiceCollection services)
         {
             services
-                .AddLogging()
                 .AddSingleton<IBuildScriptLocator, BuildScriptLocator>()
                 .AddSingleton<IScriptLoader, ScriptLoader>()
-                .AddSingleton<ICommandExecutor, CommandExecutor>()
-                .AddSingleton<ITaskFluentInterface, TaskFluentInterface>()
+                .AddSingleton<ICommandExecutor, CommandExecutor>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddTasks(this IServiceCollection services)
+        {
+            return services.AddSingleton<ITaskFluentInterface, TaskFluentInterface>()
                 .AddSingleton<IIisTaskFluentInterface, IisTaskFluentInterface>()
                 .AddSingleton<ICoreTaskFluentInterface, CoreTaskFluentInterface>()
                 .AddSingleton<ILinuxTaskFluentInterface, LinuxTaskFluentInterface>()
@@ -37,9 +42,9 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddTransient<ControlAppPoolTask>()
                 .AddTransient<DeleteAppPoolTask>()
                 .AddTransient<AddWebsiteBindingTask>()
-                .AddTransient<OpenCoverTask>();
-
-            return services;
+                .AddTransient<OpenCoverTask>()
+                .AddTask<LoadSolutionTask>()
+                .AddTask<CompileSolutionTask>();
         }
 
         public static IServiceCollection AddArguments(this IServiceCollection services, string[] args)

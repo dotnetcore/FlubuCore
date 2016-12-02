@@ -13,6 +13,7 @@ namespace FlubuCore.Extensions
         public static IServiceCollection AddCoreComponents(this IServiceCollection services)
         {
             services
+                .AddLogging()
                 .AddSingleton<IFileWrapper, FileWrapper>()
                 .AddSingleton<IBuildPropertiesSession, TaskContextSession>()
                 .AddSingleton<TargetTree>()

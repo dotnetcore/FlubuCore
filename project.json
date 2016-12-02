@@ -20,6 +20,7 @@
         "type": "platform",
         "version": "1.0.1"
     },
+    "Microsoft.Extensions.Logging": "1.0.0",
     "dotnet-flubu": "1.0.265"
   },
   "tools": {
