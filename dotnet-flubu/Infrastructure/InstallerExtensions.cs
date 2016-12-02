@@ -27,12 +27,13 @@ namespace DotNet.Cli.Flubu.Infrastructure
 
         public static IServiceCollection AddTasks(this IServiceCollection services)
         {
-            return services.AddSingleton<ITaskFluentInterface, TaskFluentInterface>()
-                .AddSingleton<IIisTaskFluentInterface, IisTaskFluentInterface>()
-                .AddSingleton<ICoreTaskFluentInterface, CoreTaskFluentInterface>()
-                .AddSingleton<ILinuxTaskFluentInterface, LinuxTaskFluentInterface>()
-                .AddSingleton<ITargetFluentInterface, TargetFluentInterface>()
-                .AddSingleton<ITaskExtensionsFluentInterface, TaskExtensionsFluentInterface>()
+            return services
+                .AddTransient<ITaskFluentInterface, TaskFluentInterface>()
+                .AddTransient<IIisTaskFluentInterface, IisTaskFluentInterface>()
+                .AddTransient<ICoreTaskFluentInterface, CoreTaskFluentInterface>()
+                .AddTransient<ILinuxTaskFluentInterface, LinuxTaskFluentInterface>()
+                .AddTransient<ITargetFluentInterface, TargetFluentInterface>()
+                .AddTransient<ITaskExtensionsFluentInterface, TaskExtensionsFluentInterface>()
                 .AddTransient<GenerateCommonAssemblyInfoTask>()
                 .AddTransient<FetchBuildVersionFromFileTask>()
                 .AddTransient<FetchVersionFromExternalSourceTask>()

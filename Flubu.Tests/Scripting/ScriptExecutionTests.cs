@@ -1,12 +1,10 @@
 ﻿using DotNet.Cli.Flubu.Scripting;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
-using FlubuCore.Context.FluentInterface.TaskExtensions;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
-using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
@@ -52,9 +50,7 @@ public class MyBuildScript : DefaultBuildScript
                 new TargetTree(provider, new DotnetTaskFactory(provider)),
                 new CommandArguments(),
                 new DotnetTaskFactory(provider),
-                new CoreTaskFluentInterface(new LinuxTaskFluentInterface()),
-                new TaskFluentInterface(new IisTaskFluentInterface()),
-                new TargetFluentInterface(new TaskFluentInterface(new IisTaskFluentInterface()), new CoreTaskFluentInterface(new LinuxTaskFluentInterface()), new TaskExtensionsFluentInterface()),
+                new FluentInterfaceFactory(provider),
                 new TaskContextSession()));
         }
 
@@ -83,9 +79,7 @@ public class MyBuildScript : IBuildScript
                 new TargetTree(provider, new DotnetTaskFactory(provider)),
                 new CommandArguments(),
                 new DotnetTaskFactory(provider),
-                new CoreTaskFluentInterface(new LinuxTaskFluentInterface()),
-                new TaskFluentInterface(new IisTaskFluentInterface()),
-                new TargetFluentInterface(new TaskFluentInterface(new IisTaskFluentInterface()), new CoreTaskFluentInterface(new LinuxTaskFluentInterface()), new TaskExtensionsFluentInterface()),
+                new FluentInterfaceFactory(provider),
                 new TaskContextSession()));
         }
 

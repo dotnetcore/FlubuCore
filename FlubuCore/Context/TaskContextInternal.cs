@@ -20,10 +20,8 @@ namespace FlubuCore.Context
             CommandArguments args,
             TargetTree targetTree,
             ITaskFactory taskFactory,
-            ICoreTaskFluentInterface coreTaskFluentInterface,
-            ITaskFluentInterface taskFluentInterface,
-            ITargetFluentInterface targetFluent)
-            : base(log, taskFactory, coreTaskFluentInterface, taskFluentInterface, targetFluent, targetTree, taskContextProperties)
+            IFluentInterfaceFactory fluentFactory)
+            : base(log, taskFactory, fluentFactory, targetTree, taskContextProperties)
         {
             Args = args;
         }

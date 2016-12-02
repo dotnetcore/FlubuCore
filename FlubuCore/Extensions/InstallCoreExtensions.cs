@@ -1,4 +1,5 @@
 ﻿using FlubuCore.Context;
+using FlubuCore.Context.FluentInterface;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Services;
 using FlubuCore.Targeting;
@@ -14,6 +15,7 @@ namespace FlubuCore.Extensions
         {
             services
                 .AddLogging()
+                .AddSingleton<IFluentInterfaceFactory, FluentInterfaceFactory>()
                 .AddSingleton<IFileWrapper, FileWrapper>()
                 .AddSingleton<IBuildPropertiesSession, TaskContextSession>()
                 .AddSingleton<TargetTree>()

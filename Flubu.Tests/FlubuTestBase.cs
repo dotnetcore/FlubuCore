@@ -30,9 +30,7 @@ namespace Flubu.Tests
                 new CommandArguments(),
                 new TargetTree(ServiceProvider, Factory),
                 Factory,
-                new CoreTaskFluentInterface(new LinuxTaskFluentInterface()),
-                new TaskFluentInterface(new IisTaskFluentInterface()),
-                new TargetFluentInterface(new TaskFluentInterface(new IisTaskFluentInterface()), new CoreTaskFluentInterface(new LinuxTaskFluentInterface()), new TaskExtensionsFluentInterface()));
+                new FluentInterfaceFactory(ServiceProvider));
         }
 
         protected ITaskFactory Factory { get; }

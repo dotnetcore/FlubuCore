@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FlubuCore.Context;
 using FlubuCore.Targeting;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,7 +31,7 @@ namespace Flubu.Tests.Integration
             ITarget t = session.TargetTree.GetTarget("test");
             ITarget t1 = session.TargetTree.GetTarget("test1");
 
-            //// Assert.Equal(t.TargetName, t1.Dependencies.FirstOrDefault());
+            Assert.Equal(t.TargetName, t1.Dependencies.FirstOrDefault());
         }
     }
 }

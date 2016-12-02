@@ -8,51 +8,48 @@ namespace FlubuCore.Context
 {
     public class TaskContext : BuildPropertiesContext, ITaskContext
     {
-        private readonly ITaskFluentInterface _taskFluentInterface;
-        private readonly ICoreTaskFluentInterface _coreTaskFluentInterface;
         private readonly ITaskFactory _taskFactory;
-        private readonly ITargetFluentInterface _targetFluent;
+        private readonly IFluentInterfaceFactory _fluentFactory;
         private readonly ILogger _log;
 
         public TaskContext(
             ILogger log,
             ITaskFactory taskFactory,
-            ICoreTaskFluentInterface coreTaskFluentInterface,
-            ITaskFluentInterface taskFluentInterface,
-            ITargetFluentInterface targetFluent,
+            IFluentInterfaceFactory fluentFactory,
             TargetTree targetTree,
             IBuildPropertiesSession properties)
             : base(properties)
         {
             _log = log;
             _taskFactory = taskFactory;
-            _taskFluentInterface = taskFluentInterface;
-            _coreTaskFluentInterface = coreTaskFluentInterface;
+            _fluentFactory = fluentFactory;
             TargetTree = targetTree;
-            _targetFluent = targetFluent;
-            _taskFluentInterface.Context = this;
-            _coreTaskFluentInterface.Context = this;
         }
 
         public TargetTree TargetTree { get; }
 
         public ITaskFluentInterface Tasks()
         {
-            return _taskFluentInterface;
+            var t = _fluentFactory.GetTaskFluentInterface();
+            t.Context = this;
+            return t;
         }
 
         public ITargetFluentInterface CreateTarget(string name)
         {
             ITarget target = TargetTree.AddTarget(name);
-            _targetFluent.Target = target;
-            TargetFluentInterface targetFluent = (TargetFluentInterface)_targetFluent;
+            ITargetFluentInterface t = _fluentFactory.GetTargetFluentInterface();
+            t.Target = target;
+            TargetFluentInterface targetFluent = (TargetFluentInterface)t;
             targetFluent.Context = (TaskContextInternal)this;
             return targetFluent;
         }
 
         public ICoreTaskFluentInterface CoreTasks()
         {
-            return _coreTaskFluentInterface;
+            var t = _fluentFactory.GetCoreTaskFluentInterface();
+            t.Context = this;
+            return t;
         }
 
         public void LogInfo(string message)
