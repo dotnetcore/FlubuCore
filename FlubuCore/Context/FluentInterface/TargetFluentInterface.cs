@@ -9,20 +9,15 @@ namespace FlubuCore.Context.FluentInterface
 {
     public class TargetFluentInterface : ITargetFluentInterface
     {
-        private readonly ITaskFluentInterface _taskFluent;
-        private readonly ICoreTaskFluentInterface _coreTaskFluent;
-        private readonly ITaskExtensionsFluentInterface _taskExtensionsFluent;
-
-        public TargetFluentInterface(ITaskFluentInterface taskFluent, ICoreTaskFluentInterface coreTaskFluent, ITaskExtensionsFluentInterface taskExtensionsFluent)
-        {
-            _taskFluent = taskFluent;
-            _coreTaskFluent = coreTaskFluent;
-            _taskExtensionsFluent = taskExtensionsFluent;
-        }
-
         public ITarget Target { get; set; }
 
         public ITaskContextInternal Context { protected get; set; }
+
+        internal ITaskFluentInterface TaskFluent { get; set; }
+
+        internal ICoreTaskFluentInterface CoreTaskFluent { get; set; }
+
+        internal ITaskExtensionsFluentInterface TaskExtensionsFluent { get; set; }
 
         public ITargetFluentInterface DependsOn(params string[] targetNames)
         {
@@ -68,24 +63,24 @@ namespace FlubuCore.Context.FluentInterface
 
         public ITargetFluentInterface AddTask(Func<ITaskFluentInterface, ITask> task)
         {
-            ITask result = task(_taskFluent);
+            ITask result = task(TaskFluent);
             Target.AddTask(result);
             return this;
         }
 
         public ITargetFluentInterface AddCoreTask(Func<ICoreTaskFluentInterface, ITask> task)
         {
-            ITask result = task(_coreTaskFluent);
+            ITask result = task(CoreTaskFluent);
             Target.AddTask(result);
             return this;
         }
 
         public ITaskExtensionsFluentInterface TaskExtensions()
         {
-            TaskExtensionsFluentInterface taskExtensionFluent = (TaskExtensionsFluentInterface)_taskExtensionsFluent;
+            TaskExtensionsFluentInterface taskExtensionFluent = (TaskExtensionsFluentInterface)TaskExtensionsFluent;
             taskExtensionFluent.Target = this;
             taskExtensionFluent.Context = Context;
-            return _taskExtensionsFluent;
+            return TaskExtensionsFluent;
         }
 
         public ITargetFluentInterface AddTask(params ITask[] tasks)

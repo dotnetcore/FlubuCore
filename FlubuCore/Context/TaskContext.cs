@@ -30,26 +30,18 @@ namespace FlubuCore.Context
 
         public ITaskFluentInterface Tasks()
         {
-            var t = _fluentFactory.GetTaskFluentInterface();
-            t.Context = this;
-            return t;
+            return _fluentFactory.GetTaskFluentInterface((ITaskContextInternal)this);
         }
 
         public ITargetFluentInterface CreateTarget(string name)
         {
             ITarget target = TargetTree.AddTarget(name);
-            ITargetFluentInterface t = _fluentFactory.GetTargetFluentInterface();
-            t.Target = target;
-            TargetFluentInterface targetFluent = (TargetFluentInterface)t;
-            targetFluent.Context = (TaskContextInternal)this;
-            return targetFluent;
+            return _fluentFactory.GetTargetFluentInterface(target, (ITaskContextInternal)this);
         }
 
         public ICoreTaskFluentInterface CoreTasks()
         {
-            var t = _fluentFactory.GetCoreTaskFluentInterface();
-            t.Context = this;
-            return t;
+            return _fluentFactory.GetCoreTaskFluentInterface((ITaskContextInternal)this);
         }
 
         public void LogInfo(string message)

@@ -1,13 +1,16 @@
 using FlubuCore.Context.FluentInterface.Interfaces;
+using FlubuCore.Targeting;
 
 namespace FlubuCore.Context.FluentInterface
 {
     public interface IFluentInterfaceFactory
     {
-        ITargetFluentInterface GetTargetFluentInterface();
+        ITargetFluentInterface GetTargetFluentInterface(ITarget target, ITaskContextInternal taskContext);
 
-        ITaskFluentInterface GetTaskFluentInterface();
+        ITaskFluentInterface GetTaskFluentInterface(ITaskContextInternal taskContext);
 
-        ICoreTaskFluentInterface GetCoreTaskFluentInterface();
+        ICoreTaskFluentInterface GetCoreTaskFluentInterface(ITaskContextInternal taskContext);
+
+        ITaskExtensionsFluentInterface GetTaskExtensionsFluentInterface(ITargetFluentInterface target, ITaskContextInternal taskContext);
     }
 }

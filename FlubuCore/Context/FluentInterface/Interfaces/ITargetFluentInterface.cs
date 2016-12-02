@@ -8,6 +8,8 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
     {
         ITarget Target { get; set; }
 
+        ITaskContextInternal Context { set; }
+
         /// <summary>
         ///     Specifies targets on which this target depends on.
         /// </summary>

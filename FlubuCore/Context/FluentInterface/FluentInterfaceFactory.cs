@@ -1,5 +1,6 @@
 ﻿using System;
 using FlubuCore.Context.FluentInterface.Interfaces;
+using FlubuCore.Targeting;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FlubuCore.Context.FluentInterface
@@ -13,19 +14,42 @@ namespace FlubuCore.Context.FluentInterface
             _sp = sp;
         }
 
-        public ICoreTaskFluentInterface GetCoreTaskFluentInterface()
+        public ICoreTaskFluentInterface GetCoreTaskFluentInterface(ITaskContextInternal taskContext)
         {
-            return _sp.GetRequiredService<ICoreTaskFluentInterface>();
+            var t = _sp.GetRequiredService<ICoreTaskFluentInterface>();
+            t.Context = (TaskContext)taskContext;
+            t.LinuxTasks().Context = (TaskContext)taskContext;
+            return t;
         }
 
-        public ITaskFluentInterface GetTaskFluentInterface()
+        public ITaskFluentInterface GetTaskFluentInterface(ITaskContextInternal taskContext)
         {
-            return _sp.GetRequiredService<ITaskFluentInterface>();
+            var t = _sp.GetRequiredService<ITaskFluentInterface>();
+            t.Context = (TaskContext)taskContext;
+            t.IisTasks().Context = (TaskContext)taskContext;
+            return t;
         }
 
-        public ITargetFluentInterface GetTargetFluentInterface()
+        public ITaskExtensionsFluentInterface GetTaskExtensionsFluentInterface(ITargetFluentInterface target, ITaskContextInternal taskContext)
         {
-            return _sp.GetRequiredService<ITargetFluentInterface>();
+            var t = _sp.GetRequiredService<ITaskExtensionsFluentInterface>();
+            t.Target = target;
+            t.Context = taskContext;
+            return t;
+        }
+
+        public ITargetFluentInterface GetTargetFluentInterface(ITarget target, ITaskContextInternal taskContext)
+        {
+            ITargetFluentInterface t = _sp.GetRequiredService<ITargetFluentInterface>();
+            t.Target = target;
+            t.Context = taskContext;
+
+            TargetFluentInterface targetFluent = (TargetFluentInterface)t;
+            targetFluent.CoreTaskFluent = GetCoreTaskFluentInterface(taskContext);
+            targetFluent.TaskExtensionsFluent = GetTaskExtensionsFluentInterface(t, taskContext);
+            targetFluent.TaskFluent = GetTaskFluentInterface(taskContext);
+
+            return t;
         }
     }
 }

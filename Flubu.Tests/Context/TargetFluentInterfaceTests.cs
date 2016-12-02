@@ -19,13 +19,13 @@ namespace Flubu.Tests.Context
             _context = new Mock<ITaskContextInternal>();
             _target = new Mock<ITarget>();
 
-            _fluent = new TargetFluentInterface(
-                new TaskFluentInterface(new IisTaskFluentInterface()),
-                new CoreTaskFluentInterface(new LinuxTaskFluentInterface()),
-                new TaskExtensionsFluentInterface());
+            _fluent = new TargetFluentInterface();
 
             _fluent.Target = _target.Object;
             _fluent.Context = _context.Object;
+            _fluent.CoreTaskFluent = new CoreTaskFluentInterface(new LinuxTaskFluentInterface());
+            _fluent.TaskFluent = new TaskFluentInterface(new IisTaskFluentInterface());
+            _fluent.TaskExtensionsFluent = new TaskExtensionsFluentInterface();
         }
 
         [Fact]

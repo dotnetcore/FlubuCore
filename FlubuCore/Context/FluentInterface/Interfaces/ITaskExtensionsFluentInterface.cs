@@ -4,6 +4,10 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 {
     public interface ITaskExtensionsFluentInterface
     {
+        ITargetFluentInterface Target { set; }
+
+        ITaskContextInternal Context { set; }
+
         ITaskExtensionsFluentInterface UpdateDotnetVersion(string[] projectFiles, string[] additionalProps);
 
         PackageTask CreateDotnetPackage(string zipPrefix, params string[] folders);

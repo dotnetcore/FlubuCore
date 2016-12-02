@@ -12,7 +12,8 @@ namespace Flubu.Tests.Integration
 
         protected override void ConfigureTargets(ITaskContext session)
         {
-            ITargetFluentInterface test = session.CreateTarget("test");
+            ITargetFluentInterface test = session.CreateTarget("test")
+                .AddTask(s => s.CopyFileTask("t1", "t2", false));
 
             ITargetFluentInterface test1 = session.CreateTarget("test1")
                 .DependsOn(test);
