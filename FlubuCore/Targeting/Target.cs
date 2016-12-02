@@ -25,6 +25,8 @@ namespace FlubuCore.Targeting
 
         public ICollection<string> Dependencies => _dependencies;
 
+        public List<ITask> Tasks => _tasks;
+
         /// <summary>
         ///     Gets the description of the target.
         /// </summary>

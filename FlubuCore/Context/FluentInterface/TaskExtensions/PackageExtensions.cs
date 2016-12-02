@@ -6,13 +6,13 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
 {
     public partial class TaskExtensionsFluentInterface
     {
-        public ITaskExtensionsFluentInterface DotnetPackage(string zipPath, params string[] folders)
+        public ITaskExtensionsFluentInterface CreateSimplePackage(string zipPath, params string[] folders)
         {
-            Target.Target.AddTask(CreateDotnetPackage(zipPath, folders));
+            CreatePackage(zipPath, folders);
             return this;
         }
 
-        public PackageTask CreateDotnetPackage(string zipPrefix, params string[] folders)
+        public PackageTask CreatePackage(string zipPrefix, params string[] folders)
         {
             var task = Context.Tasks().PackageTask(string.Empty); // must be string.Empty because of a constuctor
 
@@ -26,6 +26,8 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
                     Path.GetFileName(folder),
                     true);
             }
+
+            Target.Target.AddTask(task);
 
             return task;
         }

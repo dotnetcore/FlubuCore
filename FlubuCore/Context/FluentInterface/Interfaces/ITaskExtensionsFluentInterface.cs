@@ -10,9 +10,9 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 
         ITaskExtensionsFluentInterface UpdateDotnetVersion(string[] projectFiles, string[] additionalProps);
 
-        PackageTask CreateDotnetPackage(string zipPrefix, params string[] folders);
+        PackageTask CreatePackage(string zipPrefix, params string[] folders);
 
-        ITaskExtensionsFluentInterface DotnetPackage(string zipPath, params string[] folders);
+        ITaskExtensionsFluentInterface CreateSimplePackage(string zipPath, params string[] folders);
 
         ITaskExtensionsFluentInterface RunMultiProgram(params string[] programs);
 

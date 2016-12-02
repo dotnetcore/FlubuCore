@@ -17,6 +17,11 @@ namespace Flubu.Tests.Integration
 
             ITargetFluentInterface test1 = session.CreateTarget("test1")
                 .DependsOn(test);
+
+            session.CreateTarget("extensions")
+                .TaskExtensions()
+                .DotnetPublish("33")
+                .CreateSimplePackage("aa", "fdf");
         }
     }
 }
