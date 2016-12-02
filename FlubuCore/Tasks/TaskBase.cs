@@ -47,6 +47,7 @@ namespace FlubuCore.Tasks
         public T Execute(ITaskContext context)
         {
             ITaskContextInternal contextInternal = (ITaskContextInternal)context;
+
             if (context == null)
             {
                 throw new ArgumentNullException(nameof(context));

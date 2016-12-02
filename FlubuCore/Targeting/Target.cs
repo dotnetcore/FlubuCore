@@ -51,7 +51,7 @@ namespace FlubuCore.Targeting
         /// <returns>This same instance of <see cref="ITarget" />.</returns>
         public ITarget DependsOn(params string[] targetNames)
         {
-            foreach (var dependentTargetName in targetNames)
+            foreach (string dependentTargetName in targetNames)
             {
                 _dependencies.Add(dependentTargetName);
             }
@@ -115,7 +115,7 @@ namespace FlubuCore.Targeting
         /// <returns>This same instance of <see cref="ITarget" /></returns>
         public ITarget DependsOn(params ITarget[] targets)
         {
-            foreach (var target in targets)
+            foreach (ITarget target in targets)
             {
                 _dependencies.Add(target.TargetName);
             }
@@ -136,15 +136,18 @@ namespace FlubuCore.Targeting
                 throw new ArgumentNullException(nameof(_targetTree), "TargetTree must be set before Execution of target.");
             }
 
+            context.LogInfo($"Executing target {TargetName}");
+
             _targetTree.MarkTargetAsExecuted(this);
             _targetTree.EnsureDependenciesExecuted(context, TargetName);
 
             // we can have action-less targets (that only depend on other targets)
             _targetAction?.Invoke(context);
 
-            foreach (var task in _tasks)
+            foreach (ITask task in _tasks)
             {
-                 task.ExecuteVoid(context);
+                context.LogInfo($"Executing task {task.GetType().Name}");
+                task.ExecuteVoid(context);
             }
 
             return 0;

@@ -22,7 +22,7 @@ namespace FlubuCore.Context.FluentInterface
 
         public ITarget Target { get; set; }
 
-        public TaskContextInternal Context { protected get; set; }
+        public ITaskContextInternal Context { protected get; set; }
 
         public ITargetFluentInterface DependsOn(params string[] targetNames)
         {
@@ -68,21 +68,21 @@ namespace FlubuCore.Context.FluentInterface
 
         public ITargetFluentInterface AddTask(Func<ITaskFluentInterface, ITask> task)
         {
-            var result = task(_taskFluent);
+            ITask result = task(_taskFluent);
             Target.AddTask(result);
             return this;
         }
 
         public ITargetFluentInterface AddCoreTask(Func<ICoreTaskFluentInterface, ITask> task)
         {
-            var result = task(_coreTaskFluent);
+            ITask result = task(_coreTaskFluent);
             Target.AddTask(result);
             return this;
         }
 
         public ITaskExtensionsFluentInterface TaskExtensions()
         {
-            var taskExtensionFluent = (TaskExtensionsFluentInterface)_taskExtensionsFluent;
+            TaskExtensionsFluentInterface taskExtensionFluent = (TaskExtensionsFluentInterface)_taskExtensionsFluent;
             taskExtensionFluent.Target = this;
             taskExtensionFluent.Context = Context;
             return _taskExtensionsFluent;

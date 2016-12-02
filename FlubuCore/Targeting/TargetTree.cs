@@ -53,13 +53,13 @@ namespace FlubuCore.Targeting
 
         public void EnsureDependenciesExecuted(ITaskContextInternal taskContext, string targetName)
         {
-            var target = _targets[targetName];
-            foreach (var dependency in target.Dependencies)
+            ITarget target = _targets[targetName];
+
+            foreach (string dependency in target.Dependencies)
             {
-                if (!_executedTargets.Contains(dependency))
-                {
-                    RunTarget(taskContext, dependency);
-                }
+                if (_executedTargets.Contains(dependency)) continue;
+
+                RunTarget(taskContext, dependency);
             }
         }
 
