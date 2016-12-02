@@ -17,7 +17,9 @@ namespace FlubuCore.Tasks.Packaging
 
         public PackageTask(string destinationRootDir = null)
         {
-            _destinationRootDir = destinationRootDir;
+            if (!string.IsNullOrEmpty(destinationRootDir))
+                _destinationRootDir = destinationRootDir;
+
             _sourcePackagingInfos = new List<SourcePackagingInfo>();
         }
 

@@ -51,6 +51,9 @@ namespace FlubuCore.Context.FluentInterface
 
         public PackageTask PackageTask(string destinationRootDir)
         {
+            if (destinationRootDir == null)
+                throw new ArgumentNullException(nameof(destinationRootDir));
+
             return Context.CreateTask<PackageTask>(destinationRootDir);
         }
 
@@ -104,8 +107,8 @@ namespace FlubuCore.Context.FluentInterface
           string nunitConsoleFileName,
           string workingDirectory)
         {
-            throw new NotSupportedException("Not supported for now. Create new task without fluent interface.");
-            ////return _context.CreateTask<NUnitTask>(testAssemblyFileName, nunitConsoleFileName, workingDirectory);
+            return new NUnitTask(testAssemblyFileName, nunitConsoleFileName)
+                .SetWorkingDirectory(workingDirectory);
         }
 
         public ReplaceTokensTask ReplaceTokensTask(
@@ -137,7 +140,7 @@ namespace FlubuCore.Context.FluentInterface
 
         public CoverageReportTask CoverageReportTask(params string[] inputFiles)
         {
-            return Context.CreateTask<CoverageReportTask>(inputFiles);
+            return new CoverageReportTask(inputFiles);
         }
 
         public OpenCoverToCoberturaTask OpenCoverToCoberturaTask(string input, string output)

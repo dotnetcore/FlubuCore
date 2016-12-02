@@ -14,7 +14,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
 
         public PackageTask CreateDotnetPackage(string zipPrefix, params string[] folders)
         {
-            var task = Context.Tasks().PackageTask(null);
+            var task = Context.Tasks().PackageTask(string.Empty); // must be string.Empty because of a constuctor
 
             foreach (var folder in folders)
             {

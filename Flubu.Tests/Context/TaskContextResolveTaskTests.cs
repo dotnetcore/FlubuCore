@@ -1,4 +1,5 @@
-﻿using FlubuCore.Tasks.NetCore;
+﻿using System;
+using FlubuCore.Tasks.NetCore;
 using Xunit;
 
 namespace Flubu.Tests.Context
@@ -68,7 +69,7 @@ namespace Flubu.Tests.Context
             Context.Tasks().NUnitTask("pn", "tt");
         }
 
-        [Fact(Skip = "Not supported for now.")]
+        [Fact]
         public void ResolveNunitTaskTest3()
         {
             Context.Tasks().NUnitTask("pn", "tt", "xx");
@@ -86,7 +87,7 @@ namespace Flubu.Tests.Context
             Context.Tasks().NUnitTaskForNunitV2("test");
         }
 
-        [Fact(Skip = "Not supported for now.")]
+        [Fact]
         public void ResolveCoverageReportTaskTest()
         {
             Context.Tasks().CoverageReportTask("a", "b");
@@ -228,6 +229,18 @@ namespace Flubu.Tests.Context
         public void ResolveLinuxSystemCtlTask()
         {
           Assert.NotNull(Context.CoreTasks().LinuxTasks().SystemCtlTask("cmd", "srvice"));
+        }
+
+        [Fact]
+        public void ResolvePackageTask()
+        {
+            Context.Tasks().PackageTask(string.Empty);
+        }
+
+        [Fact]
+        public void ResolvePackageTaskWithNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => Context.Tasks().PackageTask(null));
         }
     }
 }

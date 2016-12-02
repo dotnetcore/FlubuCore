@@ -1,10 +1,5 @@
 ﻿using FlubuCore.Context;
 using FlubuCore.Scripting;
-using FlubuCore.Targeting;
-using FlubuCore.Tasks.NetCore;
-using FlubuCore.Tasks.Testing;
-using FlubuCore.Tasks.Versioning;
-using System.IO;
 
 public class MyBuildScript : DefaultBuildScript
 {
