@@ -57,7 +57,8 @@ namespace FlubuCore.Targeting
 
             foreach (string dependency in target.Dependencies)
             {
-                if (_executedTargets.Contains(dependency)) continue;
+                if (_executedTargets.Contains(dependency))
+                    continue;
 
                 RunTarget(taskContext, dependency);
             }
