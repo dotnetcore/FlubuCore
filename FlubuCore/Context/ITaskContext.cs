@@ -11,7 +11,7 @@ namespace FlubuCore.Context
     public interface ITaskContext : IBuildPropertiesContext
     {
         /// <summary>
-        /// The <see cref="TargetTree"/> 
+        /// The <see cref="TargetTree"/>
         /// </summary>
         TargetTree TargetTree { get; }
 
@@ -26,7 +26,6 @@ namespace FlubuCore.Context
         /// </summary>
         /// <returns></returns>
         ITaskFluentInterface Tasks();
-
 
         /// <summary>
         /// Fluent interface for target creation. It creates The target and Add's it to TargetTree.
