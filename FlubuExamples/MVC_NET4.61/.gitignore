@@ -1,0 +1,9 @@
+BuildScripts/bin/
+FlubuExample/bin/
+FlubuExample/obj/Release/FlubuExample.dll
+FlubuExample/obj/
+FlubuExample.Tests/bin/
+FlubuExample.Tests/obj/
+BuildScripts/obj/
+Builds/packages/FlubuExample/bin/Microsoft.Data.OData.dll
+Builds/
