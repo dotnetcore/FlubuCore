@@ -7,6 +7,8 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
     {
         TaskContext Context { get; set; }
 
+        ILinuxTaskFluentInterface LinuxTasks();
+
         ExecuteDotnetTask ExecuteDotnetTask(string command);
 
         ExecuteDotnetTask ExecuteDotnetTask(StandardDotnetCommands command);
@@ -15,6 +17,13 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 
         UpdateNetCoreVersionTask UpdateNetCoreVersionTask(params string[] files);
 
-        ILinuxTaskFluentInterface LinuxTasks();
+        ExecuteDotnetTask Restore(string projectName = null, string workingFolder = null);
+
+        ExecuteDotnetTask Publish(
+            string projectName = null,
+            string workingFolder = null,
+            string configuration = "Release");
+
+        ExecuteDotnetTask Build(string projectName = null, string workingFolder = null);
     }
 }

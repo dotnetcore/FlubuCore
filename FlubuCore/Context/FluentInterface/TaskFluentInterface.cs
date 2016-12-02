@@ -185,5 +185,15 @@ namespace FlubuCore.Context.FluentInterface
         {
             return Context.CreateTask<MergeConfigurationTask>(outFile);
         }
+
+        public MergeConfigurationTask MergeConfigurationTask(string outFile, params string[] sourceFiles)
+        {
+            return Context.CreateTask<MergeConfigurationTask>(outFile, sourceFiles);
+        }
+
+        public ReplaceTextTask ReplaceTextTask(string sourceFile, params Tuple<string, string>[] tokens)
+        {
+            return Context.CreateTask<ReplaceTextTask>(sourceFile).Replace(tokens);
+        }
     }
 }

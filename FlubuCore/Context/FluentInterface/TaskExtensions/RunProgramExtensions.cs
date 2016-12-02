@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FlubuCore.Context.FluentInterface.Interfaces;
-using FlubuCore.Targeting;
+﻿using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Tasks;
-using FlubuCore.Tasks.Process;
-using Microsoft.DotNet.Cli.Utils;
 
 namespace FlubuCore.Context.FluentInterface.TaskExtensions
 {

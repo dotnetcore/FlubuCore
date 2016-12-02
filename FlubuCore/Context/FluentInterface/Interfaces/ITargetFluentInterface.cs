@@ -26,6 +26,18 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITargetFluentInterface DependsOn(params ITarget[] targets);
 
+        /// <summary>
+        ///     Specifies targets on which this target depends on.
+        /// </summary>
+        /// <param name="targets">The dependency target names.</param>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
+        ITargetFluentInterface DependsOn(params ITargetFluentInterface[] targets);
+
+        /// <summary>
+        /// Execute custom code in script.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITargetFluentInterface Do(Action<ITaskContextInternal> targetAction);
 
         /// <summary>
@@ -44,23 +56,30 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         ITargetFluentInterface SetAsHidden();
 
         /// <summary>
+        /// Add multiple tasks to the target.
+        /// </summary>
+        /// <param name="tasks">Array of <see cref="ITask"/> to add.</param>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
+        ITargetFluentInterface AddTask(params ITask[] tasks);
+
+        /// <summary>
         /// Add's the task to the target.
         /// </summary>
         /// <param name="task">The task to be added</param>
-        /// <returns></returns>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITargetFluentInterface AddTask(Func<ITaskFluentInterface, ITask> task);
 
         /// <summary>
         /// Add's the .net core task to the target.
         /// </summary>
         /// <param name="task">The .net core task to be added</param>
-        /// <returns></returns>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITargetFluentInterface AddCoreTask(Func<ICoreTaskFluentInterface, ITask> task);
 
         /// <summary>
         /// Task extensions for various tasks(Fluent interface).
         /// </summary>
-        /// <returns></returns>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITaskExtensionsFluentInterface TaskExtensions();
     }
 }

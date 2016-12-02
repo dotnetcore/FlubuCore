@@ -59,7 +59,7 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void ExecuteCommandTargetTreeCreate()
         {
-            ExecuteDotnetTask task = Dotnet.Restore();
+            ExecuteDotnetTask task = new ExecuteDotnetTask(StandardDotnetCommands.Restore);
             task.DotnetExecutable("C:/Program Files/dotnet/dotnet.exe");
 
             int res = task.Execute(Context);

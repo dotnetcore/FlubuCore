@@ -1,5 +1,4 @@
 ﻿using FlubuCore.Context.FluentInterface.Interfaces;
-using FlubuCore.Targeting;
 
 namespace FlubuCore.Context.FluentInterface.TaskExtensions
 {

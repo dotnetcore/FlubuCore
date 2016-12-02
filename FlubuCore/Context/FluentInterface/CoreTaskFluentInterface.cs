@@ -42,5 +42,36 @@ namespace FlubuCore.Context.FluentInterface
             _linuxFluent.Context = Context;
             return _linuxFluent;
         }
+
+        public ExecuteDotnetTask Restore(string projectName = null, string workingFolder = null)
+        {
+            ExecuteDotnetTask ret = new ExecuteDotnetTask(StandardDotnetCommands.Restore);
+
+            if (!string.IsNullOrEmpty(workingFolder))
+            {
+                ret.WorkingFolder(workingFolder);
+            }
+
+            if (!string.IsNullOrEmpty(projectName))
+            {
+                ret.WithArguments(projectName);
+            }
+
+            return ret;
+        }
+
+        public ExecuteDotnetTask Publish(string projectName = null, string workingFolder = null, string configuration = "Release")
+        {
+            return new ExecuteDotnetTask(StandardDotnetCommands.Publish)
+                .WorkingFolder(workingFolder)
+                .WithArguments(projectName, "-c", configuration);
+        }
+
+        public ExecuteDotnetTask Build(string projectName = null, string workingFolder = null)
+        {
+            return new ExecuteDotnetTask(StandardDotnetCommands.Build)
+                .WorkingFolder(workingFolder)
+                .WithArguments(projectName);
+        }
     }
 }

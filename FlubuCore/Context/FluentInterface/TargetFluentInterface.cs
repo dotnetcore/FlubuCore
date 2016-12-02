@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Context.FluentInterface.TaskExtensions;
 using FlubuCore.Targeting;
@@ -13,17 +10,13 @@ namespace FlubuCore.Context.FluentInterface
     public class TargetFluentInterface : ITargetFluentInterface
     {
         private readonly ITaskFluentInterface _taskFluent;
-
         private readonly ICoreTaskFluentInterface _coreTaskFluent;
-
         private readonly ITaskExtensionsFluentInterface _taskExtensionsFluent;
 
         public TargetFluentInterface(ITaskFluentInterface taskFluent, ICoreTaskFluentInterface coreTaskFluent, ITaskExtensionsFluentInterface taskExtensionsFluent)
         {
             _taskFluent = taskFluent;
-
             _coreTaskFluent = coreTaskFluent;
-
             _taskExtensionsFluent = taskExtensionsFluent;
         }
 
@@ -40,6 +33,12 @@ namespace FlubuCore.Context.FluentInterface
         public ITargetFluentInterface DependsOn(params ITarget[] targets)
         {
             Target.DependsOn(targets);
+            return this;
+        }
+
+        public ITargetFluentInterface DependsOn(params ITargetFluentInterface[] targets)
+        {
+            Target.DependsOn(targets.Select(i => i.Target).ToArray());
             return this;
         }
 
@@ -87,6 +86,12 @@ namespace FlubuCore.Context.FluentInterface
             taskExtensionFluent.Target = this;
             taskExtensionFluent.Context = Context;
             return _taskExtensionsFluent;
+        }
+
+        public ITargetFluentInterface AddTask(params ITask[] tasks)
+        {
+            Target.AddTask(tasks);
+            return this;
         }
     }
 }

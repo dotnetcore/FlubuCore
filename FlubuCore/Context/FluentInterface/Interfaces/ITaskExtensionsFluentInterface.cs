@@ -19,5 +19,13 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         ITaskExtensionsFluentInterface DotnetCoverage(params string[] projects);
 
         ITaskExtensionsFluentInterface DotnetCoverage(string projectPath, string output, params string[] excludeList);
+
+        ITaskExtensionsFluentInterface DotnetCoverage(string projectPath, string[] includeList, string[] excludeList);
+
+        ITaskExtensionsFluentInterface DotnetRestore(params string[] projects);
+
+        ITaskExtensionsFluentInterface DotnetPublish(params string[] projects);
+
+        ITaskExtensionsFluentInterface DotnetBuild(params string[] projects);
     }
 }

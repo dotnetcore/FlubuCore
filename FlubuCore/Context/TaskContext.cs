@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FlubuCore.Context.FluentInterface;
+﻿using FlubuCore.Context.FluentInterface;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
@@ -13,13 +9,9 @@ namespace FlubuCore.Context
     public class TaskContext : BuildPropertiesContext, ITaskContext
     {
         private readonly ITaskFluentInterface _taskFluentInterface;
-
         private readonly ICoreTaskFluentInterface _coreTaskFluentInterface;
-
         private readonly ITaskFactory _taskFactory;
-
         private readonly ITargetFluentInterface _targetFluent;
-
         private readonly ILogger _log;
 
         public TaskContext(
@@ -51,9 +43,9 @@ namespace FlubuCore.Context
 
         public ITargetFluentInterface CreateTarget(string name)
         {
-            var target = TargetTree.AddTarget(name);
+            ITarget target = TargetTree.AddTarget(name);
             _targetFluent.Target = target;
-            var targetFluent = (TargetFluentInterface)_targetFluent;
+            TargetFluentInterface targetFluent = (TargetFluentInterface)_targetFluent;
             targetFluent.Context = (TaskContextInternal)this;
             return targetFluent;
         }
@@ -74,7 +66,7 @@ namespace FlubuCore.Context
         }
 
         internal T CreateTask<T>()
-        where T : ITask
+            where T : ITask
         {
             return _taskFactory.Create<T>();
         }

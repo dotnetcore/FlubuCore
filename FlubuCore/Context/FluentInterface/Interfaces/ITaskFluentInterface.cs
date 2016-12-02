@@ -1,4 +1,5 @@
-﻿using FlubuCore.Tasks.FileSystem;
+﻿using System;
+using FlubuCore.Tasks.FileSystem;
 using FlubuCore.Tasks.Nuget;
 using FlubuCore.Tasks.Packaging;
 using FlubuCore.Tasks.Process;
@@ -107,5 +108,9 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         DeleteFilesTask DeleteFilesTask(string directoryPath, string filePattern, bool recursive);
 
         MergeConfigurationTask MergeConfigurationTask(string outFile);
+
+        MergeConfigurationTask MergeConfigurationTask(string outFile, params string[] sourceFiles);
+
+        ReplaceTextTask ReplaceTextTask(string sourceFile, params Tuple<string, string>[] tokens);
     }
 }
