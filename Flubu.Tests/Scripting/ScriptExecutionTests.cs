@@ -1,6 +1,7 @@
 ﻿using DotNet.Cli.Flubu.Scripting;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
+using FlubuCore.Context.FluentInterface.TaskExtensions;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
@@ -38,7 +39,7 @@ public class MyBuildScript : DefaultBuildScript
         System.Console.WriteLine(""2222"");
         }
 
-        protected override void ConfigureTargets(ITaskSession session)
+        protected override void ConfigureTargets(ITaskContext context)
         {
             Console.WriteLine(""2222"");
         }
@@ -48,12 +49,13 @@ public class MyBuildScript : DefaultBuildScript
             var provider = new ServiceCollection().BuildServiceProvider();
             t.Run(new TaskSession(
                 null,
-                new TaskContextSession(),
                 new TargetTree(provider, new DotnetTaskFactory(provider)),
                 new CommandArguments(),
                 new DotnetTaskFactory(provider),
-                new CoreTaskFluentInterface(),
-                new TaskFluentInterface(new IisTaskFluentInterface(), new LinuxTaskFluentInterface())));
+                new CoreTaskFluentInterface(new LinuxTaskFluentInterface()),
+                new TaskFluentInterface(new IisTaskFluentInterface()),
+                new TargetFluentInterface(new TaskFluentInterface(new IisTaskFluentInterface()), new CoreTaskFluentInterface(new LinuxTaskFluentInterface()), new TaskExtensionsFluentInterface()),
+                new TaskContextSession()));
         }
 
         [Fact]
@@ -78,12 +80,13 @@ public class MyBuildScript : IBuildScript
             var provider = new ServiceCollection().BuildServiceProvider();
             t.Run(new TaskSession(
                 null,
-                new TaskContextSession(),
                 new TargetTree(provider, new DotnetTaskFactory(provider)),
                 new CommandArguments(),
                 new DotnetTaskFactory(provider),
-                new CoreTaskFluentInterface(),
-                new TaskFluentInterface(new IisTaskFluentInterface(), new LinuxTaskFluentInterface())));
+                new CoreTaskFluentInterface(new LinuxTaskFluentInterface()),
+                new TaskFluentInterface(new IisTaskFluentInterface()),
+                new TargetFluentInterface(new TaskFluentInterface(new IisTaskFluentInterface()), new CoreTaskFluentInterface(new LinuxTaskFluentInterface()), new TaskExtensionsFluentInterface()),
+                new TaskContextSession()));
         }
 
         [Theory]

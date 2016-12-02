@@ -16,25 +16,27 @@ public class MyBuildScript : DefaultBuildScript
         context.Properties.Set(BuildProps.ProductName, "FlubuCore");
     }
 
-    protected override void ConfigureTargets(ITaskSession session)
+    protected override void ConfigureTargets(ITaskContext context)
     {
-        session
+        context
             .CreateTarget("compile")
-            .AddTask(new FetchVersionFromExternalSourceTask())
-            .AddTask(new UpdateNetCoreVersionTask("FlubuCore/project.json", "dotnet-flubu/project.json",
-                    "Flubu.Tests/project.json")
+            .SetDescription("Compiles the VS solution")
+            .AddTask(x => x.FetchVersionFromExternalSourceTask())
+            .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/project.json", "dotnet-flubu/project.json","Flubu.Tests/project.json")
                 .AdditionalProp("dependencies.FlubuCore", "dependencies.dotnet-flubu"))
-            .AddTask(new ExecuteDotnetTask("restore").WithArguments("FlubuCore"))
-            .AddTask(new ExecuteDotnetTask("restore").WithArguments("dotnet-flubu"))
-            .AddTask(new ExecuteDotnetTask("restore").WithArguments("Flubu.Tests"))
-            .AddTask(new ExecuteDotnetTask("pack").WithArguments("FlubuCore", "-c", "Release"))
-            .AddTask(new ExecuteDotnetTask("pack").WithArguments("dotnet-flubu", "-c", "Release"));
-
-        session.CreateTarget("merge")
+            .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("FlubuCore"))
+            .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("dotnet-flubu"))
+            .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("Flubu.Tests"))
+            .AddCoreTask(x => x.ExecuteDotnetTask("pack").WithArguments("FlubuCore", "-c", "Release"))
+            .AddCoreTask(x => x.ExecuteDotnetTask("pack").WithArguments("dotnet-flubu", "-c", "Release"));
+        
+        context.CreateTarget("merge")
+            .SetDescription("Merge's all assemblyes into .net flubu console application")
             .Do(TargetIlMerge);
 
-        session
-            .CreateTarget("test")
+        context.CreateTarget("test")
+            .SetDescription("Runs all tests in solution.")
+            .TaskExtensions()
             .DotnetUnitTest("Flubu.Tests");
     }
 
@@ -49,9 +51,7 @@ public class MyBuildScript : DefaultBuildScript
             .WithArguments("dotnet-flubu.exe")
             .WithArguments("--include")
             .WithArguments("*.dll")
-            
             .WithArguments("--move")
-
             .Execute(context);
     }
 }

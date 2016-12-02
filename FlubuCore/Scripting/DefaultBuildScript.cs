@@ -28,9 +28,9 @@ namespace FlubuCore.Scripting
 
         protected abstract void ConfigureBuildProperties(IBuildPropertiesContext context);
 
-        protected abstract void ConfigureTargets(ITaskSession session);
+        protected abstract void ConfigureTargets(ITaskContext session);
 
-        private static string ParseCmdLineArgs(ITaskContext context, TargetTree targetTree)
+        private static string ParseCmdLineArgs(ITaskContextInternal context, TargetTree targetTree)
         {
             if (string.IsNullOrEmpty(context.Args.MainCommand))
             {

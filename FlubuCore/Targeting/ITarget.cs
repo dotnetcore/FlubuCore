@@ -34,7 +34,7 @@ namespace FlubuCore.Targeting
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITarget DependsOn(params ITarget[] targets);
 
-        ITarget Do(Action<ITaskContext> targetAction);
+        ITarget Do(Action<ITaskContextInternal> targetAction);
 
         /// <summary>
         ///     Overrides any previously specified target action with the new one.
@@ -42,7 +42,7 @@ namespace FlubuCore.Targeting
         /// <param name="targetAction">The new target action to perform.</param>
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         /// <remarks>The method works even if no target action was specified before.</remarks>
-        ITarget OverrideDo(Action<ITaskContext> targetAction);
+        ITarget OverrideDo(Action<ITaskContextInternal> targetAction);
 
         /// <summary>
         ///     Sets the target as the default target for the runner.
@@ -59,6 +59,6 @@ namespace FlubuCore.Targeting
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITarget SetAsHidden();
 
-        ITarget AddTask(params ITask[] tasks);
+        ITarget AddTask(params ITask[] task);
     }
 }

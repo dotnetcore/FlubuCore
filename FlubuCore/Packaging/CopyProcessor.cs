@@ -9,7 +9,7 @@ namespace FlubuCore.Packaging
 {
     public class CopyProcessor : IPackageProcessor
     {
-        private readonly ITaskContext _taskContext;
+        private readonly ITaskContextInternal _taskContext;
 
         private readonly ICopier _copier;
 
@@ -22,7 +22,7 @@ namespace FlubuCore.Packaging
 
         private IFileFilter _filter;
 
-        public CopyProcessor(ITaskContext taskContext, ICopier copier, FullPath destinationRootDir)
+        public CopyProcessor(ITaskContextInternal taskContext, ICopier copier, FullPath destinationRootDir)
         {
             _taskContext = taskContext;
             _copier = copier;

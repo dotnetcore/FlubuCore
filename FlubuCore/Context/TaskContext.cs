@@ -1,52 +1,66 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using FlubuCore.Context.FluentInterface;
-using FlubuCore.Scripting;
+using FlubuCore.Context.FluentInterface.Interfaces;
+using FlubuCore.Targeting;
 using FlubuCore.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace FlubuCore.Context
 {
-    public class TaskContext : ITaskContext
+    public class TaskContext : BuildPropertiesContext, ITaskContext
     {
-        private readonly ILogger _log;
-
-        private readonly ITaskFactory _taskFactory;
-
         private readonly ITaskFluentInterface _taskFluentInterface;
 
         private readonly ICoreTaskFluentInterface _coreTaskFluentInterface;
 
-        private bool _disposed;
+        private readonly ITaskFactory _taskFactory;
 
-        private int _executionDepth;
+        private readonly ITargetFluentInterface _targetFluent;
+
+        private readonly ILogger _log;
 
         public TaskContext(
             ILogger log,
-            IBuildPropertiesSession taskContextProperties,
-            CommandArguments args,
             ITaskFactory taskFactory,
             ICoreTaskFluentInterface coreTaskFluentInterface,
-            ITaskFluentInterface taskFluentInterface)
+            ITaskFluentInterface taskFluentInterface,
+            ITargetFluentInterface targetFluent,
+            TargetTree targetTree,
+            IBuildPropertiesSession properties)
+            : base(properties)
         {
             _log = log;
             _taskFactory = taskFactory;
-            Args = args;
-            Properties = taskContextProperties;
-            _coreTaskFluentInterface = coreTaskFluentInterface;
             _taskFluentInterface = taskFluentInterface;
+            _coreTaskFluentInterface = coreTaskFluentInterface;
+            TargetTree = targetTree;
+            _targetFluent = targetFluent;
             _taskFluentInterface.Context = this;
             _coreTaskFluentInterface.Context = this;
         }
 
-        public IBuildPropertiesSession Properties { get; }
+        public TargetTree TargetTree { get; }
 
-        public CommandArguments Args { get; }
-
-        public bool IsInteractive { get; set; } = true;
-
-        public void IncreaseDepth()
+        public ITaskFluentInterface Tasks()
         {
-            _executionDepth++;
+            return _taskFluentInterface;
+        }
+
+        public ITargetFluentInterface CreateTarget(string name)
+        {
+            var target = TargetTree.AddTarget(name);
+            _targetFluent.Target = target;
+            var targetFluent = (TargetFluentInterface)_targetFluent;
+            targetFluent.Context = (TaskContextInternal)this;
+            return targetFluent;
+        }
+
+        public ICoreTaskFluentInterface CoreTasks()
+        {
+            return _coreTaskFluentInterface;
         }
 
         public void LogInfo(string message)
@@ -59,35 +73,8 @@ namespace FlubuCore.Context
             _log?.LogError(message);
         }
 
-        public ITaskFluentInterface Tasks()
-        {
-            return _taskFluentInterface;
-        }
-
-        public ICoreTaskFluentInterface CoreTasks()
-        {
-            return _coreTaskFluentInterface;
-        }
-
-        public void DecreaseDepth()
-        {
-            _executionDepth--;
-        }
-
-        public void Fail(string message, int errorCode = 0)
-        {
-            LogError(message);
-            throw new TaskExecutionException(message, errorCode);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
         internal T CreateTask<T>()
-            where T : ITask
+        where T : ITask
         {
             return _taskFactory.Create<T>();
         }
@@ -96,16 +83,6 @@ namespace FlubuCore.Context
             where T : ITask
         {
             return _taskFactory.Create<T>(constructorArgs);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposed || !disposing)
-            {
-                return;
-            }
-
-            _disposed = true;
         }
     }
 }

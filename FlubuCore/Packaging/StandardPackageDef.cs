@@ -5,7 +5,7 @@ namespace FlubuCore.Packaging
 {
     public class StandardPackageDef : CompositeFilesSource, IPackageDef
     {
-        private readonly ITaskContext _taskContext;
+        private readonly ITaskContextInternal _taskContext;
 
         private readonly IDirectoryFilesLister _fileLister = new DirectoryFilesLister();
 
@@ -19,13 +19,13 @@ namespace FlubuCore.Packaging
         {
         }
 
-        public StandardPackageDef(string id, ITaskContext taskContext)
+        public StandardPackageDef(string id, ITaskContextInternal taskContext)
             : base(id)
         {
             _taskContext = taskContext;
         }
 
-        public StandardPackageDef(string id, ITaskContext taskContext, IDirectoryFilesLister directoryFilesLister)
+        public StandardPackageDef(string id, ITaskContextInternal taskContext, IDirectoryFilesLister directoryFilesLister)
             : base(id)
         {
             _taskContext = taskContext;

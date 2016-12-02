@@ -1,4 +1,5 @@
-﻿using FlubuCore.Tasks.Linux;
+﻿using FlubuCore.Context.FluentInterface.Interfaces;
+using FlubuCore.Tasks.Linux;
 
 namespace FlubuCore.Context.FluentInterface
 {

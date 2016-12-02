@@ -41,7 +41,7 @@ namespace FlubuCore.Tasks.Process
             return this;
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             if (_commandFactory == null)
                 _commandFactory = new CommandFactory();

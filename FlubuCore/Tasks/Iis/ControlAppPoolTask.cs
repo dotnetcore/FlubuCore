@@ -36,7 +36,7 @@ namespace FlubuCore.Tasks.Iis
             set { _failIfNotExist = value; }
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             using (ServerManager serverManager = new ServerManager())
             {

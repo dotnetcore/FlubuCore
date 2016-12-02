@@ -6,7 +6,7 @@ namespace FlubuCore.Packaging
 {
     public class DirectorySource : IFilesSource
     {
-        private readonly ITaskContext _taskContext;
+        private readonly ITaskContextInternal _taskContext;
 
         private readonly IDirectoryFilesLister _directoryFilesLister;
 
@@ -17,7 +17,7 @@ namespace FlubuCore.Packaging
         private readonly bool _recursive = true;
 
         public DirectorySource(
-            ITaskContext taskContext,
+            ITaskContextInternal taskContext,
             IDirectoryFilesLister directoryFilesLister,
             string id,
             FullPath directoryName)
@@ -27,7 +27,7 @@ namespace FlubuCore.Packaging
         }
 
         public DirectorySource(
-            ITaskContext taskContext,
+            ITaskContextInternal taskContext,
             IDirectoryFilesLister directoryFilesLister,
             string id,
             FullPath directoryName,
@@ -48,7 +48,7 @@ namespace FlubuCore.Packaging
         private IFileFilter Filter { get; set; }
 
         public static DirectorySource NoFilterSource(
-           ITaskContext taskContext,
+           ITaskContextInternal taskContext,
            IDirectoryFilesLister directoryFilesLister,
            string id,
            FullPath directoryName,
@@ -58,7 +58,7 @@ namespace FlubuCore.Packaging
         }
 
         public static DirectorySource WebFilterSource(
-            ITaskContext taskContext,
+            ITaskContextInternal taskContext,
             IDirectoryFilesLister directoryFilesLister,
             string id,
             FullPath directoryName,

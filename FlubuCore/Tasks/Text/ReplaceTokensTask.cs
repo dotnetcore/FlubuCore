@@ -61,7 +61,7 @@ namespace FlubuCore.Tasks.Text
             _tokens.Add(token, value);
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             string tokenizedContent = File.ReadAllText(_sourceFileName, _sourceFileEncoding);
 

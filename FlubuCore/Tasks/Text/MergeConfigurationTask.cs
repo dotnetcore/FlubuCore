@@ -23,7 +23,7 @@ namespace FlubuCore.Tasks.Text
             _sourceFiles.AddRange(sourceFiles);
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             JObject dest = new JObject();
 

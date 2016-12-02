@@ -2,6 +2,8 @@
 using DotNet.Cli.Flubu.Scripting;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
+using FlubuCore.Context.FluentInterface.Interfaces;
+using FlubuCore.Context.FluentInterface.TaskExtensions;
 using FlubuCore.Tasks.Iis;
 using FlubuCore.Tasks.Iis.Interfaces;
 using FlubuCore.Tasks.Testing;
@@ -24,6 +26,8 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddSingleton<IIisTaskFluentInterface, IisTaskFluentInterface>()
                 .AddSingleton<ICoreTaskFluentInterface, CoreTaskFluentInterface>()
                 .AddSingleton<ILinuxTaskFluentInterface, LinuxTaskFluentInterface>()
+                .AddSingleton<ITargetFluentInterface, TargetFluentInterface>()
+                .AddSingleton<ITaskExtensionsFluentInterface, TaskExtensionsFluentInterface>()
                 .AddTransient<GenerateCommonAssemblyInfoTask>()
                 .AddTransient<FetchBuildVersionFromFileTask>()
                 .AddTransient<FetchVersionFromExternalSourceTask>()
@@ -32,7 +36,8 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddTransient<CreateWebApplicationTask>()
                 .AddTransient<ControlAppPoolTask>()
                 .AddTransient<DeleteAppPoolTask>()
-                .AddTransient<AddWebsiteBindingTask>();
+                .AddTransient<AddWebsiteBindingTask>()
+                .AddTransient<OpenCoverTask>();
 
             return services;
         }

@@ -46,7 +46,7 @@ namespace FlubuCore.Tasks.Text
             return this;
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             context.LogInfo($"Replacing text in file {_sourceFileName}");
 

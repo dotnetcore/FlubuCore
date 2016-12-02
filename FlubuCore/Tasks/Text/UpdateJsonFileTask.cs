@@ -82,7 +82,7 @@ namespace FlubuCore.Tasks.Text
             return this;
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             if (!File.Exists(_fileName))
             {

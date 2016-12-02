@@ -13,7 +13,10 @@ namespace FlubuCore.Tasks.Versioning
 
         public UpdateNetCoreVersionTask(string filePath)
         {
-            _files.Add(filePath);
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                _files.Add(filePath);
+            }
         }
 
         public UpdateNetCoreVersionTask(params string[] files)
@@ -38,7 +41,13 @@ namespace FlubuCore.Tasks.Versioning
             return this;
         }
 
-        protected override int DoExecute(ITaskContext context)
+        public UpdateNetCoreVersionTask AddFiles(params string[] files)
+        {
+            _files.AddRange(files);
+            return this;
+        }
+
+        protected override int DoExecute(ITaskContextInternal context)
         {
             if (_version == null)
             {

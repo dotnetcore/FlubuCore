@@ -18,7 +18,7 @@ namespace FlubuCore.Tasks.Linux
             _service = service;
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             IRunProgramTask task = context.Tasks().RunProgramTask("systemctl")
                 .WithArguments(_command, _service);

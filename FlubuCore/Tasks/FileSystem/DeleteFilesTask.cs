@@ -17,7 +17,7 @@ namespace FlubuCore.Tasks.FileSystem
         }
 
         public static void Execute(
-            ITaskContext context,
+            ITaskContextInternal context,
             string directoryPath,
             string filePattern,
             bool recursive)
@@ -26,7 +26,7 @@ namespace FlubuCore.Tasks.FileSystem
             task.ExecuteVoid(context);
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             context.LogInfo($"Delete files from directory {_directoryPath} matching pattern '{_filePattern}'");
 

@@ -1,7 +1,7 @@
 ﻿using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Versioning;
 
-namespace FlubuCore.Context.FluentInterface
+namespace FlubuCore.Context.FluentInterface.Interfaces
 {
     public interface ICoreTaskFluentInterface
     {
@@ -14,5 +14,7 @@ namespace FlubuCore.Context.FluentInterface
         UpdateNetCoreVersionTask UpdateNetCoreVersionTask(string filePath);
 
         UpdateNetCoreVersionTask UpdateNetCoreVersionTask(params string[] files);
+
+        ILinuxTaskFluentInterface LinuxTasks();
     }
 }

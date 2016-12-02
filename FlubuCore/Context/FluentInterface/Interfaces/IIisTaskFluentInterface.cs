@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FlubuCore.Tasks.Iis;
+﻿using FlubuCore.Tasks.Iis;
 using FlubuCore.Tasks.Iis.Interfaces;
 
-namespace FlubuCore.Context.FluentInterface
+namespace FlubuCore.Context.FluentInterface.Interfaces
 {
     public interface IIisTaskFluentInterface
     {

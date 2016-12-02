@@ -75,7 +75,7 @@ namespace FlubuCore.Tasks.Solution
             set { _useSolutionDirAsWorkingDir = value; }
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             string msbuildPath = FindMSBuildPath(context);
             if (string.IsNullOrEmpty(_solutionFileName))
@@ -109,7 +109,7 @@ namespace FlubuCore.Tasks.Solution
             return 0;
         }
 
-        private string FindMSBuildPath(ITaskContext context)
+        private string FindMSBuildPath(ITaskContextInternal context)
         {
             string msbuildPath;
             IDictionary<Version, string> msbuilds = _enviromentService.ListAvailableMSBuildToolsVersions();

@@ -6,6 +6,7 @@ namespace FlubuCore.Tasks.FileSystem
     public class DeleteDirectoryTask : TaskBase<int>
     {
         private readonly string _directoryPath;
+
         private readonly bool _failIfNotExists;
 
         public DeleteDirectoryTask(string directoryPath, bool failIfNotExists)
@@ -15,7 +16,7 @@ namespace FlubuCore.Tasks.FileSystem
         }
 
         public static void Execute(
-            ITaskContext context,
+            ITaskContextInternal context,
             string directoryPath,
             bool failIfNotExists)
         {
@@ -23,7 +24,7 @@ namespace FlubuCore.Tasks.FileSystem
             task.ExecuteVoid(context);
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             context.LogInfo($"Delete directory '{_directoryPath}'");
 

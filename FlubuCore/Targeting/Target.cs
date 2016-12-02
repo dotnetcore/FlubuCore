@@ -15,7 +15,7 @@ namespace FlubuCore.Targeting
 
         private string _description;
 
-        private Action<ITaskContext> _targetAction;
+        private Action<ITaskContextInternal> _targetAction;
 
         internal Target(TargetTree targetTree, string targetName)
         {
@@ -59,7 +59,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget Do(Action<ITaskContext> targetAction)
+        public ITarget Do(Action<ITaskContextInternal> targetAction)
         {
             if (_targetAction != null)
             {
@@ -70,7 +70,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget OverrideDo(Action<ITaskContext> targetAction)
+        public ITarget OverrideDo(Action<ITaskContextInternal> targetAction)
         {
             _targetAction = targetAction;
             return this;
@@ -129,7 +129,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             if (_targetTree == null)
             {

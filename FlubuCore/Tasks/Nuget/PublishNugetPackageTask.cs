@@ -26,7 +26,7 @@ namespace FlubuCore.Tasks.Nuget
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]
         private string _nuGetServerUrl;
 
-        private Func<ITaskContext, string> _apiKeyFunc;
+        private Func<ITaskContextInternal, string> _apiKeyFunc;
 
         private string _basePath;
 
@@ -69,7 +69,7 @@ namespace FlubuCore.Tasks.Nuget
             _apiKeyFunc = c => FetchNuGetApiKeyFromLocalFile(c, fileName);
         }
 
-        protected override int DoExecute(ITaskContext context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             FullPath packagesDir = new FullPath(context.Properties.Get(BuildProps.ProductRootDir, "."));
             packagesDir = packagesDir.CombineWith(context.Properties.Get<string>(BuildProps.BuildDir));
@@ -131,7 +131,7 @@ namespace FlubuCore.Tasks.Nuget
             return 0;
         }
 
-        private static string FetchNuGetApiKeyFromLocalFile(ITaskContext context, string fileName = DefaultApiKeyFileName)
+        private static string FetchNuGetApiKeyFromLocalFile(ITaskContextInternal context, string fileName = DefaultApiKeyFileName)
         {
             if (!File.Exists(fileName))
             {
@@ -142,7 +142,7 @@ namespace FlubuCore.Tasks.Nuget
             return File.ReadAllText(fileName).Trim();
         }
 
-        private static string FetchNuGetApiKeyFromEnvVariable(ITaskContext context, string environmentVariableName = DefaultNuGetApiKeyEnvVariable)
+        private static string FetchNuGetApiKeyFromEnvVariable(ITaskContextInternal context, string environmentVariableName = DefaultNuGetApiKeyEnvVariable)
         {
             string apiKey = Environment.GetEnvironmentVariable(environmentVariableName);
 
