@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DotNet.Cli.Flubu;
 using DotNet.Cli.Flubu.Infrastructure;
 using DotNet.Cli.Flubu.Scripting;
 using FlubuCore.Context;
@@ -29,25 +30,9 @@ namespace Flubu.Tests
         }
 
         [Fact]
-        public async System.Threading.Tasks.Task ExecuteMvcNet4_61BuildScript()
+        public void ExecuteMvcNet4_61BuildScript()
         {
-            IBuildScript t =
-                await
-                    _loader.FindAndCreateBuildScriptInstanceAsync(@".\FlubuExamples\MVC_NET4.61\BuildScriptTest.cs");
-
-            var provider = new ServiceCollection()
-                .AddCoreComponents()
-                .AddCommandComponents()
-                .AddTasks()
-                .BuildServiceProvider();
-
-            t.Run(new TaskSession(
-                null,
-                new TargetTree(provider, new DotnetTaskFactory(provider)),
-                new CommandArguments(),
-                new DotnetTaskFactory(provider),
-                new FluentInterfaceFactory(provider),
-                new TaskContextSession()));
+            Program.Main(new string[] { "Rebuild", @"-s=.\FlubuExamples\MVC_NET4.61\BuildScriptTest.cs" });
         }
     }
 }
