@@ -6,15 +6,17 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
 {
     public partial class TaskExtensionsFluentInterface
     {
-        public ITaskExtensionsFluentInterface CreateSimplePackage(string zipPath, params string[] folders)
+        public ITaskExtensionsFluentInterface CreateSimplePackage(string zipPrefix, params string[] folders)
         {
-            CreatePackage(zipPath, folders);
+            CreatePackage(zipPrefix, folders);
             return this;
         }
 
         public PackageTask CreatePackage(string zipPrefix, params string[] folders)
         {
             var task = Context.Tasks().PackageTask(string.Empty); // must be string.Empty because of a constuctor
+
+            task.ZipPrefix(zipPrefix);
 
             foreach (var folder in folders)
             {

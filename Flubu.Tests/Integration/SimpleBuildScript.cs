@@ -22,6 +22,29 @@ namespace Flubu.Tests.Integration
                 .TaskExtensions()
                 .DotnetPublish("33")
                 .CreateSimplePackage("aa", "fdf");
+
+            var restore = session
+                .CreateTarget("restore")
+                .AddCoreTask(s => s.Restore());
+
+            var init = session
+                .CreateTarget("init")
+                .AddTask(s => s.FetchBuildVersionFromFileTask())
+                .AddTask(s => s.FetchVersionFromExternalSourceTask())
+                .AddCoreTask(s => s.UpdateNetCoreVersionTask("a"));
+
+            var package = session
+                .CreateTarget("package")
+                .DependsOn(init, restore);
+
+            package
+                .TaskExtensions()
+                .DotnetPublish("a", "b", "c")
+                .CreatePackage("8d", "a", "b", "c")
+                .AddDirectoryToPackage("configuration", "configuration", "configuration", true)
+                .AddFileToPackage("dscript", "DeployScript.cs", string.Empty)
+                .AddFileToPackage("proj", "project.json", string.Empty)
+                .AddFileToPackage("nugets", "NuGet.config", string.Empty);
         }
     }
 }

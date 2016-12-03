@@ -48,5 +48,24 @@ namespace Flubu.Tests.Integration
 
             Assert.Equal(2, t.Tasks.Count);
         }
+
+        [Fact]
+        public void ConfigureTargetWithExtensionTasksAndDependsOn()
+        {
+            ITaskSession session = _sp.GetRequiredService<ITaskSession>();
+
+            SimpleBuildScript bs = new SimpleBuildScript();
+            bs.Run(session);
+
+            Assert.True(session.TargetTree.HasTarget("package"));
+
+            Target t = (Target)session.TargetTree.GetTarget("package");
+
+            Assert.Equal(4, t.Tasks.Count);
+
+            Assert.Equal(2, t.Dependencies.Count);
+            Assert.Equal("init", t.Dependencies.First());
+            Assert.Equal("restore", t.Dependencies.Last());
+        }
     }
 }

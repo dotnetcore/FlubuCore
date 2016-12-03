@@ -10,9 +10,21 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 
         ITaskExtensionsFluentInterface UpdateDotnetVersion(string[] projectFiles, string[] additionalProps);
 
+        /// <summary>
+        /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
+        /// </summary>
+        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically</param>
+        /// <param name="folders">Folders to add</param>
+        /// <returns><see cref="PackageTask"/> instance.</returns>
         PackageTask CreatePackage(string zipPrefix, params string[] folders);
 
-        ITaskExtensionsFluentInterface CreateSimplePackage(string zipPath, params string[] folders);
+        /// <summary>
+        /// Create ZIP file with specified folders.
+        /// </summary>
+        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically</param>
+        /// <param name="folders">Folders to add</param>
+        /// <returns>This same instance of <see cref="ITargetFluentInterface" />.</returns>
+        ITaskExtensionsFluentInterface CreateSimplePackage(string zipPrefix, params string[] folders);
 
         ITaskExtensionsFluentInterface RunMultiProgram(params string[] programs);
 
