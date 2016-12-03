@@ -65,9 +65,10 @@ using FlubuCore.Context;
 
 public class MyBuildScript : IBuildScript
 {
-    public void Run(ITaskSession session)
+    public int Run(ITaskSession session)
     {
-        Console.WriteLine(""11"");        
+        Console.WriteLine(""11"");    
+        return 0;    
     }
 }");
 
