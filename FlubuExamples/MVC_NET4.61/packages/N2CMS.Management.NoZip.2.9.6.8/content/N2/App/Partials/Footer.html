@@ -1,0 +1,9 @@
+﻿<div class="notification alert" ng-show="Notify.visible" n2-delayed-activation="Notify.visible" ng-class="{ 'alert-danger':Notify.type == 'danger', 'alert-error':Notify.type == 'error', 'alert-success':Notify.type == 'success', 'alert-info':Notify.type == 'info', 'alert-block': Notify.Block }" ng-controller="NotifyCtrl">
+	<button type="button" class="close" ng-click="clear()" translate="footer.close">×</button>
+	<b ng-class="Notify.iconClass" ng-show="Notify.iconClass"></b>
+	<div>
+		<h4 ng-show="Notify.title">{{Notify.title}}</h4>
+		<a href ng-click="Notify.onClick()" ng-show="Notify.onClick">{{Notify.message}}</a>
+		<span ng-hide="Notify.onClick">{{Notify.message}}</span>
+	</div>
+</div>

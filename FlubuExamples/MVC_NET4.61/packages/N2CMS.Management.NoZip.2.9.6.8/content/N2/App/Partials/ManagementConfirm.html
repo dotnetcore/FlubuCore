@@ -1,0 +1,16 @@
+﻿<div class="modal fade" n2-delay-class="{ in: !!settings }" style="display:block;">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
+        <h3>{{settings.title}}</h3>
+    </div>
+    <div class="modal-body" ng-show="settings.text || settings.template" compile="settings.template">
+        <p ng-show="settings.text">
+            {{settings.text}}
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href class="btn btn-primary" ng-click="confirm()" translate="confirm.confirm">Confirm</a>
+        <a href class="btn" ng-click="close()" translate="confirm.close">Close</a>
+    </div>
+</div>
+<div class="modal-backdrop" ng-show="settings"></div>

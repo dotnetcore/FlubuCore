@@ -1,0 +1,78 @@
+﻿
+/* CHOC THEME */
+
+body .header,
+#home h4
+{
+    background-color:#520A17; 
+    border-color:#AB8E5B;
+    background-position:0 0;
+}
+body .box
+{
+}
+
+body .subbar,
+body .ui-layout-resizer
+{
+    background-color:#668F91; 
+    border-color:#648D8F;
+}
+body .subbar
+{
+    border-top-color:#666;
+}
+#top .item
+{
+    border-left-color:#F5E6AC;
+    border-right-color:#52301C;
+    background-color:#AB8E5B;
+}
+body #top .toolbox .commandOptions .optionGroup .option
+{
+    background-color:#AB8E5B;
+}
+#top a
+{
+    color:#fff;
+}
+#top .selected
+{
+    border-left-color:#AB8E5B;
+}
+#top .selected a
+{
+    background-color:#52301C;
+}
+#top .selected a,
+#top a:hover
+{
+    color:#fff;
+}
+#sort a
+{
+    border-top:solid 1px #444;
+    border-bottom:solid 1px #222;
+}
+body .toolbar, 
+body .framed .optionGroup,
+body .framed .commandOptions .opener,
+body .gv th,
+body .gv thead td,
+body .toolbar .option,
+body.framed .outside
+{
+    background-color:#668F91;
+	border-color:#648D8F;
+}
+body,
+body .gv .alt td { background-color:#F8E9AF; }
+
+body .toolbar .toggled,
+body .toolbar .command:hover{
+	border-color:#bbb;
+}
+body .toolbar a
+{
+	color:#333;
+}

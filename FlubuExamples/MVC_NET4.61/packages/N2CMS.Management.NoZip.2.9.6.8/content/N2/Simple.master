@@ -1,0 +1,25 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Simple.master.cs" Inherits="N2.Management.Simple" %>
+
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+	<meta name="robots" content="noindex, nofollow" />
+	<title id="title" runat="server"></title>
+	<asp:PlaceHolder runat="server">
+		<asp:ContentPlaceHolder ID="Head" runat="server" />
+	</asp:PlaceHolder>
+</head>
+<body class="framed <%= Page.GetType().BaseType.Name %>">
+	<asp:ContentPlaceHolder ID="Frame" runat="server">
+		<div id="toolbar" class="toolbar">
+			<div class="inner">
+				<asp:ContentPlaceHolder ID="Toolbar" runat="server" />
+			</div>
+		</div>
+		<div id="content" class="content">
+			<h1 id="h1" runat="server" />
+			<asp:ContentPlaceHolder ID="Content" runat="server" />
+		</div>
+	</asp:ContentPlaceHolder>
+</body>
+</html>

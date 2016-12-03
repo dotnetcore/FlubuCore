@@ -1,0 +1,13 @@
+﻿<div debug="Context"></div>
+<div id="top-area">
+	<div ng-include src="Context.Partials.Menu"></div>
+</div>
+<div class="sliding-loader loader"></div>
+<div id="main-wrapper" ng-include src="Context.Partials.Main" ng-class="{ organize: isFlagged('Organize') }">
+</div>
+<div id="footer" ng-include src="Context.Partials.Footer">
+</div>
+
+<div id="confirm" ng-controller="ManagementConfirmCtrl" ng-include src="settings && 'App/Partials/ManagementConfirm.html'">
+    {{settings}}
+</div>

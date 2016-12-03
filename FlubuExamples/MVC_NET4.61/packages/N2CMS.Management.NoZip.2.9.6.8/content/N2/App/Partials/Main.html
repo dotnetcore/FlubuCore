@@ -1,0 +1,7 @@
+﻿<div id="secondary-area" ng-controller="NavigationCtrl">
+	<!--<div ng-include src="Context.Partials.Search" id="page-search"></div>-->
+	<div ng-include src="Context.Partials.Tree" id="page-tree"></div>
+	<div class="dragbar" ui-jq="n2splitter" ui-options="'#secondary-area', '#main-area'"></div>
+</div>
+<div id="main-area" ng-include src="Context.Partials.Preview">
+</div>

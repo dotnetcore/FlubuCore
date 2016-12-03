@@ -1,0 +1,24 @@
+﻿<dl class="dl-horizontal" ng-class="{ open: showInfo && Context.ExtendedInfo }" ng-controller="PageInfoDetailsCtrl">
+	<dt translate="info.type.dt">Type</dt><dd title="{{definitions[Context.ExtendedInfo.TypeName].Description}}">{{definitions[Context.ExtendedInfo.TypeName].Title}}</dd>
+	<dt translate="info.state.dt" ng-class="'info-' + Content.states.toString(Context.CurrentItem.State)">State</dt>
+	<dd ng-class="'info-' + Content.states.toString(Context.CurrentItem.State)">
+		<span class="draft" ng-show="Context.CurrentItem.State == Content.states.Draft" translate="versions.draft"><b class="fa fa-circle-o"></b> Draft</span>
+		<span class="waiting" ng-show="Context.CurrentItem.State == Content.states.Waiting" translate="versions.waiting"><b class="fa fa-clock-o"></b> Scheduled</span>
+		<span class="published" ng-show="Context.CurrentItem.State == Content.states.Published" translate="versions.published"><b class="fa fa-play-circle"></b> Published</span>
+		<span class="unpublished" ng-show="Context.CurrentItem.State == Content.states.Unpublished" translate="versions.unpublished"><b class="fa fa-stop"></b> Unpublished</span>
+		<span class="deleted" ng-show="Context.CurrentItem.State == Content.states.Deleted" translate="versions.deleted"><b class="fa fa-trash-o"></b> Deleted</span>
+	</dd>
+	<dt translate="info.scheduled.dt" ng-show="Context.ExtendedInfo.FuturePublishDate">Scheduled for</dt><dd ng-show="Context.ExtendedInfo.FuturePublishDate">{{Context.ExtendedInfo.FuturePublishDate | date}}</dd>
+
+	<dt translate="info.created.dt">Created</dt><dd>{{Context.ExtendedInfo.Created | date}}</dd>
+	<dt translate="info.published.dt">Published</dt><dd>{{Context.ExtendedInfo.Published | date}}&nbsp;</dd>
+	<dt translate="info.expires.dt" ng-show="Context.ExtendedInfo.Expires">Expires</dt><dd ng-show="Context.ExtendedInfo.Expires">{{Context.ExtendedInfo.Expires | date}}&nbsp;</dd>
+	<dt translate="info.updated.dt">Updated</dt><dd>{{Context.ExtendedInfo.Updated | date}} <span translate="info.updated.by">by</span> {{Context.ExtendedInfo.SavedBy}}</dd>
+	<dt translate="info.language.dt">Language</dt><dd title="{{Context.Language.LanguageTitle}} [{{Context.Language.LanguageCode}}]"><b class="{{Context.Language.IconClass}}"></b> {{exctractLanguage(Context.Language.LanguageTitle)}} <span translate="info.language.root" ng-show="Context.CurrentItem.MetaInformation.language" title="This page the starting point for a language (language root)"><b class="fa fa-globe"></b></span>&nbsp;</dd>
+	<dt translate="info.version.dt">Version</dt><dd>{{Context.ExtendedInfo.VersionIndex + 1}} 
+		<span ng-show="Context.ExtendedInfo.VersionOf">(<span translate="info.version.master">master</span>: <a href="{{Context.ExtendedInfo.VersionOf.Url}}" target="preview" title="{{Context.ExtendedInfo.VersionOf.SavedBy}}: {{Context.ExtendedInfo.VersionOf.Updated | date}}">{{Context.ExtendedInfo.VersionOf.VersionIndex + 1}}</a>)</span>
+		<span ng-show="Context.ExtendedInfo.Draft">(<span translate="info.version.draft">draft</span>: <a href="{{Context.ExtendedInfo.Draft.Url}}" target="preview" title="{{Context.ExtendedInfo.Draft.SavedBy}}: {{Context.ExtendedInfo.Draft.Updated | date}}">{{Context.ExtendedInfo.Draft.VersionIndex + 1}}</a>)</span>
+	</dd>
+	<dt translate="info.access.dt" ng-show="Context.ExtendedInfo.ReadProtected">Access</dt><dd translate="info.access.privileged" ng-show="Context.ExtendedInfo.ReadProtected">Privileged users</dd>
+	<!--<dt>Flags</dt><dd ng-repeat="flag in Context.Flags">{{flag}}</dd>-->
+</dl>

@@ -1,0 +1,18 @@
+﻿<li ng-repeat="option in ContextMenu.options" ng-class="{ divider: option.IsDivider }">
+	<a ng-class="{ 'iconed-text': option.IconUrl }" x-background-image="option.IconUrl" ng-show="!option.IsDivider" evaluate-href="option.Url" target="{{option.Target}}" ng-click="option.Activate()" n2-keyboard-stop="1"><b ng-class='option.IconClass' ng-show="option.IconClass"></b> {{option.Title}}</a>
+</li>
+
+<li ng-enabled="Security.permissions.is(Security.permissions.Publish, ContextMenu.CurrentItem.MaximumPermission)">
+	<a translate="contextmenu.cut" ng-click="ContextMenu.cut(node)" href n2-keyboard-stop="1"><b class="fa fa-cut"></b> Cut</a>
+</li>
+<li>
+	<a translate="contextmenu.copy" ng-click="ContextMenu.copy(node)" href n2-keyboard-stop="1"><b class="fa fa-copy"></b> Copy</a>
+</li>
+<li ng-enabled="Security.permissions.is(Security.permissions.Publish, ContextMenu.CurrentItem.MaximumPermission)">
+	<a translate="contextmenu.paste" ng-disabled="ContextMenu.memory == null" href="{{Context.Paths.Management}}Content/Paste.aspx?selected={{ContextMenu.CurrentItem.Path}}&memory={{ContextMenu.memory.Path}}&action={{ContextMenu.action}}" target="preview" n2-keyboard-stop="1"><b class="fa fa-paste"></b> Paste</a>
+</li>
+<li class="divider" ng-show="Security.permissions.is(Security.permissions.Write, ContextMenu.CurrentItem.MaximumPermission)"></li>
+<li ng-enabled="Security.permissions.is(Security.permissions.Write, ContextMenu.CurrentItem.MaximumPermission)">
+	<a translate="contextmenu.parts.show" href ng-click="parts.show(node)" ng-show="!node.Parts" n2-keyboard-stop="1"><b class="fa fa-object-group"></b> Show parts</a>
+	<a translate="contextmenu.parts.hide" href ng-click="parts.hide(node)" ng-show="node.Parts" n2-keyboard-stop="1"><b class="fa fa-object-group"></b> Hide parts</a>
+</li>

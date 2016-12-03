@@ -1,0 +1,177 @@
+﻿@import url("smoothness/jquery-ui-1.8.22.dialog.css");
+
+.sc, .sc a, .dragShadow { font-family: 'Segoe UI', Helvetica, sans-serif; font-size:13px; color:#333; text-align:left; }
+
+.zoneItem   { position:relative;}
+.dropZone .zoneItem:hover { outline:dotted 1px #44ff88; }
+.titleBar   { background:#fff none no-repeat 1px 50%; color:#333; padding:0 1px; position:relative; border:solid 1px #e3e5e4; height:20px; box-shadow: #666 4px 4px 10px -2px; overflow:hidden; white-space:nowrap; font-family: 'Segoe UI', Helvetica, sans-serif; font-size:11px; }
+.zoneItem .titleBar	{ background-image:url(../../Resources/Img/gripper.gif); cursor:move;}
+.dropZone .titleBar { position:absolute; left:-2px; top:-2px; z-index:900; padding-left:18px }
+	.zoneItem .zoneItem .titleBar	{ left:6px; top:6px; }
+		.zoneItem .zoneItem .zoneItem .titleBar	{ left:0; top:0; }
+    .titleBar .command { cursor:pointer; padding:2px; display:inline-block; vertical-align:middle; font-size:16px; }
+    .titleBar .title { background:transparent none no-repeat 5px 33%; color:#333; padding-left:24px; padding-right:10px; font-size:13px; line-height:20px; height:20px; border-left:solid 1px #e3e5e4; margin-left:10px; vertical-align:middle; }
+	.titleBar .commands .move { display:none; }
+.dropZone .titleBar { opacity:.66; overflow:hidden; width:18px; }
+.dropZone .titleBar * { display:inline-block; vertical-align:middle; }
+.dropZone .titleBar:hover { background-color:#fafafa; border:solid 1px #d1d4d3; opacity:1; width:auto; }
+	.dropZone .titleBar .command:hover { background-color:#74c6eb; color:#fff; }
+	.dropZone .titleBar .edit { display:inline-block;}
+	
+.dragShadow { opacity: .4; background-color:lightslategray; filter: alpha(opacity=60); min-height:50px; }
+.dragging { cursor:move; }
+.dragging .titleBar { display:none; }
+
+/* hide/show droppables */
+.dropPoint { position:relative; background-color:#cec; border:solid 1px #efe; margin:-1px 0; clear: both; }
+	.dropPoint .description { font-size:9px; padding:0 3px;  }
+.dragging .dragShadow { cursor:move; }
+.dragged { outline:dotted 1px #c33; }
+	.dragged > * { opacity:.3; }
+	.dragged .titleBar { display:none }
+
+	.dropPoint .dpLabel { font:9px Arial, Sans-Serif; padding:0 0 0 4px; color:#888; font-weight:bold; }
+	.dropPoint .titleBar { display:none; }
+	.dropPoint .dropping { position:absolute; z-index:980; top:8px; right:8px; height:16px; width:16px; background:transparent url(../../Resources/Img/ajax-loader.gif) no-repeat 50% 50%; }
+:hover.dropPoint { border-color:#d1d4d3; background-position:3px 0; }
+.droppable-active { background:url(../../Resources/Img/shading_green.png); padding:0; }
+.droppable-hover { background-color:#8e8; outline:solid 2px #393; }
+
+.sc { position:fixed; _position:absolute; top:-200px; left:-200px; z-index:1100; border:none 1px #ccb; border-style:none solid solid none; background:#fff none repeat-x scroll 0 0; box-shadow: #666 4px 4px 10px -2px;  font-family: 'Segoe UI', Helvetica, sans-serif; font-size:13px; }
+	.sc .scContent { }
+		.controlPanel { }
+		.controlPanel img { border:none; vertical-align:middle; margin-right:3px; display:inline; }
+		.controlPanel a,.controlPanel a:visited { }
+	.controlPanel a { padding:1px; min-height:14px; min-width:18px; }
+		.controlPanel a b { font-size:18px; }
+	.controlPanel .plugins { padding:1px 17px 1px 1px; height:30px; }
+		.controlPanel .plugins a {
+			box-sizing:content-box;
+			display:block;
+			float:left;
+			padding:8px;
+			text-align:center; 
+			color:#fff; 
+			position:relative;
+			font-family: 'Segoe UI', Helvetica, sans-serif; 
+			font-size: 10px;
+			text-transform:uppercase;
+			background-color:#18a0de;
+			border-right: solid 1px #74c6eb;
+			overflow:hidden;
+			text-align:center;
+			height:16px;
+			text-decoration:none;
+			z-index: 1;
+		}
+		.controlPanel .plugins a:hover,
+		.controlPanel .plugins a.toggled {
+			background-color: #74c6eb; 
+			text-decoration:none;
+		}
+		.controlPanel .plugins .authorizedFalse { opacity:.33 }
+
+		.sc.stateWaiting .plugins a,
+		.sc.stateDraft .plugins a {
+			background-color:#FF8822;
+		}
+		.sc.stateWaiting .plugins a:hover,
+		.sc.stateDraft .plugins a:hover,
+		.sc.stateWaiting .plugins a.toggled,
+		.sc.stateDraft .plugins a.toggled {
+			background-color:#FF9933;
+		}
+		
+		.sc.stateUnpublished .plugins a,
+		.sc.stateDeleted .plugins a {
+			background-color:#EE3300;
+		}
+		.sc.stateUnpublished .plugins a:hover,
+		.sc.stateDeleted .plugins a:hover,
+		.sc.stateUnpublished .plugins a.toggled,
+		.sc.stateDeleted .plugins a.toggled {
+			background-color:#E16C62;
+		}
+		
+	.sc .close { display:none; }
+	.sc .scContent { overflow:hidden; }
+	.sc.opened .open { display:none; }
+	.sc.opened .close { display:inline; }
+	
+	.sc .sc-toggler {
+		text-indent:-2000px;
+		position:absolute; 
+		border: 16px solid transparent;
+		height:1px;
+	}
+	.sc .sc-toggler.open {
+		border-left-color: #18a0de;
+		right:-16px;
+		bottom:0;
+	}
+	.sc .sc-toggler.open:hover {
+		border-left-color: #74c6eb;
+	}
+	.sc .sc-toggler.close {
+		border-right-color: #18a0de;
+		right:0;
+		top:0;
+	}
+	.sc .sc-toggler.close:hover {
+		border-right-color: #74c6eb;
+	}
+	
+	.sc.stateDeleted .sc-toggler.open,
+	.sc.stateUnpublished .sc-toggler.open { border-left-color: #EE3300; }
+	.sc.stateDeleted .sc-toggler.open:hover,
+	.sc.stateUnpublished .sc-toggler.open:hover { border-left-color: #E16C62; } 
+	.sc.stateWaiting .sc-toggler.open,
+	.sc.stateDraft .sc-toggler.open { border-left-color: #FF8822; } 
+	.sc.stateWaiting .sc-toggler.open:hover,
+	.sc.stateDraft .sc-toggler.open:hover { border-left-color: #FF9933; }
+	.sc.stateDeleted .sc-toggler.close,
+	.sc.stateUnpublished .sc-toggler.close { border-right-color: #EE3300; }
+	.sc.stateDeleted .sc-toggler.close:hover,
+	.sc.stateUnpublished .sc-toggler.close:hover { border-right-color: #E16C62; } 
+	.sc.stateWaiting .sc-toggler.close,
+	.sc.stateDraft .sc-toggler.close { border-right-color: #FF8822; } 
+	.sc.stateWaiting .sc-toggler.close:hover,
+	.sc.stateDraft .sc-toggler.close:hover { border-right-color: #FF9933; }
+
+.definitions,.controlPanel .new { padding:10px 0 25px 0; clear:left; max-height:200px; overflow:auto; margin-bottom:0; }
+    .definition { cursor:move; padding:1px 10px; }
+    .definition:hover { background-color:#eee; }
+    .definition:hover { background-image:url(../../Resources/Img/part_bg.png) }
+.definitionimg { vertical-align:middle;margin-right:1px;}
+* html .masked select { visibility:hidden;}
+
+.ui-dialog { padding-bottom:15px; z-index:9999; }
+	.ui-dialog .ui-dialog-content { background-color:#fff; padding:0; }
+		.ui-dialog .ui-dialog-content iframe { width:100%; height:100%; border:0; margin-bottom:10px; margin-top:3px; }
+		.ui-dialog.ui-resizable-resizing .ui-dialog-content iframe { visibility:hidden; }
+		.ui-dialog .ui-resizable-se { position:absolute; }
+
+a .creator-add { background: url(../../Resources/icons/add.png) no-repeat 50% 50%; width:10px; height:10px; height:10px; display:inline-block; margin-right:2px; vertical-align:middle; overflow:hidden; }
+
+.dragDrop .editable { display:inline-block; position:relative; }
+	.dragDrop .editable .editor { position:absolute; top:0; right:-10px; padding:2px; overflow:hidden; opacity:.33; text-decoration:none; }
+.dragDrop .editable:hover { outline:dotted 1px #4488ff; }
+	.dragDrop .editable:hover .editor { opacity:.66;}
+	.dragDrop .editable .editor:hover { opacity:1; text-decoration:none; background-color:#74c6eb; color:#fff; }
+
+#editorDialog { overflow:hidden; }
+
+.target-container { outline: dotted 2px magenta; min-height:20px; position:relative; }
+.target-name { display:inline-block; position:absolute; top:0; right:0; padding:1px 2px; font-family: 'Segoe UI', Helvetica, sans-serif; font-size:13px; color:#fff; background-color:magenta; z-index:666; }
+
+.n2-blue { color:blue; }
+.n2-red { color:red; }
+.n2-green { color:red; }
+.n2-yellow { color:yellow; }
+.n2-magenta { color:magenta; }
+.n2-silver { color:silver; }
+.n2-shadow { text-shadow: 3px 3px #999; }
+.n2-opaque { opacity: .5; }
+.n2-tilted90 { display:inline-block !important; -webkit-transform: rotate(90deg); -moz-transform: rotate(90deg); -ms-transform: rotate(90deg); -o-transform: rotate(90deg); transform: rotate(90deg); }
+.n2-tilted180 { display:inline-block !important; -webkit-transform: rotate(180deg); -moz-transform: rotate(180deg); -ms-transform: rotate(180deg); -o-transform: rotate(180deg); transform: rotate(180deg); }
+.n2-tilted270 { display:inline-block !important; -webkit-transform: rotate(270deg); -moz-transform: rotate(270deg); -ms-transform: rotate(270deg); -o-transform: rotate(270deg); transform: rotate(270deg); }

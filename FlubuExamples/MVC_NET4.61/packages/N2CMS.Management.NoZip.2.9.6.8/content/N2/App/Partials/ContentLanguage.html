@@ -1,0 +1,25 @@
+﻿<a href='{{evaluateExpression(item.Current.Url)}}'
+   target='preview'
+   title='Overview translations table'
+   class='page-action page-action-description' translate="language.action"
+   ng-show="Context.Language"
+   x-page-action-icon-class>
+	<b class='ico fa fa-globe'></b>
+	Language<br />
+	<span>{{Context.Language.LanguageTitle}}</span>
+</a>
+
+<a href class="dropdown-toggle" data-toggle="dropdown"
+	title="Display translatable languages"
+	translate="language.toggle"
+	ng-controller='LanguageCtrl'
+	ng-click='loadLanguages(item)'
+	ng-show="Context.Language">
+	<b class="caret"></b>
+</a>
+	
+<ul class="dropdown-menu" ng-show="item.Children.length">
+	<li ng-repeat="child in item.Children" ng-class="{ selected: child.Current.Title == Context.Language.LanguageTitle }" title="{{Context.ExtendedInfo}}">
+		<a page-action-link="child"></a>
+	</li>
+</ul>

@@ -1,0 +1,12 @@
+body.framed .upload input{
+	vertical-align:top;
+}
+body.framed .tree ul { margin:0; }
+body.framed .tree li { list-style-type:none; margin:0; }
+body.framed .tree li li { margin-left:20px; }
+body.framed .file img{
+	vertical-align:middle;
+}
+body.framed .warning{
+	color:Red;
+}

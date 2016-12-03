@@ -1,0 +1,8 @@
+﻿<a href class="page-action" ng-click="toggleInfo()" ng-controller="PageInfoCtrl">
+	<i class="ico fa fa-info-circle"></i>
+</a>
+
+<div class="info-menu" ng-controller="PageInfoCtrl" ng-class="{ open: showInfo && Context.ExtendedInfo }">
+	<div ng-repeat="panel in item.Children" ng-include="panel.Current.TemplateUrl">
+	</div>
+</div>

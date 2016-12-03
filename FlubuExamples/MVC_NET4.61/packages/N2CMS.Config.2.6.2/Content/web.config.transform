@@ -1,0 +1,68 @@
+<configuration>
+	<configSections>
+		<sectionGroup name="n2" type="N2.Configuration.SectionGroup, N2">
+			<section name="host" type="N2.Configuration.HostSection, N2" requirePermission="false" restartOnExternalChanges="true"/>
+			<section name="engine" type="N2.Configuration.EngineSection, N2" requirePermission="false" restartOnExternalChanges="true"/>
+			<section name="database" type="N2.Configuration.DatabaseSection, N2" requirePermission="false" restartOnExternalChanges="true"/>
+			<section name="edit" type="N2.Configuration.EditSection, N2" requirePermission="false" restartOnExternalChanges="true"/>
+		</sectionGroup>
+	</configSections>
+	<system.webServer>
+		<modules runAllManagedModulesForAllRequests="true">
+			<add name="n2.initializer" type="N2.Web.InitializerModule, N2" />
+		</modules>
+	</system.webServer>
+	<system.web>
+		<!-- 
+		These membership and role providers store their data as content items. You can also use the forms authentication 
+		credentials only (then remove these sections) or the default ASP.NET providers (search for asp.net membership) 
+		-->
+    <membership>
+      <providers>
+        <add name="ContentMembershipProvider" type="N2.Security.ContentMembershipProvider, N2.Management" passwordFormat="Hashed" />
+      </providers>
+    </membership>
+    <roleManager>
+      <providers>
+        <add name="ContentRoleProvider" type="N2.Security.ContentRoleProvider, N2.Management" />
+      </providers>
+    </roleManager>
+    <profile>
+      <providers>
+        <add name="ContentProfileProvider" type="N2.Security.ContentProfileProvider, N2.Management" />
+      </providers>
+    </profile>
+    <siteMap>
+      <providers>
+        <add name="PublicSiteMap" type="N2.Web.PublicSiteMapProvider, N2" startPageIsRoot="true" />
+      </providers>
+    </siteMap>
+	
+		<pages>
+			<controls>
+				<add tagPrefix="n2" namespace="N2.Web.UI.WebControls" assembly="N2" />
+			</controls>
+			<tagMapping>
+				<add tagType="System.Web.UI.HtmlControls.HtmlForm"  mappedTagType="N2.Web.UI.WebControls.RawUrlForm"/>
+			</tagMapping>
+			<namespaces>
+				<add namespace="N2.Linq"/>
+				<add namespace="N2.Web.Mvc.Html"/>
+			</namespaces>
+		</pages>
+
+		<compilation>
+			<expressionBuilders>
+				<add expressionPrefix="CurrentItem" type="N2.Web.Compilation.CurrentItemExpressionBuilder, N2" />
+				<add expressionPrefix="CurrentPage" type="N2.Web.Compilation.CurrentPageExpressionBuilder, N2" />
+				<add expressionPrefix="StartPage" type="N2.Web.Compilation.StartPageExpressionBuilder, N2" />
+				<add expressionPrefix="Code" type="N2.Web.Compilation.CodeExpressionBuilder, N2" />
+				<add expressionPrefix="HasValue" type="N2.Web.Compilation.HasValueExpressionBuilder, N2" />
+			</expressionBuilders>
+		</compilation>
+
+		<httpModules>
+			<add name="n2.initializer" type="N2.Web.InitializerModule, N2" />
+		</httpModules>
+	</system.web>
+</configuration>

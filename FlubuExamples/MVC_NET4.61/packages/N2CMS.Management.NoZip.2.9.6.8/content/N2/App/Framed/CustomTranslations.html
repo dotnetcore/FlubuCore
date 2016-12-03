@@ -1,0 +1,7 @@
+﻿<table>
+	<tr ng-repeat="(key, value) in translations">
+		<td>
+			<label><span>{{key}}</span><input ng-model="value" ng-change="update(key, value)" /></label> <a href ng-click="remove(key)"><b class="fa fa-times"></b></a>
+		</td>
+	</tr>
+</table>

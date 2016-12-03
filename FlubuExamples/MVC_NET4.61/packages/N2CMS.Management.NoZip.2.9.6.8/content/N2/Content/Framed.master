@@ -1,0 +1,96 @@
+<%@ Master MasterPageFile="../Simple.master" Language="C#" AutoEventWireup="true" CodeBehind="Framed.master.cs" Inherits="N2.Edit.Framed" meta:resourceKey="FramedResource" %>
+<%@ Import Namespace="N2.Web.Mvc.Html" %>
+
+<asp:Content ContentPlaceHolderID="Head" runat="server">
+	<asp:PlaceHolder runat="server">
+	<link href="<%=  N2.Web.Url.ResolveTokens(N2.Resources.Register.BootstrapCssPath) %>" type="text/css" rel="stylesheet" />
+	<script src="<%= N2.Web.Url.ResolveTokens(N2.Resources.Register.BootstrapJsPath)  %>" type="text/javascript"></script>
+
+	<link rel="stylesheet" href="<%= N2.Web.Url.ResolveTokens(N2.Resources.Register.IconsCssPath) %>" />
+
+	<link href="<%=  N2.Web.Url.ResolveTokens(N2.Resources.Register.BootstrapDatePickerCssPath) %>" type="text/css" rel="stylesheet" />
+	<script src="<%= N2.Web.Url.ResolveTokens(N2.Resources.Register.BootstrapDatePickerJsPath)  %>" type="text/javascript"></script>
+
+	<link href="<%= ResolveUrl("../Resources/icons/flags.css") %>" rel="stylesheet" />
+	<link href="<%= ResolveClientUrl("../Resources/Css/all.css") %>" type="text/css" rel="stylesheet" />
+	<link href="<%= ResolveClientUrl("../Resources/Css/framed.css") %>" type="text/css" rel="stylesheet" />
+
+	<script src="<%= N2.Web.Url.ResolveTokens(N2.Resources.Register.AngularJsPath)%>"></script>
+	<script src="<%= N2.Web.Url.ResolveTokens(N2.Resources.Register.AngularJsResourcePath) %>"></script>
+ 	<script src="<%= GetLocalizationPath()%>"></script>
+    <script src='<%= N2.Web.Url.ResolveTokens("{ManagementUrl}/App/Js/Services.js") %>'></script>
+	<script src='<%= N2.Web.Url.ResolveTokens("{ManagementUrl}/App/Js/Directives.js") %>'></script>
+	<script src='<%= N2.Web.Url.ResolveTokens("{ManagementUrl}/App/Framed/Framed.js") %>'></script>
+
+	</asp:PlaceHolder>
+	<asp:ContentPlaceHolder ID="Head" runat="server" />
+</asp:Content>
+<asp:Content ContentPlaceHolderID="Frame" ID="cf" runat="server">
+	<form id="f" runat="server" ng-app="n2framed">
+		<div id="framednavbar" class="framed-navbar" runat="server">
+			<div class="navbar-inner">
+				<asp:ContentPlaceHolder ID="Toolbar" runat="server" />
+			</div>
+		</div>
+		<div id="content" class="content">
+			<% if (!string.IsNullOrEmpty(Page.Title)) { %>
+			<h1>
+				<%= Page.Title %>
+				<% if (Page.Items["HelpText"] != null) { %>
+				<b data-placement="right" title="<%= Page.Items["HelpText"] %>" class="help help-tooltip fa fa-question-circle" data-toggle="tooltip"></b>
+				<% } %>
+			</h1>
+			<% } %>
+			<% if (Page.Items["EditingInstructions"] != null) { %>
+			<p><%= Page.Items["EditingInstructions"] %></p>
+			<% } %>
+
+			<asp:ContentPlaceHolder ID="Content" runat="server" />
+		</div>
+	</form>
+	<script type="text/javascript">
+		jQuery(document).keyup(function (e) {
+			var key = { esc: 27 };
+			if (e.keyCode == key.esc) {
+			    $(".framed-navbar a.cancel").each(function() {
+			        if ($(this).is(":focus"))
+			            window.location = this.href;
+			        else
+			            $(this).focus();
+			    });
+			}
+		});
+		var modal = <%= Request["modal"] == "true" ? "true" : "false" %>;
+		if (n2ctx.hasTop() != "metro" || modal) {
+			$(document.body).removeClass("toolbar-hidden");
+		}
+		jQuery(function ($) {
+			$(".iconed").each(function () {
+				var icon = $(this).attr("data-icon-class");
+				if (icon)
+					$(this).prepend("<b class='" + icon + "'></b> ");
+			});
+		})
+	</script>
+</asp:Content>
+<script runat="server">
+	protected override void OnLoad(EventArgs e)
+	{
+		base.OnLoad(e);
+		var config = N2.Context.Current.Resolve<N2.Configuration.EditSection>();
+		framednavbar.Attributes["class"] = String.Format("framed-navbar navbar {1} toolbar-count-{0}", Toolbar.Controls.Count, config != null && config.IsToolbarOnBottom ? "navbar-fixed-bottom" : "");
+	}
+
+	protected string GetLocalizationPath()
+	{
+		var culture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+		var languagePreferenceList = new[] { culture.ToString(), culture.TwoLetterISOLanguageName };
+		foreach (var languageCode in languagePreferenceList)
+		{
+			var path = N2.Web.Url.ResolveTokens("{ManagementUrl}/App/i18n/" + languageCode + ".js.ashx");
+			if (System.Web.Hosting.HostingEnvironment.VirtualPathProvider.FileExists(path))
+				return path;
+		}
+		return N2.Web.Url.ResolveTokens("{ManagementUrl}/App/i18n/en.js.ashx");
+	}
+</script>

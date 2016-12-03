@@ -1,0 +1,49 @@
+﻿
+/* DEFUALT THEME */
+
+body .header,
+#home h4
+{
+    background-color:#18a0de;
+}
+body .box
+{
+}
+
+body .subbar,
+body .ui-layout-resizer
+{
+    background-color:#ccb; 
+    border-color:#aa9;
+}
+body .subbar
+{
+    border-top-color:#ccc;
+}
+body .toolbar, 
+body .framed .optionGroup,
+body .framed .commandOptions .opener,
+body.framed .outside .box-heading{
+    /*background-color:#ebf7fc;
+	border-color:#d9f0f9;*/
+	background-color:#18a0de;
+	color:#fff;
+}
+.framed .outside .box {
+	border-color:#d9f0f9 !important;
+}
+body .gv th,
+body .gv thead td
+{
+    background-color:#ddc;
+}
+
+body .toolbar .toggled,
+body .toolbar .command:hover
+{
+	border-color:#bbb;
+}
+body .toolbar a
+{
+	color:#333;
+}

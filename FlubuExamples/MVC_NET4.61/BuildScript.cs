@@ -1,49 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using Flubu;
-using Flubu.Builds;
-using Flubu.Builds.Tasks.NuGetTasks;
-using Flubu.Builds.Tasks.TestingTasks;
-using Flubu.Builds.VSSolutionBrowsing;
-using Flubu.Packaging;
-using Flubu.Targeting;
-using Flubu.Tasks.Iis;
-using Flubu.Tasks.Iis.Iis7;
-using Flubu.Tasks.Processes;
-//css_imp BuildScripts\\ExampleCustomTask.cs;
-namespace BuildScripts
+using FlubuCore.Context;
+using FlubuCore.Scripting;
+using FlubuCore.Targeting;
+using FlubuCore.Tasks.Testing;
+
+
+public class BuildScript : DefaultBuildScript
 {
-    public class BuildScript : DefaultBuildScript
+    protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
     {
-        protected override void ConfigureBuildProperties(TaskSession session)
-        {
-            session.Properties.Set(BuildProps.MSBuildToolsVersion, "4.0");
-            session.Properties.Set(BuildProps.NUnitConsolePath, @"packages\NUnit.ConsoleRunner.3.2.1\tools\nunit3-console.exe");
-            session.Properties.Set(BuildProps.ProductId, "FlubuExample");
-            session.Properties.Set(BuildProps.ProductName, "FlubuExample");
-            session.Properties.Set(BuildProps.SolutionFileName, "FlubuExample.sln");
-            session.Properties.Set(BuildProps.VersionControlSystem, VersionControlSystem.Mercurial);
-        }
+        context.Properties.Set(BuildProps.NUnitConsolePath,
+            @"packages\NUnit.ConsoleRunner.3.2.1\tools\nunit3-console.exe");
+        context.Properties.Set(BuildProps.ProductId, "FlubuExample");
+        context.Properties.Set(BuildProps.ProductName, "FlubuExample");
+        context.Properties.Set(BuildProps.SolutionFileName, "FlubuExample.sln");
+        context.Properties.Set(BuildProps.BuildConfiguration, "Release");
 
-        protected override void ConfigureTargets(TargetTree targetTree, ICollection<string> args)
-        {
-            ////compile is a flubu built in target.
-            targetTree.AddTarget("rebuild")
-                .SetDescription("Rebuilds the project, runs tests and packages the build products.")
-                .SetAsDefault()
-                .DependsOn("compile", "unit.tests", "package");
+    }
 
-            ////load solution is a flubu built in target.
-            targetTree.AddTarget("unit.tests")
-               .SetDescription("Runs unit tests on the project")
-               .Do(x => TargetRunTests(x)).DependsOn("load.solution");
-        }
+    protected override void ConfigureTargets(ITaskContext session)
+    {
+        var loadSolution = session.CreateTarget("load.solution")
+            .AddTask(x => x.LoadSolutionTask());
 
-        private static void TargetRunTests(ITaskContext context)
-        {
-            var task = NUnitTask.ForNunitV3("FlubuExample.Tests");
-            task.Execute(context);
-        }
+        var compile = session.CreateTarget("compile")
+            .AddTask(x => x.CompileSolutionTask())
+            .DependsOn(loadSolution);
+
+        var unitTests = session.CreateTarget("unit.tests")
+            .AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests"));
+
+        session.CreateTarget("Rebuild")
+            .SetAsDefault()
+            .DependsOn(compile, unitTests);
     }
 }

@@ -1,0 +1,95 @@
+﻿/* clearfix */
+.cf:after,
+.editDetail:after,
+.tree li:after { content:"."; display:block; height:0; clear:both; visibility:hidden; }
+
+.cf,
+.editDetail,
+.tree li { *display: inline-block; }
+
+/* Hides from IE-mac \*/
+body.framed * html .cf,
+body.framed * html .editDetail,
+body.framed * html .tree li { height: 1%; }
+
+body.framed .cf,
+body.framed .editDetail,
+body.framed .tree li { display: block; }
+/* End hide from IE-mac */
+
+a:hover{ text-decoration:underline; }
+    a img{ vertical-align:middle; text-decoration:none; }
+img{ border:none; }
+
+input[type="checkbox"],
+input[type="radio"] { float: left; margin: 4px; }
+
+.checkBoxList label { float: none !important;display: inline; }
+.checkBoxList input[type="checkbox"],
+.checkBoxList input[type="radio"] {float: none !important; margin: 4px; }
+
+
+/* toolbar */
+body.framed fieldset{
+}
+body.framed .toolbar .command[disabled=disabled]{
+	color:silver;
+	opacity:.5;
+}
+
+body.framed .commandOptions{
+	float:left;
+}
+body.framed .toolbar .rightAligned{
+	float:right;
+}
+
+/* permission visualization */
+
+.None		.None,
+.Read		.None,
+.Read		.Read,
+.Write		.None,
+.Write		.Read,
+.Write		.Write,
+.Publish	.None,
+.Publish	.Read,
+.Publish	.Write,
+.Publish	.Publish,
+.Administer .None,
+.Administer .Read,
+.Administer .Write,
+.Administer .Publish,
+.Administer .Administer { opacity:1; filter: alpha(opacity=100); }
+
+.None		.Read,
+.None		.Write,
+.None		.Publish,
+.None		.Administer,
+.Read		.Write,
+.Read		.Publish,
+.Read		.Administer,
+.Write		.Publish,
+.Write		.Administer,
+.Publish	.Administer { opacity:.33; filter: alpha(opacity=33); cursor:default; }
+
+.alert {
+	border-radius:0;
+	border: solid 1px #c7c7c7;
+	border-left-width: 5px;
+}
+.alert-success {
+	border-color: #468847;
+}
+.alert-warning {
+	border-color: #c09853;
+}
+.alert-info {
+	border-color: #18a0de;
+}
+.alert-error {
+	border-color: #b94a48;
+}
+.alert-danger {
+	border-color: #b94a48;
+}

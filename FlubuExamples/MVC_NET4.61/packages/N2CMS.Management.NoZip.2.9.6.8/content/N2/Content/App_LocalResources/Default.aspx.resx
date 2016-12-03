@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="copy.Title" xml:space="preserve">
+    <value>COPY</value>
+  </data>
+  <data name="copy.ToolTip" xml:space="preserve">
+    <value>Copy item including sub-items</value>
+  </data>
+  <data name="DefaultResource.Title" xml:space="preserve">
+    <value>N2 Edit Interface</value>
+  </data>
+  <data name="delete.Title" xml:space="preserve">
+    <value>DEL</value>
+  </data>
+  <data name="delete.ToolTip" xml:space="preserve">
+    <value>Delete item including sub-items</value>
+  </data>
+  <data name="edit.Title" xml:space="preserve">
+    <value>EDIT</value>
+  </data>
+  <data name="edit.ToolTip" xml:space="preserve">
+    <value>Edit selected item</value>
+  </data>
+  <data name="move.Title" xml:space="preserve">
+    <value>Cut</value>
+  </data>
+  <data name="move.ToolTip" xml:space="preserve">
+    <value>Cut</value>
+  </data>
+  <data name="new.Title" xml:space="preserve">
+    <value>NEW</value>
+  </data>
+  <data name="new.ToolTip" xml:space="preserve">
+    <value>Create new item below selected item</value>
+  </data>
+  <data name="paste.Title" xml:space="preserve">
+    <value>PASTE</value>
+  </data>
+  <data name="paste.ToolTip" xml:space="preserve">
+    <value>Paste the item in memory</value>
+  </data>
+  <data name="search.Title" xml:space="preserve">
+    <value />
+  </data>
+  <data name="search.ToolTip" xml:space="preserve">
+    <value>Search items</value>
+  </data>
+  <data name="settings.Title" xml:space="preserve">
+    <value>SETTINGS</value>
+  </data>
+  <data name="settings.ToolTip" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="table.Title" xml:space="preserve">
+    <value />
+  </data>
+  <data name="table.ToolTip" xml:space="preserve">
+    <value>Tabular navigation</value>
+  </data>
+  <data name="tree.Title" xml:space="preserve">
+    <value>PAGES</value>
+  </data>
+  <data name="tree.ToolTip" xml:space="preserve">
+    <value>Hierarchical navigation</value>
+  </data>
+  <data name="versions.Title" xml:space="preserve">
+    <value>VERS</value>
+  </data>
+  <data name="versions.ToolTip" xml:space="preserve">
+    <value>Previous versions</value>
+  </data>
+  <data name="filemanager.ToolTip" xml:space="preserve">
+    <value>Upload and organize files</value>
+  </data>
+  <data name="exportimport.ToolTip" xml:space="preserve">
+    <value>Import/Export content items</value>
+  </data>
+  <data name="linktracker.ToolTip" xml:space="preserve">
+    <value>Display inbound/outbound links to/from the current item</value>
+  </data>
+  <data name="security.ToolTip" xml:space="preserve">
+    <value>Change page permissions</value>
+  </data>
+  <data name="users.ToolTip" xml:space="preserve">
+    <value>Manage users</value>
+  </data>
+  <data name="wizard.ToolTip" xml:space="preserve">
+    <value>Recall and define default type/location combinations for quick creation</value>
+  </data>
+  <data name="globalization.ToolTip" xml:space="preserve">
+    <value>Overview translations of the selected page and it's child pages</value>
+  </data>
+  <data name="search.Text" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="logout.LogoutText" xml:space="preserve">
+    <value>&lt;img src='img/ico/png/key.png' alt='logout'/&gt;</value>
+  </data>
+  <data name="logout.ToolTipFormat" xml:space="preserve">
+    <value>Log out {0}</value>
+  </data>
+</root>

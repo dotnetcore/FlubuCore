@@ -1,5 +1,0 @@
-- Buildscript project must target .net framework 4.6 or greater.
-- update buildscript.cs as necesary.
-- run "Build.exe" for default target or "Build.exe '{targetName}'" for specific build target. 
-- optionaly you can copy Build.exe and BuildScript.cs to root directory of the solution and add BuildScript.cs as link to BuildScript project(where flubu is referenced).
-- You can found detailed example of how flubu is used at https://bitbucket.org/mzorec/flubuexample/src 

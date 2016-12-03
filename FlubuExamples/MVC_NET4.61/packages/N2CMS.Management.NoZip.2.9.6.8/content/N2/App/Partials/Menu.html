@@ -1,0 +1,37 @@
+﻿
+<div id="menu" class="action-bar secondary navbar"
+	ng-class="{ draft: Context.CurrentItem.State == Content.states.Draft || Context.CurrentItem.State == Content.states.Waiting, unpublished: Context.CurrentItem.State == Content.states.Unpublished || Context.CurrentItem.State == Content.states.Deleted }" 
+	ng-controller="MenuCtrl">
+	<ul class="menu nav">
+		<li class="main-menu item">
+			<a id="logo" href class="dropdown-toggle" data-toggle="dropdown" ng-show="Context.MainMenu.Children.length">
+				<b class="caret"></b>
+			</a>
+
+			<ul class="dropdown-menu" ng-show="Context.MainMenu.Children.length">
+				<li class="item secondary-action"
+					ng-repeat="child in Context.MainMenu.Children"
+					ng-class="{ divider: child.Current.Divider, selected: isFlagged(child.Current.SelectedBy) }"
+					ng-include src="child.Current.TemplateUrl || 'App/Partials/MenuSubNode.html'"
+					ng-show="isDisplayable(child)">
+				</li>
+			</ul>
+
+		</li>
+		<li class="item primary-action"
+			ng-repeat="item in primaryNavigation"
+			ng-class="{ dropdown : item.Children.length, selected: isFlagged(item.Current.SelectedBy) }"
+			ng-include src="item.Current.TemplateUrl || 'App/Partials/MenuNode.html'"
+			ng-show="isDisplayable(item)">
+		</li>
+	</ul>
+
+	<ul class="menu nav pull-right">
+        <li class="item primary-action"
+            ng-repeat="item in secondaryNavigation"
+            ng-class="{ dropdown : item.Children.length, selected: isFlagged(item.Current.SelectedBy), open: item.Expanded }"
+            ng-include src="item.Current.TemplateUrl || 'App/Partials/MenuNode.html'"
+            ng-show="isDisplayable(item)">
+        </li>
+	</ul>
+</div+u6u

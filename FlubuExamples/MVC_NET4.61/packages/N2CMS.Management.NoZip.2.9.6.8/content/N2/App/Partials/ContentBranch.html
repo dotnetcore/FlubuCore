@@ -1,0 +1,47 @@
+﻿<div class='item' 
+	 ng-class="status"
+	 n2-active="node.Active"
+	 n2-loading="node.Loading"
+	 n2-keyboard-map="{ right: '.toggle', left: '.toggle', esc: '.tools .dropdown-toggle' }">
+	<b class="handle"></b>
+
+	<a href ng-click="toggle(node)" class="toggle"><b class="toggle-expand fa fa-chevron-right"></b><b class="toggle-collapse icon-chevron-up"></b><b class="toggle-loading icon-repeat"></b></a>
+
+	<div class="tags">
+		<b ng-repeat="tag in tags" title="{{tag.ToolTip}}" class="{{tag.IconClass}}"></b>
+	</div>
+	
+	<div class="tools dropdown" ng-hide="node.Current.MetaInformation.placeholder">
+		<a href='#' ng-click="ContextMenu.show(node)" class='dropdown-toggle' data-toggle="dropdown"><b class="fa fa-reorder"></b></a>
+		<ul ng-include src="ContextMenu.node == node && Context.Partials.ContextMenu" class="dropdown-menu pull-right"></ul>
+	</div>
+
+	<a ng-init="node.Url = appendPreviewOptions(node.Current.PreviewUrl)" href='{{node.Url}}' ng-click="nodeClicked(node)" target='preview' class="link" title="{{node.Current.ToolTip}}"
+	   n2-keyboard-stop="1">
+		<b class='ico' ng-show='node.Current.IconClass && !node.Current.IconUrl' ng-class='node.Current.IconClass || "ico-custom"'></b>
+		<span class='page-icon' ng-show='node.Current.IconUrl' x-background-image='node.Current.IconUrl'></span>
+		{{node.Current.Title || ('(no name)' | translate:'branch.noname')}}
+	</a>
+</div>
+
+<ul ng-class="{ collapsed: !node.Expanded }" x-sortable="{ move: sort.move, sort: sort.sort }">
+	<li class="node" 
+		ng-repeat="child in node.Parts" 
+		sortable-path="{{child.Current.Path}}" 
+		ng-controller="BranchCtrl" 
+		ng-class="{ expanded: child.Expanded, collapsed: child.HasChildren && !child.Expanded }" 
+		ng-include src="'App/Partials/ContentBranch.html'"></li>
+</ul>
+
+<ul class="targettable" ng-class="{ collapsed: !node.Expanded }" x-sortable="{ move: sort.move, sort: sort.sort }">
+	<li class="node" 
+		ng-repeat="child in node.Children" 
+		sortable-path="{{child.Current.Path}}" 
+		ng-controller="BranchCtrl" 
+		ng-class="{ expanded: child.Expanded, collapsed: (child.HasChildren || child.Parts) && !child.Expanded }" 
+		ng-include src="'App/Partials/ContentBranch.html'"></li>
+</ul>
+
+<a class="tree-pager" ng-show="node.IsPaged && node.Expanded" href ng-click="loadRemaining(node)">
+	<b class="toggle-loading fa fa-repeat" ng-show="node.Loading"></b>
+	<b class="toggle-remaining icon-chevron-down" ng-show="!node.Loading"></b>Load remaining</a>

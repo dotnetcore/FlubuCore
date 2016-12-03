@@ -1,0 +1,24 @@
+﻿<a class="page-action" ng-controller="PagePublishCtrl" href 
+   ng-click="publish()" 
+   ng-show="Context.CurrentItem.State == Content.states.Draft" 
+   translate="transitions.action"
+   x-page-action-icon-class>
+	<i class="ico fa fa-play-circle"></i>
+	Publish
+</a>
+<a class="page-action" ng-controller="PagePublishCtrl" href="{{evaluateExpression(item.Children[0].Current.Url)}}" target="preview" 
+   ng-show="Context.CurrentItem.State != Content.states.Draft" 
+   translate="transitions.trash">
+	<i class="ico fa fa-trash-o"></i>
+</a>
+
+<a href class="dropdown-toggle" data-toggle="dropdown" ng-show="item.Children.length">
+	<b class="caret"></b>
+</a>
+
+<ul class="dropdown-menu" ng-show="item.Children.length" ng-controller="PagePublishCtrl">
+	<li ng-repeat="child in item.Children" class="item secondary-action"
+		ng-include src="child.Current.TemplateUrl || 'App/Partials/MenuSubNode.html'"
+		ng-show="isDisplayable(child)">
+	</li>
+</ul>

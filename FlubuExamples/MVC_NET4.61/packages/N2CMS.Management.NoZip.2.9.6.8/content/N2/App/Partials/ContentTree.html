@@ -1,0 +1,6 @@
+﻿<ul class="targettable" ui-jq="disableSelection" n2-event-focus="{ contextchanged: '.active > div > a.link' }" n2-keyboard-map="{ esc: '.toggle' }">
+	<li class="root node" sortable-path="{{node.Current.Path}}"
+		ng-class="{ expanded: node.Expanded, collapsed: node.HasChildren && !node.Expanded }"
+		ng-include src="'App/Partials/ContentBranch.html'"
+		ng-controller="TrunkCtrl"></li>
+</ul>

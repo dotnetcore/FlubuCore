@@ -1,0 +1,380 @@
+﻿/* FRAMED */
+body,label,input,textarea { font-size:15px; }
+a img,
+.command img{ margin-right:1px; vertical-align:middle; }
+.nav-tabs > li > a { border-radius:0 !important; }
+.framed .tab-content { overflow:visible; }
+/*body { background-color:#f0f0f0;}
+.nav-tabs { margin-bottom:0; }
+.tab-content{ background-color:#fff; padding:10px; }*/
+td,th { vertical-align:top; }
+h1 { font-size:1.6em; margin-top:0; font-family: Segoe UI, Georgia, sans-serif; }
+h2 { font-size:1.4em; font-family: Segoe UI, Georgia, sans-serif; }
+h3 { font-size:1.2em; }
+h4 { font-size:1.1em; }
+.btn {
+	border-radius:0 !important;
+	box-shadow:none !important;
+	border:solid 1px #ccc !important;
+}
+.btn-primary{
+	background-color:#18a0de;
+	background-image:linear-gradient(transparent, #1793cc) !important;
+	border:solid 1px #888 !important;
+}
+.btn-primary:hover{
+	background-color:#137fb0;
+	border:solid 1px #777 !important;
+}
+
+/* toolbar */
+
+body {
+	padding-bottom:30px;
+}
+/*TODO: Remove when no longer needed. 
+.framed-navbar {
+	position:fixed !important;
+	margin-left:0;
+	margin-right:0;
+}*/
+
+.framed-navbar.toolbar-count-0 {
+	display:none;
+}
+	.framed-navbar .navbar-inner {
+		background-color:#E28B51;
+		background-image:none;
+		padding:0 15px;
+	}
+	.framed-navbar .dropdown-toggle {
+		padding-left:8px;
+		padding-right:8px;
+	}
+	.framed-navbar .cancel {
+	}
+
+	/* Toolbox */
+#top { position:relative; }
+
+#sort {
+    background-image: none;
+    height: 30px;
+    padding: 0;
+    width: 28px;
+}
+
+#sort a {
+    background-position: 50% 50%;
+    border-top: 1px solid #FFFFFF;
+    display: block;
+    height: 13px;
+    padding: 0 5px;
+}
+
+.toolbox { font-size: 10px; font-family: 'Lucida Console', Monaco, monospace;height: 30px;background-color: #F8F8E8;border-bottom: 1px solid #D8D8D8; }
+    .toolbox .item { float:left; text-align:center; border-left:solid 1px #fff; border-right:solid 1px #d8d8d8; background-color:#fff;height: 30px; }
+        .toolbox .item .command { text-decoration:none; background-repeat:no-repeat; background-position:50% bottom; }
+        .toolbox .item .command:hover { background-image:url(../../Resources/Img/toolbar_button_bg_hover.png); }
+        .toolbox .item.selected .command { background-color:#fff; background-image:none; color:#000; cursor:auto; }
+        .toolbox .item.selected .command:hover { background-image:none; }
+			.toolbox .item .command a { padding:4px 5px 3px 22px; color:#6F6F6F; display:block; height:23px; line-height:18px; color:#6F6F6F; text-decoration:none; background:transparent none no-repeat 3px 50%;background-position: center center; }
+			.toolbox .item .command a:hover { color:#000; }
+
+
+
+/* button/option drop down */
+.commandOptions { position:relative; height:35px; }
+	.commandOptions .command { padding-right:18px; }
+    .optionGroup { padding:0 1px; position:absolute; border:solid 1px #ddd; background-color:#fff; top:-1px; left:-2px; z-index:99; box-shadow: #666 0 2px 10px -2px; }
+    .closed .optionGroup{ top:-9999px; left:-9999px; }
+        .commandOptions .optionGroup a { float:none; display:block; width:280px; text-decoration:none; }
+    .commandOptions .opener { width:13px; float:left; height:35px; text-indent:-9999px; display:block; margin-right:5px; margin-left:-15px; position:relative; cursor:pointer; cursor:hand; border-left:dotted 1px #ddd; background:transparent url(../icons/bullet_arrow_down.png) no-repeat 50% 50%; }
+    .commandOptions .opener:hover { outline:solid 1px #ddd; }
+
+.date { white-space:nowrap;}
+
+
+	
+	
+#content { padding: 1em; }
+
+
+.alert-margin {
+	display:block;
+	margin:10px 0;
+}
+	/*h1 { margin:1em 10px; }
+	.tabPanel h1 { margin:1em 0; }
+	.panel { margin:0 10px; }*/
+
+/*body.framed select,
+body.framed input,
+body.framed label{
+	vertical-align:middle;
+}
+body.framed .cbl input{
+	vertical-align:middle;
+}
+body.framed .cbl label{
+	float:none;
+	font-weight:normal;
+}
+body.framed #toolbar{
+	z-index:77;
+	white-space:nowrap;
+}
+body.framed #toolbar label{
+	color:#333333;
+	float:none;
+	clear:none;
+}
+ul{
+	list-style-type:disc;
+	margin:0 0 0 10px;
+	padding:0;
+}
+body.framed .formField{
+	clear:both;
+	margin:5px 0;
+}
+body.framed .formField label{
+	vertical-align:top;
+}*/
+
+body.framed .info,
+body.framed .validator{
+	display:block;
+	background-color:#D6D9D8;
+	background-repeat: no-repeat;
+	background-position: 5px 50%;
+	margin:10px 0;
+	padding:10px;
+	border:solid 1px #cecac7;
+}
+
+body.framed .info{
+	padding-left:24px;
+}
+
+/* validation */
+body.framed .validator{
+	background-image:url(../../Resources/icons/exclamation.png);
+	padding-left:24px;
+}
+body.framed .validator ul{
+	margin-left:20px;
+}
+
+/* GRIDVIEW */
+.table td, .table th {
+	border-style:none;
+}
+
+/* NAVIGATCONTEXTMENU */
+body.framed .ui-menu { box-shadow: #666 2px 2px 8px -3px; background-color:#fff; }
+    body.framed .ui-menu a.iconed {background:transparent none no-repeat 2px 1px; display:block; padding:2px 1px 2px 22px; }
+    body.framed .ui-menu a:hover { background-color:#f7f7f7; outline:solid 1px #dedad7; text-decoration:none; }
+    body.framed .ui-menu .separator { border-bottom:solid 1px #dedad7; margin:1px 0;}
+    body.framed .ui-menu .languages { display:block; width:75px; padding-top:2px; }
+		body.framed .ui-menu .languages a { display:inline-block; line-height:11px; padding:1px; }
+			body.framed .ui-menu .languages a img { margin:0; }
+
+/* NAVIGATIONTABLE */
+body.framed .path { display:block; }
+    body.framed .path a { white-space:nowrap; }
+    body.framed .path .current { font-weight:bold; }
+
+body.framed .gv .sort a { display:inline; }
+body.framed .tb,
+body.framed .btn { vertical-align:middle; }
+body.framed a.title { white-space:nowrap; }
+
+/* NEW */
+body.framed .type { clear:both; position:relative; width:99%; border-top:solid 1px #EED; }
+body.framed .d0 { border-top-style:none; }
+	body.framed .type a { font-size:.8em; padding:5px 10px; display:block; color:#666; background:transparent none no-repeat 5px 5px; }
+	body.framed .type a.t0 { font-size:1em; }
+		body.framed .type a .title { font-weight:bold; color:#333; display:inline-block; min-width:110px; margin-right:10px; }
+	body.framed .type a:hover { color:#000; text-decoration:none; background-color:#f8f8f8; }
+
+	body.framed .type.d0 span.title, 
+	body.framed .type.d1 span.title,
+	body.framed .type.d2 span.title { font-size:1.25em; }
+	body.framed .type span.description { display:block; }
+
+body.framed .position em { color:Green; font-weight:bold; }
+.position input, .position label { float:left; display:block; }
+.position label .indent { border:solid 1px silver;}
+.position span { display:block;}
+.position .indent { border:solid 1px silver; padding:5px; width:400px;}
+.position .indent .indent { padding:0 0 0 20px; border:none; width:auto; }
+
+/*body.framed #nav { font-size:1.2em; }*/
+body.framed #nav .notvisible{ opacity:.75; }
+body.framed #nav .unpublished,
+body.framed #nav .expired,
+body.framed #nav .locked { color:#C66; }
+body.framed #nav .leaf .unselectable, body.framed #nav .leaf-last .unselectable { color: #ccc }
+body.framed #nav .leaf .unselectable img, body.framed #nav .leaf-last .unselectable img { opacity:.5 }
+body.framed #nav .selectable:hover { background-color:#eef; }
+
+body.framed #nav .locked { padding-right:16px; background:transparent url(../../Resources/icons/bullet_key.png) no-repeat 100% 50%; }
+body.framed #nav .unpublished { padding-right:18px; background:transparent url(../../Resources/icons/bullet_stop.png) no-repeat 100% 50%; }
+body.framed #nav .expired { padding-right:16px; background:transparent url(../../Resources/icons/bullet_stop.png) no-repeat 100% 50%; }
+
+body.framed #nav span.meta { margin-left:5px; font-weight:normal; }
+body.framed #nav span.language { background-color:#bdb; color:#fff; padding:0 1px;}
+body.framed #nav span.authority { font-style:italic; text-transform:capitalize }
+body.framed #nav a span.zone { display:none }
+body.framed #nav a:hover span.zone { display:inline; background-color:#ddd; color:#fff; padding:0 1px; }
+body.framed #nav span.draft { vertical-align:middle; height:16px; width:16px; background:transparent url(../../Resources/icons/bullet_orange.png) no-repeat 50% 0; display:inline-block; }
+
+#futurePanel { top:50px; right:50%; margin-right:-200px; display:none; }
+	.dropdown-backdrop { background-color: rgba(0, 0, 0, 0.25) }
+
+/* located in demo.css and creates a little calendar icon
+ * instead of a text link for "Choose date"
+ */
+a.dp-choose-date {
+	width: 16px;
+	height: 16px;
+	padding: 0;
+	margin: 5px 3px 0;
+	text-indent: -2000px;
+	overflow: hidden;
+	background: url(../../Resources/icons/calendar.png) no-repeat; 
+	text-decoration:none;
+}
+a.dp-choose-date.dp-disabled {
+	background-position: 0 -20px;
+	cursor: default;
+}
+/* makes the input field shorter once the date picker code
+ * has run (to allow space for the calendar icon
+ */
+input.dp-applied {
+}
+
+.datePicker { width:90px; }
+.timePicker { width:80px; }
+
+.fileContents
+{
+	margin-top:10px;
+}
+.fileContents textarea
+{
+	width:100%;
+	height:300px;
+}
+.directory
+{
+}
+    .directory .file
+    {
+	    display:block;
+	    width:90px;
+	    height:90px;
+	    position:relative;
+	    float:left;
+	    margin:1px;
+	    overflow:hidden;
+    }
+        .directory .file input, .directory .file img
+        {
+	        vertical-align:middle;
+        }
+        .directory .file label
+        {
+	        display:block;
+	        height:60px;
+	        background:#ddc none no-repeat 50% 50%;
+	        padding:1px;
+        }
+        .directory .file a
+        {
+	        display:block;
+	        overflow: hidden;
+			text-overflow:ellipsis;
+			white-space: nowrap;
+        }
+    .droparea, .pickarea { margin:20px 0 0 0; padding:10px; clear:both; opacity:.5; background-color:#f8f8f8; border:none; }
+    .droparea:hover, .pickarea:hover { opacity:1; }
+        .droparea em, .pickarea em { margin-left:10px; display:none; }
+        .droparea:hover em, .pickarea:hover em  { display:inline; }
+	.droparea { min-height: 100px; max-height: 200px; overflow:auto; }
+		.droparea #uploadcontrols {
+			padding-left:120px; position:relative; 
+		}
+			.droparea #uploadcontrols b {
+				font-size:80px;
+				color: #ddd;
+				position:absolute;
+				top:20px;
+				left:20px;
+			}
+		.droparea .fileupload-content p {
+			opacity:.25;
+		}
+		.droparea .fileupload-content p:first-of-type {
+			opacity:1;
+		}
+
+.itemListEditor { margin:20px 0 0 0; clear:both; }
+	.itemListEditor .item-editor-list-items { margin-top:5px; padding: 20px; background: #f5f5f5 }
+	.itemListEditor .item-editor-list-items.items-count-0 { display:none; }
+	.itemListEditor * { transition: all .1s ease-in; }
+	.itemListEditor .item { position:relative; margin-top: 20px; background: #fff; }
+		.itemListEditor .item .editDetail:last-of-type { margin-bottom:0; }
+	.itemListEditor .item:first-of-type { margin-top: 0; }
+		.itemListEditor .item h3 { font-weight:normal; margin:0; padding:0 10px; background: rgba(24, 160, 222, 0.5); color:#fff; text-shadow: 0 0 5px rgba(0, 0, 0, .25) }
+		.itemListEditor .item:hover h3 { background: rgba(24, 160, 222, 1);  }
+		.itemListEditor .item .controls { position:absolute; top:0; right:0; }
+			.itemListEditor .item .controls a { color:#fff; display:inline-block; padding:10px; }
+			.itemListEditor .item .controls a:hover { background: rgba(255, 255, 255, .1) }
+		.itemListEditor .itemEditor { padding:10px; }
+	.itemListEditor .addArea { margin-top: 1px; }
+        
+.focused
+{
+	background-color:#eef;
+}
+.label
+{
+	width:100px;
+	float:left;
+	margin-bottom:10px;
+}
+.hrtop
+{
+	border-top:solid 1px #ddd;
+	margin-top:5px;
+	padding-top:5px;
+	display:block;
+}
+
+/* jquery ui css fix */
+
+.custom-transltaions label {
+	display:inline;
+}
+.custom-transltaions label span {
+	display:inline-block;
+	width: 200px;
+}
+
+.red { color:red; }
+.green { color:green; }
+.dodgerblue { color:dodgerblue; }
+.orange { color:orange; }
+.yellow { color:yellow; }
+
+
+.framed .help { color:#0088cc; opacity:.2; transition: all linear 1s; }
+.framed .editDetail .help { opacity:0; }
+.framed .editDetail:hover .help,
+.framed h1:hover .help { opacity:.5; }
+.framed .help:hover { opacity:1 !important; }
+.framed .tooltip p:last-of-type { margin-bottom:0; }
+.framed .popover { width: 400px; }

@@ -1,0 +1,90 @@
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  
+  <n2 xmlns="http://n2cms.com/schemas/configuration/v3" xdt:Transform="InsertIfMissing">
+    <!--
+			When installing a database from scratch you'll need to insert some required pages. 
+			This can be done by the web based installer located at http://yoursite/n2/installation/ 
+			-->
+    <host rootID="1" startPageID="2" multipleSites="true"
+          xdt:Transform="SetAttributes(rootID,startPageID,multipleSites)"
+          xdt:Locator="Condition([not(@configSource or @rootID)])" />
+    <engine>
+      <errors action="Email" mailTo="" mailFrom="noreply@yourdomain.com" />
+      <globalization enabled="true"/>
+    </engine>
+    <database connectionStringName="N2CMS" caching="true">
+    </database>
+    <edit>
+      <installer checkInstallationStatus="true" />
+      <writers dynamic="true"/>
+      <editors dynamic="true"/>
+      <administrators dynamic="true"/>
+      <images>
+        <sizes>
+          <add name="thumb" width="50" height="50" mode="Fill"/>
+          <add name="wide" width="960" height="480" mode="Fill" />
+        </sizes>
+      </images>
+    </edit>
+  </n2>
+  
+	<connectionStrings xdt:Transform="InsertIfMissing">
+		<!-- Some connection string examples:
+		SQLite:           <add name="N2CMS" connectionString="Data Source=|DataDirectory|\n2.sqlite.db;Version=3;New=True;" providerName="System.Data.SQLite" />
+		SQL Server 2005:  <add name="N2CMS" connectionString="Server=(local);Database=N2_Templates;Integrated Security=SSPI"/>
+		SQL Express 2005: <add name="N2CMS" connectionString="Data Source=.\SQLEXPRESS;AttachDbFilename=|DataDirectory|\N2.mdf;Integrated Security=True;User Instance=True" providerName="System.Data.SqlClient"/>
+		SQL Server 2000:  <add name="N2CMS" connectionString="Data Source=SQLServer2000;Database=SQLDatabase2000;User Id=SqlUser2000;Password=SqlPassword2000;Network Library=DBMSSOCN;" providerName="System.Data.SqlClient"/>
+		MySQL:            <add name="N2CMS" connectionString="Data Source=MySQLServer;Database=MySQLDatabase;User Id=MySQLUser;Password=MySQLPassword;" providerName="MySql.Data.MySqlClient"/>
+		SQL Compact 4:    <add name="N2CMS" connectionString="Data Source=|DataDirectory|\n2cms.sdf" providerName="System.Data.SqlServerCe.SqlCeEngine, System.Data.SqlServerCe"/>
+		-->
+	</connectionStrings>
+
+	<appSettings xdt:Transform="InsertIfMissing">
+		<add key="ValidationSettings:UnobtrusiveValidationMode" value="None" xdt:Locator="Match(key)"/>
+	</appSettings>
+
+  <system.web xdt:Transform="InsertIfMissing">
+    <httpRuntime xdt:Transform="InsertIfMissing" />
+    <membership xdt:Transform="InsertIfMissing" />
+    <roleManager xdt:Transform="InsertIfMissing" />
+    <profile xdt:Transform="InsertIfMissing" />
+    <siteMap xdt:Transform="InsertIfMissing" />
+  </system.web>
+    
+	<system.web>
+		<!-- Comment for .NET < 4 -->
+		<httpRuntime xdt:Transform="SetAttributes(requestValidationMode)" requestValidationMode="2.0" />
+
+		<authentication xdt:Transform="InsertIfMissing">
+      <forms xdt:Transform="InsertIfMissing">
+				<credentials xdt:Transform="InsertIfMissing">
+					<!-- WARNING: Change admin password manually or using the installer at /n2/installation/begin/. -->
+					<user xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)" name="admin" password="fa9beb99e4029ad5a6615399e7bbae21356086b3" />
+				</credentials>
+			</forms>
+		</authentication>
+
+		<authentication mode="Forms" xdt:Transform="SetAttributes(mode)"
+                    xdt:Locator="Condition(not(@mode) or (@mode!='Federated' and @mode!='Windows' and @mode!='None'))">
+			<forms>
+				<credentials passwordFormat="SHA1"
+                     xdt:Transform="SetAttributes(passwordFormat)"
+                     xdt:Locator="Condition(not(@passwordFormat) or (@passwordFormat!='Clear' and @passwordFormat!='MD5'))"></credentials>
+			</forms>
+		</authentication>
+
+    <membership defaultProvider="ContentMembershipProvider" xdt:Transform="SetAttributes(defaultProvider)" />
+    <roleManager defaultProvider="ContentRoleProvider" xdt:Transform="SetAttributes(defaultProvider)" />
+    <profile defaultProvider="ContentProfileProvider" xdt:Transform="SetAttributes(defaultProvider)" />
+    <siteMap defaultProvider="PublicSiteMap" xdt:Transform="SetAttributes(defaultProvider)" />
+
+	</system.web>
+
+  <system.webServer xdt:Transform="InsertIfMissing">
+    <validation xdt:Transform="InsertIfMissing"/>
+  </system.webServer>
+  <system.webServer>
+    <validation xdt:Transform="SetAttributes(validateIntegratedModeConfiguration)" validateIntegratedModeConfiguration="false"/>
+  </system.webServer>
+
+</configuration>

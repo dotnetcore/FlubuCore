@@ -1,0 +1,46 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Top.master.cs" Inherits="N2.Management.Top" %>
+
+<%@ Import Namespace="N2.Web" %>
+<%@ Register TagPrefix="edit" Namespace="N2.Edit.Web.UI.Controls" Assembly="N2.Management" %>
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+	<meta name="robots" content="noindex, nofollow" />
+	<title>N2</title>
+	<asp:PlaceHolder runat="server">
+		<link rel="stylesheet" href="<%= ResolveUrl("Resources/Css/all.css") %>" type="text/css" />
+		<link rel="stylesheet" href="<%= ResolveUrl("Resources/Css/default.css") %>" type="text/css" />
+		<!--[if IE 6]>
+	<link rel="stylesheet" href="<%= ResolveUrl("Resources/Css/IE6.css") %>" type="text/css" />
+	<![endif]-->
+	</asp:PlaceHolder>
+	<asp:ContentPlaceHolder ID="Head" runat="server">
+	</asp:ContentPlaceHolder>
+</head>
+<% string logOffUrl = "{Account.Logout.PageUrl}".ResolveUrlTokens(); %>
+<body id="default" class="edit">
+	<div id="permission">
+		<div id="top">
+			<div id="topbar" class="header cf themeBg">
+				<asp:ContentPlaceHolder ID="Toolbar" runat="server">
+					<edit:toolbarplugindisplay id="NavigationPlugins" area="Navigation" runat="server" />
+				</asp:ContentPlaceHolder>
+				<asp:HyperLink ID="logout" runat="server" CssClass="logout" NavigateUrl="<%= logOffUrl %>" Text="Log out" />
+			</div>
+			<asp:HyperLink ID="hlLogo" runat="server" SkinID="Logo" CssClass="logo" NavigateUrl="http://n2cms.com" Text="To the home of N2 CMS" ImageUrl="Resources/Img/n2.png" />
+			<div class="subbar cf">
+				<asp:ContentPlaceHolder ID="Subbar" runat="server">
+				</asp:ContentPlaceHolder>
+				<div class="blinds">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="splitter-container" class="frameForm">
+		<asp:ContentPlaceHolder ID="Content" runat="server">
+		</asp:ContentPlaceHolder>
+		<form id="form2" runat="server">
+		</form>
+	</div>
+</body>
+</html>

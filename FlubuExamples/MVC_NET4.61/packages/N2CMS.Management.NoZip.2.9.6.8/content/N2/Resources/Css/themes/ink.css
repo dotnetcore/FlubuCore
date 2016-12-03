@@ -1,0 +1,74 @@
+﻿
+/* INK THEME */
+
+body .header,
+#home h4
+{
+    background-color:#444; 
+    background-image:url(../../img/darken25.png);
+}
+body .box
+{
+}
+
+body .subbar,
+body .ui-layout-resizer
+{
+    background-color:#555; 
+    border-color:#222;
+}
+body .subbar
+{
+    border-top-color:#666;
+}
+#top .item
+{
+    border-left-color:#444;
+    border-right-color:#222;
+    background-color:#333;
+}
+body #top .toolbox .commandOptions .optionGroup .option
+{
+    background-color:#333;
+    border-color:#222;
+}
+#top a
+{
+    color:#ccc;
+}
+#top .selected a
+{
+    background-color:#222;
+}
+#top .selected a,
+#top a:hover
+{
+    color:#fff;
+}
+#sort a
+{
+    border-top:solid 1px #444;
+    border-bottom:solid 1px #222;
+}
+body .toolbar, 
+body .framed .optionGroup,
+body .framed .commandOptions .opener,
+body .gv th,
+body .gv thead td,
+body .toolbar .option,
+body.framed .outside
+{
+    background-color:#aaa;
+	border-color:#666;
+}
+body,
+body .gv .alt td { background-color:#eee; }
+
+body .toolbar .toggled,
+body .toolbar .command:hover{
+	border-color:#bbb;
+}
+body .toolbar a
+{
+	color:#333;
+}

@@ -1,0 +1,51 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title></title>
+	<asp:PlaceHolder runat="server">
+		<link href="<%=  N2.Web.Url.ResolveTokens(N2.Resources.Register.BootstrapCssPath) %>" type="text/css" rel="stylesheet" />
+		<script src="<%= N2.Web.Url.ResolveTokens(N2.Resources.Register.BootstrapJsPath)  %>" type="text/javascript"></script>
+	</asp:PlaceHolder>
+    <link rel="stylesheet" type="text/css" href="../Resources/Css/all.css" />
+    <link rel="stylesheet" type="text/css" href="../Resources/Css/framed.css" />
+    <link rel="stylesheet" type="text/css" href="../Resources/Css/themes/default.css" />
+    <style type="text/css">
+    	b {
+    		color: red;
+    	}
+
+    	pre {
+    		margin: 10px 0;
+    		border-left: solid 10px #eee;
+    		padding-left: 10px;
+    	}
+
+    	input {
+    		vertical-align: middle;
+    	}
+
+    	.msg {
+    		font-weight: bold;
+    		font-size: 1.4em;
+    		color: green;
+    		background-color: Yellow;
+    		padding: 10px 0;
+    	}
+    </style>
+	<asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
+</head>
+<body>
+<form runat="server">
+	<ul class="tabs">
+		<li class="tab selected"><a href="#">Invalid class fixing tool</a></li>
+	</ul>
+    <div class="tabPanel">
+	    <asp:ContentPlaceHolder ID="mainContent" runat="server">
+        
+        </asp:ContentPlaceHolder>
+	</div>
+</form>
+</body>
+</html>

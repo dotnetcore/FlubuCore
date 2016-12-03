@@ -1,0 +1,41 @@
+﻿#toolbar { display:none; }
+
+#home .cpView, 
+#home .cpNew, 
+#home .cpEdit, 
+#home .cpDelete, 
+#home .cpAdminister
+{ display:none; }
+
+table.columns { margin:0 auto; width:99%; }
+	td.column { width:33%; padding:5px; overflow:visible; }
+
+		.uc { margin-bottom:10px; }
+			.uc .box { background-color:#fff; }
+				.uc .box .inner { padding:10px; }
+			.uc h4 { padding:5px 10px; color:#fff; margin:0; }
+				.field { margin:2px 0; }
+				label { font-weight:bold; margin-right:10px; }
+				
+				.uc table.data { border-collapse:collapse; width:100%; }
+				.uc table.data th { font-weight:bold; background-color:#eee; border:solid 1px #fff; }
+				.uc table.data thead th { padding:4px; }
+				.uc table.data td { border:solid 1px #eee; padding:1px 4px; }
+		.uc .list .item,
+		.uc .sidelist .item { margin-bottom:.5em; }
+
+.validation-summary-errors
+{
+	padding:5px;
+	margin-bottom:10px;
+	background-color:#fcc;
+}
+.input-validation-error
+{
+	border-color:#f00;
+	background-color:#fcc;
+}
+.buttons
+{
+	padding-top:10px;
+}

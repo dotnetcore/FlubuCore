@@ -1,0 +1,32 @@
+﻿
+/* navigation */
+
+html.navigation,html.navigation body { height:100%; padding:0; font-size:14px; }
+body.framed .nav .selected { font-weight:bold; }
+.tree { padding:5px; }
+
+/* tree */
+
+.nav a { color:#000; text-decoration:none; white-space: nowrap; display:inline-block; }
+.nav a img { vertical-align:middle; }
+
+.nav li, .nav ul { padding:0; margin:0; display:block; clear:both; padding-bottom:1px; }
+
+.nav li { background: transparent none no-repeat 0 0; list-style: none; position:relative}
+.nav .leaf { background-image: url(../../Resources/Img/treeview/leaf.gif); }
+.nav .leaf-last { background-image: url(../../Resources/Img/treeview/leaf-last.gif); }
+.nav .folder-close { background-image: url(../../Resources/Img/treeview/expandable.gif); }
+.nav .folder-close-last { background-image: url(../../Resources/Img/treeview/expandable-last.gif); }
+.nav .folder-open { background-image: url(../../Resources/Img/treeview/collapsable.gif); }
+.nav .folder-open-last { background-image: url(../../Resources/Img/treeview/collapsable-last.gif); }
+    .nav li li { padding-left:16px; }
+
+body.framed .toggler { left:0; position:absolute; height:16px; width:16px; background-image:url(../../Resources/Img/treeview/spacer.gif); cursor:pointer; }
+
+body.framed ul.ajax { background: transparent url(../../Resources/Img/treeview/spinner.gif) no-repeat 0 0; height: 16px; display:none; }
+	body.framed ul.ajax li { display:none; }
+
+body.framed .ui-draggable-dragging { background-color:#eee; z-index:1000; }
+body.framed .droppable-hover { background-color:#d5d9e4; outline:dotted 1px #3b5383; }
+
+.FileUpload { display:none; color:#fff; }

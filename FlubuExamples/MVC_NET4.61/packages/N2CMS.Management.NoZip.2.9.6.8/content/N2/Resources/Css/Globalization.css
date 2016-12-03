@@ -1,0 +1,5 @@
+﻿body.framed .languages a { display:inline;}
+body.framed .languages .current {font-weight:bold;}
+body.framed .languages .new { padding-left:32px; background:transparent url(../../Resources/icons/add.png) no-repeat 16px 50%; font-style:italic;}
+body.framed .languages .th td { font-weight:bold; padding:4px 8px; }
+body.framed .languages tbody .i0 td { border-top:solid 5px #18a0de; }

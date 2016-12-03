@@ -1,0 +1,6 @@
+﻿<h1 style="width:100%; text-align:center; position:absolute; top:50%; margin-top:-20px;" translate="loading">
+	<b class="fa fa-spinner fa-spin" style="margin-right:5px;" ng-hide="Initialization.errors.length"></b>
+	<b class="fa fa-bomb" style="margin-right:5px;" ng-show="Initialization.errors.length"></b>
+	Loading.<span ng-repeat="request in Initialization.requests">.</span>
+	<span ng-repeat="error in Initialization.errors" title="{{error.config.method}} {{error.config.url}}: {{error.status}} {{error.statusText}}"> :(</span>
+</h1>

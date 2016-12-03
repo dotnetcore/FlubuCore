@@ -1,0 +1,75 @@
+﻿<div n2-preview-bar class="n2-preview-bar" ng-class="{ 'n2-preview-published': States.published }">
+	<ul class="n2-preview-actions">
+		<li class="n2-preview-manage" ng-show="fullscreen">
+			<a href="{{Paths.management}}" target="_top" class="n2-logo"><img src="{{Context.Paths.Management}}Resources/img/n2.png" /></a>
+		</li>
+		<li class="n2-preview-fullscreen n2-active" ng-hide="fullscreen">
+			<a href="{{Paths.preview}}" target="_top" class="n2-logo"><img src="{{Context.Paths.Management}}Resources/img/n2.png" /></a>
+		</li>
+
+		<li class="n2-preview-edit" ng-show="Permissions.write">
+			<a href="{{Paths.edit}}" title="Edit {{Context.CurrentItem.Title}}"><b class="fa fa-pencil-square"></b></a>
+		</li>
+
+		<li class="n2-preview-organize" ng-show="!dragging && Permissions.write">
+			<a href="{{Paths.organize}}" title="Organize parts"><b class="fa fa-object-group"></b></a>
+		</li>
+		<li class="n2-preview-unorganize n2-active" ng-show="dragging">
+			<a href="{{Paths.preview}}" title="Stop organizing parts"><b class="fa fa-object-group"></b></a>
+		</li>
+		<li class="n2-preview-add" ng-show="dragging" ng-class="{ 'n2-active': templates }" n2-preview-parts>
+			<a href ng-click="toggleParts()"><b class="fa fa-plus-square"></b> Add part</a>
+			<ul class="n2-preview-foldup" ng-show="templates">
+				<li ng-repeat="template in templates" title="{{template}}">
+					<a href ng-click="beginAdding(template)">
+						<b ng-show="template.IconUrl" class="n2-iconed" style="background-image:url({{template.IconUrl}})"></b>
+						<b ng-hide="template.IconUrl" class="{{template.IconClass}}"></b>
+						{{template.Title}}
+					</a>
+				</li>
+			</ul>
+			<div ng-show="adding" class="n2-preview-adding n2-preview-foldup">
+				<label>Click on a zone in which to add <strong>"{{adding.template.Title}}"</strong>.</label>
+				<div>
+					Scroll to
+					<a href ng-repeat="zone in adding.zones" ng-click="scrollTo(zone)">{{zone.title}} </a>
+				</div>
+				<a href class="n2-button" ng-click="cancelAdding()">Cancel</a>
+			</div>
+			<div ng-show="moving" class="n2-preview-moving n2-preview-foldup">
+				<label>Click on a zone onto which to move <strong>"{{moving.part.type}}"</strong>.</label>
+				<div>
+					Scroll to
+					<a href ng-repeat="zone in moving.zones" ng-click="scrollTo(zone)">{{zone.title}} </a>
+				</div>
+				<a href class="n2-button" ng-click="cancelMoving()">Cancel</a>
+			</div>
+		</li>
+
+		<li ng-repeat="node in Context.Menu.Children">
+			<a page-action-link="node"></a>
+		</li>
+
+		<li class="n2-preview-publish" ng-show="publishable">
+			<a href="{{Paths.publish}}" title="Publish changes on this draft"><b class="fa fa-play-circle"></b> Publish</a>
+		</li>
+		<li class="n2-preview-publish" ng-show="Context.Draft" n2-preview-draft>
+			<a href="{{href}}" title="{{tooltip}}"><b class="fa fa-circle-o"></b> Show draft</a>
+		</li>
+
+		<li class="n2-preview-more" n2-preview-more>
+			<a href ng-click="toggleMore()"><b class="fa fa-ellipsis-v"></b></a>
+			<ul class="n2-preview-foldup" ng-show="showMore">
+				<li ng-show="Permissions.write && !discardable">
+					<a href="{{Paths.create}}" title="Create child item"><b class="fa fa-plus-circle"></b> Add page...</a>
+				</li>
+				<li ng-show="deletable && !discardable">
+					<a href="{{Paths.remove}}" title="Delete {{Context.CurrentItem.Title}}"><b class="fa fa-trash-o"></b> Delete {{Context.CurrentItem.Title}}...</a>
+				</li>
+				<li class="n2-preview-discard" ng-show="discardable">
+					<a href="{{Paths.discard}}" title="Discard changes on this draft"><b class="fa fa-times"></b> Discard unpublished changes</a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div>

@@ -1,0 +1,185 @@
+﻿html { overflow:hidden; height:100% }
+body { height:100%; margin:0; }
+body .frameForm { position:absolute; top:46px; bottom:0px; width:100%; overflow:hidden; }
+
+/* Toolbar */
+#top{ position:relative; }
+
+.toolbox { font-size: 10px; font-family: 'Lucida Console', Monaco, monospace; }
+    .toolbox .item { float:left; text-align:center; border-left:solid 1px #fff; border-right:solid 1px #d8d8d8; background:#fff url(../../Resources/Img/lighten10.png) repeat-x 0 -15px; }
+        .toolbox .item .command { text-decoration:none; background-repeat:no-repeat; background-position:50% bottom; height:34px; }
+        .toolbox .item.selected .command { background-color:#fff; background-image:none; color:#000; cursor:auto; }
+        .toolbox .item.selected .command:hover { background-image:none; }
+			.toolbox .item .command a { padding:10px 5px 4px 22px; color:#6F6F6F; display:block; height:16px; color:#6F6F6F; text-decoration:none; background:transparent none no-repeat 3px 50%; display:block; }
+			.toolbox .item .command a:hover { background-color: #DDD; color:#000; }
+
+.contentTools .toolbox .item .command { height:30px; }
+
+.ui-layout-north { z-index: 100 !important; }
+.header { padding-top: 10px;}
+    .header .toolbox { float:left; border-bottom:none; margin-right:10px; }
+		.header .toolbox .item { background:#fff url(../../Resources/Img/lighten10.png) repeat-x 5px 50%; }
+	            .header .toolbox .item .command a { padding:22px 4px 0 4px; min-width:32px; height:12px; overflow:hidden; position:relative; background-position:50% 3px; }
+
+#top .logo{ position:absolute; right:10px; top:5px; height:30px; }
+#top .logout { color: #FFFFFF;display: block;float: right;margin-right: 60px;padding: 8px; }
+
+.subbar { border: solid 1px #999; border-left:none; border-right:none; background:transparent url(../../Resources/Img/lighten10.png) repeat-x 0px bottom; position:relative; }
+    .subbar .operations { float:left; }
+    .subbar .options { float:right; }
+
+#sort { height:25px; width:28px; padding:0; background-image:none; }
+    #sort .command { padding:0; }
+        #sort a { display:block; height:14px; padding:0 5px; border-top:solid 1px #fff; background-position:50% 50%; }
+        #sort .up { border-bottom:solid 1px #d8d8d8; }
+
+#search{ background:transparent; padding:0; margin-left:10px;position: absolute;right: 130px; border:none; }
+	#search form { background-color:transparent; padding:0; margin:0; }
+    	#search input { padding:3px; float:left; margin:0; height:19px; width:130px; color:#999; background-color:#fff; background-repeat:repeat-x; border-style:none; border-right:solid 1px #D8D8D8; }
+    	#search input:focus { background-image:none; }
+    	#search button { padding:3px; float:left; margin:0; height:25px; text-indent:-100px; border:solid 1px #fff; width:26px; background:#fff url(../../Resources/icons/find.png) no-repeat 50% 50%}
+    	#search button:hover { border:solid 1px #ccf; }
+
+#leftPane { width: 200px; float:left;}
+#rightPane { width:790px; float:left;}
+.ui-layout-pane iframe{ width:100%; height:100%; }
+.ui-layout-resizer { border:solid 1px #ccc}
+	.ui-layout-toggler { outline:dotted 1px #999; background:transparent url(../img/shading.png); }
+
+.contentTools {border-bottom: 1px solid #D8D8D8;height: 30px; background:#fff; }
+
+/* sub bar blinds */
+
+.blinds
+{
+    opacity:.2; 
+    filter:alpha(opacity=20);
+    alpha:.2;
+    background-color:#000;
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    display:none;
+}
+
+.newSelected .blinds, 
+.editSelected .blinds, 
+.wizardSelected .blinds, 
+.versionsSelected .blinds, 
+.securitySelected .blinds, 
+.exportimportSelected .blinds, 
+.globalizationSelected .blinds, 
+.linktrackerSelected .blinds,
+.usersSelected .blinds
+{
+    display:block;
+}
+
+/* disable paste */
+
+.disabled
+{
+    opacity:.5; 
+    filter:alpha(opacity=50);
+    alpha:.5;
+}
+#top .disabled:hover
+{
+    background-image:none;
+}
+
+
+
+
+
+/* button/option drop down */
+#top .toolbox .commandOptions,
+.contentTools .toolbox .commandOptions {
+	position:relative;
+}
+    #top .toolbox .commandOptions a,
+    .contentTools .toolbox .commandOptions a {
+    	float:left;
+    }
+    #top .toolbox .commandOptions .opener,
+    .contentTools .toolbox .commandOptions .opener {
+		text-indent:-10000px;
+		width:13px;
+	    float:left;
+	    display:block;
+	    cursor:pointer;
+	    cursor:hand;
+		border-left:dotted 1px #e8e8e8;
+		background:transparent url(../icons/bullet_arrow_up.png) no-repeat 50% 50%;
+	    height:25px;
+    }
+    .contentTools .toolbox .commandOptions .opener
+    {
+    	height: 30px;
+	    width:18px;
+    }
+    #top .toolbox .commandOptions .opener:hover,
+	.contentTools .toolbox .commandOptions .opener:hover {
+		background-color: #ddd;
+	}
+    #top #topbar .toolbox .commandOptions .opener {
+	    height:34px;
+	    width:18px;
+    }
+    #top .toolbox .closed .opener,
+    .contentTools .toolbox .closed .opener {
+		background:transparent url(../icons/bullet_arrow_down.png) no-repeat 50% 50%;
+    }
+    #top .toolbox .optionGroup,
+    .contentTools .toolbox .optionGroup {
+	    padding:0 1px;
+	    position:absolute;
+	    top:0;
+	    left:-2px;
+	    z-index:9009;
+        border-bottom:solid 1px #ddd;
+    }
+    #top .toolbox .closed .optionGroup,
+    .contentTools .toolbox .closed .optionGroup {
+	    top:-9999px;
+	    left:-9999px;
+    }
+
+        #top .toolbox .commandOptions .option,
+        .contentTools .toolbox .commandOptions .option {
+        	display:none;
+        }
+        #top .toolbox .commandOptions .optionGroup a,
+        .contentTools .toolbox .commandOptions .optionGroup a {
+	        float:none;
+	        display:block;
+	        width:280px;
+	        text-decoration:none;
+			text-align:left;
+			visibility:hidden;
+        }
+        #top .toolbox .commandOptions .optionGroup .option,
+        .contentTools .toolbox .commandOptions .optionGroup .option {
+        	visibility:visible;
+        	height:auto;
+        	padding:2px 4px;
+        	border:solid 1px #ddd;
+        	border-bottom-style:none;
+			background-color:#fff;
+			font-family:Arial,Sans-Serif;
+			font-size:10px;
+        	padding-left:16px;
+			box-shadow: 0px 5px 5px 1px rgba(0, 0, 0, .2); 
+        }
+		#top .toolbox .commandOptions .optionGroup .option:hover,
+		.contentTools .toolbox .commandOptions .optionGroup .option:hover {
+			color:#000;
+			background-color:#f8f8f8;
+		}
+		#top .toolbox .commandOptions .optionGroup .option.selected,
+        .contentTools .toolbox .commandOptions .optionGroup .option.selected {
+			background: #f4f4f4 url(../icons/bullet_yellow.png) no-repeat 0% 50%;
+        	font-weight: bold;
+        }

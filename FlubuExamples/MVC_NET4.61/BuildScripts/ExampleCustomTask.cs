@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Flubu;
 using Flubu.Builds;
+using FlubuCore.Context;
+using FlubuCore.Tasks;
 
 namespace BuildScripts
 {
-    class ExampleCustomTask : TaskBase
+    class ExampleCustomTask : TaskBase<>
     {
         protected override void DoExecute(ITaskContext context)
         {

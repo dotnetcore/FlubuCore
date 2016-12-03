@@ -1,0 +1,11 @@
+﻿.resize { position:relative; display:inline-block; }
+.resize span { color:#fff; position:absolute; left:40%; top:33%; }
+.resize-warning .jcrop-vline,.resize-warning .jcrop-hline { background-color:red; }
+
+.files td.size { padding-left:10px; font-weight:bold; text-align:right; }
+.files td.preview > * { display:block; height:32px; width:32px; overflow:hidden; vertical-align:middle; text-align:center; overflow:hidden; }
+.files td.error { color:Red; }
+
+#fileupload.uploading {
+	opacity:1;
+}
