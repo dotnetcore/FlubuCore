@@ -33,7 +33,7 @@ namespace Flubu.Tests
         {
             IBuildScript t =
                 await
-                    _loader.FindAndCreateBuildScriptInstanceAsync(@"..\FlubuExamples\MVC_NET4.61\BuildScriptTest.cs");
+                    _loader.FindAndCreateBuildScriptInstanceAsync(@".\FlubuExamples\MVC_NET4.61\BuildScriptTest.cs");
 
             var provider = new ServiceCollection()
                 .AddCoreComponents()
