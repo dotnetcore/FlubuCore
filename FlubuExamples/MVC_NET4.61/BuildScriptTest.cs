@@ -14,10 +14,10 @@ public class BuildScriptTest : DefaultBuildScript
     protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
     {
         context.Properties.Set(BuildProps.NUnitConsolePath,
-            @"..\\FlubuExamples\\MVC_NET4.61\\packages\NUnit.ConsoleRunner.3.2.1\tools\nunit3-console.exe");
+            @".\\FlubuExamples\\MVC_NET4.61\\packages\NUnit.ConsoleRunner.3.2.1\tools\nunit3-console.exe");
         context.Properties.Set(BuildProps.ProductId, "FlubuExample");
         context.Properties.Set(BuildProps.ProductName, "FlubuExample");
-        context.Properties.Set(BuildProps.SolutionFileName, "..\\FlubuExamples\\MVC_NET4.61\\FlubuExample.sln");
+        context.Properties.Set(BuildProps.SolutionFileName, ".\\FlubuExamples\\MVC_NET4.61\\FlubuExample.sln");
         context.Properties.Set(BuildProps.BuildConfiguration, "Release");
     }
 
