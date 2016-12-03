@@ -45,9 +45,9 @@ namespace DotNet.Cli.Flubu.Commanding
                     return -1;
                 }
 
-                script.Run(_taskSession);
+                var result = script.Run(_taskSession);
 
-                return 0;
+                return result;
             }
             catch (Exception e)
             {

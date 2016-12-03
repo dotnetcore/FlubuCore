@@ -10,19 +10,22 @@ namespace FlubuCore.Scripting
 {
     public abstract class DefaultBuildScript : IBuildScript
     {
-        public void Run(ITaskSession taskSession)
+        public int Run(ITaskSession taskSession)
         {
             try
             {
                 RunBuild(taskSession);
+                return 0;
             }
             catch (TaskExecutionException e)
             {
                 taskSession.LogInfo(e.Message);
+                return 1;
             }
             catch (Exception ex)
             {
                 taskSession.LogInfo(ex.ToString());
+                return 2;
             }
         }
 

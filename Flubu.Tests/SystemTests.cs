@@ -20,19 +20,10 @@ namespace Flubu.Tests
 {
     public class SystemTests
     {
-        private readonly IFileWrapper _fileLoader = new FileWrapper();
-
-        private readonly ScriptLoader _loader;
-
-        public SystemTests()
-        {
-            _loader = new ScriptLoader(_fileLoader);
-        }
-
         [Fact]
         public void ExecuteMvcNet4_61BuildScript()
         {
-            Program.Main(new string[] { "Rebuild", @"-s=.\FlubuExamples\MVC_NET4.61\BuildScriptTest.cs" });
+            Assert.Equal(0, Program.Main(new string[] { "Rebuild", @"-s=.\FlubuExamples\MVC_NET4.61\BuildScriptTest.cs" }));
         }
     }
 }

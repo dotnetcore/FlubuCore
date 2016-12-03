@@ -4,6 +4,6 @@ namespace FlubuCore.Scripting
 {
     public interface IBuildScript
     {
-        void Run(ITaskSession taskSession);
+        int Run(ITaskSession taskSession);
     }
 }
