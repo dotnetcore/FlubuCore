@@ -240,10 +240,10 @@
     <Compile Include="..\BuildScript.cs">
       <Link>BuildScript.cs</Link>
     </Compile>
+    <Compile Include="..\BuildScriptTest.cs">
+      <Link>BuildScriptTest.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Build.exe" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
