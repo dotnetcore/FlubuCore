@@ -11,7 +11,7 @@ using FlubuCore.Scripting;
 /// </summary>
 public class BuildScriptTest : DefaultBuildScript
 {
-    public const string BaseExamplesPath = @"..\FlubuExamples\";
+    public const string BaseExamplesPath = @".\FlubuExamples\";
 
     protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
     {
