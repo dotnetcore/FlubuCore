@@ -22,17 +22,26 @@ public class BuildScript : DefaultBuildScript
     protected override void ConfigureTargets(ITaskContext session)
     {
         var loadSolution = session.CreateTarget("load.solution")
+            .SetAsHidden()
             .AddTask(x => x.LoadSolutionTask());
 
         var compile = session.CreateTarget("compile")
             .AddTask(x => x.CompileSolutionTask())
             .DependsOn(loadSolution);
 
-        var unitTests = session.CreateTarget("unit.tests")
-            .AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests"));
+        //// Just an example of Do.  It would be a better way to use AddTask() method to run tests. 
+        var unitTest = session.CreateTarget("Sample")
+            .Do(RunTests);
 
         session.CreateTarget("Rebuild")
             .SetAsDefault()
-            .DependsOn(compile, unitTests);
+            .DependsOn(compile, unitTest);
+    }
+
+    /// <param name="context"></param>
+    public static void RunTests(ITaskContext context)
+    {
+        ////Just an example. You can execute any custom code.
+        context.Tasks().NUnitTaskForNunitV3("FlubuExample.Tests").Execute(context);
     }
 }
