@@ -20,11 +20,7 @@ namespace Flubu.Tests
 {
     public class SystemTests
     {
-#if DEBUG
         public const string BaseExamplesPath = @"..\FlubuExamples\";
-#else
-        public const string BaseExamplesPath = @".\FlubuExamples\" ;
-#endif
 
         [Fact]
         public void ExecuteMvcNet4_61BuildScript()
