@@ -2,7 +2,7 @@
   "version": "1.0.0-*",
 
     "dependencies": {
-        "FlubuCore": "1.0.287",
+        "FlubuCore": "1.0.289",
         "NETStandard.Library": "1.6.0"
     },
 

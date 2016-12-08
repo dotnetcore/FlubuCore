@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
 
-public class MyBuildScript : DefaultBuildScript
+public class BuildScriptTest : DefaultBuildScript
 {
     protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
     {
@@ -20,7 +20,7 @@ public class MyBuildScript : DefaultBuildScript
         context
             .CreateTarget("compile")
             .SetDescription("Compiles the VS solution")
-            .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("FlubuExample"))
-            .TaskExtensions().DotnetBuild("FlubuExample");
+            .AddCoreTask(x => x.ExecuteDotnetTask("restore").WorkingFolder(@".\FlubuExamples\NetCore_1.1").WithArguments("FlubuExample"))
+            .TaskExtensions().DotnetBuild(@".\FlubuExamples\NetCore_1.1", "FlubuExample");
     } 
 }

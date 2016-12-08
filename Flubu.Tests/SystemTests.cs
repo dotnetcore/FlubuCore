@@ -20,10 +20,24 @@ namespace Flubu.Tests
 {
     public class SystemTests
     {
+#if DEBUG
+        public const string BaseExamplesPath = @"..\FlubuExamples\";
+#else
+        public const string BaseExamplesPath = @".\FlubuExamples\" ;
+#endif
+
         [Fact]
         public void ExecuteMvcNet4_61BuildScript()
         {
-            Assert.Equal(0, Program.Main(new string[] { "Rebuild", @"-s=.\FlubuExamples\MVC_NET4.61\BuildScriptTest.cs" }));
+            string buildScriptArg = @"-s=" + BaseExamplesPath + @"MVC_NET4.61\BuildScriptTest.cs";
+            Assert.Equal(0, Program.Main(new string[] { "Rebuild", buildScriptArg }));
+        }
+
+        [Fact]
+        public void ExecuteMvcNetCore1_0BuildScript()
+        {
+            string buildScriptArg = @"-s=" + BaseExamplesPath + @"NetCore_1.1\BuildScript\BuildScriptTest.cs";
+            Assert.Equal(0, Program.Main(new string[] { "compile", buildScriptArg }));
         }
     }
 }
