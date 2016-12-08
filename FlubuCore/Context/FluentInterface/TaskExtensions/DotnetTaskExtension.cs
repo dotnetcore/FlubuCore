@@ -33,5 +33,15 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
 
             return this;
         }
+
+        public ITaskExtensionsFluentInterface DotnetBuild(string workingFolder, params string[] projects)
+        {
+            foreach (string project in projects)
+            {
+                Target.AddTask(Context.CoreTasks().Build(project, workingFolder));
+            }
+
+            return this;
+        }
     }
 }
