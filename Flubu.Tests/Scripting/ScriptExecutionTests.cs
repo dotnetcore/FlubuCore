@@ -47,7 +47,7 @@ public class MyBuildScript : DefaultBuildScript
             var provider = new ServiceCollection().BuildServiceProvider();
             t.Run(new TaskSession(
                 null,
-                new TargetTree(provider, new DotnetTaskFactory(provider)),
+                new TargetTree(provider, new CommandArguments()),
                 new CommandArguments(),
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),
@@ -77,7 +77,7 @@ public class MyBuildScript : IBuildScript
             var provider = new ServiceCollection().BuildServiceProvider();
             t.Run(new TaskSession(
                 null,
-                new TargetTree(provider, new DotnetTaskFactory(provider)),
+                new TargetTree(provider, new CommandArguments()),
                 new CommandArguments(),
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),

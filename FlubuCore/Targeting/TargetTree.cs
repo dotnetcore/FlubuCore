@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FlubuCore.Context;
+using FlubuCore.Scripting;
 using FlubuCore.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,15 +10,15 @@ namespace FlubuCore.Targeting
     public class TargetTree
     {
         private readonly IServiceProvider _provider;
-        private readonly ITaskFactory _taskFactory;
+        private readonly CommandArguments _args;
         private readonly HashSet<string> _executedTargets = new HashSet<string>();
 
         private readonly Dictionary<string, ITarget> _targets = new Dictionary<string, ITarget>();
 
-        public TargetTree(IServiceProvider provider, ITaskFactory taskFactory)
+        public TargetTree(IServiceProvider provider, CommandArguments args)
         {
+            _args = args;
             _provider = provider;
-            _taskFactory = taskFactory;
 
             AddTarget("help")
                 .SetDescription("Displays the available targets in the build")
@@ -38,9 +39,11 @@ namespace FlubuCore.Targeting
         /// <value>The default target.</value>
         public ITarget DefaultTarget { get; private set; }
 
+        internal int DependenciesExecutedCount { get; private set; }
+
         public ITarget AddTarget(string targetName)
         {
-            ITarget target = new Target(this, targetName);
+            ITarget target = new Target(this, targetName, _args);
             _targets.Add(target.TargetName, target);
             return target;
         }
@@ -54,11 +57,20 @@ namespace FlubuCore.Targeting
         public void EnsureDependenciesExecuted(ITaskContextInternal taskContext, string targetName)
         {
             ITarget target = _targets[targetName];
-
             foreach (string dependency in target.Dependencies)
             {
                 if (_executedTargets.Contains(dependency))
                     continue;
+
+                if (_args.TargetsToExecute != null)
+                {
+                    if (!_args.TargetsToExecute.Contains(dependency))
+                    {
+                        throw new TaskExecutionException($"Target {dependency} is not on the TargetsToExecute list", 3);
+                    }
+
+                    DependenciesExecutedCount++;
+                }
 
                 RunTarget(taskContext, dependency);
             }

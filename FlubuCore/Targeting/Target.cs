@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using FlubuCore.Context;
+using FlubuCore.Scripting;
 using FlubuCore.Tasks;
 
 namespace FlubuCore.Targeting
@@ -11,16 +12,19 @@ namespace FlubuCore.Targeting
 
         private readonly List<ITask> _tasks = new List<ITask>();
 
+        private readonly CommandArguments _args;
+
         private readonly TargetTree _targetTree;
 
         private string _description;
 
         private Action<ITaskContextInternal> _targetAction;
 
-        internal Target(TargetTree targetTree, string targetName)
+        internal Target(TargetTree targetTree, string targetName, CommandArguments args)
         {
             _targetTree = targetTree;
             TargetName = targetName;
+            _args = args;
         }
 
         public ICollection<string> Dependencies => _dependencies;
@@ -142,6 +146,14 @@ namespace FlubuCore.Targeting
 
             _targetTree.MarkTargetAsExecuted(this);
             _targetTree.EnsureDependenciesExecuted(context, TargetName);
+
+            if (_args.TargetsToExecute != null)
+            {
+                if (!_args.TargetsToExecute.Contains(TargetName))
+                {
+                    throw new TaskExecutionException($"Target {TargetName} is not on the TargetsToExecute list", 3);
+                }
+            }
 
             // we can have action-less targets (that only depend on other targets)
             _targetAction?.Invoke(context);

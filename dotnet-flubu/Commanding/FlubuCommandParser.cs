@@ -1,3 +1,4 @@
+using System.Linq;
 using FlubuCore.Scripting;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.CommandLineUtils;
@@ -18,6 +19,8 @@ namespace DotNet.Cli.Flubu.Commanding
 
         private CommandOption _scriptPath;
 
+        private CommandOption _targetsToExecute;
+
         public FlubuCommandParser(CommandLineApplication commandApp)
         {
             _commandApp = commandApp;
@@ -35,7 +38,7 @@ namespace DotNet.Cli.Flubu.Commanding
             _outputOption = _commandApp.Option("-o|--output <OUTPUT_DIR>", "Directory in which to find the binaries to be run", CommandOptionType.SingleValue);
 
             _scriptPath = _commandApp.Option("-s|--script <SCRIPT>", "Build script file to use.", CommandOptionType.SingleValue);
-
+            _targetsToExecute = _commandApp.Option("-tte|--targetsToExececute <TARGETS_TO_EXECUTE>", "Target's that must be executed. Otherwise fails.", CommandOptionType.SingleValue);
             _commandApp.OnExecute(() => PrepareDefaultArguments());
 
             if (args == null)
@@ -60,6 +63,11 @@ namespace DotNet.Cli.Flubu.Commanding
             _parsed.Config = _configurationOption.Value() ?? Constants.DefaultConfiguration;
             _parsed.MainCommand = _command.Value;
             _parsed.Script = _scriptPath.Value();
+            if (_targetsToExecute.HasValue())
+            {
+                _parsed.TargetsToExecute = _targetsToExecute.Value().Split(',').ToList();
+            }
+
             _parsed.RemainingCommands = _commandApp.RemainingArguments;
 
             return 0;

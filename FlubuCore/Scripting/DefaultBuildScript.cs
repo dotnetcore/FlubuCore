@@ -92,6 +92,7 @@ namespace FlubuCore.Scripting
             });
 
             taskSession.TargetTree.RunTarget(taskSession, targetToRun);
+            AssertAllTargetDependenciesWereExecuted(taskSession);
         }
 
         private void ConfigureDefaultProps(ITaskSession taskSession)
@@ -114,6 +115,17 @@ namespace FlubuCore.Scripting
             else
             {
                 // do linux specific tasks
+            }
+        }
+
+        private void AssertAllTargetDependenciesWereExecuted(ITaskSession taskSession)
+        {
+            if (taskSession.Args.TargetsToExecute != null && taskSession.Args.TargetsToExecute.Count > 1)
+            {
+                if (taskSession.Args.TargetsToExecute.Count - 1 != taskSession.TargetTree.DependenciesExecutedCount)
+                {
+                    throw new TaskExecutionException("Wrong number of target dependencies were runned.", 3);
+                }
             }
         }
     }
