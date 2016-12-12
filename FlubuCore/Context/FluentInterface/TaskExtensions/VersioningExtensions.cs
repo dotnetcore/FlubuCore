@@ -24,20 +24,20 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
             string productName = Context.Properties.Get(BuildProps.ProductName, productId);
             bool generateAssemblyVersion = Context.Properties.Get(BuildProps.AutoAssemblyVersion, true);
 
-            GenerateCommonAssemblyInfoTask task = Context.Tasks().GenerateCommonAssemblyInfoTask();
-            task.BuildConfiguration = buildConfiguration;
-            task.CompanyCopyright = companyCopyright;
-            task.CompanyName = companyName;
-            task.CompanyTrademark = companyTrademark;
-            task.GenerateConfigurationAttribute = true;
-            task.ProductName = productName;
+            GenerateCommonAssemblyInfoTask task = Context.Tasks().GenerateCommonAssemblyInfoTask()
+                .BuildConfiguration(buildConfiguration)
+                .CompanyCopyright(companyCopyright)
+                .CompanyName(companyName)
+                .CompanyTrademark(companyTrademark)
+                .GenerateConfigurationAttribute(true)
+                .ProductName(productName);
 
             if (Context.Properties.Has(BuildProps.InformationalVersion))
-                task.InformationalVersion = Context.Properties.Get<string>(BuildProps.InformationalVersion);
+                task.InformationalVersion(Context.Properties.Get<string>(BuildProps.InformationalVersion));
 
-            task.ProductVersionFieldCount = Context.Properties.Get(BuildProps.ProductVersionFieldCount, 2);
-            task.GenerateAssemblyVersion = generateAssemblyVersion;
-            task.Execute(Context);
+            task.ProductVersionFieldCount(Context.Properties.Get(BuildProps.ProductVersionFieldCount, 2))
+                .GenerateAssemblyVersion(generateAssemblyVersion)
+                .Execute(Context);
 
             return this;
         }

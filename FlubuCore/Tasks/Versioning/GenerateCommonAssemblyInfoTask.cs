@@ -8,86 +8,143 @@ namespace FlubuCore.Tasks.Versioning
     {
         private bool _generateAssemblyVersion;
         private bool _generateAssemblyVersionSet;
+        private string _productRootDir;
+        private string _companyName;
+        private string _productName;
+        private string _companyCopyright;
+        private string _companyTrademark;
+        private string _buildConfiguration;
+        private bool _generateConfigurationAttribute;
+        private bool _generateCultureAttribute;
+        private int _productVersionFieldCount = 2;
+        private string _informationalVersion;
+        private Version _buildVersion;
 
-        public Version BuildVersion { get; set; }
-
-        public string ProductRootDir { get; set; }
-
-        public string CompanyName { get; set; }
-
-        public string ProductName { get; set; }
-
-        public string CompanyCopyright { get; set; }
-
-        public string CompanyTrademark { get; set; }
-
-        public string BuildConfiguration { get; set; }
-
-        public bool GenerateConfigurationAttribute { get; set; }
-
-        public bool GenerateCultureAttribute { get; set; }
-
-        public bool GenerateAssemblyVersion
+        public GenerateCommonAssemblyInfoTask()
         {
-            get
-            {
-                return _generateAssemblyVersion;
-            }
-
-            set
-            {
-                _generateAssemblyVersion = value;
-                _generateAssemblyVersionSet = true;
-            }
         }
 
-        public int ProductVersionFieldCount { get; set; } = 2;
+        public GenerateCommonAssemblyInfoTask(Version buildVersion)
+        {
+            _buildVersion = buildVersion;
+        }
 
-        public string InformationalVersion { get; set; }
+        public GenerateCommonAssemblyInfoTask BuildVersion(Version buildVersion)
+        {
+            _buildVersion = buildVersion;
+            return this;
+        }
+
+        public GenerateCommonAssemblyInfoTask ProductRootDir(string productRoodDir)
+        {
+            _productRootDir = productRoodDir;
+            return this;
+        }
+
+        public GenerateCommonAssemblyInfoTask CompanyName(string companyName)
+        {
+            _companyName = companyName;
+            return this;
+        }
+
+        public GenerateCommonAssemblyInfoTask ProductName(string productName)
+        {
+            _productName = productName;
+            return this;
+        }
+
+        public GenerateCommonAssemblyInfoTask CompanyCopyright(string companyCopyright)
+        {
+            _companyCopyright = companyCopyright;
+            return this;
+        }
+
+        public GenerateCommonAssemblyInfoTask CompanyTrademark(string companyTrademark)
+        {
+            _companyTrademark = companyTrademark;
+            return this;
+        }
+
+        public GenerateCommonAssemblyInfoTask BuildConfiguration(string buildConfiguration)
+        {
+            _buildConfiguration = buildConfiguration;
+            return this;
+        }
+
+        public GenerateCommonAssemblyInfoTask GenerateConfigurationAttribute(bool generateConfigurationAttribute)
+        {
+            _generateConfigurationAttribute = generateConfigurationAttribute;
+            return this;
+        }
+
+        public GenerateCommonAssemblyInfoTask GenerateCultureAttribute(bool generateCultureAttribute)
+        {
+            _generateCultureAttribute = generateCultureAttribute;
+            return this;
+        }
+
+        public GenerateCommonAssemblyInfoTask GenerateAssemblyVersion(bool generateAssemblyVersion)
+        {
+            _generateAssemblyVersion = generateAssemblyVersion;
+            _generateAssemblyVersionSet = true;
+            return this;
+        }
+
+        public GenerateCommonAssemblyInfoTask ProductVersionFieldCount(int productVersionFieldCounet)
+        {
+            _productVersionFieldCount = productVersionFieldCounet;
+            return this;
+        }
+
+        public GenerateCommonAssemblyInfoTask InformationalVersion(string informationVersion)
+        {
+            _informationalVersion = informationVersion;
+            return this;
+        }
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            if (string.IsNullOrEmpty(BuildConfiguration))
-                BuildConfiguration = context.Properties.TryGet<string>(BuildProps.BuildConfiguration);
+            if (string.IsNullOrEmpty(_buildConfiguration))
+                _buildConfiguration = context.Properties.TryGet<string>(BuildProps.BuildConfiguration);
 
-            if (BuildVersion == null)
-                BuildVersion = context.Properties.GetBuildVersion();
+            if (_buildVersion == null)
+                _buildVersion = context.Properties.GetBuildVersion();
 
-            if (string.IsNullOrEmpty(CompanyCopyright))
-                CompanyCopyright = context.Properties.TryGet(BuildProps.CompanyCopyright, string.Empty);
+            if (string.IsNullOrEmpty(_companyCopyright))
+                _companyCopyright = context.Properties.TryGet(BuildProps.CompanyCopyright, string.Empty);
 
-            if (string.IsNullOrEmpty(CompanyName))
-                CompanyName = context.Properties.TryGet(BuildProps.CompanyName, string.Empty);
+            if (string.IsNullOrEmpty(_companyName))
+                _companyName = context.Properties.TryGet(BuildProps.CompanyName, string.Empty);
 
-            if (string.IsNullOrEmpty(CompanyTrademark))
-                CompanyTrademark = context.Properties.TryGet(BuildProps.CompanyTrademark, string.Empty);
+            if (string.IsNullOrEmpty(_companyTrademark))
+                _companyTrademark = context.Properties.TryGet(BuildProps.CompanyTrademark, string.Empty);
 
-            if (string.IsNullOrEmpty(ProductName))
+            if (string.IsNullOrEmpty(_productName))
             {
                 string productId = context.Properties.TryGet<string>(BuildProps.ProductId);
-                ProductName = context.Properties.TryGet(BuildProps.ProductName, productId);
+                _productName = context.Properties.TryGet(BuildProps.ProductName, productId);
             }
 
-            if (string.IsNullOrEmpty(ProductRootDir))
-                ProductRootDir = context.Properties.TryGet(BuildProps.ProductRootDir, ".");
+            if (string.IsNullOrEmpty(_productRootDir))
+                _productRootDir = context.Properties.TryGet(BuildProps.ProductRootDir, ".");
 
             if (!_generateAssemblyVersionSet)
                 _generateAssemblyVersion = context.Properties.TryGet(BuildProps.AutoAssemblyVersion, true);
 
-            if (string.IsNullOrEmpty(InformationalVersion))
-                InformationalVersion = context.Properties.TryGet<string>(BuildProps.InformationalVersion);
+            if (string.IsNullOrEmpty(_informationalVersion))
+                _informationalVersion = context.Properties.TryGet<string>(BuildProps.InformationalVersion);
 
-            if (ProductVersionFieldCount <= 0)
-                ProductVersionFieldCount = context.Properties.TryGet(BuildProps.ProductVersionFieldCount, 2);
+            if (_productVersionFieldCount <= 0)
+                _productVersionFieldCount = context.Properties.TryGet(BuildProps.ProductVersionFieldCount, 2);
 
-            if (BuildVersion == null)
+            if (_buildVersion == null)
             {
                 context.Fail("Assembly file version is not set.", 1);
                 return 1;
             }
 
             using (Stream stream = File.Open(
-                Path.Combine(ProductRootDir, "CommonAssemblyInfo.cs"), FileMode.Create))
+                Path.Combine(_productRootDir, "CommonAssemblyInfo.cs"), FileMode.Create))
             {
                 using (StreamWriter writer = new StreamWriter(stream))
                 {
@@ -104,25 +161,25 @@ using System.Runtime.InteropServices;
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: AssemblyCompanyAttribute(""{CompanyName}"")]
-[assembly: AssemblyProductAttribute(""{ProductName}"")]
-[assembly: AssemblyCopyrightAttribute(""{CompanyCopyright}"")]
-[assembly: AssemblyTrademarkAttribute(""{CompanyTrademark}"")]
-[assembly: AssemblyFileVersionAttribute(""{BuildVersion}"")]
+[assembly: AssemblyCompanyAttribute(""{_companyName}"")]
+[assembly: AssemblyProductAttribute(""{_productName}"")]
+[assembly: AssemblyCopyrightAttribute(""{_companyCopyright}"")]
+[assembly: AssemblyTrademarkAttribute(""{_companyTrademark}"")]
+[assembly: AssemblyFileVersionAttribute(""{_buildVersion}"")]
 [assembly: ComVisible(false)]");
 
-                    string buildVersionShort = BuildVersion.ToString(ProductVersionFieldCount);
-                    string infVersion = InformationalVersion ?? buildVersionShort;
+                    string buildVersionShort = _buildVersion.ToString(_productVersionFieldCount);
+                    string infVersion = _informationalVersion ?? buildVersionShort;
 
                     writer.WriteLine($"[assembly: AssemblyInformationalVersionAttribute(\"{infVersion}\")]");
 
                     if (_generateAssemblyVersion)
                         writer.WriteLine($"[assembly: AssemblyVersionAttribute(\"{buildVersionShort}\")]");
 
-                    if (GenerateConfigurationAttribute)
-                        writer.WriteLine($"[assembly: AssemblyConfigurationAttribute(\"{BuildConfiguration}\")]");
+                    if (_generateConfigurationAttribute)
+                        writer.WriteLine($"[assembly: AssemblyConfigurationAttribute(\"{_buildConfiguration}\")]");
 
-                    if (GenerateCultureAttribute)
+                    if (_generateCultureAttribute)
                         writer.WriteLine("[assembly: AssemblyCultureAttribute(\"\")]");
                 }
             }

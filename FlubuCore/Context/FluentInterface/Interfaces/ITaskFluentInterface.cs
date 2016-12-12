@@ -91,6 +91,8 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 
         GenerateCommonAssemblyInfoTask GenerateCommonAssemblyInfoTask();
 
+        GenerateCommonAssemblyInfoTask GenerateCommonAssemblyInfoTask(Version buildVersion);
+
         OpenCoverToCoberturaTask OpenCoverToCoberturaTask(string input, string output);
 
         OpenCoverTask OpenCoverTask();

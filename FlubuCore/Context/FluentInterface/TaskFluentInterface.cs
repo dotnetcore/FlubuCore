@@ -138,6 +138,11 @@ namespace FlubuCore.Context.FluentInterface
             return Context.CreateTask<GenerateCommonAssemblyInfoTask>();
         }
 
+        public GenerateCommonAssemblyInfoTask GenerateCommonAssemblyInfoTask(Version buildVersion)
+        {
+            return Context.CreateTask<GenerateCommonAssemblyInfoTask>(buildVersion);
+        }
+
         public CoverageReportTask CoverageReportTask(params string[] inputFiles)
         {
             return new CoverageReportTask(inputFiles);

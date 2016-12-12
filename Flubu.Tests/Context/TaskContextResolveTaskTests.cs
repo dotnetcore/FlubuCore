@@ -124,6 +124,12 @@ namespace Flubu.Tests.Context
         }
 
         [Fact]
+        public void ResolveGenerateCommonAssemblyInfoTaskTest2()
+        {
+            Context.Tasks().GenerateCommonAssemblyInfoTask(new Version(1, 0, 0, 0));
+        }
+
+        [Fact]
         public void ResolveReplaceTokensTaskTest()
         {
             Context.Tasks().ReplaceTokensTask("a", "b");
