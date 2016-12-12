@@ -26,6 +26,8 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns>This same instance of <see cref="ITargetFluentInterface" />.</returns>
         ITaskExtensionsFluentInterface CreateSimplePackage(string zipPrefix, params string[] folders);
 
+        ITaskExtensionsFluentInterface GenerateCommonAssemblyInfo();
+
         ITaskExtensionsFluentInterface RunMultiProgram(params string[] programs);
 
         ITaskExtensionsFluentInterface RunProgram(string program, string workingFolder, params string[] args);
