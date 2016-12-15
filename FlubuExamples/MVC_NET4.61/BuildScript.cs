@@ -25,23 +25,34 @@ public class BuildScript : DefaultBuildScript
             .SetAsHidden()
             .AddTask(x => x.LoadSolutionTask());
 
+        var projectVersion = session.CreateTarget("update.version")
+            .DependsOn(loadSolution)
+            .Do(TargetFetchBuildVersion);
+
+        session.CreateTarget("generate.commonassinfo")
+           .DependsOn(projectVersion)
+           .TaskExtensions().GenerateCommonAssemblyInfo();
+
         var compile = session.CreateTarget("compile")
             .AddTask(x => x.CompileSolutionTask())
-            .DependsOn(loadSolution);
+            .DependsOn("generate.commonassinfo");
 
         //// Just an example of Do.  It would be a better way to use AddTask() method to run tests. 
-        var unitTest = session.CreateTarget("Sample")
-            .Do(RunTests);
+        var unitTest = session.CreateTarget("unit.tests")
+            .AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests"));
 
         session.CreateTarget("Rebuild")
             .SetAsDefault()
             .DependsOn(compile, unitTest);
     }
 
-    /// <param name="context"></param>
-    public static void RunTests(ITaskContext context)
+    public static void TargetFetchBuildVersion(ITaskContext context)
     {
-        ////Just an example. You can execute any custom code.
-        context.Tasks().NUnitTaskForNunitV3("FlubuExample.Tests").Execute(context);
+        var version = context.Tasks().FetchBuildVersionFromFileTask().Execute(context);
+     
+        int svnRevisionNumber = 0; //in real scenario you would fetch revision number from subversion.
+        int buildNumber = 0; // in real scenario you would fetch build version from build server.
+        version = new Version(version.Major, version.Minor, buildNumber, svnRevisionNumber);
+        context.Properties.Set(BuildProps.BuildVersion, version);
     }
 }
