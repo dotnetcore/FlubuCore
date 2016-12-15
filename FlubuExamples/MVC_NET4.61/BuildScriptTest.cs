@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FlubuCore.Context;
+using FlubuCore.Packaging;
 using FlubuCore.Scripting;
 
 /// <summary>
@@ -15,8 +16,7 @@ public class BuildScriptTest : DefaultBuildScript
 
     protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
     {
-        context.Properties.Set(BuildProps.NUnitConsolePath,
-            BaseExamplesPath + @"MVC_NET4.61\packages\NUnit.ConsoleRunner.3.2.1\tools\nunit3-console.exe");
+        context.Properties.Set(BuildProps.NUnitConsolePath, BaseExamplesPath + @"MVC_NET4.61\packages\NUnit.ConsoleRunner.3.2.1\tools\nunit3-console.exe");
         context.Properties.Set(BuildProps.ProductId, "FlubuExample");
         context.Properties.Set(BuildProps.ProductName, "FlubuExample");
         context.Properties.Set(BuildProps.SolutionFileName, BaseExamplesPath + "MVC_NET4.61\\FlubuExample.sln");
@@ -46,16 +46,12 @@ public class BuildScriptTest : DefaultBuildScript
         var unitTest = session.CreateTarget("unit.tests")
             .AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests"));
 
+        var package = session.CreateTarget("Package")
+           .Do(TargetPackage);
+
         session.CreateTarget("Rebuild")
             .SetAsDefault()
-            .DependsOn(compile, unitTest);
-    }
-
-    /// <param name="context"></param>
-    public static void RunTests(ITaskContext context)
-    {
-        ////Just an example. You can execute any custom code.
-        context.Tasks().NUnitTaskForNunitV3("FlubuExample.Tests").Execute(context);
+            .DependsOn(compile, unitTest, package);
     }
 
     public static void TargetFetchBuildVersion(ITaskContext context)
@@ -66,5 +62,22 @@ public class BuildScriptTest : DefaultBuildScript
         int buildNumber = 0; // in real scenario you would fetch build version from build server.
         version = new Version(version.Major, version.Minor, buildNumber, svnRevisionNumber);
         context.Properties.Set(BuildProps.BuildVersion, version);
+    }
+
+    public static void TargetPackage(ITaskContext context)
+    {
+        FilterCollection installBinFilters = new FilterCollection();
+        installBinFilters.Add(new RegexFileFilter(@".*\.xml$"));
+        installBinFilters.Add(new RegexFileFilter(@".svn"));
+
+        context.Tasks().PackageTask(BaseExamplesPath + "MVC_NET4.61\\builds")
+            .AddDirectoryToPackage("FlubuExample", BaseExamplesPath + "MVC_NET4.61\\FlubuExample", "FlubuExample", false, new RegexFileFilter(@"^.*\.(svc|asax|aspx|config|js|html|ico|bat|cgn)$").NegateFilter())
+            .AddDirectoryToPackage("Bin", BaseExamplesPath + "MVC_NET4.61\\FlubuExample\\Bin", "FlubuExample\\Bin", false, installBinFilters)
+            .AddDirectoryToPackage("Content", BaseExamplesPath + "MVC_NET4.61\\FlubuExample\\Content", "FlubuExample\\Content", true)
+            .AddDirectoryToPackage("Images", BaseExamplesPath + "MVC_NET4.61\\FlubuExample\\Images", "FlubuExample\\Images", true)
+            .AddDirectoryToPackage("Scripts", BaseExamplesPath + "MVC_NET4.61\\FlubuExample\\Scripts", "FlubuExample\\Scripts", true)
+            .AddDirectoryToPackage("Views", BaseExamplesPath + "MVC_NET4.61\\FlubuExample\\Views", "FlubuExample\\Views", true)
+            .ZipPrefix("FlubuExample")
+            .Execute(context);
     }
 }

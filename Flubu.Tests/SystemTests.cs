@@ -26,7 +26,7 @@ namespace Flubu.Tests
         public void ExecuteMvcNet4_61BuildScript()
         {
             string buildScriptArg = @"-s=" + BaseExamplesPath + @"MVC_NET4.61\BuildScriptTest.cs";
-            Assert.Equal(0, Program.Main(new string[] { "Rebuild", buildScriptArg, "-tte=compile,Rebuild,unit.tests,load.solution,update.version,generate.commonassinfo" }));
+            Assert.Equal(0, Program.Main(new string[] { "Rebuild", buildScriptArg, "-tte=compile,Rebuild,unit.tests,load.solution,update.version,generate.commonassinfo,Package" }));
         }
 
         [Fact]
