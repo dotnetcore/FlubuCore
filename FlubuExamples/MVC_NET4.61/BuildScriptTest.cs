@@ -21,6 +21,7 @@ public class BuildScriptTest : DefaultBuildScript
         context.Properties.Set(BuildProps.ProductName, "FlubuExample");
         context.Properties.Set(BuildProps.SolutionFileName, BaseExamplesPath + "MVC_NET4.61\\FlubuExample.sln");
         context.Properties.Set(BuildProps.BuildConfiguration, "Release");
+        context.Properties.Set(BuildProps.ProductRootDir, BaseExamplesPath + "MVC_NET4.61");
     }
 
     protected override void ConfigureTargets(ITaskContext session)
@@ -33,17 +34,17 @@ public class BuildScriptTest : DefaultBuildScript
             .DependsOn(loadSolution)
             .Do(TargetFetchBuildVersion);
 
-         session.CreateTarget("generate.commonassinfo")
-            .DependsOn(projectVersion)
-            .TaskExtensions().GenerateCommonAssemblyInfo();
-            
+        session.CreateTarget("generate.commonassinfo")
+           .DependsOn(projectVersion)
+           .TaskExtensions().GenerateCommonAssemblyInfo();
+
         var compile = session.CreateTarget("compile")
             .AddTask(x => x.CompileSolutionTask())
             .DependsOn("generate.commonassinfo");
 
         //// Just an example of Do.  It would be a better way to use AddTask() method to run tests. 
         var unitTest = session.CreateTarget("unit.tests")
-            .Do(RunTests);
+            .AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests"));
 
         session.CreateTarget("Rebuild")
             .SetAsDefault()
