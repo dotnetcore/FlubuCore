@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using DotNet.Cli.Flubu;
@@ -27,6 +28,9 @@ namespace Flubu.Tests
         {
             string buildScriptArg = @"-s=" + BaseExamplesPath + @"MVC_NET4.61\BuildScriptTest.cs";
             Assert.Equal(0, Program.Main(new string[] { "Rebuild", buildScriptArg, "-tte=compile,Rebuild,unit.tests,load.solution,update.version,generate.commonassinfo,Package" }));
+            Assert.True(File.Exists($"{BaseExamplesPath}\\MVC_NET4.61\\CommonAssemblyInfo.cs"));
+            Assert.True(Directory.Exists($"{BaseExamplesPath}\\MVC_NET4.61\\FlubuExample\\bin"));
+            Assert.True(File.Exists($"{BaseExamplesPath}\\MVC_NET4.61\\builds\\FlubuExample_1.0.0.zip"));
         }
 
         [Fact]
@@ -34,6 +38,7 @@ namespace Flubu.Tests
         {
             string buildScriptArg = @"-s=" + BaseExamplesPath + @"NetCore_1.1\BuildScript\BuildScriptTest.cs";
             Assert.Equal(0, Program.Main(new string[] { "compile", buildScriptArg, "-tte=compile" }));
+            Assert.True(Directory.Exists($"{BaseExamplesPath}\\NetCore_1.1\\FlubuExample\\bin"));
         }
     }
 }
