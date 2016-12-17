@@ -43,5 +43,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         ITaskExtensionsFluentInterface DotnetBuild(params string[] projects);
 
         ITaskExtensionsFluentInterface DotnetBuild(string workingFolder, params string[] projects);
+
+        ITargetFluentInterface BackToTarget();
     }
 }

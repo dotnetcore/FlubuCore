@@ -7,5 +7,10 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
         public ITargetFluentInterface Target { protected get; set; }
 
         public ITaskContextInternal Context { protected get; set; }
+
+        public ITargetFluentInterface BackToTarget()
+        {
+            return Target;
+        }
     }
 }
