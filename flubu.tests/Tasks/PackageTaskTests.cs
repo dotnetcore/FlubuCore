@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.IO.Compression;
+using FlubuCore.Context;
 using FlubuCore.Packaging;
 using FlubuCore.Tasks.Packaging;
 using Xunit;
@@ -39,13 +41,15 @@ namespace Flubu.Tests.Tasks
             {
             }
 
+            Context.SetBuildVersion(new Version(1, 0, 0, 0));
+
             new PackageTask(@"tmp\output")
                 .AddDirectoryToPackage(@"tmp\test", "test")
                 .AddDirectoryToPackage(@"tmp\test2", "test2")
-                .ZipPackage(@"tmp\test.zip")
+                .ZipPackage(@"test.zip", true, 4)
                 .ExecuteVoid(Context);
 
-            using (ZipArchive archive = ZipFile.OpenRead("tmp\\test.zip"))
+            using (ZipArchive archive = ZipFile.OpenRead("tmp\\output\\test_1.0.0.0.zip"))
             {
                 Assert.Equal(3, archive.Entries.Count);
                 Assert.Equal(@"test\test.txt", archive.Entries[0].FullName);
@@ -79,10 +83,10 @@ namespace Flubu.Tests.Tasks
             new PackageTask(@"tmp\output")
                 .AddDirectoryToPackage(@"tmp\test", "test", false, new RegexFileFilter(@".fln"))
                 .AddDirectoryToPackage(@"tmp\test2", "test2", false, new RegexFileFilter(@".bl"))
-                .ZipPackage(@"tmp\test.zip")
+                .ZipPackage(@"test.zip", false)
                 .ExecuteVoid(Context);
 
-            using (ZipArchive archive = ZipFile.OpenRead("tmp\\test.zip"))
+            using (ZipArchive archive = ZipFile.OpenRead("tmp\\output\\test.zip"))
             {
                 Assert.Equal(2, archive.Entries.Count);
                 Assert.Equal(@"test\test.txt", archive.Entries[0].FullName);

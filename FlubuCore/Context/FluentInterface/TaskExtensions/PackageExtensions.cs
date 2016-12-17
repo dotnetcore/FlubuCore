@@ -16,7 +16,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
         {
             var task = Context.Tasks().PackageTask(string.Empty); // must be string.Empty because of a constuctor
 
-            task.ZipPrefix(zipPrefix);
+            task.ZipPackage(zipPrefix);
 
             foreach (var folder in folders)
             {

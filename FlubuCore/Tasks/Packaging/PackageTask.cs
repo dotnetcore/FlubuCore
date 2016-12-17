@@ -10,10 +10,10 @@ namespace FlubuCore.Tasks.Packaging
     public class PackageTask : TaskBase<int>
     {
         private readonly List<SourcePackagingInfo> _sourcePackagingInfos;
-
         private string _destinationRootDir;
-
         private string _zipFileName;
+        private bool _versionPostFix;
+        private int _versionFieldCount;
         private string _zipPrefix;
 
         public PackageTask(string destinationRootDir = null)
@@ -97,12 +97,15 @@ namespace FlubuCore.Tasks.Packaging
             return this;
         }
 
-        public PackageTask ZipPackage(string fullZipFile)
+        public PackageTask ZipPackage(string zipFileName, bool addVersionPostfix = true, int versionFeildCount = 3)
         {
-            _zipFileName = fullZipFile;
+            _zipFileName = zipFileName;
+            _versionPostFix = addVersionPostfix;
+            _versionFieldCount = versionFeildCount;
             return this;
         }
 
+        [Obsolete("Use ZipPackage with AddVersionPostFix parameter set to true instead.")]
         public PackageTask ZipPrefix(string zipPrefix)
         {
             _zipPrefix = zipPrefix;
@@ -159,7 +162,18 @@ namespace FlubuCore.Tasks.Packaging
                 string zipFile = _zipFileName;
 
                 if (string.IsNullOrEmpty(zipFile))
-                    zipFile = Path.Combine(_destinationRootDir, $"{_zipPrefix}_{context.Properties.GetBuildVersion().ToString(3)}.zip");
+                     zipFile = _zipPrefix;
+
+                zipFile = Path.GetFileNameWithoutExtension(zipFile);
+
+                if (_versionPostFix)
+                {
+                    zipFile = Path.Combine(_destinationRootDir, $"{zipFile}_{context.Properties.GetBuildVersion().ToString(_versionFieldCount)}.zip");
+                }
+                else
+                {
+                    zipFile = Path.Combine(_destinationRootDir, $"{zipFile}.zip");
+                }
 
                 ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(zipFile), df, sourceIds);
                 zipProcessor.Process(copiedPackageDef);
