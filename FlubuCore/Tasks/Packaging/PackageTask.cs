@@ -12,7 +12,7 @@ namespace FlubuCore.Tasks.Packaging
         private readonly List<SourcePackagingInfo> _sourcePackagingInfos;
         private string _destinationRootDir;
         private string _zipFileName;
-        private bool _AddVersionAsPostFixToZipFileName;
+        private bool _addVersionAsPostFixToZipFileName;
         private int _versionFieldCount;
         private string _zipPrefix;
 
@@ -100,7 +100,7 @@ namespace FlubuCore.Tasks.Packaging
         public PackageTask ZipPackage(string zipFileName, bool addVersionPostfix = true, int versionFeildCount = 3)
         {
             _zipFileName = zipFileName;
-            _AddVersionAsPostFixToZipFileName = addVersionPostfix;
+            _addVersionAsPostFixToZipFileName = addVersionPostfix;
             _versionFieldCount = versionFeildCount;
             return this;
         }
@@ -164,13 +164,13 @@ namespace FlubuCore.Tasks.Packaging
                 if (string.IsNullOrEmpty(zipFile))
                 {
                     zipFile = _zipPrefix;
-                    _AddVersionAsPostFixToZipFileName = true;
+                    _addVersionAsPostFixToZipFileName = true;
                     _versionFieldCount = 3;
                 }
 
                 zipFile = Path.GetFileNameWithoutExtension(zipFile);
 
-                if (_AddVersionAsPostFixToZipFileName)
+                if (_addVersionAsPostFixToZipFileName)
                 {
                     zipFile = Path.Combine(_destinationRootDir, $"{zipFile}_{context.Properties.GetBuildVersion().ToString(_versionFieldCount)}.zip");
                 }
