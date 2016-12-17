@@ -12,8 +12,6 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 {
     public interface ITaskFluentInterface
     {
-        TaskContext Context { get; set; }
-
         /// <summary>
         /// Task runs the specified program.
         /// </summary>

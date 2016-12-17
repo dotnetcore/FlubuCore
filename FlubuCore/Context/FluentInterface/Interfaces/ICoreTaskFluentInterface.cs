@@ -5,8 +5,6 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 {
     public interface ICoreTaskFluentInterface
     {
-        TaskContext Context { get; set; }
-
         ILinuxTaskFluentInterface LinuxTasks();
 
         ExecuteDotnetTask ExecuteDotnetTask(string command);

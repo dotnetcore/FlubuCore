@@ -37,6 +37,14 @@ namespace Flubu.Tests.Integration
                 .CreateTarget("package")
                 .DependsOn(init, restore);
 
+            session.CreateTarget("Linux")
+                .AddCoreTask(x => x.LinuxTasks().SystemCtlTask("a", "b"))
+                .AddCoreTask(x => x.LinuxTasks().SystemCtlTask("a", "b"));
+
+            session.CreateTarget("IIS")
+                .AddTask(x => x.IisTasks().CreateWebsiteTask())
+                .AddTask(x => x.IisTasks().DeleteAppPoolTask());
+
             package
                 .TaskExtensions()
                 .DotnetPublish("a", "b", "c")

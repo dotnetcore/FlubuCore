@@ -6,11 +6,11 @@ namespace FlubuCore.Context.FluentInterface
 {
     public class CoreTaskFluentInterface : ICoreTaskFluentInterface
     {
-        private readonly ILinuxTaskFluentInterface _linuxFluent;
+        private readonly LinuxTaskFluentInterface _linuxFluent;
 
         public CoreTaskFluentInterface(ILinuxTaskFluentInterface linuxFluent)
         {
-            _linuxFluent = linuxFluent;
+            _linuxFluent = (LinuxTaskFluentInterface)linuxFluent;
         }
 
         public TaskContext Context { get; set; }

@@ -67,5 +67,37 @@ namespace Flubu.Tests.Integration
             Assert.Equal("init", t.Dependencies.First());
             Assert.Equal("restore", t.Dependencies.Last());
         }
+
+        [Fact]
+        public void ConfigureTargetWithLinuxTasks()
+        {
+            ITaskSession session = _sp.GetRequiredService<ITaskSession>();
+
+            SimpleBuildScript bs = new SimpleBuildScript();
+            bs.Run(session);
+
+            Assert.True(session.TargetTree.HasTarget("Linux"));
+
+            Target t = (Target)session.TargetTree.GetTarget("Linux");
+
+            Assert.Equal(2, t.Tasks.Count);
+            Assert.Equal(0, t.Dependencies.Count);
+        }
+
+        [Fact]
+        public void ConfigureTargetWithIISTasks()
+        {
+            ITaskSession session = _sp.GetRequiredService<ITaskSession>();
+
+            SimpleBuildScript bs = new SimpleBuildScript();
+            bs.Run(session);
+
+            Assert.True(session.TargetTree.HasTarget("IIS"));
+
+            Target t = (Target)session.TargetTree.GetTarget("IIS");
+
+            Assert.Equal(2, t.Tasks.Count);
+            Assert.Equal(0, t.Dependencies.Count);
+        }
     }
 }

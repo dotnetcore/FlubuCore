@@ -13,11 +13,11 @@ namespace FlubuCore.Context.FluentInterface
 {
     public class TaskFluentInterface : ITaskFluentInterface
     {
-        private readonly IIisTaskFluentInterface _iisTasksFluentInterface;
+        private readonly IisTaskFluentInterface _iisTasksFluentInterface;
 
         public TaskFluentInterface(IIisTaskFluentInterface iisTasksFluentInterface)
         {
-            _iisTasksFluentInterface = iisTasksFluentInterface;
+            _iisTasksFluentInterface = (IisTaskFluentInterface)iisTasksFluentInterface;
         }
 
         public TaskContext Context { get; set; }

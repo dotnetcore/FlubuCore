@@ -5,8 +5,6 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 {
     public interface IIisTaskFluentInterface
     {
-        TaskContext Context { get; set; }
-
         ICreateWebsiteTask CreateWebsiteTask();
 
         ICreateWebApplicationTask CreateWebApplicationTask();
