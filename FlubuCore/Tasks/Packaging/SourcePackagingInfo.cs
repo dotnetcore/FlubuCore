@@ -9,16 +9,13 @@ namespace FlubuCore.Tasks.Packaging
 {
     public class SourcePackagingInfo
     {
-        public SourcePackagingInfo(string sourceId, SourceType sourceType, string sourcePath, string destinationPath)
+        public SourcePackagingInfo(SourceType sourceType, string sourcePath, string destinationPath)
         {
-            SourceId = sourceId;
             SourcePath = sourcePath;
             SourceType = sourceType;
             DestinationPath = new LocalPath(destinationPath);
             FileFilters = new FilterCollection();
         }
-
-        public string SourceId { get; set; }
 
         public SourceType SourceType { get; set; }
 

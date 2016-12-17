@@ -23,7 +23,6 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
                 var fullFolder = Path.Combine(folder, "bin/Release/netcoreapp1.1/publish");
 
                 task.AddDirectoryToPackage(
-                    folder.GetHashCode().ToString(),
                     fullFolder,
                     Path.GetFileName(folder),
                     true);

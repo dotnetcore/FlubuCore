@@ -49,10 +49,10 @@ namespace Flubu.Tests.Integration
                 .TaskExtensions()
                 .DotnetPublish("a", "b", "c")
                 .CreatePackage("8d", "a", "b", "c")
-                .AddDirectoryToPackage("configuration", "configuration", "configuration", true)
-                .AddFileToPackage("dscript", "DeployScript.cs", string.Empty)
-                .AddFileToPackage("proj", "project.json", string.Empty)
-                .AddFileToPackage("nugets", "NuGet.config", string.Empty);
+                .AddDirectoryToPackage("configuration", "configuration", true)
+                .AddFileToPackage("DeployScript.cs", string.Empty)
+                .AddFileToPackage("project.json", string.Empty)
+                .AddFileToPackage("NuGet.config", string.Empty);
         }
     }
 }
