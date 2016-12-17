@@ -71,13 +71,13 @@ public class BuildScriptTest : DefaultBuildScript
         installBinFilters.Add(new RegexFileFilter(@".svn"));
 
         context.Tasks().PackageTask(BaseExamplesPath + "MVC_NET4.61\\builds")
-            .AddDirectoryToPackage("FlubuExample", BaseExamplesPath + "MVC_NET4.61\\FlubuExample", "FlubuExample", false, new RegexFileFilter(@"^.*\.(svc|asax|aspx|config|js|html|ico|bat|cgn)$").NegateFilter())
-            .AddDirectoryToPackage("Bin", BaseExamplesPath + "MVC_NET4.61\\FlubuExample\\Bin", "FlubuExample\\Bin", false, installBinFilters)
-            .AddDirectoryToPackage("Content", BaseExamplesPath + "MVC_NET4.61\\FlubuExample\\Content", "FlubuExample\\Content", true)
-            .AddDirectoryToPackage("Images", BaseExamplesPath + "MVC_NET4.61\\FlubuExample\\Images", "FlubuExample\\Images", true)
-            .AddDirectoryToPackage("Scripts", BaseExamplesPath + "MVC_NET4.61\\FlubuExample\\Scripts", "FlubuExample\\Scripts", true)
-            .AddDirectoryToPackage("Views", BaseExamplesPath + "MVC_NET4.61\\FlubuExample\\Views", "FlubuExample\\Views", true)
-            .ZipPrefix("FlubuExample")
+            .AddDirectoryToPackage(BaseExamplesPath + "MVC_NET4.61\\FlubuExample", "FlubuExample", false, new RegexFileFilter(@"^.*\.(svc|asax|aspx|config|js|html|ico|bat|cgn)$").NegateFilter())
+            .AddDirectoryToPackage(BaseExamplesPath + "MVC_NET4.61\\FlubuExample\\Bin", "FlubuExample\\Bin", false, installBinFilters)
+            .AddDirectoryToPackage(BaseExamplesPath + "MVC_NET4.61\\FlubuExample\\Content", "FlubuExample\\Content", true)
+            .AddDirectoryToPackage(BaseExamplesPath + "MVC_NET4.61\\FlubuExample\\Images", "FlubuExample\\Images", true)
+            .AddDirectoryToPackage(BaseExamplesPath + "MVC_NET4.61\\FlubuExample\\Scripts", "FlubuExample\\Scripts", true)
+            .AddDirectoryToPackage(BaseExamplesPath + "MVC_NET4.61\\FlubuExample\\Views", "FlubuExample\\Views", true)
+            .ZipPackage("FlubuExample.zip")
             .Execute(context);
     }
 }
