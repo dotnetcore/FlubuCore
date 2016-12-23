@@ -66,6 +66,8 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 
         CoverageReportTask CoverageReportTask(params string[] inputFiles);
 
+        CleanOutputTask CleanOutputTask();
+
         /// <summary>
         /// Task runs tests that are in specified project.
         /// </summary>

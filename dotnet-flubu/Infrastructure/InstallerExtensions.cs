@@ -45,7 +45,8 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddTransient<AddWebsiteBindingTask>()
                 .AddTransient<OpenCoverTask>()
                 .AddTask<LoadSolutionTask>()
-                .AddTask<CompileSolutionTask>();
+                .AddTask<CompileSolutionTask>()
+                .AddTask<CleanOutputTask>();
         }
 
         public static IServiceCollection AddArguments(this IServiceCollection services, string[] args)

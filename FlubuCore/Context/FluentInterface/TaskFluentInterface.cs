@@ -203,5 +203,10 @@ namespace FlubuCore.Context.FluentInterface
         {
             return Context.CreateTask<ReplaceTextTask>(sourceFile).Replace(tokens);
         }
+
+        public CleanOutputTask CleanOutputTask()
+        {
+            return Context.CreateTask<CleanOutputTask>();
+        }
     }
 }

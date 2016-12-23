@@ -55,6 +55,8 @@ namespace FlubuCore.Scripting
 
             ConfigureBuildProperties(taskSession);
 
+            ConfigureDefaultTargets(taskSession);
+
             ConfigureTargets(taskSession);
 
             string targetToRun = ParseCmdLineArgs(taskSession, taskSession.TargetTree);
@@ -116,6 +118,59 @@ namespace FlubuCore.Scripting
             {
                 // do linux specific tasks
             }
+        }
+
+        private void ConfigureDefaultTargets(ITaskSession taskSession)
+        {
+            var defaultTagets = taskSession.Properties.GetDefaultTargets();
+
+            switch (defaultTagets)
+            {
+                case DefaultTargets.Dotnet:
+                {
+                    ConfigureDefaultDotNetTargets(taskSession);
+                    break;
+                }
+            }
+        }
+
+        private void ConfigureDefaultDotNetTargets(ITaskSession taskSession)
+        {
+            var loadSolution = taskSession.CreateTarget("load.solution")
+                .SetDescription("Load & analyze VS solution")
+                .AddTask(x => x.LoadSolutionTask())
+                .SetAsHidden();
+
+            var cleanOutput = taskSession.CreateTarget("clean.output")
+                .SetDescription("Clean solution outputs")
+                .AddTask(x => x.CleanOutputTask())
+                .DependsOn(loadSolution);
+
+           var prepareBuildDir = taskSession.CreateTarget("prepare.build.dir")
+                .SetDescription("Prepare the build directory")
+                .Do(TargetPrepareBuildDir)
+                .SetAsHidden();
+
+           var fetchBuildVersion = taskSession.CreateTarget("fetch.build.version")
+                .SetDescription("Fetch the build version")
+                .SetAsHidden();
+
+          var generateCommonAssInfo = taskSession.CreateTarget("generate.commonassinfo")
+                .SetDescription("Generate CommonAssemblyInfo.cs file")
+                .DependsOn(fetchBuildVersion)
+                .AddTask(x => x.GenerateCommonAssemblyInfoTask());
+
+            taskSession.CreateTarget("compile")
+                .SetDescription("Compile the VS solution")
+                .AddTask(x => x.CompileSolutionTask())
+                .DependsOn(prepareBuildDir, cleanOutput, generateCommonAssInfo);
+        }
+
+        private void TargetPrepareBuildDir(ITaskContext context)
+        {
+            string buildDir = context.Properties.Get<string>(BuildProps.BuildDir);
+            var createDirectoryTask = context.Tasks().CreateDirectoryTask(buildDir, true);
+            createDirectoryTask.Execute(context);
         }
 
         private void AssertAllTargetDependenciesWereExecuted(ITaskSession taskSession)

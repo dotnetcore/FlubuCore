@@ -248,5 +248,11 @@ namespace Flubu.Tests.Context
         {
             Assert.Throws<ArgumentNullException>(() => Context.Tasks().PackageTask(null));
         }
+
+        [Fact]
+        public void ResloveCleanOutputTask()
+        {
+            Context.Tasks().CleanOutputTask();
+        }
     }
 }

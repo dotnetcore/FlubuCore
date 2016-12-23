@@ -17,6 +17,17 @@ namespace FlubuCore.Context
             return version;
         }
 
+        public static DefaultTargets GetDefaultTargets(this IBuildPropertiesSession context)
+        {
+            return context.TryGet<DefaultTargets>(BuildProps.DefaultTargets);
+        }
+
+        public static DefaultTargets SetDefaultTargets(this IBuildPropertiesSession context, DefaultTargets defaultTargets)
+        {
+            context.Set(BuildProps.DefaultTargets, defaultTargets);
+            return defaultTargets;
+        }
+
         public static string GetNodeExecutablePath(this IBuildPropertiesSession context)
         {
             return context.TryGet<string>(BuildProps.NodeExecutablePath);
