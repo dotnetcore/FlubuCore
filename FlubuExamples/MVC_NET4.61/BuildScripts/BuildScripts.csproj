@@ -33,8 +33,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FlubuCore, Version=1.0.306.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FlubuCore.1.0.306\lib\net46\FlubuCore.dll</HintPath>
+    <Reference Include="FlubuCore, Version=1.0.308.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FlubuCore.1.0.308\lib\net46\FlubuCore.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Build, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -242,6 +242,9 @@
     </Compile>
     <Compile Include="..\BuildScriptTest.cs">
       <Link>BuildScriptTest.cs</Link>
+    </Compile>
+    <Compile Include="..\BuildScriptWithDt.cs">
+      <Link>BuildScriptWithDt.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -8,7 +8,7 @@ using FlubuCore.Packaging;
 using FlubuCore.Scripting;
 
 /// <summary>
-/// Build script just for tests. If u want to try example run BuildScript.cs
+/// Build script just for tests. If u want to try example run BuildScript.cs or BuildScriptWithDt.cs.
 /// </summary>
 public class BuildScriptTest : DefaultBuildScript
 {
@@ -31,6 +31,7 @@ public class BuildScriptTest : DefaultBuildScript
             .AddTask(x => x.LoadSolutionTask());
 
         var projectVersion = session.CreateTarget("update.version")
+            .SetAsHidden()
             .DependsOn(loadSolution)
             .Do(TargetFetchBuildVersion);
 
@@ -41,8 +42,7 @@ public class BuildScriptTest : DefaultBuildScript
         var compile = session.CreateTarget("compile")
             .AddTask(x => x.CompileSolutionTask())
             .DependsOn("generate.commonassinfo");
-
-        //// Just an example of Do.  It would be a better way to use AddTask() method to run tests. 
+       
         var unitTest = session.CreateTarget("unit.tests")
             .AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests"));
 

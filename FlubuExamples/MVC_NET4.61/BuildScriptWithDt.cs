@@ -7,11 +7,10 @@ using FlubuCore.Targeting;
 using FlubuCore.Tasks.Testing;
 
 /// <summary>
-/// Flubu build script example for .net. Flubu Default targets for .net are not included. 
-/// Most of them are created in this buildScipt tho. (load.solution, generate,commonAssinfo, compile) as a build script example
-/// With Default targets included see BuildScriptWithDt.cs.
+/// In this build script default targets(compile etc are included. 
+/// Type "dotnet flubu -s=BuildScriptWithDt.cs help" in cmd to see
 /// </summary>
-public class BuildScript : DefaultBuildScript
+public class BuildScriptWithDt : DefaultBuildScript
 {
     protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
     {
@@ -21,29 +20,15 @@ public class BuildScript : DefaultBuildScript
         context.Properties.Set(BuildProps.ProductName, "FlubuExample");
         context.Properties.Set(BuildProps.SolutionFileName, "FlubuExample.sln");
         context.Properties.Set(BuildProps.BuildConfiguration, "Release");
+        context.Properties.SetDefaultTargets(DefaultTargets.Dotnet);
     }
 
     protected override void ConfigureTargets(ITaskContext session)
     {
-        var loadSolution = session.CreateTarget("load.solution")
-            .SetAsHidden()
-            .AddTask(x => x.LoadSolutionTask());
-
         var updateVersion = session.CreateTarget("update.version")
-            .DependsOn(loadSolution)
-            .SetAsHidden()
-            .Do(TargetFetchBuildVersion);
+            .Do(TargetFetchBuildVersion)
+            .SetAsHidden();
 
-        session.CreateTarget("generate.commonassinfo")
-           .SetDescription("Generates common assembly info")
-            .DependsOn(updateVersion)
-           .TaskExtensions().GenerateCommonAssemblyInfo();
-
-        var compile = session.CreateTarget("compile")
-            .SetDescription("Compiles the solution.")
-            .AddTask(x => x.CompileSolutionTask())
-            .DependsOn("generate.commonassinfo");
-        
         var unitTest = session.CreateTarget("unit.tests")
             .SetDescription("Runs unit tests")
             .AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests"));
@@ -55,7 +40,8 @@ public class BuildScript : DefaultBuildScript
         session.CreateTarget("Rebuild")
             .SetDescription("Rebuilds the solution.")
             .SetAsDefault()
-            .DependsOn(compile, unitTest, package);
+            .DependsOn("compile") //// compile is included as one of the default targets.
+            .DependsOn(unitTest, package);
     }
 
     public static void TargetFetchBuildVersion(ITaskContext context)

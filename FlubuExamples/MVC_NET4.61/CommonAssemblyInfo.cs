@@ -18,4 +18,3 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 [assembly: AssemblyInformationalVersionAttribute("1.0")]
 [assembly: AssemblyVersionAttribute("1.0")]
-[assembly: AssemblyConfigurationAttribute("Release")]
