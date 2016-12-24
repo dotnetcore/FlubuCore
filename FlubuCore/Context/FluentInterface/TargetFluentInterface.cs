@@ -33,7 +33,12 @@ namespace FlubuCore.Context.FluentInterface
 
         public ITargetFluentInterface DependsOn(params ITargetFluentInterface[] targets)
         {
-            Target.DependsOn(targets.Select(i => i.Target).ToArray());
+            foreach (var t in targets)
+            {
+                var target = (TargetFluentInterface)t;
+                Target.DependsOn(target.Target);
+            }
+
             return this;
         }
 

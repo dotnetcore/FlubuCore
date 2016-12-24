@@ -4,7 +4,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
 {
     public partial class TaskExtensionsFluentInterface : ITaskExtensionsFluentInterface
     {
-        public ITargetFluentInterface Target { protected get; set; }
+        public TargetFluentInterface Target { protected get; set; }
 
         public ITaskContextInternal Context { protected get; set; }
 

@@ -39,7 +39,7 @@ namespace FlubuCore.Context.FluentInterface
         {
             var t = _sp.GetRequiredService<ITaskExtensionsFluentInterface>();
             TaskExtensionsFluentInterface taskExtensions = (TaskExtensionsFluentInterface)t;
-            taskExtensions.Target = target;
+            taskExtensions.Target = (TargetFluentInterface)target;
             taskExtensions.Context = taskContext;
             return taskExtensions;
         }
@@ -47,10 +47,9 @@ namespace FlubuCore.Context.FluentInterface
         public ITargetFluentInterface GetTargetFluentInterface(ITarget target, ITaskContextInternal taskContext)
         {
             ITargetFluentInterface t = _sp.GetRequiredService<ITargetFluentInterface>();
-            t.Target = target;
-            t.Context = taskContext;
-
             TargetFluentInterface targetFluent = (TargetFluentInterface)t;
+            targetFluent.Target = target;
+            targetFluent.Context = taskContext;
             targetFluent.CoreTaskFluent = GetCoreTaskFluentInterface(taskContext);
             targetFluent.TaskExtensionsFluent = GetTaskExtensionsFluentInterface(t, taskContext);
             targetFluent.TaskFluent = GetTaskFluentInterface(taskContext);
