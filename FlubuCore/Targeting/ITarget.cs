@@ -34,6 +34,11 @@ namespace FlubuCore.Targeting
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITarget DependsOn(params ITarget[] targets);
 
+        /// <summary>
+        /// Execute custom code in script.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This target.</returns>
         ITarget Do(Action<ITaskContextInternal> targetAction);
 
         /// <summary>
@@ -50,6 +55,12 @@ namespace FlubuCore.Targeting
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITarget SetAsDefault();
 
+        /// <summary>
+        /// Set's the description of the target.
+        /// Desciption will be displayed in help.
+        /// </summary>
+        /// <param name="description">The description.</param>
+        /// <returns>this target</returns>
         ITarget SetDescription(string description);
 
         /// <summary>
@@ -58,7 +69,11 @@ namespace FlubuCore.Targeting
         /// </summary>
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITarget SetAsHidden();
-
+        
+        /// <summary>
+        /// Add's the task to the target.
+        /// </summary>
+        /// <param name="task">The task to be added</param>
         ITarget AddTask(params ITask[] task);
     }
 }
