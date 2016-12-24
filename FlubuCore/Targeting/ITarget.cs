@@ -69,7 +69,7 @@ namespace FlubuCore.Targeting
         /// </summary>
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITarget SetAsHidden();
-        
+
         /// <summary>
         /// Add's the task to the target.
         /// </summary>

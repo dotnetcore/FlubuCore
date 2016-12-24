@@ -6,11 +6,6 @@ namespace FlubuCore.Context
     public interface ITaskContext : IBuildPropertiesContext
     {
         /// <summary>
-        /// The <see cref="TargetTree"/>
-        /// </summary>
-        TargetTree TargetTree { get; }
-
-        /// <summary>
         /// Fluent interface for creating .net core tasks.
         /// </summary>
         /// <returns></returns>
