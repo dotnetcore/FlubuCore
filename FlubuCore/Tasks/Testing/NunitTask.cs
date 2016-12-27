@@ -43,12 +43,12 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         private string _targetFramework;
 
-        ///// <summary>
-        ///// Initializes a new instance of the <see cref="NUnitTask"/> class.
-        ///// </summary>
-        ///// <param name="testAssemblyFileName">File name of the assembly containing the test code.</param>
-        ///// <param name="nunitConsoleFileName">Path to the NUnit-console.exe</param>
-        ///// <param name="workingDirectory">Working directory to use.</param>
+        /////// <summary>
+        /////// Initializes a new instance of the<see cref="NUnitTask"/> class.
+        /////// </summary>
+        /////// <param name = "testAssemblyFileName" > File name of the assembly containing the test code.</param>
+        /////// <param name = "nunitConsoleFileName" > Path to the NUnit-console.exe</param>
+        /////// <param name = "workingDirectory" > Working directory to use.</param>
         ////public NUnitTask(
         ////    string testAssemblyFileName,
         ////    string nunitConsoleFileName,
@@ -64,10 +64,16 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         /// <param name="nunitConsoleFileName">full file path to nunit console</param>
         /// <param name="projectName">Unit test project name.</param>
-        public NUnitTask(string projectName, string nunitConsoleFileName = null)
+        public NUnitTask(string projectName = null, string nunitConsoleFileName = null)
         {
             _nunitConsoleFileName = nunitConsoleFileName;
             _projectName = projectName;
+        }
+
+        public string TestAssemblyFileName
+        {
+            get { return _testAssemblyFileName; }
+            set { _testAssemblyFileName = value; }
         }
 
         /// <summary>
