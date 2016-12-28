@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Tasks.FileSystem;
 using FlubuCore.Tasks.Nuget;
@@ -82,7 +83,7 @@ namespace FlubuCore.Context.FluentInterface
         /// </summary>
         /// <param name="projectName">Unit test project name.</param>
         /// <returns>New instance of nunit task</returns>
-        public NUnitTask NUnitTaskForNunitV3(string projectName)
+        public NUnitTask NUnitTaskForNunitV3(params string[] projectName)
         {
             return Tasks.Testing.NUnitTask.ForNunitV3(projectName);
         }
@@ -92,23 +93,22 @@ namespace FlubuCore.Context.FluentInterface
         /// </summary>
         /// <param name="projectName">Unit test project name.</param>
         /// <returns>New instance of nunit task</returns>
-        public NUnitTask NUnitTaskForNunitV2(string projectName)
+        public NUnitTask NUnitTaskForNunitV2(params string[] projectName)
         {
             return Tasks.Testing.NUnitTask.ForNunitV2(projectName);
         }
 
-        public NUnitTask NUnitTask(string projectName, string nunitConsoleFileName = null)
+        public NUnitTask NUnitTaskByProjectName(params string[] projectName)
         {
-            return Context.CreateTask<NUnitTask>(projectName);
+            return Context.CreateTask<NUnitTask>(projectName.ToList());
         }
 
-        public NUnitTask NUnitTask(
-          string testAssemblyFileName,
-          string nunitConsoleFileName,
-          string workingDirectory)
+        public NUnitTask NUnitTaskByAssemblyName(params string[] testAssemblyFileName)
         {
-            return new NUnitTask(testAssemblyFileName, nunitConsoleFileName)
-                .SetWorkingDirectory(workingDirectory);
+            var task = new NUnitTask();
+            task.TestAssemblyFileNames = testAssemblyFileName.ToList();
+
+            return task;
         }
 
         public ReplaceTokensTask ReplaceTokensTask(

@@ -73,13 +73,13 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="projectName"></param>
         /// <returns></returns>
-        NUnitTask NUnitTaskForNunitV3(string projectName);
+        NUnitTask NUnitTaskForNunitV3(params string[] projectName);
 
-        NUnitTask NUnitTaskForNunitV2(string projectName);
+        NUnitTask NUnitTaskForNunitV2(params string[] projectName);
 
-        NUnitTask NUnitTask(string projectName, string nunitConsoleFileName = null);
+        NUnitTask NUnitTaskByProjectName(params string[] projectName);
 
-        NUnitTask NUnitTask(string testAssemblyFileName, string nunitConsoleFileName, string workingDirectory);
+        NUnitTask NUnitTaskByAssemblyName(params string[] testAssemblyFileName);
 
         ReplaceTokensTask ReplaceTokensTask(string sourceFileName, string destinationFileName);
 

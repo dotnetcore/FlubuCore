@@ -60,19 +60,19 @@ namespace Flubu.Tests.Context
         [Fact]
         public void ResolveNunitTaskTest()
         {
-            Context.Tasks().NUnitTask("pn");
+            Context.Tasks().NUnitTaskByAssemblyName("pn");
         }
 
         [Fact]
-        public void ResolveNunitTas2Test2()
+        public void ResolveNunitTask2Test2()
         {
-            Context.Tasks().NUnitTask("pn", "tt");
+            Context.Tasks().NUnitTaskByProjectName("pn", "tt");
         }
 
         [Fact]
         public void ResolveNunitTaskTest3()
         {
-            Context.Tasks().NUnitTask("pn", "tt", "xx");
+            Context.Tasks().NUnitTaskByAssemblyName("pn", "tt", "xx");
         }
 
         [Fact]

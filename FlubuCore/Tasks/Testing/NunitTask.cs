@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Testing
     {
         private readonly List<string> _nunitCommandLineOptions = new List<string>();
 
-        private readonly string _projectName;
+        private readonly List<string> _projectNames;
 
         private string _nunitConsoleFileName;
 
@@ -31,7 +31,7 @@ namespace FlubuCore.Tasks.Testing
         /// <summary>
         ///  assembly to test.
         /// </summary>
-        private string _testAssemblyFileName;
+        private List<string> _testAssemblyFileNames;
 
         /// <summary>
         ///  test categories that will be included/excluded in tests.
@@ -43,37 +43,21 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         private string _targetFramework;
 
-        /////// <summary>
-        /////// Initializes a new instance of the<see cref="NUnitTask"/> class.
-        /////// </summary>
-        /////// <param name = "testAssemblyFileName" > File name of the assembly containing the test code.</param>
-        /////// <param name = "nunitConsoleFileName" > Path to the NUnit-console.exe</param>
-        /////// <param name = "workingDirectory" > Working directory to use.</param>
-        ////public NUnitTask(
-        ////    string testAssemblyFileName,
-        ////    string nunitConsoleFileName,
-        ////    string workingDirectory)
-        ////{
-        ////    _nunitConsoleFileName = nunitConsoleFileName;
-        ////    _testAssemblyFileName = testAssemblyFileName;
-        ////    _workingDirectory = workingDirectory;
-        ////}
-
         /// <summary>
         /// Initializes a new instance of the <see cref="NUnitTask"/> class.
         /// </summary>
         /// <param name="nunitConsoleFileName">full file path to nunit console</param>
-        /// <param name="projectName">Unit test project name.</param>
-        public NUnitTask(string projectName = null, string nunitConsoleFileName = null)
+        /// <param name="projectNames">Unit test project name.</param>
+        public NUnitTask(List<string> projectNames = null, string nunitConsoleFileName = null)
         {
             _nunitConsoleFileName = nunitConsoleFileName;
-            _projectName = projectName;
+            _projectNames = projectNames;
         }
 
-        public string TestAssemblyFileName
+        public List<string> TestAssemblyFileNames
         {
-            get { return _testAssemblyFileName; }
-            set { _testAssemblyFileName = value; }
+            get { return _testAssemblyFileNames; }
+            set { _testAssemblyFileNames = value; }
         }
 
         /// <summary>
@@ -81,9 +65,9 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         /// <param name="projectName">Unit test project name.</param>
         /// <returns>New instance of nunit task</returns>
-        public static NUnitTask ForNunitV2(string projectName)
+        public static NUnitTask ForNunitV2(params string[] projectName)
         {
-            var task = new NUnitTask(projectName);
+            var task = new NUnitTask(projectName.ToList());
             task.AddNunitCommandLineOption("/nodots")
                 .AddNunitCommandLineOption("/labels")
                 .AddNunitCommandLineOption("/noshadow");
@@ -96,9 +80,9 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         /// <param name="projectName">Unit test project name.</param>
         /// <returns>New instance of nunit task</returns>
-        public static NUnitTask ForNunitV3(string projectName)
+        public static NUnitTask ForNunitV3(params string[] projectName)
         {
-            var task = new NUnitTask(projectName);
+            var task = new NUnitTask(projectName.ToList());
             task.AddNunitCommandLineOption("/labels=All")
                 .AddNunitCommandLineOption("/trace=Verbose")
                 .AddNunitCommandLineOption("/verbose");
@@ -161,6 +145,12 @@ namespace FlubuCore.Tasks.Testing
             return this;
         }
 
+        public NUnitTask SetNunitConsoleFilePath(string nunitConsoleFilePath)
+        {
+            _nunitConsoleFileName = nunitConsoleFilePath;
+            return this;
+        }
+
         /// <summary>
         ///  Add nunit command line option. Can be used multiple times.
         /// </summary>
@@ -194,10 +184,12 @@ namespace FlubuCore.Tasks.Testing
 
             SetAssemblyFileNameAndWorkingDirFromProjectName(context);
             Validate();
-
-            task
-                .WorkingFolder(_workingDirectory)
-                .WithArguments(string.Format(_testAssemblyFileName));
+            task.WorkingFolder(_workingDirectory);
+            foreach (var testAssemblyFileName in _testAssemblyFileNames)
+            {
+                task.
+                WithArguments(string.Format(testAssemblyFileName));
+            }
 
             foreach (var nunitCommandLineOption in _nunitCommandLineOptions)
             {
@@ -234,18 +226,32 @@ namespace FlubuCore.Tasks.Testing
 
         private void SetAssemblyFileNameAndWorkingDirFromProjectName(ITaskContextInternal context)
         {
-            if (_projectName != null)
+            if (_projectNames != null)
             {
+                bool setWorkingDir = false;
+                if (_testAssemblyFileNames == null)
+                {
+                    _testAssemblyFileNames = new List<string>();
+                    if (_projectNames.Count == 1 && string.IsNullOrEmpty(_workingDirectory))
+                    {
+                        setWorkingDir = true;
+                    }
+                }
+
                 VSSolution solution = context.Properties.Get<VSSolution>(BuildProps.Solution);
                 string buildConfiguration = context.Properties.Get<string>(BuildProps.BuildConfiguration);
+                foreach (var projectName in _projectNames)
+                {
+                    VSProjectWithFileInfo project = (VSProjectWithFileInfo)solution.FindProjectByName(projectName);
+                    FileFullPath projectTarget = project.ProjectDirectoryPath.CombineWith(project.GetProjectOutputPath(buildConfiguration))
+                        .AddFileName("{0}.dll", project.ProjectName);
 
-                VSProjectWithFileInfo project =
-                    (VSProjectWithFileInfo)solution.FindProjectByName(_projectName);
-                FileFullPath projectTarget = project.ProjectDirectoryPath.CombineWith(project.GetProjectOutputPath(buildConfiguration))
-                    .AddFileName("{0}.dll", project.ProjectName);
-
-                _testAssemblyFileName = projectTarget.ToString();
-                _workingDirectory = Path.GetDirectoryName(projectTarget.ToString());
+                    _testAssemblyFileNames.Add(projectTarget.ToString());
+                    if (setWorkingDir)
+                    {
+                        _workingDirectory = Path.GetDirectoryName(projectTarget.ToString());
+                    }
+                }
             }
         }
     }
