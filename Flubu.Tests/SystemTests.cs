@@ -23,7 +23,7 @@ namespace Flubu.Tests
     {
         public const string BaseExamplesPath = @".\FlubuExamples\";
 
-        [Fact]
+        [Fact(Skip="Example scripts were moved to another repo")]
         public void ExecuteMvcNet4_61BuildScript()
         {
             string buildScriptArg = @"-s=" + BaseExamplesPath + @"MVC_NET4.61\BuildScriptTest.cs";
@@ -33,7 +33,7 @@ namespace Flubu.Tests
             Assert.True(File.Exists($"{BaseExamplesPath}\\MVC_NET4.61\\builds\\FlubuExample_1.0.0.zip"));
         }
 
-        [Fact]
+        [Fact(Skip = "Example scripts were moved to another repo")]
         public void ExecuteMvcNetCore1_0BuildScript()
         {
             string buildScriptArg = @"-s=" + BaseExamplesPath + @"NetCore_1.1\BuildScript\BuildScriptTest.cs";

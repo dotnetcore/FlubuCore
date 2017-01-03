@@ -1,1 +1,0 @@
-﻿// jquery.spliter has been replaced with jquery.layout - this file is meant to overwrite existing files during upgrade

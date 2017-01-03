@@ -1,1 +1,0 @@
-﻿// jquery.datePicker has been replaced with jquery.datepicker - this file is meant to overwrite existing files during upgrade
