@@ -27,8 +27,8 @@ namespace Flubu.Tests.Tasks
         public void ExecuteDotNetCommandWithFullPath()
         {
             string currentFolder = Directory.GetCurrentDirectory();
-
-            _commandFactory.Setup(i => i.Create("C:\\Program Files\\dotnet\\dotnet.exe", new List<string> { "--version" }, null, "Debug")).Returns(_command.Object);
+            var path = Path.GetFullPath("C:\\Program Files\\dotnet\\dotnet.exe");
+            _commandFactory.Setup(i => i.Create(path, new List<string> { "--version" }, null, "Debug")).Returns(_command.Object);
 
             _command.Setup(i => i.CaptureStdErr()).Returns(_command.Object);
             _command.Setup(i => i.CaptureStdOut()).Returns(_command.Object);
