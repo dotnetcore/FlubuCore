@@ -19,7 +19,6 @@ namespace FlubuCore.Tasks.Packaging
         protected override int DoExecute(ITaskContextInternal context)
         {
             OSPlatform os = context.Properties.GetOSPlatform();
-            
             context.LogInfo($"Extract {_fileName} to {_destination}");
 
             if (!Directory.Exists(_destination))
