@@ -17,6 +17,8 @@ namespace FlubuCore.Tasks.Packaging
 
         protected override int DoExecute(ITaskContextInternal context)
         {
+            context.LogInfo($"Extract {_fileName} to {_destination}");
+
             if (!Directory.Exists(_destination))
                 Directory.CreateDirectory(_destination);
 
@@ -25,7 +27,8 @@ namespace FlubuCore.Tasks.Packaging
             {
                 foreach (ZipArchiveEntry entry in archive.Entries)
                 {
-                    string file = Path.Combine(_destination, Path.GetFileName(entry.FullName));
+                    string file = Path.Combine(_destination, entry.FullName);
+                    context.LogInfo($"Extract {entry.FullName} -> {file}");
                     entry.ExtractToFile(file, true);
                 }
             }
