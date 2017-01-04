@@ -18,12 +18,33 @@ namespace FlubuCore.Tasks.Packaging
 
         protected override int DoExecute(ITaskContextInternal context)
         {
+            OSPlatform os = context.Properties.GetOSPlatform();
             context.LogInfo($"Extract {_fileName} to {_destination}");
 
             if (!Directory.Exists(_destination))
                 Directory.CreateDirectory(_destination);
 
-            ZipFile.ExtractToDirectory(_fileName, _destination);
+            using (Stream zip = File.OpenRead(_fileName))
+            using (ZipArchive archive = new ZipArchive(zip, ZipArchiveMode.Read))
+            {
+                foreach (ZipArchiveEntry entry in archive.Entries)
+                {
+                    string zipFile = entry.FullName;
+
+                    if (os != OSPlatform.Windows)
+                        zipFile = zipFile.Replace('\\', Path.DirectorySeparatorChar);
+
+                    string file = Path.Combine(_destination, zipFile);
+                    string folder = Path.GetDirectoryName(file);
+
+                    if (!Directory.Exists(folder))
+                        Directory.CreateDirectory(folder);
+
+                    context.LogInfo($"Extract {file}");
+                    entry.ExtractToFile(file, true);
+                }
+            }
+
             return 0;
         }
     }
