@@ -15,6 +15,7 @@ namespace FlubuCore.Tasks.Packaging
         private bool _addVersionAsPostFixToZipFileName;
         private int _versionFieldCount;
         private string _zipPrefix;
+        private bool _optimizeZip;
 
         public PackageTask(string destinationRootDir = null)
         {
@@ -94,6 +95,12 @@ namespace FlubuCore.Tasks.Packaging
         public PackageTask AddFileToPackage(string sourceFilePath, string destinationDirectory)
         {
             _sourcePackagingInfos.Add(new SourcePackagingInfo(SourceType.File, sourceFilePath, destinationDirectory));
+            return this;
+        }
+
+        public PackageTask OptimizeZip()
+        {
+            _optimizeZip = true;
             return this;
         }
 
@@ -179,7 +186,7 @@ namespace FlubuCore.Tasks.Packaging
                     zipFile = Path.Combine(_destinationRootDir, $"{zipFile}.zip");
                 }
 
-                ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(zipFile), df, sourceIds);
+                ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(zipFile), df, _optimizeZip, sourceIds);
                 zipProcessor.Process(copiedPackageDef);
             }
 

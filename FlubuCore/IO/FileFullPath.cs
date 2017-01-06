@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace FlubuCore.IO
 {
@@ -15,25 +11,13 @@ namespace FlubuCore.IO
            _fileName = Path.IsPathRooted(fileName) ? fileName : Path.GetFullPath(fileName);
         }
 
-        public FullPath Directory
-        {
-            get { return ToFullPath().ParentPath; }
-        }
+        public FullPath Directory => ToFullPath().ParentPath;
 
-        public bool Exists
-        {
-            get { return File.Exists(_fileName); }
-        }
+        public bool Exists => File.Exists(_fileName);
 
-        public string FileName
-        {
-            get { return Path.GetFileName(_fileName); }
-        }
+        public string FileName => Path.GetFileName(_fileName);
 
-        public int Length
-        {
-            get { return _fileName.Length; }
-        }
+        public int Length => _fileName.Length;
 
         public override string ToString()
         {

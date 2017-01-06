@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.IO.Compression;
-using Flubu.Tests.Tasks;
 using FlubuCore.IO;
 using FlubuCore.Packaging;
 using Xunit;
@@ -53,7 +52,7 @@ namespace Flubu.Tests.Packaging
                 .AddTransformation("test2", new LocalPath(@"test2"));
             IPackageDef copiedPackageDef = copyProcessor.Process(packageDef);
 
-            ZipProcessor zipProcessor = new ZipProcessor(Context, zipper, new FileFullPath("tmp\\test.zip"), new FullPath("tmp\\output"), null, "test", "test2");
+            ZipProcessor zipProcessor = new ZipProcessor(Context, zipper, new FileFullPath("tmp\\test.zip"), new FullPath("tmp\\output"), false, null, "test", "test2");
             zipProcessor.Process(copiedPackageDef);
 
             using (ZipArchive archive = ZipFile.OpenRead("tmp\\test.zip"))

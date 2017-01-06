@@ -17,45 +17,24 @@ namespace FlubuCore.IO
             _fullPath = Path.IsPathRooted(path) ? path : Path.GetFullPath(path);
         }
 
-        public bool DirectoryExists
-        {
-            get { return Directory.Exists(_fullPath); }
-        }
+        public bool DirectoryExists => Directory.Exists(_fullPath);
 
-        public bool EndsWithDirectorySeparator
-        {
-            get
-            {
-                return _fullPath.EndsWith(
-                    Path.DirectorySeparatorChar.ToString(),
-                    StringComparison.OrdinalIgnoreCase)
-                    || _fullPath.EndsWith(
-                    Path.AltDirectorySeparatorChar.ToString(),
-                    StringComparison.OrdinalIgnoreCase);
-            }
-        }
+        public bool EndsWithDirectorySeparator => _fullPath.EndsWith(
+                                                      Path.DirectorySeparatorChar.ToString(),
+                                                      StringComparison.OrdinalIgnoreCase)
+                                                  || _fullPath.EndsWith(
+                                                      Path.AltDirectorySeparatorChar.ToString(),
+                                                      StringComparison.OrdinalIgnoreCase);
 
-        public string FileName
-        {
-            get { return Path.GetFileName(_fullPath); }
-        }
+        public string FileName => Path.GetFileName(_fullPath);
 
-        public int Length
-        {
-            get { return _fullPath.Length; }
-        }
+        public int Length => _fullPath.Length;
 
         /// <summary>
         /// Gets the path that is a parent to the current path in this object.
         /// </summary>
         /// <value>The parent path.</value>
-        public FullPath ParentPath
-        {
-            get
-            {
-                return new FullPath(Path.GetDirectoryName(_fullPath));
-            }
-        }
+        public FullPath ParentPath => new FullPath(Path.GetDirectoryName(_fullPath));
 
         public static implicit operator string(FullPath path)
         {

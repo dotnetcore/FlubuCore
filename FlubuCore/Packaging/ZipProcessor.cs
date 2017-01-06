@@ -13,8 +13,9 @@ namespace FlubuCore.Packaging
         private readonly FileFullPath _zipFileName;
 
         private readonly FullPath _baseDir;
+        private readonly bool _optimizeFiles;
 
-        private List<string> _sourcesToZip = new List<string>();
+        private readonly List<string> _sourcesToZip = new List<string>();
 
         private IFileFilter _filter;
 
@@ -23,12 +24,14 @@ namespace FlubuCore.Packaging
             IZipper zipper,
             FileFullPath zipFileName,
             FullPath baseDir,
+            bool optimizeFiles,
             params string[] sources)
         {
             _taskContext = taskContext;
             _zipper = zipper;
             _zipFileName = zipFileName;
             _baseDir = baseDir;
+            _optimizeFiles = optimizeFiles;
             _sourcesToZip.AddRange(sources);
         }
 
@@ -37,12 +40,14 @@ namespace FlubuCore.Packaging
            IZipper zipper,
            FileFullPath zipFileName,
            FullPath baseDir,
+           bool optimizeFiles,
            List<string> sources)
         {
             _taskContext = taskContext;
             _zipper = zipper;
             _zipFileName = zipFileName;
             _baseDir = baseDir;
+            _optimizeFiles = optimizeFiles;
             _sourcesToZip.AddRange(sources);
         }
 
@@ -68,7 +73,7 @@ namespace FlubuCore.Packaging
                 }
             }
 
-            _zipper.ZipFiles(_zipFileName, _baseDir, filesToZip);
+            _zipper.ZipFiles(_zipFileName, _baseDir, filesToZip, _optimizeFiles);
 
             SingleFileSource singleFileSource = new SingleFileSource("zip", _zipFileName);
             zippedPackageDef.AddFilesSource(singleFileSource);

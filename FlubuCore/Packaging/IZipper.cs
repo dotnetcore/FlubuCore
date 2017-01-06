@@ -8,6 +8,7 @@ namespace FlubuCore.Packaging
         void ZipFiles(
             FileFullPath zipFileName,
             FullPath baseDir,
-            IEnumerable<FileFullPath> filesToZip);
+            IEnumerable<FileFullPath> filesToZip,
+            bool optimizeFiles);
     }
 }
