@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.IO.Compression;
+using System.Runtime.InteropServices;
 using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.Packaging
@@ -17,6 +18,9 @@ namespace FlubuCore.Tasks.Packaging
 
         protected override int DoExecute(ITaskContextInternal context)
         {
+            OSPlatform os = context.Properties.GetOSPlatform();
+            context.LogInfo($"Extract {_fileName} to {_destination}");
+
             if (!Directory.Exists(_destination))
                 Directory.CreateDirectory(_destination);
 
@@ -25,7 +29,18 @@ namespace FlubuCore.Tasks.Packaging
             {
                 foreach (ZipArchiveEntry entry in archive.Entries)
                 {
-                    string file = Path.Combine(_destination, Path.GetFileName(entry.FullName));
+                    string zipFile = entry.FullName;
+
+                    if (os != OSPlatform.Windows)
+                        zipFile = zipFile.Replace('\\', Path.DirectorySeparatorChar);
+
+                    string file = Path.Combine(_destination, zipFile);
+                    string folder = Path.GetDirectoryName(file);
+
+                    if (!Directory.Exists(folder))
+                        Directory.CreateDirectory(folder);
+
+                    context.LogInfo($"Extract {file}");
                     entry.ExtractToFile(file, true);
                 }
             }
