@@ -21,11 +21,11 @@
         "version": "1.0.1"
     },
     "Microsoft.Extensions.Logging": "1.0.0",
-    "dotnet-flubu": "1.0.265"
+    "dotnet-flubu": "1.0.324"
   },
   "tools": {
     "dotnet-flubu": {
-      "version": "1.0.265",
+      "version": "1.0.324",
       "imports": [
         "dotnet5.6"
       ]

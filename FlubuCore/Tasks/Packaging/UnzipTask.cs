@@ -1,7 +1,11 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Runtime.InteropServices;
 using FlubuCore.Context;
+using FlubuCore.Packaging;
+using Newtonsoft.Json;
 
 namespace FlubuCore.Tasks.Packaging
 {
@@ -27,25 +31,62 @@ namespace FlubuCore.Tasks.Packaging
             using (Stream zip = File.OpenRead(_fileName))
             using (ZipArchive archive = new ZipArchive(zip, ZipArchiveMode.Read))
             {
+                ZipArchiveEntry metaEntry = archive.Entries.FirstOrDefault(i => i.FullName == Zipper.MetadataFileName);
+                ZipMetadata metadata = null;
+
+                if (metaEntry != null)
+                {
+                    using (Stream ms = metaEntry.Open())
+                    using (var sr = new StreamReader(ms))
+                    {
+                        var serializer = new JsonSerializer();
+                        metadata = serializer.Deserialize<ZipMetadata>(new JsonTextReader(sr));
+                    }
+                }
+
                 foreach (ZipArchiveEntry entry in archive.Entries)
                 {
                     string zipFile = entry.FullName;
 
-                    if (os != OSPlatform.Windows)
-                        zipFile = zipFile.Replace('\\', Path.DirectorySeparatorChar);
+                    if (metadata == null)
+                    {
+                        ExtractToFiles(context, entry, os, new List<string> { zipFile });
+                        continue;
+                    }
 
-                    string file = Path.Combine(_destination, zipFile);
-                    string folder = Path.GetDirectoryName(file);
+                    ZipMetadataItem metaItem = metadata.Items.FirstOrDefault(i => i.FileName == zipFile);
 
-                    if (!Directory.Exists(folder))
-                        Directory.CreateDirectory(folder);
+                    if (metaItem == null)
+                    {
+                        context.LogInfo($"{zipFile} not found in metadata!");
+                        continue;
+                    }
 
-                    context.LogInfo($"Extract {file}");
-                    entry.ExtractToFile(file, true);
+                    ExtractToFiles(context, entry, os, metaItem.DestinationFiles);
                 }
             }
 
             return 0;
+        }
+
+        private void ExtractToFiles(ITaskContextInternal context, ZipArchiveEntry entry, OSPlatform os, List<string> files)
+        {
+            foreach (string zipFile in files)
+            {
+                string tmpFile = zipFile;
+
+                if (os != OSPlatform.Windows)
+                    tmpFile = zipFile.Replace('\\', Path.DirectorySeparatorChar);
+
+                string file = Path.Combine(_destination, tmpFile);
+                string folder = Path.GetDirectoryName(file);
+
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+
+                context.LogInfo($"inflating: {file}");
+                entry.ExtractToFile(file, true);
+            }
         }
     }
 }

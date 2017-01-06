@@ -10,6 +10,7 @@ namespace FlubuCore.Packaging
 {
     public class Zipper : IZipper
     {
+        public const string MetadataFileName = "_zipmetadata.json";
         private readonly ITaskContextInternal _taskContext;
 
         public Zipper(ITaskContextInternal taskContext)
@@ -25,6 +26,7 @@ namespace FlubuCore.Packaging
         {
             _taskContext.LogInfo(string.Format("Zipping {0}", zipFileName));
             var zipFileFullPath = zipFileName.ToFullPath();
+
             if (File.Exists(zipFileFullPath))
             {
                 File.Delete(zipFileFullPath);
@@ -39,7 +41,7 @@ namespace FlubuCore.Packaging
 
             using (ZipArchive newFile = ZipFile.Open(zipFileFullPath, ZipArchiveMode.Create))
             {
-                foreach (var fileToZip in tmpList)
+                foreach (FileFullPath fileToZip in tmpList)
                 {
                     LocalPath debasedFileName = fileToZip.ToFullPath().DebasePath(baseDir);
                     newFile.CreateEntryFromFile(fileToZip.ToString(), debasedFileName, CompressionLevel.Optimal);
@@ -49,30 +51,42 @@ namespace FlubuCore.Packaging
 
         private List<FileFullPath> RemoveDuplicateFiles(List<FileFullPath> filesToZip, FullPath baseDir)
         {
-            Dictionary<string, List<string>> mapping = new Dictionary<string, List<string>>();
+            ZipMetadata metadata = new ZipMetadata();
             List<FileFullPath> list = new List<FileFullPath>();
+
             while (filesToZip.Count > 0)
             {
                 FileFullPath current = filesToZip[filesToZip.Count - 1];
+                var currentDebase = current.ToFullPath().DebasePath(baseDir);
+
                 filesToZip.RemoveAt(filesToZip.Count - 1);
-                List<string> currentItems = new List<string> { current.ToFullPath().ToString() };
-                mapping.Add(current.FileName, currentItems);
+                ZipMetadataItem metaItem = new ZipMetadataItem { FileName = currentDebase };
+                metaItem.DestinationFiles.Add(currentDebase);
+                metadata.Items.Add(metaItem);
+                list.Add(current);
+
+                FileInfo currentInfo = new FileInfo(current.ToString());
 
                 for (int i = filesToZip.Count - 1; i >= 0; i--)
                 {
                     FileFullPath tmp = filesToZip[i];
 
-                    if (tmp.FileName != current.FileName || tmp.Length != current.Length)
+                    if (tmp.FileName != current.FileName)
                         continue;
 
-                    currentItems.Add(tmp.ToFullPath().DebasePath(baseDir));
+                    FileInfo tmpInfo = new FileInfo(tmp.ToString());
+
+                    if (tmpInfo.Length != currentInfo.Length)
+                        continue;
+
+                    metaItem.DestinationFiles.Add(tmp.ToFullPath().DebasePath(baseDir));
                     filesToZip.RemoveAt(i);
                 }
             }
 
-            string metadata = Path.Combine(baseDir.ToString(), "_zipmetadata.json");
-            File.WriteAllText(metadata, JsonConvert.SerializeObject(mapping));
-            list.Add(new FileFullPath(metadata));
+            string metadataFile = Path.Combine(baseDir.ToString(), MetadataFileName);
+            File.WriteAllText(metadataFile, JsonConvert.SerializeObject(metadata));
+            list.Add(new FileFullPath(metadataFile));
             return list;
         }
     }
