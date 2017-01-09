@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Security.Cryptography;
 using FlubuCore.Context;
 using FlubuCore.IO;
 using Newtonsoft.Json;
@@ -65,6 +67,7 @@ namespace FlubuCore.Packaging
                 metadata.Items.Add(metaItem);
                 list.Add(current);
 
+                byte[] firstHash = CalculateHash(current.ToString());
                 FileInfo currentInfo = new FileInfo(current.ToString());
 
                 for (int i = filesToZip.Count - 1; i >= 0; i--)
@@ -79,6 +82,11 @@ namespace FlubuCore.Packaging
                     if (tmpInfo.Length != currentInfo.Length)
                         continue;
 
+                    byte[] secondHash = CalculateHash(tmp.ToString());
+
+                    if (!HashEqual(firstHash, secondHash))
+                        continue;
+
                     metaItem.DestinationFiles.Add(tmp.ToFullPath().DebasePath(baseDir));
                     filesToZip.RemoveAt(i);
                 }
@@ -88,6 +96,26 @@ namespace FlubuCore.Packaging
             File.WriteAllText(metadataFile, JsonConvert.SerializeObject(metadata));
             list.Add(new FileFullPath(metadataFile));
             return list;
+        }
+
+        private byte[] CalculateHash(string fileName)
+        {
+            using (var stream = File.OpenRead(fileName))
+            using (var hash = MD5.Create())
+            {
+                return hash.ComputeHash(stream);
+            }
+        }
+
+        private bool HashEqual(byte[] firstHash, byte[] secondHash)
+        {
+            for (int i = 0; i < firstHash.Length; i++)
+            {
+                if (firstHash[i] != secondHash[i])
+                    return false;
+            }
+
+            return true;
         }
     }
 }
