@@ -21,7 +21,7 @@ namespace Flubu.Tests.Integration
             session.CreateTarget("extensions")
                 .TaskExtensions()
                 .DotnetPublish("33")
-                .CreateSimplePackage("aa", "fdf");
+                .CreateZipPackageFromProjects("aa", "netcoreapp1.1", "fdf");
 
             var restore = session
                 .CreateTarget("restore")
@@ -48,7 +48,7 @@ namespace Flubu.Tests.Integration
             package
                 .TaskExtensions()
                 .DotnetPublish("a", "b", "c")
-                .CreatePackage("8d", "a", "b", "c")
+                .CreateZipPackageFromProjects("8d", "netcoreapp1.1", "a", "b", "c")
                 .AddDirectoryToPackage("configuration", "configuration", true)
                 .AddFileToPackage("DeployScript.cs", string.Empty)
                 .AddFileToPackage("project.json", string.Empty)

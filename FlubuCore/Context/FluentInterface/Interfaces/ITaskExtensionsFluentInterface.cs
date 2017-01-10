@@ -10,17 +10,17 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
         /// <param name="zipPrefix">Zip file prefix. Version will be added automatically</param>
-        /// <param name="folders">Folders to add</param>
+        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/publish</param>
+        /// <param name="projects">Folders to add</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
-        PackageTask CreatePackage(string zipPrefix, params string[] folders);
+        PackageTask CreateZipPackageFromProjects(string zipPrefix, string targetFramework, params string[] projects);
 
         /// <summary>
-        /// Create ZIP file with specified folders.
+        /// Create emty package task with predefined ZIP output.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically</param>
-        /// <param name="folders">Folders to add</param>
-        /// <returns>This same instance of <see cref="ITargetFluentInterface" />.</returns>
-        ITaskExtensionsFluentInterface CreateSimplePackage(string zipPrefix, params string[] folders);
+        /// <param name="zipPrefix">Zip file prefix.</param>
+        /// <returns></returns>
+        PackageTask CreateZipPackage(string zipPrefix);
 
         ITaskExtensionsFluentInterface GenerateCommonAssemblyInfo();
 

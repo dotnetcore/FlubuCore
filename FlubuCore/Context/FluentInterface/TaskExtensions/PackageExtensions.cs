@@ -6,13 +6,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
 {
     public partial class TaskExtensionsFluentInterface
     {
-        public ITaskExtensionsFluentInterface CreateSimplePackage(string zipPrefix, params string[] folders)
-        {
-            CreatePackage(zipPrefix, folders);
-            return this;
-        }
-
-        public PackageTask CreatePackage(string zipPrefix, params string[] folders)
+        public PackageTask CreateZipPackageFromProjects(string zipPrefix, string targetFramework, params string[] folders)
         {
             var task = Context.Tasks().PackageTask(string.Empty); // must be string.Empty because of a constuctor
 
@@ -20,13 +14,25 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
 
             foreach (var folder in folders)
             {
-                var fullFolder = Path.Combine(folder, "bin/Release/netcoreapp1.1/publish");
+                var fullFolder = Path.Combine(folder, $"bin/Release/{targetFramework}/publish");
 
                 task.AddDirectoryToPackage(
                     fullFolder,
                     Path.GetFileName(folder),
                     true);
             }
+
+            Target.Target.AddTask(task);
+
+            return task;
+        }
+
+        public PackageTask CreateZipPackage(string zipPrefix)
+        {
+            PackageTask task = Context.Tasks().PackageTask(string.Empty); // must be string.Empty because of a constuctor
+
+            task
+                .ZipPackage(zipPrefix);
 
             Target.Target.AddTask(task);
 
