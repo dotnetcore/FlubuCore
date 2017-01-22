@@ -28,6 +28,13 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         ITargetFluentInterface DependsOn(params ITargetFluentInterface[] targets);
 
         /// <summary>
+        /// Specifies targets on which this target depends on.
+        /// </summary>
+        /// <param name="targets"></param>
+        /// <returns></returns>
+        ITargetFluentInterface DepensOn(params ITaskExtensionsFluentInterface[] targets);
+
+        /// <summary>
         /// Execute custom code in script.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>

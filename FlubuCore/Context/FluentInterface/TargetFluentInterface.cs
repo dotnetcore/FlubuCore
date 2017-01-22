@@ -42,6 +42,17 @@ namespace FlubuCore.Context.FluentInterface
             return this;
         }
 
+        public ITargetFluentInterface DepensOn(params ITaskExtensionsFluentInterface[] targets)
+        {
+            foreach (var t in targets)
+            {
+                var target = (TaskExtensionsFluentInterface)t;
+                Target.DependsOn(target.Target.Target);
+            }
+
+            return this;
+        }
+
         public ITargetFluentInterface Do(Action<ITaskContextInternal> targetAction)
         {
             Target.Do(targetAction);
