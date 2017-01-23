@@ -12,7 +12,6 @@ namespace Flubu.Tests
     public class TargetTests
     {
         private readonly IServiceCollection _services = new ServiceCollection();
-
         private readonly IServiceProvider _provider;
 
         public TargetTests()
