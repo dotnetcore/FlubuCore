@@ -17,8 +17,8 @@ public class MyBuildScript : DefaultBuildScript
             .CreateTarget("compile")
             .SetDescription("Compiles the VS solution")
             .AddTask(x => x.FetchVersionFromExternalSourceTask())
-            .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/project.json", "dotnet-flubu/project.json","Flubu.Tests/project.json")
-                .AdditionalProp("dependencies.FlubuCore", "dependencies.dotnet-flubu"))
+            // // .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/project.json", "dotnet-flubu/project.json","Flubu.Tests/project.json")
+                // // .AdditionalProp("dependencies.FlubuCore", "dependencies.dotnet-flubu"))
             .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("FlubuCore"))
             .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("dotnet-flubu"))
             .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("Flubu.Tests"))
@@ -38,7 +38,7 @@ public class MyBuildScript : DefaultBuildScript
     private static void TargetIlMerge(ITaskContext context)
     {
         var progTask = context.Tasks().RunProgramTask(@"tools\LibZ.Tool\1.2.0\tools\libz.exe");
-        
+
         progTask
             .WorkingFolder(@"dotnet-flubu\bin\Debug\net46\win7-x64")
             .WithArguments("inject-dll")

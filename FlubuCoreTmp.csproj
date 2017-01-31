@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <AssemblyName>build</AssemblyName>
+    <PackageId>FlubuCoreTmp</PackageId>
+    <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6</PackageTargetFallback>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove=".git\**" />
+    <Compile Remove=".vs\**" />
+    <Compile Remove="Backup1\**" />
+    <Compile Remove="Backup\**" />
+    <Compile Remove="dotnet-flubu\**" />
+    <Compile Remove="Flubu.Tests\**" />
+    <Compile Remove="Flubu.VisualStudio\**" />
+    <Compile Remove="FlubuCore\**" />
+    <Compile Remove="tools\**" />
+    <EmbeddedResource Remove=".git\**" />
+    <EmbeddedResource Remove=".vs\**" />
+    <EmbeddedResource Remove="Backup1\**" />
+    <EmbeddedResource Remove="Backup\**" />
+    <EmbeddedResource Remove="dotnet-flubu\**" />
+    <EmbeddedResource Remove="Flubu.Tests\**" />
+    <EmbeddedResource Remove="Flubu.VisualStudio\**" />
+    <EmbeddedResource Remove="FlubuCore\**" />
+    <EmbeddedResource Remove="tools\**" />
+    <None Remove=".git\**" />
+    <None Remove=".vs\**" />
+    <None Remove="Backup1\**" />
+    <None Remove="Backup\**" />
+    <None Remove="dotnet-flubu\**" />
+    <None Remove="Flubu.Tests\**" />
+    <None Remove="Flubu.VisualStudio\**" />
+    <None Remove="FlubuCore\**" />
+    <None Remove="tools\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove=".gitignore" />
+    <None Remove="appveyor.yml" />
+    <None Remove="project.lock.json" />
+    <None Remove="stylecop.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BuildScript.cs" Exclude="**;bin\**;obj\**;**\*.xproj;packages\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NETStandard.Library" Version="1.6.1" />
+    <PackageReference Include="Microsoft.NETCore.App" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.0.1" />
+    <PackageReference Include="dotnet-flubu" Version="1.0.324" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="dotnet-flubu" Version="1.0.324" />
+  </ItemGroup>
+</Project>
