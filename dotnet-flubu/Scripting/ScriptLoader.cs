@@ -23,14 +23,13 @@ namespace DotNet.Cli.Flubu.Scripting
 
         public async Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(string fileName)
         {
-            var dd = typeof(Enumerable).GetTypeInfo().Assembly.Location;
-            var coreDir = Directory.GetParent(dd);
-
+            var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
+           
             List<MetadataReference> references = new List<MetadataReference>
             {
                 // Here we get the path to the mscorlib and private mscorlib
                 // libraries that are required for compilation to succeed.
-                MetadataReference.CreateFromFile(coreDir.FullName + Path.DirectorySeparatorChar + "mscorlib.dll"),
+                MetadataReference.CreateFromFile(Path.Combine(coreDir, "mscorlib.dll")),
                 MetadataReference.CreateFromFile(typeof(object).GetTypeInfo().Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(DefaultBuildScript).GetTypeInfo().Assembly.Location)
             };
