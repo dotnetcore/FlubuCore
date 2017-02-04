@@ -34,3 +34,4 @@ FlubuExamples/NetCore_1.1/.vs/
 Fluburesult.xml
 FlubuExamples/NetCore_1.1/BuildScript/bin/
 FlubuExamples/NetCore_1.1/BuildScript/obj/
+CommonAssemblyInfo.cs

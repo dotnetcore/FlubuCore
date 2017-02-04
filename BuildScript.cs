@@ -13,12 +13,19 @@ public class MyBuildScript : DefaultBuildScript
 
     protected override void ConfigureTargets(ITaskContext context)
     {
-        context
+        var fetchVersion =  context.CreateTarget("fetch.build.version")
+            .AddTask(x => x.FetchBuildVersionFromFileTask());
+
+        var generateAssInfo = context.CreateTarget("generate.common.assinfo")
+            .AddTask(x => x.GenerateCommonAssemblyInfoTask())
+            .DependsOn(fetchVersion);
+
+        var compile =  context
             .CreateTarget("compile")
             .SetDescription("Compiles the VS solution")
-            .AddTask(x => x.FetchVersionFromExternalSourceTask())
-            // // .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/project.json", "dotnet-flubu/project.json","Flubu.Tests/project.json")
-                // // .AdditionalProp("dependencies.FlubuCore", "dependencies.dotnet-flubu"))
+            ////.AddTask(x => x.FetchVersionFromExternalSourceTask())
+            //// .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/project.json", "dotnet-flubu/project.json","Flubu.Tests/project.json")
+            //// .AdditionalProp("dependencies.FlubuCore", "dependencies.dotnet-flubu"))
             .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("FlubuCore"))
             .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("dotnet-flubu"))
             .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("Flubu.Tests"))
@@ -29,12 +36,15 @@ public class MyBuildScript : DefaultBuildScript
             .SetDescription("Merge's all assemblyes into .net flubu console application")
             .Do(TargetIlMerge);
 
-        context.CreateTarget("test")
+        var flubuTests = context.CreateTarget("test")
             .SetDescription("Runs all tests in solution.")
-            .TaskExtensions()
-            .DotnetUnitTest("Flubu.Tests");
-    }
+            .AddCoreTask(x => x.ExecuteDotnetTask("test").WithArguments("Flubu.Tests\\Flubu.Tests.csproj"));
 
+        context.CreateTarget("rebuild")
+            .SetAsDefault()
+            .DependsOn("generate.common.assinfo", "compile", "test");
+    }
+	
     private static void TargetIlMerge(ITaskContext context)
     {
         var progTask = context.Tasks().RunProgramTask(@"tools\LibZ.Tool\1.2.0\tools\libz.exe");
