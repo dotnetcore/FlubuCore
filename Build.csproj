@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp1.0</TargetFramework>
-    <AssemblyName>build</AssemblyName>
-    <PackageId>FlubuCoreTmp</PackageId>
+    <AssemblyName>Build</AssemblyName>
+    <PackageId>Build</PackageId>
     <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6</PackageTargetFallback>
   </PropertyGroup>
   <ItemGroup>
@@ -37,6 +37,8 @@
   <ItemGroup>
     <None Remove=".gitignore" />
     <None Remove="appveyor.yml" />
+    <None Remove="flubu.sln.DotSettings" />
+    <None Remove="project.json" />
     <None Remove="project.lock.json" />
     <None Remove="stylecop.json" />
   </ItemGroup>
