@@ -13,13 +13,6 @@ public class MyBuildScript : DefaultBuildScript
 
     protected override void ConfigureTargets(ITaskContext context)
     {
-        var fetchVersion =  context.CreateTarget("fetch.build.version")
-            .AddTask(x => x.FetchBuildVersionFromFileTask());
-
-        var generateAssInfo = context.CreateTarget("generate.common.assinfo")
-            .AddTask(x => x.GenerateCommonAssemblyInfoTask())
-            .DependsOn(fetchVersion);
-
         var compile =  context
             .CreateTarget("compile")
             .SetDescription("Compiles the VS solution")
@@ -42,7 +35,7 @@ public class MyBuildScript : DefaultBuildScript
 
         context.CreateTarget("rebuild")
             .SetAsDefault()
-            .DependsOn("generate.common.assinfo", "compile", "test");
+            .DependsOn("compile", "test");
     }
 	
     private static void TargetIlMerge(ITaskContext context)
