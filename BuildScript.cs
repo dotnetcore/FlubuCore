@@ -43,7 +43,7 @@ public class MyBuildScript : DefaultBuildScript
         var progTask = context.Tasks().RunProgramTask(@"tools\LibZ.Tool\1.2.0\tools\libz.exe");
 
         progTask
-            .WorkingFolder(@"dotnet-flubu\bin\Debug\net46\win7-x64")
+            .WorkingFolder(@"dotnet-flubu\bin\Debug\net46")
             .WithArguments("inject-dll")
             .WithArguments("--assembly")
             .WithArguments("dotnet-flubu.exe")
