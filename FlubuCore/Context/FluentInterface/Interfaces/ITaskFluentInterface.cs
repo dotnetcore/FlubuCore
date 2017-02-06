@@ -114,5 +114,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         MergeConfigurationTask MergeConfigurationTask(string outFile, params string[] sourceFiles);
 
         ReplaceTextTask ReplaceTextTask(string sourceFile, params Tuple<string, string>[] tokens);
+
+        UpdateXmlFileTask UpdateXmlFileTask(string fileName);
     }
 }

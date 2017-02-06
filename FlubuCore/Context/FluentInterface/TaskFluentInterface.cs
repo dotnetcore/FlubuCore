@@ -208,5 +208,10 @@ namespace FlubuCore.Context.FluentInterface
         {
             return Context.CreateTask<CleanOutputTask>();
         }
+
+        public UpdateXmlFileTask UpdateXmlFileTask(string fileName)
+        {
+            return Context.CreateTask<UpdateXmlFileTask>(fileName);
+        }
     }
 }

@@ -250,9 +250,15 @@ namespace Flubu.Tests.Context
         }
 
         [Fact]
-        public void ResloveCleanOutputTask()
+        public void ResolveCleanOutputTask()
         {
             Context.Tasks().CleanOutputTask();
+        }
+
+        [Fact]
+        public void ResolveUpdateXmlFileTask()
+        {
+            Context.Tasks().UpdateXmlFileTask("test");
         }
     }
 }
