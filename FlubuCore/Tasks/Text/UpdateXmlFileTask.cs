@@ -41,6 +41,11 @@ namespace FlubuCore.Tasks.Text
             xpathDeletes.Add (xpath);
         }
 
+        public void AddOrUpdate(string xpath, string value)
+        {
+            xpathAddOrUpdates.Add(xpath, value);
+        }
+
         /// <summary>
         /// Adds an "add" command to the list of commands to be performed on the XML file.
         /// </summary>
@@ -78,14 +83,33 @@ namespace FlubuCore.Tasks.Text
 
                 xmlDoc.PreserveWhitespace = true;
                 xmlDoc.Load(fs);
+                AddOrUpdates(xmlDoc);
                 PerformDeletes(xmlDoc, context);
                 PerformUpdates(xmlDoc, context);
                 PerformAdditions(xmlDoc, context);
                 xmlDoc.Save(fs);
             }
-         
 
             return 0;
+        }
+
+        private void AddOrUpdates(XmlDocument xmldoc)
+        {
+            foreach (KeyValuePair<string, string> keyValue in xpathAddOrUpdates)
+            {
+                if (xmldoc.SelectSingleNode(keyValue.Key) == null)
+                {
+                    var index = keyValue.Key.LastIndexOf("/");
+                    var xpath = keyValue.Key.Substring(0, index);
+                    var nodeNameToAdd = keyValue.Key.Substring(index + 1);
+                    UpdateXmlFileTaskAddition addition = new UpdateXmlFileTaskAddition(xpath, nodeNameToAdd, keyValue.Value);
+                    xpathAdditions.Add(addition);
+                }
+                else
+                {
+                    xpathUpdates.Add(keyValue.Key, keyValue.Value);
+                }
+            }
         }
 
         private void PerformDeletes(XmlDocument xmldoc, ITaskContextInternal context)
@@ -235,6 +259,7 @@ namespace FlubuCore.Tasks.Text
         }
 
         private readonly string fileName;
+        private readonly Dictionary<string, string> xpathAddOrUpdates = new Dictionary<string, string>();
         private readonly Dictionary<string, string> xpathUpdates = new Dictionary<string, string> ();
         private readonly List<string> xpathDeletes = new List<string> ();
         private readonly List<UpdateXmlFileTaskAddition> xpathAdditions = new List<UpdateXmlFileTaskAddition> ();
