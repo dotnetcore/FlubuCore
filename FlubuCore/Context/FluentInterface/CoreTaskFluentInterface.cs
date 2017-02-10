@@ -25,11 +25,6 @@ namespace FlubuCore.Context.FluentInterface
             return Context.CreateTask<ExecuteDotnetTask>(command);
         }
 
-        public UpdateNetCoreVersionTask UpdateNetCoreVersionTask(string filePath)
-        {
-            return Context.CreateTask<UpdateNetCoreVersionTask>(filePath);
-        }
-
         public UpdateNetCoreVersionTask UpdateNetCoreVersionTask(params string[] files)
         {
             var task = Context.CreateTask<UpdateNetCoreVersionTask>(string.Empty);

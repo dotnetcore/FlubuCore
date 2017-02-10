@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FlubuCore.Context;
+using FlubuCore.IO.Wrappers;
 using FlubuCore.Tasks.Text;
 using FlubuCore.Tasks.Versioning;
+using Moq;
 using Xunit;
 
 namespace Flubu.Tests.Tasks
@@ -14,9 +16,15 @@ namespace Flubu.Tests.Tasks
     {
         private readonly FlubuTestFixture _fixture;
 
+        private Mock<IFileWrapper> _file;
+
+        private Mock<IPathWrapper> _path;
+
         public UpdateNetCoreVersionTaskTests(FlubuTestFixture fixture)
             : base(fixture.LoggerFactory)
         {
+            _file = new Mock<IFileWrapper>();
+            _path = new Mock<IPathWrapper>();
             _fixture = fixture;
         }
 
@@ -25,7 +33,7 @@ namespace Flubu.Tests.Tasks
         {
             Context.SetBuildVersion(new Version(1, 1, 2, 2));
 
-            UpdateNetCoreVersionTask task = new UpdateNetCoreVersionTask("nonext.json")
+            UpdateNetCoreVersionTask task = new UpdateNetCoreVersionTask(_path.Object, _file.Object, "nonext.json")
                 .AdditionalProp("dep.test");
 
             TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.ExecuteVoid(Context));
@@ -39,7 +47,7 @@ namespace Flubu.Tests.Tasks
         {
             Context.SetBuildVersion(new Version(1, 1, 2, 2));
 
-            UpdateNetCoreVersionTask task = new UpdateNetCoreVersionTask("nonext.json")
+            UpdateNetCoreVersionTask task = new UpdateNetCoreVersionTask(_path.Object, _file.Object, "nonext.json")
                 .AdditionalProp("dep.test", "dep.test1", "dep.test2");
 
             TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.ExecuteVoid(Context));

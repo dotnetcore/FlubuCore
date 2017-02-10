@@ -17,6 +17,7 @@ namespace FlubuCore.Extensions
                 .AddLogging()
                 .AddSingleton<IFluentInterfaceFactory, FluentInterfaceFactory>()
                 .AddSingleton<IFileWrapper, FileWrapper>()
+                .AddSingleton<IPathWrapper, PathWrapper>()
                 .AddSingleton<IBuildPropertiesSession, TaskContextSession>()
                 .AddSingleton<TargetTree>()
                 .AddSingleton<ITaskSession, TaskSession>()

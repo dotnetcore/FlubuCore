@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using FlubuCore.Context;
+using FlubuCore.IO.Wrappers;
 using FlubuCore.Tasks.Text;
 
 namespace FlubuCore.Tasks.Versioning
@@ -9,19 +11,17 @@ namespace FlubuCore.Tasks.Versioning
     {
         private readonly List<string> _files = new List<string>();
 
+        private readonly IPathWrapper _pathWrapper;
+
+        private readonly IFileWrapper _file;
+
         private Version _version;
 
-        public UpdateNetCoreVersionTask(string filePath)
+        public UpdateNetCoreVersionTask(IPathWrapper pathWrapper, IFileWrapper filWrapper, string file)
         {
-            if (!string.IsNullOrEmpty(filePath))
-            {
-                _files.Add(filePath);
-            }
-        }
-
-        public UpdateNetCoreVersionTask(params string[] files)
-        {
-            _files.AddRange(files);
+            _file = filWrapper;
+            _pathWrapper = pathWrapper;
+            _files.Add(file);
         }
 
         internal List<string> AdditionalProperties { get; } = new List<string>();
@@ -66,15 +66,30 @@ namespace FlubuCore.Tasks.Versioning
 
             foreach (string file in _files)
             {
-                UpdateJsonFileTask task = new UpdateJsonFileTask(file);
+                if (!_file.Exists(file))
+                {
+                    context.Fail($"File {file} not found!", 1);
+                    return 1;
+                }
 
-                task
-                    .FailIfPropertyNotFound(false)
-                    .Update("version", newVersion);
+                if (_pathWrapper.GetExtension(file).Equals(".xproj", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    UpdateJsonFileTask task = context.Tasks().UpdateJsonFileTask(file);
 
-                AdditionalProperties.ForEach(i => task.Update(i, newVersion));
+                    task
+                        .FailIfPropertyNotFound(false)
+                        .Update("version", newVersion);
 
-                task.Execute(context);
+                    AdditionalProperties.ForEach(i => task.Update(i, newVersion));
+
+                    task.Execute(context);
+                }
+                else
+                {
+                    var task = context.Tasks().UpdateXmlFileTask(file);
+                    task.AddOrUpdate("//Version", newVersion);
+                    task.Execute(context);
+                }
             }
 
             return res;

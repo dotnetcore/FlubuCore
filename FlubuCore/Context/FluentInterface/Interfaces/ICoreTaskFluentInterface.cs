@@ -11,8 +11,6 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 
         ExecuteDotnetTask ExecuteDotnetTask(StandardDotnetCommands command);
 
-        UpdateNetCoreVersionTask UpdateNetCoreVersionTask(string filePath);
-
         UpdateNetCoreVersionTask UpdateNetCoreVersionTask(params string[] files);
 
         ExecuteDotnetTask Restore(string projectName = null, string workingFolder = null);
