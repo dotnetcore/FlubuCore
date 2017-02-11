@@ -12,7 +12,7 @@ using Xunit;
 namespace Flubu.Tests.Tasks
 {
     [Collection(nameof(FlubuTestCollection))]
-    public class UpdateNetCoreVersionTaskTests : FlubuTestBase
+    public class UpdateNetCoreVersionTaskUnitTests : FlubuTestBase
     {
         private readonly FlubuTestFixture _fixture;
 
@@ -20,7 +20,7 @@ namespace Flubu.Tests.Tasks
 
         private Mock<IPathWrapper> _path;
 
-        public UpdateNetCoreVersionTaskTests(FlubuTestFixture fixture)
+        public UpdateNetCoreVersionTaskUnitTests(FlubuTestFixture fixture)
             : base(fixture.LoggerFactory)
         {
             _file = new Mock<IFileWrapper>();

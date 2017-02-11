@@ -60,12 +60,17 @@ namespace FlubuCore.Tasks.Versioning
             }
 
             context.LogInfo($"Update version to {_version}");
-
+            
             string newVersion = _version.ToString(3);
             int res = 0;
 
             foreach (string file in _files)
             {
+                if (string.IsNullOrEmpty(file))
+                {
+                    continue;
+                }
+
                 if (!_file.Exists(file))
                 {
                     context.Fail($"File {file} not found!", 1);
@@ -87,7 +92,10 @@ namespace FlubuCore.Tasks.Versioning
                 else
                 {
                     var task = context.Tasks().UpdateXmlFileTask(file);
-                    task.AddOrUpdate("//Version", newVersion);
+                    task.AddOrUpdate("Project/PropertyGroup/Version", newVersion);
+                    newVersion = _version.ToString(4);
+                    task.AddOrUpdate("Project/PropertyGroup/AssemblyVersion", newVersion);
+                    task.AddOrUpdate("Project/PropertyGroup/FileVersion", newVersion);
                     task.Execute(context);
                 }
             }

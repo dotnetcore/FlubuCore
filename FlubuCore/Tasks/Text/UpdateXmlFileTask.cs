@@ -87,6 +87,7 @@ namespace FlubuCore.Tasks.Text
                 PerformDeletes(xmlDoc, context);
                 PerformUpdates(xmlDoc, context);
                 PerformAdditions(xmlDoc, context);
+                fs.SetLength(0);
                 xmlDoc.Save(fs);
             }
 
