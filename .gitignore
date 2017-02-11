@@ -35,3 +35,6 @@ Fluburesult.xml
 FlubuExamples/NetCore_1.1/BuildScript/bin/
 FlubuExamples/NetCore_1.1/BuildScript/obj/
 CommonAssemblyInfo.cs
+FlubuCore.Runner/bin/Debug/Microsoft.CodeAnalysis.CSharp.Scripting.xml
+FlubuCore.Runner/bin/
+FlubuCore.Runner/obj/

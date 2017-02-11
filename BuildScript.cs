@@ -49,6 +49,8 @@ public class MyBuildScript : DefaultBuildScript
             .WithArguments("dotnet-flubu.exe")
             .WithArguments("--include")
             .WithArguments("*.dll")
+            .WithArguments("--exclude")
+            .WithArguments("FlubuCore.dll")
             .WithArguments("--move")
             .Execute(context);
     }
