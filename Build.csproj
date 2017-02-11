@@ -13,6 +13,7 @@
     <Compile Remove="dotnet-flubu\**" />
     <Compile Remove="Flubu.Tests\**" />
     <Compile Remove="Flubu.VisualStudio\**" />
+    <Compile Remove="FlubuCore.Runner\**" />
     <Compile Remove="FlubuCore\**" />
     <Compile Remove="tools\**" />
     <EmbeddedResource Remove=".git\**" />
@@ -22,6 +23,7 @@
     <EmbeddedResource Remove="dotnet-flubu\**" />
     <EmbeddedResource Remove="Flubu.Tests\**" />
     <EmbeddedResource Remove="Flubu.VisualStudio\**" />
+    <EmbeddedResource Remove="FlubuCore.Runner\**" />
     <EmbeddedResource Remove="FlubuCore\**" />
     <EmbeddedResource Remove="tools\**" />
     <None Remove=".git\**" />
@@ -31,6 +33,7 @@
     <None Remove="dotnet-flubu\**" />
     <None Remove="Flubu.Tests\**" />
     <None Remove="Flubu.VisualStudio\**" />
+    <None Remove="FlubuCore.Runner\**" />
     <None Remove="FlubuCore\**" />
     <None Remove="tools\**" />
   </ItemGroup>
@@ -52,6 +55,6 @@
     <PackageReference Include="dotnet-flubu" Version="1.1.0" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-flubu" Version="1.1.0" />
+    <DotNetCliToolReference Include="dotnet-flubu" Version="1.1.3" />
   </ItemGroup>
 </Project>
