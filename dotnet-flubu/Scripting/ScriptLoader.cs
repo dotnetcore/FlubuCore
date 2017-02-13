@@ -24,20 +24,15 @@ namespace DotNet.Cli.Flubu.Scripting
         public async Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(string fileName)
         {
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
-            var flubuPath =  typeof(DefaultBuildScript).GetTypeInfo().Assembly.Location;
+            var flubuPath = typeof(DefaultBuildScript).GetTypeInfo().Assembly.Location;
             List<MetadataReference> references = new List<MetadataReference>
             {
                 // Here we get the path to the mscorlib and private mscorlib
                 // libraries that are required for compilation to succeed.
                 MetadataReference.CreateFromFile(Path.Combine(coreDir, "mscorlib.dll")),
                 MetadataReference.CreateFromFile(typeof(object).GetTypeInfo().Assembly.Location),
-                
+                MetadataReference.CreateFromFile(flubuPath)
             };
-
-            if (!string.IsNullOrEmpty(flubuPath))
-            {
-                MetadataReference.CreateFromFile(flubuPath);
-            }
 
             // Enumerate all assemblies referenced by this executing assembly
             // and provide them as references to the build script we're about to
@@ -51,8 +46,6 @@ namespace DotNet.Cli.Flubu.Scripting
 
                 references.Add(MetadataReference.CreateFromFile(loadedAssembly.Location));
             }
-
-            ////references.Add(MetadataReference.CreateFromFile(@"K:\_git\FlubuCoreTmp\dotnet-flubu\bin\Debug\net46\dotnet-flubu.exe"));
 
             var opts = ScriptOptions.Default
                 .WithReferences(references);
