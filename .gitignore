@@ -38,3 +38,4 @@ CommonAssemblyInfo.cs
 FlubuCore.Runner/bin/Debug/Microsoft.CodeAnalysis.CSharp.Scripting.xml
 FlubuCore.Runner/bin/
 FlubuCore.Runner/obj/
+build/
