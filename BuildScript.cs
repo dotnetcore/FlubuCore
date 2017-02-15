@@ -20,7 +20,6 @@ public class MyBuildScript : DefaultBuildScript
         var compile =  context
             .CreateTarget("compile")
             .SetDescription("Compiles the VS solution")
-           
             .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj", "Flubu.Tests/Flubu.Tests.csproj")
             .AdditionalProp("dependencies.FlubuCore", "dependencies.dotnet-flubu"))
             .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("FlubuCore"))

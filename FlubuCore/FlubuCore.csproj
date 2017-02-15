@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard1.6;net46</TargetFrameworks>
     <WarningsAsErrors>true</WarningsAsErrors>
@@ -17,7 +17,7 @@
     <PackageReference Include="Documentation.Analyser" Version="1.0.6092.26771">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.DotNet.Cli.Utils" Version="1.0.0-rc3-004530" />
+    <PackageReference Include="Microsoft.DotNet.Cli.Utils" Version="1.0.0-rc4-004771" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="1.1.0" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.0.0" />
