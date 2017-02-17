@@ -1,6 +1,7 @@
 ﻿using FlubuCore.Context;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks.Nuget;
+using System.IO;
 
 public class MyBuildScript : DefaultBuildScript
 {
@@ -64,6 +65,12 @@ public class MyBuildScript : DefaultBuildScript
             .WithArguments($"build\\dotnet-flubu.{version.ToString(3)}.nupkg")
             .WithArguments("-s", "https://www.myget.org/F/flubucore/api/v2/package")
             .WithArguments("-k", "f92a7c72-08b2-4631-af9d-fa2f031eaf8c").Execute(context);
+
+        var task = context.Tasks().PublishNuGetPackageTask("FlubuCore.Runner", @"Nuget\FlubuCoreRunner.nuspec");
+        task.NuGetServerUrl = "https://www.myget.org/F/flubucore/api/v2/package";
+        task.ForApiKeyUse("f92a7c72-08b2-4631-af9d-fa2f031eaf8c");
+        task.AllowPushOnInteractiveBuild = true;
+        task.Execute(context);
     }
 
     private static void TargetMerge(ITaskContext context)
@@ -71,15 +78,16 @@ public class MyBuildScript : DefaultBuildScript
         var progTask = context.Tasks().RunProgramTask(@"tools\LibZ.Tool\1.2.0\tools\libz.exe");
 
         progTask
-            .WorkingFolder(@"dotnet-flubu\bin\Debug\net46")
+            .WorkingFolder(@"dotnet-flubu\bin\Release\net46")
             .WithArguments("inject-dll")
-            .WithArguments("--assembly")
-            .WithArguments("dotnet-flubu.exe")
-            .WithArguments("--include")
-            .WithArguments("*.dll")
-            .WithArguments("--exclude")
-            .WithArguments("FlubuCore.dll")
+            .WithArguments("--assembly", "dotnet-flubu.exe")          
+            .WithArguments("--include", "*.dll")            
+            .WithArguments("--exclude", "FlubuCore.dll")          
             .WithArguments("--move")
             .Execute(context);
+
+        context.Tasks().CopyFileTask(@"dotnet-flubu\bin\Release\net46\dotnet-flubu.exe", @"build\build.exe", true).Execute(context);
+        context.Tasks().CopyFileTask(@"dotnet-flubu\bin\Release\net46\FlubuCore.dll", @"build\FlubuCore.dll", true).Execute(context);
+        context.Tasks().CopyFileTask(@"dotnet-flubu\bin\Release\net46\FlubuCore.dll", @"build\FlubuCore.pdb", true).Execute(context);
     }
 }

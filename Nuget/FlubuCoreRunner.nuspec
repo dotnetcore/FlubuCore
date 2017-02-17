@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>FlubuCore.Runner</id>
+    <title>FlubuCore a C# native code building framework</title>
+    <version>$version$</version>
+    <authors>Marko Zorec, Zoro Zorec</authors>
+    <owners>Marko Zorec, Zoro Zorec</owners>
+    <projectUrl>https://bitbucket.org/zoroz/flubu.core</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>http://www.opensource.org/licenses/bsd-license.php</licenseUrl>
+    <description>
+      A C# library for building projects and executing deployment scripts using C# code.
+
+      A detailed example of how Flubu is used to build example project: https://bitbucket.org/zoroz/flubu.core.examples
+    </description>
+    <tags>build builder VisualStudio</tags>
+	<references>
+		<reference file="FlubuCore.dll" />
+	</references>
+  </metadata>
+  <files>
+    <file src="..\build\FlubuCore.dll" target="lib" />
+    <file src="..\build\FlubuCore.pdb" target="lib" />
+    <file src="..\build\FlubuCore.dll" target="content\temp" />
+    <file src="..\build\FlubuCore.pdb" target="content\temp" />
+    <file src="..\build\Build.exe" target="content\temp" />
+    <!-- <file src="..\Flubu\BuildScript.cs" target="content" /> -->  
+	<file src="..\nuget\tools\Install.ps1" target="tools\Install.ps1" />
+    <!--<file src="..\Flubu\readme.txt" target="" /> -->
+  </files>
+</package>
