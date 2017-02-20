@@ -49,8 +49,8 @@ public class MyBuildScript : DefaultBuildScript
             .Do(PublishNuGetPackage).
             DependsOn(buildVersion);
 
-            context.CreateTarget("package.SystemTests")
-            .TaskExtensions().CreateZipPackageFromProjects("Flubu_SystemTests", "netcoreapp1.0", "Flubu.SystemTests").Execute(context);
+        context.CreateTarget("package.SystemTests")
+            .Do(TargetPackageSystemTests);
 
         context.CreateTarget("rebuild")
             .SetAsDefault()
@@ -60,6 +60,11 @@ public class MyBuildScript : DefaultBuildScript
             .SetAsDefault()
             ////.DependsOn(compile, flubuTests, merge, nuget)
             .DependsOn("compile", "test", "merge", "nuget.publish", "package.SystemTests");
+    }
+
+    private static void TargetPackageSystemTests(ITaskContext context)
+    {
+         context.CreateTarget("buu").TaskExtensions().CreateZipPackageFromProjects("Flubu_SystemTests", "netcoreapp1.0", "Flubu.SystemTests").Execute(context);
     }
 
     private static void PublishNuGetPackage(ITaskContext context)
