@@ -21,24 +21,20 @@ public class MyBuildScript : DefaultBuildScript
         var compile = context
             .CreateTarget("compile")
             .SetDescription("Compiles the VS solution")
-            .AddCoreTask(
-                x =>
-                    x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj",
-                            "Flubu.Tests/Flubu.Tests.csproj")
+            .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj", "Flubu.Tests/Flubu.Tests.csproj")
                         .AdditionalProp("dependencies.FlubuCore", "dependencies.dotnet-flubu"))
             .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("FlubuCore"))
             .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("dotnet-flubu"))
             .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("Flubu.Tests"))
-            .AddCoreTask(
-                x =>
-                    x.ExecuteDotnetTask("pack")
+            .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("Flubu.SystemTests"))
+            .AddCoreTask(x => x.ExecuteDotnetTask("pack")
                         .WithArguments("FlubuCore", "-c", "Release")
-                        .WithArguments("-o", "..\\build"))
-            .AddCoreTask(
-                x =>
-                    x.ExecuteDotnetTask("pack")
+                        .WithArguments("-o", "..\\output"))
+            .AddCoreTask(x => x.ExecuteDotnetTask("pack")
                         .WithArguments("dotnet-flubu", "-c", "Release")
-                        .WithArguments("-o", "..\\build"))
+                        .WithArguments("-o", "..\\output"))
+                        .AddCoreTask(x => x.ExecuteDotnetTask("publish").WithArguments("Flubu.SystemTests")
+                        .WithArguments("-c", "Release"))
             .DependsOn(buildVersion);
 
        var merge = context.CreateTarget("merge")
@@ -53,13 +49,17 @@ public class MyBuildScript : DefaultBuildScript
             .Do(PublishNuGetPackage).
             DependsOn(buildVersion);
 
+            context.CreateTarget("package.SystemTests")
+            .TaskExtensions().CreateZipPackageFromProjects("Flubu_SystemTests", "netcoreapp1.0", "Flubu.SystemTests").Execute(context);
+
         context.CreateTarget("rebuild")
             .SetAsDefault()
             .DependsOn(compile, flubuTests);
 
         context.CreateTarget("rebuild.server")
             .SetAsDefault()
-            .DependsOn(compile, flubuTests, merge, nuget);
+            .DependsOn(compile, flubuTests, merge, nuget)
+            .DependsOn("package.SystemTests");
     }
 
     private static void PublishNuGetPackage(ITaskContext context)
@@ -99,13 +99,13 @@ public class MyBuildScript : DefaultBuildScript
             .Execute(context);
 
         context.Tasks()
-            .CopyFileTask(@"dotnet-flubu\bin\Release\net46\dotnet-flubu.exe", @"build\build.exe", true)
+            .CopyFileTask(@"dotnet-flubu\bin\Release\net46\dotnet-flubu.exe", @"output\build.exe", true)
             .Execute(context);
         context.Tasks()
-            .CopyFileTask(@"dotnet-flubu\bin\Release\net46\FlubuCore.dll", @"build\FlubuCore.dll", true)
+            .CopyFileTask(@"dotnet-flubu\bin\Release\net46\FlubuCore.dll", @"output\FlubuCore.dll", true)
             .Execute(context);
         context.Tasks()
-            .CopyFileTask(@"dotnet-flubu\bin\Release\net46\FlubuCore.dll", @"build\FlubuCore.pdb", true)
+            .CopyFileTask(@"dotnet-flubu\bin\Release\net46\FlubuCore.dll", @"output\FlubuCore.pdb", true)
             .Execute(context);
     }
 }

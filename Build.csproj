@@ -10,7 +10,9 @@
     <Compile Remove=".vs\**" />
     <Compile Remove="Backup1\**" />
     <Compile Remove="Backup\**" />
+    <Compile Remove="build\**" />
     <Compile Remove="dotnet-flubu\**" />
+    <Compile Remove="Flubu.SystemTests\**" />
     <Compile Remove="Flubu.Tests\**" />
     <Compile Remove="Flubu.VisualStudio\**" />
     <Compile Remove="FlubuCore.Runner\**" />
@@ -20,7 +22,9 @@
     <EmbeddedResource Remove=".vs\**" />
     <EmbeddedResource Remove="Backup1\**" />
     <EmbeddedResource Remove="Backup\**" />
+    <EmbeddedResource Remove="build\**" />
     <EmbeddedResource Remove="dotnet-flubu\**" />
+    <EmbeddedResource Remove="Flubu.SystemTests\**" />
     <EmbeddedResource Remove="Flubu.Tests\**" />
     <EmbeddedResource Remove="Flubu.VisualStudio\**" />
     <EmbeddedResource Remove="FlubuCore.Runner\**" />
@@ -30,7 +34,9 @@
     <None Remove=".vs\**" />
     <None Remove="Backup1\**" />
     <None Remove="Backup\**" />
+    <None Remove="build\**" />
     <None Remove="dotnet-flubu\**" />
+    <None Remove="Flubu.SystemTests\**" />
     <None Remove="Flubu.Tests\**" />
     <None Remove="Flubu.VisualStudio\**" />
     <None Remove="FlubuCore.Runner\**" />

@@ -39,3 +39,8 @@ FlubuCore.Runner/bin/Debug/Microsoft.CodeAnalysis.CSharp.Scripting.xml
 FlubuCore.Runner/bin/
 FlubuCore.Runner/obj/
 build/
+Flubu.SystemTests/obj/
+Flubu.SystemTests/bin/Release/netcoreapp1.0/publish/runtimes/ubuntu.16.04-x64/native/System.Security.Cryptography.Native.OpenSsl.so
+output/
+Flubu.SystemTests/bin/
+Flubu.SystemTests/project.json.new
