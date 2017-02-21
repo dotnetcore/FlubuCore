@@ -14,17 +14,22 @@ namespace FlubuCore.Tasks.Solution
     public class CompileSolutionTask : TaskBase<int>
     {
         private readonly IFlubuEnviromentService _enviromentService;
+
         private string _solutionFileName;
 
         private string _buildConfiguration;
 
         private string _target;
 
+        private string _platform;
+
         private Version _toolsVersion;
 
         private bool _useSolutionDirAsWorkingDir;
 
         private int _maxCpuCount = 3;
+
+        private readonly List<string> _arguments = new List<string>();
 
         /// <summary>
         /// Task compiles specified solution with MSBuild.
@@ -49,6 +54,18 @@ namespace FlubuCore.Tasks.Solution
            _solutionFileName = solutionFileName;
            _buildConfiguration = buildConfiguration;
             _enviromentService = enviromentService;
+        }
+
+        public CompileSolutionTask AddArgument(string argument)
+        {
+            _arguments.Add(argument);
+            return this;
+        }
+
+        public CompileSolutionTask Platform(string platform)
+        {
+            _platform = platform;
+            return this;
         }
 
         public int MaxCpuCount
@@ -94,15 +111,29 @@ namespace FlubuCore.Tasks.Solution
             task
                 .WithArguments(_solutionFileName)
                 .WithArguments($"/p:Configuration={_buildConfiguration}")
-                .WithArguments("/p:Platform=Any CPU")
                 .WithArguments("/consoleloggerparameters:NoSummary")
                 .WithArguments($"/maxcpucount:{_maxCpuCount}");
+
+            if (string.IsNullOrEmpty(_platform))
+            {
+                task.WithArguments("/p:Platform=Any CPU");
+            }
+            else
+            {
+                task.WithArguments($"/p:Platform={_platform}");
+            }
 
             if (_useSolutionDirAsWorkingDir)
                 task.WorkingFolder(Path.GetDirectoryName(_solutionFileName));
 
             if (_target != null)
                 task.WithArguments($"/t:{_target}");
+
+
+            foreach (var arg in _arguments)
+            {
+                task.WithArguments(arg);
+            }
 
             task.ExecuteVoid(context);
 
