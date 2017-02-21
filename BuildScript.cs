@@ -72,13 +72,13 @@ public class MyBuildScript : DefaultBuildScript
         var version = context.Properties.GetBuildVersion();
         context.CoreTasks().ExecuteDotnetTask("nuget")
             .WithArguments("push")
-            .WithArguments($"build\\FlubuCore.{version.ToString(3)}.nupkg")
+            .WithArguments($"output\\FlubuCore.{version.ToString(3)}.nupkg")
             .WithArguments("-s", "https://www.myget.org/F/flubucore/api/v2/package")
             .WithArguments("-k", "f92a7c72-08b2-4631-af9d-fa2f031eaf8c").Execute(context);
 
         context.CoreTasks().ExecuteDotnetTask("nuget")
             .WithArguments("push")
-            .WithArguments($"build\\dotnet-flubu.{version.ToString(3)}.nupkg")
+            .WithArguments($"output\\dotnet-flubu.{version.ToString(3)}.nupkg")
             .WithArguments("-s", "https://www.myget.org/F/flubucore/api/v2/package")
             .WithArguments("-k", "f92a7c72-08b2-4631-af9d-fa2f031eaf8c").Execute(context);
 

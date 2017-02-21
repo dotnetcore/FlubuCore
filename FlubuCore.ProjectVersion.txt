@@ -3,5 +3,5 @@
 - CompileSolutionTask - Custom arguments can be added now. 
 
 1.1.5.0
-- Added FlubuCore.Runner 
+- Added FlubuCore.Runner for .net 4.6
 1.1.4.0
