@@ -1,3 +1,5 @@
+1.1.7.0
+- System tests.
 1.1.6.0
 - CompileSolutionTask - specific platform can be set now. Default is still AnyCPU
 - CompileSolutionTask - Custom arguments can be added now. 
