@@ -20,11 +20,11 @@
 	</references>
   </metadata>
   <files>
-    <file src="..\build\FlubuCore.dll" target="lib" />
-    <file src="..\build\FlubuCore.pdb" target="lib" />
-    <file src="..\build\FlubuCore.dll" target="content\temp" />
-    <file src="..\build\FlubuCore.pdb" target="content\temp" />
-    <file src="..\build\Build.exe" target="content\temp" />
+    <file src="..\output\FlubuCore.dll" target="lib" />
+    <file src="..\output\FlubuCore.pdb" target="lib" />
+    <file src="..\output\FlubuCore.dll" target="content\temp" />
+    <file src="..\output\FlubuCore.pdb" target="content\temp" />
+    <file src="..\output\Build.exe" target="content\temp" />
     <!-- <file src="..\Flubu\BuildScript.cs" target="content" /> -->  
 	<file src="..\nuget\tools\Install.ps1" target="tools\Install.ps1" />
     <!--<file src="..\Flubu\readme.txt" target="" /> -->
