@@ -11,6 +11,7 @@ public class MyBuildScript : DefaultBuildScript
         context.Properties.Set(BuildProps.CompanyCopyright, "Copyright (C) 2010-2016 Flubu");
         context.Properties.Set(BuildProps.ProductId, "FlubuCore");
         context.Properties.Set(BuildProps.ProductName, "FlubuCore");
+        context.Properties.Set(BuildProps.BuildDir, "output");
     }
 
     protected override void ConfigureTargets(ITaskContext context)
