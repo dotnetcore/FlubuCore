@@ -60,7 +60,7 @@ public class MyBuildScript : DefaultBuildScript
         context.CreateTarget("rebuild.server")
             .SetAsDefault()
             ////.DependsOn(compile, flubuTests, merge, nuget)
-            .DependsOn("compile", "test", "merge", "nuget.publish", "package.SystemTests");
+            .DependsOn("compile", "test", "merge", "nuget.publish", "package.FlubuRunner");
     }
 
     private static void TargetPackageFlubuRunner(ITaskContext context)
