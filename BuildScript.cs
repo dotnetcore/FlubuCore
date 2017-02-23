@@ -17,6 +17,8 @@ public class MyBuildScript : DefaultBuildScript
     protected override void ConfigureTargets(ITaskContext context)
     {
         var buildVersion = context.CreateTarget("buildVersion")
+            .SetAsHidden()
+            .SetDescription("Fetches flubu version from FlubuCore.ProjectVersion.txt file.")
             .AddTask(x => x.FetchBuildVersionFromFileTask());
 
         var compile = context
@@ -38,7 +40,7 @@ public class MyBuildScript : DefaultBuildScript
                         .WithArguments("-c", "Release"))
             .DependsOn(buildVersion);
 
-       var merge = context.CreateTarget("merge")
+       var flubuRunnerMerge = context.CreateTarget("merge")
             .SetDescription("Merge's all assemblyes into .net flubu console application")
             .Do(TargetMerge);
 
@@ -51,14 +53,17 @@ public class MyBuildScript : DefaultBuildScript
             DependsOn(buildVersion);
 
         var packageFlubuRunner =context.CreateTarget("package.FlubuRunner")
+            .SetDescription("Packages .net 4.6 Flubu runner into zip.")
             .Do(TargetPackageFlubuRunner);
 
         context.CreateTarget("rebuild")
+            .SetDescription("Rebuilds the solution")
             .SetAsDefault()
             .DependsOn(compile, flubuTests);
 
         context.CreateTarget("rebuild.server")
-            .DependsOn(compile, flubuTests, merge, nugetPublish, packageFlubuRunner);
+            .SetDescription("Rebuilds the solution and publishes nuget packages.")
+            .DependsOn(compile, flubuTests, flubuRunnerMerge, nugetPublish, packageFlubuRunner);
     }
 
     private static void TargetPackageFlubuRunner(ITaskContext context)
