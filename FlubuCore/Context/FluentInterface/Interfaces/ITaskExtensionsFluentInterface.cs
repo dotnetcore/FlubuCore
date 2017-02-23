@@ -15,13 +15,6 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns><see cref="PackageTask"/> instance.</returns>
         PackageTask CreateZipPackageFromProjects(string zipPrefix, string targetFramework, params string[] projects);
 
-        /// <summary>
-        /// Create emty package task with predefined ZIP output.
-        /// </summary>
-        /// <param name="zipPrefix">Zip file prefix.</param>
-        /// <returns></returns>
-        PackageTask CreateZipPackage(string zipPrefix);
-
         ITaskExtensionsFluentInterface GenerateCommonAssemblyInfo();
 
         ITaskExtensionsFluentInterface RunMultiProgram(params string[] programs);

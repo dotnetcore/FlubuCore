@@ -26,17 +26,5 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
 
             return task;
         }
-
-        public PackageTask CreateZipPackage(string zipPrefix)
-        {
-            PackageTask task = Context.Tasks().PackageTask(string.Empty); // must be string.Empty because of a constuctor
-
-            task
-                .ZipPackage(zipPrefix);
-
-            Target.Target.AddTask(task);
-
-            return task;
-        }
     }
 }
