@@ -18,8 +18,9 @@ namespace FlubuCore.Tasks.NetCore
         {
             return new ExecuteDotnetTask(StandardDotnetCommands.Test)
                 .WorkingFolder(workingFolder)
-                .WithArguments(projectName)
-                .XmlOutput($"{Path.GetFileNameWithoutExtension(projectName)}result.xml");
+                .WithArguments(projectName);
+            
+            //todo set xml outout for tests
         }
 
         public static ExecuteDotnetTask Run(string projectName = null, string workingFolder = null)
