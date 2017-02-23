@@ -46,11 +46,11 @@ public class MyBuildScript : DefaultBuildScript
             .SetDescription("Runs all tests in solution.")
             .AddCoreTask(x => x.ExecuteDotnetTask("test").WithArguments("Flubu.Tests\\Flubu.Tests.csproj"));
 
-        var nuget = context.CreateTarget("nuget.publish")
+        var nugetPublish = context.CreateTarget("nuget.publish")
             .Do(PublishNuGetPackage).
             DependsOn(buildVersion);
 
-        context.CreateTarget("package.FlubuRunner")
+        var packageFlubuRunner =context.CreateTarget("package.FlubuRunner")
             .Do(TargetPackageFlubuRunner);
 
         context.CreateTarget("rebuild")
@@ -58,9 +58,7 @@ public class MyBuildScript : DefaultBuildScript
             .DependsOn(compile, flubuTests);
 
         context.CreateTarget("rebuild.server")
-            .SetAsDefault()
-            ////.DependsOn(compile, flubuTests, merge, nuget)
-            .DependsOn("compile", "test", "merge", "nuget.publish", "package.FlubuRunner");
+            .DependsOn(compile, flubuTests, merge, nugetPublish, packageFlubuRunner);
     }
 
     private static void TargetPackageFlubuRunner(ITaskContext context)
