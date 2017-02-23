@@ -1,3 +1,5 @@
+1.1.8.0
+- BREAKING CHANGE: Removed DependsOn by TaskExtensionsFluentInterface from TargetFluentInterface. Use BackToTarget instead on TaskExtensionFluentInterface.
 1.1.7.0
 - System tests.
 1.1.6.0
