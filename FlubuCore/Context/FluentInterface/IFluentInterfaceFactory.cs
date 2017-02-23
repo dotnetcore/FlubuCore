@@ -12,5 +12,7 @@ namespace FlubuCore.Context.FluentInterface
         ICoreTaskFluentInterface GetCoreTaskFluentInterface(ITaskContextInternal taskContext);
 
         ITaskExtensionsFluentInterface GetTaskExtensionsFluentInterface(ITargetFluentInterface target, ITaskContextInternal taskContext);
+
+        ICoreTaskExtensionsFluentInterface GetCoreTaskExtensionsFluentInterface(ITargetFluentInterface target, ITaskContextInternal taskContext);
     }
 }

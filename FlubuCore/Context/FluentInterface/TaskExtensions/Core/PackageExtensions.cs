@@ -1,10 +1,9 @@
 ﻿using System.IO;
-using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Tasks.Packaging;
 
-namespace FlubuCore.Context.FluentInterface.TaskExtensions
+namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
 {
-    public partial class TaskExtensionsFluentInterface
+    public partial class CoreTaskExtensionsFluentInterface
     {
         public PackageTask CreateZipPackageFromProjects(string zipPrefix, string targetFramework, params string[] folders)
         {

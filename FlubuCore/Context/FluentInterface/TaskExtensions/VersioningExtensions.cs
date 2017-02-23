@@ -6,14 +6,6 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
 {
     public partial class TaskExtensionsFluentInterface
     {
-        public ITaskExtensionsFluentInterface UpdateDotnetVersion(string[] projectFiles, string[] additionalProps)
-        {
-            Target.AddCoreTask(x => x.UpdateNetCoreVersionTask(projectFiles)
-                .AdditionalProp(additionalProps));
-
-            return this;
-        }
-
         public ITaskExtensionsFluentInterface GenerateCommonAssemblyInfo()
         {
             string buildConfiguration = Context.Properties.Get<string>(BuildProps.BuildConfiguration);

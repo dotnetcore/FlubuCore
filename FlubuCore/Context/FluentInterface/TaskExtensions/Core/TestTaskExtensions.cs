@@ -1,28 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.IO;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Targeting;
-using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Testing;
 
-namespace FlubuCore.Context.FluentInterface.TaskExtensions
+namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
 {
-    public partial class TaskExtensionsFluentInterface
+    public partial class CoreTaskExtensionsFluentInterface
     {
-        public ITaskExtensionsFluentInterface DotnetUnitTest(params string[] projects)
-        {
-            foreach (string project in projects)
-            {
-                Target.Target.AddTask(Dotnet.Test(project));
-            }
-
-            return this;
-        }
-
-        public ITaskExtensionsFluentInterface DotnetCoverage(params string[] projects)
+        public ICoreTaskExtensionsFluentInterface DotnetCoverage(params string[] projects)
         {
             foreach (string project in projects)
             {
@@ -32,13 +17,13 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
             return this;
         }
 
-        public ITaskExtensionsFluentInterface DotnetCoverage(string projectPath, string output, params string[] excludeList)
+        public ICoreTaskExtensionsFluentInterface DotnetCoverage(string projectPath, string output, params string[] excludeList)
         {
             Target.Target.AddTask(DotnetCoverage(projectPath, output, null, excludeList));
             return this;
         }
 
-        public ITaskExtensionsFluentInterface DotnetCoverage(string projectPath, string[] includeList, string[] excludeList)
+        public ICoreTaskExtensionsFluentInterface DotnetCoverage(string projectPath, string[] includeList, string[] excludeList)
         {
             Target.Target.AddTask(DotnetCoverage(projectPath, null, includeList, excludeList));
             return this;

@@ -57,7 +57,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         ITargetFluentInterface AddTask(params ITask[] tasks);
 
         /// <summary>
-        /// Add's the task to the target.
+        /// Add's the (core) task to the target.
         /// </summary>
         /// <param name="task">The task to be added</param>
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
@@ -71,9 +71,15 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         ITargetFluentInterface AddCoreTask(Func<ICoreTaskFluentInterface, ITask> task);
 
         /// <summary>
-        /// Task extensions for various tasks(Fluent interface).
+        /// Task extensions for various .net (core) tasks(Fluent interface).
         /// </summary>
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITaskExtensionsFluentInterface TaskExtensions();
+
+        /// <summary>
+        /// Task extensions for various .net core tasks(Fluent interface).
+        /// </summary>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
+        ICoreTaskExtensionsFluentInterface CoreTaskExtensions();
     }
 }

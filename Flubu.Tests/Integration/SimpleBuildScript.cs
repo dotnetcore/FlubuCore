@@ -19,7 +19,7 @@ namespace Flubu.Tests.Integration
                 .DependsOn(test);
 
             session.CreateTarget("extensions")
-                .TaskExtensions()
+                .CoreTaskExtensions()
                 .DotnetPublish("33")
                 .CreateZipPackageFromProjects("aa", "netcoreapp1.1", "fdf");
 
@@ -46,7 +46,7 @@ namespace Flubu.Tests.Integration
                 .AddTask(x => x.IisTasks().DeleteAppPoolTask());
 
             package
-                .TaskExtensions()
+                .CoreTaskExtensions()
                 .DotnetPublish("a", "b", "c")
                 .CreateZipPackageFromProjects("8d", "netcoreapp1.1", "a", "b", "c")
                 .AddDirectoryToPackage("configuration", "configuration", true)

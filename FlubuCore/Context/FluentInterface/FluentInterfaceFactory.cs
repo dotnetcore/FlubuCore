@@ -1,6 +1,7 @@
 ﻿using System;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Context.FluentInterface.TaskExtensions;
+using FlubuCore.Context.FluentInterface.TaskExtensions.Core;
 using FlubuCore.Targeting;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -44,6 +45,15 @@ namespace FlubuCore.Context.FluentInterface
             return taskExtensions;
         }
 
+        public ICoreTaskExtensionsFluentInterface GetCoreTaskExtensionsFluentInterface(ITargetFluentInterface target, ITaskContextInternal taskContext)
+        {
+            var t = _sp.GetRequiredService<ICoreTaskExtensionsFluentInterface>();
+            CoreTaskExtensionsFluentInterface coreTaskExtensions = (CoreTaskExtensionsFluentInterface)t;
+            coreTaskExtensions.Target = (TargetFluentInterface)target;
+            coreTaskExtensions.Context = taskContext;
+            return coreTaskExtensions;
+        }
+
         public ITargetFluentInterface GetTargetFluentInterface(ITarget target, ITaskContextInternal taskContext)
         {
             ITargetFluentInterface t = _sp.GetRequiredService<ITargetFluentInterface>();
@@ -52,6 +62,7 @@ namespace FlubuCore.Context.FluentInterface
             targetFluent.Context = taskContext;
             targetFluent.CoreTaskFluent = GetCoreTaskFluentInterface(taskContext);
             targetFluent.TaskExtensionsFluent = GetTaskExtensionsFluentInterface(t, taskContext);
+            targetFluent.CoreTaskExtensionsFluent = GetCoreTaskExtensionsFluentInterface(t, taskContext);
             targetFluent.TaskFluent = GetTaskFluentInterface(taskContext);
 
             return targetFluent;
