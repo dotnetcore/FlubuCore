@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netcoreapp1.0;net46</TargetFrameworks>
     <RuntimeIdentifiers>win7-x64;win7-x86;osx.10.10-x64;osx.10.11-x64;ubuntu.14.04-x64;ubuntu.16.04-x64;centos.7-x64;rhel.7.2-x64;debian.8-x64;fedora.23-x64;opensuse.13.2-x64</RuntimeIdentifiers>
@@ -29,17 +29,17 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.0.0-rc4" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="2.0.0-rc4" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="2.0.0-rc4" />
-    <PackageReference Include="NLog.Extensions.Logging" Version="1.0.0-rtm-beta1" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.0.0-rtm-beta3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.0" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.0">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta001">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Documentation.Analyser" Version="1.0.6092.26771">
+    <PackageReference Include="Documentation.Analyser" Version="1.0.6166.19031">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.1.0" />
