@@ -1,3 +1,5 @@
+1.1.10.0
+- Updated nuget packages to latest version
 1.1.9.0
 - Removed dotnet test -xml output parameter. It won't work under VS2017 RC
 1.1.8.0
