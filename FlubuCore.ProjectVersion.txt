@@ -1,3 +1,5 @@
+1.1.9.0
+- Removed dotnet test -xml output parameter. It won't work under VS2017 RC
 1.1.8.0
 - BREAKING CHANGE: Removed DependsOn by TaskExtensionsFluentInterface from TargetFluentInterface. Use BackToTarget instead on TaskExtensionFluentInterface.
 1.1.7.0
