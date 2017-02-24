@@ -1,4 +1,6 @@
-﻿using FlubuCore.Tasks.Packaging;
+﻿using System;
+using FlubuCore.Tasks.NetCore;
+using FlubuCore.Tasks.Packaging;
 
 namespace FlubuCore.Context.FluentInterface.Interfaces
 {
@@ -15,7 +17,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 
         ICoreTaskExtensionsFluentInterface DotnetUnitTest(params string[] projects);
 
-        ICoreTaskExtensionsFluentInterface DotnetRestore(params string[] projects);
+        ICoreTaskExtensionsFluentInterface DotnetRestore(Action<DotnetRestoreTask> action = null, params string[] projects);
 
         ICoreTaskExtensionsFluentInterface DotnetPublish(params string[] projects);
 

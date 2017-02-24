@@ -260,5 +260,11 @@ namespace Flubu.Tests.Context
         {
             Context.Tasks().UpdateXmlFileTask("test");
         }
+
+        [Fact]
+        public void ResolveDotnetRestoreTask()
+        {
+            Context.CoreTasks().Restore();
+        }
     }
 }

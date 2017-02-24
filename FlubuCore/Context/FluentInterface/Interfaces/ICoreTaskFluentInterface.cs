@@ -13,7 +13,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 
         UpdateNetCoreVersionTask UpdateNetCoreVersionTask(params string[] files);
 
-        ExecuteDotnetTask Restore(string projectName = null, string workingFolder = null);
+        DotnetRestoreTask Restore(string projectName = null, string workingFolder = null);
 
         ExecuteDotnetTask Publish(
             string projectName = null,

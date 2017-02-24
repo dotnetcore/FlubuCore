@@ -38,9 +38,9 @@ namespace FlubuCore.Context.FluentInterface
             return _linuxFluent;
         }
 
-        public ExecuteDotnetTask Restore(string projectName = null, string workingFolder = null)
+        public DotnetRestoreTask Restore(string projectName = null, string workingFolder = null)
         {
-            ExecuteDotnetTask ret = new ExecuteDotnetTask(StandardDotnetCommands.Restore);
+            var ret = Context.CreateTask<DotnetRestoreTask>();
 
             if (!string.IsNullOrEmpty(workingFolder))
             {

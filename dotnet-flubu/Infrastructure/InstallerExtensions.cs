@@ -6,6 +6,7 @@ using FlubuCore.Context.FluentInterface.TaskExtensions;
 using FlubuCore.Context.FluentInterface.TaskExtensions.Core;
 using FlubuCore.Tasks;
 using FlubuCore.Tasks.Iis;
+using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Solution;
 using FlubuCore.Tasks.Testing;
 using FlubuCore.Tasks.Versioning;
@@ -48,7 +49,8 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddTransient<OpenCoverTask>()
                 .AddTask<LoadSolutionTask>()
                 .AddTask<CompileSolutionTask>()
-                .AddTask<CleanOutputTask>();
+                .AddTask<CleanOutputTask>()
+                .AddTask<DotnetRestoreTask>();
         }
 
         public static IServiceCollection AddArguments(this IServiceCollection services, string[] args)
