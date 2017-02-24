@@ -1,3 +1,5 @@
+1.2.0.0
+- Added Dotnet specific tasks and extensions.
 1.1.10.0
 - Updated nuget packages to latest version
 1.1.9.0
