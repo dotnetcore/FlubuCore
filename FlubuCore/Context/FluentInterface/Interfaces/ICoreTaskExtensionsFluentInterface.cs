@@ -17,13 +17,47 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 
         ICoreTaskExtensionsFluentInterface DotnetUnitTest(params string[] projects);
 
-        ICoreTaskExtensionsFluentInterface DotnetRestore(Action<DotnetRestoreTask> action = null, params string[] projects);
+        ICoreTaskExtensionsFluentInterface DotnetUnitTest(Action<DotnetTestTask> action = null, params string[] projects);
+
+        ICoreTaskExtensionsFluentInterface DotnetUnitTest(string project = null, Action<DotnetTestTask> action = null);
+
+        ICoreTaskExtensionsFluentInterface DotnetUnitTest(Action<DotnetTestTask> action = null);
+
+        ICoreTaskExtensionsFluentInterface DotnetRestore(params string[] projects);
+
+        ICoreTaskExtensionsFluentInterface DotnetRestore(Action<DotnetRestoreTask> action, params string[] projects);
+
+        ICoreTaskExtensionsFluentInterface DotnetRestore(Action<DotnetRestoreTask> action = null);
 
         ICoreTaskExtensionsFluentInterface DotnetPublish(params string[] projects);
 
+        ICoreTaskExtensionsFluentInterface DotnetPublish(Action<DotnetPublishTask> action, params string[] projects);
+
+        ICoreTaskExtensionsFluentInterface DotnetPublish(Action<DotnetPublishTask> action = null);
+
+        ICoreTaskExtensionsFluentInterface DotnetPublish(string project, Action<DotnetPublishTask> action = null);
+
         ICoreTaskExtensionsFluentInterface DotnetBuild(params string[] projects);
 
-        ICoreTaskExtensionsFluentInterface DotnetBuild(string workingFolder, params string[] projects);
+        ICoreTaskExtensionsFluentInterface DotnetBuild(Action<DotnetBuildTask> action, params string[] projects);
+
+        ICoreTaskExtensionsFluentInterface DotnetBuild(Action<DotnetBuildTask> action = null);
+
+        ICoreTaskExtensionsFluentInterface DotnetBuild(string workingFolder = null, Action<DotnetBuildTask> action = null, params string[] projects);
+
+        ICoreTaskExtensionsFluentInterface DotnetBuild(string project = null, string workingFolder = null, Action<DotnetBuildTask> action = null);
+
+        ICoreTaskExtensionsFluentInterface DotnetPack(params string[] projects);
+
+        ICoreTaskExtensionsFluentInterface DotnetPack(Action<DotnetPackTask> action, params string[] projects);
+
+        ICoreTaskExtensionsFluentInterface DotnetPack(Action<DotnetPackTask> action = null);
+
+        ICoreTaskExtensionsFluentInterface DotnetClean(Action<DotnetCleanTask> action, params string[] projects);
+
+        ICoreTaskExtensionsFluentInterface DotnetClean(string project, Action<DotnetCleanTask> action = null);
+
+        ICoreTaskExtensionsFluentInterface DotnetClean(Action<DotnetCleanTask> action = null);
 
         ICoreTaskExtensionsFluentInterface UpdateDotnetVersion(string[] projectFiles, string[] additionalProps);
 

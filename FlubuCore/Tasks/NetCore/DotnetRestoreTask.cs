@@ -10,6 +10,12 @@ namespace FlubuCore.Tasks.NetCore
         {
         }
 
+        public DotnetRestoreTask Project(string projectName)
+        {
+            WithArguments(projectName);
+            return this;
+        }
+
         /// <summary>
         /// Add a NuGet package source to use during the restore.
         /// </summary>

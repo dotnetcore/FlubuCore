@@ -8,6 +8,7 @@
         Publish,
         Run,
         Test,
-        Pack
+        Pack,
+        Clean,
     }
 }

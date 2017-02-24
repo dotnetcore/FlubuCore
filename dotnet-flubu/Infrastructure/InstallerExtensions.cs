@@ -50,7 +50,12 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddTask<LoadSolutionTask>()
                 .AddTask<CompileSolutionTask>()
                 .AddTask<CleanOutputTask>()
-                .AddTask<DotnetRestoreTask>();
+                .AddTask<DotnetRestoreTask>()
+                .AddTask<DotnetTestTask>()
+                .AddTask<DotnetBuildTask>()
+                .AddTask<DotnetPublishTask>()
+                .AddTask<DotnetPackTask>()
+                .AddTask<DotnetCleanTask>();
         }
 
         public static IServiceCollection AddArguments(this IServiceCollection services, string[] args)

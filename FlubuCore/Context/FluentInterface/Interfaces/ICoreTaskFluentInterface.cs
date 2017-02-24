@@ -15,11 +15,17 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 
         DotnetRestoreTask Restore(string projectName = null, string workingFolder = null);
 
-        ExecuteDotnetTask Publish(
+        DotnetPublishTask Publish(
             string projectName = null,
             string workingFolder = null,
             string configuration = "Release");
 
-        ExecuteDotnetTask Build(string projectName = null, string workingFolder = null);
+        DotnetBuildTask Build(string projectName = null, string workingFolder = null);
+
+        DotnetPackTask Pack();
+
+        DotnetTestTask Test();
+
+        DotnetCleanTask Clean();
     }
 }

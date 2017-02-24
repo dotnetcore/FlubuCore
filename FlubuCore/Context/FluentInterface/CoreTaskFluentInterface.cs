@@ -55,20 +55,33 @@ namespace FlubuCore.Context.FluentInterface
             return ret;
         }
 
-        public ExecuteDotnetTask Publish(string projectName = null, string workingFolder = null, string configuration = "Release")
+        public DotnetPublishTask Publish(string projectName = null, string workingFolder = null, string configuration = "Release")
         {
-            return new ExecuteDotnetTask(StandardDotnetCommands.Publish)
+            return Context.CreateTask<DotnetPublishTask>()
                 .WorkingFolder(workingFolder)
-                .WithArguments(projectName, "-c", configuration);
+                .WithArguments(projectName, "-c", configuration) as DotnetPublishTask;
         }
 
-        public ExecuteDotnetTask Build(string projectName = null, string workingFolder = null)
+        public DotnetBuildTask Build(string projectName = null, string workingFolder = null)
         {
-            return new ExecuteDotnetTask(StandardDotnetCommands.Build)
+            return Context.CreateTask<DotnetBuildTask>()
                 .WorkingFolder(workingFolder)
-                .WithArguments(projectName);
+                .WithArguments(projectName) as DotnetBuildTask;
         }
 
+        public DotnetPackTask Pack()
+        {
+            return Context.CreateTask<DotnetPackTask>();
+        }
 
+        public DotnetTestTask Test()
+        {
+            return Context.CreateTask<DotnetTestTask>();
+        }
+
+        public DotnetCleanTask Clean()
+        {
+            return Context.CreateTask<DotnetCleanTask>();
+        }
     }
 }

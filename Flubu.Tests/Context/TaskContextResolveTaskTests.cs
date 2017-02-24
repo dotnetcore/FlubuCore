@@ -266,5 +266,35 @@ namespace Flubu.Tests.Context
         {
             Context.CoreTasks().Restore();
         }
+
+        [Fact]
+        public void ResolveDotnetBuildTask()
+        {
+            Context.CoreTasks().Build();
+        }
+
+        [Fact]
+        public void ResolveDotnetPublishTask()
+        {
+            Context.CoreTasks().Publish();
+        }
+
+        [Fact]
+        public void ResolveDotnetTestTask()
+        {
+            Context.CoreTasks().Test();
+        }
+
+        [Fact]
+        public void ResolveDotnetPackTask()
+        {
+            Context.CoreTasks().Pack();
+        }
+
+        [Fact]
+        public void ResolveDotnetCleanTask()
+        {
+            Context.CoreTasks().Clean();
+        }
     }
 }
