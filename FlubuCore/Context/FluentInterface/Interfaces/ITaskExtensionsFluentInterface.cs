@@ -5,7 +5,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
     public interface ITaskExtensionsFluentInterface
     {
         /// <summary>
-        /// Generate's common assembly info file. Information is taken from build properties cotnext.
+        /// Generate's common assembly info file. Information is taken from <see cref="IBuildPropertiesSession"/>
         /// </summary>
         /// <returns></returns>
         ITaskExtensionsFluentInterface GenerateCommonAssemblyInfo();

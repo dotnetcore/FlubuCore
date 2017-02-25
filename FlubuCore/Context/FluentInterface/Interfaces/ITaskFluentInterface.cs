@@ -30,6 +30,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 
         NuGetCmdLineTask NuGetCmdLineTask(string command, string workingDirectory = null);
 
+        /// <summary>
+        /// Creates Nupkg file from nuspec file and publises it to the nuget server.
+        /// </summary>
+        /// <param name="packageId">Id of the nuget package.</param>
+        /// <param name="nuspecFileName">Path to the nuspec file.</param>
+        /// <returns></returns>
         PublishNuGetPackageTask PublishNuGetPackageTask(string packageId, string nuspecFileName);
 
         /// <summary>
@@ -64,8 +70,17 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="solutionFileName">The solution file name of the solution to be loaded.</param>
         LoadSolutionTask LoadSolutionTask(string solutionFileName);
 
+        /// <summary>
+        /// Runs the cooverage report generator tool
+        /// </summary>
+        /// <param name="inputFiles"></param>
+        /// <returns></returns>
         CoverageReportTask CoverageReportTask(params string[] inputFiles);
 
+        /// <summary>
+        /// Cleans the output of all projects in the solution.
+        /// </summary>
+        /// <returns></returns>
         CleanOutputTask CleanOutputTask();
 
         /// <summary>
@@ -75,38 +90,120 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns></returns>
         NUnitTask NUnitTaskForNunitV3(params string[] projectName);
 
+        /// <summary>
+        /// Task runs tests that are in specified project.
+        /// </summary>
+        /// <param name="projectName"></param>
+        /// <returns></returns>
         NUnitTask NUnitTaskForNunitV2(params string[] projectName);
 
+        /// <summary>
+        /// Task runs tests that are in specified project.
+        /// </summary>
+        /// <param name="projectName"></param>
+        /// <returns></returns>
         NUnitTask NUnitTaskByProjectName(params string[] projectName);
 
+        /// <summary>
+        /// Task runs tests that are in specified assembly..
+        /// </summary>
+        /// <param name="projectName"></param>
+        /// <returns></returns>
         NUnitTask NUnitTaskByAssemblyName(params string[] testAssemblyFileName);
 
         ReplaceTokensTask ReplaceTokensTask(string sourceFileName, string destinationFileName);
 
+        /// <summary>
+        /// Update's specified json.
+        /// </summary>
+        /// <param name="fileName">File name of the json to be updated.</param>
+        /// <returns></returns>
         UpdateJsonFileTask UpdateJsonFileTask(string fileName);
 
+        /// <summary>
+        /// Task Fetches build version from file.
+        /// </summary>
+        /// <returns></returns>
         FetchBuildVersionFromFileTask FetchBuildVersionFromFileTask();
 
+        /// <summary>
+        /// Task fetched build version from external soruce(appveryor).
+        /// </summary>
+        /// <returns></returns>
         FetchVersionFromExternalSourceTask FetchVersionFromExternalSourceTask();
 
+        /// <summary>
+        /// Generate's common assembly info file. Information is taken from <see cref="IBuildPropertiesSession"/>
+        /// </summary>
+        /// <returns></returns>
         GenerateCommonAssemblyInfoTask GenerateCommonAssemblyInfoTask();
 
+        /// <summary>
+        /// Task generate's common assembly info file. Information is taken from <see cref="IBuildPropertiesSession"/>
+        /// </summary>
+        /// <returns></returns>
         GenerateCommonAssemblyInfoTask GenerateCommonAssemblyInfoTask(Version buildVersion);
 
+        /// <summary>
+        /// Task runs open cover to cobertuta tool.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="output"></param>
+        /// <returns></returns>
         OpenCoverToCoberturaTask OpenCoverToCoberturaTask(string input, string output);
 
+        /// <summary>
+        // /Task runs open cover tool.
+        /// </summary>
+        /// <returns></returns>
         OpenCoverTask OpenCoverTask();
 
+        /// <summary>
+        /// Task unzip specified zip to specified locattion.
+        /// </summary>
+        /// <param name="zip">Zip file to be unziped</param>
+        /// <param name="destionation"></param>
+        /// <returns></returns>
         UnzipTask UnzipTask(string zip, string destionation);
 
+        /// <summary>
+        /// Internet information service specific tasks.
+        /// </summary>
+        /// <returns></returns>
         IIisTaskFluentInterface IisTasks();
 
+        /// <summary>
+        /// Task copies file to specified location.
+        /// </summary>
+        /// <param name="sourceFileName">File to be copied</param>
+        /// <param name="destinationFileName"></param>
+        /// <param name="overwrite"></param>
+        /// <returns></returns>
         CopyFileTask CopyFileTask(string sourceFileName, string destinationFileName, bool overwrite);
 
+        /// <summary>
+        /// /Task creates directory.
+        /// </summary>
+        /// <param name="directoryPath"></param>
+        /// <param name="forceRecreate"></param>
+        /// <returns></returns>
         CreateDirectoryTask CreateDirectoryTask(string directoryPath, bool forceRecreate);
 
+        /// <summary>
+        /// Task deletes directory.
+        /// </summary>
+        /// <param name="directoryPath"></param>
+        /// <param name="failIfNotExists"></param>
+        /// <returns></returns>
         DeleteDirectoryTask DeleteDirectoryTask(string directoryPath, bool failIfNotExists);
 
+        /// <summary>
+        /// Task deletes files
+        /// </summary>
+        /// <param name="directoryPath"></param>
+        /// <param name="filePattern"></param>
+        /// <param name="recursive"></param>
+        /// <returns></returns>
         DeleteFilesTask DeleteFilesTask(string directoryPath, string filePattern, bool recursive);
 
         MergeConfigurationTask MergeConfigurationTask(string outFile);
@@ -114,7 +211,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         MergeConfigurationTask MergeConfigurationTask(string outFile, params string[] sourceFiles);
 
         ReplaceTextTask ReplaceTextTask(string sourceFile, params Tuple<string, string>[] tokens);
-
+        
+        /// <summary>
+        /// Task updates xml. Xml elements can be added, updated or deleted.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         UpdateXmlFileTask UpdateXmlFileTask(string fileName);
     }
 }
