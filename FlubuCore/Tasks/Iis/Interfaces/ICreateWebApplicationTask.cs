@@ -9,6 +9,9 @@ namespace FlubuCore.Tasks.Iis.Interfaces
     {
         CreateWebApplicationMode Mode { get; set; }
 
+        /// <summary>
+        /// Name of the application.
+        /// </summary>
         string ApplicationName { get; set; }
 
         string LocalPath { get; set; }
@@ -23,6 +26,9 @@ namespace FlubuCore.Tasks.Iis.Interfaces
 
         string AppFriendlyName { get; set; }
 
+        /// <summary>
+        /// Name of the application pool application will be controoler by.
+        /// </summary>
         string ApplicationPoolName { get; set; }
 
         bool AspEnableParentPaths { get; set; }
@@ -37,8 +43,14 @@ namespace FlubuCore.Tasks.Iis.Interfaces
 
         string ParentVirtualDirectoryName { get; set; }
 
+        /// <summary>
+        /// Web site name web application will be added to.
+        /// </summary>
         string WebsiteName { get; set; }
 
+        /// <summary>
+        /// Mime types to be added.
+        /// </summary>
         IList<MimeType> MimeTypes { get; set; }
     }
 }
