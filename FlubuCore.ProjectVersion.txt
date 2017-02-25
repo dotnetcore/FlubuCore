@@ -1,4 +1,5 @@
 1.2.0.0
+- Task fluent interface documentation.
 - Added Dotnet specific tasks and extensions.
 - BREAKING CHANGE: Splited TaskExtensions into CoreTaskExtensions and TaskExtensions.
 1.1.10.0
