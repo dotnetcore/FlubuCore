@@ -36,7 +36,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         IControlAppPoolTask ControlAppPoolTask();
 
         /// <summary>
-        /// Task add binding to existing web site.
+        /// Task adds binding to existing web site.
         /// </summary>
         /// <returns></returns>
         IAddWebsiteBindingTask AddWebsiteBindingTask();

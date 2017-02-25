@@ -162,7 +162,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// Task unzip specified zip to specified locattion.
         /// </summary>
         /// <param name="zip">Zip file to be unziped</param>
-        /// <param name="destionation"></param>
+        /// <param name="destionation">Destination path where zip content will be unziped.</param>
         /// <returns></returns>
         UnzipTask UnzipTask(string zip, string destionation);
 
@@ -177,7 +177,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="sourceFileName">File to be copied</param>
         /// <param name="destinationFileName"></param>
-        /// <param name="overwrite"></param>
+        /// <param name="overwrite">If <c>true</c> file is owerwriten if exists. Otherwise not</param>
         /// <returns></returns>
         CopyFileTask CopyFileTask(string sourceFileName, string destinationFileName, bool overwrite);
 
@@ -185,31 +185,48 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// /Task creates directory.
         /// </summary>
         /// <param name="directoryPath"></param>
-        /// <param name="forceRecreate"></param>
+        /// <param name="forceRecreate">If <c>true</c> directory is deleted if it exists and then created again.</param>
         /// <returns></returns>
         CreateDirectoryTask CreateDirectoryTask(string directoryPath, bool forceRecreate);
 
         /// <summary>
         /// Task deletes directory.
         /// </summary>
-        /// <param name="directoryPath"></param>
-        /// <param name="failIfNotExists"></param>
+        /// <param name="directoryPath">Path of the directoy to be deleted</param>
+        /// <param name="failIfNotExists">If <c>true</c> task fails if excetpion. Otherwise not.</param>
         /// <returns></returns>
         DeleteDirectoryTask DeleteDirectoryTask(string directoryPath, bool failIfNotExists);
 
         /// <summary>
         /// Task deletes files
         /// </summary>
-        /// <param name="directoryPath"></param>
-        /// <param name="filePattern"></param>
-        /// <param name="recursive"></param>
+        /// <param name="directoryPath">Path of the directoy files to be deleted in</param>
+        /// <param name="filePattern">The search string to match against the names of files in path. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters but doesnt support regular expressions.</param>
+        /// <param name="recursive">If <c>true</c> files in subdirectories is searched. Otherwise only in root directory.</param>
         /// <returns></returns>
         DeleteFilesTask DeleteFilesTask(string directoryPath, string filePattern, bool recursive);
 
+        /// <summary>
+        /// Merges multiple configuration files into one.
+        /// </summary>
+        /// <param name="outFile"></param>
+        /// <returns></returns>
         MergeConfigurationTask MergeConfigurationTask(string outFile);
 
+        /// <summary>
+        /// Merges multiple configuration files into one.
+        /// </summary>
+        /// <param name="outFile"></param>
+        /// <param name="sourceFiles"></param>
+        /// <returns></returns>
         MergeConfigurationTask MergeConfigurationTask(string outFile, params string[] sourceFiles);
 
+        /// <summary>
+        /// Task Replaces text in file.
+        /// </summary>
+        /// <param name="sourceFile">File path</param>
+        /// <param name="tokens">Fist paramteter text to be replaced. Second parameter text to be replaced with</param>
+        /// <returns></returns>
         ReplaceTextTask ReplaceTextTask(string sourceFile, params Tuple<string, string>[] tokens);
         
         /// <summary>

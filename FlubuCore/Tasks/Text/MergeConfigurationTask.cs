@@ -12,11 +12,6 @@ namespace FlubuCore.Tasks.Text
         private readonly string _fileName;
         private readonly List<string> _sourceFiles = new List<string>();
 
-        public MergeConfigurationTask(string outFile)
-        {
-            _fileName = outFile;
-        }
-
         public MergeConfigurationTask(string outFile, params string[] sourceFiles)
         {
             _fileName = outFile;

@@ -9,6 +9,12 @@ namespace FlubuCore.Tasks.FileSystem
         private readonly string _filePattern;
         private readonly bool _recursive;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="directoryPath"></param>
+        /// <param name="filePattern">The search string to match against the names of files in path. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters but doesnt support regular expressions.</param>
+        /// <param name="recursive"></param>
         public DeleteFilesTask(string directoryPath, string filePattern, bool recursive)
         {
             _directoryPath = directoryPath;

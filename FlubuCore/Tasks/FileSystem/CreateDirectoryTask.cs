@@ -3,17 +3,25 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.FileSystem
 {
+    /// <summary>
+    /// Task creates directroy
+    /// </summary>
     public class CreateDirectoryTask : TaskBase<int>
     {
         private readonly bool _forceRecreate;
 
+        /// <summary>
+        /// Task creates directory at the given location.
+        /// </summary>
+        /// <param name="directoryPath"></param>
+        /// <param name="forceRecreate">If <c>true</c> directory is deleted if it exists and then created again.</param>
         public CreateDirectoryTask(string directoryPath, bool forceRecreate)
         {
             DirectoryPath = directoryPath;
             _forceRecreate = forceRecreate;
         }
 
-        public string DirectoryPath { get; set; }
+        protected string DirectoryPath { get; set; }
 
         public static void Execute(ITaskContextInternal context, string directoryPath, bool forceRecreate)
         {

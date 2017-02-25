@@ -2,6 +2,9 @@
 {
     public interface IBuildPropertiesContext
     {
+        /// <summary>
+        /// Build properties stored in session
+        /// </summary>
         IBuildPropertiesSession Properties { get; }
     }
 }

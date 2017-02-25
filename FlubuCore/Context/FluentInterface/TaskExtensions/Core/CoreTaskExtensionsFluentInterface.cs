@@ -7,7 +7,11 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
         public TargetFluentInterface Target { get; set; }
 
         public ITaskContextInternal Context { protected get; set; }
-
+        
+        /// <summary>
+        /// Moves back to target fluent interface. 
+        /// </summary>
+        /// <returns></returns>
         public ITargetFluentInterface BackToTarget()
         {
             return Target;

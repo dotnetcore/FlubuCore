@@ -3,6 +3,9 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.FileSystem
 {
+    /// <summary>
+    /// Copies file to specified soruce
+    /// </summary>
     public class CopyFileTask : TaskBase<int>
     {
         private readonly string _destinationFileName;
@@ -10,6 +13,12 @@ namespace FlubuCore.Tasks.FileSystem
 
         private readonly string _sourceFileName;
 
+        /// <summary>
+        /// Copies file to specified destination location.
+        /// </summary>
+        /// <param name="sourceFileName">Path of file to be copied. </param>
+        /// <param name="destinationFileName">Destination location of the file to be copied.</param>
+        /// <param name="overwrite">if <c>true</c> file on the destionation location is overwriren if it exists. Otherwise not.</param>
         public CopyFileTask(
             string sourceFileName,
             string destinationFileName,
