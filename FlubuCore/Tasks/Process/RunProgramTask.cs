@@ -20,18 +20,30 @@ namespace FlubuCore.Tasks.Process
             _programToExecute = programToExecute;
         }
 
+        /// <summary>
+        /// Add's argument to the program.
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         public IRunProgramTask WithArguments(string arg)
         {
             _arguments.Add(arg);
             return this;
         }
-
+        /// <summary>
+        /// Add's arguments to the program.
+        /// </summary>
         public IRunProgramTask WithArguments(params string[] args)
         {
             _arguments.AddRange(args);
             return this;
         }
 
+        /// <summary>
+        /// Working folder of the program.
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <returns></returns>
         public IRunProgramTask WorkingFolder(string folder)
         {
             if (string.IsNullOrEmpty(folder) || folder.Equals(".", StringComparison.OrdinalIgnoreCase))

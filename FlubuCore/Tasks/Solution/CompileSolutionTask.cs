@@ -56,12 +56,22 @@ namespace FlubuCore.Tasks.Solution
             _enviromentService = enviromentService;
         }
 
+        /// <summary>
+        /// Add's argument to MSBuild.
+        /// </summary>
+        /// <param name="argument">Argument to be added</param>
+        /// <returns></returns>
         public CompileSolutionTask AddArgument(string argument)
         {
             _arguments.Add(argument);
             return this;
         }
 
+        /// <summary>
+        /// Add's Platform argument to MSBuild. If not set CPUAny is used as default.
+        /// </summary>
+        /// <param name="platform">The platfrom.</param>
+        /// <returns></returns>
         public CompileSolutionTask Platform(string platform)
         {
             _platform = platform;
@@ -74,12 +84,18 @@ namespace FlubuCore.Tasks.Solution
             set { _maxCpuCount = value; }
         }
 
+        /// <summary>
+        /// Add'sTarget argument to MSBuild. 
+        /// </summary>
         public string Target
         {
             get { return _target; }
             set { _target = value; }
         }
 
+        /// <summary>
+        /// Msbuild version to be used for build.
+        /// </summary>
         public Version ToolsVersion
         {
             get { return _toolsVersion; }

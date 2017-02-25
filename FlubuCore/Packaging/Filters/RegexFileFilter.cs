@@ -6,6 +6,10 @@ namespace FlubuCore.Packaging
     {
         private readonly Regex _filterRegex;
 
+        /// <summary>
+        /// Filter files by regex expression.
+        /// </summary>
+        /// <param name="filterRegexValue">The regex expression.</param>
         public RegexFileFilter(string filterRegexValue)
         {
             _filterRegex = new Regex(filterRegexValue, RegexOptions.IgnoreCase);

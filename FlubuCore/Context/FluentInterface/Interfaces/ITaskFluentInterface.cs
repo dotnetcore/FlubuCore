@@ -224,7 +224,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <summary>
         /// Task Replaces text in file.
         /// </summary>
-        /// <param name="sourceFile">File path</param>
+        /// <param name="sourceFile">File path.</param>
         /// <param name="tokens">Fist paramteter text to be replaced. Second parameter text to be replaced with</param>
         /// <returns></returns>
         ReplaceTextTask ReplaceTextTask(string sourceFile, params Tuple<string, string>[] tokens);

@@ -27,6 +27,9 @@ namespace FlubuCore.Tasks.Nuget
             _workingDirectory = workingDirectory;
         }
 
+        /// <summary>
+        /// Verbosity
+        /// </summary>
         public enum NuGetVerbosity
         {
             Normal,
@@ -40,8 +43,14 @@ namespace FlubuCore.Tasks.Nuget
             set { _verbosity = value; }
         }
 
+        /// <summary>
+        /// The API key for the server
+        /// </summary>
         public string ApiKey { get; set; }
 
+        /// <summary>
+        /// Path to the nuget.exe
+        /// </summary>
         public string ExecutablePath { get; private set; }
 
         public static NuGetCmdLineTask Create(string command, params string[] parameters)
@@ -51,12 +60,22 @@ namespace FlubuCore.Tasks.Nuget
             return t;
         }
 
+        /// <summary>
+        /// Add's argument to the nuget.exe 
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         public NuGetCmdLineTask AddArgument(string arg)
         {
             _args.Add(arg);
             return this;
         }
 
+        /// <summary>
+        /// Path to the nuget.exe
+        /// </summary>
+        /// <param name="fullFilePath"></param>
+        /// <returns></returns>
         public NuGetCmdLineTask NuGetPath(string fullFilePath)
         {
             ExecutablePath = fullFilePath;

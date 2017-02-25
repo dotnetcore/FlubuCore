@@ -62,7 +62,7 @@ namespace FlubuCore.Tasks.NetCore
             WithArguments("--include-source");
             return this;
         }
-        
+
         /// <summary>
         ///  Defines the value for the $(VersionSuffix) property in the project.
         /// </summary>

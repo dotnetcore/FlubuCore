@@ -40,6 +40,11 @@ namespace FlubuCore.Tasks.Text
         {
             xpathDeletes.Add (xpath);
         }
+        /// <summary>
+        /// Adds an "add or update" command to the list of commands to be performed on the XML file. Depending on if the xml element exists or not.
+        /// </summary>
+        /// <param name="xpath"></param>
+        /// <param name="value"></param>
 
         public void AddOrUpdate(string xpath, string value)
         {
@@ -58,12 +63,24 @@ namespace FlubuCore.Tasks.Text
             xpathAdditions.Add (addition);
         }
 
+        /// <summary>
+        /// Adds an "add" command to the list of commands to be performed on the XML file.
+        /// </summary>
+        /// <param name="rootXpath">XPath for the root node on which an addition should be performed.</param>
+        /// <param name="childNodeName">Name of the new child node.</param>
+
         public void AddPath (string rootXpath, string childNodeName)
         {
             UpdateXmlFileTaskAddition addition = new UpdateXmlFileTaskAddition (rootXpath, childNodeName);
             xpathAdditions.Add (addition);
         }
 
+        /// <summary>
+        /// Adds an "add" command to the list of commands to be performed on the XML file.
+        /// </summary>
+        /// <param name="rootXpath">XPath for the root node on which an addition should be performed.</param>
+        /// <param name="childNodeName">Name of the new child node.</param>
+        /// <param name="attributes">Attributes to be added.</param>
         public void AddPath (string rootXpath, string childNodeName, IDictionary<string, string> attributes)
         {
             UpdateXmlFileTaskAddition addition = new UpdateXmlFileTaskAddition (rootXpath, childNodeName, attributes);

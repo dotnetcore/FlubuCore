@@ -22,54 +22,106 @@ namespace FlubuCore.Tasks.Text
             _fileName = fileName;
         }
 
+        /// <summary>
+        /// Set the fileName of the new json file. If not set same file is updated.
+        /// </summary>
+        /// <param name="fullFilePath"></param>
+        /// <returns></returns>
         public UpdateJsonFileTask Output(string fullFilePath)
         {
             _output = fullFilePath;
             return this;
         }
 
+        /// <summary>
+        ///  Updates json property/element with specified value,
+        /// </summary>
+        /// <param name="path">Json path to the element to be updated</param>
+        /// <param name="value">New value of the json element</param>
+        /// <returns></returns>
         public UpdateJsonFileTask Update(string path, string value)
         {
             _updates.Add(path, new JValue(value));
             return this;
         }
 
+        /// <summary>
+        ///  Updates json property/element with specified value,
+        /// </summary>
+        /// <param name="path">Json path to the element to be updated</param>
+        /// <param name="value">New value of the json element</param>
+        /// <returns></returns>
         public UpdateJsonFileTask Update(string path, int value)
         {
             _updates.Add(path, new JValue(value));
             return this;
         }
 
+        /// <summary>
+        ///  Updates json property/element with specified value,
+        /// </summary>
+        /// <param name="path">Json path to the element to be updated</param>
+        /// <param name="value">New value of the json element</param>
+        /// <returns></returns>
         public UpdateJsonFileTask Update(string path, long value)
         {
             _updates.Add(path, new JValue(value));
             return this;
         }
 
+        /// <summary>
+        ///  Updates json property/element with specified value,
+        /// </summary>
+        /// <param name="path">Json path to the element to be updated</param>
+        /// <param name="value">New value of the json element</param>
+        /// <returns></returns>
         public UpdateJsonFileTask Update(string path, double value)
         {
             _updates.Add(path, new JValue(value));
             return this;
         }
 
+        /// <summary>
+        ///  Updates json property/element with specified value,
+        /// </summary>
+        /// <param name="path">Json path to the element to be updated</param>
+        /// <param name="value">New value of the json element</param>
+        /// <returns></returns>
         public UpdateJsonFileTask Update(string path, decimal value)
         {
             _updates.Add(path, new JValue(value));
             return this;
         }
 
+        /// <summary>
+        ///  Updates json property/element with specified value,
+        /// </summary>
+        /// <param name="path">Json path to the element to be updated</param>
+        /// <param name="value">New value of the json element</param>
+        /// <returns></returns>
         public UpdateJsonFileTask Update(string path, DateTime value)
         {
             _updates.Add(path, new JValue(value));
             return this;
         }
 
+        /// <summary>
+        ///  Updates json property/element with specified value,
+        /// </summary>
+        /// <param name="path">Json path to the element to be updated</param>
+        /// <param name="value">New value of the json element</param>
+        /// <returns></returns>
         public UpdateJsonFileTask Update(params KeyValuePair<string, JValue>[] args)
         {
             _updates.AddRange(args);
             return this;
         }
 
+        /// <summary>
+        /// If <c>true</c> task fails with exception if any of the properties to be updated are not found.
+        /// </summary>
+        /// <param name="fail"></param>
+        /// <returns></returns>
         public UpdateJsonFileTask FailIfPropertyNotFound(bool fail)
         {
             _failIfNotFound = fail;

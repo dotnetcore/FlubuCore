@@ -39,6 +39,13 @@ namespace FlubuCore.Tasks.Packaging
             return this;
         }
 
+        /// <summary>
+        /// Add's specified directory to the package.
+        /// </summary>
+        /// <param name="sourceDirectoryPath">Path of the source directory to be copied.</param>
+        /// <param name="destinationDirectory">Name of the directory that the source directory will be copied to.</param>
+        /// <param name="recursive">If <c>true</c> subfolders in the source directory are also added. Otherwise not.</param>
+        /// <returns></returns>
         public PackageTask AddDirectoryToPackage(string sourceDirectoryPath, string destinationDirectory, bool recursive = false)
         {
             SourcePackagingInfo directoryToPackage = new SourcePackagingInfo(
@@ -68,6 +75,14 @@ namespace FlubuCore.Tasks.Packaging
             return this;
         }
 
+        /// <summary>
+        /// Add's directory to the package.
+        /// </summary>
+        /// <param name="sourceDirectoryPath">Path of the source directory to be copied.</param>
+        /// <param name="destinationDirectory">Name of the directory that the source directory will be copied to.</param>
+        /// <param name="recursive">If <c>true</c> subfolders in the source directory are also added. Otherwise not.</param>
+        /// 
+        /// <returns></returns>
         public PackageTask AddDirectoryToPackage(string sourceDirectoryPath, string destinationDirectory, bool recursive, params IFileFilter[] fileFilters)
         {
             SourcePackagingInfo directoryToPackage = new SourcePackagingInfo(
@@ -92,18 +107,36 @@ namespace FlubuCore.Tasks.Packaging
             return this;
         }
 
+        /// <summary>
+        /// Adds file to the package
+        /// </summary>
+        /// <param name="sourceFilePath">Path of the tile to be added to the package.</param>
+        /// <param name="destinationDirectory">Name of the directory that the source file will be copied to.</param>
+        /// <returns></returns>
         public PackageTask AddFileToPackage(string sourceFilePath, string destinationDirectory)
         {
             _sourcePackagingInfos.Add(new SourcePackagingInfo(SourceType.File, sourceFilePath, destinationDirectory));
             return this;
         }
 
+        /// <summary>
+        /// If <c>true</c> zip is optimized by removing duplicated files. When unziped those files are copied to original locations. 
+        /// For unziping Unzip task has to be ussed.
+        /// </summary>
+        /// <returns></returns>
         public PackageTask OptimizeZip()
         {
             _optimizeZip = true;
             return this;
         }
 
+        /// <summary>
+        /// Zip't the package
+        /// </summary>
+        /// <param name="zipFileName">File name of the zip package.</param>
+        /// <param name="addVersionPostfix">if <c>true</c> build version number is added to zip file as postfix</param>
+        /// <param name="versionFeildCount">Number of version fields to be added.</param>
+        /// <returns></returns>
         public PackageTask ZipPackage(string zipFileName, bool addVersionPostfix = true, int versionFeildCount = 3)
         {
             _zipFileName = zipFileName;

@@ -33,12 +33,18 @@ namespace FlubuCore.Tasks.Nuget
             _nuspecFileName = nuspecFileName;
         }
 
+        /// <summary>
+        /// nuget base path argument to be added.
+        /// </summary>
         public string BasePath
         {
             get { return _basePath; }
             set { _basePath = value; }
         }
 
+        /// <summary>
+        /// Nuget server url package will be pushed to.
+        /// </summary>
         public string NuGetServerUrl
         {
             get { return _nuGetServerUrl; }
@@ -51,16 +57,28 @@ namespace FlubuCore.Tasks.Nuget
             set { _allowPushOnInteractiveBuild = value; }
         }
 
+        /// <summary>
+        /// Api key.
+        /// </summary>
+        /// <param name="apiKey"></param>
         public void ForApiKeyUse(string apiKey)
         {
             _apiKeyFunc = c => apiKey;
         }
 
+        /// <summary>
+        /// Name of the enviroment variable to use to get api key. 
+        /// </summary>
+        /// <param name="variableName"></param>
         public void ForApiKeyUseEnvironmentVariable(string variableName = DefaultNuGetApiKeyEnvVariable)
         {
             _apiKeyFunc = c => FetchNuGetApiKeyFromEnvVariable(c, variableName);
         }
 
+        /// <summary>
+        /// Path to the file that contains api key.
+        /// </summary>
+        /// <param name="fileName"></param>
         public void ForApiKeyUseFile(string fileName)
         {
             _apiKeyFunc = c => FetchNuGetApiKeyFromLocalFile(c, fileName);

@@ -10,6 +10,9 @@ namespace FlubuCore.Tasks.Versioning
         private string _productRootDir;
         private string _productId;
 
+        /// <summary>
+        /// File name where project version will be retrived from. If not set default filane is {SolutionName}.ProjectVersion.txt
+        /// </summary>
         public string ProjectVersionFileName { get; set; }
 
         protected override Version DoExecute(ITaskContextInternal context)

@@ -32,6 +32,11 @@ namespace FlubuCore.Tasks.Versioning
             return this;
         }
 
+        /// <summary>
+        /// Adds additional properties to be updated with the version.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public UpdateNetCoreVersionTask AdditionalProp(params string[] args)
         {
             if (args == null || args.Length <= 0)
@@ -41,6 +46,11 @@ namespace FlubuCore.Tasks.Versioning
             return this;
         }
 
+        /// <summary>
+        /// Adds Project (json/cproj) files to be updated.
+        /// </summary>
+        /// <param name="files"></param>
+        /// <returns></returns>
         public UpdateNetCoreVersionTask AddFiles(params string[] files)
         {
             _files.AddRange(files);
