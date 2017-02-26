@@ -210,13 +210,6 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// Merges multiple configuration files into one.
         /// </summary>
         /// <param name="outFile"></param>
-        /// <returns></returns>
-        MergeConfigurationTask MergeConfigurationTask(string outFile);
-
-        /// <summary>
-        /// Merges multiple configuration files into one.
-        /// </summary>
-        /// <param name="outFile"></param>
         /// <param name="sourceFiles"></param>
         /// <returns></returns>
         MergeConfigurationTask MergeConfigurationTask(string outFile, params string[] sourceFiles);

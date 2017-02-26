@@ -189,11 +189,6 @@ namespace FlubuCore.Context.FluentInterface
             return Context.CreateTask<DeleteFilesTask>(directoryPath, filePattern, recursive);
         }
 
-        public MergeConfigurationTask MergeConfigurationTask(string outFile)
-        {
-            return Context.CreateTask<MergeConfigurationTask>(outFile);
-        }
-
         public MergeConfigurationTask MergeConfigurationTask(string outFile, params string[] sourceFiles)
         {
             return Context.CreateTask<MergeConfigurationTask>(outFile, sourceFiles);

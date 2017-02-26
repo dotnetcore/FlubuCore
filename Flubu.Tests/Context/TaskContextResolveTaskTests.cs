@@ -208,12 +208,6 @@ namespace Flubu.Tests.Context
         }
 
         [Fact]
-        public void ResolveMergeConfigFileTask()
-        {
-            Context.Tasks().MergeConfigurationTask("out");
-        }
-
-        [Fact]
         public void ResolveUnzipFileTask()
         {
             Context.Tasks().UnzipTask("t", "d");
