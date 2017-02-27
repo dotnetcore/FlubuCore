@@ -1,3 +1,5 @@
+1.2.1.0
+- Minor fixes.
 1.2.0.0
 - Flubu.Runner now works without any manual config modifications. 
 - Task fluent interface documentation.

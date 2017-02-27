@@ -1,4 +1,5 @@
-﻿using FlubuCore.Context;
+﻿using System;
+using FlubuCore.Context;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks.Nuget;
 using System.IO;
@@ -26,18 +27,13 @@ public class MyBuildScript : DefaultBuildScript
             .SetDescription("Compiles the VS solution")
             .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj", "Flubu.Tests/Flubu.Tests.csproj")
                         .AdditionalProp("dependencies.FlubuCore", "dependencies.dotnet-flubu"))
-            .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("FlubuCore"))
-            .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("dotnet-flubu"))
-            .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("Flubu.Tests"))
-            .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("Flubu.SystemTests"))
+            .AddCoreTask(x => x.ExecuteDotnetTask("build").WithArguments("Flubu.sln"))
             .AddCoreTask(x => x.ExecuteDotnetTask("pack")
                         .WithArguments("FlubuCore", "-c", "Release")
                         .WithArguments("-o", "..\\output"))
             .AddCoreTask(x => x.ExecuteDotnetTask("pack")
                         .WithArguments("dotnet-flubu", "-c", "Release")
                         .WithArguments("-o", "..\\output"))
-                        .AddCoreTask(x => x.ExecuteDotnetTask("publish").WithArguments("Flubu.SystemTests")
-                        .WithArguments("-c", "Release"))
             .DependsOn(buildVersion);
 
        var flubuRunnerMerge = context.CreateTarget("merge")
@@ -78,24 +74,47 @@ public class MyBuildScript : DefaultBuildScript
     private static void PublishNuGetPackage(ITaskContext context)
     {
         var version = context.Properties.GetBuildVersion();
-        context.CoreTasks().ExecuteDotnetTask("nuget")
-            .WithArguments("push")
-            .WithArguments($"output\\FlubuCore.{version.ToString(3)}.nupkg")
-            .WithArguments("-s", "https://www.myget.org/F/flubucore/api/v2/package")
-            .WithArguments("-k", "f92a7c72-08b2-4631-af9d-fa2f031eaf8c").Execute(context);
 
-        context.CoreTasks().ExecuteDotnetTask("nuget")
-            .WithArguments("push")
-            .WithArguments($"output\\dotnet-flubu.{version.ToString(3)}.nupkg")
-            .WithArguments("-s", "https://www.myget.org/F/flubucore/api/v2/package")
-            .WithArguments("-k", "f92a7c72-08b2-4631-af9d-fa2f031eaf8c").Execute(context);
+        try
+        {
+       
+            context.CoreTasks().ExecuteDotnetTask("nuget")
+                .WithArguments("push")
+                .WithArguments($"output\\FlubuCore.{version.ToString(3)}.nupkg")
+                .WithArguments("-s", "https://www.nuget.org/api/v2/package")
+                .WithArguments("-k", "8da65a4d-9409-4d1b-9759-3b604d7a34ae").Execute(context);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Failed to publish FlubuCore. exception: {e}");
+        }
 
-        var task = context.Tasks().PublishNuGetPackageTask("FlubuCore.Runner", @"Nuget\FlubuCoreRunner.nuspec");
+        try
+        {
+            context.CoreTasks().ExecuteDotnetTask("nuget")
+           .WithArguments("push")
+           .WithArguments($"output\\dotnet-flubu.{version.ToString(3)}.nupkg")
+           .WithArguments("-s", "https://www.nuget.org/api/v2/package")
+           .WithArguments("-k", "8da65a4d-9409-4d1b-9759-3b604d7a34ae").Execute(context);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Failed to publish dotnet-flubu. exception: {e}");
+        }
 
-        task.NuGetServerUrl = "https://www.myget.org/F/flubucore/api/v2/package";
-        task.ForApiKeyUse("f92a7c72-08b2-4631-af9d-fa2f031eaf8c");
-        task.AllowPushOnInteractiveBuild = true;
-        task.Execute(context);
+        try
+        {
+            var task = context.Tasks().PublishNuGetPackageTask("FlubuCore.Runner", @"Nuget\FlubuCoreRunner.nuspec");
+
+            task.NuGetServerUrl = "https://www.nuget.org/api/v2/package";
+            task.ForApiKeyUse("8da65a4d-9409-4d1b-9759-3b604d7a34ae");
+            task.AllowPushOnInteractiveBuild = true;
+            task.Execute(context);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Failed to publish flubu.ruuner. exception: {e}");
+        }
     }
 
     private static void TargetMerge(ITaskContext context)
