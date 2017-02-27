@@ -1,4 +1,5 @@
 1.2.0.0
+- Flubu.Runner now works without any manual config modifications. 
 - Task fluent interface documentation.
 - Added Dotnet specific tasks and extensions.
 - BREAKING CHANGE: Splited TaskExtensions into CoreTaskExtensions and TaskExtensions.

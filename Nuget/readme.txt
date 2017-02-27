@@ -1,0 +1,7 @@
+- Buildscript project must target .net framework 4.6 or greater.
+- update buildscript.cs as necesary.
+- Create project version file(txt) for solution e.g. YourSolutionName.ProjectVersion.txt and add version of your project to file e.g. 1.0.0.0 
+- run "Build.exe" for default target or "Build.exe '{targetName}'" for specific build target. 
+- optionaly you can copy Build.exe to root directory of the solution.
+- You can find flubu core documentation at https://bitbucket.org/zoroz/flubu.core/wiki/Home
+- You can find detailed examples of how flubu is used at https://bitbucket.org/zoroz/flubu.core.examples
