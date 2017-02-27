@@ -27,6 +27,7 @@ public class MyBuildScript : DefaultBuildScript
             .SetDescription("Compiles the VS solution")
             .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj", "Flubu.Tests/Flubu.Tests.csproj")
                         .AdditionalProp("dependencies.FlubuCore", "dependencies.dotnet-flubu"))
+            .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("Flubu.sln"))
             .AddCoreTask(x => x.ExecuteDotnetTask("build").WithArguments("Flubu.sln"))
             .AddCoreTask(x => x.ExecuteDotnetTask("pack")
                         .WithArguments("FlubuCore", "-c", "Release")
@@ -86,7 +87,7 @@ public class MyBuildScript : DefaultBuildScript
         }
         catch (Exception e)
         {
-            Console.WriteLine($"Failed to publish FlubuCore. exception: {e}");
+            Console.WriteLine($"Failed to publish FlubuCore. exception: {e.Message}");
         }
 
         try
@@ -99,7 +100,7 @@ public class MyBuildScript : DefaultBuildScript
         }
         catch (Exception e)
         {
-            Console.WriteLine($"Failed to publish dotnet-flubu. exception: {e}");
+            Console.WriteLine($"Failed to publish dotnet-flubu. exception: {e.Message}");
         }
 
         try
