@@ -121,7 +121,7 @@ public class MyBuildScript : DefaultBuildScript
            .CopyFileTask(@"dotnet-flubu\bin\Release\net46\FlubuCore.xml", @"output\FlubuCore.xml", true)
            .Execute(context);
         context.Tasks()
-            .CopyFileTask(@"dotnet-flubu\bin\Release\net46\FlubuCore.dll", @"output\FlubuCore.pdb", true)
+            .CopyFileTask(@"dotnet-flubu\bin\Release\net46\FlubuCore.pdb", @"output\FlubuCore.pdb", true)
             .Execute(context);
     }
 }

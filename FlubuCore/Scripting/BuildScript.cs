@@ -12,6 +12,7 @@ using FlubuCore.Scripting;
             context.Properties.Set(BuildProps.ProductName, "Todo");
             //// Adds some default targets like compile etc. Set To None if u don't want default targets.
             context.Properties.Set(BuildProps.DefaultTargets, DefaultTargets.Dotnet);
+            context.Properties.Set(BuildProps.BuildConfiguration, "Release");
             context.Properties.Set(BuildProps.SolutionFileName, "..\\Todo.sln");
         }
 
