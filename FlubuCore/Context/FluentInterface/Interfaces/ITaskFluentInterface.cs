@@ -20,7 +20,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         IRunProgramTask RunProgramTask(string programToExecute);
 
         /// <summary>
-        /// Copies the specified directory to the specified destination.
+        ///  Copies a directory tree from the source to the destination.
         /// </summary>
         /// <param name="sourcePath">Path of the source directory</param>
         /// <param name="destinationPath">Path where directory will be copied to.</param>
