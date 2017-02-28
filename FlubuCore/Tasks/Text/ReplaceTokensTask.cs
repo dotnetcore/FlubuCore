@@ -56,9 +56,10 @@ namespace FlubuCore.Tasks.Text
             set { _destionationFileEncoding = value; }
         }
 
-        public void AddTokenValue(string token, string value)
+        public ReplaceTokensTask AddTokenValue(string token, string value)
         {
             _tokens.Add(token, value);
+            return this;
         }
 
         protected override int DoExecute(ITaskContextInternal context)

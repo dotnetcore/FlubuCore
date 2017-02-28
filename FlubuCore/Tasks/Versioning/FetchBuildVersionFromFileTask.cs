@@ -13,7 +13,16 @@ namespace FlubuCore.Tasks.Versioning
         /// <summary>
         /// File name where project version will be retrived from. If not set default filane is {SolutionName}.ProjectVersion.txt
         /// </summary>
-        public string ProjectVersionFileName { get; set; }
+        private string _projectVersionFileName;
+
+        /// <summary>
+        /// File name where project version will be retrived from. If not set default filane is {SolutionName}.ProjectVersion.txt
+        /// </summary>
+        public FetchBuildVersionFromFileTask ProjectVersionFileName(string projectVersionFileName)
+        {
+            _projectVersionFileName = projectVersionFileName;
+            return this;
+        }
 
         protected override Version DoExecute(ITaskContextInternal context)
         {
@@ -24,9 +33,9 @@ namespace FlubuCore.Tasks.Versioning
 
             string projectVersionFileName;
 
-            if (!string.IsNullOrEmpty(ProjectVersionFileName))
+            if (!string.IsNullOrEmpty(_projectVersionFileName))
             {
-                projectVersionFileName = Path.Combine(_productRootDir, ProjectVersionFileName);
+                projectVersionFileName = Path.Combine(_productRootDir, _projectVersionFileName);
             }
             else
             {
