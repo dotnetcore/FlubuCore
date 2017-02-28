@@ -8,7 +8,7 @@ This README would normally document whatever steps are necessary to get your app
 
 * Clone repository
 * run dotnet restore in cmd
-* run donet flubu in cmd
+* run dotnet flubu in cmd
 
 ### Contribution guidelines ###
 
