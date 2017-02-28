@@ -18,10 +18,14 @@ namespace FlubuCore.Context
         ITaskFluentInterface Tasks();
 
         /// <summary>
-        /// Fluent interface for target creation. It creates The target and Add's it to TargetTree.
+        /// Fluent interface for target creation. It creates The target and Add's it to the TargetTree.
         /// </summary>
         /// <param name="name">The target name.</param>
         /// <returns></returns>
         ITargetFluentInterface CreateTarget(string name);
+
+        void LogInfo(string message);
+
+        void LogError(string message);
     }
 }
