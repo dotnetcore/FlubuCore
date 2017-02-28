@@ -18,3 +18,6 @@ This README would normally document whatever steps are necessary to get your app
 ### Who do I talk to? ###
 
 * Repo owners
+
+### Release notes ###
+* https://bitbucket.org/zoroz/flubu.core/src/master/FlubuCore.ProjectVersion.txt?at=master&fileviewer=file-view-default
