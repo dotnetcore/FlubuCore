@@ -29,3 +29,4 @@
 1.1.5.0
 - Added FlubuCore.Runner for .net 4.6
 1.1.4.0
+N/A
