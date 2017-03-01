@@ -33,8 +33,7 @@ namespace DotNet.Cli.Flubu.Scripting
                 // libraries that are required for compilation to succeed.
                 MetadataReference.CreateFromFile(Path.Combine(coreDir, "mscorlib.dll")),
                 MetadataReference.CreateFromFile(typeof(object).GetTypeInfo().Assembly.Location),
-                MetadataReference.CreateFromFile(flubuPath),
-                MetadataReference.CreateFromFile(typeof(System.IO.File).GetTypeInfo().Assembly.Location)
+                MetadataReference.CreateFromFile(flubuPath)
             };
 
             // Enumerate all assemblies referenced by this executing assembly
@@ -59,7 +58,7 @@ namespace DotNet.Cli.Flubu.Scripting
                 .WithReferences(references);
 
             Script script = CSharpScript
-                .Create(string.Join(string.Empty, code), opts)
+                .Create(string.Join("\r\n", code), opts)
                 .ContinueWith(string.Format("var sc = new {0}();", analyserResult.ClassName));
 
             ScriptState result = await script.RunAsync();
