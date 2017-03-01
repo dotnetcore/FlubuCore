@@ -1,6 +1,8 @@
 ﻿using DotNet.Cli.Flubu.Commanding;
 using DotNet.Cli.Flubu.Scripting;
 using DotNet.Cli.Flubu.Scripting.Analysis;
+using DotNet.Cli.Flubu.Scripting.Processor;
+using DotNet.Cli.Flubu.Scripting.Processors;
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Context.FluentInterface.TaskExtensions;
@@ -23,10 +25,17 @@ namespace DotNet.Cli.Flubu.Infrastructure
             services
                 .AddSingleton<IBuildScriptLocator, BuildScriptLocator>()
                 .AddSingleton<IScriptLoader, ScriptLoader>()
-                .AddSingleton<IScriptAnalyser, ScriptAnalyser>()
                 .AddSingleton<ICommandExecutor, CommandExecutor>();
 
             return services;
+        }
+
+        public static IServiceCollection AddScriptAnalyser(this IServiceCollection services)
+        {
+            return services
+                .AddSingleton<IScriptAnalyser, ScriptAnalyser>()
+                .AddSingleton<IDirectiveProcessor, ClassDirectiveProcessor>()
+                .AddSingleton<IDirectiveProcessor, ReferenceDirectiveProcessor>();
         }
 
         public static IServiceCollection AddTasks(this IServiceCollection services)

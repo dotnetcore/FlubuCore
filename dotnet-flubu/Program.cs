@@ -24,6 +24,7 @@ namespace DotNet.Cli.Flubu
             Services
                 .AddCoreComponents()
                 .AddCommandComponents()
+                .AddScriptAnalyser()
                 .AddArguments(args)
                 .AddTasks();
 

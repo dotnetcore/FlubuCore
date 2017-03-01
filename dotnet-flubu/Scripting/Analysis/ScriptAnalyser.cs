@@ -16,9 +16,12 @@ namespace DotNet.Cli.Flubu.Scripting.Analysis
         public AnalyserResult Analyze(List<string> lines)
         {
             AnalyserResult analyserResult = new AnalyserResult();
-
-            for (int i = 0; i < lines.Count; i++)
+            int i = 0;
+            while(true)
             {
+                if (i >= lines.Count)
+                    break;
+
                 string line = lines[i];
 
                 foreach(var processor in _processors)
@@ -31,9 +34,12 @@ namespace DotNet.Cli.Flubu.Scripting.Analysis
                     if (ret)
                     {
                         lines.RemoveAt(i);
+                        i--;
                         break;
                     }
                 }
+
+                i++;
             }
 
             return analyserResult;

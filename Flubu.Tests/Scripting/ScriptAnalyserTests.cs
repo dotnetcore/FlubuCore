@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Castle.Components.DictionaryAdapter;
 using DotNet.Cli.Flubu.Scripting.Analysis;
+using DotNet.Cli.Flubu.Scripting.Processor;
 using DotNet.Cli.Flubu.Scripting.Processors;
 using Xunit;
 
@@ -7,6 +10,19 @@ namespace Flubu.Tests.Scripting
 {
     public class ScriptAnalyserTests
     {
+        private readonly IScriptAnalyser _analyser;
+
+        public ScriptAnalyserTests()
+        {
+            List<IDirectiveProcessor> processors = new List<IDirectiveProcessor>()
+            {
+                new ClassDirectiveProcessor(),
+                new ReferenceDirectiveProcessor()
+            };
+
+            _analyser = new ScriptAnalyser(processors);
+        }
+    
         [Theory]
         [InlineData("Foo\r\npublic class SomeBuildScript : Base\r\n{\r\n}", "SomeBuildScript")]
         [InlineData("Foo\r\npublic class BuildScript    : Base\r\n{\r\n}", "BuildScript")]
@@ -30,6 +46,24 @@ namespace Flubu.Tests.Scripting
             AnalyserResult res = new AnalyserResult();
             pr.Process(res, line);
             Assert.Equal(expected, res.References.First());
+        }
+
+        [Fact]
+        public void Analyse()
+        {
+            List<string> lines = new List<string>()
+            {
+                "#ref",
+                "//",
+                "#ref hello.dll",
+                "public class MyScript"
+            };
+
+            var res = _analyser.Analyze(lines);
+
+            Assert.Equal("MyScript", res.ClassName);
+            Assert.Equal(1, res.References.Count);
+            Assert.Equal(2, lines.Count);
         }
     }
 }

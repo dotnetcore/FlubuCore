@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -53,6 +52,7 @@ namespace DotNet.Cli.Flubu.Scripting
             List<string> code = _file.ReadAllLines(fileName);
 
             AnalyserResult analyserResult = _analyser.Analyze(code);
+            references.AddRange(analyserResult.References.Select(i=> MetadataReference.CreateFromFile(i)));
 
             var opts = ScriptOptions.Default
                 .WithReferences(references);
