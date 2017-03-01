@@ -1,3 +1,14 @@
+1.2.3.0
+- Added explicit System.IO reference to Roslyn scripting engine
+1.2.2.0
+- Added LogInfo and LogError to TaskContext
+- Added fluent interface to PublishNugetPackageTask
+- Added fluent interface to CopyDirectoryStructureTask
+- Added fluent interface to FetchBuildVersionFromFileTask
+- Added fluent interface to UpdateXmlFileTask
+- Added fluent interface to ReplaceTokensTask
+- moved packaging filters to it's own namespace
+- Added FlubuCore and dotnet-flubu nuget metadata
 1.2.1.0
 - Minor fixes.
 1.2.0.0
@@ -20,3 +31,4 @@
 1.1.5.0
 - Added FlubuCore.Runner for .net 4.6
 1.1.4.0
+N/A

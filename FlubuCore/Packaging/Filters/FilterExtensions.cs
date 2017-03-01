@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace FlubuCore.Packaging
+﻿namespace FlubuCore.Packaging.Filters
 {
     public static class FilterExtensions
     {

@@ -7,7 +7,7 @@ using FlubuCore.Tasks;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FlubuCore.Extensions
+namespace FlubuCore.Infrastructure
 {
     public static class InstallCoreExtensions
     {

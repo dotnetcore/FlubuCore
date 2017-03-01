@@ -20,9 +20,5 @@ namespace FlubuCore.Context
         void Fail(string message, int errorCode);
 
         void IncreaseDepth();
-
-        void LogInfo(string message);
-
-        void LogError(string message);
     }
 }

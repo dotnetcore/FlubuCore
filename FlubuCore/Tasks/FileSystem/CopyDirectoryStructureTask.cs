@@ -56,6 +56,32 @@ namespace FlubuCore.Tasks.FileSystem
         public string InclusionPattern { get; set; }
 
         /// <summary>
+        ///     Sets the exclusion regular expression pattern for files.
+        /// </summary>
+        /// <remarks>
+        ///     All files whose paths match this regular expression
+        ///     will not be copied. If the <see cref="ExclusionPattern" /> is <c>null</c>, it will be ignored.
+        /// </remarks>
+        public CopyDirectoryStructureTask SetExclusionPattern(string exclusionPattern)
+        {
+            ExclusionPattern = exclusionPattern;
+            return this;
+        }
+
+        /// <summary>
+        ///     sets the inclusion regular expression pattern for files.
+        /// </summary>
+        /// <remarks>
+        ///     All files whose paths match this regular expression
+        ///     will be copied. If the <see cref="InclusionPattern" /> is <c>null</c>, it will be ignored.
+        /// </remarks>
+        public CopyDirectoryStructureTask SetInclusionPattern(string inclusionPattern)
+        {
+            InclusionPattern = inclusionPattern;
+            return this;
+        }
+
+        /// <summary>
         ///     Internal task execution code.
         /// </summary>
         /// <param name="context">The script execution environment.</param>

@@ -5,3 +5,4 @@
 - optionaly you can copy Build.exe to root directory of the solution.
 - You can find flubu core documentation at https://bitbucket.org/zoroz/flubu.core/wiki/Home
 - You can find detailed examples of how flubu is used at https://bitbucket.org/zoroz/flubu.core.examples
+- You can find release notes at: https://bitbucket.org/zoroz/flubu.core/src/master/FlubuCore.ProjectVersion.txt?at=master&fileviewer=file-view-default

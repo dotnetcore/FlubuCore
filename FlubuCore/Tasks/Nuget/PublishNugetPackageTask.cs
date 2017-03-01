@@ -45,43 +45,46 @@ namespace FlubuCore.Tasks.Nuget
         /// <summary>
         /// Nuget server url package will be pushed to.
         /// </summary>
-        public string NuGetServerUrl
+        public PublishNuGetPackageTask NugetServerUrl(string url)
         {
-            get { return _nuGetServerUrl; }
-            set { _nuGetServerUrl = value; }
+            _nuGetServerUrl = url;
+            return this;
         }
 
-        public bool AllowPushOnInteractiveBuild
+        public PublishNuGetPackageTask PushOnInteractiveBuild()
         {
-            get { return _allowPushOnInteractiveBuild; }
-            set { _allowPushOnInteractiveBuild = value; }
+            _allowPushOnInteractiveBuild = true;
+            return this;
         }
 
         /// <summary>
-        /// Api key.
+        /// Nuget server Api key.
         /// </summary>
         /// <param name="apiKey"></param>
-        public void ForApiKeyUse(string apiKey)
+        public PublishNuGetPackageTask ForApiKeyUse(string apiKey)
         {
             _apiKeyFunc = c => apiKey;
+            return this;
         }
 
         /// <summary>
         /// Name of the enviroment variable to use to get api key. 
         /// </summary>
         /// <param name="variableName"></param>
-        public void ForApiKeyUseEnvironmentVariable(string variableName = DefaultNuGetApiKeyEnvVariable)
+        public PublishNuGetPackageTask ForApiKeyUseEnvironmentVariable(string variableName = DefaultNuGetApiKeyEnvVariable)
         {
             _apiKeyFunc = c => FetchNuGetApiKeyFromEnvVariable(c, variableName);
+            return this;
         }
 
         /// <summary>
         /// Path to the file that contains api key.
         /// </summary>
         /// <param name="fileName"></param>
-        public void ForApiKeyUseFile(string fileName)
+        public PublishNuGetPackageTask ForApiKeyUseFile(string fileName)
         {
             _apiKeyFunc = c => FetchNuGetApiKeyFromLocalFile(c, fileName);
+            return this;
         }
 
         protected override int DoExecute(ITaskContextInternal context)
