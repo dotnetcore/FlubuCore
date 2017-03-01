@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FlubuCore.IO.Wrappers
 {
@@ -14,5 +11,7 @@ namespace FlubuCore.IO.Wrappers
         bool Exists(string path);
 
         string ReadAllText(string path);
+
+        List<string> ReadAllLines(string fileName);
     }
 }

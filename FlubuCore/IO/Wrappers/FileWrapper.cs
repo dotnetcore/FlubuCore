@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace FlubuCore.IO.Wrappers
 {
@@ -11,6 +9,11 @@ namespace FlubuCore.IO.Wrappers
         public bool Exists(string path)
         {
             return File.Exists(path);
+        }
+
+        public List<string> ReadAllLines(string fileName)
+        {
+            return File.ReadAllLines(fileName).ToList();
         }
 
         public string ReadAllText(string path)

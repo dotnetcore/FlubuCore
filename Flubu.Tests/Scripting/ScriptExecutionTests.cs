@@ -1,4 +1,5 @@
 ﻿using DotNet.Cli.Flubu.Scripting;
+using DotNet.Cli.Flubu.Scripting.Analysis;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.IO.Wrappers;
@@ -14,12 +15,13 @@ namespace Flubu.Tests.Scripting
     public class ScriptExecutionTests
     {
         private readonly Mock<IFileWrapper> _fileLoader = new Mock<IFileWrapper>();
+        private readonly Mock<IScriptAnalyser> _analyser = new Mock<IScriptAnalyser>();
 
         private readonly ScriptLoader _loader;
 
         public ScriptExecutionTests()
         {
-            _loader = new ScriptLoader(_fileLoader.Object);
+            _loader = new ScriptLoader(_fileLoader.Object, _analyser.Object);
         }
 
         [Fact]
@@ -82,18 +84,6 @@ public class MyBuildScript : IBuildScript
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),
                 new TaskContextSession()));
-        }
-
-        [Theory]
-        [InlineData("Foo\r\npublic class SomeBuildScript : Base\r\n{\r\n}", "SomeBuildScript")]
-        [InlineData("Foo\r\npublic class BuildScript    : Base\r\n{\r\n}", "BuildScript")]
-        [InlineData("Foo\r\npublic   class Deploy : Base\r\n{\r\n}", "Deploy")]
-        [InlineData("Foo\r\npublic class _LameScript123 \r\n{\r\n}", "_LameScript123")]
-        [InlineData("Foo\r\nbooo\r\npublic class BuildScript", "BuildScript")]
-        public void GetClassNameFromBuildScriptCodeTest(string code, string expectedClassName)
-        {
-            var result = _loader.GetClassNameFromBuildScriptCode(code);
-            Assert.Equal(expectedClassName, result);
         }
     }
 }

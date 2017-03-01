@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using DotNet.Cli.Flubu.Scripting.Analysis;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using Microsoft.CodeAnalysis;
@@ -15,10 +16,12 @@ namespace DotNet.Cli.Flubu.Scripting
     public class ScriptLoader : IScriptLoader
     {
         private readonly IFileWrapper _file;
+        private readonly IScriptAnalyser _analyser;
 
-        public ScriptLoader(IFileWrapper file)
+        public ScriptLoader(IFileWrapper file, IScriptAnalyser analyser)
         {
             _file = file;
+            _analyser = analyser;
         }
 
         public async Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(string fileName)
@@ -47,45 +50,20 @@ namespace DotNet.Cli.Flubu.Scripting
                 references.Add(MetadataReference.CreateFromFile(loadedAssembly.Location));
             }
 
+            List<string> code = _file.ReadAllLines(fileName);
+
+            AnalyserResult analyserResult = _analyser.Analyze(code);
+
             var opts = ScriptOptions.Default
                 .WithReferences(references);
 
-            string code = _file.ReadAllText(fileName);
-            var className = GetClassNameFromBuildScriptCode(code);
             Script script = CSharpScript
-                .Create(code, opts)
-                .ContinueWith(string.Format("var sc = new {0}();", className));
+                .Create(string.Join(string.Empty, code), opts)
+                .ContinueWith(string.Format("var sc = new {0}();", analyserResult.ClassName));
 
             ScriptState result = await script.RunAsync();
 
             return result.Variables[0].Value as IBuildScript;
-        }
-
-        public string GetClassNameFromBuildScriptCode(string scriptCode)
-        {
-            using (StringReader sr = new StringReader(scriptCode))
-            {
-                string line;
-                while ((line = sr.ReadLine()) != null)
-                {
-                    var i = line.IndexOf("class", StringComparison.Ordinal);
-                    if (i != -1)
-                    {
-                        var tmp = line.Substring(i + 6);
-                        tmp = tmp.TrimStart();
-                        i = tmp.IndexOf(" ", StringComparison.Ordinal);
-                        if (i == -1)
-                        {
-                            i = tmp.Length;
-                        }
-
-                        var className = tmp.Substring(0, i);
-                        return className;
-                    }
-                }
-            }
-
-            return null;
         }
     }
 }
