@@ -1,15 +1,14 @@
 ﻿using System;
 using DotNet.Cli.Flubu.Scripting.Analysis;
 using DotNet.Cli.Flubu.Scripting.Processor;
-using System.Reflection;
 
 namespace DotNet.Cli.Flubu.Scripting.Processors
 {
-    public class ReferenceDirectiveProcessor : IDirectiveProcessor
+    public class AssemblyDirectiveProcessor : IDirectiveProcessor
     {
         public bool Process(AnalyserResult analyserResult, string line)
         {
-            if (!line.StartsWith("//#ref"))
+            if (!line.StartsWith("//#ass"))
                 return false;
 
             int dllIndex = line.IndexOf(" ", StringComparison.Ordinal);
@@ -18,9 +17,8 @@ namespace DotNet.Cli.Flubu.Scripting.Processors
                 return true;
 
             string dll = line.Substring(dllIndex);
-            var type = Type.GetType(dll, true);
             
-            analyserResult.References.Add(type.GetTypeInfo().Assembly.Location);
+            analyserResult.References.Add(dll);
             return true;
         }
     }

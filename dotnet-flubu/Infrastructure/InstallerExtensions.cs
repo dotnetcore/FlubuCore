@@ -35,6 +35,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
             return services
                 .AddSingleton<IScriptAnalyser, ScriptAnalyser>()
                 .AddSingleton<IDirectiveProcessor, ClassDirectiveProcessor>()
+                .AddSingleton<IDirectiveProcessor, AssemblyDirectiveProcessor>()
                 .AddSingleton<IDirectiveProcessor, ReferenceDirectiveProcessor>();
         }
 

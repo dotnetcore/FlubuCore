@@ -1,5 +1,7 @@
+1.2.5.0
+- Added support for external reference based on type loading
 1.2.4.0
-- Added support for external reference loading
+- Added support for external assembly loading
 1.2.3.0
 - Added explicit System.IO reference to Roslyn scripting engine
 1.2.2.0
