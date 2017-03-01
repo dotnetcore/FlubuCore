@@ -17,7 +17,7 @@ namespace Flubu.Tests.Scripting
             List<IDirectiveProcessor> processors = new List<IDirectiveProcessor>()
             {
                 new ClassDirectiveProcessor(),
-                new ReferenceDirectiveProcessor()
+                new AssemblyDirectiveProcessor()
             };
 
             _analyser = new ScriptAnalyser(processors);
@@ -38,11 +38,11 @@ namespace Flubu.Tests.Scripting
         }
 
         [Theory]
-        [InlineData("#ref hello.dll", "hello.dll")]
-        [InlineData("#ref    hello1.dll    \r\n", "hello1.dll")]
+        [InlineData("//#ass hello.dll", "hello.dll")]
+        [InlineData("//#ass    hello1.dll    \r\n", "hello1.dll")]
         public void ParseDll(string line, string expected)
         {
-            ReferenceDirectiveProcessor pr = new ReferenceDirectiveProcessor();
+            AssemblyDirectiveProcessor pr = new AssemblyDirectiveProcessor();
             AnalyserResult res = new AnalyserResult();
             pr.Process(res, line);
             Assert.Equal(expected, res.References.First());
@@ -53,9 +53,9 @@ namespace Flubu.Tests.Scripting
         {
             List<string> lines = new List<string>()
             {
-                "#ref",
+                "//#ass",
                 "//",
-                "#ref hello.dll",
+                "//#ass hello.dll",
                 "public class MyScript"
             };
 

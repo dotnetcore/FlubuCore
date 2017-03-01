@@ -18,7 +18,7 @@ namespace DotNet.Cli.Flubu.Scripting.Processors
 
             string dll = line.Substring(dllIndex);
             
-            analyserResult.References.Add(dll);
+            analyserResult.References.Add(dll.Trim());
             return true;
         }
     }
