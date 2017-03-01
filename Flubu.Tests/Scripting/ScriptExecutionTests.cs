@@ -1,4 +1,5 @@
-﻿using DotNet.Cli.Flubu.Scripting;
+﻿using System.Collections.Generic;
+using DotNet.Cli.Flubu.Scripting;
 using DotNet.Cli.Flubu.Scripting.Analysis;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
@@ -27,26 +28,33 @@ namespace Flubu.Tests.Scripting
         [Fact]
         public async System.Threading.Tasks.Task LoadDefaultScript()
         {
-            _fileLoader.Setup(i => i.ReadAllText("e.cs")).Returns(@"
-using System;
-using FlubuCore.Context;
-using FlubuCore.Scripting;
+            _fileLoader.Setup(i => i.ReadAllLines("e.cs"))
+                .Returns(new List<string>
+                {
+                    "using System;",
+                    "using FlubuCore.Context;",
+                    "using FlubuCore.Scripting;",
+                    "",
+                    "public class MyBuildScript : DefaultBuildScript",
+                    "{",
+                    "    protected override void ConfigureBuildProperties(IBuildPropertiesContext context)",
+                    "    {",
+                    "        System.Console.WriteLine(\"2222\");",
+                    "        }",
+                    "",
+                    "        protected override void ConfigureTargets(ITaskContext context)",
+                    "        {",
+                    "            Console.WriteLine(\"2222\");",
+                    "        }",
+                    "    }"
+                });
 
-public class MyBuildScript : DefaultBuildScript
-{
-    protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-    {
-        System.Console.WriteLine(""2222"");
-        }
-
-        protected override void ConfigureTargets(ITaskContext context)
-        {
-            Console.WriteLine(""2222"");
-        }
-    }");
+            _analyser.Setup(i => i.Analyze(It.IsAny<List<string>>()))
+                .Returns(new AnalyserResult() { ClassName = "MyBuildScript" });
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync("e.cs");
             var provider = new ServiceCollection().BuildServiceProvider();
+
             t.Run(new TaskSession(
                 null,
                 new TargetTree(provider, new CommandArguments()),
@@ -59,24 +67,30 @@ public class MyBuildScript : DefaultBuildScript
         [Fact]
         public async System.Threading.Tasks.Task LoadSimpleScript()
         {
-            _fileLoader.Setup(i => i.ReadAllText("e.cs"))
-                .Returns(@"
-using FlubuCore.Scripting;
-using System;
-using FlubuCore.Context;
+            _fileLoader.Setup(i => i.ReadAllLines("e.cs"))
+                .Returns(new List<string>
+                {
+                    "using FlubuCore.Scripting;",
+                    "using System;",
+                    "using FlubuCore.Context;",
+                    "",
+                    "public class MyBuildScript : IBuildScript",
+                    "{",
+                    "    public int Run(ITaskSession session)",
+                    "    {",
+                    "        Console.WriteLine(\"11\");",
+                    "        return 0;",
+                    "    }",
+                    "}"
+                });
 
-public class MyBuildScript : IBuildScript
-{
-    public int Run(ITaskSession session)
-    {
-        Console.WriteLine(""11"");    
-        return 0;    
-    }
-}");
+            _analyser.Setup(i => i.Analyze(It.IsAny<List<string>>()))
+                .Returns(new AnalyserResult() { ClassName = "MyBuildScript" });
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync("e.cs");
 
             var provider = new ServiceCollection().BuildServiceProvider();
+
             t.Run(new TaskSession(
                 null,
                 new TargetTree(provider, new CommandArguments()),

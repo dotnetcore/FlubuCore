@@ -21,6 +21,7 @@ namespace Flubu.Tests
         {
             _services
                 .AddCoreComponents()
+                .AddScriptAnalyser()
                 .AddCommandComponents()
                 .AddArguments(new string[] { })
                 .AddTasks();

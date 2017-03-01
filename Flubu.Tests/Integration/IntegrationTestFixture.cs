@@ -14,6 +14,7 @@ namespace Flubu.Tests.Integration
             LoggerFactory.AddConsole((s, l) => l >= LogLevel.Information);
             var services = new ServiceCollection()
                 .AddCoreComponents()
+                .AddScriptAnalyser()
                 .AddArguments(new[] { "flubu" })
                 .AddTasks();
 
