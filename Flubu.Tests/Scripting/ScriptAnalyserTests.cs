@@ -1,4 +1,5 @@
-﻿using DotNet.Cli.Flubu.Scripting.Analysis;
+﻿using System.Linq;
+using DotNet.Cli.Flubu.Scripting.Analysis;
 using DotNet.Cli.Flubu.Scripting.Processors;
 using Xunit;
 
@@ -20,5 +21,15 @@ namespace Flubu.Tests.Scripting
             Assert.Equal(expectedClassName, res.ClassName);
         }
 
+        [Theory]
+        [InlineData("#ref hello.dll", "hello.dll")]
+        [InlineData("#ref    hello1.dll    \r\n", "hello1.dll")]
+        public void ParseDll(string line, string expected)
+        {
+            ReferenceDirectiveProcessor pr = new ReferenceDirectiveProcessor();
+            AnalyserResult res = new AnalyserResult();
+            pr.Process(res, line);
+            Assert.Equal(expected, res.References.First());
+        }
     }
 }

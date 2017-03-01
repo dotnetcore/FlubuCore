@@ -17,17 +17,23 @@ namespace DotNet.Cli.Flubu.Scripting.Analysis
         {
             AnalyserResult analyserResult = new AnalyserResult();
 
-            foreach (string line in lines)
+            for (int i = 0; i < lines.Count; i++)
             {
+                string line = lines[i];
+
                 foreach(var processor in _processors)
                 {
                     bool ret = processor.Process(analyserResult, line);
-                    if (ret)
-                        break;
-                }
 
-                if (!string.IsNullOrEmpty(analyserResult.ClassName))
-                    return analyserResult;
+                    if (!string.IsNullOrEmpty(analyserResult.ClassName))
+                        return analyserResult;
+
+                    if (ret)
+                    {
+                        lines.RemoveAt(i);
+                        break;
+                    }
+                }
             }
 
             return analyserResult;
