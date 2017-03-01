@@ -1,3 +1,5 @@
+1.2.3.0
+- Added explicit System.IO reference to Roslyn scripting engine
 1.2.2.0
 - Added LogInfo and LogError to TaskContext
 - Added fluent interface to PublishNugetPackageTask
