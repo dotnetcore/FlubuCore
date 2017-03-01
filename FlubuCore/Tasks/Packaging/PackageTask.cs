@@ -27,18 +27,6 @@ namespace FlubuCore.Tasks.Packaging
 
         private bool ShouldPackageBeZipped => !string.IsNullOrEmpty(_zipFileName) || !string.IsNullOrEmpty(_zipPrefix);
 
-        [Obsolete("Use overload without sourceId parameter instead.", false)]
-        public PackageTask AddDirectoryToPackage(string sourceId, string sourceDirectoryPath, string destinationDirectory, bool recursive = false)
-        {
-            SourcePackagingInfo directoryToPackage = new SourcePackagingInfo(
-                SourceType.Directory,
-                sourceDirectoryPath,
-                destinationDirectory) { Recursive = recursive };
-
-            _sourcePackagingInfos.Add(directoryToPackage);
-            return this;
-        }
-
         /// <summary>
         /// Add's specified directory to the package.
         /// </summary>
@@ -53,23 +41,6 @@ namespace FlubuCore.Tasks.Packaging
                 sourceDirectoryPath,
                 destinationDirectory)
             { Recursive = recursive };
-
-            _sourcePackagingInfos.Add(directoryToPackage);
-            return this;
-        }
-
-        [Obsolete("Use overload without sourceId parameter instead.", false)]
-        public PackageTask AddDirectoryToPackage(string sourceId, string sourceDirectoryPath, string destinationDirectory, bool recursive, params IFileFilter[] fileFilters)
-        {
-            SourcePackagingInfo directoryToPackage = new SourcePackagingInfo(
-                SourceType.Directory,
-                sourceDirectoryPath,
-                destinationDirectory) { Recursive = recursive };
-
-            foreach (var filter in fileFilters)
-            {
-                directoryToPackage.FileFilters.Add(filter);
-            }
 
             _sourcePackagingInfos.Add(directoryToPackage);
             return this;
@@ -97,13 +68,6 @@ namespace FlubuCore.Tasks.Packaging
             }
 
             _sourcePackagingInfos.Add(directoryToPackage);
-            return this;
-        }
-
-        [Obsolete("Use overload without sourceId parameter instead.", false)]
-        public PackageTask AddFileToPackage(string sourceId, string sourceFilePath, string destinationDirectory)
-        {
-            _sourcePackagingInfos.Add(new SourcePackagingInfo(SourceType.File, sourceFilePath, destinationDirectory));
             return this;
         }
 
