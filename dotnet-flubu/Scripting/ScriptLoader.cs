@@ -33,7 +33,8 @@ namespace DotNet.Cli.Flubu.Scripting
                 // libraries that are required for compilation to succeed.
                 MetadataReference.CreateFromFile(Path.Combine(coreDir, "mscorlib.dll")),
                 MetadataReference.CreateFromFile(typeof(object).GetTypeInfo().Assembly.Location),
-                MetadataReference.CreateFromFile(flubuPath)
+                MetadataReference.CreateFromFile(flubuPath),
+                MetadataReference.CreateFromFile(typeof(File).GetTypeInfo().Assembly.Location)
             };
 
             // Enumerate all assemblies referenced by this executing assembly

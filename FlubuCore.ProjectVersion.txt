@@ -1,3 +1,5 @@
+1.2.6.0
+- Reenabled explicit System.IO reference to Roslyn scripting engine for .net core
 1.2.5.0
 - Added support for external reference based on type loading
 1.2.4.0
