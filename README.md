@@ -17,10 +17,12 @@
 
 * Repo owners
 
-### Release notes ###
-* https://bitbucket.org/zoroz/flubu.core/src/master/FlubuCore.ProjectVersion.txt?at=master&fileviewer=file-view-default
+[**Release notes**](https://bitbucket.org/zoroz/flubu.core/src/master/FlubuCore.ProjectVersion.txt?at=master&fileviewer=file-view-default
+)
 
 ### Donations ###
+Please support the project and donate with PayPal
+
 [Donate 1€](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6AM64F76MHS6G)
 
 [Donate 5€](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HRGK5DWTALFDC)
