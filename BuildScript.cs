@@ -60,6 +60,17 @@ public class MyBuildScript : DefaultBuildScript
         context.CreateTarget("rebuild.server")
             .SetDescription("Rebuilds the solution and publishes nuget packages.")
             .DependsOn(compile, flubuTests, flubuRunnerMerge, nugetPublish, packageFlubuRunner);
+
+        var compileLinux = context
+            .CreateTarget("compile.linux")
+            .SetDescription("Compiles the VS solution")
+            .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj", "Flubu.Tests/Flubu.Tests.csproj"))
+            .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("flubu.sln"))
+            .DependsOn(buildVersion);
+
+        context.CreateTarget("rebuild.linux")
+            .SetDescription("Rebuilds the solution and publishes nuget packages.")
+            .DependsOn(compileLinux, flubuTests);
     }
 
     private static void TargetPackageFlubuRunner(ITaskContext context)
