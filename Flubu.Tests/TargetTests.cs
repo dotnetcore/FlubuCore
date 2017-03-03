@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using DotNet.Cli.Flubu.Infrastructure;
+using FlubuCore.Context;
+using FlubuCore.Context.FluentInterface;
 using FlubuCore.Infrastructure;
+using FlubuCore.Scripting;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace Flubu.Tests
@@ -36,23 +41,6 @@ namespace Flubu.Tests
             targetTree.AddTarget("test target");
 
             Assert.True(targetTree.HasTarget("test target"));
-        }
-
-        [Fact]
-        public void DependsOnTargetTest()
-        {
-            TargetTree targetTree = _provider.GetService<TargetTree>();
-
-            var target1 = targetTree.AddTarget("target 1");
-
-            var target2 = targetTree.AddTarget("target 2");
-
-            var target3 = targetTree.AddTarget("target 3");
-            target3.DependsOn(target1, target2);
-            var dependencies = target3.Dependencies.ToList();
-            Assert.Equal(2, dependencies.Count);
-            Assert.Equal("target 1", dependencies[0].Key);
-            Assert.Equal("target 2", dependencies[1].Key);
         }
 
         [Fact]
@@ -154,6 +142,59 @@ namespace Flubu.Tests
 
             Assert.True(sw.ElapsedMilliseconds > 3000);
             Assert.True(sw.ElapsedMilliseconds < 3999);
+        }
+
+        [Fact]
+        public void DependsOnAsyncTargetTest()
+        {
+            TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" } });
+
+            var target1 = targetTree.AddTarget("target 1").AddTaskAsync(new SimpleTaskWithDelay());
+
+            var target2 = targetTree.AddTarget("target 2").AddTaskAsync(new SimpleTaskWithDelay());
+
+            var target3 = targetTree.AddTarget("target 3");
+            target3.DependsOnAsync(target1, target2);
+            Stopwatch sw = new Stopwatch();
+
+            sw.Start();
+          
+            target3.ExecuteVoid(Context);
+            sw.Stop();
+
+            Assert.Equal(2, targetTree.DependenciesExecutedCount);
+
+            Assert.True(sw.ElapsedMilliseconds > 1000);
+            Assert.True(sw.ElapsedMilliseconds < 1999);
+        }
+
+        [Fact]
+        public void DependsOnTargetTest()
+        {
+            TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments {TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" }});
+            
+            var target1 = targetTree.AddTarget("target 1");
+
+            var target2 = targetTree.AddTarget("target 2");
+
+            var target3 = targetTree.AddTarget("target 3");
+            target3.DependsOn(target1, target2);
+            var dependencies = target3.Dependencies.ToList();
+            Assert.Equal(2, dependencies.Count);
+            Assert.Equal("target 1", dependencies[0].Key);
+            Assert.Equal("target 2", dependencies[1].Key);
+
+            Stopwatch sw = new Stopwatch();
+
+            sw.Start();
+
+            target3.ExecuteVoid(Context);
+            sw.Stop();
+
+            Assert.Equal(2, targetTree.DependenciesExecutedCount);
+
+            Assert.True(sw.ElapsedMilliseconds > 2000);
+            Assert.True(sw.ElapsedMilliseconds < 2999);
         }
     }
 }

@@ -85,7 +85,7 @@ namespace FlubuCore.Targeting
                 }
                 else
                 {
-                    tTasks.Add(RunTargetAsync(taskContext, targetName));
+                    tTasks.Add(RunTargetAsync(taskContext, dependantTargetName));
                     if (i + 1 < n)
                     {
                         if (target.Dependencies.Values.ElementAt(i + 1) != TaskExecutionMode.Synchronous)

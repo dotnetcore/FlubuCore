@@ -197,7 +197,7 @@ namespace FlubuCore.Targeting
 
             context.LogInfo($"Executing target {TargetName}");
 
-            _targetTree.MarkTargetAsExecuted(this);
+            _targetTree. MarkTargetAsExecuted(this);
             _targetTree.EnsureDependenciesExecuted(context, TargetName);
 
             if (_args.TargetsToExecute != null)

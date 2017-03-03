@@ -16,6 +16,8 @@ namespace Flubu.Tests
     {
         protected FlubuTestBase(ILoggerFactory loggerFactory)
         {
+            LoggerFactory = loggerFactory;
+
             ServiceProvider = new ServiceCollection()
                 .AddCoreComponents()
                 .AddCommandComponents()
@@ -27,7 +29,7 @@ namespace Flubu.Tests
             Context = new TaskContextInternal(
                 loggerFactory.CreateLogger<TaskSession>(),
                 new TaskContextSession(),
-                new CommandArguments(),
+                new CommandArguments(){ },
                 new TargetTree(ServiceProvider, new CommandArguments()),
                 Factory,
                 new FluentInterfaceFactory(ServiceProvider));
@@ -35,8 +37,10 @@ namespace Flubu.Tests
 
         protected ITaskFactory Factory { get; }
 
-        protected ITaskContextInternal Context { get; }
+        protected ITaskContextInternal Context { get; set; }
 
         protected IServiceProvider ServiceProvider { get; }
+
+        protected ILoggerFactory LoggerFactory { get; }
     }
 }
