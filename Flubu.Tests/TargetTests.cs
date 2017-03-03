@@ -95,7 +95,7 @@ namespace Flubu.Tests
 
             var elapsed = sw.Elapsed;
             Assert.True(sw.ElapsedMilliseconds > 1000);
-            Assert.True(sw.ElapsedMilliseconds < 1200);
+            Assert.True(sw.ElapsedMilliseconds < 1999);
         }
 
         [Fact]
@@ -132,7 +132,7 @@ namespace Flubu.Tests
             sw.Stop();
 
             Assert.True(sw.ElapsedMilliseconds > 2000);
-            Assert.True(sw.ElapsedMilliseconds < 2800);
+            Assert.True(sw.ElapsedMilliseconds < 2999);
         }
 
         [Fact]
@@ -152,7 +152,7 @@ namespace Flubu.Tests
             sw.Stop();
             
             Assert.True(sw.ElapsedMilliseconds > 3000);
-            Assert.True(sw.ElapsedMilliseconds < 3800);
+            Assert.True(sw.ElapsedMilliseconds < 3999);
         }
     }
 }
