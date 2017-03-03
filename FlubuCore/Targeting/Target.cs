@@ -10,7 +10,7 @@ namespace FlubuCore.Targeting
 {
     public class Target : TaskBase<int>, ITarget
     {
-        private readonly List<string> _dependencies = new List<string>();
+        private readonly Dictionary<string, TaskExecutionMode> _dependencies = new Dictionary<string, TaskExecutionMode>();
 
         private readonly List<Tuple<ITask, TaskExecutionMode>> _tasks = new List<Tuple<ITask, TaskExecutionMode>>();
 
@@ -27,7 +27,7 @@ namespace FlubuCore.Targeting
             _args = args;
         }
 
-        public ICollection<string> Dependencies => _dependencies;
+        public Dictionary<string, TaskExecutionMode> Dependencies => _dependencies;
 
         public List<Tuple<ITask, TaskExecutionMode>> Tasks => _tasks;
 
@@ -59,7 +59,22 @@ namespace FlubuCore.Targeting
         {
             foreach (string dependentTargetName in targetNames)
             {
-                _dependencies.Add(dependentTargetName);
+                _dependencies.Add(dependentTargetName, TaskExecutionMode.Synchronous);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        ///     Specifies targets on which this target depends on.
+        /// </summary>
+        /// <param name="targetNames">The dependency target names.</param>
+        /// <returns>This same instance of <see cref="ITarget" />.</returns>
+        public ITarget DependsOnAsync(params string[] targetNames)
+        {
+            foreach (string dependentTargetName in targetNames)
+            {
+                _dependencies.Add(dependentTargetName, TaskExecutionMode.Parallel);
             }
 
             return this;
@@ -137,7 +152,17 @@ namespace FlubuCore.Targeting
         {
             foreach (ITarget target in targets)
             {
-                _dependencies.Add(target.TargetName);
+                _dependencies.Add(target.TargetName, TaskExecutionMode.Synchronous);
+            }
+
+            return this;
+        }
+
+        public ITarget DependsOnAsync(params ITarget[] targets)
+        {
+            foreach (ITarget target in targets)
+            {
+                _dependencies.Add(target.TargetName, TaskExecutionMode.Parallel);
             }
 
             return this;

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks;
@@ -57,22 +59,50 @@ namespace FlubuCore.Targeting
         public void EnsureDependenciesExecuted(ITaskContextInternal taskContext, string targetName)
         {
             ITarget target = _targets[targetName];
-            foreach (string dependency in target.Dependencies)
+            int n = target.Dependencies.Count;
+            List<Task> tTasks = new List<Task>();
+            for (int i = 0; i < n; i++)
             {
-                if (_executedTargets.Contains(dependency))
+                var dependantTargetName = target.Dependencies.Keys.ElementAt(i);
+                var executionMode = target.Dependencies.Values.ElementAt(i);
+                if (_executedTargets.Contains(dependantTargetName))
                     continue;
 
                 if (_args.TargetsToExecute != null)
                 {
-                    if (!_args.TargetsToExecute.Contains(dependency))
+                    if (!_args.TargetsToExecute.Contains(dependantTargetName))
                     {
-                        throw new TaskExecutionException($"Target {dependency} is not on the TargetsToExecute list", 3);
+                        throw new TaskExecutionException($"Target {dependantTargetName} is not on the TargetsToExecute list", 3);
                     }
 
                     DependenciesExecutedCount++;
                 }
+            
+                if (executionMode == TaskExecutionMode.Synchronous)
+                {
+                    RunTarget(taskContext, dependantTargetName);
+                }
+                else
+                {
+                    tTasks.Add(Task.Run(() => RunTargetAsync(taskContext, targetName)));
+                    if (i + 1 < n)
+                    {
+                        if (target.Dependencies.Values.ElementAt(i + 1) != TaskExecutionMode.Synchronous)
+                            continue;
+                        if (tTasks.Count <= 0)
+                            continue;
 
-                RunTarget(taskContext, dependency);
+                        Task.WaitAll(tTasks.ToArray());
+                        tTasks = new List<Task>();
+                    }
+                    else
+                    {
+                        if (tTasks.Count > 0)
+                        {
+                            Task.WaitAll(tTasks.ToArray());
+                        }
+                    }
+                }
             }
         }
 
@@ -120,6 +150,17 @@ namespace FlubuCore.Targeting
 
             ITarget target = _targets[targetName];
             target.ExecuteVoid(taskContext);
+        }
+
+        public async void RunTargetAsync(ITaskContextInternal taskContext, string targetName)
+        {
+            if (!_targets.ContainsKey(targetName))
+            {
+                throw new ArgumentException($"The target '{targetName}' does not exist");
+            }
+
+            ITarget target = _targets[targetName];
+            await target.ExecuteVoidAsync(taskContext);
         }
 
         public void SetDefaultTarget(ITarget target)

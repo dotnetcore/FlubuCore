@@ -31,7 +31,7 @@ namespace Flubu.Tests.Integration
             ITarget t = session.TargetTree.GetTarget("test");
             ITarget t1 = session.TargetTree.GetTarget("test1");
 
-            Assert.Equal(t.TargetName, t1.Dependencies.FirstOrDefault());
+            Assert.Equal(t.TargetName, t1.Dependencies.FirstOrDefault().Key);
         }
 
         [Fact]
@@ -64,8 +64,8 @@ namespace Flubu.Tests.Integration
             Assert.Equal(4, t.Tasks.Count);
 
             Assert.Equal(2, t.Dependencies.Count);
-            Assert.Equal("init", t.Dependencies.First());
-            Assert.Equal("restore", t.Dependencies.Last());
+            Assert.Equal("init", t.Dependencies.First().Key);
+            Assert.Equal("restore", t.Dependencies.Last().Key);
         }
 
         [Fact]

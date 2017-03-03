@@ -14,11 +14,18 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         ITargetFluentInterface DependsOn(params string[] targetNames);
 
         /// <summary>
-        ///     Specifies targets on which this target depends on.
+        ///     Specifies targets on which this target depends on. Execution of dependant targets is synchronus.
         /// </summary>
         /// <param name="targets">The dependency target names.</param>
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITargetFluentInterface DependsOn(params ITarget[] targets);
+
+        /// <summary>
+        ///     Specifies targets on which this target depends on. Execution of dependant targets is asynchronus.
+        /// </summary>
+        /// <param name="targets">The dependency target names.</param>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
+        ITargetFluentInterface DependsOnAsync(params ITarget[] targets);
 
         /// <summary>
         ///     Specifies targets on which this target depends on.
@@ -26,6 +33,13 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="targets">The dependency target names.</param>
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITargetFluentInterface DependsOn(params ITargetFluentInterface[] targets);
+
+        /// <summary>
+        /// Specifies targets on which this target depends on. Execution of dependant targets is asynchronus.
+        /// </summary>
+        /// <param name="targets">The dependency target names.</param>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
+        ITargetFluentInterface DependsOnAsync(params ITargetFluentInterface[] targets);
 
         /// <summary>
         /// Execute custom code in script.

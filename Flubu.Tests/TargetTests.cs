@@ -51,8 +51,8 @@ namespace Flubu.Tests
             target3.DependsOn(target1, target2);
             var dependencies = target3.Dependencies.ToList();
             Assert.Equal(2, dependencies.Count);
-            Assert.Equal("target 1", dependencies[0]);
-            Assert.Equal("target 2", dependencies[1]);
+            Assert.Equal("target 1", dependencies[0].Key);
+            Assert.Equal("target 2", dependencies[1].Key);
         }
 
         [Fact]

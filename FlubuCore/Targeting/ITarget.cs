@@ -7,7 +7,7 @@ namespace FlubuCore.Targeting
 {
     public interface ITarget : ITask
     {
-        ICollection<string> Dependencies { get; }
+        Dictionary<string, TaskExecutionMode> Dependencies { get; }
 
         string TargetName { get; }
 
@@ -21,11 +21,18 @@ namespace FlubuCore.Targeting
         bool IsHidden { get; }
 
         /// <summary>
-        ///     Specifies targets on which this target depends on.
+        ///     Specifies targets on which this target depends on and execute then Synchronus.
         /// </summary>
         /// <param name="targetNames">The dependency target names.</param>
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITarget DependsOn(params string[] targetNames);
+
+        /// <summary>
+        ///     Specifies targets on which this target depends on and execute dependencies asynchronus
+        /// </summary>
+        /// <param name="targetNames">The dependency target names.</param>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
+        ITarget DependsOnAsync(params string[] targetNames);
 
         /// <summary>
         ///     Specifies targets on which this target depends on.
@@ -33,6 +40,13 @@ namespace FlubuCore.Targeting
         /// <param name="targets">The dependency target names.</param>
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITarget DependsOn(params ITarget[] targets);
+
+        /// <summary>
+        ///     Specifies targets on which this target depends on and execute dependencies asynchronus.
+        /// </summary>
+        /// <param name="targets">The dependency target names.</param>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
+        ITarget DependsOnAsync(params ITarget[] targets);
 
         /// <summary>
         /// Execute custom code in script.
