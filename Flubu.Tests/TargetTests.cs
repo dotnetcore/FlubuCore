@@ -149,9 +149,9 @@ namespace Flubu.Tests
         {
             TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" } });
 
-            var target1 = targetTree.AddTarget("target 1").AddTaskAsync(new SimpleTaskWithDelay());
+            var target1 = targetTree.AddTarget("target 1").AddTask(new SimpleTaskWithDelay());
 
-            var target2 = targetTree.AddTarget("target 2").AddTaskAsync(new SimpleTaskWithDelay());
+            var target2 = targetTree.AddTarget("target 2").AddTask(new SimpleTaskWithDelay());
 
             var target3 = targetTree.AddTarget("target 3");
             target3.DependsOnAsync(target1, target2);
@@ -173,9 +173,9 @@ namespace Flubu.Tests
         {
             TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments {TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" }});
             
-            var target1 = targetTree.AddTarget("target 1");
+            var target1 = targetTree.AddTarget("target 1").AddTask(new SimpleTaskWithDelay()); ;
 
-            var target2 = targetTree.AddTarget("target 2");
+            var target2 = targetTree.AddTarget("target 2").AddTask(new SimpleTaskWithDelay()); ;
 
             var target3 = targetTree.AddTarget("target 3");
             target3.DependsOn(target1, target2);
