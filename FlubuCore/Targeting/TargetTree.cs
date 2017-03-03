@@ -77,14 +77,15 @@ namespace FlubuCore.Targeting
 
                     DependenciesExecutedCount++;
                 }
-            
+
+               
                 if (executionMode == TaskExecutionMode.Synchronous)
                 {
                     RunTarget(taskContext, dependantTargetName);
                 }
                 else
                 {
-                    tTasks.Add(Task.Run(() => RunTargetAsync(taskContext, targetName)));
+                    tTasks.Add(RunTargetAsync(taskContext, targetName));
                     if (i + 1 < n)
                     {
                         if (target.Dependencies.Values.ElementAt(i + 1) != TaskExecutionMode.Synchronous)
@@ -103,6 +104,7 @@ namespace FlubuCore.Targeting
                         }
                     }
                 }
+          
             }
         }
 
@@ -152,7 +154,7 @@ namespace FlubuCore.Targeting
             target.ExecuteVoid(taskContext);
         }
 
-        public async void RunTargetAsync(ITaskContextInternal taskContext, string targetName)
+        public async Task RunTargetAsync(ITaskContextInternal taskContext, string targetName)
         {
             if (!_targets.ContainsKey(targetName))
             {

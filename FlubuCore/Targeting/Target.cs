@@ -212,14 +212,15 @@ namespace FlubuCore.Targeting
             List<Task> tTasks = new List<Task>();
             for (int i = 0; i < n; i++)
             { 
-                context.LogInfo($"Executing task {_tasks[i].GetType().Name}");
+                context.LogInfo($"Executing task {_tasks[i].Item1.GetType().Name}");
                 if (_tasks[i].Item2 == TaskExecutionMode.Synchronous)
                 {
                     _tasks[i].Item1.ExecuteVoid(context);
                 }
                 else
                 {
-                    tTasks.Add(Task.Run(() => _tasks[i].Item1.ExecuteVoidAsync(context)));
+                    var i1 = i;
+                    tTasks.Add(_tasks[i1].Item1.ExecuteVoidAsync(context));
                     if (i + 1 < n)
                     {
                         if (_tasks[i + 1].Item2 != TaskExecutionMode.Synchronous) continue;

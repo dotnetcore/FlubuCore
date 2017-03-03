@@ -1,5 +1,4 @@
-1.3.0.0
-- 
+1.3.1.0
 - Added support for external reference based on type loading
 - Added support for external assembly loading by assembly full path
 - Do in Target is now a task.
