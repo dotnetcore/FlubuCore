@@ -75,5 +75,7 @@ namespace FlubuCore.Targeting
         /// </summary>
         /// <param name="task">The task to be added</param>
         ITarget AddTask(params ITask[] task);
+
+        ITarget AddTaskAsync(params ITask[] task);
     }
 }

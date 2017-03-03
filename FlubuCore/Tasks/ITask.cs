@@ -16,5 +16,7 @@ namespace FlubuCore.Tasks
         /// </summary>
         /// <param name="context">The script execution environment.</param>
         void ExecuteVoid(ITaskContext context);
+
+        Task ExecuteVoidAsync(ITaskContext context);
     }
 }

@@ -69,6 +69,20 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="task">The .net core task to be added</param>
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITargetFluentInterface AddCoreTask(Func<ICoreTaskFluentInterface, ITask> task);
+        
+        /// <summary>
+        /// Add's the (core) task to the target that will be run asynchonusly with other tasks.
+        /// </summary>
+        /// <param name="task">The task to be added</param>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
+        ITargetFluentInterface AddTaskAsync(Func<ITaskFluentInterface, ITask> task);
+
+        /// <summary>
+        /// Add's the .net core task to the target that will be run asynchrounusly with other tasks.
+        /// </summary>
+        /// <param name="task">The task to be added</param>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
+        ITargetFluentInterface AddCoreTaskAsync(Func<ICoreTaskFluentInterface, ITask> task);
 
         /// <summary>
         /// Task extensions for various .net (core) tasks(Fluent interface).

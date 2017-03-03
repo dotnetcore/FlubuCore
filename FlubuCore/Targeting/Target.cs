@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks;
@@ -10,7 +11,7 @@ namespace FlubuCore.Targeting
     {
         private readonly List<string> _dependencies = new List<string>();
 
-        private readonly List<ITask> _tasks = new List<ITask>();
+        private readonly List<Tuple<ITask, TaskExecutionMode>> _tasks = new List<Tuple<ITask, TaskExecutionMode>>();
 
         private readonly CommandArguments _args;
 
@@ -29,7 +30,7 @@ namespace FlubuCore.Targeting
 
         public ICollection<string> Dependencies => _dependencies;
 
-        public List<ITask> Tasks => _tasks;
+        public List<Tuple<ITask, TaskExecutionMode>> Tasks => _tasks;
 
         /// <summary>
         ///     Gets the description of the target.
@@ -131,7 +132,21 @@ namespace FlubuCore.Targeting
 
         public ITarget AddTask(params ITask[] tasks)
         {
-            _tasks.AddRange(tasks);
+            foreach (var task in tasks)
+            {
+                _tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
+            }
+
+            return this;
+        }
+
+        public ITarget AddTaskAsync(params ITask[] tasks)
+        {
+            foreach (var task in tasks)
+            {
+                _tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
+            }
+
             return this;
         }
 
@@ -157,11 +172,33 @@ namespace FlubuCore.Targeting
 
             // we can have action-less targets (that only depend on other targets)
             _targetAction?.Invoke(context);
-
-            foreach (ITask task in _tasks)
-            {
-                context.LogInfo($"Executing task {task.GetType().Name}");
-                task.ExecuteVoid(context);
+            int n = _tasks.Count;
+            List<Task> tTasks = new List<Task>();
+            for (int i = 0; i < n; i++)
+            { 
+                context.LogInfo($"Executing task {_tasks[i].GetType().Name}");
+                if (_tasks[i].Item2 == TaskExecutionMode.Synchronous)
+                {
+                    _tasks[i].Item1.ExecuteVoid(context);
+                }
+                else
+                {
+                    tTasks.Add(Task.Run(() => _tasks[i].Item1.ExecuteVoidAsync(context)));
+                    if (i + 1 < n)
+                    {
+                        if (_tasks[i + 1].Item2 != TaskExecutionMode.Synchronous) continue;
+                        if (tTasks.Count <= 0) continue;
+                        Task.WaitAll(tTasks.ToArray());
+                        tTasks = new List<Task>();
+                    }
+                    else
+                    {
+                        if (tTasks.Count > 0)
+                        {
+                            Task.WaitAll(tTasks.ToArray());
+                        }
+                    }
+                }
             }
 
             return 0;

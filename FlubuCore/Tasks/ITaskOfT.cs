@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using FlubuCore.Context;
 
 namespace FlubuCore.Tasks
@@ -13,5 +14,7 @@ namespace FlubuCore.Tasks
         /// </summary>
         /// <param name="context">The script execution environment.</param>
         T Execute(ITaskContext context);
+        
+        Task<T> ExecuteAsync(ITaskContext context);
     }
 }

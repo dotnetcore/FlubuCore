@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using FlubuCore.Context;
 
 namespace FlubuCore.Tasks
@@ -31,6 +32,11 @@ namespace FlubuCore.Tasks
         public void ExecuteVoid(ITaskContext context)
         {
             Execute(context);
+        }
+
+        public async Task ExecuteVoidAsync(ITaskContext context)
+        {
+            await ExecuteAsync(context);
         }
 
         /// <summary>
@@ -78,11 +84,55 @@ namespace FlubuCore.Tasks
             }
         }
 
+        public async Task<T> ExecuteAsync(ITaskContext context)
+        {
+            ITaskContextInternal contextInternal = (ITaskContextInternal)context;
+
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            TaskStopwatch.Start();
+
+            if (!string.IsNullOrEmpty(DescriptionForLog))
+            {
+                contextInternal.LogInfo(DescriptionForLog);
+            }
+
+            contextInternal.IncreaseDepth();
+
+            try
+            {
+                return await DoExecuteAsync(contextInternal);
+            }
+            finally
+            {
+                TaskStopwatch.Stop();
+                contextInternal.DecreaseDepth();
+
+                if (LogDuration)
+                {
+                    contextInternal.LogInfo($"{DescriptionForLog} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
+                }
+            }
+        }
+
         /// <summary>
         ///     Abstract method defining the actual work for a task.
         /// </summary>
         /// <remarks>This method has to be implemented by the inheriting task.</remarks>
         /// <param name="context">The script execution environment.</param>
         protected abstract T DoExecute(ITaskContextInternal context);
+
+        /// <summary>
+        /// Virtual method defining the actual work for a task.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected virtual async Task<T> DoExecuteAsync(ITaskContextInternal context)
+        {
+            return await Task.Run(() => DoExecute(context));
+        }
     }
 }

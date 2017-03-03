@@ -83,6 +83,21 @@ namespace FlubuCore.Context.FluentInterface
             return this;
         }
 
+        public ITargetFluentInterface AddTaskAsync(Func<ITaskFluentInterface, ITask> task)
+        {
+            ITask result = task(TaskFluent);
+            Target.AddTaskAsync(result);
+            return this;
+        }
+
+        public ITargetFluentInterface AddCoreTaskAsync(Func<ICoreTaskFluentInterface, ITask> task)
+        {
+            ITask result = task(CoreTaskFluent);
+            Target.AddTaskAsync(result);
+            return this;
+        }
+
+
         public ITaskExtensionsFluentInterface TaskExtensions()
         {
             TaskExtensionsFluentInterface taskExtensionFluent = (TaskExtensionsFluentInterface)TaskExtensionsFluent;
