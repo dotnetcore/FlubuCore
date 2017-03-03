@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Infrastructure;
 using FlubuCore.Targeting;
@@ -124,7 +125,7 @@ namespace Flubu.Tests
 
             target1.AddTaskAsync(new SimpleTaskWithDelay(), new SimpleTaskWithDelay());
             target1.AddTask(new SimpleTaskWithDelay());
-           
+
             Stopwatch sw = new Stopwatch();
 
             sw.Start();
@@ -150,7 +151,7 @@ namespace Flubu.Tests
             sw.Start();
             target1.ExecuteVoid(Context);
             sw.Stop();
-            
+
             Assert.True(sw.ElapsedMilliseconds > 3000);
             Assert.True(sw.ElapsedMilliseconds < 3999);
         }

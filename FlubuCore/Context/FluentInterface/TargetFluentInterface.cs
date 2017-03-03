@@ -51,6 +51,12 @@ namespace FlubuCore.Context.FluentInterface
             return this;
         }
 
+        public ITargetFluentInterface DoAsync(Action<ITaskContextInternal> targetAction)
+        {
+            Target.DoAsync(targetAction);
+            return this;
+        }
+
         public ITargetFluentInterface SetAsDefault()
         {
             Target.SetAsDefault();

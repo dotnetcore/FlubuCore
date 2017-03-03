@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
@@ -18,8 +19,6 @@ namespace FlubuCore.Targeting
         private readonly TargetTree _targetTree;
 
         private string _description;
-
-        private Action<ITaskContextInternal> _targetAction;
 
         internal Target(TargetTree targetTree, string targetName, CommandArguments args)
         {
@@ -66,20 +65,34 @@ namespace FlubuCore.Targeting
             return this;
         }
 
+        public ITarget DoAsync(Action<ITaskContextInternal> targetAction)
+        {
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask(targetAction), TaskExecutionMode.Parallel));
+            return this;
+        }
+
         public ITarget Do(Action<ITaskContextInternal> targetAction)
         {
-            if (_targetAction != null)
-            {
-                throw new ArgumentException("Target action was already set.");
-            }
-
-            _targetAction = targetAction;
+           Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask(targetAction), TaskExecutionMode.Synchronous));
             return this;
         }
 
         public ITarget OverrideDo(Action<ITaskContextInternal> targetAction)
         {
-            _targetAction = targetAction;
+            var tasks = Tasks.Select(x => x.Item1);
+            var doTasks = tasks.OfType<DoTask>().ToList();
+            if (doTasks.Count == 0)
+            {
+                return this;
+            }
+
+            if (doTasks.Count > 1)
+            {
+                throw new NotSupportedException("You can not override do when there are specified more than 1 do in target.");
+            }
+
+            doTasks[0] = new DoTask(targetAction);
+
             return this;
         }
 
@@ -170,8 +183,6 @@ namespace FlubuCore.Targeting
                 }
             }
 
-            // we can have action-less targets (that only depend on other targets)
-            _targetAction?.Invoke(context);
             int n = _tasks.Count;
             List<Task> tTasks = new List<Task>();
             for (int i = 0; i < n; i++)

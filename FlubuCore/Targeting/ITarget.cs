@@ -42,6 +42,13 @@ namespace FlubuCore.Targeting
         ITarget Do(Action<ITaskContextInternal> targetAction);
 
         /// <summary>
+        /// Execute custom code in script asynchronous.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This target.</returns>
+        ITarget DoAsync(Action<ITaskContextInternal> targetAction);
+
+        /// <summary>
         ///     Overrides any previously specified target action with the new one.
         /// </summary>
         /// <param name="targetAction">The new target action to perform.</param>

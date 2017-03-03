@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp1.0</TargetFramework>
     <WarningsAsErrors>true</WarningsAsErrors>
@@ -13,7 +13,7 @@
 	<GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
 	<GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
 	<GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
-  <Version>1.2.1.0</Version><AssemblyVersion>1.2.1.0</AssemblyVersion><FileVersion>1.2.1.0</FileVersion></PropertyGroup>
+  <Version>1.2.6.0</Version><AssemblyVersion>1.2.6.0</AssemblyVersion><FileVersion>1.2.6.0</FileVersion></PropertyGroup>
   <ItemGroup>
     <Content Include="TestData\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
