@@ -46,7 +46,7 @@ namespace FlubuCore.Scripting
             }
 
             context.LogInfo($"ERROR: Target {context.Args.MainCommand} not found.");
-            return null;
+            return "help";
         }
 
         private void RunBuild(ITaskSession taskSession)
