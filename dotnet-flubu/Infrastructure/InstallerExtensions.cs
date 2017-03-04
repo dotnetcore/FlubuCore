@@ -36,7 +36,8 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddSingleton<IScriptAnalyser, ScriptAnalyser>()
                 .AddSingleton<IDirectiveProcessor, ClassDirectiveProcessor>()
                 .AddSingleton<IDirectiveProcessor, AssemblyDirectiveProcessor>()
-                .AddSingleton<IDirectiveProcessor, ReferenceDirectiveProcessor>();
+                .AddSingleton<IDirectiveProcessor, ReferenceDirectiveProcessor>()
+                .AddSingleton<IDirectiveProcessor, NamespaceDirectiveProcessor>();
         }
 
         public static IServiceCollection AddTasks(this IServiceCollection services)

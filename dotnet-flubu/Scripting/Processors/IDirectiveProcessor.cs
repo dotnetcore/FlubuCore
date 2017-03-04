@@ -4,6 +4,6 @@ namespace DotNet.Cli.Flubu.Scripting.Processor
 {
     public interface IDirectiveProcessor
     {
-        bool Process(AnalyserResult analyserResult, string line);
+        bool Process(AnalyserResult analyserResult, string line, int lineIndex);
     }
 }

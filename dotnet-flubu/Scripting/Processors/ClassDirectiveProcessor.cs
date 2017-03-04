@@ -6,7 +6,7 @@ namespace DotNet.Cli.Flubu.Scripting.Processors
 {
     public class ClassDirectiveProcessor : IDirectiveProcessor
     {
-        public bool Process(AnalyserResult analyserResult, string line)
+        public bool Process(AnalyserResult analyserResult, string line, int lineIndex)
         {
             var i = line.IndexOf("class", StringComparison.Ordinal);
             if (i < 0)

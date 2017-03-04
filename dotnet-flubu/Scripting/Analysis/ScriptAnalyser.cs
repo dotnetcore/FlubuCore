@@ -26,11 +26,13 @@ namespace DotNet.Cli.Flubu.Scripting.Analysis
 
                 foreach(var processor in _processors)
                 {
-                    bool ret = processor.Process(analyserResult, line);
+                    bool ret = processor.Process(analyserResult, line, i);
 
                     if (!string.IsNullOrEmpty(analyserResult.ClassName))
+                    {
+                        RemoveNamespace(lines, analyserResult);
                         return analyserResult;
-
+                    }
                     if (ret)
                     {
                         lines.RemoveAt(i);
@@ -43,6 +45,17 @@ namespace DotNet.Cli.Flubu.Scripting.Analysis
             }
 
             return analyserResult;
+        }
+
+        private void RemoveNamespace(List<string> lines, AnalyserResult analyserResult)
+        {
+            if (analyserResult.NamespaceIndex.HasValue)
+            {
+                lines.RemoveAt(analyserResult.NamespaceIndex.Value);
+                lines.RemoveAt(analyserResult.NamespaceIndex.Value);
+                var indexOfLastClosingCurlyBracket = lines.LastIndexOf("}");
+                lines.RemoveAt(indexOfLastClosingCurlyBracket);
+            }
         }
     }
 }

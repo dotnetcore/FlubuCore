@@ -17,7 +17,8 @@ namespace Flubu.Tests.Scripting
             List<IDirectiveProcessor> processors = new List<IDirectiveProcessor>()
             {
                 new ClassDirectiveProcessor(),
-                new AssemblyDirectiveProcessor()
+                new AssemblyDirectiveProcessor(),
+                new NamespaceDirectiveProcessor(),
             };
 
             _analyser = new ScriptAnalyser(processors);
@@ -33,18 +34,18 @@ namespace Flubu.Tests.Scripting
         {
             ClassDirectiveProcessor pr = new ClassDirectiveProcessor();
             AnalyserResult res = new AnalyserResult();
-            pr.Process(res, code);
+            pr.Process(res, code, 1);
             Assert.Equal(expectedClassName, res.ClassName);
         }
 
         [Theory]
-        [InlineData("//#ass hello.dll", "hello.dll")]
-        [InlineData("//#ass    hello1.dll    \r\n", "hello1.dll")]
+        [InlineData("//#ass c:\\hello.dll", "c:\\hello.dll")]
+        [InlineData("//#ass c:\\hello1.dll    \r\n", "c:\\hello1.dll")]
         public void ParseDll(string line, string expected)
         {
             AssemblyDirectiveProcessor pr = new AssemblyDirectiveProcessor();
             AnalyserResult res = new AnalyserResult();
-            pr.Process(res, line);
+            pr.Process(res, line, 1);
             Assert.Equal(expected, res.References.First());
         }
 
@@ -64,6 +65,24 @@ namespace Flubu.Tests.Scripting
             Assert.Equal("MyScript", res.ClassName);
             Assert.Equal(1, res.References.Count);
             Assert.Equal(2, lines.Count);
+        }
+
+        [Fact]
+        public void RemoveNamespaceAnalyse()
+        {
+            List<string> lines = new List<string>()
+            {
+                "//fsa",
+                "namespace test",
+                "{",
+                "public class MyScript",
+                "{",
+                "}",
+                "}"
+            };
+
+             _analyser.Analyze(lines);
+            Assert.Equal(4, lines.Count);
         }
     }
 }

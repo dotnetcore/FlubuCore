@@ -7,7 +7,7 @@ namespace DotNet.Cli.Flubu.Scripting.Processors
 {
     public class AssemblyDirectiveProcessor : IDirectiveProcessor
     {
-        public bool Process(AnalyserResult analyserResult, string line)
+        public bool Process(AnalyserResult analyserResult, string line, int lineIndex)
         {
             if (!line.StartsWith("//#ass"))
                 return false;
