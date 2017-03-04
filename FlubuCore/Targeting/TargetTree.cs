@@ -15,7 +15,7 @@ namespace FlubuCore.Targeting
         private readonly CommandArguments _args;
         private readonly HashSet<string> _executedTargets = new HashSet<string>();
 
-        private readonly Dictionary<string, ITarget> _targets = new Dictionary<string, ITarget>();
+        private readonly Dictionary<string, ITarget> _targets = new Dictionary<string, ITarget>(StringComparer.OrdinalIgnoreCase);
 
         public TargetTree(IServiceProvider provider, CommandArguments args)
         {
