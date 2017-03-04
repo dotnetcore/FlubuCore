@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using DotNet.Cli.Flubu.Scripting.Analysis;
 using DotNet.Cli.Flubu.Scripting.Processor;
 
@@ -18,7 +19,7 @@ namespace DotNet.Cli.Flubu.Scripting.Processors
 
             string dll = line.Substring(dllIndex);
             
-            analyserResult.References.Add(dll.Trim());
+            analyserResult.References.Add(Path.GetFullPath(dll.Trim()));
             return true;
         }
     }
