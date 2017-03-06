@@ -15,7 +15,7 @@
 
 ### Who do I talk to? ###
 
-* Repo owners
+* Add new issue if u have a question regarding flubu.
 
 [**Release notes**](https://bitbucket.org/zoroz/flubu.core/src/master/FlubuCore.ProjectVersion.txt?at=master&fileviewer=file-view-default
 )
