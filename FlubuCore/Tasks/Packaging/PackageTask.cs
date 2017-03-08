@@ -172,11 +172,15 @@ namespace FlubuCore.Tasks.Packaging
                     _versionFieldCount = 3;
                 }
 
-                zipFile = Path.GetFileNameWithoutExtension(zipFile);
+                if (zipFile.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+                {
+                    zipFile = zipFile.Substring(0, zipFile.Length - 4);
+                }
 
                 if (_addVersionAsPostFixToZipFileName)
                 {
-                    zipFile = Path.Combine(_destinationRootDir, $"{zipFile}_{context.Properties.GetBuildVersion().ToString(_versionFieldCount)}.zip");
+                  
+                        zipFile = Path.Combine(_destinationRootDir, $"{zipFile}_{context.Properties.GetBuildVersion().ToString(_versionFieldCount)}.zip");
                 }
                 else
                 {

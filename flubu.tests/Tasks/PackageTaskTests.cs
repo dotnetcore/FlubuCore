@@ -95,6 +95,47 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
+        public void PackagingWithDoubleDotsInZipFileNameTest()
+        {
+            Directory.CreateDirectory("tmp");
+            Directory.CreateDirectory(@"tmp\Test");
+            using (File.Create(@"tmp\Test\test.txt"))
+            {
+            }
+
+            new PackageTask(@"tmp\output")
+                .AddDirectoryToPackage(@"tmp\test", "test")
+                .ZipPackage(@"test.flubu.zip", false)
+                .ExecuteVoid(Context);
+
+            using (ZipArchive archive = ZipFile.OpenRead("tmp\\output\\test.flubu.zip"))
+            {
+                Assert.Equal(1, archive.Entries.Count);
+            }
+        }
+
+        [Fact]
+        public void PackagingWithDoubleDotsInZipFileNameNoZipExtensionTest()
+        {
+            Directory.CreateDirectory("tmp");
+            Directory.CreateDirectory(@"tmp\Test");
+            using (File.Create(@"tmp\Test\test.txt"))
+            {
+            }
+
+            new PackageTask(@"tmp\output")
+                .AddDirectoryToPackage(@"tmp\test", "test")
+                .ZipPackage(@"test.flubu", false)
+                .ExecuteVoid(Context);
+
+            using (ZipArchive archive = ZipFile.OpenRead("tmp\\output\\test.flubu.zip"))
+            {
+                Assert.Equal(1, archive.Entries.Count);
+            }
+        }
+
+
+        [Fact]
         public void PackagingWihoutZippingTest()
         {
             Directory.CreateDirectory("tmp");
