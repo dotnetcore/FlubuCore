@@ -1,3 +1,6 @@
+1.3.4.0
+- Fixed iis task interfaces. They now contain Execute and ExecuteVoid methods.
+- PackageTask - fixed issue when output zip file name contains more than one dot.
 1.3.3.0
 - Added support for external assembly loading by assembly relative path
 - Target names are case insensitve now
