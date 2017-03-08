@@ -1,6 +1,6 @@
 ﻿namespace FlubuCore.Tasks.Iis
 {
-    public interface IControlAppPoolTask
+    public interface IControlAppPoolTask : ITaskOfT<int>
     {
         /// <summary>
         /// Name of the application pool to be controller. 

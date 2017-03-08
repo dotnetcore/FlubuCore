@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FlubuCore.Tasks.Iis
 {
-    public interface ICreateAppPoolTask
+    public interface ICreateAppPoolTask : ITaskOfT<int>
     {
         /// <summary>
         /// Name of the application pool.

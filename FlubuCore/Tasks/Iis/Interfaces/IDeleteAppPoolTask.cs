@@ -1,6 +1,6 @@
 ﻿namespace FlubuCore.Tasks.Iis
 {
-    public interface IDeleteAppPoolTask : ITask
+    public interface IDeleteAppPoolTask : ITaskOfT<int>
     {
         /// <summary>
         /// Name of the application pool to be deleted
