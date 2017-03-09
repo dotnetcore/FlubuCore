@@ -11,20 +11,34 @@ namespace FlubuCore.Tasks.Iis
     {
         private string _applicationPoolName;
 
+        private bool _classicManagedPipelineMode;
+
         private CreateApplicationPoolMode _mode;
 
-        public string ApplicationPoolName
+        private string _managedRuntimeVersion;
+
+        public ICreateAppPoolTask ApplicationPoolName(string applicationPoolName)
         {
-            get { return _applicationPoolName; }
-            set { _applicationPoolName = value; }
+            this._applicationPoolName = applicationPoolName;
+            return this;
         }
 
-        public bool ClassicManagedPipelineMode { get; set; }
-
-        public CreateApplicationPoolMode Mode
+        public ICreateAppPoolTask UseClassicManagedPipelineMode()
         {
-            get { return _mode; }
-            set { _mode = value; }
+            this._classicManagedPipelineMode = true;
+            return this;
+        }
+
+        public ICreateAppPoolTask Mode(CreateApplicationPoolMode  mode)
+        {
+            this._mode = mode;
+            return this;
+        }
+
+        public ICreateAppPoolTask ManagedRuntimeVersion(string managedRuntimeVersion)
+        {
+            this._managedRuntimeVersion = managedRuntimeVersion;
+            return this;
         }
 
         protected override int DoExecute(ITaskContextInternal context)
@@ -65,8 +79,11 @@ namespace FlubuCore.Tasks.Iis
 
                 appPoolToWorkOn.AutoStart = true;
                 appPoolToWorkOn.Enable32BitAppOnWin64 = true;
-                appPoolToWorkOn.ManagedPipelineMode =
-                    ClassicManagedPipelineMode ? ManagedPipelineMode.Classic : ManagedPipelineMode.Integrated;
+                appPoolToWorkOn.ManagedPipelineMode = _classicManagedPipelineMode ? ManagedPipelineMode.Classic : ManagedPipelineMode.Integrated;
+                if (!string.IsNullOrEmpty(this._managedRuntimeVersion))
+                {
+                    appPoolToWorkOn.ManagedRuntimeVersion = this._managedRuntimeVersion;
+                }
                 ////serverManager.ApplicationPools.Add(appPoolToWorkOn);
                 serverManager.CommitChanges();
 

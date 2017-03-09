@@ -10,9 +10,20 @@ namespace FlubuCore.Tasks.Iis
 {
     public class DeleteAppPoolTask : TaskBase<int>, IDeleteAppPoolTask
     {
-        public string ApplicationPoolName { get; set; }
+        private string _appPoolName;
 
-        public bool FailIfNotExist { get; set; }
+        private bool _failIfNotExist;
+
+        public DeleteAppPoolTask(string appPoolName)
+        {
+            this._appPoolName = appPoolName;
+        }
+
+        public IDeleteAppPoolTask FailIfNotExist()
+        {
+            this._failIfNotExist = true;
+            return this;
+        }
 
         protected override int DoExecute(ITaskContextInternal context)
         {
@@ -22,27 +33,27 @@ namespace FlubuCore.Tasks.Iis
 
                 foreach (ApplicationPool applicationPool in applicationPoolCollection)
                 {
-                    if (applicationPool.Name == ApplicationPoolName)
+                    if (applicationPool.Name == this._appPoolName)
                     {
                         applicationPoolCollection.Remove(applicationPool);
                         serverManager.CommitChanges();
 
-                        context.LogInfo($"Application pool '{ApplicationPoolName}' has been deleted.");
+                        context.LogInfo($"Application pool '{this._appPoolName}' has been deleted.");
 
                         return 0;
                     }
                 }
 
-                if (FailIfNotExist)
+                if (this._failIfNotExist)
                 {
                     throw new TaskExecutionException(
                         string.Format(
                             CultureInfo.InvariantCulture,
                             "Application '{0}' does not exist.",
-                            ApplicationPoolName), 1);
+                            this._appPoolName), 1);
                 }
 
-                context.LogInfo($"Application pool '{ApplicationPoolName}' does not exist, doing nothing.");
+                context.LogInfo($"Application pool '{this._appPoolName}' does not exist, doing nothing.");
                 return 0;
             }
         }

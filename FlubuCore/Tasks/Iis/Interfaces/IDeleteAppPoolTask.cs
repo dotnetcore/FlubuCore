@@ -3,13 +3,8 @@
     public interface IDeleteAppPoolTask : ITaskOfT<int>
     {
         /// <summary>
-        /// Name of the application pool to be deleted
+        /// task fails with exception if application pool doesn't exists. Otherwise not.
         /// </summary>
-        string ApplicationPoolName { get; set; }
-
-        /// <summary>
-        /// If <c>true</c> task fails with exception if application pool doesn't exists. Otherwise not.
-        /// </summary>
-        bool FailIfNotExist { get; set; }
+        IDeleteAppPoolTask FailIfNotExist();
     }
 }

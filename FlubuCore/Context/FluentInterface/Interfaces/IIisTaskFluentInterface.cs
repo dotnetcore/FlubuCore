@@ -15,13 +15,13 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// Task created new web application on the specified web site in iis
         /// </summary>
         /// <returns></returns>
-        ICreateWebApplicationTask CreateWebApplicationTask();
+        ICreateWebApplicationTask CreateWebApplicationTask(string webApplcationName);
 
         /// <summary>
         /// Task creates new application pool in iis.
         /// </summary>
         /// <returns></returns>
-        ICreateAppPoolTask CreateAppPoolTask();
+        ICreateAppPoolTask CreateAppPoolTask(string appPoolName);
 
         /// <summary>
         /// Task delentes specified Application pool.
@@ -33,7 +33,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// /Task for controlling the application pool (start, stop)
         /// </summary>
         /// <returns></returns>
-        IControlAppPoolTask ControlAppPoolTask();
+        IControlAppPoolTask ControlAppPoolTask(string applicationPoolName, ControlApplicationPoolAction action);
 
         /// <summary>
         /// Task adds binding to existing web site.

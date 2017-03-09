@@ -18,23 +18,18 @@ namespace FlubuCore.Tasks.Iis
 
         private bool _failIfNotExist;
 
-        public string ApplicationPoolName
+        public ControlAppPoolTask(string applicationPoolName, ControlApplicationPoolAction action)
         {
-            get { return _applicationPoolName; }
-            set { _applicationPoolName = value; }
+            this._applicationPoolName = applicationPoolName;
+            this._action = action;
         }
 
-        public ControlApplicationPoolAction Action
+        public IControlAppPoolTask FailIfNotExist()
         {
-            get { return _action; }
-            set { _action = value; }
+            this._failIfNotExist = true;
+            return this;
         }
-
-        public bool FailIfNotExist
-        {
-            get { return _failIfNotExist; }
-            set { _failIfNotExist = value; }
-        }
+        
 
         protected override int DoExecute(ITaskContextInternal context)
         {
@@ -44,7 +39,7 @@ namespace FlubuCore.Tasks.Iis
                 const string Message = "Application pool '{0}' has been {1}ed.";
                 foreach (ApplicationPool applicationPool in applicationPoolCollection)
                 {
-                    if (applicationPool.Name == ApplicationPoolName)
+                    if (applicationPool.Name == this._applicationPoolName)
                     {
                         string logMessage;
                         switch (_action)

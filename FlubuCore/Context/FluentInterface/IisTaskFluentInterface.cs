@@ -17,14 +17,14 @@ namespace FlubuCore.Context.FluentInterface
             return Context.CreateTask<CreateWebsiteTask>();
         }
 
-        public ICreateWebApplicationTask CreateWebApplicationTask()
+        public ICreateWebApplicationTask CreateWebApplicationTask(string webApplcationName)
         {
-            return Context.CreateTask<CreateWebApplicationTask>();
+            return Context.CreateTask<CreateWebApplicationTask>(webApplcationName);
         }
 
-        public ICreateAppPoolTask CreateAppPoolTask()
+        public ICreateAppPoolTask CreateAppPoolTask(string appPoolName)
         {
-            return Context.CreateTask<CreateAppPoolTask>();
+            return Context.CreateTask<CreateAppPoolTask>(appPoolName);
         }
 
         public IDeleteAppPoolTask DeleteAppPoolTask()
@@ -32,9 +32,9 @@ namespace FlubuCore.Context.FluentInterface
             return Context.CreateTask<DeleteAppPoolTask>();
         }
 
-        public IControlAppPoolTask ControlAppPoolTask()
+        public IControlAppPoolTask ControlAppPoolTask(string applicationPoolName, ControlApplicationPoolAction action)
         {
-            return Context.CreateTask<ControlAppPoolTask>();
+            return Context.CreateTask<ControlAppPoolTask>(applicationPoolName, action);
         }
 
         public IAddWebsiteBindingTask AddWebsiteBindingTask()

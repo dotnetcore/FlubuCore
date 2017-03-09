@@ -10,86 +10,179 @@ using Microsoft.Web.Administration;
 
 namespace FlubuCore.Tasks.Iis
 {
+    using NuGet.Packaging;
+
     public class CreateWebApplicationTask : IisTaskBase, ICreateWebApplicationTask
     {
         private string _localPath;
 
-        public CreateWebApplicationMode Mode { get; set; } = CreateWebApplicationMode.FailIfAlreadyExists;
+        private bool allowAnonymous = true;
 
-        public string ApplicationName { get; set; }
+        private bool allowAuthNtlm = true;
 
-        public string LocalPath
+        private string anonymousUserName;
+
+        private string anonymousUserPass;
+
+        private string appFriendlyName;
+
+        private bool aspEnableParentPaths;
+
+        private bool accessScript = true;
+
+        private bool accessExecute;
+
+        private string defaultDoc;
+
+        private bool enableDefaultDoc = true;
+
+        private string websiteName = "Default Web Site";
+
+        private string parentVirtualDirectoryName = @"IIS://localhost/W3SVC/1/Root";
+
+        private string applicationPoolName = "DefaultAppPool";
+
+        private IList<MimeType> mimeTypes;
+
+        private CreateWebApplicationMode mode = CreateWebApplicationMode.FailIfAlreadyExists;
+
+        private string applicationName;
+
+        public CreateWebApplicationTask(string applicationName)
         {
-            get { return _localPath; }
-            set { _localPath = Path.GetFullPath(value); }
+            this.mimeTypes = new List<MimeType>();
+            this.applicationName = applicationName;
         }
 
-        public bool AllowAnonymous { get; set; } = true;
+        public ICreateWebApplicationTask Mode(CreateWebApplicationMode mode)
+        {
+            this.mode = mode;
+            return this;
+        }
 
-        public bool AllowAuthNtlm { get; set; } = true;
+        public ICreateWebApplicationTask LocalPath(string localPath)
+        {
+            this._localPath = Path.GetFullPath(localPath);
+            return this;
+        }
 
-        public string AnonymousUserName { get; set; }
+        public ICreateWebApplicationTask AllowAnonymous()
+        {
+            this.allowAnonymous = true;
+            return this;
+        }
 
-        public string AnonymousUserPass { get; set; }
+        public ICreateWebApplicationTask AllowAuthNtlm()
+        {
+            this.allowAuthNtlm = true;
+            return this;
+        }
 
-        public string AppFriendlyName { get; set; }
+        public ICreateWebApplicationTask AnonymousUserName(string anonymousUsername)
+        {
+            this.anonymousUserName = anonymousUsername;
+            return this;
+        }
 
-        public bool AspEnableParentPaths { get; set; }
+        public ICreateWebApplicationTask AnonymousUserPass(string anonymousUserPass)
+        {
+            this.anonymousUserPass = anonymousUserPass;
+            return this;
+        }
 
-        public bool AccessScript { get; set; } = true;
+        public ICreateWebApplicationTask AppFriendlyName(string appFriendlyName)
+        {
+            this.appFriendlyName = appFriendlyName;
+            return this;
+        }
 
-        public bool AccessExecute { get; set; }
+        public ICreateWebApplicationTask AspEnableParentPaths()
+        {
+            this.aspEnableParentPaths = true;
+            return this;
+        }
 
-        public string DefaultDoc { get; set; }
+        public ICreateWebApplicationTask AccessScript()
+        {
+            this.accessScript = true;
+            return this;
+        }
 
-        public bool EnableDefaultDoc { get; set; } = true;
+        public ICreateWebApplicationTask AccessExecute()
+        {
+            this.accessExecute = true;
+            return this;
+        }
+
+        public ICreateWebApplicationTask DefaultDoc(string defaultDoc)
+        {
+            this.defaultDoc = defaultDoc;
+            return this;
+        }
+
+        public ICreateWebApplicationTask EnableDefaultDoc()
+        {
+            this.enableDefaultDoc = true;
+            return this;
+        }
 
         /// <summary>
         /// Gets or sets the Name of the website that the web application is added too. By default it is "Default Web Site"
         /// </summary>
-        public string WebsiteName { get; set; } = "Default Web Site";
+        public ICreateWebApplicationTask WebsiteName(string websiteName)
+        {
+            this.websiteName = websiteName;
+            return this;
+        }
 
-        public string ParentVirtualDirectoryName { get; set; } = @"IIS://localhost/W3SVC/1/Root";
+        public ICreateWebApplicationTask ParentVirtualDirectoryName(string parentVirualDirectoryName)
+        {
+            this.parentVirtualDirectoryName = parentVirualDirectoryName;
+            return this;
+        }
 
-        public string ApplicationPoolName { get; set; } = "DefaultAppPool";
+        public ICreateWebApplicationTask ApplicationPoolName(string applicationPoolName)
+        {
+            this.applicationPoolName = applicationPoolName;
+            return this;
+        }
 
-        public IList<MimeType> MimeTypes { get; set; }
+        public ICreateWebApplicationTask AddMimeType(params string[] mimeTypes)
+        {
+            mimeTypes.AddRange(mimeTypes);
+            return this;
+        }
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            if (string.IsNullOrEmpty(ApplicationName))
-            {
-                throw new TaskExecutionException("ApplicationName missing!", 1);
-            }
-
             using (ServerManager serverManager = new ServerManager())
             {
-                if (!WebsiteExists(serverManager, WebsiteName))
+                if (!WebsiteExists(serverManager, websiteName))
                 {
                     throw new InvalidOperationException(
-                        string.Format(CultureInfo.InvariantCulture, "Web site '{0}' does not exists.", WebsiteName));
+                        string.Format(CultureInfo.InvariantCulture, "Web site '{0}' does not exists.", websiteName));
                 }
 
-                Site site = serverManager.Sites[WebsiteName];
+                Site site = serverManager.Sites[websiteName];
 
-                string vdirPath = "/" + ApplicationName;
+                string vdirPath = "/" + applicationName;
                 foreach (Application application in site.Applications)
                 {
                     if (application.Path == vdirPath)
                     {
-                        if (Mode == CreateWebApplicationMode.DoNothingIfExists)
+                        if (mode == CreateWebApplicationMode.DoNothingIfExists)
                         {
-                            context.LogInfo($"Web application '{ApplicationName}' already exists, doing nothing.");
+                            context.LogInfo($"Web application '{applicationName}' already exists, doing nothing.");
                             return 0;
                         }
 
-                        if (Mode == CreateWebApplicationMode.FailIfAlreadyExists)
+                        if (mode == CreateWebApplicationMode.FailIfAlreadyExists)
                         {
                             throw new TaskExecutionException(
                                 string.Format(
                                     System.Globalization.CultureInfo.InvariantCulture,
                                     "Web application '{0}' already exists.",
-                                    ApplicationName), 0);
+                                    applicationName), 0);
                         }
 
                         //// otherwise we should update the existing virtual directory
@@ -101,11 +194,11 @@ namespace FlubuCore.Tasks.Iis
 
                 using (ServerManager manager = new ServerManager())
                 {
-                    Site defaultSite = manager.Sites[WebsiteName];
-                    Application ourApplication = defaultSite.Applications.Add(vdirPath, LocalPath);
-                    ourApplication.ApplicationPoolName = ApplicationPoolName;
+                    Site defaultSite = manager.Sites[websiteName];
+                    Application ourApplication = defaultSite.Applications.Add(vdirPath, _localPath);
+                    ourApplication.ApplicationPoolName = applicationPoolName;
                     var config = ourApplication.GetWebConfiguration();
-                    AddMimeTypes(config, MimeTypes);
+                    AddMimeTypes(config, mimeTypes);
                     manager.CommitChanges();
                 }
             }

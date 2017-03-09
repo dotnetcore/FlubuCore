@@ -8,15 +8,23 @@ namespace FlubuCore.Tasks.Iis
     public interface ICreateAppPoolTask : ITaskOfT<int>
     {
         /// <summary>
-        /// Name of the application pool.
+        /// Set the Name of the application pool.
         /// </summary>
-        string ApplicationPoolName { get; set; }
+        ICreateAppPoolTask ApplicationPoolName(string applicationPoolName);
+        
+        /// <summary>
+        /// Classic managed pipelinemode will be used instead of integrated managed pipelinemode.
+        /// </summary>
+        /// <returns></returns>
+        ICreateAppPoolTask UseClassicManagedPipelineMode();
 
         /// <summary>
-        /// If <c>true</c> application pool is in classic mode. Otherwise in integrated.
+        /// Set the Managed runtime version(.net CLR version). By default latest is used.
         /// </summary>
-        bool ClassicManagedPipelineMode { get; set; }
+        /// <param name="managedRuntimeVersion"></param>
+        /// <returns></returns>
+        ICreateAppPoolTask ManagedRuntimeVersion(string managedRuntimeVersion);
 
-        CreateApplicationPoolMode Mode { get; set; }
+        ICreateAppPoolTask Mode(CreateApplicationPoolMode mode);
     }
 }
