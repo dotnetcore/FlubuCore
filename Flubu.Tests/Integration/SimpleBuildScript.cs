@@ -43,7 +43,7 @@ namespace Flubu.Tests.Integration
 
             session.CreateTarget("IIS")
                 .AddTask(x => x.IisTasks().CreateWebsiteTask())
-                .AddTask(x => x.IisTasks().DeleteAppPoolTask());
+                .AddTask(x => x.IisTasks().DeleteAppPoolTask("test"));
 
             package
                 .CoreTaskExtensions()

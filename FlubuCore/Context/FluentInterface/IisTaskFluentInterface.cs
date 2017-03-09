@@ -22,14 +22,14 @@ namespace FlubuCore.Context.FluentInterface
             return Context.CreateTask<CreateWebApplicationTask>(webApplcationName);
         }
 
-        public ICreateAppPoolTask CreateAppPoolTask(string appPoolName)
+        public ICreateAppPoolTask CreateAppPoolTask(string applicationPoolName)
         {
-            return Context.CreateTask<CreateAppPoolTask>(appPoolName);
+            return Context.CreateTask<CreateAppPoolTask>(applicationPoolName);
         }
 
-        public IDeleteAppPoolTask DeleteAppPoolTask()
+        public IDeleteAppPoolTask DeleteAppPoolTask(string appPoolName)
         {
-            return Context.CreateTask<DeleteAppPoolTask>();
+            return Context.CreateTask<DeleteAppPoolTask>(appPoolName);
         }
 
         public IControlAppPoolTask ControlAppPoolTask(string applicationPoolName, ControlApplicationPoolAction action)

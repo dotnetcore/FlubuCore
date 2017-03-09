@@ -170,7 +170,7 @@ namespace Flubu.Tests.Context
         [Fact]
         public void ResolveDeleteAppPoolTaskTest()
         {
-            Context.Tasks().IisTasks().DeleteAppPoolTask();
+            Context.Tasks().IisTasks().DeleteAppPoolTask("test");
         }
 
         [Fact]

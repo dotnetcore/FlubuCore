@@ -17,10 +17,9 @@ namespace FlubuCore.Tasks.Iis
 
         private string _managedRuntimeVersion;
 
-        public ICreateAppPoolTask ApplicationPoolName(string applicationPoolName)
+        public CreateAppPoolTask(string applicationPoolName)
         {
             this._applicationPoolName = applicationPoolName;
-            return this;
         }
 
         public ICreateAppPoolTask UseClassicManagedPipelineMode()

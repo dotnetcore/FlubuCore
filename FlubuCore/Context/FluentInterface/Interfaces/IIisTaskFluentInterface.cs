@@ -21,13 +21,13 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// Task creates new application pool in iis.
         /// </summary>
         /// <returns></returns>
-        ICreateAppPoolTask CreateAppPoolTask(string appPoolName);
+        ICreateAppPoolTask CreateAppPoolTask(string applicationPoolName);
 
         /// <summary>
         /// Task delentes specified Application pool.
         /// </summary>
         /// <returns></returns>
-        IDeleteAppPoolTask DeleteAppPoolTask();
+        IDeleteAppPoolTask DeleteAppPoolTask(string appPoolName);
 
         /// <summary>
         /// /Task for controlling the application pool (start, stop)
