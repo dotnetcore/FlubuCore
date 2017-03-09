@@ -4,6 +4,8 @@ using Xunit;
 
 namespace Flubu.Tests.Context
 {
+    using FlubuCore.Tasks.Iis;
+
     [Collection(nameof(FlubuTestCollection))]
     public class TaskContextResolveTaskTests : FlubuTestBase
     {
@@ -150,13 +152,13 @@ namespace Flubu.Tests.Context
         [Fact]
         public void ResolveCreateWebApplicationTaskTest()
         {
-            Context.Tasks().IisTasks().CreateWebApplicationTask();
+            Context.Tasks().IisTasks().CreateWebApplicationTask("test");
         }
 
         [Fact]
         public void ResolveCreateAppPoolTaskTest()
         {
-            Context.Tasks().IisTasks().CreateAppPoolTask();
+            Context.Tasks().IisTasks().CreateAppPoolTask("test");
         }
 
         [Fact]
@@ -174,7 +176,7 @@ namespace Flubu.Tests.Context
         [Fact]
         public void ResolveControlAppPoolTaskTest()
         {
-            Context.Tasks().IisTasks().ControlAppPoolTask();
+            Context.Tasks().IisTasks().ControlAppPoolTask("test", ControlApplicationPoolAction.Start);
         }
 
         [Fact]
