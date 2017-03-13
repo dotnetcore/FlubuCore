@@ -13,6 +13,14 @@ namespace FlubuCore.Tasks.Solution
 {
     public class CleanOutputTask : TaskBase<int>
     {
+        private bool _cleanBuildDir;
+
+        public CleanOutputTask CleanBuildDir()
+        {
+            this._cleanBuildDir = true;
+            return this;
+        }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             string buildConfiguration = context.Properties.Get<string>(BuildProps.BuildConfiguration);
@@ -43,6 +51,13 @@ namespace FlubuCore.Tasks.Solution
                         DeleteDirectoryTask.Execute(context, projectObjPath, false);
                     }
                 });
+
+            string buildDir = context.Properties.Get<string>(BuildProps.BuildDir);
+            if (!string.IsNullOrEmpty(buildDir) && _cleanBuildDir)
+            {
+                CreateDirectoryTask createDirectoryTask = new CreateDirectoryTask(buildDir, true);
+                createDirectoryTask.Execute(context);
+            }
 
             return 0;
         }
