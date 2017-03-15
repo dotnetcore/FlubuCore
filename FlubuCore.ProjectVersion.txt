@@ -1,3 +1,5 @@
+1.3.6.0
+- Added support for SSH. SshCommand and SshCopy tasks.
 1.3.5.0
 - CreateApplicationPool iis task: .Net clr version can now be set.
 - All iis tasks have now fluent interface.
