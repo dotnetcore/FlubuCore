@@ -1,11 +1,10 @@
-﻿using System;
+﻿using FlubuCore.Tasks.Iis;
 using FlubuCore.Tasks.NetCore;
+using System;
 using Xunit;
 
 namespace Flubu.Tests.Context
 {
-    using FlubuCore.Tasks.Iis;
-
     [Collection(nameof(FlubuTestCollection))]
     public class TaskContextResolveTaskTests : FlubuTestBase
     {
@@ -18,27 +17,9 @@ namespace Flubu.Tests.Context
         }
 
         [Fact]
-        public void ResolveRunProgramTaskTest()
+        public void ResloveCompileSolutionTask2Test()
         {
-            Context.Tasks().RunProgramTask("test");
-        }
-
-        [Fact]
-        public void ResolveDirectoryStructureTaskTest()
-        {
-            Context.Tasks().CopyDirectoryStructureTask("test", "test2", true);
-        }
-
-        [Fact]
-        public void ResolveExecuteDotNetTaskTest()
-        {
-            Context.CoreTasks().ExecuteDotnetTask("command");
-        }
-
-        [Fact]
-        public void ResolveExecuteDotNetTask2Test()
-        {
-            Context.CoreTasks().ExecuteDotnetTask(StandardDotnetCommands.Publish);
+            Context.Tasks().CompileSolutionTask("sln", "release");
         }
 
         [Fact]
@@ -48,45 +29,27 @@ namespace Flubu.Tests.Context
         }
 
         [Fact]
-        public void ResloveCompileSolutionTask2Test()
+        public void ResolveAddWebsiteBindingTaskTest()
         {
-            Context.Tasks().CompileSolutionTask("sln", "release");
+            Context.Tasks().IisTasks().AddWebsiteBindingTask();
         }
 
         [Fact]
-        public void ResolvePublishNugetPackageTaskTest()
+        public void ResolveCleanOutputTask()
         {
-            Context.Tasks().PublishNuGetPackageTask("packageId", "nuspec");
+            Context.Tasks().CleanOutputTask();
         }
 
         [Fact]
-        public void ResolveNunitTaskTest()
+        public void ResolveControlAppPoolTaskTest()
         {
-            Context.Tasks().NUnitTaskByAssemblyName("pn");
+            Context.Tasks().IisTasks().ControlAppPoolTask("test", ControlApplicationPoolAction.Start);
         }
 
         [Fact]
-        public void ResolveNunitTask2Test2()
+        public void ResolveCopyFileTask()
         {
-            Context.Tasks().NUnitTaskByProjectName("pn", "tt");
-        }
-
-        [Fact]
-        public void ResolveNunitTaskTest3()
-        {
-            Context.Tasks().NUnitTaskByAssemblyName("pn", "tt", "xx");
-        }
-
-        [Fact]
-        public void ResolveNunitTaskForNunitV3Test()
-        {
-            Context.Tasks().NUnitTaskForNunitV3("test");
-        }
-
-        [Fact]
-        public void ResolveNunitTaskForNunitV2Test()
-        {
-            Context.Tasks().NUnitTaskForNunitV2("test");
+            Context.Tasks().CopyFileTask("a", "b", true);
         }
 
         [Fact]
@@ -96,15 +59,99 @@ namespace Flubu.Tests.Context
         }
 
         [Fact]
-        public void ResolveLoadSolutionTaskTest()
+        public void ResolveCreateAppPoolTaskTest()
         {
-            Context.Tasks().LoadSolutionTask();
+            Context.Tasks().IisTasks().CreateAppPoolTask("test");
         }
 
         [Fact]
-        public void ResolveLoadSolutionTaskTest2()
+        public void ResolveCreateDirectoryTask()
         {
-            Context.Tasks().LoadSolutionTask("test");
+            Context.Tasks().CreateDirectoryTask("a", true);
+        }
+
+        [Fact]
+        public void ResolveCreateWebApplicationTaskTest()
+        {
+            Context.Tasks().IisTasks().CreateWebApplicationTask("test");
+        }
+
+        [Fact]
+        public void ResolveCreateWebsiteTaskTaskTest()
+        {
+            Context.Tasks().IisTasks().CreateWebsiteTask();
+        }
+
+        [Fact]
+        public void ResolveDeleteAppPoolTaskTest()
+        {
+            Context.Tasks().IisTasks().DeleteAppPoolTask("test");
+        }
+
+        [Fact]
+        public void ResolveDeleteDirectoryTask()
+        {
+            Context.Tasks().DeleteDirectoryTask("a", true);
+        }
+
+        [Fact]
+        public void ResolveDeleteFilesTask()
+        {
+            Context.Tasks().DeleteFilesTask("a", "b", false);
+        }
+
+        [Fact]
+        public void ResolveDirectoryStructureTaskTest()
+        {
+            Context.Tasks().CopyDirectoryStructureTask("test", "test2", true);
+        }
+
+        [Fact]
+        public void ResolveDotnetBuildTask()
+        {
+            Context.CoreTasks().Build();
+        }
+
+        [Fact]
+        public void ResolveDotnetCleanTask()
+        {
+            Context.CoreTasks().Clean();
+        }
+
+        [Fact]
+        public void ResolveDotnetPackTask()
+        {
+            Context.CoreTasks().Pack();
+        }
+
+        [Fact]
+        public void ResolveDotnetPublishTask()
+        {
+            Context.CoreTasks().Publish();
+        }
+
+        [Fact]
+        public void ResolveDotnetRestoreTask()
+        {
+            Context.CoreTasks().Restore();
+        }
+
+        [Fact]
+        public void ResolveDotnetTestTask()
+        {
+            Context.CoreTasks().Test();
+        }
+
+        [Fact]
+        public void ResolveExecuteDotNetTask2Test()
+        {
+            Context.CoreTasks().ExecuteDotnetTask(StandardDotnetCommands.Publish);
+        }
+
+        [Fact]
+        public void ResolveExecuteDotNetTaskTest()
+        {
+            Context.CoreTasks().ExecuteDotnetTask("command");
         }
 
         [Fact]
@@ -132,87 +179,75 @@ namespace Flubu.Tests.Context
         }
 
         [Fact]
-        public void ResolveReplaceTokensTaskTest()
+        public void ResolveLinuxSshCommandNoPassTask()
         {
-            Context.Tasks().ReplaceTokensTask("a", "b");
+            Assert.NotNull(Context.CoreTasks().LinuxTasks().SshCommand("10.10.1.1", "tst"));
         }
 
         [Fact]
-        public void ResolveUpdateJsonFileTaskTest()
+        public void ResolveLinuxSshCommandTask()
         {
-            Context.Tasks().UpdateJsonFileTask("a");
+            Assert.NotNull(Context.CoreTasks().LinuxTasks().SshCommand("10.10.1.1", "tst", "tst"));
         }
 
         [Fact]
-        public void ResolveCreateWebsiteTaskTaskTest()
+        public void ResolveLinuxSshCopyNoPassTask()
         {
-            Context.Tasks().IisTasks().CreateWebsiteTask();
+            Assert.NotNull(Context.CoreTasks().LinuxTasks().SshCopy("10.10.1.1", "tst"));
         }
 
         [Fact]
-        public void ResolveCreateWebApplicationTaskTest()
+        public void ResolveLinuxSshCopyTask()
         {
-            Context.Tasks().IisTasks().CreateWebApplicationTask("test");
+            Assert.NotNull(Context.CoreTasks().LinuxTasks().SshCopy("10.10.1.1", "tst", "tst"));
         }
 
         [Fact]
-        public void ResolveCreateAppPoolTaskTest()
+        public void ResolveLinuxSystemCtlTask()
         {
-            Context.Tasks().IisTasks().CreateAppPoolTask("test");
+            Assert.NotNull(Context.CoreTasks().LinuxTasks().SystemCtlTask("cmd", "srvice"));
         }
 
         [Fact]
-        public void ResolveAddWebsiteBindingTaskTest()
+        public void ResolveLoadSolutionTaskTest()
         {
-            Context.Tasks().IisTasks().AddWebsiteBindingTask();
+            Context.Tasks().LoadSolutionTask();
         }
 
         [Fact]
-        public void ResolveDeleteAppPoolTaskTest()
+        public void ResolveLoadSolutionTaskTest2()
         {
-            Context.Tasks().IisTasks().DeleteAppPoolTask("test");
+            Context.Tasks().LoadSolutionTask("test");
         }
 
         [Fact]
-        public void ResolveControlAppPoolTaskTest()
+        public void ResolveNunitTask2Test2()
         {
-            Context.Tasks().IisTasks().ControlAppPoolTask("test", ControlApplicationPoolAction.Start);
+            Context.Tasks().NUnitTaskByProjectName("pn", "tt");
         }
 
         [Fact]
-        public void ResolveUpdateNetCoreVersionTaskTest()
+        public void ResolveNunitTaskForNunitV2Test()
         {
-            Context.CoreTasks().UpdateNetCoreVersionTask("test", "test2");
+            Context.Tasks().NUnitTaskForNunitV2("test");
         }
 
         [Fact]
-        public void ResolveCopyFileTask()
+        public void ResolveNunitTaskForNunitV3Test()
         {
-            Context.Tasks().CopyFileTask("a", "b", true);
+            Context.Tasks().NUnitTaskForNunitV3("test");
         }
 
         [Fact]
-        public void ResolveCreateDirectoryTask()
+        public void ResolveNunitTaskTest()
         {
-            Context.Tasks().CreateDirectoryTask("a", true);
+            Context.Tasks().NUnitTaskByAssemblyName("pn");
         }
 
         [Fact]
-        public void ResolveDeleteDirectoryTask()
+        public void ResolveNunitTaskTest3()
         {
-            Context.Tasks().DeleteDirectoryTask("a", true);
-        }
-
-        [Fact]
-        public void ResolveDeleteFilesTask()
-        {
-            Context.Tasks().DeleteFilesTask("a", "b", false);
-        }
-
-        [Fact]
-        public void ResolveUnzipFileTask()
-        {
-            Context.Tasks().UnzipTask("t", "d");
+            Context.Tasks().NUnitTaskByAssemblyName("pn", "tt", "xx");
         }
 
         [Fact]
@@ -228,25 +263,6 @@ namespace Flubu.Tests.Context
         }
 
         [Fact]
-        public void ResolveLinuxSystemCtlTask()
-        {
-          Assert.NotNull(Context.CoreTasks().LinuxTasks().SystemCtlTask("cmd", "srvice"));
-        }
-
-        [Fact]
-        public void ResolveLinuxSshCommandTask()
-        {
-            Assert.NotNull(Context.CoreTasks().LinuxTasks().SshCommand("10.10.1.1", "tst", "tst", "ls"));
-        }
-
-        [Fact]
-        public void ResolveLinuxSshCopyTask()
-        {
-            Assert.NotNull(Context.CoreTasks().LinuxTasks().SshCopy("10.10.1.1", "tst", "tst"));
-        }
-
-
-        [Fact]
         public void ResolvePackageTask()
         {
             Context.Tasks().PackageTask(string.Empty);
@@ -259,51 +275,45 @@ namespace Flubu.Tests.Context
         }
 
         [Fact]
-        public void ResolveCleanOutputTask()
+        public void ResolvePublishNugetPackageTaskTest()
         {
-            Context.Tasks().CleanOutputTask();
+            Context.Tasks().PublishNuGetPackageTask("packageId", "nuspec");
+        }
+
+        [Fact]
+        public void ResolveReplaceTokensTaskTest()
+        {
+            Context.Tasks().ReplaceTokensTask("a", "b");
+        }
+
+        [Fact]
+        public void ResolveRunProgramTaskTest()
+        {
+            Context.Tasks().RunProgramTask("test");
+        }
+
+        [Fact]
+        public void ResolveUnzipFileTask()
+        {
+            Context.Tasks().UnzipTask("t", "d");
+        }
+
+        [Fact]
+        public void ResolveUpdateJsonFileTaskTest()
+        {
+            Context.Tasks().UpdateJsonFileTask("a");
+        }
+
+        [Fact]
+        public void ResolveUpdateNetCoreVersionTaskTest()
+        {
+            Context.CoreTasks().UpdateNetCoreVersionTask("test", "test2");
         }
 
         [Fact]
         public void ResolveUpdateXmlFileTask()
         {
             Context.Tasks().UpdateXmlFileTask("test");
-        }
-
-        [Fact]
-        public void ResolveDotnetRestoreTask()
-        {
-            Context.CoreTasks().Restore();
-        }
-
-        [Fact]
-        public void ResolveDotnetBuildTask()
-        {
-            Context.CoreTasks().Build();
-        }
-
-        [Fact]
-        public void ResolveDotnetPublishTask()
-        {
-            Context.CoreTasks().Publish();
-        }
-
-        [Fact]
-        public void ResolveDotnetTestTask()
-        {
-            Context.CoreTasks().Test();
-        }
-
-        [Fact]
-        public void ResolveDotnetPackTask()
-        {
-            Context.CoreTasks().Pack();
-        }
-
-        [Fact]
-        public void ResolveDotnetCleanTask()
-        {
-            Context.CoreTasks().Clean();
         }
     }
 }

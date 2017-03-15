@@ -8,8 +8,14 @@ namespace FlubuCore.Tasks.Linux
     {
         private readonly string _host;
         private readonly string _userName;
-        private readonly string _password;
+        private string _password;
         private readonly List<string> _commands = new List<string>();
+
+        public SshCommandTask(string host, string userName)
+        {
+            _host = host;
+            _userName = userName;
+        }
 
         public SshCommandTask(string host, string userName, string password)
         {
@@ -18,15 +24,15 @@ namespace FlubuCore.Tasks.Linux
             _password = password;
         }
 
-        public SshCommandTask(string host, string userName)
-        {
-            _host = host;
-            _userName = userName;
-        }
-
         public SshCommandTask WithCommand(string command)
         {
             _commands.Add(command);
+            return this;
+        }
+
+        public SshCommandTask WithPassword(string password)
+        {
+            _password = password;
             return this;
         }
 

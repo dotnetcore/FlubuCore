@@ -18,9 +18,16 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="host"></param>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        /// <param name="command"></param>
         /// <returns></returns>
-        SshCommandTask SshCommand(string host, string username, string password, string command);
+        SshCommandTask SshCommand(string host, string username, string password);
+
+        /// <summary>
+        /// Run specified command on the remote host.
+        /// </summary>
+        /// <param name="host"></param>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        SshCommandTask SshCommand(string host, string username);
 
         /// <summary>
         /// Copy folders/files to the remote host.
@@ -30,5 +37,13 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="password"></param>
         /// <returns></returns>
         SshCopyTask SshCopy(string host, string username, string password);
+
+        /// <summary>
+        /// Copy folders/files to the remote host.
+        /// </summary>
+        /// <param name="host"></param>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        SshCopyTask SshCopy(string host, string username);
     }
 }

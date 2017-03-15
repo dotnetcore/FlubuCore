@@ -8,11 +8,10 @@ namespace FlubuCore.Tasks.Linux
     public class SshCopyTask : TaskBase<int>
     {
         private readonly string _host;
-        private readonly string _userName;
-        private readonly string _password;
-        private string _destination;
         private readonly List<SourceDestinationPair> _items = new List<SourceDestinationPair>();
-
+        private readonly string _userName;
+        private string _destination;
+        private string _password;
         private string _sourceDir;
 
         public SshCopyTask(string host, string userName)
@@ -40,6 +39,11 @@ namespace FlubuCore.Tasks.Linux
             return this;
         }
 
+        public SshCopyTask WithPassword(string password)
+        {
+            _password = password;
+            return this;
+        }
 
         protected override int DoExecute(ITaskContextInternal context)
         {
@@ -49,18 +53,17 @@ namespace FlubuCore.Tasks.Linux
             using (ScpClient cl = new ScpClient(_host, _userName, password))
             {
                 cl.Connect();
-                foreach(SourceDestinationPair item in _items)
+                foreach (SourceDestinationPair item in _items)
                 {
                     context.LogInfo($"copy {item.Source}->{item.Destination}");
 
-                    if(item.IsFile)
+                    if (item.IsFile)
                     {
                         cl.Upload(new FileInfo(item.Source), item.Destination);
                     }
                     else
                     {
                         cl.Upload(new DirectoryInfo(item.Source), item.Destination);
-
                     }
                 }
                 cl.Disconnect();
