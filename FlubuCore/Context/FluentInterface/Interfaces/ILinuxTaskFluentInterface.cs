@@ -11,5 +11,24 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="service"></param>
         /// <returns></returns>
         SystemCtlTask SystemCtlTask(string command, string service);
+
+        /// <summary>
+        /// Run specified command on the remote host.
+        /// </summary>
+        /// <param name="host"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        SshCommandTask SshCommand(string host, string username, string password, string command);
+
+        /// <summary>
+        /// Copy folders/files to the remote host.
+        /// </summary>
+        /// <param name="host"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        SshCopyTask SshCopy(string host, string username, string password);
     }
 }

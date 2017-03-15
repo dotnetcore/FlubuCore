@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard1.6;net46</TargetFrameworks>
     <WarningsAsErrors>true</WarningsAsErrors>
@@ -57,6 +57,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="1.1.0" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.3.0" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <PackageReference Include="SSH.NET" Version="2016.1.0-beta1" />
     <!--<PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta001">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>-->

@@ -234,6 +234,19 @@ namespace Flubu.Tests.Context
         }
 
         [Fact]
+        public void ResolveLinuxSshCommandTask()
+        {
+            Assert.NotNull(Context.CoreTasks().LinuxTasks().SshCommand("10.10.1.1", "tst", "tst", "ls"));
+        }
+
+        [Fact]
+        public void ResolveLinuxSshCopyTask()
+        {
+            Assert.NotNull(Context.CoreTasks().LinuxTasks().SshCopy("10.10.1.1", "tst", "tst"));
+        }
+
+
+        [Fact]
         public void ResolvePackageTask()
         {
             Context.Tasks().PackageTask(string.Empty);
