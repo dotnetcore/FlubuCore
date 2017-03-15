@@ -15,6 +15,12 @@ namespace FlubuCore.Tasks.Linux
 
         private string _sourceDir;
 
+        public SshCopyTask(string host, string userName)
+        {
+            _host = host;
+            _userName = userName;
+        }
+
         public SshCopyTask(string host, string userName, string password)
         {
             _host = host;
@@ -38,8 +44,9 @@ namespace FlubuCore.Tasks.Linux
         protected override int DoExecute(ITaskContextInternal context)
         {
             context.LogInfo($"Connecting to {_userName}@{_host}");
+            string password = _password.GetPassword();
 
-            using (ScpClient cl = new ScpClient(_host, _userName, _password))
+            using (ScpClient cl = new ScpClient(_host, _userName, password))
             {
                 cl.Connect();
                 foreach(SourceDestinationPair item in _items)

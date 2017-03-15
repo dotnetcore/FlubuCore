@@ -1,35 +1,54 @@
 ﻿using FlubuCore.Context;
 using Renci.SshNet;
+using System.Collections.Generic;
 
 namespace FlubuCore.Tasks.Linux
 {
-    public class SshCommandTask : TaskBase<string>
+    public class SshCommandTask : TaskBase<int>
     {
         private readonly string _host;
         private readonly string _userName;
         private readonly string _password;
-        private readonly string _command;
+        private readonly List<string> _commands = new List<string>();
 
-        public SshCommandTask(string host, string userName, string password, string command)
+        public SshCommandTask(string host, string userName, string password)
         {
             _host = host;
             _userName = userName;
             _password = password;
-            _command = command;
         }
 
-        protected override string DoExecute(ITaskContextInternal context)
+        public SshCommandTask(string host, string userName)
         {
-            context.LogInfo($"Executing command {_command} on {_userName}@{_host}");
+            _host = host;
+            _userName = userName;
+        }
 
-            using (SshClient client = new SshClient(_host, _userName, _password))
+        public SshCommandTask WithCommand(string command)
+        {
+            _commands.Add(command);
+            return this;
+        }
+
+        protected override int DoExecute(ITaskContextInternal context)
+        {
+            context.LogInfo($"Connecting to host {_userName}@{_host}");
+
+            string password = _password.GetPassword();
+
+            using (SshClient client = new SshClient(_host, _userName, password))
             {
                 client.Connect();
 
-                SshCommand command = client.CreateCommand(_command);
-                string res = command.Execute();
+                foreach (string command in _commands)
+                {
+                    context.LogInfo($"Executing command {command}");
+                    SshCommand cmd = client.CreateCommand(command);
+                    string res = cmd.Execute();
+                    context.LogInfo($"Command response {res}");
+                }
                 client.Disconnect();
-                return res;
+                return 0;
             }
         }
     }
