@@ -34,6 +34,8 @@ namespace FlubuCore.Tasks.Linux
                     Console.Write("*");
                 }
             }
+
+            Console.WriteLine();
             return pwd.ToString();
         }
     }

@@ -1,6 +1,7 @@
 ﻿using FlubuCore.Context;
 using Renci.SshNet;
 using System.Collections.Generic;
+using System.Text;
 
 namespace FlubuCore.Tasks.Linux
 {
@@ -46,13 +47,22 @@ namespace FlubuCore.Tasks.Linux
             {
                 client.Connect();
 
+                StringBuilder cmdText = new StringBuilder();
+
                 foreach (string command in _commands)
                 {
                     context.LogInfo($"Executing command {command}");
-                    SshCommand cmd = client.CreateCommand(command);
-                    string res = cmd.Execute();
-                    context.LogInfo($"Command response {res}");
+                    cmdText.Append($"{command} &&");
                 }
+
+                cmdText.Remove(cmdText.Length - 2, 2);
+
+                using (SshCommand cmd = client.CreateCommand(cmdText.ToString()))
+                {
+                    string res = cmd.Execute();
+                    context.LogInfo($"Command response [{res}]");
+                }
+
                 client.Disconnect();
                 return 0;
             }
