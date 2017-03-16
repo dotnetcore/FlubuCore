@@ -1,16 +1,18 @@
 ﻿using FlubuCore.Context;
 using Renci.SshNet;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FlubuCore.Tasks.Linux
 {
     public class SshCommandTask : TaskBase<int>
     {
+        private readonly List<string> _commands = new List<string>();
         private readonly string _host;
         private readonly string _userName;
         private string _password;
-        private readonly List<string> _commands = new List<string>();
 
         public SshCommandTask(string host, string userName)
         {
@@ -39,6 +41,13 @@ namespace FlubuCore.Tasks.Linux
 
         protected override int DoExecute(ITaskContextInternal context)
         {
+            Task<int> task = DoExecuteAsync(context);
+
+            return task.GetAwaiter().GetResult();
+        }
+
+        protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
+        {
             context.LogInfo($"Connecting to host {_userName}@{_host}");
 
             string password = _password.GetPassword();
@@ -59,8 +68,25 @@ namespace FlubuCore.Tasks.Linux
 
                 using (SshCommand cmd = client.CreateCommand(cmdText.ToString()))
                 {
-                    string res = cmd.Execute();
-                    context.LogInfo($"Command response [{res}]");
+                    Task<string> task = Task.Factory.FromAsync<string, string>((p, c, st) => cmd.BeginExecute(p, c, st),
+                                        cmd.EndExecute, cmdText.ToString(), null);
+
+                    StreamReader reader = new StreamReader(cmd.OutputStream);
+
+                    while (true)
+                    {
+                        if (task.Wait(1000))
+                        {
+                            context.LogInfo($"Command response [{task.Result ?? cmd.Error}]");
+                            break;
+                        }
+
+                        string data = await reader.ReadToEndAsync();
+                        if (!string.IsNullOrEmpty(data))
+                        {
+                            context.LogInfo(data);
+                        }
+                    }
                 }
 
                 client.Disconnect();
