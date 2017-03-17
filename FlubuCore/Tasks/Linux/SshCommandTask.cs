@@ -87,6 +87,9 @@ namespace FlubuCore.Tasks.Linux
                             context.LogInfo(data);
                         }
                     }
+
+                    if (!string.IsNullOrEmpty(cmd.Error))
+                        context.LogError(cmd.Error);
                 }
 
                 client.Disconnect();
