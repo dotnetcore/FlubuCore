@@ -1,3 +1,5 @@
+1.3.10.0
+- CompileSolution task now supports specifing your own paths to Msbuild. If msbuild path is not specified or not found MsBuild is still searched at default locations. 
 1.3.9.0
 - SSH command capture output stream directly
 1.3.8.0

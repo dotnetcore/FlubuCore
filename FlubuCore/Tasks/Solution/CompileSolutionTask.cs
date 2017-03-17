@@ -13,6 +13,8 @@ namespace FlubuCore.Tasks.Solution
     /// </summary>
     public class CompileSolutionTask : TaskBase<int>
     {
+        private readonly List<string> _msbuildPaths = new List<string>();
+
         private readonly IFlubuEnviromentService _enviromentService;
 
         private string _solutionFileName;
@@ -78,6 +80,15 @@ namespace FlubuCore.Tasks.Solution
             return this;
         }
 
+        /// <summary>
+        /// Add location to msbuild. If msbuild is found at specified location msbuild wild not be searched at default locations it will use one specified here. If more than 1 path is specified first msbuild occurence will be used. Otherwise if it is not found it will search for it in default locations.
+        /// </summary>
+        public CompileSolutionTask AddMsBuildPath(string pathToMsbuild)
+        {
+            this._msbuildPaths.Add(pathToMsbuild);
+            return this;
+        }
+
         public int MaxCpuCount
         {
             get { return _maxCpuCount; }
@@ -110,6 +121,7 @@ namespace FlubuCore.Tasks.Solution
 
         protected override int DoExecute(ITaskContextInternal context)
         {
+          
             string msbuildPath = FindMSBuildPath(context);
             if (string.IsNullOrEmpty(_solutionFileName))
             {
@@ -159,6 +171,14 @@ namespace FlubuCore.Tasks.Solution
         private string FindMSBuildPath(ITaskContextInternal context)
         {
             string msbuildPath;
+            foreach (var path in this._msbuildPaths)
+            {
+                if (File.Exists(path))
+                {
+                    return path;
+                }
+            }
+
             IDictionary<Version, string> msbuilds = _enviromentService.ListAvailableMSBuildToolsVersions();
             if (msbuilds == null || msbuilds.Count == 0)
                 throw new TaskExecutionException("No MSBuild tools found on the system", 0);
