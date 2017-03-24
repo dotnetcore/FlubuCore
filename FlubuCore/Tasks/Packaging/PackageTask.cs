@@ -17,6 +17,8 @@ namespace FlubuCore.Tasks.Packaging
         private string _zipPrefix;
         private bool _optimizeZip;
 
+        private bool _disableLogging;
+
         public PackageTask(string destinationRootDir = null)
         {
             if (!string.IsNullOrEmpty(destinationRootDir))
@@ -91,6 +93,16 @@ namespace FlubuCore.Tasks.Packaging
         public PackageTask OptimizeZip()
         {
             _optimizeZip = true;
+            return this;
+        }
+
+        /// <summary>
+        /// Disables filtered out files and added files logging.
+        /// </summary>
+        /// <returns></returns>
+        public PackageTask DisableLogging()
+        {
+            this._disableLogging = true;
             return this;
         }
 
@@ -187,7 +199,7 @@ namespace FlubuCore.Tasks.Packaging
                     zipFile = Path.Combine(_destinationRootDir, $"{zipFile}.zip");
                 }
 
-                ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(zipFile), df, _optimizeZip, sourceIds);
+                ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(zipFile), df, _optimizeZip, sourceIds, this._disableLogging);
                 zipProcessor.Process(copiedPackageDef);
             }
 

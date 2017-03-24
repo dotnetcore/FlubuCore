@@ -13,9 +13,12 @@ namespace FlubuCore.Packaging
         private readonly FileFullPath _zipFileName;
 
         private readonly FullPath _baseDir;
+
         private readonly bool _optimizeFiles;
 
         private readonly List<string> _sourcesToZip = new List<string>();
+
+        private readonly bool _logFiles = true;
 
         private IFileFilter _filter;
 
@@ -36,12 +39,31 @@ namespace FlubuCore.Packaging
         }
 
         public ZipProcessor(
+          ITaskContextInternal taskContext,
+          IZipper zipper,
+          FileFullPath zipFileName,
+          FullPath baseDir,
+          bool optimizeFiles,
+          bool logFiles,
+          params string[] sources)
+        {
+            _taskContext = taskContext;
+            _zipper = zipper;
+            _zipFileName = zipFileName;
+            _baseDir = baseDir;
+            _optimizeFiles = optimizeFiles;
+            this._logFiles = logFiles;
+            _sourcesToZip.AddRange(sources);
+        }
+
+        public ZipProcessor(
            ITaskContextInternal taskContext,
            IZipper zipper,
            FileFullPath zipFileName,
            FullPath baseDir,
            bool optimizeFiles,
-           List<string> sources)
+           List<string> sources, 
+           bool logFiles = true)
         {
             _taskContext = taskContext;
             _zipper = zipper;
@@ -49,6 +71,7 @@ namespace FlubuCore.Packaging
             _baseDir = baseDir;
             _optimizeFiles = optimizeFiles;
             _sourcesToZip.AddRange(sources);
+            this._logFiles = logFiles;
         }
 
         public IPackageDef Process(IPackageDef packageDef)
@@ -62,12 +85,16 @@ namespace FlubuCore.Packaging
                 {
                     foreach (PackagedFileInfo file in childSource.ListFiles())
                     {
-                        if (!LoggingHelper.LogIfFilteredOut(file.FileFullPath.ToString(), _filter, _taskContext))
+                        if (!LoggingHelper.LogIfFilteredOut(file.FileFullPath.ToString(), _filter, _taskContext, this._logFiles))
                         {
                             continue;
                         }
 
-                        _taskContext.LogInfo(string.Format("Adding file '{0}' to zip package", file.FileFullPath));
+                        if (this._logFiles)
+                        {
+                            _taskContext.LogInfo(string.Format("Adding file '{0}' to zip package", file.FileFullPath));
+                        }
+
                         filesToZip.Add(file.FileFullPath);
                     }
                 }
