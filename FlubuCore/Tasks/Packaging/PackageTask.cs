@@ -97,7 +97,7 @@ namespace FlubuCore.Tasks.Packaging
         }
 
         /// <summary>
-        /// Disables filtered out files and added files logging.
+        /// Disables logging of filtered out files and files to be coppied / zipped.
         /// </summary>
         /// <returns></returns>
         public PackageTask DisableLogging()
