@@ -77,5 +77,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <returns></returns>
         DotnetCleanTask Clean();
+
+        /// <summary>
+        /// Pushes the nuget package to nuget server.
+        /// </summary>
+        /// <param name="packagePath">Path to .nupkg file</param>
+        /// <returns></returns>
+        DotnetNugetPushTask NugetPush(string packagePath);
     }
 }

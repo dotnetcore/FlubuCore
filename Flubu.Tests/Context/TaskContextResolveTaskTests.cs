@@ -143,6 +143,12 @@ namespace Flubu.Tests.Context
         }
 
         [Fact]
+        public void ResoveDotnetNugetPushTask()
+        {
+          Assert.NotNull(Context.CoreTasks().NugetPush("test"));
+        }
+
+        [Fact]
         public void ResolveExecuteDotNetTask2Test()
         {
             Context.CoreTasks().ExecuteDotnetTask(StandardDotnetCommands.Publish);

@@ -192,6 +192,14 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
            return DotnetClean(null, action);
         }
 
+        public ICoreTaskExtensionsFluentInterface DotnetNugetPush(string nugetPackagePath, Action<DotnetNugetPushTask> action = null)
+        {
+            var task = Context.CoreTasks().NugetPush(nugetPackagePath);
+            action?.Invoke(task);
+            Target.AddTask(task);
+            return this;
+        }
+
 
         public ICoreTaskExtensionsFluentInterface UpdateDotnetVersion(string[] projectFiles, string[] additionalProps)
         {

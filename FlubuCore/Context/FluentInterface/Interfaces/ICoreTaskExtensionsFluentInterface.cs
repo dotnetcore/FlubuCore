@@ -185,6 +185,14 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         ICoreTaskExtensionsFluentInterface DotnetClean(Action<DotnetCleanTask> action = null);
 
         /// <summary>
+        /// Pushes the nuget package to nuget server.
+        /// </summary>
+        /// <param name="nugetPackagePath">Path to .nupkg file</param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        ICoreTaskExtensionsFluentInterface DotnetNugetPush(string nugetPackagePath, Action<DotnetNugetPushTask> action = null);
+
+        /// <summary>
         /// Updates the version in csproj / project.json file
         /// </summary>
         /// <param name="projectFiles"></param>
