@@ -200,6 +200,14 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns></returns>
         ICoreTaskExtensionsFluentInterface UpdateDotnetVersion(string[] projectFiles, string[] additionalProps);
 
+        ICoreTaskExtensionsFluentInterface DotnetAddEfMigration(string workingFolder, string migrationName = "default",  Action<ExecuteDotnetTask> action = null);
+
+        ICoreTaskExtensionsFluentInterface DotnetRemoveEfMigration(string workingFolder, bool forceRemove = true, Action<ExecuteDotnetTask> action = null);
+
+        ICoreTaskExtensionsFluentInterface DotnetEfUpdateDatabase(string workingFolder, Action<ExecuteDotnetTask> action = null);
+
+        ICoreTaskExtensionsFluentInterface DotnetEfDropDatabase(string workingFolder, Action<ExecuteDotnetTask> action = null);
+
         /// <summary>
         /// Moves back to target fluent interface.
         /// </summary>

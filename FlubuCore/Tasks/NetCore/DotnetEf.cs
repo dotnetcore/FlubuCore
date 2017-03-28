@@ -1,9 +1,11 @@
-﻿using FlubuCore.Targeting;
+﻿using System;
+using FlubuCore.Targeting;
 
 namespace FlubuCore.Tasks.NetCore
 {
     public static class DotnetEf
     {
+        [Obsolete("User CoreTaskExtension fluent interface")]
         public static ITarget DotnetAddEfMigration(this ITarget target, string workingFolder, string migrationName = "default")
         {
             target.AddTask(AddEfMigration(workingFolder, migrationName));
@@ -11,6 +13,7 @@ namespace FlubuCore.Tasks.NetCore
             return target;
         }
 
+        [Obsolete("User CoreTaskExtension fluent interface")]
         public static ITarget DotnetRemoveEfMigration(this ITarget target, string workingFolder, bool forceRemove = true)
         {
             target.AddTask(RemoveEfMigration(workingFolder, forceRemove));
@@ -18,6 +21,7 @@ namespace FlubuCore.Tasks.NetCore
             return target;
         }
 
+        [Obsolete("User CoreTaskExtension fluent interface")]
         public static ITarget DotnetEfUpdateDatabase(this ITarget target, string workingFolder)
         {
             target.AddTask(EfUpdateDatabase(workingFolder));
@@ -25,6 +29,7 @@ namespace FlubuCore.Tasks.NetCore
             return target;
         }
 
+        [Obsolete("User CoreTaskExtension fluent interface")]
         public static ITarget DotnetEfDropDatabase(this ITarget target, string workingFolder)
         {
             target.AddTask(EfDropDatabase(workingFolder));
@@ -32,6 +37,7 @@ namespace FlubuCore.Tasks.NetCore
             return target;
         }
 
+        [Obsolete("User CoreTaskExtension fluent interface")]
         public static ExecuteDotnetTask AddEfMigration(string workingFolder, string migrationName = "default")
         {
             return new ExecuteDotnetTask("ef")
@@ -39,6 +45,7 @@ namespace FlubuCore.Tasks.NetCore
                 .WithArguments("migrations", "add", migrationName);
         }
 
+        [Obsolete("User CoreTaskExtension fluent interface")]
         public static ExecuteDotnetTask RemoveEfMigration(string workingFolder, bool forceRemove = true)
         {
             var task = new ExecuteDotnetTask("ef")
@@ -51,6 +58,7 @@ namespace FlubuCore.Tasks.NetCore
             return task;
         }
 
+        [Obsolete("User CoreTaskExtension fluent interface")]
         public static ExecuteDotnetTask EfUpdateDatabase(string workingFolder)
         {
             return new ExecuteDotnetTask("ef")
@@ -58,6 +66,7 @@ namespace FlubuCore.Tasks.NetCore
                 .WithArguments("database", "update");
         }
 
+        [Obsolete("User CoreTaskExtension fluent interface")]
         public static ExecuteDotnetTask EfDropDatabase(string workingFolder)
         {
             return new ExecuteDotnetTask("ef")
