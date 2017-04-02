@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.NetCore
 {
@@ -9,6 +10,8 @@ namespace FlubuCore.Tasks.NetCore
     /// </summary>
     public class DotnetPublishTask : ExecuteDotnetTask
     {
+        protected bool _configurationIsSet;
+
         public DotnetPublishTask() : base(StandardDotnetCommands.Publish)
         {
         }
@@ -65,6 +68,7 @@ namespace FlubuCore.Tasks.NetCore
         public DotnetPublishTask Configuration(string configuration)
         {
             WithArguments("-c", configuration);
+            _configurationIsSet = true;
             return this;
         }
 
@@ -72,6 +76,18 @@ namespace FlubuCore.Tasks.NetCore
         {
             WithArguments("--version-suffix", versionSufix);
             return this;
+        }
+
+        protected override void BeforeExecute(ITaskContextInternal context)
+        {
+            if (!_configurationIsSet)
+            {
+                var configuration = context.Properties.Get<string>(BuildProps.BuildConfiguration, null);
+                if (configuration != null)
+                {
+                    Configuration(configuration);
+                }
+            }
         }
     }
 }

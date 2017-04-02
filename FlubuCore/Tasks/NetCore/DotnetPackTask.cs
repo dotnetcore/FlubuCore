@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.NetCore
 {
     public class DotnetPackTask : ExecuteDotnetTask
     {
+        protected bool _configurationIsSet;
+
         public DotnetPackTask() : base(StandardDotnetCommands.Pack)
         { 
         }
@@ -40,6 +43,7 @@ namespace FlubuCore.Tasks.NetCore
         public DotnetPackTask Configuration(string configuration)
         {
             WithArguments("-c", configuration);
+            _configurationIsSet = true;
             return this;
         }
 
@@ -92,6 +96,18 @@ namespace FlubuCore.Tasks.NetCore
         {
             WithArguments("--serviceable");
             return this;
+        }
+
+        protected override void BeforeExecute(ITaskContextInternal context)
+        {
+            if (!_configurationIsSet)
+            {
+                var configuration = context.Properties.Get<string>(BuildProps.BuildConfiguration, null);
+                if (configuration != null)
+                {
+                    Configuration(configuration);
+                }
+            }
         }
     }
 }

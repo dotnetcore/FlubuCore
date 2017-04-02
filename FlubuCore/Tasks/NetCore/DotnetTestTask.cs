@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.NetCore
 {
     public class DotnetTestTask : ExecuteDotnetTask
     {
+        protected bool _projectNameIsSet;
+
+        protected bool _configurationIsSet;
+
         public DotnetTestTask() : base(StandardDotnetCommands.Test)
         {
         }
@@ -18,6 +23,7 @@ namespace FlubuCore.Tasks.NetCore
         public DotnetTestTask Project(string projectName)
         {
             WithArguments(projectName);
+            _projectNameIsSet = true;
             return this;
         }
 
@@ -89,6 +95,7 @@ namespace FlubuCore.Tasks.NetCore
         public DotnetTestTask Configuration(string configuration)
         {
             WithArguments("-c", configuration);
+            _configurationIsSet = true;
             return this;
         }
 
@@ -111,6 +118,27 @@ namespace FlubuCore.Tasks.NetCore
         {
             WithArguments("--no-build");
             return this;
+        }
+
+        protected override void BeforeExecute(ITaskContextInternal context)
+        {
+            if (!_projectNameIsSet)
+            {
+               var solustionFileName =  context.Properties.Get<string>(BuildProps.Solution, null);
+                if (solustionFileName != null)
+                {
+                    Project(solustionFileName);
+                }
+            }
+
+            if (!_configurationIsSet)
+            {
+                var configuration = context.Properties.Get<string>(BuildProps.BuildConfiguration, null);
+                if (configuration != null)
+                {
+                    Configuration(configuration);
+                }
+            }
         }
     }
 }
