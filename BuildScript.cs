@@ -30,11 +30,9 @@ public class MyBuildScript : DefaultBuildScript
             .AddCoreTask(x => x.ExecuteDotnetTask("build").WithArguments("flubu.sln"))
             .AddCoreTask(x => x.ExecuteDotnetTask("pack")
                         .WithArguments("FlubuCore", "-c", "Release")
-                        .WithArguments("--version-suffix", "-rc1")
                         .WithArguments("-o", "..\\output"))
             .AddCoreTask(x => x.ExecuteDotnetTask("pack")
                         .WithArguments("dotnet-flubu", "-c", "Release")
-                        .WithArguments("--version-suffix", "-rc1")
                         .WithArguments("-o", "..\\output"))
             .DependsOn(buildVersion);
 
@@ -88,7 +86,6 @@ public class MyBuildScript : DefaultBuildScript
     {
         var version = context.Properties.GetBuildVersion();
         var nugetVersion = version.ToString(3);
-        nugetVersion = nugetVersion + "-rc1";
 
         try
         {
@@ -117,19 +114,19 @@ public class MyBuildScript : DefaultBuildScript
             Console.WriteLine($"Failed to publish dotnet-flubu. exception: {e.Message}");
         }
 
-        ////try
-        ////{
-        ////    var task = context.Tasks().PublishNuGetPackageTask("FlubuCore.Runner", @"Nuget\FlubuCoreRunner.nuspec");
+        try
+        {
+            var task = context.Tasks().PublishNuGetPackageTask("FlubuCore.Runner", @"Nuget\FlubuCoreRunner.nuspec");
 
-        ////    task.NuGetServerUrl = "https://www.nuget.org/api/v2/package";
-        ////    task.ForApiKeyUse("8da65a4d-9409-4d1b-9759-3b604d7a34ae");
-        ////    task.AllowPushOnInteractiveBuild = true;
-        ////    task.Execute(context);
-        ////}
-        ////catch (Exception e)
-        ////{
-        ////    Console.WriteLine($"Failed to publish flubu.ruuner. exception: {e}");
-        ////}
+            task.NuGetServerUrl = "https://www.nuget.org/api/v2/package";
+            task.ForApiKeyUse("8da65a4d-9409-4d1b-9759-3b604d7a34ae");
+            task.AllowPushOnInteractiveBuild = true;
+            task.Execute(context);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Failed to publish flubu.ruuner. exception: {e}");
+        }
     }
 
     private static void TargetMerge(ITaskContext context)
