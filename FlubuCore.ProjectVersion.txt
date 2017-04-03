@@ -1,5 +1,5 @@
 1.4.0.0
-- Added support for including other .cs files into buildscript
+- Added support for including other .cs files into buildscript with //#imp {PathToCsFile}
 - Added dotnet nuget push task
 - Added dotnet entity framework task
 - CompileSolutionTask: Improved Msbuild path locator Using Microsoft tool location helper now. Registry locator is now used as fallback .
