@@ -1,3 +1,12 @@
+1.4.0.0
+- Added support for including other .cs files into buildscript
+- Added dotnet nuget push task
+- Added dotnet entity framework task
+- CompileSolutionTask: Improved Msbuild path locator Using Microsoft tool location helper now. Registry locator is now used as fallback .
+- Solution name and configuration are now added form build props in DotNet specific tasks if not specified explicitly.
+- PackageTask: Added option to disable logging of which files were filtered and copied.
+- Updated flubu dependencies. No release candidates are referenced anymore. See https://bitbucket.org/zoroz/flubu.core/commits/cfeaec842a83dfd06f62c13aadd2b74496e47fa7 for more info.
+
 1.3.11.0
 - Updated Microsoft.Web.Administration from 10.0.0-rc1 to 10.0.0 used for iis tasks
 1.3.10.0
