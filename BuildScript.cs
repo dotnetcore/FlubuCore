@@ -30,9 +30,11 @@ public class MyBuildScript : DefaultBuildScript
             .AddCoreTask(x => x.ExecuteDotnetTask("build").WithArguments("flubu.sln"))
             .AddCoreTask(x => x.ExecuteDotnetTask("pack")
                         .WithArguments("FlubuCore", "-c", "Release")
+                        .WithArguments("--version-suffix", "-rc1")
                         .WithArguments("-o", "..\\output"))
             .AddCoreTask(x => x.ExecuteDotnetTask("pack")
                         .WithArguments("dotnet-flubu", "-c", "Release")
+                        .WithArguments("--version-suffix", "-rc1")
                         .WithArguments("-o", "..\\output"))
             .DependsOn(buildVersion);
 
