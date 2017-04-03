@@ -192,6 +192,14 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
            return DotnetClean(null, action);
         }
 
+        public ICoreTaskExtensionsFluentInterface DotnetNugetPush(string nugetPackagePath, Action<DotnetNugetPushTask> action = null)
+        {
+            var task = Context.CoreTasks().NugetPush(nugetPackagePath);
+            action?.Invoke(task);
+            Target.AddTask(task);
+            return this;
+        }
+
 
         public ICoreTaskExtensionsFluentInterface UpdateDotnetVersion(string[] projectFiles, string[] additionalProps)
         {
@@ -199,6 +207,75 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
                 .AdditionalProp(additionalProps));
 
             return this;
+        }
+
+        public ICoreTaskExtensionsFluentInterface DotnetAddEfMigration(string workingFolder, string migrationName = "default", Action<ExecuteDotnetTask> action = null)
+        {
+            var task = AddEfMigration(workingFolder, migrationName);
+            action?.Invoke(task);
+            Target.AddTask(task);
+            return this;
+        }
+
+        public ICoreTaskExtensionsFluentInterface DotnetRemoveEfMigration(string workingFolder, bool forceRemove = true, Action<ExecuteDotnetTask> action = null)
+        {
+            var task = RemoveEfMigration(workingFolder, forceRemove);
+
+            action?.Invoke(task);
+            Target.AddTask(task);
+            return this;
+        }
+
+        public ICoreTaskExtensionsFluentInterface DotnetEfUpdateDatabase(string workingFolder, Action<ExecuteDotnetTask> action = null)
+        {
+            var task = EfUpdateDatabase(workingFolder);
+            action?.Invoke(task);
+            Target.AddTask(task);
+            return this;
+        }
+
+        public ICoreTaskExtensionsFluentInterface DotnetEfDropDatabase(string workingFolder, Action<ExecuteDotnetTask> action = null)
+        {
+            var task = EfDropDatabase(workingFolder);
+            Target.AddTask(task);
+            return this;
+        }
+
+        private ExecuteDotnetTask AddEfMigration(string workingFolder, string migrationName = "default", Action<ExecuteDotnetTask> action = null)
+        {
+            return Context.CoreTasks()
+                .ExecuteDotnetTask("ef")
+                .WorkingFolder(workingFolder)
+                .WithArguments("migrations", "add", migrationName);
+        }
+
+        private ExecuteDotnetTask RemoveEfMigration(string workingFolder, bool forceRemove = true)
+        {
+            var task = Context.CoreTasks()
+                .ExecuteDotnetTask("ef")
+                .WorkingFolder(workingFolder)
+                .WithArguments("migrations", "remove");
+
+            if (forceRemove)
+                task.WithArguments("--force");
+
+            return task;
+        }
+
+        private ExecuteDotnetTask EfUpdateDatabase(string workingFolder)
+        {
+            return Context.CoreTasks()
+                .ExecuteDotnetTask("ef")
+                .WorkingFolder(workingFolder)
+                .WithArguments("database", "update");
+        }
+
+        public ExecuteDotnetTask EfDropDatabase(string workingFolder)
+        {
+            return Context.CoreTasks()
+                .ExecuteDotnetTask("ef")
+                .WorkingFolder(workingFolder)
+                .WithArguments("database", "drop", "--force");
         }
     }
 }

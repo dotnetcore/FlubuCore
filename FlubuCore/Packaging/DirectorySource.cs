@@ -82,7 +82,7 @@ namespace FlubuCore.Packaging
                 FileFullPath fileNameFullPath = new FileFullPath(fileName);
                 LocalPath debasedFileName = fileNameFullPath.ToFullPath().DebasePath(_directoryPath);
 
-                if (!LoggingHelper.LogIfFilteredOut(fileName, Filter, _taskContext))
+                if (!LoggingHelper.LogIfFilteredOut(fileName, Filter, _taskContext, true))
                 {
                     continue;
                 }

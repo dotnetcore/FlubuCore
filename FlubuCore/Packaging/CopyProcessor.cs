@@ -22,11 +22,14 @@ namespace FlubuCore.Packaging
 
         private IFileFilter _filter;
 
-        public CopyProcessor(ITaskContextInternal taskContext, ICopier copier, FullPath destinationRootDir)
+        private bool _logFiles;
+
+        public CopyProcessor(ITaskContextInternal taskContext, ICopier copier, FullPath destinationRootDir, bool logFiles = true)
         {
             _taskContext = taskContext;
             _copier = copier;
             _destinationRootDir = destinationRootDir;
+            this._logFiles = logFiles;
         }
 
         public CopyProcessor AddTransformation(string sourceId, LocalPath destinationDir)
@@ -150,7 +153,7 @@ namespace FlubuCore.Packaging
 
             foreach (PackagedFileInfo sourceFile in filesSource.ListFiles())
             {
-                if (!LoggingHelper.LogIfFilteredOut(sourceFile.FileFullPath.ToString(), _filter, _taskContext))
+                if (!LoggingHelper.LogIfFilteredOut(sourceFile.FileFullPath.ToString(), _filter, _taskContext, this._logFiles))
                 {
                     continue;
                 }

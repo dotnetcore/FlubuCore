@@ -17,6 +17,8 @@ namespace FlubuCore.Tasks.Packaging
         private string _zipPrefix;
         private bool _optimizeZip;
 
+        private bool _logFiles;
+
         public PackageTask(string destinationRootDir = null)
         {
             if (!string.IsNullOrEmpty(destinationRootDir))
@@ -95,6 +97,16 @@ namespace FlubuCore.Tasks.Packaging
         }
 
         /// <summary>
+        /// Disables logging of filtered out files and files to be coppied / zipped.
+        /// </summary>
+        /// <returns></returns>
+        public PackageTask DisableLogging()
+        {
+            this._logFiles = false;
+            return this;
+        }
+
+        /// <summary>
         /// Zip't the package
         /// </summary>
         /// <param name="zipFileName">File name of the zip package.</param>
@@ -127,7 +139,7 @@ namespace FlubuCore.Tasks.Packaging
                 _destinationRootDir = context.Properties.GetOutputDir();
 
             FullPath df = new FullPath(_destinationRootDir);
-            ICopier copier = new Copier(context);
+            ICopier copier = new Copier(context, this._logFiles);
             IZipper zipper = new Zipper(context);
             IDirectoryFilesLister directoryFilesLister = new DirectoryFilesLister();
             StandardPackageDef packageDef = new StandardPackageDef();
@@ -187,7 +199,7 @@ namespace FlubuCore.Tasks.Packaging
                     zipFile = Path.Combine(_destinationRootDir, $"{zipFile}.zip");
                 }
 
-                ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(zipFile), df, _optimizeZip, sourceIds);
+                ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(zipFile), df, _optimizeZip, sourceIds, this._logFiles);
                 zipProcessor.Process(copiedPackageDef);
             }
 

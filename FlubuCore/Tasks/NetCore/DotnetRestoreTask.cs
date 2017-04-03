@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.NetCore
 {
     public class DotnetRestoreTask : ExecuteDotnetTask
     {
+        protected bool _projectNameIsSet;
+
         public DotnetRestoreTask() : base(StandardDotnetCommands.Restore)
         {
         }
@@ -13,6 +16,7 @@ namespace FlubuCore.Tasks.NetCore
         public DotnetRestoreTask Project(string projectName)
         {
             WithArguments(projectName);
+            _projectNameIsSet = true;
             return this;
         }
 
@@ -98,6 +102,18 @@ namespace FlubuCore.Tasks.NetCore
         {
             WithArguments("--no-dependencies");
             return this;
+        }
+
+        protected override void BeforeExecute(ITaskContextInternal context)
+        {
+            if (!_projectNameIsSet)
+            {
+                var solustionFileName = context.Properties.Get<string>(BuildProps.Solution, null);
+                if (solustionFileName != null)
+                {
+                    Project(solustionFileName);
+                }
+            }
         }
     }
 }

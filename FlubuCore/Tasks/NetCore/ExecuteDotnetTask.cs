@@ -84,6 +84,7 @@ namespace FlubuCore.Tasks.NetCore
                 return -1;
             }
 
+            BeforeExecute(context);
             IRunProgramTask task = context.Tasks().RunProgramTask(program);
 
             task
@@ -93,6 +94,10 @@ namespace FlubuCore.Tasks.NetCore
                 .ExecuteVoid(context);
 
             return 0;
+        }
+
+        protected virtual void BeforeExecute(ITaskContextInternal context)
+        {
         }
     }
 }

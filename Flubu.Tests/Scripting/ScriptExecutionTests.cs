@@ -99,5 +99,47 @@ namespace Flubu.Tests.Scripting
                 new FluentInterfaceFactory(provider),
                 new TaskContextSession()));
         }
+
+        [Fact]
+        public async System.Threading.Tasks.Task LoadDefaultScriptWithAnotherClass()
+        {
+            _fileLoader.Setup(i => i.ReadAllLines("e.cs"))
+                .Returns(new List<string>
+                {
+                    "using System;",
+                    "using FlubuCore.Context;",
+                    "using FlubuCore.Scripting;",
+                    "",
+                    "public class MyBuildScript : DefaultBuildScript",
+                    "{",
+                    "    protected override void ConfigureBuildProperties(IBuildPropertiesContext context)",
+                    "    {",
+                    "        System.Console.WriteLine(\"2222\");",
+                    "        }",
+                    "",
+                    "        protected override void ConfigureTargets(ITaskContext context)",
+                    "        {",
+                    "            var test = new Test();",
+                    "        }",
+                    "    }",
+                    "public class Test",
+                    "{",
+                    "}"
+                });
+
+            _analyser.Setup(i => i.Analyze(It.IsAny<List<string>>()))
+                .Returns(new AnalyserResult() { ClassName = "MyBuildScript" });
+
+            IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync("e.cs");
+            var provider = new ServiceCollection().BuildServiceProvider();
+
+            t.Run(new TaskSession(
+                null,
+                new TargetTree(provider, new CommandArguments()),
+                new CommandArguments(),
+                new DotnetTaskFactory(provider),
+                new FluentInterfaceFactory(provider),
+                new TaskContextSession()));
+        }
     }
 }

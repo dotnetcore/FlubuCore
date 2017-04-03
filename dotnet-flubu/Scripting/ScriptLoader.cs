@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -54,6 +55,19 @@ namespace DotNet.Cli.Flubu.Scripting
 
             AnalyserResult analyserResult = _analyser.Analyze(code);
             references.AddRange(analyserResult.References.Select(i=> MetadataReference.CreateFromFile(i)));
+
+            foreach (var csFile in analyserResult.CsFiles)
+            {
+                List<string> additionalCode = _file.ReadAllLines(csFile);
+                AnalyserResult additionalCodeAnalyserResult = _analyser.Analyze(additionalCode);
+                if (additionalCodeAnalyserResult.CsFiles.Count > 0)
+                {
+                    throw new NotSupportedException("//#imp is only supported in main buildscript .cs file.");
+                }
+
+                references.AddRange(additionalCodeAnalyserResult.References.Select( i => MetadataReference.CreateFromFile(i)));
+                code.AddRange(additionalCode);
+            }
 
             var opts = ScriptOptions.Default
                 .WithReferences(references);

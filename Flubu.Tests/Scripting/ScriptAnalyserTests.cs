@@ -19,6 +19,7 @@ namespace Flubu.Tests.Scripting
                 new ClassDirectiveProcessor(),
                 new AssemblyDirectiveProcessor(),
                 new NamespaceDirectiveProcessor(),
+                new CsDirectiveProcessor()
             };
 
             _analyser = new ScriptAnalyser(processors);
@@ -49,6 +50,17 @@ namespace Flubu.Tests.Scripting
             Assert.Equal(expected, res.References.First());
         }
 
+        [Theory]
+        [InlineData("//#imp c:\\test.cs", "c:\\test.cs")]
+        [InlineData("//#imp c:\\test.cs    \r\n", "c:\\test.cs")]
+        public void ParseCs(string line, string expected)
+        {
+            CsDirectiveProcessor pr = new CsDirectiveProcessor();
+            AnalyserResult res = new AnalyserResult();
+            pr.Process(res, line, 1);
+            Assert.Equal(expected, res.CsFiles.First());
+        }
+
         [Fact]
         public void Analyse()
         {
@@ -57,6 +69,7 @@ namespace Flubu.Tests.Scripting
                 "//#ass",
                 "//",
                 "//#ass hello.dll",
+                "//#imp test.cs",
                 "public class MyScript"
             };
 
@@ -64,6 +77,7 @@ namespace Flubu.Tests.Scripting
 
             Assert.Equal("MyScript", res.ClassName);
             Assert.Equal(1, res.References.Count);
+            Assert.Equal(1, res.CsFiles.Count);
             Assert.Equal(2, lines.Count);
         }
 
