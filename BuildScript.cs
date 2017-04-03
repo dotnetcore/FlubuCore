@@ -143,16 +143,16 @@ public class MyBuildScript : DefaultBuildScript
             .Execute(context);
 
         context.Tasks()
-            .CopyFileTask(@"dotnet-flubu\bin\Release\net46\dotnet-flubu.exe", @"output\build.exe", true)
+            .CopyFileTask(@"dotnet-flubu\bin\Release\net46\win7-x64\dotnet-flubu.exe", @"output\build.exe", true)
             .Execute(context);
         context.Tasks()
-            .CopyFileTask(@"dotnet-flubu\bin\Release\net46\FlubuCore.dll", @"output\FlubuCore.dll", true)
+            .CopyFileTask(@"dotnet-flubu\bin\Release\net46\win7-x64\FlubuCore.dll", @"output\FlubuCore.dll", true)
             .Execute(context);
         context.Tasks()
-           .CopyFileTask(@"dotnet-flubu\bin\Release\net46\FlubuCore.xml", @"output\FlubuCore.xml", true)
+           .CopyFileTask(@"dotnet-flubu\bin\Release\net46\win7-x64\FlubuCore.xml", @"output\FlubuCore.xml", true)
            .Execute(context);
         context.Tasks()
-            .CopyFileTask(@"dotnet-flubu\bin\Release\net46\FlubuCore.pdb", @"output\FlubuCore.pdb", true)
+            .CopyFileTask(@"dotnet-flubu\bin\Release\net46\win7-x64\FlubuCore.pdb", @"output\FlubuCore.pdb", true)
             .Execute(context);
     }
 }
