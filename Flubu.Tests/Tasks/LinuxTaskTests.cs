@@ -15,7 +15,7 @@ namespace Flubu.Tests.Tasks
             _fixture = fixture;
         }
 
-        [Fact]
+        [Fact(Skip = "temporary")]
         public void RunCommandUnknownHost()
         {
             var task = new SshCommandTask("10.10.1.143", "zoroz");
