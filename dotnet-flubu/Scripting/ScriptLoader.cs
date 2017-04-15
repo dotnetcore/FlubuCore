@@ -72,9 +72,11 @@ namespace DotNet.Cli.Flubu.Scripting
                         throw new NotSupportedException("//#imp is only supported in main buildscript .cs file.");
                     }
 
-                    references.AddRange(
-                        additionalCodeAnalyserResult.References.Select(i => MetadataReference.CreateFromFile(i)));
-                    code.AddRange(additionalCode);
+                   var usings = additionalCode.Where(x => x.StartsWith("using"));
+
+                    references.AddRange(additionalCodeAnalyserResult.References.Select(i => MetadataReference.CreateFromFile(i)));
+                    code.InsertRange(0, usings);
+                    code.AddRange(additionalCode.Where(x => !x.StartsWith("using")));
                 }
                 else
                 {
