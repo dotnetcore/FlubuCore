@@ -10,6 +10,7 @@ using FlubuCore.Scripting;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
+using Microsoft.Extensions.Logging;
 
 namespace DotNet.Cli.Flubu.Scripting
 {
@@ -17,11 +18,13 @@ namespace DotNet.Cli.Flubu.Scripting
     {
         private readonly IFileWrapper _file;
         private readonly IScriptAnalyser _analyser;
+        private readonly ILogger<ScriptLoader> _log;
 
-        public ScriptLoader(IFileWrapper file, IScriptAnalyser analyser)
+        public ScriptLoader(IFileWrapper file, IScriptAnalyser analyser, ILogger<ScriptLoader> log)
         {
             _file = file;
             _analyser = analyser;
+            _log = log;
         }
 
         public async Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(string fileName)
@@ -58,15 +61,25 @@ namespace DotNet.Cli.Flubu.Scripting
 
             foreach (var csFile in analyserResult.CsFiles)
             {
-                List<string> additionalCode = _file.ReadAllLines(csFile);
-                AnalyserResult additionalCodeAnalyserResult = _analyser.Analyze(additionalCode);
-                if (additionalCodeAnalyserResult.CsFiles.Count > 0)
+                if (_file.Exists(csFile))
                 {
-                    throw new NotSupportedException("//#imp is only supported in main buildscript .cs file.");
-                }
+                    _log.LogInformation($"File found: {csFile}");
+                    List<string> additionalCode = _file.ReadAllLines(csFile);
 
-                references.AddRange(additionalCodeAnalyserResult.References.Select( i => MetadataReference.CreateFromFile(i)));
-                code.AddRange(additionalCode);
+                    AnalyserResult additionalCodeAnalyserResult = _analyser.Analyze(additionalCode);
+                    if (additionalCodeAnalyserResult.CsFiles.Count > 0)
+                    {
+                        throw new NotSupportedException("//#imp is only supported in main buildscript .cs file.");
+                    }
+
+                    references.AddRange(
+                        additionalCodeAnalyserResult.References.Select(i => MetadataReference.CreateFromFile(i)));
+                    code.AddRange(additionalCode);
+                }
+                else
+                {
+                    _log.LogInformation($"File was not found: {csFile}");
+                }
             }
 
             var opts = ScriptOptions.Default
