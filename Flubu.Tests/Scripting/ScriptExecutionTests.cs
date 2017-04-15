@@ -8,6 +8,7 @@ using FlubuCore.Scripting;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
@@ -17,12 +18,12 @@ namespace Flubu.Tests.Scripting
     {
         private readonly Mock<IFileWrapper> _fileLoader = new Mock<IFileWrapper>();
         private readonly Mock<IScriptAnalyser> _analyser = new Mock<IScriptAnalyser>();
-
+        private readonly Mock<ILogger<ScriptLoader>> _logger = new Mock<ILogger<ScriptLoader>>();
         private readonly ScriptLoader _loader;
 
         public ScriptExecutionTests()
         {
-            _loader = new ScriptLoader(_fileLoader.Object, _analyser.Object);
+            _loader = new ScriptLoader(_fileLoader.Object, _analyser.Object, _logger.Object);
         }
 
         [Fact]
