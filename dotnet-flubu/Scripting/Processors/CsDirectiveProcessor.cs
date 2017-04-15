@@ -22,7 +22,7 @@ namespace DotNet.Cli.Flubu.Scripting.Processors
             }
 
             string csFile = line.Substring(csIndex);
-            analyserResult.CsFiles.Add(Path.GetFullPath(csFile));
+            analyserResult.CsFiles.Add(Path.GetFullPath(csFile.Trim()));
             return true;
         }
     }
