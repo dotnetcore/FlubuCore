@@ -77,7 +77,7 @@ public class MyBuildScript : DefaultBuildScript
     {
          context.Tasks().PackageTask("output")
             .AddFileToPackage(@"output\build.exe", "flubu.runner")
-             .AddFileToPackage(@"output\build.exe.config", "flubu.runner")
+            .AddFileToPackage(@"output\build.exe.config", "flubu.runner")
             .AddFileToPackage(@"output\flubucore.dll", "flubu.runner")
             .ZipPackage("Flubu runner", true)
             .Execute(context);

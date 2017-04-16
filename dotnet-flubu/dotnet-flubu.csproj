@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netcoreapp1.0;net46</TargetFrameworks>
    
@@ -67,6 +67,8 @@
     <Reference Include="System.Globalization" />
     <Reference Include="System.Collections" />
     <Reference Include="System.Reflection" />
+    <Reference Include="System.Reflection.TypeExtensions" />
+    <Reference Include="System.Runtime" />
     <Reference Include="System.Runtime.Extensions" />
     <Reference Include="System.Runtime.InteropServices" />
     <Reference Include="System.Threading" />
