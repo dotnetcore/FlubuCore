@@ -1,3 +1,6 @@
+1.4.3.0
+- BREAKING CHANGE updated flubu.core and flubu.runner .net framework from .net4.6 to .net.462
+
 1.4.2.0
 - Added support for including other .cs files into buildscript with //#imp {PathToCsFile}
 - Added dotnet nuget push task

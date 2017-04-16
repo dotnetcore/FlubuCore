@@ -31,7 +31,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net462|x86'">
     <DocumentationFile>bin\x86\Release\net462\FlubuCore.xml</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net462n|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net462|x64'">
     <DocumentationFile>bin\x64\Release\net462\FlubuCore.xml</DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
