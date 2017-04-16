@@ -118,11 +118,10 @@ public class MyBuildScript : DefaultBuildScript
         try
         {
             var task = context.Tasks().PublishNuGetPackageTask("FlubuCore.Runner", @"Nuget\FlubuCoreRunner.nuspec");
-
-            task.NuGetServerUrl = "https://www.nuget.org/api/v2/package";
-            task.ForApiKeyUse("8da65a4d-9409-4d1b-9759-3b604d7a34ae");
-            task.AllowPushOnInteractiveBuild = true;
-            task.Execute(context);
+            task.NugetServerUrl("https://www.nuget.org/api/v2/package")
+                .ForApiKeyUse("8da65a4d-9409-4d1b-9759-3b604d7a34ae")
+                .PushOnInteractiveBuild()
+                .Execute(context);
         }
         catch (Exception e)
         {

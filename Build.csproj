@@ -58,9 +58,9 @@
     <PackageReference Include="NETStandard.Library" Version="1.6.1" />
     <PackageReference Include="Microsoft.NETCore.App" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.1" />
-    <PackageReference Include="dotnet-flubu" Version="1.1.4" />
+    <PackageReference Include="dotnet-flubu" Version="1.4.3" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-flubu" Version="1.1.4" />
+    <DotNetCliToolReference Include="dotnet-flubu" Version="1.4.3" />
   </ItemGroup>
 </Project>
