@@ -40,7 +40,7 @@ namespace FlubuCore.Context.FluentInterface
 
         public DotnetRestoreTask Restore(string projectName = null, string workingFolder = null)
         {
-            var ret = Context.CreateTask<DotnetRestoreTask>();
+            DotnetRestoreTask ret = Context.CreateTask<DotnetRestoreTask>();
 
             if (!string.IsNullOrEmpty(workingFolder))
             {
@@ -49,24 +49,49 @@ namespace FlubuCore.Context.FluentInterface
 
             if (!string.IsNullOrEmpty(projectName))
             {
-                ret.WithArguments(projectName);
+                ret.Project(projectName);
             }
 
             return ret;
         }
 
-        public DotnetPublishTask Publish(string projectName = null, string workingFolder = null, string configuration = "Release")
+        public DotnetPublishTask Publish(string projectName = null, string workingFolder = null, string configuration = null)
         {
-            return Context.CreateTask<DotnetPublishTask>()
-                .WorkingFolder(workingFolder)
-                .WithArguments(projectName, "-c", configuration) as DotnetPublishTask;
+            DotnetPublishTask task = Context.CreateTask<DotnetPublishTask>();
+
+            if (!string.IsNullOrEmpty(workingFolder))
+            {
+                task.WorkingFolder(workingFolder);
+            }
+
+            if (!string.IsNullOrEmpty(projectName))
+            {
+                task.Project(projectName);
+            }
+
+            if (!string.IsNullOrEmpty(configuration))
+            {
+                task.Configuration(configuration);
+            }
+
+            return task;
         }
 
         public DotnetBuildTask Build(string projectName = null, string workingFolder = null)
         {
-            return Context.CreateTask<DotnetBuildTask>()
-                .WorkingFolder(workingFolder)
-                .WithArguments(projectName) as DotnetBuildTask;
+            var task = Context.CreateTask<DotnetBuildTask>();
+
+            if (!string.IsNullOrEmpty(workingFolder))
+            {
+                task.WorkingFolder(workingFolder);
+            }
+
+            if (!string.IsNullOrEmpty(projectName))
+            {
+                task.Project(projectName);
+            }
+
+            return task;
         }
 
         public DotnetPackTask Pack()
