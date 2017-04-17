@@ -1,3 +1,6 @@
+1.4.4.0
+- Fixed dotnet core tasks (build, restore, clean, publish) when no project name is defined. 
+
 1.4.3.0
 - BREAKING CHANGE updated flubu.core and flubu.runner .net framework from .net4.6 to .net.462
 

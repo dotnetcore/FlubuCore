@@ -83,7 +83,7 @@ namespace FlubuCore.Tasks.NetCore
         {
             if (!_projectNameIsSet)
             {
-                var solustionFileName = context.Properties.Get<string>(BuildProps.Solution, null);
+                var solustionFileName = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
                 if (solustionFileName != null)
                 {
                     Project(solustionFileName);
