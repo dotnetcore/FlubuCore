@@ -13,6 +13,7 @@ namespace FlubuCore.Tasks.Process
 
         private ICommandFactory _commandFactory;
         private string _workingFolder;
+        private bool _doNotFail;
 
         public RunProgramTask(ICommandFactory commandFactory, string programToExecute)
         {
@@ -53,6 +54,12 @@ namespace FlubuCore.Tasks.Process
             return this;
         }
 
+        public IRunProgramTask DoNotFail()
+        {
+            _doNotFail = true;
+            return this;
+        }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             if (_commandFactory == null)
@@ -82,7 +89,7 @@ namespace FlubuCore.Tasks.Process
             int res = command.Execute()
                 .ExitCode;
 
-            if (res != 0)
+            if (_doNotFail && res != 0)
                 context.Fail($"External program {cmd} failed with {res}.", res);
 
             return res;

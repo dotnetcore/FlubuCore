@@ -1,3 +1,6 @@
+1.4.6.0
+- Added do not fail option to run program task.
+
 1.4.5.0
 - Fixed dotnet core fluent interface for dotnet restore build and publish.
 
