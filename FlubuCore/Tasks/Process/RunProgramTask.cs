@@ -89,7 +89,7 @@ namespace FlubuCore.Tasks.Process
             int res = command.Execute()
                 .ExitCode;
 
-            if (_doNotFail && res != 0)
+            if (!_doNotFail && res != 0)
                 context.Fail($"External program {cmd} failed with {res}.", res);
 
             return res;
