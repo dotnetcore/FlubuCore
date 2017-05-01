@@ -1,3 +1,7 @@
+1.4.7.0
+- Fixed version information in GenerateCommonAssemblyInfo task extension.
+- GenerateCommonAssemblyInfo task extension has now GenerateCommonAssemblyInfo task action parameter
+- Improved some others task extensions with task action parameter.
 1.4.6.0
 - Added do not fail option to run program task.
 
