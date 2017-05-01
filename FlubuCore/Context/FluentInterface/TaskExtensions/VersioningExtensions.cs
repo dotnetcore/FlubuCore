@@ -6,7 +6,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
 {
     public partial class TaskExtensionsFluentInterface
     {
-        public ITaskExtensionsFluentInterface GenerateCommonAssemblyInfo()
+        public ITaskExtensionsFluentInterface GenerateCommonAssemblyInfo(Action<GenerateCommonAssemblyInfoTask> action = null)
         {
             string buildConfiguration = Context.Properties.Get<string>(BuildProps.BuildConfiguration);
             string companyCopyright = Context.Properties.Get(BuildProps.CompanyCopyright, string.Empty);
@@ -28,8 +28,10 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
                 task.InformationalVersion(Context.Properties.Get<string>(BuildProps.InformationalVersion));
 
             task.ProductVersionFieldCount(Context.Properties.Get(BuildProps.ProductVersionFieldCount, 2))
-                .GenerateAssemblyVersion(generateAssemblyVersion)
-                .Execute(Context);
+                .GenerateAssemblyVersion(generateAssemblyVersion);
+
+            action?.Invoke(task);
+            Target.Target.AddTask(task);
 
             return this;
         }

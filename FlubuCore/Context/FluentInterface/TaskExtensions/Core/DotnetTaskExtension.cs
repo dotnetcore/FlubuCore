@@ -211,8 +211,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
 
         public ICoreTaskExtensionsFluentInterface DotnetAddEfMigration(string workingFolder, string migrationName = "default", Action<ExecuteDotnetTask> action = null)
         {
-            var task = AddEfMigration(workingFolder, migrationName);
-            action?.Invoke(task);
+            var task = AddEfMigration(workingFolder, migrationName, action);
             Target.AddTask(task);
             return this;
         }
@@ -243,10 +242,14 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
 
         private ExecuteDotnetTask AddEfMigration(string workingFolder, string migrationName = "default", Action<ExecuteDotnetTask> action = null)
         {
-            return Context.CoreTasks()
+           var task = Context.CoreTasks()
                 .ExecuteDotnetTask("ef")
                 .WorkingFolder(workingFolder)
                 .WithArguments("migrations", "add", migrationName);
+
+            action?.Invoke(task);
+
+            return task;
         }
 
         private ExecuteDotnetTask RemoveEfMigration(string workingFolder, bool forceRemove = true)

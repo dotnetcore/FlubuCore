@@ -30,7 +30,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         SshCommandTask SshCommand(string host, string username);
 
         /// <summary>
-        /// Copy folders/files to the remote host.
+        /// Copy projects/files to the remote host.
         /// </summary>
         /// <param name="host"></param>
         /// <param name="username"></param>
@@ -39,7 +39,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         SshCopyTask SshCopy(string host, string username, string password);
 
         /// <summary>
-        /// Copy folders/files to the remote host.
+        /// Copy projects/files to the remote host.
         /// </summary>
         /// <param name="host"></param>
         /// <param name="username"></param>

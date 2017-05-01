@@ -1,5 +1,7 @@
-﻿using FlubuCore.Context.FluentInterface.Interfaces;
+﻿using System;
+using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Context.FluentInterface.TaskExtensions
 {
@@ -22,7 +24,15 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
             return this;
         }
 
-        private ITask CreateRunProgram(string program, string workingFolder, params string[] args)
+        public ITaskExtensionsFluentInterface RunProgram(string program, string workingFolder,
+            Action<IRunProgramTask> action = null)
+        {
+            var task = CreateRunProgram(program, workingFolder, null);
+            action?.Invoke(task);
+            return this;
+        }
+
+        private IRunProgramTask CreateRunProgram(string program, string workingFolder, params string[] args)
         {
             var task = Context.Tasks().RunProgramTask(program);
 

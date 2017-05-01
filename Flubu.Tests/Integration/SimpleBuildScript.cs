@@ -48,11 +48,14 @@ namespace Flubu.Tests.Integration
             package
                 .CoreTaskExtensions()
                 .DotnetPublish("a", "b", "c")
-                .CreateZipPackageFromProjects("8d", "netcoreapp1.1", "a", "b", "c")
-                .AddDirectoryToPackage("configuration", "configuration", true)
-                .AddFileToPackage("DeployScript.cs", string.Empty)
-                .AddFileToPackage("project.json", string.Empty)
-                .AddFileToPackage("NuGet.config", string.Empty);
+                .CreateZipPackageFromProjects("8d", "netcoreapp1.1", "a", "b", "c", task =>
+                {
+                    task.AddDirectoryToPackage("configuration", "configuration", true)
+                        .AddFileToPackage("DeployScript.cs", string.Empty)
+                        .AddFileToPackage("project.json", string.Empty)
+                        .AddFileToPackage("NuGet.config", string.Empty);
+                });
+
         }
     }
 }
