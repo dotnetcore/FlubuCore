@@ -7,6 +7,19 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
 {
     public partial class CoreTaskExtensionsFluentInterface
     {
+        public ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework, Action<PackageTask> action, params string[] projects)
+        {
+            CreateZipPackageFromProjectsImplementation(zipPrefix, targetFramework, null, action, projects);
+            return this;
+        }
+
+
+        public ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework, string runtime, Action<PackageTask> action, params string [] projects)
+        {
+            CreateZipPackageFromProjectsImplementation(zipPrefix, targetFramework, runtime, action, projects);
+            return this;
+        }
+
         public ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework, string project, Action<PackageTask> action = null, string runtime = null)
         {
             CreateZipPackageFromProjectsImplementation(zipPrefix, targetFramework, runtime, action, project);
