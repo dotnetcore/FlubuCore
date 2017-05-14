@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard1.6;net462</TargetFrameworks>
     <WarningsAsErrors>true</WarningsAsErrors>
@@ -66,6 +66,7 @@
     <PackageReference Include="Microsoft.Web.Administration" Version="10.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.1" />
     <PackageReference Include="NETStandard.Library" Version="1.6.1" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="4.1.0" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
     <Reference Include="System" />
