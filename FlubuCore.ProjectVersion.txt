@@ -1,5 +1,5 @@
-1.4.9.0
-- Fixed ControlAppPoolTask missing dependencie
+1.4.10.0
+- Updated nuget packages
 
 1.4.8.0
 - Fixed version information in GenerateCommonAssemblyInfo task extension.
