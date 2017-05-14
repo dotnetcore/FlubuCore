@@ -12,7 +12,7 @@
 	<Description>
 	  A C# library for building projects and executing deployment scripts using C# code.
       
-	  Wiki can be found at: https://bitbucket.org/zoroz/flubu.core/wiki/
+	  Wiki can be found at: https://github.com/flubu-core/flubu.core/wiki
       
 	  A detailed example of how Flubu is used to build example project: https://bitbucket.org/zoroz/flubu.core.examples
 	 </Description>
