@@ -8,6 +8,10 @@
 * run dotnet restore in cmd
 * run dotnet flubu in cmd
 
+### Documentation ###
+
+* See wiki on github
+
 ### Contribution guidelines ###
 
 * Add new issue as proposal
