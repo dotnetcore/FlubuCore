@@ -21,7 +21,7 @@
 
 * Add new issue if u have a question regarding flubu.
 
-[**Release notes**](https://bitbucket.org/zoroz/flubu.core/src/master/FlubuCore.ProjectVersion.txt?at=master&fileviewer=file-view-default
+[**Release notes**](https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt
 )
 
 ### Donations ###
