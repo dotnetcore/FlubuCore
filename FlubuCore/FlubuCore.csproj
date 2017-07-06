@@ -75,4 +75,7 @@
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tasks\FlubuWebApi\" />
+  </ItemGroup>
 </Project>

@@ -12,4 +12,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FlubuCore.WebApi.Model\FlubuCore.WebApi.Model.csproj" />
+  </ItemGroup>
 </Project>

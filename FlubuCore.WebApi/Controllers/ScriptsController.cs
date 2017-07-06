@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FlubuCore.Commanding;
 using FlubuCore.Scripting;
-using FlubuCore.Tasks.FlubuWebApi;
+using FlubuCore.WebApi.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlubuCore.WebApi.Controllers
