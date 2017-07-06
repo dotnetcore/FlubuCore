@@ -1,6 +1,6 @@
-﻿using DotNet.Cli.Flubu.Scripting.Analysis;
+﻿using FlubuCore.Scripting.Analysis;
 
-namespace DotNet.Cli.Flubu.Scripting.Processor
+namespace FlubuCore.Scripting.Processors
 {
     public interface IDirectiveProcessor
     {

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DotNet.Cli.Flubu.Commanding;
+using FlubuCore.Commanding;
+////using DotNet.Cli.Flubu.Commanding;
+using FlubuCore.Scripting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlubuCore.WebApi.Controllers
@@ -12,15 +14,20 @@ namespace FlubuCore.WebApi.Controllers
     {
         private ICommandExecutor _commandExecutor;
 
-        public ScriptsController(ICommandExecutor commandExecutor)
+        private CommandArguments _commandArguments;
+
+        public ScriptsController(ICommandExecutor commandExecutor, CommandArguments commandArguments)
         {
             _commandExecutor = commandExecutor;
+            _commandArguments = commandArguments;
         }
 
         [HttpGet("Execute")]
         public async Task<IActionResult> Execute()
         {
+            _commandArguments.MainCommand = "build";
             await _commandExecutor.ExecuteAsync();
+
             return Ok();
         }
     }

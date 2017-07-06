@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DotNet.Cli.Flubu.Scripting.Processor;
+using FlubuCore.Scripting.Processors;
 
-namespace DotNet.Cli.Flubu.Scripting.Analysis
+namespace FlubuCore.Scripting.Analysis
 {
     public class ScriptAnalyser : IScriptAnalyser
     {

@@ -17,8 +17,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FlubuCore\dotnet-flubu\dotnet-flubu.csproj" />
-    <ProjectReference Include="..\FlubuCore\FlubuCore\FlubuCore.csproj" />
+    <ProjectReference Include="..\FlubuCore\FlubuCore.csproj" />
   </ItemGroup>
 
 </Project>

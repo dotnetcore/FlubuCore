@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using DotNet.Cli.Flubu.Scripting.Analysis;
-using DotNet.Cli.Flubu.Scripting.Processor;
+using FlubuCore.Scripting.Analysis;
 
-namespace DotNet.Cli.Flubu.Scripting.Processors
+namespace FlubuCore.Scripting.Processors
 {
     public class CsDirectiveProcessor : IDirectiveProcessor
     {

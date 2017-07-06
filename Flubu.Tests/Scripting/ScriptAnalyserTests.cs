@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Castle.Components.DictionaryAdapter;
-using DotNet.Cli.Flubu.Scripting.Analysis;
-using DotNet.Cli.Flubu.Scripting.Processor;
-using DotNet.Cli.Flubu.Scripting.Processors;
+using FlubuCore.Scripting.Analysis;
+using FlubuCore.Scripting.Processors;
 using Xunit;
 
 namespace Flubu.Tests.Scripting

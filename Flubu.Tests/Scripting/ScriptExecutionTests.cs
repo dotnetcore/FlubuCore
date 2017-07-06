@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using DotNet.Cli.Flubu.Scripting;
-using DotNet.Cli.Flubu.Scripting.Analysis;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
+using FlubuCore.Scripting.Analysis;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
 using Microsoft.Extensions.DependencyInjection;

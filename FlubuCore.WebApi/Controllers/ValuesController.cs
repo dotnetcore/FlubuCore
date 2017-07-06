@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DotNet.Cli.Flubu.Commanding;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlubuCore.WebApi.Controllers
@@ -10,18 +9,10 @@ namespace FlubuCore.WebApi.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        private ICommandExecutor _commandExecutor;
-
-        public ValuesController(ICommandExecutor commandExecutor)
-        {
-            _commandExecutor = commandExecutor;
-        }
-
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            var result = _commandExecutor.ExecuteAsync().Result;
             return new string[] { "value1", "value2" };
         }
 

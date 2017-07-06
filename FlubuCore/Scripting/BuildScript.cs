@@ -1,6 +1,7 @@
 ﻿using FlubuCore.Context;
-using FlubuCore.Scripting;
 
+namespace FlubuCore.Scripting
+{
     /// <summary>
     /// Build script template.
     /// </summary>
@@ -28,3 +29,4 @@ using FlubuCore.Scripting;
             ////session.GetTarget("fetch.build.version");
         }
     }
+}

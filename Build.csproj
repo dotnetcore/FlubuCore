@@ -16,6 +16,7 @@
     <Compile Remove="Flubu.Tests\**" />
     <Compile Remove="Flubu.VisualStudio\**" />
     <Compile Remove="FlubuCore.Runner\**" />
+    <Compile Remove="FlubuCore.WebApi\**" />
     <Compile Remove="FlubuCore\**" />
     <Compile Remove="tools\**" />
     <EmbeddedResource Remove=".git\**" />
@@ -28,6 +29,7 @@
     <EmbeddedResource Remove="Flubu.Tests\**" />
     <EmbeddedResource Remove="Flubu.VisualStudio\**" />
     <EmbeddedResource Remove="FlubuCore.Runner\**" />
+    <EmbeddedResource Remove="FlubuCore.WebApi\**" />
     <EmbeddedResource Remove="FlubuCore\**" />
     <EmbeddedResource Remove="tools\**" />
     <None Remove=".git\**" />
@@ -40,6 +42,7 @@
     <None Remove="Flubu.Tests\**" />
     <None Remove="Flubu.VisualStudio\**" />
     <None Remove="FlubuCore.Runner\**" />
+    <None Remove="FlubuCore.WebApi\**" />
     <None Remove="FlubuCore\**" />
     <None Remove="tools\**" />
   </ItemGroup>

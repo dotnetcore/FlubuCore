@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DotNet.Cli.Flubu.Commanding;
-using DotNet.Cli.Flubu.Infrastructure;
-using DotNet.Cli.Flubu.Scripting;
-using FlubuCore.Infrastructure;
-using FlubuCore.WebApi.Controllers;
+using FlubuCore.WebApi.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -37,13 +33,9 @@ namespace FlubuCore.WebApi
 
             services
                 .AddCoreComponents()
+                .AddCommandComponents()
                 .AddScriptAnalyser()
                 .AddTasks();
-
-            services
-                .AddScoped<IBuildScriptLocator, BuildScriptLocator>()
-                .AddScoped<IScriptLoader, ScriptLoader>()
-                .AddScoped<ICommandExecutor, WebApiCommandExecutor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

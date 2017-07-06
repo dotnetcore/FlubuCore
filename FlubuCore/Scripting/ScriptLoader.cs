@@ -4,15 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using DotNet.Cli.Flubu.Scripting.Analysis;
 using FlubuCore.IO.Wrappers;
-using FlubuCore.Scripting;
+using FlubuCore.Scripting.Analysis;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.Extensions.Logging;
 
-namespace DotNet.Cli.Flubu.Scripting
+namespace FlubuCore.Scripting
 {
     public class ScriptLoader : IScriptLoader
     {

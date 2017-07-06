@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
-using FlubuCore.Scripting;
 
-namespace DotNet.Cli.Flubu.Scripting
+namespace FlubuCore.Scripting
 {
     public interface IScriptLoader
     {

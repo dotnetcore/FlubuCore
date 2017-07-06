@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DotNet.Cli.Flubu.Scripting.Analysis
+namespace FlubuCore.Scripting.Analysis
 {
     public class AnalyserResult
     {
