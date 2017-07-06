@@ -10,16 +10,12 @@ namespace FlubuCore.WebApi.Client
 {
     public class WebApiClient : RestClient, IWebApiClient
     {
-        public WebApiClient(ClientSettings settings) : base(settings)
-        {
-        }
-
-        public WebApiClient(HttpClient httpClient, ClientSettings settings = null) : base(httpClient, settings)
+        public WebApiClient(HttpClient client) : base(client)
         {
         }
 
         [Post("api/scripts/execute")]
-        public async Task ExecuteScript(ExecuteScriptRequest request)
+        public async Task ExecuteScriptAsync(ExecuteScriptRequest request)
         {
             await SendAsync(request);
         }

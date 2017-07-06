@@ -76,6 +76,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Tasks\FlubuWebApi\" />
+    <ProjectReference Include="..\FlubuCore.WebApi.Client\FlubuCore.WebApi.Client.csproj" />
+    <ProjectReference Include="..\FlubuCore.WebApi.Model\FlubuCore.WebApi.Model.csproj" />
   </ItemGroup>
 </Project>

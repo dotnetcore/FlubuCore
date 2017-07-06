@@ -17,20 +17,26 @@ namespace FlubuCore.WebApi.Client
     {
         private List<MethodInfo> methods = null;
 
-        internal RestClient(ClientSettings settings)
+        internal RestClient(HttpClient httpClient)
         {
-            Client = new HttpClient();
-            Settings = settings;
-            Client.Timeout = TimeSpan.FromMilliseconds(settings.Timeout);
+            Client = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             GetAllClientMethods();
         }
 
-        internal RestClient(HttpClient httpClient, ClientSettings settings = null)
+        public string WebApiBaseUrl
         {
-            Client = httpClient;
-            this.Settings = settings ?? new ClientSettings();
-            Settings.BaseUrl = httpClient.BaseAddress.ToString();
-            GetAllClientMethods();
+            get => WebApiBaseUrl;
+            set
+            {
+                WebApiBaseUrl = value;
+                Client.BaseAddress = new Uri(value);
+            }
+        }
+
+        public TimeSpan Timeout
+        {
+            get => Client.Timeout;
+            set => Client.Timeout = value;
         }
 
         internal async Task<TResponse> SendAsync<TResponse>([CallerMemberName] string memberName = "") where TResponse : new()
@@ -81,7 +87,7 @@ namespace FlubuCore.WebApi.Client
                 }
             }
 
-            var uri = new Uri(string.Format("{0}{1}{2}", Settings.BaseUrl, relativePath, queryString));
+            var uri = new Uri(string.Format("{0}{1}{2}", WebApiBaseUrl, relativePath, queryString));
             requestMessage.RequestUri = uri;
             var responseMessage = await Client.SendAsync(requestMessage);
             return await GetResponse<TResponse>(responseMessage);
@@ -112,8 +118,6 @@ namespace FlubuCore.WebApi.Client
         {
             methods = GetType().GetRuntimeMethods().ToList();
         }
-
-        public ClientSettings Settings { get; set; }
 
         protected HttpClient Client { get; set; }
     }
