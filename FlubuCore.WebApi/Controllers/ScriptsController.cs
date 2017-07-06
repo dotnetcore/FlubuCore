@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FlubuCore.Commanding;
-////using DotNet.Cli.Flubu.Commanding;
 using FlubuCore.Scripting;
+using FlubuCore.Tasks.FlubuWebApi;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlubuCore.WebApi.Controllers
@@ -23,9 +23,11 @@ namespace FlubuCore.WebApi.Controllers
         }
 
         [HttpGet("Execute")]
-        public async Task<IActionResult> Execute()
+        public async Task<IActionResult> Execute([FromBody]ExecuteScriptRequest request)
         {
-            _commandArguments.MainCommand = "build";
+            _commandArguments.MainCommand = request.MainCommand;
+            _commandArguments.Script = request.ScriptFilePathLocation;
+            _commandArguments.RemainingCommands = request.RemainingCommands;
             await _commandExecutor.ExecuteAsync();
 
             return Ok();
