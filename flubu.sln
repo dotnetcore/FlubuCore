@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Build", "Build.csproj", "{B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.WebApi", "FlubuCore.WebApi\FlubuCore.WebApi.csproj", "{6C98FC75-06F0-484F-92D7-B78A01B60EB7}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.WebApi.Client", "FlubuCore.WebApi.Client\FlubuCore.WebApi.Client.csproj", "{87926E78-4C1D-457F-90A3-D320078A5E70}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,18 @@ Global
 		{6C98FC75-06F0-484F-92D7-B78A01B60EB7}.Release|x64.Build.0 = Release|Any CPU
 		{6C98FC75-06F0-484F-92D7-B78A01B60EB7}.Release|x86.ActiveCfg = Release|Any CPU
 		{6C98FC75-06F0-484F-92D7-B78A01B60EB7}.Release|x86.Build.0 = Release|Any CPU
+		{87926E78-4C1D-457F-90A3-D320078A5E70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87926E78-4C1D-457F-90A3-D320078A5E70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87926E78-4C1D-457F-90A3-D320078A5E70}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{87926E78-4C1D-457F-90A3-D320078A5E70}.Debug|x64.Build.0 = Debug|Any CPU
+		{87926E78-4C1D-457F-90A3-D320078A5E70}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{87926E78-4C1D-457F-90A3-D320078A5E70}.Debug|x86.Build.0 = Debug|Any CPU
+		{87926E78-4C1D-457F-90A3-D320078A5E70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87926E78-4C1D-457F-90A3-D320078A5E70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87926E78-4C1D-457F-90A3-D320078A5E70}.Release|x64.ActiveCfg = Release|Any CPU
+		{87926E78-4C1D-457F-90A3-D320078A5E70}.Release|x64.Build.0 = Release|Any CPU
+		{87926E78-4C1D-457F-90A3-D320078A5E70}.Release|x86.ActiveCfg = Release|Any CPU
+		{87926E78-4C1D-457F-90A3-D320078A5E70}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -22,7 +22,7 @@ namespace FlubuCore.WebApi.Controllers
             _commandArguments = commandArguments;
         }
 
-        [HttpGet("Execute")]
+        [HttpPost("Execute")]
         public async Task<IActionResult> Execute([FromBody]ExecuteScriptRequest request)
         {
             _commandArguments.MainCommand = request.MainCommand;

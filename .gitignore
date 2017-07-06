@@ -48,3 +48,5 @@ FlubuCore.WebApi/obj/Debug/netcoreapp1.1/CoreCompileInputs.cache
 FlubuCore.WebApi/obj/
 FlubuCore.WebApi/bin/Debug/netcoreapp1.1/FlubuCore.WebApi.deps.json
 FlubuCore.WebApi/bin/
+FlubuCore.WebApi.Client/obj/
+FlubuCore.WebApi.Client/bin/
