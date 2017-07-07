@@ -30,8 +30,11 @@ namespace FlubuCore.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+            services.AddMvc(options =>
+                {
+                    options.ModelValidatorProviders.Clear();
+                })
+              .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
             services
                 .AddCoreComponents()

@@ -15,20 +15,23 @@ namespace FlubuCore.WebApi.Client
 {
     public abstract class RestClient
     {
+        private string _webApiBaseUrl;
+
         private List<MethodInfo> methods = null;
 
         internal RestClient(HttpClient httpClient)
         {
             Client = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _webApiBaseUrl = httpClient.BaseAddress.ToString();
             GetAllClientMethods();
         }
 
         public string WebApiBaseUrl
         {
-            get => WebApiBaseUrl;
+            get { return _webApiBaseUrl; }
             set
             {
-                WebApiBaseUrl = value;
+                _webApiBaseUrl = value;
                 Client.BaseAddress = new Uri(value);
             }
         }
