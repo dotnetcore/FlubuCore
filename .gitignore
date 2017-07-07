@@ -52,3 +52,5 @@ FlubuCore.WebApi.Client/obj/
 FlubuCore.WebApi.Client/bin/
 FlubuCore.WebApi.Model/obj/
 FlubuCore.WebApi.Model/bin/
+FlubuCore.WebApi.Tests/bin/
+FlubuCore.WebApi.Tests/obj/
