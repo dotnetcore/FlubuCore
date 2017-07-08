@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FlubuCore.WebApi.Controllers.Attributes;
 using FlubuCore.WebApi.Infrastructure;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
@@ -41,6 +42,8 @@ namespace FlubuCore.WebApi
                 .AddCommandComponents()
                 .AddScriptAnalyser()
                 .AddTasks();
+
+            services.AddScoped<ApiExceptionFilter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
