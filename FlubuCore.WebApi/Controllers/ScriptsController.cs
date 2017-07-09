@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FlubuCore.WebApi.Controllers
 {
     [Route("api/[controller]")]
-    public class ScriptsController : Controller
+    public class ScriptsController : ControllerBase
     {
         private ICommandExecutor _commandExecutor;
 

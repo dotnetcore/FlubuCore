@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using FlubuCore.WebApi.Client.Attributes;
+using FlubuCore.WebApi.Model;
 using Newtonsoft.Json;
 
 namespace FlubuCore.WebApi.Client
@@ -101,7 +102,12 @@ namespace FlubuCore.WebApi.Client
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 var errorString = await response.Content.ReadAsStringAsync();
-                throw new WebApiException(response.StatusCode, errorString);
+                var errorModel = JsonConvert.DeserializeObject<ErrorModel>(errorString);
+                throw new WebApiException(response.StatusCode, errorString)
+                {
+                    ErrorCode = errorModel.ErrorCode,
+                    ErrorMessage = errorModel.ErrorMessage
+                };
             }
 
             if (typeof(T) == typeof(Void))

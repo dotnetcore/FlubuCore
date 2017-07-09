@@ -63,7 +63,6 @@ namespace FlubuCore.WebApi.Controllers.Attributes
                 {
                     ErrorCode = httpError.ErrorCode,
                     ErrorMessage = httpError.ErrorMessage,
-                    LocalizedMessage = httpError.LocalizedMessage,
                     ValidationErrors = httpError.ValidationErrors,
                 };
 

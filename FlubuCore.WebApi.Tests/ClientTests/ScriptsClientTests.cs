@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.WebApi.Client;
 using FlubuCore.WebApi.Model;
 using FlubuCore.WebApi.Tests.ClientTests;
 using Xunit;
@@ -17,10 +18,13 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async void ExecuteScript_MainCommandEmpty_ThrowsBadRequest()
         {
-           await Client.ExecuteScriptAsync(new ExecuteScriptRequest
-            {
-                ScriptFilePathLocation = "bla"
-            });
+            var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(
+                new ExecuteScriptRequest
+                {
+                    ScriptFilePathLocation = "bla"
+                }));
+
+            Assert.Equal(ErrorCodes.ModelStateNotValid, exception.ErrorCode);
         }
     }
 }

@@ -44,6 +44,7 @@ namespace FlubuCore.WebApi
                 .AddTasks();
 
             services.AddScoped<ApiExceptionFilter>();
+            services.AddScoped<ValidateRequestModelAttribute>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

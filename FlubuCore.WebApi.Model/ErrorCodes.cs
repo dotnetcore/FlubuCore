@@ -23,5 +23,6 @@ namespace FlubuCore.WebApi.Model
         /// </summary>
         public const string Forbiden = "Forbiden";
 
+        public const string ModelStateNotValid = "ModelStateNotValid";
     }
 }
