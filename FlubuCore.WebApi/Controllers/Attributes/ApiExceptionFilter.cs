@@ -8,12 +8,20 @@ using FlubuCore.WebApi.Controllers.Exception;
 using FlubuCore.WebApi.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic.CompilerServices;
 
 namespace FlubuCore.WebApi.Controllers.Attributes
 {
     public class ApiExceptionFilter : ExceptionFilterAttribute
     {
+        private readonly ILogger<ApiExceptionFilter> _logger;
+
+        public ApiExceptionFilter(ILogger<ApiExceptionFilter> logger)
+        {
+           _logger = logger;
+        }
+
         public override void OnException(ExceptionContext context)
         {
             if (context.Exception is HttpError)
@@ -30,7 +38,7 @@ namespace FlubuCore.WebApi.Controllers.Attributes
 
         private void HandleInternalServerError(ExceptionContext context)
         {
-            ////Log.ErrorFormat("Exception occured: {0}", context.Exception);
+            _logger.LogError("Exception occured: {0}", context.Exception);
             context.HttpContext.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
             var error = new ErrorModel
             {
@@ -44,7 +52,7 @@ namespace FlubuCore.WebApi.Controllers.Attributes
 
         private void HandleHttpError(ExceptionContext context)
         {
-            ////Log.WarnFormat("HttpError occured: {0}", context.Exception);
+            _logger.LogWarning($"HttpError occured: {0}", context.Exception);
             var httpError = (HttpError) context.Exception;
             context.HttpContext.Response.StatusCode = (int) httpError.StatusCode;
             if (httpError.StatusCode == HttpStatusCode.NotFound && string.IsNullOrEmpty(httpError.ErrorCode))

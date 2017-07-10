@@ -52,7 +52,7 @@ namespace FlubuCore.WebApi
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
+            loggerFactory.AddFile("Logs/Flubu-{Date}.txt");
             app.UseMvc();
         }
     }
