@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FlubuCore.Context;
+﻿using FlubuCore.Context;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Linux
@@ -11,7 +7,7 @@ namespace FlubuCore.Tasks.Linux
     {
         private readonly string _command;
         private readonly string _service;
-
+        
         public SystemCtlTask(string command, string service)
         {
             _command = command;
@@ -20,9 +16,14 @@ namespace FlubuCore.Tasks.Linux
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            IRunProgramTask task = context.Tasks().RunProgramTask("systemctl")
+            IRunProgramTask task = context
+                .Tasks()
+                .RunProgramTask("systemctl")
                 .WithArguments(_command, _service);
 
+            if (DoNotFail)
+                task.DoNotFailOnError();
+            
             return task.Execute(context);
         }
     }

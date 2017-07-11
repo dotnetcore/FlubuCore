@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FlubuCore.Context;
 
 namespace FlubuCore.Tasks
@@ -16,5 +15,11 @@ namespace FlubuCore.Tasks
         T Execute(ITaskContext context);
         
         Task<T> ExecuteAsync(ITaskContext context);
+
+        /// <summary>
+        /// Task won't fail if error occurs.
+        /// </summary>
+        /// <returns></returns>
+        ITaskOfT<T> DoNotFailOnError();
     }
 }

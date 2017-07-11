@@ -1,3 +1,6 @@
+1.4.11.0
+- Added generic DoNotFailOnError setting for tasks
+
 1.4.10.0
 - Updated nuget packages
 - Fixed ControlAppPoolTask missing dependencie

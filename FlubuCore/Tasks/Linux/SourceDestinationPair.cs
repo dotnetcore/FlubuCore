@@ -1,11 +1,5 @@
-﻿using FlubuCore.Context;
-using Renci.SshNet;
-using System.Collections.Generic;
-using System.IO;
-
-namespace FlubuCore.Tasks.Linux
+﻿namespace FlubuCore.Tasks.Linux
 {
-
     internal class SourceDestinationPair
     {
         public SourceDestinationPair(string source, string destination, bool isFile)

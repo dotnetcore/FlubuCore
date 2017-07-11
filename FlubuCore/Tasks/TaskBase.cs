@@ -22,6 +22,8 @@ namespace FlubuCore.Tasks
 
         protected virtual string DescriptionForLog => null;
 
+        protected bool DoNotFail { get; private set; }
+        
         /// <summary>
         ///     Gets a value indicating whether the duration of the task should be logged after the task
         ///     has finished.
@@ -29,6 +31,13 @@ namespace FlubuCore.Tasks
         /// <value><c>true</c> if duration should be logged; otherwise, <c>false</c>.</value>
         protected virtual bool LogDuration => false;
 
+        public ITaskOfT<T> DoNotFailOnError()
+        {
+            DoNotFail = true;
+
+            return this;
+        }
+        
         public void ExecuteVoid(ITaskContext context)
         {
             Execute(context);

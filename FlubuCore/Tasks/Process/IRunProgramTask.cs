@@ -7,7 +7,5 @@
         IRunProgramTask WithArguments(params string[] args);
 
         IRunProgramTask WorkingFolder(string folder);
-
-        IRunProgramTask DoNotFail();
     }
 }
