@@ -1,3 +1,6 @@
+1.4.13.0
+- Removed Client from FlubuCore 
+
 1.4.12.0
 - Upgraded nuget packages
 
