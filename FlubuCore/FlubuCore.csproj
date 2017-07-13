@@ -49,9 +49,6 @@
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Tasks\FlubuWebApi\ExecuteFlubuScriptTask.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <!--<PackageReference Include="Documentation.Analyser" Version="1.0.6166.19031">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>-->
@@ -79,6 +76,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Tasks\FlubuWebApi\" />
+    <ProjectReference Include="..\FlubuCore.WebApi.Client\FlubuCore.WebApi.Client.csproj" />
+    <ProjectReference Include="..\FlubuCore.WebApi.Model\FlubuCore.WebApi.Model.csproj" />
   </ItemGroup>
 </Project>

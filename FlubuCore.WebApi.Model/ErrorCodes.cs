@@ -19,6 +19,11 @@ namespace FlubuCore.WebApi.Model
         public const string NotFound = "NotFound";
 
         /// <summary>
+        /// Occures when script is not found.
+        /// </summary>
+        public const string ScriptNotFound = "ScriptNotFound";
+
+        /// <summary>
         /// Occures when user doesnt have access to specific resource;
         /// </summary>
         public const string Forbiden = "Forbiden";

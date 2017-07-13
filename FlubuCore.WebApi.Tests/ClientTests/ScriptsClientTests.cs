@@ -26,5 +26,20 @@ namespace FlubuCore.WebApi.Tests.ClientTests
 
             Assert.Equal(ErrorCodes.ModelStateNotValid, exception.ErrorCode);
         }
+
+        [Fact]
+        public async void ExecuteScript_ScriptNotFound_ThrowsBadRequest()
+        {
+            var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(
+                new ExecuteScriptRequest
+                {
+                    ScriptFilePathLocation = "somescript.cs",
+                    MainCommand = "compile"
+                }));
+
+            Assert.Equal(ErrorCodes.ScriptNotFound, exception.ErrorCode);
+        }
+
+
     }
 }

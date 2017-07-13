@@ -48,6 +48,11 @@ namespace FlubuCore.Commanding
 
                 return result;
             }
+            catch (BuildScriptLocatorException e)
+            {
+                _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{e}", null, (t, ex) => t);
+                return StatusCodes.BuildScriptNotFound;
+            }
             catch (Exception e)
             {
                 _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{e}", null, (t, ex) => t);

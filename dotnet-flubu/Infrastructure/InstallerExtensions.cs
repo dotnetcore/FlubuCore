@@ -18,6 +18,7 @@ using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Solution;
 using FlubuCore.Tasks.Testing;
 using FlubuCore.Tasks.Versioning;
+using FlubuCore.WebApi.Client;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,7 +40,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddSingleton<IFlubuEnviromentService, FlubuEnviromentService>()
                 .AddSingleton<ICommandFactory, CommandFactory>()
                 .AddSingleton<ITaskFactory, DotnetTaskFactory>()
-                ////.AddSingleton<IWebApiClient, WebApiClient>()
+                .AddSingleton<IWebApiClient, WebApiClient>()
                 .AddSingleton<HttpClient, HttpClient>();
 
             return services;
