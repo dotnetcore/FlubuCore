@@ -30,28 +30,23 @@ namespace FlubuCore.WebApi.Controllers
             _commandArguments.MainCommand = request.MainCommand;
             _commandArguments.Script = request.ScriptFilePathLocation;
             _commandArguments.RemainingCommands = request.RemainingCommands;
-            var result = await _commandExecutor.ExecuteAsync();
-            switch (result)
+
+            try
             {
-                case 0:
-                    return Ok();
-                case StatusCodes.BuildScriptNotFound:
+                var result = await _commandExecutor.ExecuteAsync();
+
+                switch (result)
                 {
-                    string errorMsg;
-                    if (string.IsNullOrEmpty(request.ScriptFilePathLocation))
-                    {
-                       errorMsg = "The build script file was not specified. Please specify it as the first argument or use some of the default paths for script file";
-                    }
-                    else
-                    {
-                        errorMsg = $"The build script at the location {request.ScriptFilePathLocation} was not found.";
-                    }
-
-                    throw new HttpError(HttpStatusCode.BadRequest, Model.ErrorCodes.ScriptNotFound, errorMsg);
+                    case 0:
+                        return Ok();
                 }
-            }
 
-            throw new HttpError(HttpStatusCode.InternalServerError, result.ToString());
+                throw new HttpError(HttpStatusCode.InternalServerError, result.ToString());
+            }
+            catch (BuildScriptLocatorException e)
+            {
+                throw new HttpError(HttpStatusCode.BadRequest, ErrorCodes.ScriptNotFound, e.Message);
+            }
         }
     }
 }

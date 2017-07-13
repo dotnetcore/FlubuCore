@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
+using FlubuCore;
+using FlubuCore.Commanding;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
 using Microsoft.Extensions.Logging;
 
-namespace FlubuCore.Commanding
+namespace DotNet.Cli.Flubu.Commanding
 {
     public class CommandExecutor : ICommandExecutor
     {

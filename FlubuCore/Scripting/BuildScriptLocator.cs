@@ -6,7 +6,7 @@ namespace FlubuCore.Scripting
 {
     public class BuildScriptLocator : IBuildScriptLocator
     {
-        internal static readonly string[] DefaultScriptLocations =
+        public static readonly string[] DefaultScriptLocations =
         {
             "buildscript.cs",
             "BuildScript.cs",

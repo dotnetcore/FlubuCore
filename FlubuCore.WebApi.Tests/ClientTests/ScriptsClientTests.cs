@@ -40,6 +40,15 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             Assert.Equal(ErrorCodes.ScriptNotFound, exception.ErrorCode);
         }
 
-
+        [Fact]
+        public async void ExecuteScript_ExecuteSimpleScript_Sucesfull()
+        {
+            await Client.ExecuteScriptAsync(
+                new ExecuteScriptRequest
+                {
+                    ScriptFilePathLocation = "simplescript.cs",
+                    MainCommand = "test"
+                });
+        }
     }
 }
