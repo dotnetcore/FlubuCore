@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Text;
 using FlubuCore.WebApi.Client;
@@ -19,12 +20,20 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async void ExecuteScript_ExecuteSimpleScript_Sucesfull()
         {
+            if (File.Exists("test.txt"))
+            File.Delete("test.txt");
+
+            Assert.False(File.Exists("test.txt"));
+
+            Assert.False(File.Exists("test.txt"));
             await Client.ExecuteScriptAsync(
                 new ExecuteScriptRequest
                 {
                     ScriptFilePathLocation = "simplescript.cs",
                     TargetToExecute = "SuccesfullTarget"
                 });
+
+            Assert.True(File.Exists("test.txt"));
         }
 
         [Fact]

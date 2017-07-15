@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
@@ -22,7 +23,7 @@ namespace FlubuCore.WebApi.Tests
 
         public void SuccesfullTarget(ITaskContext session)
         {
-            Console.WriteLine("SuccesfullTarget");
+            File.Create("test.txt");
         }
 
         public void FailedTarget(ITaskContext session)
