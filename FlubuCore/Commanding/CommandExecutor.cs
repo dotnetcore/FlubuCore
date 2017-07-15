@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
-using FlubuCore;
-using FlubuCore.Commanding;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
 using Microsoft.Extensions.Logging;
 
-namespace DotNet.Cli.Flubu.Commanding
+namespace FlubuCore.Commanding
 {
     public class CommandExecutor : ICommandExecutor
     {
@@ -52,11 +50,15 @@ namespace DotNet.Cli.Flubu.Commanding
             }
             catch (BuildScriptLocatorException e)
             {
+                if (_args.RethrowOnException)
+                    throw;
                 _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{e}", null, (t, ex) => t);
                 return StatusCodes.BuildScriptNotFound;
             }
             catch (Exception e)
             {
+                if (_args.RethrowOnException)
+                    throw;
                 _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{e}", null, (t, ex) => t);
                 return 3;
             }

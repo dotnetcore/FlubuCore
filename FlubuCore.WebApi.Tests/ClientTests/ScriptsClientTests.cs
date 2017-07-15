@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using FlubuCore.WebApi.Client;
 using FlubuCore.WebApi.Model;
@@ -16,6 +17,17 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         }
 
         [Fact]
+        public async void ExecuteScript_ExecuteSimpleScript_Sucesfull()
+        {
+            await Client.ExecuteScriptAsync(
+                new ExecuteScriptRequest
+                {
+                    ScriptFilePathLocation = "simplescript.cs",
+                    TargetToExecute = "SuccesfullTarget"
+                });
+        }
+
+        [Fact]
         public async void ExecuteScript_MainCommandEmpty_ThrowsBadRequest()
         {
             var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(
@@ -24,6 +36,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
                     ScriptFilePathLocation = "bla"
                 }));
 
+            Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
             Assert.Equal(ErrorCodes.ModelStateNotValid, exception.ErrorCode);
         }
 
@@ -37,6 +50,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
                     TargetToExecute = "compile"
                 }));
 
+            Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
             Assert.Equal(ErrorCodes.ScriptNotFound, exception.ErrorCode);
         }
 
@@ -50,18 +64,23 @@ namespace FlubuCore.WebApi.Tests.ClientTests
                     TargetToExecute = "nonexist"
                 }));
 
+            Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
             Assert.Equal(ErrorCodes.TargetNotFound, exception.ErrorCode);
         }
 
         [Fact]
-        public async void ExecuteScript_ExecuteSimpleScript_Sucesfull()
+        public async void ExecuteScript_TargetThrowsException_ThrowsInternalServer()
         {
-            await Client.ExecuteScriptAsync(
+            var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(
                 new ExecuteScriptRequest
                 {
                     ScriptFilePathLocation = "simplescript.cs",
-                    TargetToExecute = "test"
-                });
+                    TargetToExecute = "FailedTarget"
+                }));
+
+            Assert.Equal(HttpStatusCode.InternalServerError, exception.StatusCode);
+            Assert.Equal(ErrorCodes.InternalServerError, exception.ErrorCode);
+            Assert.Equal("Error message", exception.ErrorMessage);
         }
     }
 }

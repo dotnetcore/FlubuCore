@@ -30,7 +30,8 @@ namespace FlubuCore.WebApi.Controllers
             _commandArguments.MainCommand = request.TargetToExecute;
             _commandArguments.Script = request.ScriptFilePathLocation;
             _commandArguments.RemainingCommands = request.RemainingCommands;
-            _commandArguments.TreatUnknownCommandAsException = true;
+            _commandArguments.TreatUnknownTargetAsException = true;
+            _commandArguments.RethrowOnException = true;
 
             try
             {

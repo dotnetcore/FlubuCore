@@ -15,12 +15,19 @@ namespace FlubuCore.WebApi.Tests
 
         protected override void ConfigureTargets(ITaskContext session)
         {
-            session.CreateTarget("test").Do(Test);
+            session.CreateTarget("SuccesfullTarget").Do(SuccesfullTarget);
+
+            session.CreateTarget("FailedTarget").Do(FailedTarget);
         }
 
-        public void Test(ITaskContext session)
+        public void SuccesfullTarget(ITaskContext session)
         {
-            Console.WriteLine("Test");
+            Console.WriteLine("SuccesfullTarget");
+        }
+
+        public void FailedTarget(ITaskContext session)
+        {
+            throw new TaskExecutionException("Error message", 5);
         }
     }
 }

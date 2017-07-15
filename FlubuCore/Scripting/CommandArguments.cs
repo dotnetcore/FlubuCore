@@ -18,6 +18,14 @@ namespace FlubuCore.Scripting
 
         public List<string> TargetsToExecute { get; set; }
 
-        public bool TreatUnknownCommandAsException { get; set; }
+        /// <summary>
+        /// If <c>true</c> specified target is unknown flubu treat this as exception. Otherwise help target is runned.
+        /// </summary>
+        public bool TreatUnknownTargetAsException { get; set; }
+        
+        /// <summary>
+        /// If <c>true</c> flubu rethrows exception when occures. Otherwise status code is returned. 
+        /// </summary>
+        public bool RethrowOnException { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
+using FlubuCore.Context;
 using FlubuCore.WebApi.Controllers.Exception;
 using FlubuCore.WebApi.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -40,10 +41,20 @@ namespace FlubuCore.WebApi.Controllers.Attributes
         {
             _logger.LogError("Exception occured: {0}", context.Exception);
             context.HttpContext.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+            string errorMessage;
+            if (context.Exception is TaskExecutionException)
+            {
+                errorMessage = context.Exception.Message;
+            }
+            else
+            {
+                errorMessage = ErrorMessages.InternalServerError;
+            }
+
             var error = new ErrorModel
             {
                 ErrorCode = "InternalServerError",
-                ErrorMessage = ErrorMessages.InternalServerError,
+                ErrorMessage = errorMessage
               
             };
 

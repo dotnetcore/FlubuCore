@@ -19,8 +19,19 @@ namespace FlubuCore.Scripting
             }
             catch (TaskExecutionException e)
             {
+                if (taskSession.Args.RethrowOnException)
+                    throw;
+
                 taskSession.LogInfo(e.Message);
                 return 1;
+            }
+            catch (Exception ex)
+            {
+                if (taskSession.Args.RethrowOnException)
+                    throw;
+
+                taskSession.LogInfo(ex.ToString());
+                return 2;
             }
         }
 
@@ -40,7 +51,7 @@ namespace FlubuCore.Scripting
                 return context.Args.MainCommand;
             }
 
-            if (context.Args.TreatUnknownCommandAsException)
+            if (context.Args.TreatUnknownTargetAsException)
             {
                 throw new TargetNotFoundException($"Target { context.Args.MainCommand } not found.");
             }

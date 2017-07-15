@@ -90,7 +90,6 @@ public class MyBuildScript : DefaultBuildScript
 
         try
         {
-       
             context.CoreTasks().ExecuteDotnetTask("nuget")
                 .WithArguments("push")
                 .WithArguments($"output\\FlubuCore.{nugetVersion}.nupkg")

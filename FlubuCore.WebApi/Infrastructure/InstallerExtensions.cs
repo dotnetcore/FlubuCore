@@ -20,7 +20,6 @@ using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Solution;
 using FlubuCore.Tasks.Testing;
 using FlubuCore.Tasks.Versioning;
-using FlubuCore.WebApi.Commanding;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.DependencyInjection;
 
