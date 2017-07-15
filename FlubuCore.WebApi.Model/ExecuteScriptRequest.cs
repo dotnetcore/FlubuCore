@@ -4,7 +4,7 @@ namespace FlubuCore.WebApi.Model
 {
     public class ExecuteScriptRequest
     {
-        public string MainCommand { get; set; }
+        public string TargetToExecute { get; set; }
 
         public List<string> RemainingCommands { get; set; }
 

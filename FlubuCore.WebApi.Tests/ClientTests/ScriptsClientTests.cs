@@ -34,10 +34,23 @@ namespace FlubuCore.WebApi.Tests.ClientTests
                 new ExecuteScriptRequest
                 {
                     ScriptFilePathLocation = "somescript.cs",
-                    MainCommand = "compile"
+                    TargetToExecute = "compile"
                 }));
 
             Assert.Equal(ErrorCodes.ScriptNotFound, exception.ErrorCode);
+        }
+
+        [Fact]
+        public async void ExecuteScript_TargetNotFound_ThrowsBadRequest()
+        {
+            var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(
+                new ExecuteScriptRequest
+                {
+                    ScriptFilePathLocation = "simplescript.cs",
+                    TargetToExecute = "nonexist"
+                }));
+
+            Assert.Equal(ErrorCodes.TargetNotFound, exception.ErrorCode);
         }
 
         [Fact]
@@ -47,7 +60,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
                 new ExecuteScriptRequest
                 {
                     ScriptFilePathLocation = "simplescript.cs",
-                    MainCommand = "test"
+                    TargetToExecute = "test"
                 });
         }
     }

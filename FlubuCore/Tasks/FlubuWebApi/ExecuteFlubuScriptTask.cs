@@ -51,7 +51,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
             await _webApiClient.ExecuteScriptAsync(new ExecuteScriptRequest
             {
                ScriptFilePathLocation = _scriptFilePath,
-               MainCommand = _mainCommand,
+               TargetToExecute = _mainCommand,
                RemainingCommands = _commands
               
             });

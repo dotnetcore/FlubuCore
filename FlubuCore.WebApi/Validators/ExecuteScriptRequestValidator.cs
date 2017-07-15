@@ -11,7 +11,7 @@ namespace FlubuCore.WebApi.Validators
     {
         public ExecuteScriptRequestValidator()
         {
-            RuleFor(x => x.MainCommand).NotEmpty();
+            RuleFor(x => x.TargetToExecute).NotEmpty();
         }
     }
 }

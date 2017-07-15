@@ -23,6 +23,8 @@ namespace FlubuCore.WebApi.Model
         /// </summary>
         public const string ScriptNotFound = "ScriptNotFound";
 
+        public const string TargetNotFound = "TargetNotFound";
+
         /// <summary>
         /// Occures when user doesnt have access to specific resource;
         /// </summary>

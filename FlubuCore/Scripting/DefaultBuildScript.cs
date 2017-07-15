@@ -22,11 +22,6 @@ namespace FlubuCore.Scripting
                 taskSession.LogInfo(e.Message);
                 return 1;
             }
-            catch (Exception ex)
-            {
-                taskSession.LogInfo(ex.ToString());
-                return 2;
-            }
         }
 
         protected abstract void ConfigureBuildProperties(IBuildPropertiesContext context);
@@ -43,6 +38,11 @@ namespace FlubuCore.Scripting
             if (targetTree.HasTarget(context.Args.MainCommand))
             {
                 return context.Args.MainCommand;
+            }
+
+            if (context.Args.TreatUnknownCommandAsException)
+            {
+                throw new TargetNotFoundException($"Target { context.Args.MainCommand } not found.");
             }
 
             context.LogInfo($"ERROR: Target {context.Args.MainCommand} not found.");

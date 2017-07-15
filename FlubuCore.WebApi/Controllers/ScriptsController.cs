@@ -27,9 +27,10 @@ namespace FlubuCore.WebApi.Controllers
         [HttpPost("Execute")]
         public async Task<IActionResult> Execute([FromBody] ExecuteScriptRequest request)
         {
-            _commandArguments.MainCommand = request.MainCommand;
+            _commandArguments.MainCommand = request.TargetToExecute;
             _commandArguments.Script = request.ScriptFilePathLocation;
             _commandArguments.RemainingCommands = request.RemainingCommands;
+            _commandArguments.TreatUnknownCommandAsException = true;
 
             try
             {
@@ -46,6 +47,10 @@ namespace FlubuCore.WebApi.Controllers
             catch (BuildScriptLocatorException e)
             {
                 throw new HttpError(HttpStatusCode.BadRequest, ErrorCodes.ScriptNotFound, e.Message);
+            }
+            catch (TargetNotFoundException e)
+            {
+                throw new HttpError(HttpStatusCode.BadRequest, ErrorCodes.TargetNotFound, e.Message);
             }
         }
     }

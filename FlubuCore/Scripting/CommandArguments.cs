@@ -17,5 +17,7 @@ namespace FlubuCore.Scripting
         public string Script { get; set; }
 
         public List<string> TargetsToExecute { get; set; }
+
+        public bool TreatUnknownCommandAsException { get; set; }
     }
 }
