@@ -80,6 +80,7 @@ namespace FlubuCore.WebApi.Controllers.Attributes
             {
                 var error = new ErrorModel
                 {
+                    StatusCode = httpError.StatusCode,
                     ErrorCode = httpError.ErrorCode,
                     ErrorMessage = httpError.ErrorMessage,
                     ValidationErrors = httpError.ValidationErrors,
