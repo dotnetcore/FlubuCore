@@ -13,5 +13,7 @@ namespace FlubuCore.WebApi.Client
         TimeSpan Timeout { get; set; }
 
         Task ExecuteScriptAsync(ExecuteScriptRequest request);
+
+        Task UploadPackageAsync(UploadPackageRequest request);
     }
 }

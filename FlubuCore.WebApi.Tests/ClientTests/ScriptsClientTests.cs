@@ -23,7 +23,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             if (File.Exists("test.txt"))
             File.Delete("test.txt");
 
-            Assert.False(File.Exists("test.txt"));
+            Assert.False (File.Exists("test.txt"));
 
             Assert.False(File.Exists("test.txt"));
             await Client.ExecuteScriptAsync(

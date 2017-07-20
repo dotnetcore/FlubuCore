@@ -97,7 +97,7 @@ namespace FlubuCore.WebApi.Client
             return await GetResponse<TResponse>(responseMessage);
         }
 
-        private async Task<T> GetResponse<T>(HttpResponseMessage response) where T : new()
+        protected async Task<T> GetResponse<T>(HttpResponseMessage response) where T : new()
         {
             if (response.StatusCode != HttpStatusCode.OK)
             {
