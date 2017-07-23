@@ -15,5 +15,7 @@ namespace FlubuCore.WebApi.Client
         Task ExecuteScriptAsync(ExecuteScriptRequest request);
 
         Task UploadPackageAsync(UploadPackageRequest request);
+
+        Task DeletePackagesAsync();
     }
 }

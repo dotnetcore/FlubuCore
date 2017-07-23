@@ -26,7 +26,7 @@ namespace FlubuCore.WebApi.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        [HttpPost("upload")]
+        [HttpPost]
         public async Task<IActionResult> UploadPackage()
         {
             if (!Request.HasFormContentType)
@@ -61,6 +61,25 @@ namespace FlubuCore.WebApi.Controllers
                         await formFile.CopyToAsync(fileStream);
                     }
                 }
+            }
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        public IActionResult CleanPackagesDirectory()
+        {
+            var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "packages");
+            System.IO.DirectoryInfo di = new DirectoryInfo(uploads);
+
+            foreach (FileInfo file in di.GetFiles())
+            {
+                file.Delete();
+            }
+
+            foreach (DirectoryInfo dir in di.GetDirectories())
+            {
+                dir.Delete(true);
             }
 
             return Ok();

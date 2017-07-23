@@ -52,5 +52,15 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             Assert.True(File.Exists("Packages\\SimpleScript2.zip"));
             Assert.True(File.Exists("Packages\\SimpleScript.zip"));
         }
+
+        [Fact]
+        public async Task DeletePackages_Succesfull()
+        {
+            Directory.CreateDirectory("Packages");
+            using (File.Create("packages\\test.txt"));
+            await Client.DeletePackagesAsync();
+            Assert.False(File.Exists("packages\\test.txt"));
+            Assert.True(Directory.Exists("Packages"));
+        }
     }
 }

@@ -51,10 +51,16 @@ namespace FlubuCore.WebApi.Client
                     content.Add(new StreamContent(stream), fileName, fileName);
                 }
 
-                var response = await Client.PostAsync(new Uri(string.Format("{0}api/packages/upload", WebApiBaseUrl)), content);
+                var response = await Client.PostAsync(new Uri(string.Format("{0}api/packages", WebApiBaseUrl)), content);
 
                 await GetResponse<Void>(response);
             }
+        }
+
+        [Delete("api/packages")]
+        public async Task DeletePackagesAsync()
+        {
+            await SendAsync();
         }
     }
 }
