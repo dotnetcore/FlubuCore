@@ -17,5 +17,7 @@ namespace FlubuCore.WebApi.Client
         Task UploadPackageAsync(UploadPackageRequest request);
 
         Task DeletePackagesAsync();
+
+        Task<GetTokenResponse> GetToken(GetTokenRequest request);
     }
 }

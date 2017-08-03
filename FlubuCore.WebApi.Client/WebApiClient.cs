@@ -62,5 +62,11 @@ namespace FlubuCore.WebApi.Client
         {
             await SendAsync();
         }
+
+        [Post("api/Auth")]
+        public async Task<GetTokenResponse> GetToken(GetTokenRequest request)
+        {
+            return await SendAsync<GetTokenResponse>(request);
+        }
     }
 }

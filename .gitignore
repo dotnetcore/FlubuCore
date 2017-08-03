@@ -55,3 +55,4 @@ FlubuCore.WebApi.Model/bin/
 FlubuCore.WebApi.Tests/bin/
 FlubuCore.WebApi.Tests/obj/
 FlubuCore/FlubuCore.csproj.user
+FlubuCore.WebApi/Logs/

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.WebApi.Client;
 using Microsoft.AspNetCore.TestHost;
+using Xunit;
 
 namespace FlubuCore.WebApi.Tests.ClientTests
 {
