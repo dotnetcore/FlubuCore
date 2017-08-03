@@ -7,12 +7,14 @@ using FlubuCore.Commanding;
 using FlubuCore.Scripting;
 using FlubuCore.WebApi.Controllers.Exception;
 using FlubuCore.WebApi.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlubuCore.WebApi.Controllers
 {
     [Route("api/[controller]")]
-    public class ScriptsController : ControllerBase
+    [Authorize]
+	public class ScriptsController : ControllerBase
     {
         private ICommandExecutor _commandExecutor;
 

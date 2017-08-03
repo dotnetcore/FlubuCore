@@ -8,6 +8,7 @@ using System.IO;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.WebApi.Controllers.Exception;
 using FlubuCore.WebApi.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FlubuCore.WebApi.Controllers
 {
     [Route("api/[controller]")]
+	[Authorize]
     public class PackagesController : ControllerBase
     {
         private readonly string[] allowedFileExtension = new []{"zip", "7z", "rar"};

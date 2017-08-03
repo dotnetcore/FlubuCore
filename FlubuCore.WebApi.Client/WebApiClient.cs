@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using FlubuCore.WebApi.Client.Attributes;
@@ -51,7 +52,8 @@ namespace FlubuCore.WebApi.Client
                     content.Add(new StreamContent(stream), fileName, fileName);
                 }
 
-                var response = await Client.PostAsync(new Uri(string.Format("{0}api/packages", WebApiBaseUrl)), content);
+	            Client.DefaultRequestHeaders.Authorization = !string.IsNullOrEmpty(Token) ? new AuthenticationHeaderValue("Bearer", Token) : null;
+				var response = await Client.PostAsync(new Uri(string.Format("{0}api/packages", WebApiBaseUrl)), content);
 
                 await GetResponse<Void>(response);
             }

@@ -27,6 +27,8 @@ namespace FlubuCore.WebApi.Client
             GetAllClientMethods();
         }
 
+		public string Token { get; set; }
+
         public string WebApiBaseUrl
         {
             get { return _webApiBaseUrl; }
@@ -79,11 +81,11 @@ namespace FlubuCore.WebApi.Client
                 Client.DefaultRequestHeaders.Accept.Clear();
                 Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                ////Client.DefaultRequestHeaders.Authorization = !string.IsNullOrEmpty(Token) ? new AuthenticationHeaderValue("Bearer", Token) : null;
+               Client.DefaultRequestHeaders.Authorization = !string.IsNullOrEmpty(Token) ? new AuthenticationHeaderValue("Bearer", Token) : null;
             }
             else
             {
-                ////Client.DefaultRequestHeaders.Authorization = !string.IsNullOrEmpty(Token) ? new AuthenticationHeaderValue("Bearer", Token) : null;
+                Client.DefaultRequestHeaders.Authorization = !string.IsNullOrEmpty(Token) ? new AuthenticationHeaderValue("Bearer", Token) : null;
 
                 if (request != null && queryString == null)
                 {
@@ -101,9 +103,13 @@ namespace FlubuCore.WebApi.Client
         {
             if (response.StatusCode != HttpStatusCode.OK)
             {
+			   
                 var errorString = await response.Content.ReadAsStringAsync();
-                var errorModel = JsonConvert.DeserializeObject<ErrorModel>(errorString);
-                throw new WebApiException(response.StatusCode, errorString)
+	            ErrorModel errorModel = null;
+
+				errorModel = !string.IsNullOrEmpty(errorString) ? JsonConvert.DeserializeObject<ErrorModel>(errorString) : new ErrorModel();
+
+	            throw new WebApiException(response.StatusCode, errorString)
                 {
                     ErrorCode = errorModel.ErrorCode,
                     ErrorMessage = errorModel.ErrorMessage

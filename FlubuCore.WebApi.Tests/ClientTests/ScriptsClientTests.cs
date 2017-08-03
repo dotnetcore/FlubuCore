@@ -20,7 +20,9 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async void ExecuteScript_ExecuteSimpleScript_Sucesfull()
         {
-            if (File.Exists("test.txt"))
+	        var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+	        Client.Token = token.Token;
+			if (File.Exists("test.txt"))
             File.Delete("test.txt");
 
             Assert.False (File.Exists("test.txt"));
@@ -39,7 +41,9 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async void ExecuteScript_MainCommandEmpty_ThrowsBadRequest()
         {
-            var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(
+	        var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+	        Client.Token = token.Token;
+			var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(
                 new ExecuteScriptRequest
                 {
                     ScriptFilePathLocation = "bla"
@@ -52,7 +56,9 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async void ExecuteScript_ScriptNotFound_ThrowsBadRequest()
         {
-            var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(
+	        var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+	        Client.Token = token.Token;
+			var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(
                 new ExecuteScriptRequest
                 {
                     ScriptFilePathLocation = "somescript.cs",
@@ -66,7 +72,9 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async void ExecuteScript_TargetNotFound_ThrowsBadRequest()
         {
-            var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(
+	        var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+	        Client.Token = token.Token;
+			var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(
                 new ExecuteScriptRequest
                 {
                     ScriptFilePathLocation = "simplescript.cs",
@@ -80,7 +88,9 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async void ExecuteScript_TargetThrowsException_ThrowsInternalServer()
         {
-            var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(
+	        var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+	        Client.Token = token.Token;
+			var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(
                 new ExecuteScriptRequest
                 {
                     ScriptFilePathLocation = "simplescript.cs",

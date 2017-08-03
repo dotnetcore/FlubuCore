@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using FlubuCore.Services;
 using FlubuCore.WebApi.Model;
+using FlubuCore.WebApi.Models;
+using FlubuCore.WebApi.Repository;
 using Xunit;
 
 namespace FlubuCore.WebApi.Tests.ClientTests
@@ -11,13 +14,26 @@ namespace FlubuCore.WebApi.Tests.ClientTests
     [Collection("Client tests")]
     public class PackagesClientTests : ClientBaseTests
     {
-        public PackagesClientTests(ClientFixture clientFixture) : base(clientFixture)
+	   
+
+		public PackagesClientTests(ClientFixture clientFixture) : base(clientFixture)
         {
-        }
+
+	     
+	        if (File.Exists("Users.json"))
+	        {
+		        File.Delete("Users.json");
+	        }
+
+	      
+		}
 
         [Fact]
         public async Task Upload1PackageWithSearch_Succesfull()
         {
+			var token = await Client.GetToken(new GetTokenRequest {Username = "User", Password = "password"});
+	        Client.Token = token.Token;
+
             if (!Directory.Exists("Packages"))
             {
                 Directory.CreateDirectory("Packages");
@@ -37,7 +53,9 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task Upload2Packages_Succesfull()
         {
-            if (!Directory.Exists("Packages"))
+	        var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+	        Client.Token = token.Token;
+			if (!Directory.Exists("Packages"))
             {
                 Directory.CreateDirectory("Packages");
             }
@@ -56,7 +74,9 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task DeletePackages_Succesfull()
         {
-            Directory.CreateDirectory("Packages");
+	        var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+	        Client.Token = token.Token;
+			Directory.CreateDirectory("Packages");
             using (File.Create("packages\\test.txt"));
             await Client.DeletePackagesAsync();
             Assert.False(File.Exists("packages\\test.txt"));

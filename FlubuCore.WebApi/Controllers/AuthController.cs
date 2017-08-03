@@ -45,7 +45,7 @@ namespace FlubuCore.WebApi.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Get([FromBody] GetTokenRequest applicationUser)
+        public async Task<IActionResult> GetToken([FromBody] GetTokenRequest applicationUser)
         {
             var identity = await GetClaimsIdentity(applicationUser);
             if (identity == null)
@@ -107,12 +107,7 @@ namespace FlubuCore.WebApi.Controllers
         private static long ToUnixEpochDate(DateTime date)
             => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
 
-	    /// <summary>
-	    /// IMAGINE BIG RED WARNING SIGNS HERE!
-	    /// You'd want to retrieve claims through your claims provider
-	    /// in whatever way suits you, the below is purely for demo purposes!
-	    /// </summary>
-	    private async Task<ClaimsIdentity> GetClaimsIdentity(GetTokenRequest user)
+	   private async Task<ClaimsIdentity> GetClaimsIdentity(GetTokenRequest user)
 	    {
 		    var users = await _userRepository.ListUsers();
 		    var usr = users.FirstOrDefault(x => x.Username == user.Username);
