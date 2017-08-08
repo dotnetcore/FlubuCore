@@ -19,7 +19,7 @@ namespace FlubuCore.WebApi.Controllers
 	[Authorize]
     public class PackagesController : ControllerBase
     {
-        private readonly string[] allowedFileExtension = new []{"zip", "7z", "rar"};
+        private readonly string[] allowedFileExtension = new []{".zip", ".7z", ".rar"};
         
         private readonly IHostingEnvironment _hostingEnvironment;
 
@@ -48,7 +48,7 @@ namespace FlubuCore.WebApi.Controllers
             foreach (var formFile in form.Files)
             {
                 var fileExtension = Path.GetExtension(formFile.FileName);
-                if (!allowedFileExtension.Contains(fileExtension))
+                if (!allowedFileExtension.Contains(fileExtension, StringComparer.OrdinalIgnoreCase))
                 {
                     if (form.Files.Count == 1)
                     {
