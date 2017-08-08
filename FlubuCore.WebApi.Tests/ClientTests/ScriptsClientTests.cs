@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using FlubuCore.Services;
 using FlubuCore.WebApi.Client;
 using FlubuCore.WebApi.Model;
+using FlubuCore.WebApi.Models;
+using FlubuCore.WebApi.Repository;
 using FlubuCore.WebApi.Tests.ClientTests;
 using Xunit;
 
@@ -13,9 +16,28 @@ namespace FlubuCore.WebApi.Tests.ClientTests
     [Collection("Client tests")]
     public class ScriptsClientTests : ClientBaseTests
     {
-        public ScriptsClientTests(ClientFixture clientFixture) : base(clientFixture)
+	    private IUserRepository repository;
+
+	    private IHashService hashService;
+
+		public ScriptsClientTests(ClientFixture clientFixture) : base(clientFixture)
         {
-        }
+	        if (File.Exists("Users.json"))
+	        {
+		        File.Delete("Users.json");
+	        }
+
+	        repository = new UserRepository();
+	        hashService = new HashService();
+	        var hashedPassword = hashService.Hash("password");
+	        var result = repository.AddUser(new User
+	        {
+		        Username = "User",
+		        Password = hashedPassword
+	        });
+
+	        result.Wait();
+		}
 
         [Fact]
         public async void ExecuteScript_ExecuteSimpleScript_Sucesfull()

@@ -14,21 +14,30 @@ namespace FlubuCore.WebApi.Tests.ClientTests
     [Collection("Client tests")]
     public class PackagesClientTests : ClientBaseTests
     {
-	   
+	    private IUserRepository repository;
 
-		public PackagesClientTests(ClientFixture clientFixture) : base(clientFixture)
-        {
+	    private IHashService hashService;
 
-	     
-	        if (File.Exists("Users.json"))
-	        {
-		        File.Delete("Users.json");
-	        }
+	    public PackagesClientTests(ClientFixture clientFixture) : base(clientFixture)
+	    {
+		    if (File.Exists("Users.json"))
+		    {
+			    File.Delete("Users.json");
+		    }
 
-	      
-		}
+		    repository = new UserRepository();
+		    hashService = new HashService();
+		    var hashedPassword = hashService.Hash("password");
+		    var result = repository.AddUser(new User
+		    {
+			    Username = "User",
+			    Password = hashedPassword
+		    });
 
-        [Fact]
+		    result.Wait();
+	    }
+
+	    [Fact]
         public async Task Upload1PackageWithSearch_Succesfull()
         {
 			var token = await Client.GetToken(new GetTokenRequest {Username = "User", Password = "password"});
