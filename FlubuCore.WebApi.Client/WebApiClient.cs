@@ -45,12 +45,14 @@ namespace FlubuCore.WebApi.Client
 
             using (var content = new MultipartFormDataContent())
             {
-                foreach (var file in filesInDir)
+				////todo investigate why one content has to be added.
+	            content.Add(new ByteArrayContent(new byte[0]), "fake");
+				foreach (var file in filesInDir)
                 {
                     var stream = new FileStream(file.FullName, FileMode.Open);
                     string fileName = Path.GetFileName(file.FullName);
                     content.Add(new StreamContent(stream), fileName, fileName);
-                }
+				}
 
 	            Client.DefaultRequestHeaders.Authorization = !string.IsNullOrEmpty(Token) ? new AuthenticationHeaderValue("Bearer", Token) : null;
 				var response = await Client.PostAsync(new Uri(string.Format("{0}api/packages", WebApiBaseUrl)), content);
