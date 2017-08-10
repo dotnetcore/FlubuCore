@@ -40,11 +40,13 @@ public class MyBuildScript : DefaultBuildScript
             .SetDescription("Merge's all assemblyes into .net flubu console application")
             .Do(TargetMerge);
 
-        var flubuTests = context.CreateTarget("test")
-            .SetDescription("Runs all tests in solution.")
-            .AddCoreTask(x => x.ExecuteDotnetTask("test").WithArguments("Flubu.Tests\\Flubu.Tests.csproj"));
+	    var flubuTests = context.CreateTarget("test")
+		    .SetDescription("Runs all tests in solution.")
+		    .AddCoreTask(x => x.ExecuteDotnetTask("test").WithArguments("Flubu.Tests\\Flubu.Tests.csproj"))
+		    .AddCoreTask(x => x.ExecuteDotnetTask("test").WithArguments("FlubuCore.WebApi.Tests\\FlubuCore.WebApi.Tests.csproj"));
 
-        var nugetPublish = context.CreateTarget("nuget.publish")
+
+		var nugetPublish = context.CreateTarget("nuget.publish")
             .Do(PublishNuGetPackage).
             DependsOn(buildVersion);
 
