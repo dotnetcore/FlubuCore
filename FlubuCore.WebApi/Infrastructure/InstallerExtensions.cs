@@ -49,9 +49,9 @@ namespace FlubuCore.WebApi.Infrastructure
         public static IServiceCollection AddCommandComponents(this IServiceCollection services)
         {
             services
-                .AddSingleton<IBuildScriptLocator, BuildScriptLocator>()
-                .AddSingleton<IScriptLoader, ScriptLoader>()
-                .AddSingleton<ICommandExecutor, CommandExecutor>();
+                .AddScoped<IBuildScriptLocator, BuildScriptLocator>()
+                .AddScoped<IScriptLoader, ScriptLoader>()
+                .AddScoped<ICommandExecutor, CommandExecutor>();
 
             return services;
         }
