@@ -2,6 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
-  </PropertyGroup>
+  <Version>1.4.13.0</Version><AssemblyVersion>1.4.13.0</AssemblyVersion><FileVersion>1.4.13.0</FileVersion></PropertyGroup>
 
 </Project>
