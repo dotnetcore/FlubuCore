@@ -23,8 +23,12 @@ namespace FlubuCore.WebApi.Client
         internal RestClient(HttpClient httpClient)
         {
             Client = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            _webApiBaseUrl = httpClient.BaseAddress.ToString();
-            GetAllClientMethods();
+	        if (httpClient.BaseAddress != null)
+	        {
+		        _webApiBaseUrl = httpClient.BaseAddress.ToString();
+	        }
+
+	        GetAllClientMethods();
         }
 
 		public string Token { get; set; }
