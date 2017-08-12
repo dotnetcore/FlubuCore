@@ -107,7 +107,6 @@ public class MyBuildScript : DefaultBuildScript
 		catch (Exception e)
 		{
 			Console.WriteLine($"Failed to publish FlubuCore.WebApi.Model. exception: {e.Message}");
-			return;
 		}
 
 		try
@@ -121,7 +120,6 @@ public class MyBuildScript : DefaultBuildScript
 		catch (Exception e)
 		{
 			Console.WriteLine($"Failed to publish FlubuCore.WebApi.Client. exception: {e.Message}");
-			return;
 		}
 
 		try
@@ -135,7 +133,6 @@ public class MyBuildScript : DefaultBuildScript
         catch (Exception e)
         {
             Console.WriteLine($"Failed to publish FlubuCore. exception: {e.Message}");
-			return;
         }
 
         try

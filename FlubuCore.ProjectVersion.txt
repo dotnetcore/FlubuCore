@@ -1,3 +1,8 @@
+1.5.0.0
+- Added FlubuCore web api for remote script execution
+- Added FlubuCore web api client 
+- Added Flubu web api tasks to FlubuCore
+
 1.4.13.0
 - Removed Client from FlubuCore 
 

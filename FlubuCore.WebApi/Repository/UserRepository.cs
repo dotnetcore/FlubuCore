@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Models;
 using FlubuCore.WebApi.Repository.Exceptions;
+using Microsoft.AspNetCore.Razor.Chunks;
 using Newtonsoft.Json;
 
 namespace FlubuCore.WebApi.Repository
@@ -33,19 +34,21 @@ namespace FlubuCore.WebApi.Repository
 		    if (File.Exists("Users.json"))
 		    {
 
-			    FileStream fileStream = new FileStream("Users.json", FileMode.Open);
-			    using (StreamReader r = new StreamReader(fileStream))
+			    using (FileStream fileStream = new FileStream("Users.json", FileMode.Open))
 			    {
-				    string json = await r.ReadToEndAsync();
-
-				    List<User> persons = JsonConvert.DeserializeObject<List<User>>(json);
-				    if (persons.Exists(x => x.Username == user.Username))
+				    using (StreamReader r = new StreamReader(fileStream))
 				    {
-					    throw new NotUniqueException($"Username {user.Username} already exists. ");
-				    }
+					    string json = await r.ReadToEndAsync();
 
-				    persons.Add(user);
-				    newJson = JsonConvert.SerializeObject(persons);
+					    List<User> persons = JsonConvert.DeserializeObject<List<User>>(json);
+					    if (persons.Exists(x => x.Username == user.Username))
+					    {
+						    throw new NotUniqueException($"Username {user.Username} already exists. ");
+					    }
+
+					    persons.Add(user);
+					    newJson = JsonConvert.SerializeObject(persons);
+				    }
 			    }
 		    }
 		    else
