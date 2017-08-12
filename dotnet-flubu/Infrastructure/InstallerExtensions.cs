@@ -13,6 +13,7 @@ using FlubuCore.Scripting.Processors;
 using FlubuCore.Services;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.FlubuWebApi;
 using FlubuCore.Tasks.Iis;
 using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Solution;
@@ -41,7 +42,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddSingleton<ICommandFactory, CommandFactory>()
                 .AddSingleton<ITaskFactory, DotnetTaskFactory>()
                 .AddSingleton<IWebApiClient, WebApiClient>()
-                .AddSingleton<HttpClient, HttpClient>();
+                .AddSingleton<HttpClient>();
 
             return services;
         }
@@ -69,29 +70,30 @@ namespace DotNet.Cli.Flubu.Infrastructure
 
         public static IServiceCollection AddTasks(this IServiceCollection services)
         {
-            return services
-                .AddTransient<ITaskFluentInterface, TaskFluentInterface>()
-                .AddTransient<IIisTaskFluentInterface, IisTaskFluentInterface>()
-                .AddTransient<ICoreTaskFluentInterface, CoreTaskFluentInterface>()
-                .AddTransient<ILinuxTaskFluentInterface, LinuxTaskFluentInterface>()
-                .AddTransient<ITargetFluentInterface, TargetFluentInterface>()
-                .AddTransient<ITaskExtensionsFluentInterface, TaskExtensionsFluentInterface>()
-                .AddTransient<ICoreTaskExtensionsFluentInterface, CoreTaskExtensionsFluentInterface>()
-                .AddTransient<GenerateCommonAssemblyInfoTask>()
-                .AddTransient<FetchBuildVersionFromFileTask>()
-                .AddTransient<FetchVersionFromExternalSourceTask>()
-                .AddTransient<CreateWebsiteTask>()
-                .AddTransient<AddWebsiteBindingTask>()
-                .AddTransient<OpenCoverTask>()
-                .AddTask<LoadSolutionTask>()
-                .AddTask<CompileSolutionTask>()
-                .AddTask<CleanOutputTask>()
-                .AddTask<DotnetRestoreTask>()
-                .AddTask<DotnetTestTask>()
-                .AddTask<DotnetBuildTask>()
-                .AddTask<DotnetPublishTask>()
-                .AddTask<DotnetPackTask>()
-                .AddTask<DotnetCleanTask>();
+	        return services
+		        .AddTransient<ITaskFluentInterface, TaskFluentInterface>()
+		        .AddTransient<IIisTaskFluentInterface, IisTaskFluentInterface>()
+		        .AddTransient<ICoreTaskFluentInterface, CoreTaskFluentInterface>()
+		        .AddTransient<ILinuxTaskFluentInterface, LinuxTaskFluentInterface>()
+		        .AddTransient<IWebApiFluentInterface, WebApiFluentInterface>()
+		        .AddTransient<ITargetFluentInterface, TargetFluentInterface>()
+		        .AddTransient<ITaskExtensionsFluentInterface, TaskExtensionsFluentInterface>()
+		        .AddTransient<ICoreTaskExtensionsFluentInterface, CoreTaskExtensionsFluentInterface>()
+		        .AddTransient<GenerateCommonAssemblyInfoTask>()
+		        .AddTransient<FetchBuildVersionFromFileTask>()
+		        .AddTransient<FetchVersionFromExternalSourceTask>()
+		        .AddTransient<CreateWebsiteTask>()
+		        .AddTransient<AddWebsiteBindingTask>()
+		        .AddTransient<OpenCoverTask>()
+		        .AddTask<LoadSolutionTask>()
+		        .AddTask<CompileSolutionTask>()
+		        .AddTask<CleanOutputTask>()
+		        .AddTask<DotnetRestoreTask>()
+		        .AddTask<DotnetTestTask>()
+		        .AddTask<DotnetBuildTask>()
+		        .AddTask<DotnetPublishTask>()
+		        .AddTask<DotnetPackTask>()
+		        .AddTask<DotnetCleanTask>();
         }
 
         public static IServiceCollection AddArguments(this IServiceCollection services, string[] args)

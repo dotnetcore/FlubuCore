@@ -1,5 +1,6 @@
 ﻿using System;
 using FlubuCore.Tasks.FileSystem;
+using FlubuCore.Tasks.FlubuWebApi;
 using FlubuCore.Tasks.Nuget;
 using FlubuCore.Tasks.Packaging;
 using FlubuCore.Tasks.Process;
@@ -172,6 +173,8 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns></returns>
         IIisTaskFluentInterface IisTasks();
 
+	    IWebApiFluentInterface FlubuWebApiTasks();
+
         /// <summary>
         /// Task copies file to specified location.
         /// </summary>
@@ -228,5 +231,6 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="fileName"></param>
         /// <returns></returns>
         UpdateXmlFileTask UpdateXmlFileTask(string fileName);
+	
     }
 }

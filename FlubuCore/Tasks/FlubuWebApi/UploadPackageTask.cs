@@ -18,15 +18,10 @@ namespace FlubuCore.Tasks.FlubuWebApi
 
 	    private bool _webApiUrlSet = false;
 
-		public UploadPackageTask(IWebApiClient client)
+		public UploadPackageTask(IWebApiClient client, string directoryPath)
 	    {
 		    _webApiClient = client;
-	    }
-
-	    public UploadPackageTask DirectoryPath(string directoryPath)
-	    {
-		    this._directoryPath = directoryPath;
-		    return this;
+		    _directoryPath = directoryPath;
 	    }
 
 	    public UploadPackageTask PackageSearchPattern(string packageSearchPattern)

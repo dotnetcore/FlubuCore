@@ -16,9 +16,12 @@ namespace FlubuCore.Context.FluentInterface
     {
         private readonly IisTaskFluentInterface _iisTasksFluentInterface;
 
-        public TaskFluentInterface(IIisTaskFluentInterface iisTasksFluentInterface)
+	    private readonly WebApiFluentInterface _webApiFluentInterface;
+
+        public TaskFluentInterface(IIisTaskFluentInterface iisTasksFluentInterface, IWebApiFluentInterface webApiFluentInterface)
         {
             _iisTasksFluentInterface = (IisTaskFluentInterface)iisTasksFluentInterface;
+	        _webApiFluentInterface = (WebApiFluentInterface) webApiFluentInterface;
         }
 
         public TaskContext Context { get; set; }
@@ -169,7 +172,13 @@ namespace FlubuCore.Context.FluentInterface
             return _iisTasksFluentInterface;
         }
 
-        public CopyFileTask CopyFileTask(string sourceFileName, string destinationFileName, bool overwrite)
+	    public IWebApiFluentInterface FlubuWebApiTasks()
+	    {
+		    _webApiFluentInterface.Context = Context;
+		    return _webApiFluentInterface;
+	    }
+
+	    public CopyFileTask CopyFileTask(string sourceFileName, string destinationFileName, bool overwrite)
         {
             return Context.CreateTask<CopyFileTask>(sourceFileName, destinationFileName, overwrite);
         }

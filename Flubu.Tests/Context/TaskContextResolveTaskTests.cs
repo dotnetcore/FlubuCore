@@ -321,5 +321,17 @@ namespace Flubu.Tests.Context
         {
             Context.Tasks().UpdateXmlFileTask("test");
         }
-    }
+
+	    [Fact]
+	    public void ResolveUploadPackageTask()
+	    {
+		    Context.Tasks().FlubuWebApiTasks().UploadPackageTask("test", "test");
+	    }
+
+	    [Fact]
+	    public void ResolveExecuteScriptTask()
+	    {
+		    Context.Tasks().FlubuWebApiTasks().ExecuteScriptTask("command", "test");
+	    }
+	}
 }
