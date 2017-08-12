@@ -72,6 +72,17 @@ namespace FlubuCore.Context
             return version;
         }
 
+	    public static string GetFlubuWebApiBaseUrl(this IBuildPropertiesSession context)
+	    {
+		    return context.TryGet<string>(BuildProps.FlubuWebApiBaseUrl);
+	    }
+
+	    public static string SetFlubuWebApiBaseUrl(this IBuildPropertiesSession context, string webApiUrl)
+	    {
+		    context.Set(BuildProps.FlubuWebApiBaseUrl, webApiUrl);
+		    return webApiUrl;
+	    }
+
         public static string GetDotnetExecutable(this IBuildPropertiesSession context)
         {
             return context.TryGet<string>(BuildProps.DotNetExecutable);

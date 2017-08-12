@@ -16,13 +16,14 @@ namespace FlubuCore.Tasks.FlubuWebApi
 
         private string _scriptFilePath;
 
+	    private bool _webApiUrlSet = false;
+
         private List<string> _commands;
         
-        public ExecuteFlubuScriptTask(string mainCommand, string scriptFilePath, string webApiBaseUrl, IWebApiClient webApiClient)
+        public ExecuteFlubuScriptTask(string mainCommand, string scriptFilePath, IWebApiClient webApiClient)
         {
             _webApiClient = webApiClient;
             _commands = new List<string>();
-            _webApiClient.WebApiBaseUrl = webApiBaseUrl;
             _mainCommand = mainCommand;
             _scriptFilePath = scriptFilePath;
         }
@@ -39,16 +40,28 @@ namespace FlubuCore.Tasks.FlubuWebApi
             return this;
         }
 
-        protected override int DoExecute(ITaskContextInternal context)
+	    public ExecuteFlubuScriptTask SetWebApiBaseUrl(string webApiUrl)
+	    {
+		    _webApiClient.WebApiBaseUrl = webApiUrl;
+		    _webApiUrlSet = true;
+		    return this;
+	    }
+
+		protected override int DoExecute(ITaskContextInternal context)
         {
             Task<int> task = DoExecuteAsync(context);
 
             return task.GetAwaiter().GetResult();
         }
 
-        protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
-        {
-            await _webApiClient.ExecuteScriptAsync(new ExecuteScriptRequest
+	    protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
+	    {
+		    if (_webApiUrlSet)
+		    {
+			    _webApiClient.WebApiBaseUrl = context.Properties.GetFlubuWebApiBaseUrl();
+		    }
+
+		    await _webApiClient.ExecuteScriptAsync(new ExecuteScriptRequest
             {
                ScriptFilePathLocation = _scriptFilePath,
                TargetToExecute = _mainCommand,

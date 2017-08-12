@@ -26,6 +26,7 @@
         public const string NUnitConsolePath = "nunit_console_path";
         public const string BuildDir = "build_dir";
         public const string OutputDir = "output_dir";
+	    public const string FlubuWebApiBaseUrl = "webapi_url";
 
         public const string DefaultTargets = "default_targets";
     }
