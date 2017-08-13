@@ -26,8 +26,6 @@ namespace FlubuCore.WebApi.Repository
 				{
 
 					string json = await r.ReadToEndAsync();
-					r.Dispose();
-					fileStream.Dispose();
 					return JsonConvert.DeserializeObject<List<User>>(json);
 				}
 			}
@@ -54,10 +52,7 @@ namespace FlubuCore.WebApi.Repository
 
 					    persons.Add(user);
 					    newJson = JsonConvert.SerializeObject(persons);
-						r.Dispose();
 				    }
-
-					fileStream.Dispose();
 			    }
 		    }
 		    else
