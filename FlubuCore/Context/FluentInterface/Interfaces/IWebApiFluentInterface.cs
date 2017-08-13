@@ -7,10 +7,28 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 {
     public interface IWebApiFluentInterface
     {
-	    UploadPackageTask UploadPackageTask(string directoryPath, string packageSearchPattern);
+		/// <summary>
+		/// Upload's sprecified packages to flubu web api server.
+		/// </summary>
+		/// <param name="directoryPath">The relative or absolute path to the directory where packages are searched.</param>
+		/// <param name="packageSearchPattern">The search string to match against the names of files(packages). This parameter can contain a combination of valid literal path and wildcard (* and ?) characters (see Remarks), but doesn't support regular expressions. The default pattern is "*", which returns all files.</param>
+		/// <returns></returns>
+		UploadPackageTask UploadPackageTask(string directoryPath, string packageSearchPattern);
 
+		/// <summary>
+		/// Executes specified flubu scrip on flubu web api server.
+		/// </summary>
+		/// <param name="mainCommand">Command to be executed.</param>
+		/// <param name="scriptFilePath">Location to the flubu script on the flubu web api server.</param>
+		/// <returns></returns>
 	    ExecuteFlubuScriptTask ExecuteScriptTask(string mainCommand, string scriptFilePath);
 
-	    GetTokenTask GetTokenTask(string username, string password);
+		/// <summary>
+		/// Get's the token that can access flubu web api server.
+		/// </summary>
+		/// <param name="username">The username</param>
+		/// <param name="password">The password.</param>
+		/// <returns></returns>
+		GetTokenTask GetTokenTask(string username, string password);
     }
 }

@@ -23,6 +23,11 @@ namespace FlubuCore.Tasks.FlubuWebApi
             _scriptFilePath = scriptFilePath;
         }
 
+		/// <summary>
+		/// Adds remaining flubu commands.
+		/// </summary>
+		/// <param name="command"></param>
+		/// <returns></returns>
         public ExecuteFlubuScriptTask AddCommands(params string[] command)
         {
             _commands.AddRange(command);

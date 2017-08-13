@@ -21,7 +21,12 @@ namespace FlubuCore.Tasks.FlubuWebApi
 		    _directoryPath = directoryPath;
 	    }
 
-	    public UploadPackageTask PackageSearchPattern(string packageSearchPattern)
+		/// <summary>
+		/// The search string to match against the names of files(packages). This parameter can contain a combination of valid literal path and wildcard (* and ?) characters (see Remarks), but doesn't support regular expressions. The default pattern is "*", which returns all files.
+		/// </summary>
+		/// <param name="packageSearchPattern"></param>
+		/// <returns></returns>
+		public UploadPackageTask PackageSearchPattern(string packageSearchPattern)
 	    {
 		    _packageSearchPattern = packageSearchPattern;
 		    return this;

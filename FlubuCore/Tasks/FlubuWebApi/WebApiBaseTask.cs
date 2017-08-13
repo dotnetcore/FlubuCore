@@ -14,6 +14,11 @@ namespace FlubuCore.Tasks.FlubuWebApi
 
 	    }
 
+		/// <summary>
+		/// Set's web api base url on web api client.
+		/// </summary>
+		/// <param name="webApiUrl"></param>
+		/// <returns></returns>
 	    public T SetWebApiBaseUrl(string webApiUrl)
 	    {
 		    WebApiClient.WebApiBaseUrl = webApiUrl;
@@ -21,12 +26,22 @@ namespace FlubuCore.Tasks.FlubuWebApi
 		    return this as T;
 	    }
 
+		/// <summary>
+		/// Set's timeout on web api client.
+		/// </summary>
+		/// <param name="timeout"></param>
+		/// <returns></returns>
 	    public T SetTimeout(TimeSpan timeout)
 	    {
 		    WebApiClient.Timeout = timeout;
 			return this as T;
 		}
 
+		/// <summary>
+		/// Set's token on web api client.
+		/// </summary>
+		/// <param name="token"></param>
+		/// <returns></returns>
 	    public T SetToken(string token)
 	    {
 		    WebApiClient.Token = token;
