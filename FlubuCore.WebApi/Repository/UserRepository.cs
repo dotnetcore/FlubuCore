@@ -48,7 +48,10 @@ namespace FlubuCore.WebApi.Repository
 
 					    persons.Add(user);
 					    newJson = JsonConvert.SerializeObject(persons);
+						r.Dispose();
 				    }
+
+					fileStream.Dispose();
 			    }
 		    }
 		    else

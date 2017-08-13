@@ -36,7 +36,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
 		        Password = hashedPassword
 	        });
 
-	        result.Wait();
+	        result.GetAwaiter().GetResult();
 		}
 
         [Fact]
