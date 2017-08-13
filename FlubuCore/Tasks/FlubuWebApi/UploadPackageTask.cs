@@ -8,7 +8,7 @@ using FlubuCore.WebApi.Model;
 
 namespace FlubuCore.Tasks.FlubuWebApi
 {
-    public class UploadPackageTask : TaskBase<int>
+    public class UploadPackageTask : WebApiBaseTask<UploadPackageTask, int>
     {
 	    private readonly IWebApiClient _webApiClient;
 
@@ -16,30 +16,14 @@ namespace FlubuCore.Tasks.FlubuWebApi
 
 	    private string _directoryPath;
 
-	    private bool _webApiUrlSet = false;
-
-		public UploadPackageTask(IWebApiClient client, string directoryPath)
+		public UploadPackageTask(IWebApiClient client, string directoryPath) : base(client)
 	    {
-		    _webApiClient = client;
 		    _directoryPath = directoryPath;
 	    }
 
 	    public UploadPackageTask PackageSearchPattern(string packageSearchPattern)
 	    {
 		    _packageSearchPattern = packageSearchPattern;
-		    return this;
-	    }
-
-	    public UploadPackageTask SetWebApiBaseUrl(string webApiUrl)
-	    {
-		    _webApiClient.WebApiBaseUrl = webApiUrl;
-		    _webApiUrlSet = true;
-		    return this;
-	    }
-
-		public UploadPackageTask SetTimeout(TimeSpan timeout)
-	    {
-		    _webApiClient.Timeout = timeout;
 		    return this;
 	    }
 
@@ -53,11 +37,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
 
 	    protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
 	    {
-		    if (_webApiUrlSet)
-		    {
-			    _webApiClient.WebApiBaseUrl = context.Properties.GetFlubuWebApiBaseUrl();
-		    }
-
+			PrepareWebApiClient(context);
 			await _webApiClient.UploadPackageAsync(new UploadPackageRequest
 		    {
 			    PackageSearchPattern = _packageSearchPattern,

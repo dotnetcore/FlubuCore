@@ -8,21 +8,16 @@ using FlubuCore.WebApi.Model;
 
 namespace FlubuCore.Tasks.FlubuWebApi
 {
-    public class ExecuteFlubuScriptTask : TaskBase<int>
+    public class ExecuteFlubuScriptTask : WebApiBaseTask<ExecuteFlubuScriptTask, int>
     {
-        private readonly IWebApiClient _webApiClient;
-
         private string _mainCommand;
 
         private string _scriptFilePath;
 
-	    private bool _webApiUrlSet = false;
-
         private List<string> _commands;
         
-        public ExecuteFlubuScriptTask(string mainCommand, string scriptFilePath, IWebApiClient webApiClient)
+        public ExecuteFlubuScriptTask(string mainCommand, string scriptFilePath, IWebApiClient webApiClient) : base(webApiClient)
         {
-            _webApiClient = webApiClient;
             _commands = new List<string>();
             _mainCommand = mainCommand;
             _scriptFilePath = scriptFilePath;
@@ -34,19 +29,6 @@ namespace FlubuCore.Tasks.FlubuWebApi
             return this;
         }
 
-        public ExecuteFlubuScriptTask SetTimeout(TimeSpan timeout)
-        {
-            _webApiClient.Timeout = timeout;
-            return this;
-        }
-
-	    public ExecuteFlubuScriptTask SetWebApiBaseUrl(string webApiUrl)
-	    {
-		    _webApiClient.WebApiBaseUrl = webApiUrl;
-		    _webApiUrlSet = true;
-		    return this;
-	    }
-
 		protected override int DoExecute(ITaskContextInternal context)
         {
             Task<int> task = DoExecuteAsync(context);
@@ -56,12 +38,8 @@ namespace FlubuCore.Tasks.FlubuWebApi
 
 	    protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
 	    {
-		    if (_webApiUrlSet)
-		    {
-			    _webApiClient.WebApiBaseUrl = context.Properties.GetFlubuWebApiBaseUrl();
-		    }
-
-		    await _webApiClient.ExecuteScriptAsync(new ExecuteScriptRequest
+			PrepareWebApiClient(context);
+		    await WebApiClient.ExecuteScriptAsync(new ExecuteScriptRequest
             {
                ScriptFilePathLocation = _scriptFilePath,
                TargetToExecute = _mainCommand,
