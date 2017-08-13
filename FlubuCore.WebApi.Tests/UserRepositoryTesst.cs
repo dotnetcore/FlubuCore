@@ -16,8 +16,11 @@ namespace FlubuCore.WebApi.Tests
 	    public UserRepositoryTesst()
 	    {
 		    userRepository = new UserRepository();
-		    File.Delete("Users.json");
-	    }
+			if (File.Exists("Users.json"))
+			{
+				File.Delete("Users.json");
+			}
+		}
 
 	    [Fact]
 	    public async void AddAndListUsersTest()

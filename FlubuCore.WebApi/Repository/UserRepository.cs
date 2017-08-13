@@ -20,10 +20,16 @@ namespace FlubuCore.WebApi.Repository
 			    throw new FileNotFoundException();
 		    }
 
-			using (var reader = File.OpenText("Users.json"))
+			using (FileStream fileStream = new FileStream("Users.json", FileMode.Open, FileAccess.Read))
 			{
-				string json = await reader.ReadToEndAsync();
-			    return  JsonConvert.DeserializeObject<List<User>>(json);
+				using (StreamReader r = new StreamReader(fileStream))
+				{
+
+					string json = await r.ReadToEndAsync();
+					r.Dispose();
+					fileStream.Dispose();
+					return JsonConvert.DeserializeObject<List<User>>(json);
+				}
 			}
 	    }
 
@@ -34,7 +40,7 @@ namespace FlubuCore.WebApi.Repository
 		    if (File.Exists("Users.json"))
 		    {
 
-			    using (FileStream fileStream = new FileStream("Users.json", FileMode.Open))
+			    using (FileStream fileStream = new FileStream("Users.json", FileMode.Open, FileAccess.Read))
 			    {
 				    using (StreamReader r = new StreamReader(fileStream))
 				    {
