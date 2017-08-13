@@ -333,5 +333,11 @@ namespace Flubu.Tests.Context
 	    {
 		    Context.Tasks().FlubuWebApiTasks().ExecuteScriptTask("command", "test");
 	    }
+
+	    [Fact]
+	    public void ResolveGetTokenTask()
+	    {
+		    Context.Tasks().FlubuWebApiTasks().GetTokenTask("user", "pass");
+	    }
 	}
 }

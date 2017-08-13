@@ -10,5 +10,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 	    UploadPackageTask UploadPackageTask(string directoryPath, string packageSearchPattern);
 
 	    ExecuteFlubuScriptTask ExecuteScriptTask(string mainCommand, string scriptFilePath);
+
+	    GetTokenTask GetTokenTask(string username, string password);
     }
 }

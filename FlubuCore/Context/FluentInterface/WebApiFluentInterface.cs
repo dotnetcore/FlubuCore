@@ -19,5 +19,10 @@ namespace FlubuCore.Context.FluentInterface
 		{
 			return Context.CreateTask<ExecuteFlubuScriptTask>(mainCommand, scriptFilePath);
 		}
+
+		public GetTokenTask GetTokenTask(string username, string password)
+		{
+			return Context.CreateTask<GetTokenTask>(username, password);
+		}
 	}
 }
