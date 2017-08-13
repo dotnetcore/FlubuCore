@@ -1,3 +1,8 @@
+1.5.1.0
+- Added flubu web api GetToken task.
+- Improved flubu web api UploadPackageTask and ExecuteScriptTask 
+- Added web api documentation
+
 1.5.0.0
 - Added FlubuCore web api for remote script execution
 - Added FlubuCore web api client 
