@@ -17,7 +17,7 @@ namespace FlubuCore.WebApi.Repository
 	    {
 		    if (!File.Exists("Users.json"))
 		    {
-			    throw new FileNotFoundException();
+			    return new List<User>();
 		    }
 
 			using (FileStream fileStream = new FileStream("Users.json", FileMode.Open, FileAccess.Read))
