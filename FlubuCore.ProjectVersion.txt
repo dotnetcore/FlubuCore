@@ -1,3 +1,7 @@
+1.5.2.0
+- Fixed UploadPackageTask
+- web api ip white list access restriction
+
 1.5.1.0
 - Added flubu web api GetToken task.
 - Improved flubu web api UploadPackageTask and ExecuteScriptTask 
