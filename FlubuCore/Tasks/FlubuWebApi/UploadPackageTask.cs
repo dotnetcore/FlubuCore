@@ -10,14 +10,12 @@ namespace FlubuCore.Tasks.FlubuWebApi
 {
     public class UploadPackageTask : WebApiBaseTask<UploadPackageTask, int>
     {
-	    private readonly IWebApiClient _webApiClient;
-
 	    private string _packageSearchPattern;
 
 	    private string _directoryPath;
 
 		public UploadPackageTask(IWebApiClient client, string directoryPath) : base(client)
-	    {
+		{
 		    _directoryPath = directoryPath;
 	    }
 
@@ -43,7 +41,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
 	    protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
 	    {
 			PrepareWebApiClient(context);
-			await _webApiClient.UploadPackageAsync(new UploadPackageRequest
+			await WebApiClient.UploadPackageAsync(new UploadPackageRequest
 		    {
 			    PackageSearchPattern = _packageSearchPattern,
 				DirectoryPath = _directoryPath
