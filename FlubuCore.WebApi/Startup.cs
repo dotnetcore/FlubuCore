@@ -58,6 +58,7 @@ namespace FlubuCore.WebApi
 
             services.AddScoped<ApiExceptionFilter>();
             services.AddScoped<ValidateRequestModelAttribute>();
+	        services.AddScoped<RestrictApiAccessFilter>();
 	        services.AddScoped<IHashService, HashService>();
 	        services.AddScoped<IUserRepository, UserRepository>();
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtOptions));
@@ -73,11 +74,8 @@ namespace FlubuCore.WebApi
                 options.ValidFor = TimeSpan.FromMinutes(validFor);
             });
 
-	        var webApiSettingsAppSection = Configuration.GetSection(nameof(WebApiSettings));
-	        services.Configure<WebApiSettings>(settings =>
-	        {
-		        settings.SecretKey = webApiSettingsAppSection["SecretKey"];
-	        });
+	        services.Configure<WebApiSettings>(settings => Configuration.GetSection(nameof(WebApiSettings)).Bind(settings));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
