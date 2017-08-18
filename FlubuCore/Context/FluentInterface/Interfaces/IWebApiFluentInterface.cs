@@ -30,5 +30,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 		/// <param name="password">The password.</param>
 		/// <returns></returns>
 		GetTokenTask GetTokenTask(string username, string password);
+
+		/// <summary>
+		/// Deletes all packages(cleans directory on flubu web api server.
+		/// </summary>
+		/// <returns></returns>
+	    DeletePackagesTask DeletePackagesTask();
+
     }
 }

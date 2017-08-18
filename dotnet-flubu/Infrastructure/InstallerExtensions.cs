@@ -93,8 +93,9 @@ namespace DotNet.Cli.Flubu.Infrastructure
 		        .AddTask<DotnetBuildTask>()
 		        .AddTask<DotnetPublishTask>()
 		        .AddTask<DotnetPackTask>()
-		        .AddTask<DotnetCleanTask>();
-        }
+		        .AddTask<DotnetCleanTask>()
+		        .AddTask<DeletePackagesTask>();
+		}
 
         public static IServiceCollection AddArguments(this IServiceCollection services, string[] args)
         {

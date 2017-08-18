@@ -24,5 +24,10 @@ namespace FlubuCore.Context.FluentInterface
 		{
 			return Context.CreateTask<GetTokenTask>(username, password);
 		}
+
+		public DeletePackagesTask DeletePackagesTask()
+		{
+			return Context.CreateTask<DeletePackagesTask>();
+		}
 	}
 }

@@ -339,5 +339,13 @@ namespace Flubu.Tests.Context
 	    {
 		    Context.Tasks().FlubuWebApiTasks().GetTokenTask("user", "pass");
 	    }
+
+	    [Fact]
+	    public void ResolveDeletePackagesTask()
+	    {
+		    Context.Tasks().FlubuWebApiTasks().DeletePackagesTask();
+	    }
+
+
 	}
 }

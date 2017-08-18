@@ -15,6 +15,7 @@ using FlubuCore.Scripting.Processors;
 using FlubuCore.Services;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.FlubuWebApi;
 using FlubuCore.Tasks.Iis;
 using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Solution;
@@ -92,7 +93,8 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddTask<DotnetBuildTask>()
                 .AddTask<DotnetPublishTask>()
                 .AddTask<DotnetPackTask>()
-                .AddTask<DotnetCleanTask>();
-        }
+			    .AddTask<DotnetCleanTask>()
+	            .AddTask<DeletePackagesTask>();
+		}
     }
 }
