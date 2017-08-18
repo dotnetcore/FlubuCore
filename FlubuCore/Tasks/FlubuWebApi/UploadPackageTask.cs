@@ -32,7 +32,6 @@ namespace FlubuCore.Tasks.FlubuWebApi
 
 		protected override int DoExecute(ITaskContextInternal context)
 	    {
-			
 		    Task<int> task = DoExecuteAsync(context);
 
 		    return task.GetAwaiter().GetResult();
