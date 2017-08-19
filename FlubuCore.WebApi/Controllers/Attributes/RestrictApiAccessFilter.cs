@@ -26,7 +26,7 @@ namespace FlubuCore.WebApi.Controllers.Attributes
 			   string clientIp = context.HttpContext.Connection.RemoteIpAddress.ToString();
 			   if (!_webApiSettings.AllowedIps.Contains(clientIp))
 			   {
-				   throw new HttpError(HttpStatusCode.Forbidden, ErrorCodes.FordibenIp);
+				   throw new HttpError(HttpStatusCode.Forbidden, ErrorCodes.ForbidenIp);
 			   }
 		   }
 		}

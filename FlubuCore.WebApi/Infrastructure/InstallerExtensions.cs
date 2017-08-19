@@ -42,7 +42,7 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddScoped<TargetTree>()
                 .AddScoped<ITaskSession, TaskSession>()
                 .AddScoped<ICommandFactory, CommandFactory>()
-                .AddSingleton<CommandArguments, CommandArguments>();
+                .AddScoped<CommandArguments, CommandArguments>();
 
             return services;
         }
