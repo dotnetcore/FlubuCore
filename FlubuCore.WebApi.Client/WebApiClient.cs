@@ -22,7 +22,31 @@ namespace FlubuCore.WebApi.Client
             await SendAsync(request);
         }
 
-        public async Task UploadPackageAsync(UploadPackageRequest request)
+	    public async Task UploadScriptAsync(UploadScriptRequest request)
+	    {
+		    if (!File.Exists(request.FilePath))
+		    {
+			    return;
+		    }
+
+		    using (var content = new MultipartFormDataContent())
+		    {
+			      ////todo investigate why one content has to be added.
+			       content.Add(new ByteArrayContent(new byte[0]), "fake");
+			    
+			    
+				    var stream = new FileStream(request.FilePath, FileMode.Open);
+				    string fileName = Path.GetFileName(request.FilePath);
+				    content.Add(new StreamContent(stream), fileName, fileName);
+
+			    Client.DefaultRequestHeaders.Authorization = !string.IsNullOrEmpty(Token) ? new AuthenticationHeaderValue("Bearer", Token) : null;
+			    var response = await Client.PostAsync(new Uri(string.Format("{0}api/scripts/upload", WebApiBaseUrl)), content);
+
+			    await GetResponse<Void>(response);
+		    }
+		}
+
+	    public async Task UploadPackageAsync(UploadPackageRequest request)
         {
             FileInfo[] filesInDir;
             DirectoryInfo hdDirectoryInWhichToSearch = new DirectoryInfo(request.DirectoryPath);

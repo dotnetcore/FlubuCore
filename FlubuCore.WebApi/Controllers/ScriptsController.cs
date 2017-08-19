@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using FlubuCore.Scripting;
 using FlubuCore.WebApi.Controllers.Exception;
 using FlubuCore.WebApi.Model;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlubuCore.WebApi.Controllers
@@ -20,10 +22,13 @@ namespace FlubuCore.WebApi.Controllers
 
         private CommandArguments _commandArguments;
 
-        public ScriptsController(ICommandExecutor commandExecutor, CommandArguments commandArguments)
+	    private IHostingEnvironment _hostingEnvironment;
+
+        public ScriptsController(ICommandExecutor commandExecutor, CommandArguments commandArguments, IHostingEnvironment hostingEnvironment)
         {
             _commandExecutor = commandExecutor;
             _commandArguments = commandArguments;
+	        _hostingEnvironment = hostingEnvironment;
         }
 
         [HttpPost("Execute")]
@@ -52,6 +57,42 @@ namespace FlubuCore.WebApi.Controllers
                 throw new HttpError(HttpStatusCode.BadRequest, ErrorCodes.TargetNotFound, e.Message);
             }
         }
+
+	    [HttpPost("Upload")]
+	    public async Task<IActionResult> UploadScript()
+	    {
+		    if (!Request.HasFormContentType)
+		    {
+			    throw new HttpError(HttpStatusCode.BadRequest, "FormHasNoContentType");
+		    }
+
+		    var form = Request.Form;
+
+		    if (form == null || form.Files.Count == 0)
+		    {
+			    throw new HttpError(HttpStatusCode.BadRequest, "NoFiles");
+		    }
+
+		    var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "scripts");
+
+		    var script = form.Files[0];
+
+		    if (script.Length > 0)
+		    {
+			    var fileExtension = Path.GetExtension(script.FileName);
+			    if (fileExtension != ".cs")
+			    {
+					throw new HttpError(HttpStatusCode.Forbidden, "FileExtensionNotAllowed", $"File extension {fileExtension} not allowed.");
+				}
+
+				using (var fileStream = new FileStream(Path.Combine(uploads, script.FileName), FileMode.Create))
+			    {
+				    await script.CopyToAsync(fileStream);
+			    }
+		    }
+
+		    return Ok();
+	    }
 
 	    private void PrepareCommandArguments(ExecuteScriptRequest request)
 	    {

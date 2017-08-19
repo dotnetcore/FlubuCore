@@ -21,6 +21,8 @@ namespace FlubuCore.WebApi.Client
 		/// <returns></returns>
 		Task ExecuteScriptAsync(ExecuteScriptRequest request);
 
+	    Task UploadScriptAsync(UploadScriptRequest request);
+
 		/// <summary>
 		/// Upload's sprecified packages to flubu web api server.
 		/// </summary>

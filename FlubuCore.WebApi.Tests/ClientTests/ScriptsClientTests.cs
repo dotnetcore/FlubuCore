@@ -127,5 +127,45 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             Assert.Equal(ErrorCodes.InternalServerError, exception.ErrorCode);
             Assert.Equal("Error message", exception.ErrorMessage);
         }
-    }
+
+	    [Fact]
+	    public async void UploadScript_Succesfull()
+	    {
+			if (!Directory.Exists("Scripts"))
+			{
+				Directory.CreateDirectory("Scripts");
+			}
+			else
+			{
+				Directory.Delete("Scripts", true);
+				Directory.CreateDirectory("Scripts");
+			}
+
+		    var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+		    Client.Token = token.Token;
+
+		    await Client.UploadScriptAsync(new UploadScriptRequest
+		    {
+			    FilePath = "SimpleScript.cs"
+		    });
+
+			Assert.True(File.Exists("Scripts\\SimpleScript.cs"));
+	    }
+
+	    [Fact]
+	    public async void UploadScript_NotAllowedExtension_ThrowsForbiden()
+	    {
+		    var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+		    Client.Token = token.Token;
+
+		    var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.UploadScriptAsync(new UploadScriptRequest
+		    {
+			    FilePath = "Users.json"
+		    }));
+
+			Assert.Equal(HttpStatusCode.Forbidden, exception.StatusCode);
+			Assert.Equal("FileExtensionNotAllowed", exception.ErrorCode);
+		    Assert.False(File.Exists("Scripts\\Users.json"));
+	    }
+	}
 }
