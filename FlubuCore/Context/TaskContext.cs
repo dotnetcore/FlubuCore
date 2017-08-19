@@ -1,4 +1,5 @@
-﻿using FlubuCore.Context.FluentInterface;
+﻿using System.Collections.Generic;
+using FlubuCore.Context.FluentInterface;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
@@ -26,7 +27,7 @@ namespace FlubuCore.Context
             TargetTree = targetTree;
         }
 
-        public TargetTree TargetTree { get; }
+		public TargetTree TargetTree { get; }
 
         public ITaskFluentInterface Tasks()
         {

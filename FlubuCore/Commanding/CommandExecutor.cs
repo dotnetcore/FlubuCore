@@ -44,6 +44,7 @@ namespace FlubuCore.Commanding
                     return -1;
                 }
 
+	            _taskSession.ScriptArgs = _args.ScriptArguments;
                 var result = script.Run(_taskSession);
 
                 return result;

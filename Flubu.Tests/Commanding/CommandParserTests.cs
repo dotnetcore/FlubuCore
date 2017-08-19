@@ -56,12 +56,38 @@ namespace Flubu.Tests.Commanding
         [InlineData("--script")]
         public void ParseScript(string value)
         {
-            var res = _parser.Parse(new[] { "test", value, "b.cs" });
+            var res = _parser.Parse(new[] { "test", value, "b.cs"});
 
             Assert.Equal("b.cs", res.Script);
+			Assert.Equal(0, res.ScriptArguments.Count);
         }
 
-        [Fact]
+	    [Fact]
+	    public void ParseScriptArguments()
+	    {
+			var res = _parser.Parse(new[] { "test", "-s", "b.cs", "-User=Test", "--Password=pass" });
+			Assert.Equal(2, res.ScriptArguments.Count);
+			Assert.Equal("Test", res.ScriptArguments["User"]);
+		    Assert.Equal("pass", res.ScriptArguments["Password"]);
+		}
+
+	    [Fact]
+	    public void ParseScriptArguments2()
+	    {
+		    var res = _parser.Parse(new[] { "test", "-s", "b.cs", "--Password=pass=qq" });
+		    Assert.Equal(1, res.ScriptArguments.Count);
+		    Assert.Equal("pass=qq", res.ScriptArguments["Password"]);
+	    }
+
+	    [Fact]
+	    public void GetDefaultScriptArgumentWhenKeyNotFound()
+	    {
+		    var res = _parser.Parse(new[] { "test", "-s", "b.cs", "--Password=pass=qq" });
+		    Assert.Equal(1, res.ScriptArguments.Count);
+		    Assert.Equal(null, res.ScriptArguments["NonExist"]);
+	    }
+
+		[Fact]
         public void ParseEmpty()
         {
             var res = _parser.Parse(new string[0]);

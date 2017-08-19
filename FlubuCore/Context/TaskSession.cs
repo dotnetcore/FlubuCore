@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.Scripting;
@@ -28,7 +29,7 @@ namespace FlubuCore.Context
             HasFailed = true;
         }
 
-        public bool HasFailed { get; private set; }
+		public bool HasFailed { get; private set; }
 
         public void Start(Action<ITaskSession> onFinishDo)
         {

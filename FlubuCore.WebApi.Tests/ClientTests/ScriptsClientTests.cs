@@ -9,6 +9,7 @@ using FlubuCore.WebApi.Model;
 using FlubuCore.WebApi.Models;
 using FlubuCore.WebApi.Repository;
 using FlubuCore.WebApi.Tests.ClientTests;
+using Renci.SshNet;
 using Xunit;
 
 namespace FlubuCore.WebApi.Tests.ClientTests
@@ -50,11 +51,13 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             Assert.False (File.Exists("test.txt"));
 
             Assert.False(File.Exists("test.txt"));
+
             await Client.ExecuteScriptAsync(
                 new ExecuteScriptRequest
                 {
                     ScriptFilePathLocation = "simplescript.cs",
-                    TargetToExecute = "SuccesfullTarget"
+                    TargetToExecute = "SuccesfullTarget",
+					RemainingCommands = new List<string>(),
                 });
 
             Assert.True(File.Exists("test.txt"));

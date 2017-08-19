@@ -18,6 +18,9 @@ namespace FlubuCore.Scripting
 
         public List<string> TargetsToExecute { get; set; }
 
+
+	    public DictionaryWithDefault<string, string> ScriptArguments;
+		
         /// <summary>
         /// If <c>true</c> specified target is unknown flubu treat this as exception. Otherwise help target is runned.
         /// </summary>
