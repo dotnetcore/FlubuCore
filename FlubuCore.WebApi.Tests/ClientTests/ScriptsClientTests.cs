@@ -51,14 +51,15 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             Assert.False (File.Exists("test.txt"));
 
             Assert.False(File.Exists("test.txt"));
-
-            await Client.ExecuteScriptAsync(
-                new ExecuteScriptRequest
-                {
-                    ScriptFilePathLocation = "simplescript.cs",
-                    TargetToExecute = "SuccesfullTarget",
-					RemainingCommands = new List<string>(),
-                });
+	        var req = new ExecuteScriptRequest
+	        {
+		        ScriptFilePathLocation = "simplescript.cs",
+		        TargetToExecute = "SuccesfullTarget",
+		        RemainingCommands = new List<string>(),
+		        ScriptArguments = new Dictionary<string, string>()
+	        };
+			req.ScriptArguments.Add("FileName", "test.txt");
+			await Client.ExecuteScriptAsync(req);
 
             Assert.True(File.Exists("test.txt"));
         }

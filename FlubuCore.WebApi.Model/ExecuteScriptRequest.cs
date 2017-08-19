@@ -9,5 +9,7 @@ namespace FlubuCore.WebApi.Model
         public List<string> RemainingCommands { get; set; }
 
         public string ScriptFilePathLocation { get; set; }
+
+		public Dictionary<string, string> ScriptArguments { get; set; }
     }
 }

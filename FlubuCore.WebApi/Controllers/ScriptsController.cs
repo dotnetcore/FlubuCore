@@ -29,13 +29,9 @@ namespace FlubuCore.WebApi.Controllers
         [HttpPost("Execute")]
         public async Task<IActionResult> Execute([FromBody] ExecuteScriptRequest request)
         {
-            _commandArguments.MainCommand = request.TargetToExecute;
-            _commandArguments.Script = request.ScriptFilePathLocation;
-            _commandArguments.RemainingCommands = request.RemainingCommands;
-            _commandArguments.TreatUnknownTargetAsException = true;
-            _commandArguments.RethrowOnException = true;
+	        PrepareCommandArguments(request);
 
-            try
+	        try
             {
                 var result = await _commandExecutor.ExecuteAsync();
 
@@ -56,5 +52,23 @@ namespace FlubuCore.WebApi.Controllers
                 throw new HttpError(HttpStatusCode.BadRequest, ErrorCodes.TargetNotFound, e.Message);
             }
         }
+
+	    private void PrepareCommandArguments(ExecuteScriptRequest request)
+	    {
+		    _commandArguments.MainCommand = request.TargetToExecute;
+		    _commandArguments.Script = request.ScriptFilePathLocation;
+		    _commandArguments.RemainingCommands = request.RemainingCommands;
+		    if (request.ScriptArguments != null && request.ScriptArguments.Count > 0)
+		    {
+			    _commandArguments.ScriptArguments = new DictionaryWithDefault<string, string>(null);
+			    foreach (var scriptArgument in request.ScriptArguments)
+			    {
+				    _commandArguments.ScriptArguments.Add(scriptArgument.Key, scriptArgument.Value);
+			    }
+		    }
+
+		    _commandArguments.TreatUnknownTargetAsException = true;
+		    _commandArguments.RethrowOnException = true;
+	    }
     }
 }

@@ -23,7 +23,7 @@ namespace FlubuCore.WebApi.Tests
 
         public void SuccesfullTarget(ITaskContext session)
         {
-            File.Create("test.txt");
+            File.Create(session.ScriptArgs["FileName"]);
         }
 
         public void FailedTarget(ITaskContext session)
