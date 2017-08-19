@@ -50,7 +50,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
 
 		protected void PrepareWebApiClient(ITaskContextInternal context)
 	    {
-		    if (WebApiUrlSet)
+		    if (!WebApiUrlSet)
 		    {
 				WebApiClient.WebApiBaseUrl = context.Properties.GetFlubuWebApiBaseUrl();
 			}
