@@ -35,11 +35,11 @@ namespace FlubuCore.WebApi.Tests.AttributeTests
 
 		public RestrictApiAccessFilterTests()
 	    {
-			context = new ActionExecutingContext(new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor()), new List<IFilterMetadata>(), new ConcurrentDictionary<string, object>(), new ScriptsController(null, null, null, null));
 			timeProvider = new Mock<ITimeProvider>();
 			webApiSettings = new WebApiSettings();
 			settingOptions = new OptionsWrapper<WebApiSettings>(webApiSettings);
-		    filter = new RestrictApiAccessFilter(settingOptions, timeProvider.Object);
+		    context = new ActionExecutingContext(new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor()), new List<IFilterMetadata>(), new ConcurrentDictionary<string, object>(), new ScriptsController(null, null, null, settingOptions));
+			filter = new RestrictApiAccessFilter(settingOptions, timeProvider.Object);
 	    }
 
 	    [Fact]
