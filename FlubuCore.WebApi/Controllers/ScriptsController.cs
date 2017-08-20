@@ -6,11 +6,13 @@ using System.Net;
 using System.Threading.Tasks;
 using FlubuCore.Commanding;
 using FlubuCore.Scripting;
+using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Controllers.Exception;
 using FlubuCore.WebApi.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace FlubuCore.WebApi.Controllers
 {
@@ -24,11 +26,14 @@ namespace FlubuCore.WebApi.Controllers
 
 	    private IHostingEnvironment _hostingEnvironment;
 
-        public ScriptsController(ICommandExecutor commandExecutor, CommandArguments commandArguments, IHostingEnvironment hostingEnvironment)
+		private WebApiSettings _webApiSettings;
+
+        public ScriptsController(ICommandExecutor commandExecutor, CommandArguments commandArguments, IHostingEnvironment hostingEnvironment, IOptions<WebApiSettings> webApiOptions)
         {
             _commandExecutor = commandExecutor;
             _commandArguments = commandArguments;
 	        _hostingEnvironment = hostingEnvironment;
+	        _webApiSettings = webApiOptions.Value;
         }
 
         [HttpPost("Execute")]
@@ -61,7 +66,12 @@ namespace FlubuCore.WebApi.Controllers
 	    [HttpPost("Upload")]
 	    public async Task<IActionResult> UploadScript()
 	    {
-		    if (!Request.HasFormContentType)
+		    if (!_webApiSettings.AllowScriptUpload)
+		    {
+			    throw new HttpError(HttpStatusCode.Forbidden);
+		    }
+
+			if (!Request.HasFormContentType)
 		    {
 			    throw new HttpError(HttpStatusCode.BadRequest, "FormHasNoContentType");
 		    }
