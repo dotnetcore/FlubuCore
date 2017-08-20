@@ -10,5 +10,7 @@ namespace FlubuCore.WebApi.Configuration
 		public string SecretKey { get; set; }
 
 		public List<string> AllowedIps { get; set; }
+
+		public List<TimeFrame> TimeFrames { get; set; }
     }
 }

@@ -32,6 +32,7 @@ namespace FlubuCore.WebApi.Infrastructure
         {
             services
                 .AddLogging()
+				.AddSingleton<ITimeProvider, TimeProvider>()
                 .AddSingleton<IFluentInterfaceFactory, FluentInterfaceFactory>()
                 .AddSingleton<IFileWrapper, FileWrapper>()
                 .AddSingleton<IPathWrapper, PathWrapper>()
