@@ -56,11 +56,81 @@ namespace FlubuCore.Targeting
         ITarget Do(Action<ITaskContextInternal> targetAction);
 
         /// <summary>
+        /// Execute custom code in script.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This target.</returns>
+        ITarget Do<T1>(Action<ITaskContextInternal> targetAction, T1 param);
+
+        /// <summary>
+        /// Execute custom code in script.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This target.</returns>
+        ITarget Do<T1, T2>(Action<ITaskContextInternal> targetAction, T1 param, T2 param2);
+        
+        /// <summary>
+        /// Execute custom code in script.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This target.</returns>
+        ITarget Do<T1, T2, T3>(Action<ITaskContextInternal> targetAction, T1 param, T2 param2, T3 param3);
+
+        /// <summary>
+        /// Execute custom code in script.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This target.</returns>
+        ITarget Do<T1, T2, T3, T4>(Action<ITaskContextInternal> targetAction, T1 param, T2 param2, T3 param3, T4 param4);
+
+        /// <summary>
+        /// Execute custom code in script.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This target.</returns>
+        ITarget Do<T1, T2, T3, T4, T5>(Action<ITaskContextInternal> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5);
+       
+        /// <summary>
         /// Execute custom code in script asynchronous.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
         ITarget DoAsync(Action<ITaskContextInternal> targetAction);
+
+        /// <summary>
+        /// Execute custom code in script.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This target.</returns>
+        ITarget DoAsync<T1>(Action<ITaskContextInternal> targetAction, T1 param);
+
+        /// <summary>
+        /// Execute custom code in script.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This target.</returns>
+        ITarget DoAsync<T1, T2>(Action<ITaskContextInternal> targetAction, T1 param, T2 param2);
+
+        /// <summary>
+        /// Execute custom code in script.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This target.</returns>
+        ITarget DoAsync<T1, T2, T3>(Action<ITaskContextInternal> targetAction, T1 param, T2 param2, T3 param3);
+
+        /// <summary>
+        /// Execute custom code in script.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This target.</returns>
+        ITarget DoAsync<T1, T2, T3, T4>(Action<ITaskContextInternal> targetAction, T1 param, T2 param2, T3 param3, T4 param4);
+
+        /// <summary>
+        /// Execute custom code in script.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This target.</returns>
+        ITarget DoAsync<T1, T2, T3, T4, T5>(Action<ITaskContextInternal> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5);
 
         /// <summary>
         ///     Overrides any previously specified target action with the new one.
