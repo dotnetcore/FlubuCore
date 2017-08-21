@@ -37,5 +37,11 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 		/// <returns></returns>
 	    DeletePackagesTask DeletePackagesTask();
 
+		/// <summary>
+		/// Uploads flubu script to flubu web api server.
+		/// </summary>
+		/// <param name="scriptFilePath"> The relative or absolute path to the flubu script to be uploaded to web api server.</param>
+		/// <returns></returns>
+		UploadScriptTask UploadScriptTask(string scriptFilePath);
     }
 }

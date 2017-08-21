@@ -346,6 +346,10 @@ namespace Flubu.Tests.Context
 		    Context.Tasks().FlubuWebApiTasks().DeletePackagesTask();
 	    }
 
-
+	    [Fact]
+	    public void ResolveUploadScriptTask()
+	    {
+		    Context.Tasks().FlubuWebApiTasks().UploadScriptTask("test");
+	    }
 	}
 }

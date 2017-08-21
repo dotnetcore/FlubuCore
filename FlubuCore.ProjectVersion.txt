@@ -1,3 +1,13 @@
+1.6.0.0
+- 
+- FlubuCore, WebApi: Added option to pasthrough arguments to targets and custom tasks
+- FlubuCore: Added upload script task
+- FlubuCore: Added delete packages task
+- FlubuCore: Fixed web api base url set through build propertis
+- WebApi: Added option to upload scripts to web api through web api method.
+- WebApi: Fixed CommandArguments lifestyle 
+- WebApi: Only scripts in script directory can now be executed.
+
 1.5.2.0
 - Fixed UploadPackageTask
 - web api ip white list access restriction
