@@ -109,6 +109,11 @@ namespace FlubuCore.Tasks
             {
                 if (!DoRetry)
                 {
+                    if (DoNotFail)
+                    {
+                        return default(T);
+                    }
+
                     throw;
                 }
 
@@ -118,6 +123,11 @@ namespace FlubuCore.Tasks
                     contextInternal.LogInfo($"Task failed. Retriying for {retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
                     Thread.Sleep(RetryDelay);
                     Execute(context);
+                }
+
+                if (DoNotFail)
+                {
+                    return default(T);
                 }
 
                 throw;
