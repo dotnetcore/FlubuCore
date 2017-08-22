@@ -1,5 +1,8 @@
+1.6.1.0
+- FlubCore: All tasks have now retry mechanism option.
+- FlubuCore: All tasks have now do not fail option.
+
 1.6.0.0
-- 
 - FlubuCore, WebApi: Added option to pasthrough arguments to targets and custom tasks
 - FlubuCore: Added upload script task
 - FlubuCore: Added delete packages task
