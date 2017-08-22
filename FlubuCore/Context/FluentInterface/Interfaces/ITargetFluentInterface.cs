@@ -49,11 +49,83 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         ITargetFluentInterface Do(Action<ITaskContextInternal> targetAction);
 
         /// <summary>
+        /// Execute custom code in script.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
+        ITargetFluentInterface Do<T>(Action<ITaskContextInternal> targetAction, T param);
+
+        /// <summary>
+        /// Execute custom code in script.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
+        ITargetFluentInterface Do<T, T1>(Action<ITaskContextInternal> targetAction, T param, T1 param2);
+
+        /// <summary>
+        /// Execute custom code in script.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
+        ITargetFluentInterface Do<T, T1, T2>(Action<ITaskContextInternal> targetAction, T param, T1 param2, T2 param3);
+
+        /// <summary>
+        /// Execute custom code in script.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
+        ITargetFluentInterface Do<T, T1, T2, T3>(Action<ITaskContextInternal> targetAction, T param, T1 param2, T2 param3, T3 param4);
+
+        /// <summary>
+        /// Execute custom code in script.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
+        ITargetFluentInterface Do<T, T1, T2, T3, T4>(Action<ITaskContextInternal> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5);
+        
+
+        /// <summary>
         /// Execute custom code in script asynchronous.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITargetFluentInterface DoAsync(Action<ITaskContextInternal> targetAction);
+
+        /// <summary>
+        /// Execute custom code in script asynchronous.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
+        ITargetFluentInterface DoAsync<T>(Action<ITaskContextInternal> targetAction, T param);
+
+        /// <summary>
+        /// Execute custom code in script asynchronous.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
+        ITargetFluentInterface DoAsync<T, T1>(Action<ITaskContextInternal> targetAction, T param, T1 param2);
+
+        /// <summary>
+        /// Execute custom code in script asynchronous.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
+        ITargetFluentInterface DoAsync<T, T1, T2>(Action<ITaskContextInternal> targetAction, T param, T1 param2, T2 param3);
+
+        /// <summary>
+        /// Execute custom code in script asynchronous.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
+        ITargetFluentInterface DoAsync<T, T1, T2, T3>(Action<ITaskContextInternal> targetAction, T param, T1 param2, T2 param3, T3 param4);
+
+        /// <summary>
+        /// Execute custom code in script asynchronous.
+        /// </summary>
+        /// <param name="targetAction">Action to execute.</param>
+        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
+        ITargetFluentInterface DoAsync<T, T1, T2, T3, T4>(Action<ITaskContextInternal> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5);
+       
 
         /// <summary>
         ///     Sets the target as the default target for the runner.

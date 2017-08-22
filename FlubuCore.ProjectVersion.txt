@@ -1,3 +1,7 @@
+1.6.2.0
+- FlubuCore: Fixed web api set of base url when doing more that one request in one target
+- FlubuCore: Added option to add custom parameters to Do task. 
+
 1.6.1.0
 - FlubCore: All tasks have now retry mechanism option.
 - FlubuCore: All tasks have now do not fail option.

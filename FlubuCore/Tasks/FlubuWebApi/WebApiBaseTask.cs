@@ -52,8 +52,11 @@ namespace FlubuCore.Tasks.FlubuWebApi
 	    {
 		    if (!WebApiUrlSet)
 		    {
-				WebApiClient.WebApiBaseUrl = context.Properties.GetFlubuWebApiBaseUrl();
-			}
+		        if (string.IsNullOrEmpty(WebApiClient.WebApiBaseUrl))
+		        {
+		            WebApiClient.WebApiBaseUrl = context.Properties.GetFlubuWebApiBaseUrl();
+		        }
+		    }
 		}
 
 		protected bool WebApiUrlSet { get; set; } = false;

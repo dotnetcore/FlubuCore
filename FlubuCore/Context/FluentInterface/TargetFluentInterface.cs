@@ -68,11 +68,80 @@ namespace FlubuCore.Context.FluentInterface
             return this;
         }
 
+        public ITargetFluentInterface Do<T>(Action<ITaskContextInternal> targetAction, T param)
+        {
+            Target.Do(targetAction, param);
+            return this;
+        }
+
+
+        public ITargetFluentInterface Do<T, T1>(Action<ITaskContextInternal> targetAction, T param, T1 param2)
+        {
+            Target.Do(targetAction, param, param2);
+            return this;
+        }
+
+
+        public ITargetFluentInterface Do<T, T1, T2>(Action<ITaskContextInternal> targetAction, T param, T1 param2, T2 param3)
+        {
+            Target.Do(targetAction, param, param2, param3);
+            return this;
+        }
+
+
+        public ITargetFluentInterface Do<T, T1, T2, T3>(Action<ITaskContextInternal> targetAction, T param, T1 param2, T2 param3, T3 param4)
+        {
+            Target.Do(targetAction, param, param2, param3, param4);
+            return this;
+        }
+
+
+        public ITargetFluentInterface Do<T, T1, T2, T3, T4>(Action<ITaskContextInternal> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5)
+        {
+            Target.Do(targetAction, param, param2, param3, param4, param5);
+            return this;
+        }
+
         public ITargetFluentInterface DoAsync(Action<ITaskContextInternal> targetAction)
         {
             Target.DoAsync(targetAction);
             return this;
         }
+
+        public ITargetFluentInterface DoAsync<T>(Action<ITaskContextInternal> targetAction, T param)
+        {
+            Target.DoAsync(targetAction, param);
+            return this;
+        }
+
+
+        public ITargetFluentInterface DoAsync<T, T1>(Action<ITaskContextInternal> targetAction, T param, T1 param2)
+        {
+            Target.DoAsync(targetAction, param, param2);
+            return this;
+        }
+
+
+        public ITargetFluentInterface DoAsync<T, T1, T2>(Action<ITaskContextInternal> targetAction, T param, T1 param2, T2 param3)
+        {
+            Target.Do(targetAction, param, param2, param3);
+            return this;
+        }
+
+
+        public ITargetFluentInterface DoAsync<T, T1, T2, T3>(Action<ITaskContextInternal> targetAction, T param, T1 param2, T2 param3, T3 param4)
+        {
+            Target.DoAsync(targetAction, param, param2, param3, param4);
+            return this;
+        }
+
+
+        public ITargetFluentInterface DoAsync<T, T1, T2, T3, T4>(Action<ITaskContextInternal> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5)
+        {
+            Target.DoAsync(targetAction, param, param2, param3, param4, param5);
+            return this;
+        }
+
 
         public ITargetFluentInterface SetAsDefault()
         {
