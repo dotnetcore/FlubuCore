@@ -21,5 +21,13 @@ namespace FlubuCore.Tasks
         /// </summary>
         /// <returns></returns>
         ITaskOfT<T> DoNotFailOnError();
+
+        /// <summary>
+        /// Retry task if execution of the task fails.
+        /// </summary>
+        /// <param name="numberOfRetries">Number of retries before task fails.</param>
+        /// <param name="delay">Delay time in miliseconds between retries.</param>
+        /// <returns></returns>
+        ITaskOfT<T> Retry(int numberOfRetries, int delay);
     }
 }

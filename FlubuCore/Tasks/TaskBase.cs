@@ -2,6 +2,8 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using FlubuCore.Context;
+using FlubuCore.WebApi.Model;
+using System.Threading;
 
 namespace FlubuCore.Tasks
 {
@@ -10,6 +12,8 @@ namespace FlubuCore.Tasks
     /// </summary>
     public abstract class TaskBase<T> : ITaskOfT<T>
     {
+        private int retriedTimes = 0;
+
         /// <summary>
         ///     Gets a value indicating whether this instance is safe to execute in dry run mode.
         /// </summary>
@@ -23,6 +27,12 @@ namespace FlubuCore.Tasks
         protected virtual string DescriptionForLog => null;
 
         protected bool DoNotFail { get; private set; }
+
+        protected bool DoRetry { get; private set; }
+
+        protected int RetryDelay { get; private set; }
+
+        protected int NumberOfRetries { get; private set; }
         
         /// <summary>
         ///     Gets a value indicating whether the duration of the task should be logged after the task
@@ -37,7 +47,21 @@ namespace FlubuCore.Tasks
 
             return this;
         }
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="numberOfRetries">Number of retries before task fails.</param>
+        /// <param name="delay">Delay time in miliseconds between retries.</param>
+        /// <returns></returns>
+        public ITaskOfT<T> Retry(int numberOfRetries, int delay = 500)
+        {
+            DoRetry = true;
+            NumberOfRetries = numberOfRetries;
+            RetryDelay = delay;
+            return this;
+        }
+
         public void ExecuteVoid(ITaskContext context)
         {
             Execute(context);
@@ -62,7 +86,7 @@ namespace FlubuCore.Tasks
         public T Execute(ITaskContext context)
         {
             ITaskContextInternal contextInternal = (ITaskContextInternal)context;
-
+            
             if (context == null)
             {
                 throw new ArgumentNullException(nameof(context));
@@ -80,6 +104,23 @@ namespace FlubuCore.Tasks
             try
             {
                 return DoExecute(contextInternal);
+            }
+            catch (Exception)
+            {
+                if (!DoRetry)
+                {
+                    throw;
+                }
+
+                while (retriedTimes < NumberOfRetries)
+                {
+                    retriedTimes++;
+                    contextInternal.LogInfo($"Task failed. Retriying for {retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
+                    Thread.Sleep(RetryDelay);
+                    Execute(context);
+                }
+
+                throw;
             }
             finally
             {
@@ -114,6 +155,23 @@ namespace FlubuCore.Tasks
             try
             {
                 return await DoExecuteAsync(contextInternal);
+            }
+            catch (Exception)
+            {
+                if (!DoRetry)
+                {
+                    throw;
+                }
+
+                while (retriedTimes < NumberOfRetries)
+                {
+                    retriedTimes++;
+                    contextInternal.LogInfo($"Task failed. Retriying for {retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
+                    Thread.Sleep(RetryDelay);
+                    Execute(context);
+                }
+
+                throw;
             }
             finally
             {
