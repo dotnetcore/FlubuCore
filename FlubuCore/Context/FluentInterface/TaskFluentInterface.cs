@@ -31,8 +31,9 @@ namespace FlubuCore.Context.FluentInterface
             return Context.CreateTask<RunProgramTask>(programToExecute);
         }
 
+        /// <inheritdoc />
         /// <summary>
-        ///     Initializes a new instance of the <see cref="CopyDirectoryStructureTask" /> class
+        ///     Initializes a new instance of the <see cref="M:FlubuCore.Context.FluentInterface.TaskFluentInterface.CopyDirectoryStructureTask(System.String,System.String,System.Boolean)" /> class
         ///     using a specified source and destination path and an indicator whether to overwrite existing files.
         /// </summary>
         /// <param name="sourcePath">The source path.</param>
@@ -81,6 +82,7 @@ namespace FlubuCore.Context.FluentInterface
             return Context.CreateTask<LoadSolutionTask>(solutionFileName);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Initializes NunitTask with default command line options for nunit V3.
         /// </summary>
@@ -88,9 +90,10 @@ namespace FlubuCore.Context.FluentInterface
         /// <returns>New instance of nunit task</returns>
         public NUnitTask NUnitTaskForNunitV3(params string[] projectName)
         {
-            return Tasks.Testing.NUnitTask.ForNunitV3(projectName);
+            return NUnitTask.ForNunitV3(projectName);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Initializes NunitTask with default command line options for nunit V2.
         /// </summary>
@@ -98,22 +101,24 @@ namespace FlubuCore.Context.FluentInterface
         /// <returns>New instance of nunit task</returns>
         public NUnitTask NUnitTaskForNunitV2(params string[] projectName)
         {
-            return Tasks.Testing.NUnitTask.ForNunitV2(projectName);
+            return NUnitTask.ForNunitV2(projectName);
         }
 
+        /// <inheritdoc />
         public NUnitTask NUnitTaskByProjectName(params string[] projectName)
         {
             return Context.CreateTask<NUnitTask>(projectName.ToList());
         }
 
+        /// <inheritdoc />
         public NUnitTask NUnitTaskByAssemblyName(params string[] testAssemblyFileName)
         {
             var task = new NUnitTask();
-            task.TestAssemblyFileNames = testAssemblyFileName.ToList();
-
+            task.TestAssemblyFileNames.AddRange(testAssemblyFileName);
             return task;
         }
 
+        /// <inheritdoc />
         public ReplaceTokensTask ReplaceTokensTask(
             string sourceFileName,
             string destinationFileName)

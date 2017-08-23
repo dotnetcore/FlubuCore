@@ -11,6 +11,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace FlubuCore.Tasks.Testing
 {
+    /// <inheritdoc />
     /// <summary>
     /// Run NUnit tests with NUnit console runner.
     /// </summary>
@@ -27,11 +28,6 @@ namespace FlubuCore.Tasks.Testing
         /// unit test working directory.
         /// </summary>
         private string _workingDirectory;
-
-        /// <summary>
-        ///  assembly to test.
-        /// </summary>
-        private List<string> _testAssemblyFileNames;
 
         /// <summary>
         ///  test categories that will be included/excluded in tests.
@@ -54,11 +50,10 @@ namespace FlubuCore.Tasks.Testing
             _projectNames = projectNames;
         }
 
-        public List<string> TestAssemblyFileNames
-        {
-            get { return _testAssemblyFileNames; }
-            set { _testAssemblyFileNames = value; }
-        }
+        /// <summary>
+        /// Gets a list of assemblies to be tested
+        /// </summary>
+        public List<string> TestAssemblyFileNames { get; private set; } = new List<string>();
 
         /// <summary>
         /// Initializes NunitTask with default command line options for nunit V2.
@@ -84,12 +79,22 @@ namespace FlubuCore.Tasks.Testing
         {
             var task = new NUnitTask(projectName.ToList());
             task.AddNunitCommandLineOption("/labels=All")
-                .AddNunitCommandLineOption("/trace=Verbose")
-                .AddNunitCommandLineOption("/verbose");
+                .AddNunitCommandLineOption("/trace=Verbose");
 
             return task;
         }
 
+        public NUnitTask WithVerbose()
+        {
+            AddNunitCommandLineOption("/verbose");
+            return this;
+        }
+
+        public NUnitTask ClearAllOptions()
+        {
+            _nunitCommandLineOptions.Clear();
+            return this;
+        }
         /// <summary>
         /// Excludes category from test. Can be ussed multiple times. Supported only in nunit v3 and above. For v2 use <see cref="AddNunitCommandLineOption"/>
         /// </summary>
@@ -97,14 +102,9 @@ namespace FlubuCore.Tasks.Testing
         /// <returns>The NunitTask</returns>
         public NUnitTask ExcludeCategory(string category)
         {
-            if (string.IsNullOrEmpty(_categories))
-            {
-                _categories = string.Format(CultureInfo.InvariantCulture, "cat != {0}", category);
-            }
-            else
-            {
-                _categories = string.Format(CultureInfo.InvariantCulture, "{0} && cat != {1}", _categories, category);
-            }
+            _categories = string.IsNullOrEmpty(_categories)
+                ? string.Format(CultureInfo.InvariantCulture, "cat != {0}", category)
+                : string.Format(CultureInfo.InvariantCulture, "{0} && cat != {1}", _categories, category);
 
             return this;
         }
@@ -116,14 +116,9 @@ namespace FlubuCore.Tasks.Testing
         /// <returns>The NunitTask</returns>
         public NUnitTask IncludeCategory(string category)
         {
-            if (string.IsNullOrEmpty(_categories))
-            {
-                _categories = string.Format(CultureInfo.InvariantCulture, "cat == {0}", category);
-            }
-            else
-            {
-                _categories = string.Format(CultureInfo.InvariantCulture, "{0} || cat == {1}", _categories, category);
-            }
+            _categories = string.IsNullOrEmpty(_categories)
+                ? string.Format(CultureInfo.InvariantCulture, "cat == {0}", category)
+                : string.Format(CultureInfo.InvariantCulture, "{0} || cat == {1}", _categories, category);
 
             return this;
         }
@@ -168,6 +163,7 @@ namespace FlubuCore.Tasks.Testing
             return this;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Abstract method defining the actual work for a task.
         /// </summary>
@@ -185,7 +181,7 @@ namespace FlubuCore.Tasks.Testing
             SetAssemblyFileNameAndWorkingDirFromProjectName(context);
             Validate();
             task.WorkingFolder(_workingDirectory);
-            foreach (var testAssemblyFileName in _testAssemblyFileNames)
+            foreach (var testAssemblyFileName in TestAssemblyFileNames)
             {
                 task.
                 WithArguments(string.Format(testAssemblyFileName));
@@ -229,9 +225,9 @@ namespace FlubuCore.Tasks.Testing
             if (_projectNames != null)
             {
                 bool setWorkingDir = false;
-                if (_testAssemblyFileNames == null)
+                if (TestAssemblyFileNames == null)
                 {
-                    _testAssemblyFileNames = new List<string>();
+                    TestAssemblyFileNames = new List<string>();
                     if (_projectNames.Count == 1 && string.IsNullOrEmpty(_workingDirectory))
                     {
                         setWorkingDir = true;
@@ -246,7 +242,7 @@ namespace FlubuCore.Tasks.Testing
                     FileFullPath projectTarget = project.ProjectDirectoryPath.CombineWith(project.GetProjectOutputPath(buildConfiguration))
                         .AddFileName("{0}.dll", project.ProjectName);
 
-                    _testAssemblyFileNames.Add(projectTarget.ToString());
+                    TestAssemblyFileNames.Add(projectTarget.ToString());
                     if (setWorkingDir)
                     {
                         _workingDirectory = Path.GetDirectoryName(projectTarget.ToString());
