@@ -1,6 +1,7 @@
 ﻿using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Scripting;
+using Xunit;
 
 namespace Flubu.Tests.Integration
 {
@@ -45,6 +46,8 @@ namespace Flubu.Tests.Integration
                 .AddTask(x => x.IisTasks().CreateWebsiteTask())
                 .AddTask(x => x.IisTasks().DeleteAppPoolTask("test"));
 
+            session.CreateTarget("Do").Do(DoExample, "test");
+
             package
                 .CoreTaskExtensions()
                 .DotnetPublish("a", "b", "c")
@@ -55,7 +58,11 @@ namespace Flubu.Tests.Integration
                         .AddFileToPackage("project.json", string.Empty)
                         .AddFileToPackage("NuGet.config", string.Empty);
                 });
+        }
 
+        private void DoExample(ITaskContext context, string parameter)
+        {
+            Assert.Equal("test", parameter);
         }
     }
 }
