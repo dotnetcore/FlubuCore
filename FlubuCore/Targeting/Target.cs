@@ -86,33 +86,33 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget DoAsync<T1>(Action<ITaskContextInternal> targetAction, T1 param)
+        public ITarget DoAsync<T>(Action<ITaskContextInternal, T> targetAction, T param)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask(targetAction), TaskExecutionMode.Parallel));
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask2<T>(targetAction, param), TaskExecutionMode.Parallel));
             return this;
         }
 
-        public ITarget DoAsync<T1, T2>(Action<ITaskContextInternal> targetAction, T1 param, T2 param2)
+        public ITarget DoAsync<T, T2>(Action<ITaskContextInternal, T, T2> targetAction, T param, T2 param2)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask(targetAction), TaskExecutionMode.Parallel));
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask3<T, T2>(targetAction, param, param2), TaskExecutionMode.Parallel));
             return this;
         }
 
-        public ITarget DoAsync<T1, T2, T3>(Action<ITaskContextInternal> targetAction, T1 param, T2 param2, T3 param3)
+        public ITarget DoAsync<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask(targetAction), TaskExecutionMode.Parallel));
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask4<T1, T2, T3>(targetAction, param, param2, param3), TaskExecutionMode.Parallel));
             return this;
         }
 
-        public ITarget DoAsync<T1, T2, T3, T4>(Action<ITaskContextInternal> targetAction, T1 param, T2 param2, T3 param3, T4 param4)
+        public ITarget DoAsync<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2, T3 param3, T4 param4)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask(targetAction), TaskExecutionMode.Parallel));
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask5<T1, T2, T3, T4>(targetAction, param, param2, param3, param4), TaskExecutionMode.Parallel));
             return this;
         }
 
-        public ITarget DoAsync<T1, T2, T3, T4, T5>(Action<ITaskContextInternal> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5)
+        public ITarget DoAsync<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask(targetAction), TaskExecutionMode.Parallel));
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask6<T1, T2, T3, T4, T5>(targetAction, param, param2, param3, param4, param5), TaskExecutionMode.Parallel));
             return this;
         }
 
@@ -122,33 +122,33 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget Do<T1>(Action<ITaskContextInternal> targetAction, T1 param)
+        public ITarget Do<T>(Action<ITaskContextInternal, T> targetAction, T param)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask(targetAction), TaskExecutionMode.Synchronous));
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask2<T>(targetAction, param), TaskExecutionMode.Synchronous));
             return this;
         }
 
-        public ITarget Do<T1, T2>(Action<ITaskContextInternal> targetAction, T1 param, T2 param2)
+        public ITarget Do<T, T2>(Action<ITaskContextInternal, T, T2> targetAction, T param, T2 param2)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask(targetAction), TaskExecutionMode.Synchronous));
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask3<T, T2>(targetAction, param, param2), TaskExecutionMode.Synchronous));
             return this;
         }
 
-        public ITarget Do<T1, T2, T3>(Action<ITaskContextInternal> targetAction, T1 param, T2 param2, T3 param3)
+        public ITarget Do<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask(targetAction), TaskExecutionMode.Synchronous));
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask4<T1, T2, T3>(targetAction, param, param2, param3), TaskExecutionMode.Synchronous));
             return this;
         }
 
-        public ITarget Do<T1, T2, T3, T4>(Action<ITaskContextInternal> targetAction, T1 param, T2 param2, T3 param3, T4 param4)
+        public ITarget Do<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2, T3 param3, T4 param4)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask(targetAction), TaskExecutionMode.Synchronous));
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask5<T1, T2, T3, T4>(targetAction, param, param2, param3, param4), TaskExecutionMode.Synchronous));
             return this;
         }
 
-        public ITarget Do<T1, T2, T3, T4, T5>(Action<ITaskContextInternal> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5)
+        public ITarget Do<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask(targetAction), TaskExecutionMode.Synchronous));
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask6<T1, T2, T3, T4, T5>(targetAction, param, param2, param3, param4, param5), TaskExecutionMode.Synchronous));
             return this;
         }
 

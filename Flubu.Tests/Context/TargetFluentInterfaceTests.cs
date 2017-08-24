@@ -43,8 +43,12 @@ namespace Flubu.Tests.Context
             Mock<ITarget> target1 = new Mock<ITarget>();
             ITargetFluentInterface t = _fluent.DependsOn(target1.Object);
             Assert.NotNull(t);
-
             _target.Verify(i => i.DependsOn(target1.Object), Times.Once);
+        }
+
+        private void Test(ITaskContext context, string test)
+        {
+            var x = test;
         }
     }
 }
