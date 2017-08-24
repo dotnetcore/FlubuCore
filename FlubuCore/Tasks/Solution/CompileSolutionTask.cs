@@ -5,7 +5,6 @@ using System.Linq;
 using FlubuCore.Context;
 using FlubuCore.Services;
 using FlubuCore.Tasks.Process;
-using Microsoft.Build.Utilities;
 
 namespace FlubuCore.Tasks.Solution
 {
@@ -22,15 +21,7 @@ namespace FlubuCore.Tasks.Solution
 
         private string _buildConfiguration;
 
-        private string _target;
-
         private string _platform;
-
-        private Version _toolsVersion;
-
-        private bool _useSolutionDirAsWorkingDir;
-
-        private int _maxCpuCount = 3;
 
         private readonly List<string> _arguments = new List<string>();
 
@@ -73,7 +64,7 @@ namespace FlubuCore.Tasks.Solution
         /// <summary>
         /// Add's Platform argument to MSBuild. If not set CPUAny is used as default.
         /// </summary>
-        /// <param name="platform">The platfrom.</param>
+        /// <param name="platform">The platform.</param>
         /// <returns></returns>
         public CompileSolutionTask Platform(string platform)
         {
@@ -82,43 +73,28 @@ namespace FlubuCore.Tasks.Solution
         }
 
         /// <summary>
-        /// Add location to msbuild. If msbuild is found at specified location msbuild wild not be searched at default locations it will use one specified here. If more than 1 path is specified first msbuild occurence will be used. Otherwise if it is not found it will search for it in default locations.
+        /// Add location to msbuild. Full msbuild.exe file location must be specified. If msbuild is found at specified location msbuild wild not be searched at default locations it will use one specified here.
+        /// If more than 1 path is specified first msbuild occurrence will be used. Otherwise if it is not found it will search for it in default locations.
         /// </summary>
         public CompileSolutionTask AddMsBuildPath(string pathToMsbuild)
         {
-            this._msbuildPaths.Add(pathToMsbuild);
+            _msbuildPaths.Add(pathToMsbuild);
             return this;
         }
 
-        public int MaxCpuCount
-        {
-            get { return _maxCpuCount; }
-            set { _maxCpuCount = value; }
-        }
+        public int MaxCpuCount { get; set; } = 3;
 
         /// <summary>
         /// Add'sTarget argument to MSBuild. 
         /// </summary>
-        public string Target
-        {
-            get { return _target; }
-            set { _target = value; }
-        }
+        public string Target { get; set; }
 
         /// <summary>
         /// Msbuild version to be used for build.
         /// </summary>
-        public Version ToolsVersion
-        {
-            get { return _toolsVersion; }
-            set { _toolsVersion = value; }
-        }
+        public Version ToolsVersion { get; set; }
 
-        public bool UseSolutionDirAsWorkingDir
-        {
-            get { return _useSolutionDirAsWorkingDir; }
-            set { _useSolutionDirAsWorkingDir = value; }
-        }
+        public bool UseSolutionDirAsWorkingDir { get; set; }
 
         protected override int DoExecute(ITaskContextInternal context)
         {
@@ -140,7 +116,7 @@ namespace FlubuCore.Tasks.Solution
                 .WithArguments(_solutionFileName)
                 .WithArguments($"/p:Configuration={_buildConfiguration}")
                 .WithArguments("/consoleloggerparameters:NoSummary")
-                .WithArguments($"/maxcpucount:{_maxCpuCount}");
+                .WithArguments($"/maxcpucount:{MaxCpuCount}");
 
             if (string.IsNullOrEmpty(_platform))
             {
@@ -151,11 +127,11 @@ namespace FlubuCore.Tasks.Solution
                 task.WithArguments($"/p:Platform={_platform}");
             }
 
-            if (_useSolutionDirAsWorkingDir)
+            if (UseSolutionDirAsWorkingDir)
                 task.WorkingFolder(Path.GetDirectoryName(_solutionFileName));
 
-            if (_target != null)
-                task.WithArguments($"/t:{_target}");
+            if (Target != null)
+                task.WithArguments($"/t:{Target}");
 
 
             foreach (var arg in _arguments)
@@ -171,7 +147,7 @@ namespace FlubuCore.Tasks.Solution
         private string FindMSBuildPath(ITaskContextInternal context)
         {
             string msbuildPath;
-            foreach (var path in this._msbuildPaths)
+            foreach (var path in _msbuildPaths)
             {
                 if (File.Exists(path))
                 {
@@ -212,15 +188,15 @@ namespace FlubuCore.Tasks.Solution
             if (msbuilds == null || msbuilds.Count == 0)
                 throw new TaskExecutionException("No MSBuild tools found on the system", 0);
 
-            if (_toolsVersion != null)
+            if (ToolsVersion != null)
             {
-                if (!msbuilds.TryGetValue(_toolsVersion, out msbuildPath))
+                if (!msbuilds.TryGetValue(ToolsVersion, out msbuildPath))
                 {
-                    KeyValuePair<Version, string> higherVersion = msbuilds.FirstOrDefault(x => x.Key > _toolsVersion);
+                    KeyValuePair<Version, string> higherVersion = msbuilds.FirstOrDefault(x => x.Key > ToolsVersion);
                     if (higherVersion.Equals(default(KeyValuePair<Version, string>)))
-                        throw new TaskExecutionException(string.Format("Requested MSBuild tools version {0} not found and there are no higher versions", _toolsVersion), 0);
+                        throw new TaskExecutionException(string.Format("Requested MSBuild tools version {0} not found and there are no higher versions", ToolsVersion), 0);
 
-                    context.LogInfo(string.Format("Requested MSBuild tools version {0} not found, using a higher version {1}", _toolsVersion, higherVersion.Key));
+                    context.LogInfo(string.Format("Requested MSBuild tools version {0} not found, using a higher version {1}", ToolsVersion, higherVersion.Key));
                     msbuildPath = higherVersion.Value;
                 }
             }
