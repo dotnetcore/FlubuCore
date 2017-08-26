@@ -28,16 +28,16 @@ public class MyBuildScript : DefaultBuildScript
             .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj", "Flubu.Tests/Flubu.Tests.csproj", "FlubuCore.WebApi.Model/FlubuCore.WebApi.Model.csproj", "FlubuCore.WebApi.Client/FlubuCore.WebApi.Client.csproj"))
             .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("flubu.sln"))
             .AddCoreTask(x => x.ExecuteDotnetTask("build").WithArguments("flubu.sln"))
-	        .AddCoreTask(x => x.ExecuteDotnetTask("pack")
+	        .AddCoreTaskAsync(x => x.ExecuteDotnetTask("pack")
 		        .WithArguments("FlubuCore.WebApi.Model", "-c", "Release")
 		        .WithArguments("-o", "..\\output"))
-	        .AddCoreTask(x => x.ExecuteDotnetTask("pack")
+	        .AddCoreTaskAsync(x => x.ExecuteDotnetTask("pack")
 		        .WithArguments("FlubuCore.WebApi.Client", "-c", "Release")
 		        .WithArguments("-o", "..\\output"))
-			.AddCoreTask(x => x.ExecuteDotnetTask("pack")
+			.AddCoreTaskAsync(x => x.ExecuteDotnetTask("pack")
                         .WithArguments("FlubuCore", "-c", "Release")
                         .WithArguments("-o", "..\\output"))
-            .AddCoreTask(x => x.ExecuteDotnetTask("pack")
+            .AddCoreTaskAsync(x => x.ExecuteDotnetTask("pack")
                         .WithArguments("dotnet-flubu", "-c", "Release")
                         .WithArguments("-o", "..\\output"))
             .DependsOn(buildVersion);
@@ -56,9 +56,11 @@ public class MyBuildScript : DefaultBuildScript
             .Do(PublishNuGetPackage).
             DependsOn(buildVersion);
 
-        var packageFlubuRunner =context.CreateTarget("package.FlubuRunner")
+        var packageFlubuRunner = context.CreateTarget("package.FlubuRunner")
             .SetDescription("Packages .net 4.62 Flubu runner into zip.")
             .Do(TargetPackageFlubuRunner);
+
+        var packageWebApi =
 
         context.CreateTarget("rebuild")
             .SetDescription("Rebuilds the solution")
