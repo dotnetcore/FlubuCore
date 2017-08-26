@@ -28,7 +28,11 @@ public class MyBuildScript : DefaultBuildScript
             .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj", "Flubu.Tests/Flubu.Tests.csproj", "FlubuCore.WebApi.Model/FlubuCore.WebApi.Model.csproj", "FlubuCore.WebApi.Client/FlubuCore.WebApi.Client.csproj"))
             .AddCoreTask(x => x.ExecuteDotnetTask("restore").WithArguments("flubu.sln"))
             .AddCoreTask(x => x.ExecuteDotnetTask("build").WithArguments("flubu.sln"))
-	        .AddCoreTaskAsync(x => x.ExecuteDotnetTask("pack")
+            .DependsOn(buildVersion);
+
+        var pack = context.CreateTarget("pack")
+            .SetDescription("Packs flubu componets for nuget publishing")
+            .AddCoreTaskAsync(x => x.ExecuteDotnetTask("pack")
 		        .WithArguments("FlubuCore.WebApi.Model", "-c", "Release")
 		        .WithArguments("-o", "..\\output"))
 	        .AddCoreTaskAsync(x => x.ExecuteDotnetTask("pack")
@@ -42,14 +46,26 @@ public class MyBuildScript : DefaultBuildScript
                         .WithArguments("-o", "..\\output"))
             .DependsOn(buildVersion);
 
+        var publishWebApi = context.CreateTarget("Publish.WebApi")
+            .SetDescription("Publishes flubu web api for deployment")
+            .AddCoreTask(x => x.Publish("FlubuCore.WebApi"));
+
+
+        var packageWebApi = context.CreateTarget("Package.WebApi")
+            .SetDescription("Packages flubu web api into zip")
+            .AddTask(x => x.PackageTask("output").
+            AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp1.1\publish", "FlubuCore.WebApi", true)
+            .ZipPackage("FlubuCore.WebApi", true));
+            
+
        var flubuRunnerMerge = context.CreateTarget("merge")
             .SetDescription("Merge's all assemblyes into .net flubu console application")
             .Do(TargetMerge);
 
 	    var flubuTests = context.CreateTarget("test")
 		    .SetDescription("Runs all tests in solution.")
-		    .AddCoreTask(x => x.ExecuteDotnetTask("test").WithArguments("Flubu.Tests\\Flubu.Tests.csproj"))
-		    .AddCoreTask(x => x.ExecuteDotnetTask("test").WithArguments("FlubuCore.WebApi.Tests\\FlubuCore.WebApi.Tests.csproj"));
+		    .AddCoreTaskAsync(x => x.ExecuteDotnetTask("test").WithArguments("Flubu.Tests\\Flubu.Tests.csproj"))
+		    .AddCoreTaskAsync(x => x.ExecuteDotnetTask("test").WithArguments("FlubuCore.WebApi.Tests\\FlubuCore.WebApi.Tests.csproj"));
 
 
 		var nugetPublish = context.CreateTarget("nuget.publish")
@@ -60,8 +76,6 @@ public class MyBuildScript : DefaultBuildScript
             .SetDescription("Packages .net 4.62 Flubu runner into zip.")
             .Do(TargetPackageFlubuRunner);
 
-        var packageWebApi =
-
         context.CreateTarget("rebuild")
             .SetDescription("Rebuilds the solution")
             .SetAsDefault()
@@ -69,7 +83,10 @@ public class MyBuildScript : DefaultBuildScript
 
         context.CreateTarget("rebuild.server")
             .SetDescription("Rebuilds the solution and publishes nuget packages.")
-            .DependsOn(compile, flubuTests, flubuRunnerMerge, nugetPublish, packageFlubuRunner);
+            .DependsOn(compile, flubuTests)
+            .DependsOnAsync(pack, publishWebApi)
+            .DependsOn(flubuRunnerMerge)
+            .DependsOnAsync(packageFlubuRunner, packageWebApi, nugetPublish);
 
         var compileLinux = context
             .CreateTarget("compile.linux")
