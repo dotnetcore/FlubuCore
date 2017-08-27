@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
     <AssemblyName>Build</AssemblyName>
     <PackageId>Build</PackageId>
     <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6</PackageTargetFallback>
@@ -74,5 +74,8 @@
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="dotnet-flubu" Version="1.4.10" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="FlubuCore.WebApi\FlubuCore.WebApi.csproj" />
   </ItemGroup>
 </Project>
