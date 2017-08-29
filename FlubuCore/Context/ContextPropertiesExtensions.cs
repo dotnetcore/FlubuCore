@@ -142,5 +142,27 @@ namespace FlubuCore.Context
             context.Set(propName, value);
             return value;
         }
+
+        /// <summary>
+        /// Get the context variable for SqlCmd executable
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static string GetSqlCmdExecutable(this IBuildPropertiesSession context)
+        {
+            return context.TryGet<string>(BuildProps.SqlCmdExecutable);
+        }
+
+        /// <summary>
+        /// Set the context variable for SqlCmd executable
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="fullPath"></param>
+        /// <returns></returns>
+        public static string SetSqlCmdExecutable(this ITaskContextInternal context, string fullPath)
+        {
+            context.Properties.Set(BuildProps.SqlCmdExecutable, fullPath);
+            return fullPath;
+        }
     }
 }

@@ -1,3 +1,6 @@
+1.6.3.1
+- Added SqlCmd task for executing MS SQL scripts.
+
 1.6.3.0
 - FlubuCore: Fixed generic parameters in Do Task
 - FlubuCore: Removed verbose switch for default NUnit 3 task. Issues with nunit 3.7

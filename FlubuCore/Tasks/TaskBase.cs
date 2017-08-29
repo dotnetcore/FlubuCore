@@ -2,17 +2,17 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using FlubuCore.Context;
-using FlubuCore.WebApi.Model;
 using System.Threading;
 
 namespace FlubuCore.Tasks
 {
+    /// <inheritdoc />
     /// <summary>
     ///     A base abstract class from which tasks can be implemented.
     /// </summary>
     public abstract class TaskBase<T> : ITaskOfT<T>
     {
-        private int retriedTimes = 0;
+        private int _retriedTimes;
 
         /// <summary>
         ///     Gets a value indicating whether this instance is safe to execute in dry run mode.
@@ -41,15 +41,15 @@ namespace FlubuCore.Tasks
         /// <value><c>true</c> if duration should be logged; otherwise, <c>false</c>.</value>
         protected virtual bool LogDuration => false;
 
-        public ITaskOfT<T> DoNotFailOnError()
+        public ITask DoNotFailOnError()
         {
             DoNotFail = true;
 
             return this;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="numberOfRetries">Number of retries before task fails.</param>
         /// <param name="delay">Delay time in miliseconds between retries.</param>
@@ -72,6 +72,7 @@ namespace FlubuCore.Tasks
             await ExecuteAsync(context);
         }
 
+        /// <inheritdoc />
         /// <summary>
         ///     Executes the task using the specified script execution environment.
         /// </summary>
@@ -117,10 +118,10 @@ namespace FlubuCore.Tasks
                     throw;
                 }
 
-                while (retriedTimes < NumberOfRetries)
+                while (_retriedTimes < NumberOfRetries)
                 {
-                    retriedTimes++;
-                    contextInternal.LogInfo($"Task failed. Retriying for {retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
+                    _retriedTimes++;
+                    contextInternal.LogInfo($"Task failed. Retriying for {_retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
                     Thread.Sleep(RetryDelay);
                     Execute(context);
                 }
@@ -173,10 +174,10 @@ namespace FlubuCore.Tasks
                     throw;
                 }
 
-                while (retriedTimes < NumberOfRetries)
+                while (_retriedTimes < NumberOfRetries)
                 {
-                    retriedTimes++;
-                    contextInternal.LogInfo($"Task failed. Retriying for {retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
+                    _retriedTimes++;
+                    contextInternal.LogInfo($"Task failed. Retriying for {_retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
                     Thread.Sleep(RetryDelay);
                     await ExecuteAsync(context);
                 }

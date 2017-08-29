@@ -17,12 +17,6 @@ namespace FlubuCore.Tasks
         Task<T> ExecuteAsync(ITaskContext context);
 
         /// <summary>
-        /// Task won't fail if error occurs.
-        /// </summary>
-        /// <returns></returns>
-        ITaskOfT<T> DoNotFailOnError();
-
-        /// <summary>
         /// Retry task if execution of the task fails.
         /// </summary>
         /// <param name="numberOfRetries">Number of retries before task fails.</param>

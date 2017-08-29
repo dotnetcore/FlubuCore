@@ -29,5 +29,7 @@
 	    public const string FlubuWebApiBaseUrl = "webapi_url";
 
         public const string DefaultTargets = "default_targets";
+
+        public const string SqlCmdExecutable = "sqlcmd_executable";
     }
 }
