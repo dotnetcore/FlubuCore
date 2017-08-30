@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using FlubuCore.Context;
@@ -29,6 +30,10 @@ namespace FlubuCore.Commanding
 
         public async Task<int> ExecuteAsync()
         {
+            string version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+
+            _log.LogInformation($"Flubu v.{version}");
+
             if (_args.Help)
             {
                 return 1;
