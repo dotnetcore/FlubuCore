@@ -90,7 +90,7 @@ public class MyBuildScript : DefaultBuildScript
             .DependsOn(compile, flubuTests)
             .DependsOnAsync(pack, publishWebApi)
             .DependsOn(flubuRunnerMerge)
-            .DependsOnAsync(packageWebApi, nugetPublish)
+            .DependsOnAsync(nugetPublish)
             .DependsOn(packageFlubuRunner);
 
         var compileLinux = context
