@@ -1,0 +1,17 @@
+﻿{
+  "UserName": "ter",
+  "Password": "lol",
+  "DeploymentPath": "c:\\webapi",
+  "SecretKey": "fasmf412rf=DfB?>#0<Med21xC",
+  "AllowScriptUpload": true,
+  "AllowedIps": [],
+  "TimeFrames": [
+    {
+      "TimeFrom": "00:00:00",
+      "TimeTo": "24:00:00"
+    }
+  ]
+}
+
+
+

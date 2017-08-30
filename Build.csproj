@@ -21,6 +21,8 @@
     <Compile Remove="FlubuCore.WebApi.Tests\**" />
     <Compile Remove="FlubuCore.WebApi\**" />
     <Compile Remove="FlubuCore\**" />
+    <Compile Remove="Nuget\**" />
+    <Compile Remove="output\**" />
     <Compile Remove="tools\**" />
     <EmbeddedResource Remove=".git\**" />
     <EmbeddedResource Remove=".vs\**" />
@@ -37,6 +39,8 @@
     <EmbeddedResource Remove="FlubuCore.WebApi.Tests\**" />
     <EmbeddedResource Remove="FlubuCore.WebApi\**" />
     <EmbeddedResource Remove="FlubuCore\**" />
+    <EmbeddedResource Remove="Nuget\**" />
+    <EmbeddedResource Remove="output\**" />
     <EmbeddedResource Remove="tools\**" />
     <None Remove=".git\**" />
     <None Remove=".vs\**" />
@@ -53,6 +57,8 @@
     <None Remove="FlubuCore.WebApi.Tests\**" />
     <None Remove="FlubuCore.WebApi\**" />
     <None Remove="FlubuCore\**" />
+    <None Remove="Nuget\**" />
+    <None Remove="output\**" />
     <None Remove="tools\**" />
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +77,7 @@
     <PackageReference Include="Microsoft.NETCore.App" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.2" />
     <PackageReference Include="dotnet-flubu" Version="1.4.10" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="dotnet-flubu" Version="1.4.10" />

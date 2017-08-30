@@ -1,3 +1,6 @@
+1.6.4.0
+- Dotnet-flubu now targets netcoreapp1.1
+
 1.6.3.0
 - FlubuCore: Fixed generic parameters in Do Task
 - FlubuCore: Removed verbose switch for default NUnit 3 task. Issues with nunit 3.7

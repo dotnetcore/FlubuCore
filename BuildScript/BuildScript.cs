@@ -54,7 +54,11 @@ public class MyBuildScript : DefaultBuildScript
         var packageWebApi = context.CreateTarget("Package.WebApi")
             .SetDescription("Packages flubu web api into zip")
             .AddTask(x => x.PackageTask("output").
-            AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp1.1\publish", "FlubuCore.WebApi", true)
+             AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp1.1\publish", "FlubuCore.WebApi", true)
+            .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
+            .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
+            .AddFileToPackage("BuildScript\\Deploy.csproj", "")
+            .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
             .ZipPackage("FlubuCore.WebApi", true));
             
 
@@ -86,7 +90,8 @@ public class MyBuildScript : DefaultBuildScript
             .DependsOn(compile, flubuTests)
             .DependsOnAsync(pack, publishWebApi)
             .DependsOn(flubuRunnerMerge)
-            .DependsOnAsync(packageFlubuRunner, packageWebApi, nugetPublish);
+            .DependsOnAsync(packageWebApi, nugetPublish)
+            .DependsOn(packageFlubuRunner);
 
         var compileLinux = context
             .CreateTarget("compile.linux")
