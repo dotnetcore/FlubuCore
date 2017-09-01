@@ -123,7 +123,7 @@ namespace FlubuCore.Tasks
                     _retriedTimes++;
                     contextInternal.LogInfo($"Task failed. Retriying for {_retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
                     Thread.Sleep(RetryDelay);
-                    Execute(context);
+                    return Execute(context);
                 }
 
                 if (DoNotFail)
@@ -179,7 +179,7 @@ namespace FlubuCore.Tasks
                     _retriedTimes++;
                     contextInternal.LogInfo($"Task failed. Retriying for {_retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
                     Thread.Sleep(RetryDelay);
-                    await ExecuteAsync(context);
+                    return await ExecuteAsync(context);
                 }
 
                 throw;
