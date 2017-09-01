@@ -203,6 +203,10 @@ public class MyBuildScript : DefaultBuildScript
             .CopyFileTask(@"dotnet-flubu\bin\Release\net462\win7-x64\dotnet-flubu.exe", @"output\build.exe", true)
             .Execute(context);
         context.Tasks()
+            .CopyFileTask(@"dotnet-flubu\bin\Release\net462\win7-x64\dotnet-flubu.exe.config", @"output\build.exe.config", true)
+            .Execute(context);
+
+        context.Tasks()
             .CopyFileTask(@"dotnet-flubu\bin\Release\net462\win7-x64\FlubuCore.dll", @"output\FlubuCore.dll", true)
             .Execute(context);
         context.Tasks()

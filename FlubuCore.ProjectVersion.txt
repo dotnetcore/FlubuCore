@@ -1,3 +1,6 @@
+1.6.8.0
+- Fixed references to system assemblies in .net 462 which caused stackoverflow exception in flubu.runner in atleast package task.
+
 1.6.7.1
 - Fixed PackageTask logging.
 

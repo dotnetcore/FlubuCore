@@ -18,9 +18,9 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <Version>1.6.4</Version>
-    <AssemblyVersion>1.6.4.0</AssemblyVersion>
-    <FileVersion>1.6.4.0</FileVersion>
+    <Version>1.6.8</Version>
+    <AssemblyVersion>1.6.8.0</AssemblyVersion>
+    <FileVersion>1.6.8.0</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net462|AnyCPU'">
     <DocumentationFile>bin\Debug\net462\FlubuCore.xml</DocumentationFile>
@@ -70,10 +70,6 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.2" />
     <PackageReference Include="NETStandard.Library" Version="1.6.1" />
     <PackageReference Include="System.ServiceProcess.ServiceController" Version="4.3.0" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlubuCore.WebApi.Client\FlubuCore.WebApi.Client.csproj" />

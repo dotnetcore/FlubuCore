@@ -21,12 +21,12 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <AssemblyVersion>1.6.4.0</AssemblyVersion>
-    <FileVersion>1.6.4.0</FileVersion>
-    <Version>1.6.4.0</Version>
+    <AssemblyVersion>1.6.8.0</AssemblyVersion>
+    <FileVersion>1.6.8.0</FileVersion>
+    <Version>1.6.8.0</Version>
     <RootNamespace>DotNet.Cli.Flubu</RootNamespace>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp1.0'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp1.1'">
     <RuntimeIdentifiers>win7-x64;win7-x86;osx.10.10-x64;osx.10.11-x64;ubuntu.14.04-x64;ubuntu.16.04-x64;centos.7-x64;rhel.7.2-x64;debian.8-x64;fedora.23-x64;opensuse.13.2-x64</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net462'">
@@ -57,19 +57,8 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.1.1" />
     <PackageReference Include="System.ServiceProcess.ServiceController" Version="4.3.0" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">
     <PackageReference Include="Microsoft.NETCore.App" Version="1.1.2" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
-    <Reference Include="System" />
-    <Reference Include="System.Globalization" />
-    <Reference Include="System.Collections" />
-    <Reference Include="System.Reflection" />
-    <Reference Include="System.Reflection.TypeExtensions" />
-    <Reference Include="System.Runtime" />
-    <Reference Include="System.Runtime.Extensions" />
-    <Reference Include="System.Runtime.InteropServices" />
-    <Reference Include="System.Threading" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
+ 
 </Project>
