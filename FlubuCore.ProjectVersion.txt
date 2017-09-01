@@ -1,3 +1,6 @@
+1.6.7.1
+- Fixed PackageTask logging.
+
 1.6.7.0
 - Fixed retry on tasks.
 

@@ -26,7 +26,7 @@ namespace FlubuCore.Packaging
             IEnumerable<FileFullPath> filesToZip,
             bool optimizeFiles)
         {
-            _taskContext.LogInfo(string.Format("Zipping {0}", zipFileName));
+            _taskContext.LogInfo($"Zipping {zipFileName}");
             var zipFileFullPath = zipFileName.ToFullPath();
 
             if (File.Exists(zipFileFullPath))

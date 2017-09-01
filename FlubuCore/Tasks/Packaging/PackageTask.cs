@@ -17,7 +17,7 @@ namespace FlubuCore.Tasks.Packaging
         private string _zipPrefix;
         private bool _optimizeZip;
 
-        private bool _logFiles;
+        private bool _logFiles = true;
 
         public PackageTask(string destinationRootDir = null)
         {
@@ -102,7 +102,7 @@ namespace FlubuCore.Tasks.Packaging
         /// <returns></returns>
         public PackageTask DisableLogging()
         {
-            this._logFiles = false;
+            _logFiles = false;
             return this;
         }
 
@@ -139,7 +139,7 @@ namespace FlubuCore.Tasks.Packaging
                 _destinationRootDir = context.Properties.GetOutputDir();
 
             FullPath df = new FullPath(_destinationRootDir);
-            ICopier copier = new Copier(context, this._logFiles);
+            ICopier copier = new Copier(context, _logFiles);
             IZipper zipper = new Zipper(context);
             IDirectoryFilesLister directoryFilesLister = new DirectoryFilesLister();
             StandardPackageDef packageDef = new StandardPackageDef();
@@ -189,15 +189,12 @@ namespace FlubuCore.Tasks.Packaging
                     zipFile = zipFile.Substring(0, zipFile.Length - 4);
                 }
 
-                if (_addVersionAsPostFixToZipFileName)
-                {
-                  
-                        zipFile = Path.Combine(_destinationRootDir, $"{zipFile}_{context.Properties.GetBuildVersion().ToString(_versionFieldCount)}.zip");
-                }
-                else
-                {
-                    zipFile = Path.Combine(_destinationRootDir, $"{zipFile}.zip");
-                }
+                zipFile = Path.Combine(_destinationRootDir,
+                    _addVersionAsPostFixToZipFileName
+                        ? $"{zipFile}_{context.Properties.GetBuildVersion().ToString(_versionFieldCount)}.zip"
+                        : $"{zipFile}.zip");
+
+                context.LogInfo($"Creating zip file {zipFile}");
 
                 ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(zipFile), df, _optimizeZip, sourceIds, this._logFiles);
                 zipProcessor.Process(copiedPackageDef);

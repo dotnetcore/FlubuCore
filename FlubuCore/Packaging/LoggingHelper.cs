@@ -10,7 +10,7 @@ namespace FlubuCore.Packaging
             {
                 if (logFiles)
                 {
-                    taskContext.LogInfo(string.Format("File '{0}' has been filtered out.", fileName));
+                    taskContext.LogInfo($"File '{fileName}' has been filtered out.");
                 }
 
                 return false;

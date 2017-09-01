@@ -52,7 +52,7 @@ namespace FlubuCore.Packaging
             _zipFileName = zipFileName;
             _baseDir = baseDir;
             _optimizeFiles = optimizeFiles;
-            this._logFiles = logFiles;
+            _logFiles = logFiles;
             _sourcesToZip.AddRange(sources);
         }
 
@@ -71,7 +71,7 @@ namespace FlubuCore.Packaging
             _baseDir = baseDir;
             _optimizeFiles = optimizeFiles;
             _sourcesToZip.AddRange(sources);
-            this._logFiles = logFiles;
+            _logFiles = logFiles;
         }
 
         public IPackageDef Process(IPackageDef packageDef)
@@ -85,14 +85,14 @@ namespace FlubuCore.Packaging
                 {
                     foreach (PackagedFileInfo file in childSource.ListFiles())
                     {
-                        if (!LoggingHelper.LogIfFilteredOut(file.FileFullPath.ToString(), _filter, _taskContext, this._logFiles))
+                        if (!LoggingHelper.LogIfFilteredOut(file.FileFullPath.ToString(), _filter, _taskContext, _logFiles))
                         {
                             continue;
                         }
 
-                        if (this._logFiles)
+                        if (_logFiles)
                         {
-                            _taskContext.LogInfo(string.Format("Adding file '{0}' to zip package", file.FileFullPath));
+                            _taskContext.LogInfo($"Adding file '{file.FileFullPath}' to zip package");
                         }
 
                         filesToZip.Add(file.FileFullPath);
