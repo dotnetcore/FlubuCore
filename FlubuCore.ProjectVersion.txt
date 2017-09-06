@@ -1,3 +1,6 @@
+1.6.9.1
+- fixed compile task (correctly pass arguments to msbuild)
+
 1.6.9.0
 - updated compile task to support workingFolder and any params for msbuild
 - fixed il merge generation with libz container

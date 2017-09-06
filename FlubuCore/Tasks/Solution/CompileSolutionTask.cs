@@ -169,7 +169,8 @@ namespace FlubuCore.Tasks.Solution
             IRunProgramTask task = context.Tasks()
                 .RunProgramTask(msbuildPath)
                 .WorkingFolder(workingFolder)
-                .WithArguments(_solutionFileName);
+                .WithArguments(_solutionFileName)
+                .WithArguments(_arguments.ToArray());
 
             if (!_doNotSetConfiguration)
                 task.WithArguments($"/p:Configuration={_buildConfiguration}");
