@@ -1,3 +1,7 @@
+1.7.0.0
+- Added SqlCmd task with output capture support
+- Added capture output support for RunProgramTask
+
 1.6.9.1
 - fixed compile task (correctly pass arguments to msbuild)
 

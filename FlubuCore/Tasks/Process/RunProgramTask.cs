@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using FlubuCore.Context;
 using Microsoft.DotNet.Cli.Utils;
 
@@ -10,16 +11,22 @@ namespace FlubuCore.Tasks.Process
     {
         private readonly string _programToExecute;
         private readonly List<string> _arguments = new List<string>();
+        private readonly StringBuilder _output = new StringBuilder();
+        private readonly StringBuilder _errorOutput = new StringBuilder();
 
         private ICommandFactory _commandFactory;
         private string _workingFolder;
+        private bool _captureOutput;
+        private bool _captureErrorOutput;
 
+        /// <inheritdoc />
         public RunProgramTask(ICommandFactory commandFactory, string programToExecute)
         {
             _commandFactory = commandFactory;
             _programToExecute = programToExecute;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Add's argument to the program.
         /// </summary>
@@ -30,6 +37,7 @@ namespace FlubuCore.Tasks.Process
             _arguments.Add(arg);
             return this;
         }
+        /// <inheritdoc />
         /// <summary>
         /// Add's arguments to the program.
         /// </summary>
@@ -39,6 +47,7 @@ namespace FlubuCore.Tasks.Process
             return this;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Working folder of the program.
         /// </summary>
@@ -53,6 +62,39 @@ namespace FlubuCore.Tasks.Process
             return this;
         }
 
+        /// <inheritdoc />
+        public IRunProgramTask CaptureOutput()
+        {
+            _captureOutput = true;
+            return this;
+        }
+
+        /// <inheritdoc />
+        public IRunProgramTask CaptureErrorOutput()
+        {
+            _captureErrorOutput = true;
+            return this;
+        }
+
+        /// <summary>
+        /// Get the output produced by executable.
+        /// </summary>
+        /// <returns></returns>
+        public string GetOutput()
+        {
+            return _output.ToString();
+        }
+
+        /// <summary>
+        /// Get the error output produced by executable.
+        /// </summary>
+        /// <returns></returns>
+        public string GetErrorOutput()
+        {
+            return _errorOutput.ToString();
+        }
+
+        /// <inheritdoc />
         protected override int DoExecute(ITaskContextInternal context)
         {
             if (_commandFactory == null)
@@ -73,8 +115,20 @@ namespace FlubuCore.Tasks.Process
                 .CaptureStdErr()
                 .CaptureStdOut()
                 .WorkingDirectory(_workingFolder ?? currentDirectory)
-                .OnErrorLine(context.LogInfo)
-                .OnOutputLine(context.LogInfo);
+                .OnErrorLine(l =>
+                {
+                    context.LogInfo(l);
+
+                    if (_captureOutput)
+                        _output.AppendLine(l);
+                })
+                .OnOutputLine(l =>
+                {
+                    context.LogInfo(l);
+
+                    if (_captureErrorOutput)
+                        _errorOutput.AppendLine(l);
+                });
 
             context.LogInfo(
                 $"Running program '{command.CommandName}':(work.dir='{_workingFolder}',args='{command.CommandArgs}')");
