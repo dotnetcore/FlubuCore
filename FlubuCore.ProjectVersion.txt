@@ -1,3 +1,6 @@
+1.7.0.1
+- added standard sqlcmd params
+
 1.7.0.0
 - Added SqlCmd task with output capture support
 - Added capture output support for RunProgramTask

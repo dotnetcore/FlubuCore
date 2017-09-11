@@ -36,7 +36,22 @@
         /// <returns></returns>
         IRunProgramTask CaptureErrorOutput();
 
+        /// <summary>
+        /// Gets the whole output of the executed command.
+        /// </summary>
+        /// <returns></returns>
         string GetOutput();
+        
+        /// <summary>
+        /// Gets the whole error output of the executed command. 
+        /// </summary>
+        /// <returns></returns>
         string GetErrorOutput();
+
+        /// <summary>
+        /// Do not log output to the console.
+        /// </summary>
+        /// <returns></returns>
+        IRunProgramTask DoNotLogOutput();
     }
 }

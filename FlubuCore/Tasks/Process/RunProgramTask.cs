@@ -18,6 +18,7 @@ namespace FlubuCore.Tasks.Process
         private string _workingFolder;
         private bool _captureOutput;
         private bool _captureErrorOutput;
+        private bool _doNotLog;
 
         /// <inheritdoc />
         public RunProgramTask(ICommandFactory commandFactory, string programToExecute)
@@ -76,6 +77,7 @@ namespace FlubuCore.Tasks.Process
             return this;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Get the output produced by executable.
         /// </summary>
@@ -85,6 +87,7 @@ namespace FlubuCore.Tasks.Process
             return _output.ToString();
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Get the error output produced by executable.
         /// </summary>
@@ -92,6 +95,13 @@ namespace FlubuCore.Tasks.Process
         public string GetErrorOutput()
         {
             return _errorOutput.ToString();
+        }
+
+        /// <inheritdoc />
+        public IRunProgramTask DoNotLogOutput()
+        {
+            _doNotLog = true;
+            return this;
         }
 
         /// <inheritdoc />
@@ -117,14 +127,16 @@ namespace FlubuCore.Tasks.Process
                 .WorkingDirectory(_workingFolder ?? currentDirectory)
                 .OnErrorLine(l =>
                 {
-                    context.LogInfo(l);
+                    if(!_doNotLog)
+                        context.LogInfo(l);
 
                     if (_captureOutput)
                         _output.AppendLine(l);
                 })
                 .OnOutputLine(l =>
                 {
-                    context.LogInfo(l);
+                    if(!_doNotLog)
+                        context.LogInfo(l);
 
                     if (_captureErrorOutput)
                         _errorOutput.AppendLine(l);

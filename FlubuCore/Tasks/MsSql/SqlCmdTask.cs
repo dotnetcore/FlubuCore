@@ -19,18 +19,23 @@ namespace FlubuCore.Tasks.MsSql
         private readonly List<string> _sqlCmdExePaths = new List<string>();
         private string _output;
         private string _errorOutput;
+        private readonly List<string> _sqlFiles = new List<string>();
+        private bool _doNotLog;
 
         /// <inheritdoc />
         public SqlCmdTask(string sqlFileName)
         {
-            SqlFile = sqlFileName;
+            _sqlFiles.Add(sqlFileName);
             _sqlCmdExePaths.Add(DefaultSqlCmdExe);
         }
 
-        /// <summary>
-        /// Dotnet command to be executed.
-        /// </summary>
-        public string SqlFile { get;  }
+
+        /// <inheritdoc />
+        public SqlCmdTask(params string[] sqlFiles)
+        {
+            _sqlFiles.AddRange(sqlFiles);
+            _sqlCmdExePaths.Add(DefaultSqlCmdExe);
+        }
 
         /// <summary>
         /// Add's Argument to the dotnet see <c>Command</c>
@@ -94,6 +99,80 @@ namespace FlubuCore.Tasks.MsSql
             return _errorOutput;
         }
 
+        /// <summary>
+        /// Connect to server.
+        /// </summary>
+        /// <param name="server"></param>
+        /// <returns></returns>
+        public SqlCmdTask Server(string server)
+        {
+            _arguments.Add($"-S {server}");
+            return this;
+        }
+
+        /// <summary>
+        /// Use userName when connecting to the DB.
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public SqlCmdTask UserName(string userName)
+        {
+            _arguments.Add($"-U {userName}");
+            return this;
+        }
+
+        /// <summary>
+        /// Use password when connecting to the DB.
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public SqlCmdTask Password(string password)
+        {
+            _arguments.Add($"-P {password}");
+            return this;
+        }
+
+        /// <summary>
+        /// Use trusted connection when connecting to the DB.
+        /// </summary>
+        /// <returns></returns>
+        public SqlCmdTask TrustedConnection()
+        {
+            _arguments.Add("-E");
+            return this;
+        }
+
+        /// <summary>
+        /// Use database name.
+        /// </summary>
+        /// <param name="database"></param>
+        /// <returns></returns>
+        public SqlCmdTask Database(string database)
+        {
+            _arguments.Add($"-d {database}");
+            return this;
+        }
+
+        /// <summary>
+        /// Force that file is in UTF8 encoding. Skip auto detection.
+        /// </summary>
+        /// <returns></returns>
+        public SqlCmdTask ForceUtf8()
+        {
+            _arguments.Add("-f 65001");
+            return this;
+        }
+
+        /// <summary>
+        /// Do not log to the output.
+        /// </summary>
+        /// <returns></returns>
+        public SqlCmdTask DoNoLogOutput()
+        {
+            _doNotLog = true;
+            return this;
+        }
+
         /// <inheritdoc />
         protected override int DoExecute(ITaskContextInternal context)
         {
@@ -110,18 +189,31 @@ namespace FlubuCore.Tasks.MsSql
                 return -1;
             }
 
-            IRunProgramTask task = context.Tasks().RunProgramTask(program);
+            if (_sqlFiles.Count <= 0)
+            {
+                context.Fail("At least one file must be specified.", -1);
+                return -1;
+            }
 
-            task
-                .WithArguments(SqlFile)
-                .WithArguments(_arguments.ToArray())
-                .CaptureErrorOutput()
-                .CaptureOutput()
-                .WorkingFolder(_workingFolder)
-                .ExecuteVoid(context);
+            foreach (string file in _sqlFiles)
+            {
+                IRunProgramTask task = context.Tasks().RunProgramTask(program);
 
-            _output = task.GetOutput();
-            _errorOutput = task.GetErrorOutput();
+                if (_doNotLog)
+                    task.DoNotLogOutput();
+
+                task
+                    .WithArguments($"-i {file}")
+                    .WithArguments(_arguments.ToArray())
+                    .CaptureErrorOutput()
+                    .CaptureOutput()
+                    .WorkingFolder(_workingFolder)
+                    .ExecuteVoid(context);
+
+                _output = task.GetOutput();
+                _errorOutput = task.GetErrorOutput();
+            }
+
 
             return 0;
         }
