@@ -289,7 +289,7 @@ namespace Flubu.Tests.Context
         [Fact]
         public void ResolveReplaceTokensTaskTest()
         {
-            Context.Tasks().ReplaceTokensTask("a", "b");
+            Context.Tasks().ReplaceTokensTask("a");
         }
 
         [Fact]

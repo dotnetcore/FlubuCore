@@ -25,8 +25,6 @@ namespace FlubuCore.Tasks.Nuget
 
         private Func<ITaskContextInternal, string> _apiKeyFunc;
 
-        private string _basePath;
-
         public PublishNuGetPackageTask(string packageId, string nuspecFileName)
         {
             _packageId = packageId;
@@ -36,11 +34,7 @@ namespace FlubuCore.Tasks.Nuget
         /// <summary>
         /// nuget base path argument to be added.
         /// </summary>
-        public string BasePath
-        {
-            get { return _basePath; }
-            set { _basePath = value; }
-        }
+        public string BasePath { get; set; }
 
         /// <summary>
         /// Nuget server url package will be pushed to.
@@ -95,11 +89,12 @@ namespace FlubuCore.Tasks.Nuget
             FileFullPath destNuspecFile = packagesDir.AddFileName("{0}.nuspec", _packageId);
 
             context.LogInfo($"Preparing the {destNuspecFile} file");
-            ReplaceTokensTask task = new ReplaceTokensTask(
-                _nuspecFileName,
-                destNuspecFile.ToString());
-            task.AddTokenValue("version", context.Properties.GetBuildVersion().ToString());
-            task.ExecuteVoid(context);
+
+            new ReplaceTokensTask(_nuspecFileName)
+                .Replace("version", context.Properties.GetBuildVersion().ToString())
+                .UseToken("$")
+                .ToDestination(destNuspecFile.ToString())
+                .ExecuteVoid(context);
 
             // package it
             context.LogInfo("Creating a NuGet package file");
@@ -111,8 +106,8 @@ namespace FlubuCore.Tasks.Nuget
 
             nugetTask.AddArgument(destNuspecFile.FileName);
 
-            if (_basePath != null)
-                nugetTask.AddArgument("-BasePath").AddArgument(_basePath);
+            if (BasePath != null)
+                nugetTask.AddArgument("-BasePath").AddArgument(BasePath);
 
             nugetTask.ExecuteVoid(context);
 

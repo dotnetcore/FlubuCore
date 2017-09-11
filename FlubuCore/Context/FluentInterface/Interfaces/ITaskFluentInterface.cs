@@ -112,7 +112,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns></returns>
         NUnitTask NUnitTaskByAssemblyName(params string[] testAssemblyFileName);
 
-        ReplaceTokensTask ReplaceTokensTask(string sourceFileName, string destinationFileName);
+        ReplaceTokensTask ReplaceTokensTask(string sourceFileName);
 
         /// <summary>
         /// Update's specified json.
@@ -223,7 +223,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="sourceFile">File path.</param>
         /// <param name="tokens">Fist paramteter text to be replaced. Second parameter text to be replaced with</param>
         /// <returns></returns>
-        ReplaceTextTask ReplaceTextTask(string sourceFile, params Tuple<string, string>[] tokens);
+        ReplaceTokensTask ReplaceTextTask(string sourceFile, params Tuple<string, string>[] tokens);
         
         /// <summary>
         /// Task updates xml. Xml elements can be added, updated or deleted.

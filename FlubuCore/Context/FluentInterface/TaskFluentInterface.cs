@@ -119,11 +119,9 @@ namespace FlubuCore.Context.FluentInterface
         }
 
         /// <inheritdoc />
-        public ReplaceTokensTask ReplaceTokensTask(
-            string sourceFileName,
-            string destinationFileName)
+        public ReplaceTokensTask ReplaceTokensTask(string sourceFileName)
         {
-            return Context.CreateTask<ReplaceTokensTask>(sourceFileName, destinationFileName);
+            return Context.CreateTask<ReplaceTokensTask>(sourceFileName);
         }
 
         public UpdateJsonFileTask UpdateJsonFileTask(string fileName)
@@ -208,9 +206,9 @@ namespace FlubuCore.Context.FluentInterface
             return Context.CreateTask<MergeConfigurationTask>(outFile, sourceFiles);
         }
 
-        public ReplaceTextTask ReplaceTextTask(string sourceFile, params Tuple<string, string>[] tokens)
+        public ReplaceTokensTask ReplaceTextTask(string sourceFile, params Tuple<string, string>[] tokens)
         {
-            return Context.CreateTask<ReplaceTextTask>(sourceFile).Replace(tokens);
+            return Context.CreateTask<ReplaceTokensTask>(sourceFile).Replace(tokens);
         }
 
         public CleanOutputTask CleanOutputTask()

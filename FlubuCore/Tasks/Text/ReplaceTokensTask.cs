@@ -1,74 +1,124 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.Text
 {
+    /// <inheritdoc />
     public class ReplaceTokensTask : TaskBase<int>
     {
-        private readonly string _destinationFileName;
-
         private readonly Dictionary<string, string> _tokens = new Dictionary<string, string>();
 
         private readonly string _sourceFileName;
 
-        private Encoding _sourceFileEncoding = Encoding.UTF8;
+        private string _destinationFileName;
+        private string _token;
+        private Encoding _destinationEncoding = Encoding.UTF8;
+        private Encoding _sourceEncoding = Encoding.UTF8;
+        private bool _useTmpFile;
 
-        private Encoding _destionationFileEncoding = Encoding.UTF8;
-
-        public ReplaceTokensTask(
-            string sourceFileName,
-            string destinationFileName)
+        /// <inheritdoc />
+        public ReplaceTokensTask(string sourceFileName)
         {
             _sourceFileName = sourceFileName;
-            _destinationFileName = destinationFileName;
         }
 
         /// <summary>
-        /// Gets the task description.
+        /// Sets the encoding of the source file. Default is UTF8
         /// </summary>
-        /// <value>The task description.</value>
-        public string Description
+        public ReplaceTokensTask SourceFileEncoding(Encoding encoding)
         {
-            get
-            {
-                return string.Format(
-                    System.Globalization.CultureInfo.InvariantCulture,
-                    "Replace tokens in file '{0}' to file '{1}'",
-                    _sourceFileName,
-                    _destinationFileName);
-            }
-        }
-
-        public Encoding SourceFileEncoding
-        {
-            get { return _sourceFileEncoding; }
-            set { _sourceFileEncoding = value; }
-        }
-
-        public Encoding DestionationFileEncoding
-        {
-            get { return _destionationFileEncoding; }
-            set { _destionationFileEncoding = value; }
-        }
-
-        public ReplaceTokensTask AddTokenValue(string token, string value)
-        {
-            _tokens.Add(token, value);
+            _sourceEncoding = encoding;
             return this;
         }
 
+        /// <summary>
+        /// Sets the encoding of the destination file. Default is UTF8.
+        /// </summary>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public ReplaceTokensTask DestionationFileEncoding(Encoding encoding)
+        {
+            _destinationEncoding = encoding;
+            return this;
+        }
+
+        /// <summary>
+        /// Use token prefix and suffix for key. {token}{key}{token} will be replaced with key's value.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public ReplaceTokensTask UseToken(string token)
+        {
+            _token = token;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the destination filename. If not specified source file will be replaced.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public ReplaceTokensTask ToDestination(string file)
+        {
+            _destinationFileName = file;
+            return this;
+        }
+
+        /// <summary>
+        /// Replace old value with the new one.
+        /// </summary>
+        /// <param name="oldValue"></param>
+        /// <param name="newValue"></param>
+        /// <returns></returns>
+        public ReplaceTokensTask Replace(string oldValue, string newValue)
+        {
+            _tokens.Add(oldValue, newValue);
+            return this;
+        }
+
+        /// <summary>
+        /// Replace old value with the new one.
+        /// </summary>
+        /// <param name="tokens"></param>
+        /// <returns></returns>
+        public ReplaceTokensTask Replace(params Tuple<string, string>[] tokens)
+        {
+            foreach (Tuple<string, string> token in tokens)
+            {
+                _tokens.Add(token.Item1, token.Item2);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Create new file with the source file name and appended with .tmp.
+        /// </summary>
+        /// <returns></returns>
+        public ReplaceTokensTask UseTmpFile()
+        {
+            _useTmpFile = true;
+            return this;
+        }
+
+        /// <inheritdoc />
         protected override int DoExecute(ITaskContextInternal context)
         {
-            string tokenizedContent = File.ReadAllText(_sourceFileName, _sourceFileEncoding);
+            context.LogInfo($"Replacing text in file {_sourceFileName}");
+
+            string tokenizedContent = File.ReadAllText(_sourceFileName, _sourceEncoding);
 
             string finalContent = ReplaceTokens(tokenizedContent);
 
-            File.WriteAllText(_destinationFileName, finalContent, _destionationFileEncoding);
+            if (_useTmpFile)
+                _destinationFileName = $"{_sourceFileName}.tmp";
+            else if (string.IsNullOrEmpty(_destinationFileName))
+                _destinationFileName = _sourceFileName;
+
+            File.WriteAllText(_destinationFileName, finalContent, _destinationEncoding);
 
             return 0;
         }
@@ -76,7 +126,11 @@ namespace FlubuCore.Tasks.Text
         private string ReplaceTokens(string tokenizedContent)
         {
             foreach (KeyValuePair<string, string> entry in _tokens)
-                tokenizedContent = tokenizedContent.Replace("$" + entry.Key + "$", entry.Value);
+            {
+                string key = string.IsNullOrEmpty(_token) ? entry.Key : $"{_token}{entry.Key}{_token}";
+
+                tokenizedContent = tokenizedContent.Replace(key, entry.Value);
+            }
 
             return tokenizedContent;
         }

@@ -1,3 +1,6 @@
+1.7.0.2
+- merged replaceToken and replaceText tasks
+
 1.7.0.1
 - added standard sqlcmd params
 
