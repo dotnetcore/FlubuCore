@@ -1,3 +1,6 @@
+1.7.0.3
+- Updated SqlCmdTask (do not escape args)
+
 1.7.0.2
 - merged replaceToken and replaceText tasks
 

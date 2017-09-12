@@ -42,6 +42,7 @@ namespace FlubuCore.Tasks.MsSql
         /// </summary>
         /// <param name="arg">Argument to be added</param>
         /// <returns></returns>
+        /// <remarks>Do not escape args with ". You should add separate argument for option and value. .WithArguments("-i", "mysqlfile.sql")</remarks>    
         public SqlCmdTask WithArguments(string arg)
         {
             _arguments.Add(arg);
@@ -53,6 +54,7 @@ namespace FlubuCore.Tasks.MsSql
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
+        /// <remarks>Do not escape args with ". You should add separate argument for option and value. .WithArguments("-i", "mysqlfile.sql")</remarks>    
         public SqlCmdTask WithArguments(params string[] args)
         {
             _arguments.AddRange(args);
@@ -100,13 +102,46 @@ namespace FlubuCore.Tasks.MsSql
         }
 
         /// <summary>
+        /// Connect to the specified SQL server
+        /// </summary>
+        /// <param name="server"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public SqlCmdTask UseServer(string server, string userName, string password)
+        {
+            Server(server)
+                .UserName(userName)
+                .Password(password);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Connect to the specified SQL server
+        /// </summary>
+        /// <param name="server"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <param name="database"></param>
+        /// <returns></returns>
+        public SqlCmdTask UseServer(string server, string userName, string password, string database)
+        {
+            UseServer(server, userName, password)
+                .Database(database);
+
+            return this;
+        }
+
+        /// <summary>
         /// Connect to server.
         /// </summary>
         /// <param name="server"></param>
         /// <returns></returns>
         public SqlCmdTask Server(string server)
         {
-            _arguments.Add($"-S {server}");
+            _arguments.Add("-S");
+            _arguments.Add(server);
             return this;
         }
 
@@ -117,7 +152,8 @@ namespace FlubuCore.Tasks.MsSql
         /// <returns></returns>
         public SqlCmdTask UserName(string userName)
         {
-            _arguments.Add($"-U {userName}");
+            _arguments.Add("-U");
+            _arguments.Add(userName);
             return this;
         }
 
@@ -128,7 +164,8 @@ namespace FlubuCore.Tasks.MsSql
         /// <returns></returns>
         public SqlCmdTask Password(string password)
         {
-            _arguments.Add($"-P {password}");
+            _arguments.Add("-P");
+            _arguments.Add(password);
             return this;
         }
 
@@ -149,7 +186,8 @@ namespace FlubuCore.Tasks.MsSql
         /// <returns></returns>
         public SqlCmdTask Database(string database)
         {
-            _arguments.Add($"-d {database}");
+            _arguments.Add("-d");
+            _arguments.Add(database);
             return this;
         }
 
@@ -159,7 +197,8 @@ namespace FlubuCore.Tasks.MsSql
         /// <returns></returns>
         public SqlCmdTask ForceUtf8()
         {
-            _arguments.Add("-f 65001");
+            _arguments.Add("-f");
+            _arguments.Add("65001");
             return this;
         }
 
@@ -203,7 +242,8 @@ namespace FlubuCore.Tasks.MsSql
                     task.DoNotLogOutput();
 
                 task
-                    .WithArguments($"-i {file}")
+                    .WithArguments("-i")
+                    .WithArguments(file)
                     .WithArguments(_arguments.ToArray())
                     .CaptureErrorOutput()
                     .CaptureOutput()
