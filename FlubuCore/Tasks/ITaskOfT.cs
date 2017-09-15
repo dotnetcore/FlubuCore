@@ -23,5 +23,12 @@ namespace FlubuCore.Tasks
         /// <param name="delay">Delay time in miliseconds between retries.</param>
         /// <returns></returns>
         ITaskOfT<T> Retry(int numberOfRetries, int delay);
+
+        /// <summary>
+        /// Do not log messages.
+        /// </summary>
+        /// <returns></returns>
+        ITaskOfT<T> NoLog();
+
     }
 }

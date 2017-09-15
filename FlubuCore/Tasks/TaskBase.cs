@@ -78,7 +78,7 @@ namespace FlubuCore.Tasks
         }
 
         /// <inheritdoc />
-        public ITask NoLog()
+        public ITaskOfT<T> NoLog()
         {
             DoNotLog = true;
             return this;
