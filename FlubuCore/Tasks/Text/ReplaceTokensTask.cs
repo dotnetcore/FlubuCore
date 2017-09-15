@@ -107,7 +107,7 @@ namespace FlubuCore.Tasks.Text
         /// <inheritdoc />
         protected override int DoExecute(ITaskContextInternal context)
         {
-            context.LogInfo($"Replacing text in file {_sourceFileName}");
+            DoLogInfo($"Replacing text in file {_sourceFileName}");
 
             string tokenizedContent = File.ReadAllText(_sourceFileName, _sourceEncoding);
 

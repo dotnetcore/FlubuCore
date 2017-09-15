@@ -172,6 +172,9 @@ namespace FlubuCore.Tasks.Solution
                 .WithArguments(_solutionFileName)
                 .WithArguments(_arguments.ToArray());
 
+            if (DoNotLog)
+                task.NoLog();
+
             if (!_doNotSetConfiguration)
                 task.WithArguments($"/p:Configuration={_buildConfiguration}");
 

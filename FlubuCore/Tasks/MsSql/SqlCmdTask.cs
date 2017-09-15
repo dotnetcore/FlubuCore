@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.MsSql
         private string _output;
         private string _errorOutput;
         private readonly List<string> _sqlFiles = new List<string>();
-        private bool _doNotLog;
+        private bool _doNotLogOutput;
 
         /// <inheritdoc />
         public SqlCmdTask(string sqlFileName)
@@ -208,7 +208,7 @@ namespace FlubuCore.Tasks.MsSql
         /// <returns></returns>
         public SqlCmdTask DoNoLogOutput()
         {
-            _doNotLog = true;
+            _doNotLogOutput = true;
             return this;
         }
 
@@ -238,8 +238,11 @@ namespace FlubuCore.Tasks.MsSql
             {
                 IRunProgramTask task = context.Tasks().RunProgramTask(program);
 
-                if (_doNotLog)
+                if (_doNotLogOutput)
                     task.DoNotLogOutput();
+
+                if (DoNotLog)
+                    task.NoLog();
 
                 task
                     .WithArguments("-i")

@@ -26,5 +26,11 @@ namespace FlubuCore.Tasks
         /// </summary>
         /// <returns></returns>
         ITask DoNotFailOnError();
+
+        /// <summary>
+        /// Do not log messages.
+        /// </summary>
+        /// <returns></returns>
+        ITask NoLog();
     }
 }

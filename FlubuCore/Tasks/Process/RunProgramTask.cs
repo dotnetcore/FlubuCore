@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using FlubuCore.Context;
@@ -19,7 +18,7 @@ namespace FlubuCore.Tasks.Process
         private string _workingFolder;
         private bool _captureOutput;
         private bool _captureErrorOutput;
-        private bool _doNotLog;
+        private bool _doNotLogOutput;
 
         /// <inheritdoc />
         public RunProgramTask(ICommandFactory commandFactory, string programToExecute)
@@ -101,7 +100,7 @@ namespace FlubuCore.Tasks.Process
         /// <inheritdoc />
         public IRunProgramTask DoNotLogOutput()
         {
-            _doNotLog = true;
+            _doNotLogOutput = true;
             return this;
         }
 
@@ -128,22 +127,22 @@ namespace FlubuCore.Tasks.Process
                 .WorkingDirectory(_workingFolder ?? currentDirectory)
                 .OnErrorLine(l =>
                 {
-                    if(!_doNotLog)
-                        context.LogInfo(l);
+                    if(!_doNotLogOutput)
+                        DoLogInfo(l);
 
                     if (_captureOutput)
                         _output.AppendLine(l);
                 })
                 .OnOutputLine(l =>
                 {
-                    if(!_doNotLog)
-                        context.LogInfo(l);
+                    if(!_doNotLogOutput)
+                        DoLogInfo(l);
 
                     if (_captureErrorOutput)
                         _errorOutput.AppendLine(l);
                 });
 
-            context.LogInfo(
+            DoLogInfo(
                 $"Running program '{command.CommandName}':(work.dir='{_workingFolder}',args='{command.CommandArgs}')");
 
             int res = command.Execute()

@@ -22,16 +22,44 @@ namespace FlubuCore.Tasks
         /// </value>
         public virtual bool IsSafeToExecuteInDryRun => false;
 
+        /// <summary>
+        /// Stopwatch for timings.
+        /// </summary>
         public Stopwatch TaskStopwatch { get; } = new Stopwatch();
 
+        /// <summary>
+        /// Message that will be displayed when executing task.
+        /// </summary>
         protected virtual string DescriptionForLog => null;
 
+        /// <summary>
+        /// Should we fail the task if an error occurs.
+        /// </summary>
         protected bool DoNotFail { get; private set; }
 
+        /// <summary>
+        /// Do retry if set to true.
+        /// </summary>
         protected bool DoRetry { get; private set; }
 
+        /// <summary>
+        /// Delay in ms between retries.
+        /// </summary>
         protected int RetryDelay { get; private set; }
 
+        /// <summary>
+        /// Task context. It will be set after the execute method.
+        /// </summary>
+        protected  ITaskContext Context { get; private set; }
+
+        /// <summary>
+        /// If set to true, task should not log anything.
+        /// </summary>
+        protected bool DoNotLog { get; private set; }
+
+        /// <summary>
+        /// Number of retries in case of an exception.
+        /// </summary>
         protected int NumberOfRetries { get; private set; }
         
         /// <summary>
@@ -41,12 +69,45 @@ namespace FlubuCore.Tasks
         /// <value><c>true</c> if duration should be logged; otherwise, <c>false</c>.</value>
         protected virtual bool LogDuration => false;
 
+        /// <inheritdoc />
         public ITask DoNotFailOnError()
         {
             DoNotFail = true;
 
             return this;
         }
+
+        /// <inheritdoc />
+        public ITask NoLog()
+        {
+            DoNotLog = true;
+            return this;
+        }
+
+        /// <summary>
+        /// Log info if task logging is not disabled.
+        /// </summary>
+        /// <param name="message"></param>
+        protected void DoLogInfo(string message)
+        {
+            if (DoNotLog || Context == null)
+                return;
+
+            Context.LogInfo(message);
+        }
+
+        /// <summary>
+        /// Log error if task logging is not disabled.
+        /// </summary>
+        /// <param name="message"></param>
+        protected void DoLogError(string message)
+        {
+            if (DoNotLog || Context == null)
+                return;
+
+            Context.LogError(message);
+        }
+
 
         /// <inheritdoc />
         /// <summary>
@@ -62,11 +123,13 @@ namespace FlubuCore.Tasks
             return this;
         }
 
+        /// <inheritdoc />
         public void ExecuteVoid(ITaskContext context)
         {
             Execute(context);
         }
 
+        /// <inheritdoc />
         public async Task ExecuteVoidAsync(ITaskContext context)
         {
             await ExecuteAsync(context);
@@ -87,17 +150,13 @@ namespace FlubuCore.Tasks
         public T Execute(ITaskContext context)
         {
             ITaskContextInternal contextInternal = (ITaskContextInternal)context;
-            
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
 
+            Context = context ?? throw new ArgumentNullException(nameof(context));
             TaskStopwatch.Start();
 
             if (!string.IsNullOrEmpty(DescriptionForLog))
             {
-                contextInternal.LogInfo(DescriptionForLog);
+                DoLogInfo(DescriptionForLog);
             }
 
             contextInternal.IncreaseDepth();
@@ -145,20 +204,17 @@ namespace FlubuCore.Tasks
             }
         }
 
+        /// <inheritdoc />
         public async Task<T> ExecuteAsync(ITaskContext context)
         {
             ITaskContextInternal contextInternal = (ITaskContextInternal)context;
-
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            Context = context ?? throw new ArgumentNullException(nameof(context));
 
             TaskStopwatch.Start();
 
             if (!string.IsNullOrEmpty(DescriptionForLog))
             {
-                contextInternal.LogInfo(DescriptionForLog);
+                DoLogInfo(DescriptionForLog);
             }
 
             contextInternal.IncreaseDepth();
