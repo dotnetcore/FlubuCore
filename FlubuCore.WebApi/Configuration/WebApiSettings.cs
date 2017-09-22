@@ -7,8 +7,6 @@ namespace FlubuCore.WebApi.Configuration
 {
     public class WebApiSettings
     {
-		public string SecretKey { get; set; }
-
 		public bool AllowScriptUpload { get; set; }
 
 		public List<string> AllowedIps { get; set; }
