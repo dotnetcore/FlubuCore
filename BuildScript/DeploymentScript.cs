@@ -1,7 +1,6 @@
 ﻿using FlubuCore.Scripting;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using FlubuCore.Context;
 using System.IO;
 using FlubuCore.WebApi.Models;
@@ -9,13 +8,11 @@ using FlubuCore.WebApi.Repository;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using FlubuCore.WebApi;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-//#ass .\FlubuCore.dll
 //#ass .\FlubuCore.WebApi\FlubuCore.WebApi.dll
 //#ass .\FlubuCore.WebApi\FlubuCore.WebApi.Model.dll
 //#ass .\lib\Newtonsoft.Json.dll
-namespace Build
+namespace DeploymentScript
 {
     public class DeploymentScript : DefaultBuildScript
     {
