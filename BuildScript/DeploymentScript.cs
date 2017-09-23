@@ -25,10 +25,10 @@ namespace DeploymentScript
             session.CreateTarget("Deploy")
                 .SetDescription("Deploys flubu web api")
                 .SetAsDefault()
-                .Do(PrepareWebApi);
+                .Do(DeployWebApi);
         }
 
-        public void PrepareWebApi(ITaskContext context)
+        public void DeployWebApi(ITaskContext context)
         {
             DeploymentConfig config = null;
             var json = File.ReadAllText("DeploymentConfig.json");
@@ -50,6 +50,8 @@ namespace DeploymentScript
                 .Update("JwtOptions.SecretKey", GenerateRandomString(30)).Execute(context);
 
             context.Tasks().CopyFileTask("Users.json", "FlubuCore.WebApi\\Users.json", true).Execute(context);
+            context.Tasks().CreateDirectoryTask("FlubuCore.WebApi\\Packages", false).Execute(context);
+            context.Tasks().CreateDirectoryTask("FlubuCore.WebApi\\Scripts", false).Execute(context);
             context.Tasks().CopyDirectoryStructureTask("FlubuCore.Webapi", config.DeploymentPath, true).Execute(context);
         }
 
