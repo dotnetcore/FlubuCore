@@ -37,6 +37,7 @@ namespace DeploymentScript
             
             IUserRepository repository = new UserRepository();
             var hashService = new HashService();
+            
             repository.AddUser(new User
             {
                 Username = config.Username,
@@ -50,9 +51,10 @@ namespace DeploymentScript
                 .Update("JwtOptions.SecretKey", GenerateRandomString(30)).Execute(context);
 
             context.Tasks().CopyFileTask("Users.json", "FlubuCore.WebApi\\Users.json", true).Execute(context);
-            context.Tasks().CreateDirectoryTask("FlubuCore.WebApi\\Packages", false).Execute(context);
-            context.Tasks().CreateDirectoryTask("FlubuCore.WebApi\\Scripts", false).Execute(context);
+           
             context.Tasks().CopyDirectoryStructureTask("FlubuCore.Webapi", config.DeploymentPath, true).Execute(context);
+            context.Tasks().CreateDirectoryTask(config.DeploymentPath + "\\Packages", false).Execute(context);
+            context.Tasks().CreateDirectoryTask(config.DeploymentPath + "\\Scripts", false).Execute(context);
         }
 
         private static void ValidateDeploymentConfig(DeploymentConfig config)
