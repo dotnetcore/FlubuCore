@@ -1,3 +1,6 @@
+1.7.1.0
+- Fixed script arguments pass through on flubu runner and dotnet-flubu cli tool.
+
 1.7.0.5
 - Fixed NoLog ITask interface
 
