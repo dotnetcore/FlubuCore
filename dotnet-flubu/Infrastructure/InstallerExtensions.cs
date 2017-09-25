@@ -99,7 +99,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
 
         public static IServiceCollection AddArguments(this IServiceCollection services, string[] args)
         {
-            var app = new CommandLineApplication();
+            var app = new CommandLineApplication(false);
             IFlubuCommandParser parser = new FlubuCommandParser(app);
 
             services
