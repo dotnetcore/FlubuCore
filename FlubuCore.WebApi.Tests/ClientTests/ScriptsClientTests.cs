@@ -41,7 +41,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
 	        repository = new UserRepository();
 	        hashService = new HashService();
 	        var hashedPassword = hashService.Hash("password");
-	        var result = repository.AddUser(new User
+	        var result = repository.AddUserAsync(new User
 	        {
 		        Username = "User",
 		        Password = hashedPassword

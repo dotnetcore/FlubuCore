@@ -6,10 +6,11 @@ using FlubuCore.WebApi.Models;
 
 namespace FlubuCore.WebApi.Repository
 {
-    public interface IUserRepository
+    public interface ISecurityRepository
     {
-	    Task<List<User>> ListUsersAsync();
+        Task<Security> GetSecurityAsync();
 
-	    Task AddUserAsync(User user);
+        void IncreaseFailedGetTokenAttempts(Security security);
+
     }
 }

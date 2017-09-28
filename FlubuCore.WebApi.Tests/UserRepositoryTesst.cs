@@ -25,21 +25,21 @@ namespace FlubuCore.WebApi.Tests
 	    [Fact]
 	    public async void AddAndListUsersTest()
 	    {
-		    await userRepository.AddUser(new User
+		    await userRepository.AddUserAsync(new User
 		    {
 			    Username = "Test",
 				Password = "beda",
 
 		    });
 
-		    await userRepository.AddUser(new User
+		    await userRepository.AddUserAsync(new User
 		    {
 			    Username = "Test2",
 			    Password = "beda",
 
 		    });
 
-		    var result = await userRepository.ListUsers();
+		    var result = await userRepository.ListUsersAsync();
 			Assert.Equal(2, result.Count);
 			Assert.Equal("Test", result[0].Username);
 		    Assert.Equal("beda", result[0].Password);

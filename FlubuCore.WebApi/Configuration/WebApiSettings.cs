@@ -12,5 +12,7 @@ namespace FlubuCore.WebApi.Configuration
 		public List<string> AllowedIps { get; set; }
 
 		public List<TimeFrame> TimeFrames { get; set; }
+
+        public int MaxFailedLoginAttempts { get; set; }
     }
 }

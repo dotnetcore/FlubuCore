@@ -38,7 +38,7 @@ namespace DeploymentScript
             IUserRepository repository = new UserRepository();
             var hashService = new HashService();
             
-            repository.AddUser(new User
+            repository.AddUserAsync(new User
             {
                 Username = config.Username,
                 Password = hashService.Hash(config.Password)
