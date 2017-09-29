@@ -49,6 +49,9 @@
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Tasks\Process\IExternalProccess.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <!--<PackageReference Include="Documentation.Analyser" Version="1.0.6166.19031">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>-->

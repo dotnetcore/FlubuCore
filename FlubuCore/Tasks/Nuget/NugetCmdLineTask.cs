@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Tasks.Process;
 
@@ -18,8 +16,6 @@ namespace FlubuCore.Tasks.Nuget
         private readonly string _command;
 
         private readonly string _workingDirectory;
-
-        private NuGetVerbosity? _verbosity;
 
         public NuGetCmdLineTask(string command, string workingDirectory = null)
         {
@@ -37,11 +33,7 @@ namespace FlubuCore.Tasks.Nuget
             Detailed
         }
 
-        public NuGetVerbosity? Verbosity
-        {
-            get { return _verbosity; }
-            set { _verbosity = value; }
-        }
+        public NuGetVerbosity? Verbosity { get; set; }
 
         /// <summary>
         /// The API key for the server
@@ -82,6 +74,7 @@ namespace FlubuCore.Tasks.Nuget
             return this;
         }
 
+        /// <inheritdoc />
         protected override int DoExecute(ITaskContextInternal context)
         {
             string nugetCmdLinePath = FindNuGetCmdLinePath();
@@ -102,8 +95,8 @@ namespace FlubuCore.Tasks.Nuget
 
             runProgramTask.WithArguments(_command);
 
-            if (_verbosity.HasValue)
-                runProgramTask.WithArguments("-Verbosity", _verbosity.ToString());
+            if (Verbosity.HasValue)
+                runProgramTask.WithArguments("-Verbosity", Verbosity.ToString());
             if (ApiKey != null)
                 runProgramTask.WithArguments("-ApiKey").WithArguments(ApiKey);
 
@@ -136,8 +129,7 @@ namespace FlubuCore.Tasks.Nuget
                 // ReSharper disable once PossibleNullReferenceException
                 string versionStr = dirLocalName.Substring(packageNameLen + 1);
 
-                Version version;
-                if (!Version.TryParse(versionStr, out version))
+                if (!Version.TryParse(versionStr, out var version))
                     continue;
 
                 if (highestVersion == null || version > highestVersion)

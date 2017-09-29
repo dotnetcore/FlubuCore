@@ -1,3 +1,8 @@
+1.7.2.0
+- added SleepTask
+- added Sc.exe task
+- added generic interface for external process tasks
+
 1.7.1.0
 - Fixed script arguments pass through on flubu runner and dotnet-flubu cli tool.
 

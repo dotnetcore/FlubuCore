@@ -8,24 +8,31 @@ using FlubuCore.Tasks.Process;
 using FlubuCore.Tasks.Solution;
 using FlubuCore.Tasks.Testing;
 using FlubuCore.Tasks.Text;
+using FlubuCore.Tasks.Utils;
 using FlubuCore.Tasks.Versioning;
 
 namespace FlubuCore.Context.FluentInterface
 {
+    /// <inheritdoc />
     public class TaskFluentInterface : ITaskFluentInterface
     {
         private readonly IisTaskFluentInterface _iisTasksFluentInterface;
 
 	    private readonly WebApiFluentInterface _webApiFluentInterface;
 
+        /// <inheritdoc />
         public TaskFluentInterface(IIisTaskFluentInterface iisTasksFluentInterface, IWebApiFluentInterface webApiFluentInterface)
         {
             _iisTasksFluentInterface = (IisTaskFluentInterface)iisTasksFluentInterface;
 	        _webApiFluentInterface = (WebApiFluentInterface) webApiFluentInterface;
         }
 
+        /// <summary>
+        /// Get or set <see cref="TaskContext"/> for fluent interface.
+        /// </summary>
         public TaskContext Context { get; set; }
 
+        /// <inheritdoc />
         public IRunProgramTask RunProgramTask(string programToExecute)
         {
             return Context.CreateTask<RunProgramTask>(programToExecute);
@@ -44,16 +51,19 @@ namespace FlubuCore.Context.FluentInterface
             return Context.CreateTask<CopyDirectoryStructureTask>(sourcePath, destinationPath, overwriteExisting);
         }
 
+        /// <inheritdoc />
         public NuGetCmdLineTask NuGetCmdLineTask(string command, string workingDirectory = null)
         {
             return Context.CreateTask<NuGetCmdLineTask>(command, workingDirectory);
         }
 
+        /// <inheritdoc />
         public PublishNuGetPackageTask PublishNuGetPackageTask(string packageId, string nuspecFileName)
         {
             return Context.CreateTask<PublishNuGetPackageTask>(packageId, nuspecFileName);
         }
 
+        /// <inheritdoc />
         public PackageTask PackageTask(string destinationRootDir)
         {
             if (destinationRootDir == null)
@@ -62,21 +72,25 @@ namespace FlubuCore.Context.FluentInterface
             return Context.CreateTask<PackageTask>(destinationRootDir);
         }
 
+        /// <inheritdoc />
         public CompileSolutionTask CompileSolutionTask()
         {
             return Context.CreateTask<CompileSolutionTask>();
         }
 
+        /// <inheritdoc />
         public CompileSolutionTask CompileSolutionTask(string solutionFileName, string buildConfiguration)
         {
             return Context.CreateTask<CompileSolutionTask>(solutionFileName, buildConfiguration);
         }
 
+        /// <inheritdoc />
         public LoadSolutionTask LoadSolutionTask()
         {
             return Context.CreateTask<LoadSolutionTask>();
         }
 
+        /// <inheritdoc />
         public LoadSolutionTask LoadSolutionTask(string solutionFileName)
         {
             return Context.CreateTask<LoadSolutionTask>(solutionFileName);
@@ -124,101 +138,138 @@ namespace FlubuCore.Context.FluentInterface
             return Context.CreateTask<ReplaceTokensTask>(sourceFileName);
         }
 
+        /// <inheritdoc />
         public UpdateJsonFileTask UpdateJsonFileTask(string fileName)
         {
             return Context.CreateTask<UpdateJsonFileTask>(fileName);
         }
 
+        /// <inheritdoc />
         public FetchBuildVersionFromFileTask FetchBuildVersionFromFileTask()
         {
             return Context.CreateTask<FetchBuildVersionFromFileTask>();
         }
 
+        /// <inheritdoc />
         public FetchVersionFromExternalSourceTask FetchVersionFromExternalSourceTask()
         {
             return Context.CreateTask<FetchVersionFromExternalSourceTask>();
         }
 
+        /// <inheritdoc />
         public GenerateCommonAssemblyInfoTask GenerateCommonAssemblyInfoTask()
         {
             return Context.CreateTask<GenerateCommonAssemblyInfoTask>();
         }
 
+        /// <inheritdoc />
         public GenerateCommonAssemblyInfoTask GenerateCommonAssemblyInfoTask(Version buildVersion)
         {
             return Context.CreateTask<GenerateCommonAssemblyInfoTask>(buildVersion);
         }
 
+        /// <inheritdoc />
         public CoverageReportTask CoverageReportTask(params string[] inputFiles)
         {
             return new CoverageReportTask(inputFiles);
         }
 
+        /// <inheritdoc />
         public OpenCoverToCoberturaTask OpenCoverToCoberturaTask(string input, string output)
         {
             return Context.CreateTask<OpenCoverToCoberturaTask>(input, output);
         }
 
+        /// <inheritdoc />
         public OpenCoverTask OpenCoverTask()
         {
             return Context.CreateTask<OpenCoverTask>();
         }
 
+        /// <inheritdoc />
         public UnzipTask UnzipTask(string zip, string destination)
         {
             return Context.CreateTask<UnzipTask>(zip, destination);
         }
 
+        /// <inheritdoc />
         public IIisTaskFluentInterface IisTasks()
         {
             _iisTasksFluentInterface.Context = Context;
             return _iisTasksFluentInterface;
         }
 
-	    public IWebApiFluentInterface FlubuWebApiTasks()
+        /// <inheritdoc />
+        public IWebApiFluentInterface FlubuWebApiTasks()
 	    {
 		    _webApiFluentInterface.Context = Context;
 		    return _webApiFluentInterface;
 	    }
 
-	    public CopyFileTask CopyFileTask(string sourceFileName, string destinationFileName, bool overwrite)
+        /// <inheritdoc />
+        public CopyFileTask CopyFileTask(string sourceFileName, string destinationFileName, bool overwrite)
         {
             return Context.CreateTask<CopyFileTask>(sourceFileName, destinationFileName, overwrite);
         }
 
+        /// <inheritdoc />
         public CreateDirectoryTask CreateDirectoryTask(string directoryPath, bool forceRecreate)
         {
             return Context.CreateTask<CreateDirectoryTask>(directoryPath, forceRecreate);
         }
 
+        /// <inheritdoc />
         public DeleteDirectoryTask DeleteDirectoryTask(string directoryPath, bool failIfNotExists)
         {
             return Context.CreateTask<DeleteDirectoryTask>(directoryPath, failIfNotExists);
         }
 
+        /// <inheritdoc />
         public DeleteFilesTask DeleteFilesTask(string directoryPath, string filePattern, bool recursive)
         {
             return Context.CreateTask<DeleteFilesTask>(directoryPath, filePattern, recursive);
         }
 
+        /// <inheritdoc />
         public MergeConfigurationTask MergeConfigurationTask(string outFile, params string[] sourceFiles)
         {
             return Context.CreateTask<MergeConfigurationTask>(outFile, sourceFiles);
         }
 
+        /// <inheritdoc />
         public ReplaceTokensTask ReplaceTextTask(string sourceFile, params Tuple<string, string>[] tokens)
         {
             return Context.CreateTask<ReplaceTokensTask>(sourceFile).Replace(tokens);
         }
 
+        /// <inheritdoc />
         public CleanOutputTask CleanOutputTask()
         {
             return Context.CreateTask<CleanOutputTask>();
         }
 
+        /// <inheritdoc />
         public UpdateXmlFileTask UpdateXmlFileTask(string fileName)
         {
             return Context.CreateTask<UpdateXmlFileTask>(fileName);
+        }
+
+        /// <inheritdoc />
+        public SleepTask Sleep(int delay)
+        {
+            return Context.CreateTask<SleepTask>(delay);
+        }
+
+        /// <inheritdoc />
+        public SleepTask Sleep(TimeSpan delay)
+        {
+            return Context.CreateTask<SleepTask>(delay);
+        }
+
+        /// <inheritdoc />
+        public ServiceControlTask ControlService(string command, string serviceName)
+        {
+            return Context.CreateTask<ServiceControlTask>(command, serviceName);
         }
     }
 }

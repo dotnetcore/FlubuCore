@@ -5,11 +5,11 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.MsSql
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="TaskBase{T}" />
     /// <summary>
     /// Execute SQL script file with sqlcmd.exe
     /// </summary>
-    public class SqlCmdTask : TaskBase<int>
+    public class SqlCmdTask : TaskBase<int>, IExternalProcess<SqlCmdTask>
     {
         private const string DefaultSqlCmdExe =
             @"C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\SQLCMD.EXE";
@@ -202,11 +202,9 @@ namespace FlubuCore.Tasks.MsSql
             return this;
         }
 
-        /// <summary>
-        /// Do not log to the output.
-        /// </summary>
-        /// <returns></returns>
-        public SqlCmdTask DoNoLogOutput()
+
+        /// <inheritdoc />
+        public SqlCmdTask DoNotLogOutput()
         {
             _doNotLogOutput = true;
             return this;

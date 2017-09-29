@@ -7,6 +7,7 @@ using FlubuCore.Tasks.Process;
 using FlubuCore.Tasks.Solution;
 using FlubuCore.Tasks.Testing;
 using FlubuCore.Tasks.Text;
+using FlubuCore.Tasks.Utils;
 using FlubuCore.Tasks.Versioning;
 
 namespace FlubuCore.Context.FluentInterface.Interfaces
@@ -231,6 +232,27 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="fileName"></param>
         /// <returns></returns>
         UpdateXmlFileTask UpdateXmlFileTask(string fileName);
-	
+
+        /// <summary>
+        /// Sleep for specified period of time.
+        /// </summary>
+        /// <param name="delay">Delay in milliseconds.</param>
+        /// <returns><see cref="SleepTask"/></returns>
+        SleepTask Sleep(int delay);
+
+        /// <summary>
+        /// Sleep for specified period of time.
+        /// </summary>
+        /// <param name="delay">Delay.</param>
+        /// <returns><see cref="SleepTask"/></returns>
+        SleepTask Sleep(TimeSpan delay);
+
+        /// <summary>
+        /// Control windows service with sc.exe command.
+        /// </summary>
+        /// <param name="command">Command to execute (stop, start, ...)</param>
+        /// <param name="serviceName">Name of the service to control.</param>
+        /// <returns><see cref="ServiceControlTask"/></returns>
+        ServiceControlTask ControlService(string command, string serviceName);
     }
 }
