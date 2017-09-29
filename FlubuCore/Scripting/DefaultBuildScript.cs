@@ -76,12 +76,7 @@ namespace FlubuCore.Scripting
             {
                 ITarget defaultTarget = taskSession.TargetTree.DefaultTarget;
 
-                if (defaultTarget == null)
-                {
-                    throw new InvalidOperationException("The default build target is not defined");
-                }
-
-                targetToRun = defaultTarget.TargetName;
+                targetToRun = defaultTarget?.TargetName ?? "help";
             }
 
             taskSession.Start(s =>
