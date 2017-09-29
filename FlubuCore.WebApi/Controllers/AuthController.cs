@@ -10,6 +10,7 @@ using FlubuCore.Services;
 using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Controllers.Exception;
 using FlubuCore.WebApi.Model;
+using FlubuCore.WebApi.Models;
 using FlubuCore.WebApi.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,13 +28,14 @@ namespace FlubuCore.WebApi.Controllers
         private readonly JsonSerializerSettings _serializerSettings;
 	    private readonly IHashService _hashService;
 	    private readonly IUserRepository _userRepository;
+        private readonly ISecurityRepository _securityRepository;
 
-
-        public AuthController(IOptions<JwtOptions> jwtOptions, ILoggerFactory loggerFactory, IUserRepository userRepository, IHashService hashService)
+        public AuthController(IOptions<JwtOptions> jwtOptions, ILoggerFactory loggerFactory, IUserRepository userRepository, ISecurityRepository securityRepository, IHashService hashService)
         {
             _jwtOptions = jwtOptions.Value;
             ThrowIfInvalidOptions(_jwtOptions);
 
+            _securityRepository = securityRepository;
 	        _hashService = hashService;
 	        _userRepository = userRepository;
             _logger = loggerFactory.CreateLogger<AuthController>();
@@ -47,10 +49,23 @@ namespace FlubuCore.WebApi.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetToken([FromBody] GetTokenRequest applicationUser)
         {
-            var identity = await GetClaimsIdentity(applicationUser);
+            var securityTask = _securityRepository.GetSecurityAsync();
+            var security = await securityTask;
+            
+            if (security.ApiAccessDisabled)
+            {
+                _logger.LogWarning("Api access is denied becasuse to many failed get token attempts. To enable access open manually Security.json file and set property ApiAccessDisabled to false. ");
+                 throw new HttpError(HttpStatusCode.Forbidden);
+            }
+
+            var identityTask = GetClaimsIdentity(applicationUser, security);
+            var identity = await identityTask;
+
+
             if (identity == null)
             {
                 _logger.LogInformation($"Invalid username ({applicationUser.Username}) or password ({applicationUser.Password})");
+                _securityRepository.IncreaseFailedGetTokenAttempts(security);
                 return BadRequest("Invalid credentials");
             }
 
@@ -59,7 +74,6 @@ namespace FlubuCore.WebApi.Controllers
                 new Claim(JwtRegisteredClaimNames.Sub, applicationUser.Username),
                 new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
                 new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
-                identity.FindFirst("DisneyCharacter")
             };
 
             // Create the JWT security token and encode it.
@@ -107,19 +121,21 @@ namespace FlubuCore.WebApi.Controllers
         private static long ToUnixEpochDate(DateTime date)
             => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
 
-	   private async Task<ClaimsIdentity> GetClaimsIdentity(GetTokenRequest user)
+	   private async Task<ClaimsIdentity> GetClaimsIdentity(GetTokenRequest user, Security security)
 	    {
-		    var users = await _userRepository.ListUsers();
+		    var users = await _userRepository.ListUsersAsync();
 		    var usr = users.FirstOrDefault(x => x.Username == user.Username);
 		    if (usr == null)
 		    {
-			    throw new HttpError(HttpStatusCode.BadRequest, "WrongUsernameOrPassword");
+                _securityRepository.IncreaseFailedGetTokenAttempts(security);
+                throw new HttpError(HttpStatusCode.BadRequest, "WrongUsernameOrPassword");
 		    }
 
 		    var passwordValid = _hashService.Validate(user.Password, usr.Password);
 		    if (!passwordValid)
 		    {
-			    throw new HttpError(HttpStatusCode.BadRequest, "WrongUsernameOrPassword");
+                _securityRepository.IncreaseFailedGetTokenAttempts(security);
+                throw new HttpError(HttpStatusCode.BadRequest, "WrongUsernameOrPassword");
 		    }
 
 		    return new ClaimsIdentity(new GenericIdentity(user.Username, "Token"),

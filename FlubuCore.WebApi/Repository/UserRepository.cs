@@ -13,7 +13,7 @@ namespace FlubuCore.WebApi.Repository
 {
     public class UserRepository : IUserRepository
     {
-	    public async Task<List<User>> ListUsers()
+	    public async Task<List<User>> ListUsersAsync()
 	    {
 		    if (!File.Exists("Users.json"))
 		    {
@@ -31,7 +31,7 @@ namespace FlubuCore.WebApi.Repository
 			}
 	    }
 
-	    public async Task AddUser(User user)
+	    public async Task AddUserAsync(User user)
 	    {
 		    string newJson;
 

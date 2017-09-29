@@ -61,6 +61,7 @@ namespace FlubuCore.WebApi
 	        services.AddScoped<RestrictApiAccessFilter>();
 	        services.AddScoped<IHashService, HashService>();
 	        services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ISecurityRepository, SecurityRepository>();
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtOptions));
             _secretKey = jwtAppSettingOptions["secretKey"];
             double validFor = double.Parse(jwtAppSettingOptions[(nameof(JwtOptions.ValidFor))]);

@@ -50,17 +50,17 @@ public class MyBuildScript : DefaultBuildScript
             .SetDescription("Publishes flubu web api for deployment")
             .AddCoreTask(x => x.Publish("FlubuCore.WebApi"));
 
-
         var packageWebApi = context.CreateTarget("Package.WebApi")
-            .SetDescription("Packages flubu web api into zip")
+            .SetDescription("Prepares flubu web api deployment package.")
             .AddTask(x => x.PackageTask("output").
              AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp1.1\publish", "FlubuCore.WebApi", true)
             .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
             .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
             .AddFileToPackage("BuildScript\\Deploy.csproj", "")
+            .AddFileToPackage("BuildScript\\Deploy.bat", "")
             .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
+            .DisableLogging()
             .ZipPackage("FlubuCore.WebApi", true));
-            
 
        var flubuRunnerMerge = context.CreateTarget("merge")
             .SetDescription("Merge's all assemblyes into .net flubu console application")
@@ -70,7 +70,6 @@ public class MyBuildScript : DefaultBuildScript
 		    .SetDescription("Runs all tests in solution.")
 		    .AddCoreTaskAsync(x => x.ExecuteDotnetTask("test").WithArguments("Flubu.Tests\\Flubu.Tests.csproj"))
 		    .AddCoreTaskAsync(x => x.ExecuteDotnetTask("test").WithArguments("FlubuCore.WebApi.Tests\\FlubuCore.WebApi.Tests.csproj"));
-
 
 		var nugetPublish = context.CreateTarget("nuget.publish")
             .Do(PublishNuGetPackage).
@@ -90,8 +89,9 @@ public class MyBuildScript : DefaultBuildScript
             .DependsOn(compile, flubuTests)
             .DependsOnAsync(pack, publishWebApi)
             .DependsOn(flubuRunnerMerge)
-            .DependsOnAsync(nugetPublish)
-            .DependsOn(packageFlubuRunner);
+            .DependsOn(nugetPublish)
+            .DependsOn(packageFlubuRunner)
+            .DependsOn(packageWebApi);
 
         var compileLinux = context
             .CreateTarget("compile.linux")

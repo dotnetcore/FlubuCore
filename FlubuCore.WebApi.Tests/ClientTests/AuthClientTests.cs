@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using FlubuCore.Services;
@@ -28,13 +29,18 @@ namespace FlubuCore.WebApi.Tests.ClientTests
 	        {
 		        File.Delete("Users.json");
 	        }
-		}
+
+            if (File.Exists("Security.json"))
+            {
+                File.Delete("Security.json");
+            }
+        }
 
 	    [Fact]
 	    public async Task GetTokenTest()
 	    {
 		    var hashedPassword = hashService.Hash("password");
-		    await repository.AddUser(new User
+		    await repository.AddUserAsync(new User
 		    {
 			    Username = "User",
 			    Password = hashedPassword
@@ -52,7 +58,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
 	    public async Task GetTokenWrongPassowrdTest()
 	    {
 		    var hashedPassword = hashService.Hash("password");
-		    await repository.AddUser(new User
+		    await repository.AddUserAsync(new User
 		    {
 			    Username = "User",
 			    Password = hashedPassword
@@ -66,11 +72,46 @@ namespace FlubuCore.WebApi.Tests.ClientTests
 			Assert.Equal(GetTokenRequest.WrongUsernamePassword ,exception.ErrorCode);
 	    }
 
-	    [Fact]
+
+        [Fact]
+        public async Task DisableGetTokenAfterToManyFailedGetTokenAttemptsTest()
+        {
+            var hashedPassword = hashService.Hash("password");
+            await repository.AddUserAsync(new User
+            {
+                Username = "User",
+                Password = hashedPassword
+            });
+
+            for (int i = 0; i < 5; i++)
+            {
+                try
+                {
+                    await Client.GetToken(new GetTokenRequest
+                    {
+                        Username = "User",
+                        Password = "Password"
+                    });
+                }
+                catch (Exception e)
+                {
+                }
+            }
+
+            var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.GetToken(new GetTokenRequest
+            {
+                Username = "User",
+                Password = "Password"
+            }));
+
+            Assert.Equal(HttpStatusCode.Forbidden, exception.StatusCode);
+        }
+
+        [Fact]
 	    public async Task GetTokenWrongUsernameTest()
 	    {
 		    var hashedPassword = hashService.Hash("password");
-		    await repository.AddUser(new User
+		    await repository.AddUserAsync(new User
 		    {
 			    Username = "User",
 			    Password = hashedPassword
