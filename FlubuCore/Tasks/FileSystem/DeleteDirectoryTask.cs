@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using FlubuCore.Context;
 
@@ -34,7 +35,15 @@ namespace FlubuCore.Tasks.FileSystem
                     return 0;
             }
 
-            Directory.Delete(_directoryPath, true);
+            try
+            {
+                Directory.Delete(_directoryPath, true);
+            }
+            catch (Exception)
+            {
+                if (!DoNotFail)
+                    throw;
+            }
 
             return 0;
         }
