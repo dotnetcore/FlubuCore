@@ -36,22 +36,25 @@ namespace FlubuCore.WebApi.Controllers.Attributes
 
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            if (!_webApiSettings.SecurityNotificationsEnabled ||
-                (_webApiSettings.NotificationFilters != null &&
-                _webApiSettings.NotificationFilters.Count() != 0))
+            if (!_webApiSettings.SecurityNotificationsEnabled)
             {
                 await next();
+                return;
             }
-            else
-            {
-                if (_notificationFilters.Any(x => _webApiSettings.NotificationFilters.Any(y => y == x)))
-                {
-                    var emailTask = _notificationService.SendEmailAsync("Flubu security notification", $"Resource: '{context.HttpContext.Request.GetDisplayUrl()}' was accessed.");
 
-                    await next();
-                    await emailTask;
-                }
+            if (_webApiSettings.NotificationFilters != null && 
+                _webApiSettings.NotificationFilters.Count != 0 &&
+                !_notificationFilters.Any(x => _webApiSettings.NotificationFilters.Any(y => y == x)))
+            {
+                await next();
+                return;
             }
+
+            var emailTask = _notificationService.SendEmailAsync("Flubu security notification",
+                $"Resource: '{context.HttpContext.Request.GetDisplayUrl()}' was accessed.");
+
+            await next();
+            await emailTask;
         }
     }
 }
