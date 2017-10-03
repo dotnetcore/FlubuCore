@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using FlubuCore.Commanding;
 using FlubuCore.Scripting;
 using FlubuCore.WebApi.Configuration;
+using FlubuCore.WebApi.Controllers.Attributes;
 using FlubuCore.WebApi.Controllers.Exception;
 using FlubuCore.WebApi.Model;
 using Microsoft.AspNetCore.Authorization;
@@ -37,6 +38,7 @@ namespace FlubuCore.WebApi.Controllers
         }
 
         [HttpPost("Execute")]
+        [EmailNotificationFilter(NotificationFilter.ExecuteScript)]
         public async Task<IActionResult> Execute([FromBody] ExecuteScriptRequest request)
         {
 	        PrepareCommandArguments(request);

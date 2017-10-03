@@ -11,6 +11,7 @@ using FlubuCore.WebApi.Controllers;
 using FlubuCore.WebApi.Controllers.Attributes;
 using FlubuCore.WebApi.Infrastructure;
 using FlubuCore.WebApi.Repository;
+using FlubuCore.WebApi.Services;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -58,10 +59,12 @@ namespace FlubuCore.WebApi
 
             services.AddScoped<ApiExceptionFilter>();
             services.AddScoped<ValidateRequestModelAttribute>();
-	        services.AddScoped<RestrictApiAccessFilter>();
-	        services.AddScoped<IHashService, HashService>();
-	        services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<ISecurityRepository, SecurityRepository>();
+            services.AddScoped<EmailNotificationFilter>();
+            services.AddScoped<RestrictApiAccessFilter>();
+	        services.AddTransient<IHashService, HashService>();
+	        services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ISecurityRepository, SecurityRepository>();
+            services.AddTransient<INotificationService, NotificationService>();
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtOptions));
             _secretKey = jwtAppSettingOptions["secretKey"];
             double validFor = double.Parse(jwtAppSettingOptions[(nameof(JwtOptions.ValidFor))]);

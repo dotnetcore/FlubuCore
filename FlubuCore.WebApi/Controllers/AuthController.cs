@@ -8,11 +8,14 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using FlubuCore.Services;
 using FlubuCore.WebApi.Configuration;
+using FlubuCore.WebApi.Controllers.Attributes;
 using FlubuCore.WebApi.Controllers.Exception;
 using FlubuCore.WebApi.Model;
 using FlubuCore.WebApi.Models;
 using FlubuCore.WebApi.Repository;
+using FlubuCore.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -29,8 +32,17 @@ namespace FlubuCore.WebApi.Controllers
 	    private readonly IHashService _hashService;
 	    private readonly IUserRepository _userRepository;
         private readonly ISecurityRepository _securityRepository;
+        private readonly INotificationService _notificationService;
+        private readonly WebApiSettings _webApiSettings;
 
-        public AuthController(IOptions<JwtOptions> jwtOptions, ILoggerFactory loggerFactory, IUserRepository userRepository, ISecurityRepository securityRepository, IHashService hashService)
+        public AuthController(
+            IOptions<JwtOptions> jwtOptions, 
+            IOptions<WebApiSettings> webApiOptions,
+            ILoggerFactory loggerFactory, 
+            IUserRepository userRepository,
+            ISecurityRepository securityRepository,
+            IHashService hashService, 
+            INotificationService notificationService)
         {
             _jwtOptions = jwtOptions.Value;
             ThrowIfInvalidOptions(_jwtOptions);
@@ -39,6 +51,8 @@ namespace FlubuCore.WebApi.Controllers
 	        _hashService = hashService;
 	        _userRepository = userRepository;
             _logger = loggerFactory.CreateLogger<AuthController>();
+            _notificationService = notificationService;
+            _webApiSettings = webApiOptions.Value;
 			_serializerSettings = new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented
@@ -47,6 +61,7 @@ namespace FlubuCore.WebApi.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        [EmailNotificationFilter(NotificationFilter.GetToken)]
         public async Task<IActionResult> GetToken([FromBody] GetTokenRequest applicationUser)
         {
             var securityTask = _securityRepository.GetSecurityAsync();
@@ -121,25 +136,38 @@ namespace FlubuCore.WebApi.Controllers
         private static long ToUnixEpochDate(DateTime date)
             => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
 
-	   private async Task<ClaimsIdentity> GetClaimsIdentity(GetTokenRequest user, Security security)
-	    {
-		    var users = await _userRepository.ListUsersAsync();
-		    var usr = users.FirstOrDefault(x => x.Username == user.Username);
-		    if (usr == null)
-		    {
+        private async Task<ClaimsIdentity> GetClaimsIdentity(GetTokenRequest user, Security security)
+        {
+            var users = await _userRepository.ListUsersAsync();
+            var usr = users.FirstOrDefault(x => x.Username == user.Username);
+            if (usr == null)
+            {
                 _securityRepository.IncreaseFailedGetTokenAttempts(security);
+                await SendSecurityEmailNotification();
                 throw new HttpError(HttpStatusCode.BadRequest, "WrongUsernameOrPassword");
-		    }
+            }
 
-		    var passwordValid = _hashService.Validate(user.Password, usr.Password);
-		    if (!passwordValid)
-		    {
+            var passwordValid = _hashService.Validate(user.Password, usr.Password);
+            if (!passwordValid)
+            {
                 _securityRepository.IncreaseFailedGetTokenAttempts(security);
+                await SendSecurityEmailNotification();
                 throw new HttpError(HttpStatusCode.BadRequest, "WrongUsernameOrPassword");
-		    }
+            }
 
-		    return new ClaimsIdentity(new GenericIdentity(user.Username, "Token"),
-			    new Claim[] { });
-	    }
+            return new ClaimsIdentity(new GenericIdentity(user.Username, "Token"),
+                new Claim[] { });
+        }
+
+        private async Task SendSecurityEmailNotification()
+        {
+            if (_webApiSettings.SecurityNotificationsEnabled &&
+               ( _webApiSettings.NotificationFilters == null || 
+                _webApiSettings.NotificationFilters.Count == 0 ||
+                _webApiSettings.NotificationFilters.Contains(NotificationFilter.FailedGetToken)))
+            {
+                await _notificationService.SendEmailAsync("Flubu security notification", $"Resource: '{HttpContext.Request.GetDisplayUrl()}' was accessed.");
+            }
+        }
     }
 }
