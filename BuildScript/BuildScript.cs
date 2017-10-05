@@ -104,8 +104,8 @@ public class MyBuildScript : DefaultBuildScript
             .DependsOn(flubuRunnerMerge)
             .DependsOn(nugetPublish)
             .DependsOn(packageFlubuRunner)
-            .DependsOn(packageWebApi)
-            .DependsOn(packageWebApiWin);
+            .DependsOn(packageWebApi);
+            ////.DependsOn(packageWebApiWin);
 
         var compileLinux = context
             .CreateTarget("compile.linux")
