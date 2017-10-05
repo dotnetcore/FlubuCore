@@ -1,9 +1,9 @@
 ﻿{
-  "UserName": "",
-  "Password": "",
-  "DeploymentPath": "",
-  "AllowScriptUpload": false
+  "UserName": "", //// Username for GetToken
+  "Password": "", //// Password for GetToken
+  "DeploymentPath": "", ////Full deployment path where web api will be deployed
+  "AllowScriptUpload": false //// If true web api allows scripts to be uploaded through api. Otherwise they have to be uploaded manually which is recommended way.
 }
-
+  ////Other (security) settings can be set manually on web api appsettings.json after deploy.
 
 
