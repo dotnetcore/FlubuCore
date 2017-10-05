@@ -62,7 +62,20 @@ public class MyBuildScript : DefaultBuildScript
             .DisableLogging()
             .ZipPackage("FlubuCore.WebApi", true));
 
-       var flubuRunnerMerge = context.CreateTarget("merge")
+        var packageWebApiWin = context.CreateTarget("Package.WebApi.Win")
+            .SetDescription("Prepares flubu web api deployment package.")
+            .AddTask(x => x.PackageTask("output").
+                AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp1.1\publish", "FlubuCore.WebApi", true)
+                .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
+                .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
+                .AddFileToPackage("output\\build.exe", "deploy.exe")
+                .AddFileToPackage("output\\build.exe.config", "deploy.exe.config")
+                .AddFileToPackage("output\\FlubuCore.dll", "")
+                .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
+                .DisableLogging()
+                .ZipPackage("FlubuCore.WebApi-Win", true));
+
+        var flubuRunnerMerge = context.CreateTarget("merge")
             .SetDescription("Merge's all assemblyes into .net flubu console application")
             .Do(TargetMerge);
 
@@ -91,7 +104,8 @@ public class MyBuildScript : DefaultBuildScript
             .DependsOn(flubuRunnerMerge)
             .DependsOn(nugetPublish)
             .DependsOn(packageFlubuRunner)
-            .DependsOn(packageWebApi);
+            .DependsOn(packageWebApi)
+            .DependsOn(packageWebApiWin);
 
         var compileLinux = context
             .CreateTarget("compile.linux")
