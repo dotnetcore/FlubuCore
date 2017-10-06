@@ -24,6 +24,36 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
+        public void PackagingAddFileToPackageTest()
+        {
+            Directory.CreateDirectory("tmp");
+            Directory.CreateDirectory(@"tmp\Test");
+            using (File.Create(@"tmp\Test\test.txt"))
+            {
+            }
+
+            using (File.Create(@"tmp\Test\test1.txt"))
+            {
+            }
+
+
+            Context.SetBuildVersion(new Version(1, 0, 0, 0));
+
+            new PackageTask(@"tmp\output")
+                .AddFileToPackage(@"tmp\Test\test1.txt", "test")
+                .AddFileToPackage(@"tmp\Test\test1.txt", "")
+                .ZipPackage(@"test.zip", true, 4)
+                .ExecuteVoid(Context);
+
+            using (ZipArchive archive = ZipFile.OpenRead("tmp\\output\\test_1.0.0.0.zip"))
+            {
+                Assert.Equal(2, archive.Entries.Count);
+                Assert.Equal(@"test1.txt", archive.Entries[1].FullName);
+                Assert.Equal(@"test\test1.txt", archive.Entries[0].FullName);
+            }
+        }
+
+        [Fact]
         public void PackagingWihoutFiltersTest()
         {
             Directory.CreateDirectory("tmp");
