@@ -140,6 +140,13 @@ namespace Flubu.Tests.Packaging
             CheckTestFile(Path.Combine(unzipPath, "test\\test2.txt"), "test2.txt\r\n");
         }
 
+        [Fact]
+        public void UnzipFileZippedWithExternalZipper()
+        {
+            new UnzipTask(@"TestData\apiSimulator.zip", "Tmp").Execute(Context);
+            Assert.True(Directory.Exists(@"tmp\apiSimulator"));
+        }
+
         private static void CreateTestFile(string fileName, string data)
         {
             using (var s = File.Create(fileName))

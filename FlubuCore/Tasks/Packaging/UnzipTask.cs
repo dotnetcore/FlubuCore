@@ -48,8 +48,14 @@ namespace FlubuCore.Tasks.Packaging
                 {
                     string zipFile = entry.FullName;
 
+                    if (zipFile.EndsWith("/"))
+                    {
+                        continue;
+                    }
+
                     if (metadata == null)
                     {
+                        
                         ExtractToFiles(context, entry, os, new List<string> { zipFile });
                         continue;
                     }
