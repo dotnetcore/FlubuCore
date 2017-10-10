@@ -8,36 +8,21 @@ namespace FlubuCore.Tasks.Utils
     /// <summary>
     /// Control windows service with sc.exe command.
     /// </summary>
-    public class ServiceControlTask : TaskBase<int>, IExternalProcess<ServiceControlTask>
+    public class ServiceControlTask : ExternalProcessTaskBase<ServiceControlTask, int>
     {
-        private readonly List<string> _arguments = new List<string>();
-        private string _workingFolder;
-        private bool _doNotLogOutput;
-
         /// <inheritdoc />
         public ServiceControlTask(string command, string serviceName)
         {
-            _arguments.Add(command);
-            _arguments.Add(serviceName);
+            Arguments.Add(command);
+            Arguments.Add(serviceName);
         }
 
         /// <inheritdoc />
         protected override int DoExecute(ITaskContextInternal context)
         {
-              IRunProgramTask task = context.Tasks().RunProgramTask("sc");
+            var task = DoExecuteExternalProcessBase(context, "sc");
 
-                if (_doNotLogOutput)
-                    task.DoNotLogOutput();
-
-                if (DoNotLog)
-                    task.NoLog();
-
-                task
-                    .WithArguments(_arguments.ToArray())
-                    .CaptureErrorOutput()
-                    .CaptureOutput()
-                    .WorkingFolder(_workingFolder)
-                    .ExecuteVoid(context);
+            task.ExecuteVoid(context);
 
             return 0;
         }
@@ -52,35 +37,7 @@ namespace FlubuCore.Tasks.Utils
             if (!server.StartsWith("\\\\"))
                 server = $"\\\\{server.Trim()}";
 
-            _arguments.Insert(0, server);
-            return this;
-        }
-
-        /// <inheritdoc />
-        public ServiceControlTask WithArguments(string arg)
-        {
-            _arguments.Add(arg);
-            return this;
-        }
-
-        /// <inheritdoc />
-        public ServiceControlTask WithArguments(params string[] args)
-        {
-            _arguments.AddRange(args);
-            return this;
-        }
-
-        /// <inheritdoc />
-        public ServiceControlTask WorkingFolder(string folder)
-        {
-            _workingFolder = folder;
-            return this;
-        }
-
-        /// <inheritdoc />
-        public ServiceControlTask DoNotLogOutput()
-        {
-            _doNotLogOutput = true;
+            Arguments.Insert(0, server);
             return this;
         }
     }

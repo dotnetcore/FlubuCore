@@ -5,7 +5,7 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.NetCore
 {
-    public class DotnetPackTask : ExecuteDotnetTask
+    public class DotnetPackTask : ExecuteDotnetTaskBase<DotnetPackTask>
     {
         protected bool _configurationIsSet;
 

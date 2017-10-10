@@ -7,20 +7,16 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Nuget
 {
-    public class NuGetCmdLineTask : TaskBase<int>
+    public class NuGetCmdLineTask : ExternalProcessTaskBase<NuGetCmdLineTask, int>
     {
         private const string PackagesDirName = "packages";
-
-        private readonly List<string> _args = new List<string>();
-
+        
         private readonly string _command;
 
-        private readonly string _workingDirectory;
-
-        public NuGetCmdLineTask(string command, string workingDirectory = null)
+        public NuGetCmdLineTask(string command, string workingDirectory = null) 
         {
             _command = command;
-            _workingDirectory = workingDirectory;
+            _workingFolder = workingDirectory;
         }
 
         /// <summary>
@@ -48,7 +44,7 @@ namespace FlubuCore.Tasks.Nuget
         public static NuGetCmdLineTask Create(string command, params string[] parameters)
         {
             var t = new NuGetCmdLineTask(command);
-            t._args.AddRange(parameters);
+            t.Arguments.AddRange(parameters);
             return t;
         }
 
@@ -57,9 +53,10 @@ namespace FlubuCore.Tasks.Nuget
         /// </summary>
         /// <param name="arg"></param>
         /// <returns></returns>
+        [Obsolete("Use WithArgument instead.")]
         public NuGetCmdLineTask AddArgument(string arg)
         {
-            _args.Add(arg);
+            Arguments.Add(arg);
             return this;
         }
 
@@ -88,10 +85,7 @@ namespace FlubuCore.Tasks.Nuget
                 return -1;
             }
 
-            IRunProgramTask runProgramTask = context.Tasks().RunProgramTask(nugetCmdLinePath);
-
-            if (_workingDirectory != null)
-                runProgramTask.WorkingFolder(_workingDirectory);
+            IRunProgramTask runProgramTask = DoExecuteExternalProcessBase(context, nugetCmdLinePath);
 
             runProgramTask.WithArguments(_command);
 
@@ -99,9 +93,6 @@ namespace FlubuCore.Tasks.Nuget
                 runProgramTask.WithArguments("-Verbosity", Verbosity.ToString());
             if (ApiKey != null)
                 runProgramTask.WithArguments("-ApiKey").WithArguments(ApiKey);
-
-            foreach (string arg in _args)
-                runProgramTask.WithArguments(arg);
 
             return runProgramTask.Execute(context);
         }

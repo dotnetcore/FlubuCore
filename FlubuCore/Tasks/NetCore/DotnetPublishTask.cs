@@ -8,7 +8,7 @@ namespace FlubuCore.Tasks.NetCore
     /// <summary>
     /// Publishes a .NET project for deployment (including the runtime).
     /// </summary>
-    public class DotnetPublishTask : ExecuteDotnetTask
+    public class DotnetPublishTask : ExecuteDotnetTaskBase<DotnetPublishTask>
     {
         protected bool _configurationIsSet;
 

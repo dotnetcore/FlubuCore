@@ -5,7 +5,7 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.NetCore
 {
-    public class DotnetRestoreTask : ExecuteDotnetTask
+    public class DotnetRestoreTask : ExecuteDotnetTaskBase<DotnetRestoreTask>
     {
         protected bool _projectNameIsSet;
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FlubuCore.Tasks.NetCore
 {
-    public class DotnetNugetPushTask : ExecuteDotnetTask
+    public class DotnetNugetPushTask : ExecuteDotnetTaskBase<DotnetNugetPushTask>
     {
         /// <summary>
         /// Pushes the nuget package to nuget server.
