@@ -9,7 +9,11 @@ namespace FlubuCore.Services
     {
         public IDictionary<Version, string> ListAvailableMSBuildToolsVersions()
         {
-           return FlubuEnviroment.ListAvailableMSBuildToolsVersions();
+            SortedDictionary<Version, string> toolsVersions = new SortedDictionary<Version, string>();
+            FlubuEnviroment.FillVersionsFromMSBuildToolsVersionsRegPath(toolsVersions);
+            FlubuEnviroment.FillVersion15FromVisualStudio2017RegPath(toolsVersions);
+
+            return toolsVersions;
         }
     }
 }
