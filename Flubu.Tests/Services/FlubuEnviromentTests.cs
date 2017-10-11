@@ -11,9 +11,7 @@ namespace Flubu.Tests.Services
     {
         [Fact(Skip = "Explicit test.")]
         public void ListAvailableToolsVersionTest()
-        {
-            var toolsVersion = FlubuEnviroment.ListAvailableMSBuildToolsVersions();
-            Assert.NotEqual(0, toolsVersion.Count);
+        { 
         }
     }
 }
