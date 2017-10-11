@@ -1,3 +1,9 @@
+1.8.0.0
+- added support for finding and using MSBuild 15.0 in builds
+- All tasks that uses external programs have now fluent interface to add custom arguments
+- Improved dotnet core task fluent interface
+- Added GetEnviromentVariable extension method to TaskContext.
+
 1.7.3.0
 - if not target specified and not default target, display help
 
