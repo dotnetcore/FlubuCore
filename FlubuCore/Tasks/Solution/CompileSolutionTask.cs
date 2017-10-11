@@ -5,6 +5,7 @@ using System.Linq;
 using FlubuCore.Context;
 using FlubuCore.Services;
 using FlubuCore.Tasks.Process;
+using Microsoft.Build.Utilities;
 
 namespace FlubuCore.Tasks.Solution
 {
@@ -194,34 +195,34 @@ namespace FlubuCore.Tasks.Solution
                 }
             }
 
-            ////if (_toolsVersion != null)
-            ////{
-            ////    msbuildPath = ToolLocationHelper.GetPathToBuildToolsFile("msbuild.exe", _toolsVersion.ToString());
-            ////    if (msbuildPath != null)
-            ////    {
-            ////        return msbuildPath;
-            ////    }
+            if (ToolsVersion != null)
+            {
+                msbuildPath = ToolLocationHelper.GetPathToBuildToolsFile("msbuild.exe", ToolsVersion.ToString());
+                if (msbuildPath != null)
+                {
+                    return msbuildPath;
+                }
 
-            ////    var highestToolVersion = ToolLocationHelper.CurrentToolsVersion;
-            ////    context.LogInfo(string.Format("Requested MSBuild tools version {0} not found, using a higher version {1}", _toolsVersion, highestToolVersion));
-            ////    msbuildPath = ToolLocationHelper.GetPathToBuildToolsFile("msbuild.exe", highestToolVersion);
-            ////    if (msbuildPath != null)
-            ////    {
-            ////        return msbuildPath;
-            ////    }
-            ////}
-            ////else
-            ////{
-            ////    var highestToolVersion = ToolLocationHelper.CurrentToolsVersion;
-            ////    context.LogInfo(string.Format("Since MSBuild tools version was not explicity specified, using the highest MSBuild tools version found ({0})", highestToolVersion));
-            ////    msbuildPath = ToolLocationHelper.GetPathToBuildToolsFile("msbuild.exe", highestToolVersion);
-            ////    if (msbuildPath != null)
-            ////    {
-            ////        return msbuildPath;
-            ////    }
-            ////}
+                var highestToolVersion = ToolLocationHelper.CurrentToolsVersion;
+                context.LogInfo(string.Format("Requested MSBuild tools version {0} not found, using a higher version {1}", ToolsVersion, highestToolVersion));
+                msbuildPath = ToolLocationHelper.GetPathToBuildToolsFile("msbuild.exe", highestToolVersion);
+                if (msbuildPath != null)
+                {
+                    return msbuildPath;
+                }
+            }
+            else
+            {
+                var highestToolVersion = ToolLocationHelper.CurrentToolsVersion;
+                context.LogInfo(string.Format("Since MSBuild tools version was not explicity specified, using the highest MSBuild tools version found ({0})", highestToolVersion));
+                msbuildPath = ToolLocationHelper.GetPathToBuildToolsFile("msbuild.exe", highestToolVersion);
+                if (msbuildPath != null)
+                {
+                    return msbuildPath;
+                }
+            }
 
-            ////context.LogInfo("MsBuild not found with tool location helper. Falling back to registry locator.");
+            context.LogInfo("MsBuild not found with tool location helper. Falling back to registry locator.");
 
             IDictionary<Version, string> msbuilds = _enviromentService.ListAvailableMSBuildToolsVersions();
             if (msbuilds == null || msbuilds.Count == 0)

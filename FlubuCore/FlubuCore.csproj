@@ -55,11 +55,10 @@
     <!--<PackageReference Include="Documentation.Analyser" Version="1.0.6166.19031">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>-->
-    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.1.548" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="2.2.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.2.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="2.2.0" />
-    <PackageReference Include="Microsoft.DotNet.Cli.Utils" Version="1.0.1" />
+    <PackageReference Include="Microsoft.DotNet.Cli.Utils" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="1.1.1" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.3.0" />
