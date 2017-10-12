@@ -1,3 +1,6 @@
+1.8.1.0
+- dotnet-flubu is now also build in .netcoreapp 1.0 target framework to support older versions.  
+
 1.8.0.0
 - added support for finding and using MSBuild 15.0 in builds
 - All tasks that uses external programs have now fluent interface to add custom arguments
