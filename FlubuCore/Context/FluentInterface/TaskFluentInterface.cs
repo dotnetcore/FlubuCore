@@ -266,10 +266,20 @@ namespace FlubuCore.Context.FluentInterface
             return Context.CreateTask<SleepTask>(delay);
         }
 
+        public ServiceControlTask ControlService(string command)
+        {
+            return Context.CreateTask<ServiceControlTask>(command, string.Empty);
+        }
+
         /// <inheritdoc />
         public ServiceControlTask ControlService(string command, string serviceName)
         {
             return Context.CreateTask<ServiceControlTask>(command, serviceName);
+        }
+
+        public ServiceControlTask ControlService(StandardServiceControlCommands command, string serviceName)
+        {
+            return Context.CreateTask<ServiceControlTask>(command.ToString(), serviceName);
         }
     }
 }

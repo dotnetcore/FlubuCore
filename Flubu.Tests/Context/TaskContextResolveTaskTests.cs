@@ -1,6 +1,7 @@
 ﻿using FlubuCore.Tasks.Iis;
 using FlubuCore.Tasks.NetCore;
 using System;
+using FlubuCore.Tasks.Utils;
 using Xunit;
 
 namespace Flubu.Tests.Context
@@ -322,7 +323,25 @@ namespace Flubu.Tests.Context
             Context.Tasks().UpdateXmlFileTask("test");
         }
 
-	    [Fact]
+        [Fact]
+        public void ResolveServiceControlTask()
+        {
+            Context.Tasks().ControlService("Start");
+        }
+
+        [Fact]
+        public void ResolveServiceControlTask2()
+        {
+            Context.Tasks().ControlService("Start", "ServiceName");
+        }
+
+        [Fact]
+        public void ResolveServiceControlTask3()
+        {
+            Context.Tasks().ControlService(StandardServiceControlCommands.Start, "ServiceName");
+        }
+
+        [Fact]
 	    public void ResolveUploadPackageTask()
 	    {
 		    Context.Tasks().FlubuWebApiTasks().UploadPackageTask("test", "test");

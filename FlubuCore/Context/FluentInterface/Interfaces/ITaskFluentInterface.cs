@@ -251,8 +251,23 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// Control windows service with sc.exe command.
         /// </summary>
         /// <param name="command">Command to execute (stop, start, ...)</param>
+        /// <returns><see cref="ServiceControlTask"/></returns>
+        ServiceControlTask ControlService(string command);
+
+        /// <summary>
+        /// Control windows service with sc.exe command.
+        /// </summary>
+        /// <param name="command">Command to execute (stop, start, ...)</param>
         /// <param name="serviceName">Name of the service to control.</param>
         /// <returns><see cref="ServiceControlTask"/></returns>
         ServiceControlTask ControlService(string command, string serviceName);
+
+        /// <summary>
+        /// Control windows service with sc.exe command.
+        /// </summary>
+        /// <param name="command">Standard command to execute</param>
+        /// <param name="serviceName">Name of the service to control.</param>
+        /// <returns><see cref="ServiceControlTask"/></returns>
+        ServiceControlTask ControlService(StandardServiceControlCommands command, string serviceName);
     }
 }
