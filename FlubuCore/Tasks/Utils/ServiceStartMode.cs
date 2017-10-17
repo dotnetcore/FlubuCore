@@ -1,6 +1,6 @@
 ﻿namespace FlubuCore.Tasks.Utils
 {
-    public enum ServiceControlStartMode
+    public enum ServiceStartMode
     {
         Boot,
         System,

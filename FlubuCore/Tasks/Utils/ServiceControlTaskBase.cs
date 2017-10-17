@@ -27,7 +27,7 @@ namespace FlubuCore.Tasks.Utils
                 server = $"\\\\{server.Trim()}";
 
             Arguments.Insert(0, server);
-            return (TTask) (object) this;
+            return this as TTask;
         }
     }
 }

@@ -4,7 +4,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.NetCore
 {
-    public abstract class ExecuteDotnetTaskBase<TTask> : TaskBase<int> where TTask : ITask
+    public abstract class ExecuteDotnetTaskBase<TTask> : TaskBase<int> where TTask : class, ITask
     {
         private readonly List<string> _arguments = new List<string>();
         private string _workingFolder;
@@ -34,7 +34,7 @@ namespace FlubuCore.Tasks.NetCore
         public TTask WithArguments(string arg)
         {
             _arguments.Add(arg);
-            return (TTask)(object) this;
+            return this as TTask;
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace FlubuCore.Tasks.NetCore
         public TTask WithArguments(params string[] args)
         {
             _arguments.AddRange(args);
-            return (TTask)(object)this;
+            return this as TTask;
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace FlubuCore.Tasks.NetCore
         public TTask WorkingFolder(string folder)
         {
             _workingFolder = folder;
-            return (TTask)(object)this;
+            return this as TTask;
         }
 
         /// <summary>
@@ -67,13 +67,13 @@ namespace FlubuCore.Tasks.NetCore
         public TTask DotnetExecutable(string fullPath)
         {
             _dotnetExecutable = fullPath;
-            return (TTask)(object)this;
+            return this as TTask;
         }
         
         public TTask DoNotLogOutput()
         {
             _doNotLogOutput = true;
-            return (TTask)(object)this;
+            return this as TTask;
         }
 
         protected override int DoExecute(ITaskContextInternal context)
