@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using FlubuCore.Context;
 using FlubuCore.Services;
+using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Solution
 {
@@ -60,7 +61,7 @@ namespace FlubuCore.Tasks.Solution
             if(string.IsNullOrEmpty(platform))
                 throw new ArgumentNullException(nameof(platform));
 
-            Arguments.Add($"/p:Platform={platform}");
+            WithArguments($"/p:Platform={platform}");
             return this;
         }
 
@@ -88,7 +89,7 @@ namespace FlubuCore.Tasks.Solution
         /// </summary>
         public CompileSolutionTask WithMaxCpuCount(int count)
         {
-            Arguments.Add($"/maxcpucount:{count}");
+            WithArguments($"/maxcpucount:{count}");
             return this;
         }
 
@@ -119,7 +120,7 @@ namespace FlubuCore.Tasks.Solution
         /// </summary>
         public CompileSolutionTask WithTarget(string target)
         {
-            Arguments.Add($"/t:{target}");
+            WithArguments($"/t:{target}");
             return this;
         }
 
@@ -149,19 +150,22 @@ namespace FlubuCore.Tasks.Solution
 
             Validate();
 
+            if (!_doNotSetConfiguration)
+                WithArguments(_buildConfiguration);
+
             ExecuteWorkingFolder = UseSolutionDirAsWorkingDir && string.IsNullOrEmpty(ExecuteWorkingFolder)
                 ? Path.GetDirectoryName(_solutionFileName)
                 : ExecuteWorkingFolder ?? ".";
 
-            Arguments.Insert(0, _solutionFileName);
+            InsertArgument(0, _solutionFileName);
 
             if (_loggingOptions.Count <= 0)
                 _loggingOptions.Add("NoSummary");
 
-            Arguments.Add($"/clp:{string.Join(";", _loggingOptions.ToArray())}");
+            WithArguments($"/clp:{string.Join(";", _loggingOptions.ToArray())}");
 
             if (NoOutputLog)
-                Arguments.Add("/noconlog");
+                WithArguments("/noconlog");
         }
 
         private string FindMsBuildPath(ITaskContextInternal context)

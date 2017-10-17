@@ -7,7 +7,7 @@
     {
         public ServiceCreateTask(string serviceName, string pathToService) : base(StandardServiceControlCommands.Create.ToString(), serviceName)
         {
-            Arguments.Add($"binPath={pathToService}");
+            WithArguments($"binPath={pathToService}");
         }
 
         /// <summary>
@@ -32,7 +32,7 @@
                 }
             }
 
-            Arguments.Add($"start={arg}");
+            WithArguments($"start={arg}");
             return this;
         }
     }

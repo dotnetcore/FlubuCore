@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using FlubuCore.Context;
-using FlubuCore.Context.FluentInterface;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Services;
 using FlubuCore.Tasks.Process;
@@ -75,6 +74,29 @@ namespace Flubu.Tests.Tasks
             TaskExecutionException ex = Assert.Throws<TaskExecutionException>(() => _task.ExecuteVoid(_context.Object));
             Assert.Equal("Requested MSBuild tools version 4.0 not found and there are no higher versions", ex.Message);
         }
+
+        [Fact]
+        public void CheckArgs()
+        {
+            _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
+            _task.WithArguments("aaa");
+
+            Assert.Equal(1, _task.GetArguments().Count);
+        }
+
+        [Fact]
+        public void CheckArgsWhenExecuting()
+        {
+            SetupMSBuildVersions(include40: false, include120: false);
+            SetupRunProgramTask();
+
+            _taskFluentInterface.Setup(x => x.RunProgramTask(It.IsAny<string>())).Returns(_runProgramTask.Object);
+            _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
+            _task.WithArguments("aaa");
+            _task.Execute(_context.Object);
+            Assert.Equal(4, _task.GetArguments().Count);
+        }
+
 
         private void SetupMSBuildVersions(bool include40 = true, bool include120 = true)
         {

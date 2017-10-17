@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using FlubuCore.Context;
-using FlubuCore.Tasks.Process;
 
-namespace FlubuCore.Tasks
+namespace FlubuCore.Tasks.Process
 {
     public abstract class ExternalProcessTaskBase<T> : TaskBase<int>, IExternalProcess<T> where T : class, ITask
     {
         /// <summary>
         /// Arguments for the command line.
         /// </summary>
-        protected readonly List<string> Arguments = new List<string>();
+        private readonly List<string> _arguments = new List<string>();
 
         /// <summary>
         /// Working folder.
@@ -26,17 +25,27 @@ namespace FlubuCore.Tasks
         /// </summary>
         protected bool NoOutputLog;
 
+        public List<string> GetArguments()
+        {
+            return _arguments;
+        }
+
+        protected T InsertArgument(int index, string arg)
+        {
+            _arguments.Insert(index, arg);
+            return this as T;
+        }
         /// <inheritdoc />
         public T WithArguments(string arg)
         {
-            Arguments.Add(arg);
+            _arguments.Add(arg);
             return this as T;
         }
 
         /// <inheritdoc />
         public T WithArguments(params string[] args)
         {
-            Arguments.AddRange(args);
+            _arguments.AddRange(args);
             return this as T;
         }
 
@@ -54,16 +63,18 @@ namespace FlubuCore.Tasks
             return this as T;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Clear all arguments for command line executable.
         /// </summary>
         /// <returns></returns>
         public T ClearArguments()
         {
-            Arguments.Clear();
+            _arguments.Clear();
             return this as T;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Full file path to the executable.
         /// </summary>
@@ -75,6 +86,7 @@ namespace FlubuCore.Tasks
             return this as T;
         }
 
+        /// <inheritdoc />
         protected override int DoExecute(ITaskContextInternal context)
         {
             PrepareExecutableParameters(context);
@@ -87,12 +99,11 @@ namespace FlubuCore.Tasks
             if (DoNotLog)
                 task.NoLog();
 
-             task
-                .WithArguments(Arguments.ToArray());
-
-            task.CaptureErrorOutput();
-            task.CaptureOutput();
-            task.WorkingFolder(ExecuteWorkingFolder);
+            task
+                .CaptureErrorOutput()
+                .CaptureOutput()
+                .WorkingFolder(ExecuteWorkingFolder)
+                .WithArguments(_arguments.ToArray());
 
             return task.Execute(context);
         }

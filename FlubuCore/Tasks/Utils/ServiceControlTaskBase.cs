@@ -1,4 +1,5 @@
 ﻿using FlubuCore.Context;
+using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Utils
 {
@@ -11,8 +12,7 @@ namespace FlubuCore.Tasks.Utils
         /// <inheritdoc />
         public ServiceControlTaskBase(string command, string serviceName)
         {
-            Arguments.Add(command);
-            Arguments.Add(serviceName);
+            WithArguments(command, serviceName);
             ExecutablePath = "sc";
         }
 
@@ -26,7 +26,7 @@ namespace FlubuCore.Tasks.Utils
             if (!server.StartsWith("\\\\", System.StringComparison.OrdinalIgnoreCase))
                 server = $"\\\\{server.Trim()}";
 
-            Arguments.Insert(0, server);
+            InsertArgument(0, server);
             return (TTask) (object) this;
         }
     }

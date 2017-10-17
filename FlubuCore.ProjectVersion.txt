@@ -1,3 +1,6 @@
+1.8.3.0
+- Fixed compile task.  
+
 1.8.2.0
 - add support for setting verbosity and other logging properties for msbuild (Compile Task).  
 

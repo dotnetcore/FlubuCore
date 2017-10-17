@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO;
 using FlubuCore.Context;
+using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Nuget
 {
@@ -36,9 +37,8 @@ namespace FlubuCore.Tasks.Nuget
 
         public static NuGetCmdLineTask Create(string command, params string[] parameters)
         {
-            var t = new NuGetCmdLineTask(command);
-            t.Arguments.AddRange(parameters);
-            return t;
+            return new NuGetCmdLineTask(command)
+                .WithArguments(parameters);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace FlubuCore.Tasks.Nuget
                 return;
             }
 
-            Arguments.Add(_command);
+            WithArguments(_command);
 
             if (Verbosity.HasValue)
                 WithArguments("-Verbosity", Verbosity.ToString());

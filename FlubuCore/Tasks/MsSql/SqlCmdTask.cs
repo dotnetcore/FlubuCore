@@ -195,7 +195,7 @@ namespace FlubuCore.Tasks.MsSql
                 task
                     .WithArguments("-i")
                     .WithArguments(file)
-                    .WithArguments(Arguments.ToArray())
+                    .WithArguments(GetArguments().ToArray())
                     .CaptureErrorOutput()
                     .CaptureOutput()
                     .WorkingFolder(ExecuteWorkingFolder)
