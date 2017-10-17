@@ -1,9 +1,8 @@
 1.9.0.0
-- Fixed compile task.  
 - add support for setting verbosity and other logging properties for msbuild (Compile Task).  
 - Improved ServiceControlTask inteface
 - Added CreateService task 
-
+- All Task that uses external program now implements external process tasks interface(Improved usability)
 1.8.1.0
 - dotnet-flubu is now also build in .netcoreapp 1.0 target framework to support older versions.  
 
