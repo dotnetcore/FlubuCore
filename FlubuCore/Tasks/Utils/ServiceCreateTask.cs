@@ -15,12 +15,12 @@
         /// </summary>
         /// <param name="start"></param>
         /// <returns></returns>
-        public ServiceCreateTask StartMode(ServiceControlStartMode start)
+        public ServiceCreateTask StartMode(ServiceStartMode start)
         {
             string arg;
             switch (start)
             {
-                case ServiceControlStartMode.DelayedAuto:
+                case ServiceStartMode.DelayedAuto:
                 {
                     arg = "Delayed-Auto";
                     break;
