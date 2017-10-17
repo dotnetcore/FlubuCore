@@ -281,5 +281,10 @@ namespace FlubuCore.Context.FluentInterface
         {
             return Context.CreateTask<ServiceControlTask>(command.ToString(), serviceName);
         }
+
+        public ServiceCreateTask CreateService(string serviceName, string pathToService)
+        {
+            return Context.CreateTask<ServiceCreateTask>(serviceName, pathToService);
+        }
     }
 }

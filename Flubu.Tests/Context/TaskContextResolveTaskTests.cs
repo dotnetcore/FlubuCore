@@ -342,6 +342,12 @@ namespace Flubu.Tests.Context
         }
 
         [Fact]
+        public void ResolveServiceCreateTask()
+        {
+            Context.Tasks().CreateService("ServiceName", "c:\\tmp\\myservice.exe");
+        }
+
+        [Fact]
 	    public void ResolveUploadPackageTask()
 	    {
 		    Context.Tasks().FlubuWebApiTasks().UploadPackageTask("test", "test");

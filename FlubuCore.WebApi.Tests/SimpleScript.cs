@@ -7,7 +7,7 @@ using FlubuCore.Scripting;
 
 namespace FlubuCore.WebApi.Tests
 {
-    class SimpleScript : DefaultBuildScript
+    public class SimpleScript : DefaultBuildScript
     {
         protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
         {
