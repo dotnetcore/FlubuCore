@@ -9,7 +9,7 @@ namespace FlubuCore.Tasks.Process
 {
     public class RunProgramTask : TaskBase<int>, IRunProgramTask
     {
-        private readonly string _programToExecute;
+        private string _programToExecute;
         private readonly List<string> _arguments = new List<string>();
         private readonly StringBuilder _output = new StringBuilder();
         private readonly StringBuilder _errorOutput = new StringBuilder();
@@ -152,6 +152,18 @@ namespace FlubuCore.Tasks.Process
                 context.Fail($"External program {cmd} failed with {res}.", res);
 
             return res;
+        }
+
+        public IRunProgramTask Executable(string executableFullFilePath)
+        {
+            _programToExecute = executableFullFilePath;
+            return this;
+        }
+
+        public IRunProgramTask ClearArguments()
+        {
+            _arguments.Clear();
+            return this;
         }
     }
 }

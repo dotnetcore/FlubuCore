@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using FlubuCore.Context;
 using FlubuCore.Services;
-using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Solution
 {
@@ -12,9 +11,10 @@ namespace FlubuCore.Tasks.Solution
     /// <summary>
     /// Task compiles solution with MsBuild.
     /// </summary>
-    public class CompileSolutionTask : TaskBase<int>
+    public class CompileSolutionTask : ExternalProcessTaskBase<CompileSolutionTask>
     {
         private readonly List<string> _msbuildPaths = new List<string>();
+        private readonly List<string> _loggingOptions = new List<string>();
 
         private readonly IFlubuEnviromentService _enviromentService;
 
@@ -22,8 +22,6 @@ namespace FlubuCore.Tasks.Solution
 
         private string _buildConfiguration;
 
-        private readonly List<string> _arguments = new List<string>();
-        private string _workingFolder;
         private bool _doNotSetConfiguration;
 
         /// <summary>
@@ -33,7 +31,6 @@ namespace FlubuCore.Tasks.Solution
         public CompileSolutionTask(IFlubuEnviromentService enviromentService)
         {
             _enviromentService = enviromentService;
-            _arguments.Add("/consoleloggerparameters:NoSummary");
         }
 
         /// <inheritdoc />
@@ -54,27 +51,6 @@ namespace FlubuCore.Tasks.Solution
         }
 
         /// <summary>
-        /// Add's argument to MSBuild.
-        /// </summary>
-        /// <param name="argument">Argument to be added</param>
-        /// <returns></returns>
-        public CompileSolutionTask AddArgument(string argument)
-        {
-            _arguments.Add(argument);
-            return this;
-        }
-
-        /// <summary>
-        /// Clears all extra msbuild arguments.
-        /// </summary>
-        /// <returns></returns>
-        public CompileSolutionTask ClearAllArguments()
-        {
-            _arguments.Clear();
-            return this;
-        }
-
-        /// <summary>
         /// Add's Platform argument to MSBuild. If not set CPUAny is used as default.
         /// </summary>
         /// <param name="platform">The platform.</param>
@@ -84,18 +60,7 @@ namespace FlubuCore.Tasks.Solution
             if(string.IsNullOrEmpty(platform))
                 throw new ArgumentNullException(nameof(platform));
 
-            _arguments.Add($"/p:Platform={platform}");
-            return this;
-        }
-
-        /// <summary>
-        /// Sets working folder for compile.
-        /// </summary>
-        /// <param name="workingFolder"></param>
-        /// <returns></returns>
-        public CompileSolutionTask WorkingFolder(string workingFolder)
-        {
-            _workingFolder = workingFolder;
+            Arguments.Add($"/p:Platform={platform}");
             return this;
         }
 
@@ -123,7 +88,7 @@ namespace FlubuCore.Tasks.Solution
         /// </summary>
         public CompileSolutionTask WithMaxCpuCount(int count)
         {
-            _arguments.Add($"/maxcpucount:{count}");
+            Arguments.Add($"/maxcpucount:{count}");
             return this;
         }
 
@@ -132,7 +97,7 @@ namespace FlubuCore.Tasks.Solution
         /// </summary>
         public CompileSolutionTask WithTarget(string target)
         {
-            _arguments.Add($"/t:{target}");
+            Arguments.Add($"/t:{target}");
             return this;
         }
 
@@ -147,9 +112,9 @@ namespace FlubuCore.Tasks.Solution
         public bool UseSolutionDirAsWorkingDir { get; set; }
 
         /// <inheritdoc />
-        protected override int DoExecute(ITaskContextInternal context)
+        protected override void PrepareExecutableParameters(ITaskContextInternal context)
         {
-            string msbuildPath = FindMsBuildPath(context);
+            ExecutablePath = FindMsBuildPath(context);
             if (string.IsNullOrEmpty(_solutionFileName))
             {
                 _solutionFileName = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
@@ -162,25 +127,19 @@ namespace FlubuCore.Tasks.Solution
 
             Validate();
 
-            string workingFolder = UseSolutionDirAsWorkingDir && string.IsNullOrEmpty(_workingFolder)
+            ExecuteWorkingFolder = UseSolutionDirAsWorkingDir && string.IsNullOrEmpty(ExecuteWorkingFolder)
                 ? Path.GetDirectoryName(_solutionFileName)
-                : _workingFolder ?? ".";
+                : ExecuteWorkingFolder ?? ".";
 
-            IRunProgramTask task = context.Tasks()
-                .RunProgramTask(msbuildPath)
-                .WorkingFolder(workingFolder)
-                .WithArguments(_solutionFileName)
-                .WithArguments(_arguments.ToArray());
+            Arguments.Insert(0, _solutionFileName);
 
-            if (DoNotLog)
-                task.NoLog();
+            if (_loggingOptions.Count <= 0)
+                _loggingOptions.Add("NoSummary");
 
-            if (!_doNotSetConfiguration)
-                task.WithArguments($"/p:Configuration={_buildConfiguration}");
+            Arguments.Add($"/clp:{string.Join(";", _loggingOptions.ToArray())}");
 
-            task.ExecuteVoid(context);
-
-            return 0;
+            if (NoOutputLog)
+                Arguments.Add("/noconlog");
         }
 
         private string FindMsBuildPath(ITaskContextInternal context)
@@ -233,7 +192,7 @@ namespace FlubuCore.Tasks.Solution
                 if (msbuilds.TryGetValue(ToolsVersion, out msbuildPath))
                     return Path.Combine(msbuildPath, "MSBuild.exe");
 
-                KeyValuePair<Version, string> higherVersion = msbuilds.FirstOrDefault(x => x.Key > this.ToolsVersion);
+                KeyValuePair<Version, string> higherVersion = msbuilds.FirstOrDefault(x => x.Key > ToolsVersion);
                 if (higherVersion.Equals(default(KeyValuePair<Version, string>)))
                     throw new TaskExecutionException(string.Format("Requested MSBuild tools version {0} not found and there are no higher versions", ToolsVersion), 0);
                 context.LogInfo(string.Format("Requested MSBuild tools version {0} not found, using a higher version {1}", ToolsVersion, higherVersion.Key));

@@ -9,13 +9,11 @@ namespace FlubuCore.Tasks.MsSql
     /// <summary>
     /// Execute SQL script file with sqlcmd.exe
     /// </summary>
-    public class SqlCmdTask : TaskBase<int>, IExternalProcess<SqlCmdTask>
+    public class SqlCmdTask : ExternalProcessTaskBase<SqlCmdTask>
     {
         private const string DefaultSqlCmdExe =
             @"C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\SQLCMD.EXE";
 
-        private readonly List<string> _arguments = new List<string>();
-        private string _workingFolder;
         private readonly List<string> _sqlCmdExePaths = new List<string>();
         private string _output;
         private string _errorOutput;
@@ -35,41 +33,6 @@ namespace FlubuCore.Tasks.MsSql
         {
             _sqlFiles.AddRange(sqlFiles);
             _sqlCmdExePaths.Add(DefaultSqlCmdExe);
-        }
-
-        /// <summary>
-        /// Add's Argument to the dotnet see <c>Command</c>
-        /// </summary>
-        /// <param name="arg">Argument to be added</param>
-        /// <returns></returns>
-        /// <remarks>Do not escape args with ". You should add separate argument for option and value. .WithArguments("-i", "mysqlfile.sql")</remarks>    
-        public SqlCmdTask WithArguments(string arg)
-        {
-            _arguments.Add(arg);
-            return this;
-        }
-
-        /// <summary>
-        /// Add arguments to the sqlcmd executable. See <c>Command</c>
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        /// <remarks>Do not escape args with ". You should add separate argument for option and value. .WithArguments("-i", "mysqlfile.sql")</remarks>    
-        public SqlCmdTask WithArguments(params string[] args)
-        {
-            _arguments.AddRange(args);
-            return this;
-        }
-
-        /// <summary>
-        /// Working folder of the sqlcmd command.
-        /// </summary>
-        /// <param name="folder"></param>
-        /// <returns></returns>
-        public SqlCmdTask WorkingFolder(string folder)
-        {
-            _workingFolder = folder;
-            return this;
         }
 
         /// <summary>
@@ -140,8 +103,7 @@ namespace FlubuCore.Tasks.MsSql
         /// <returns></returns>
         public SqlCmdTask Server(string server)
         {
-            _arguments.Add("-S");
-            _arguments.Add(server);
+            WithArguments("-S", server);
             return this;
         }
 
@@ -152,8 +114,7 @@ namespace FlubuCore.Tasks.MsSql
         /// <returns></returns>
         public SqlCmdTask UserName(string userName)
         {
-            _arguments.Add("-U");
-            _arguments.Add(userName);
+            WithArguments("-U", userName);
             return this;
         }
 
@@ -164,8 +125,7 @@ namespace FlubuCore.Tasks.MsSql
         /// <returns></returns>
         public SqlCmdTask Password(string password)
         {
-            _arguments.Add("-P");
-            _arguments.Add(password);
+            WithArguments("-P", password);
             return this;
         }
 
@@ -175,7 +135,7 @@ namespace FlubuCore.Tasks.MsSql
         /// <returns></returns>
         public SqlCmdTask TrustedConnection()
         {
-            _arguments.Add("-E");
+            WithArguments("-E");
             return this;
         }
 
@@ -186,8 +146,7 @@ namespace FlubuCore.Tasks.MsSql
         /// <returns></returns>
         public SqlCmdTask Database(string database)
         {
-            _arguments.Add("-d");
-            _arguments.Add(database);
+            WithArguments("-d", database);
             return this;
         }
 
@@ -197,16 +156,7 @@ namespace FlubuCore.Tasks.MsSql
         /// <returns></returns>
         public SqlCmdTask ForceUtf8()
         {
-            _arguments.Add("-f");
-            _arguments.Add("65001");
-            return this;
-        }
-
-
-        /// <inheritdoc />
-        public SqlCmdTask DoNotLogOutput()
-        {
-            _doNotLogOutput = true;
+            WithArguments("-f", "65001");
             return this;
         }
 
@@ -245,16 +195,15 @@ namespace FlubuCore.Tasks.MsSql
                 task
                     .WithArguments("-i")
                     .WithArguments(file)
-                    .WithArguments(_arguments.ToArray())
+                    .WithArguments(Arguments.ToArray())
                     .CaptureErrorOutput()
                     .CaptureOutput()
-                    .WorkingFolder(_workingFolder)
+                    .WorkingFolder(ExecuteWorkingFolder)
                     .ExecuteVoid(context);
 
                 _output = task.GetOutput();
                 _errorOutput = task.GetErrorOutput();
             }
-
 
             return 0;
         }

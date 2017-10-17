@@ -2,6 +2,12 @@
 {
     public interface IExternalProcess<out T> where T : ITask
     {
+        /// <summary>
+        /// Set the full file path of the executable file.
+        /// </summary>
+        /// <param name="executableFullFilePath"></param>
+        /// <returns></returns>
+        T Executable(string executableFullFilePath);
 
         /// <summary>
         /// Add argument for executable.
@@ -16,6 +22,12 @@
         /// <param name="args"></param>
         /// <returns></returns>
         T WithArguments(params string[] args);
+
+        /// <summary>
+        /// Clear all arguments for the command line.
+        /// </summary>
+        /// <returns></returns>
+        T ClearArguments();
 
         /// <summary>
         /// Set the working folder for the executable.

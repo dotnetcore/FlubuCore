@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using FlubuCore.Context;
-using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Nuget
 {
-    public class NuGetCmdLineTask : ExternalProcessTaskBase<NuGetCmdLineTask, int>
+    public class NuGetCmdLineTask : ExternalProcessTaskBase<NuGetCmdLineTask>
     {
         private const string PackagesDirName = "packages";
         
@@ -16,7 +14,7 @@ namespace FlubuCore.Tasks.Nuget
         public NuGetCmdLineTask(string command, string workingDirectory = null) 
         {
             _command = command;
-            _workingFolder = workingDirectory;
+            ExecuteWorkingFolder = workingDirectory;
         }
 
         /// <summary>
@@ -36,28 +34,11 @@ namespace FlubuCore.Tasks.Nuget
         /// </summary>
         public string ApiKey { get; set; }
 
-        /// <summary>
-        /// Path to the nuget.exe
-        /// </summary>
-        public string ExecutablePath { get; private set; }
-
         public static NuGetCmdLineTask Create(string command, params string[] parameters)
         {
             var t = new NuGetCmdLineTask(command);
             t.Arguments.AddRange(parameters);
             return t;
-        }
-
-        /// <summary>
-        /// Add's argument to the nuget.exe 
-        /// </summary>
-        /// <param name="arg"></param>
-        /// <returns></returns>
-        [Obsolete("Use WithArgument instead.")]
-        public NuGetCmdLineTask AddArgument(string arg)
-        {
-            Arguments.Add(arg);
-            return this;
         }
 
         /// <summary>
@@ -72,29 +53,25 @@ namespace FlubuCore.Tasks.Nuget
         }
 
         /// <inheritdoc />
-        protected override int DoExecute(ITaskContextInternal context)
+        protected override void PrepareExecutableParameters(ITaskContextInternal context)
         {
-            string nugetCmdLinePath = FindNuGetCmdLinePath();
+            ExecutablePath = FindNuGetCmdLinePath();
 
-            if (nugetCmdLinePath == null)
+            if (ExecutablePath == null)
             {
                 context.Fail(
                     string.Format(
                         "Could not find NuGet.CommandLine package in the {0} directory. You have to download it yourself.",
                         PackagesDirName), -1);
-                return -1;
+                return;
             }
 
-            IRunProgramTask runProgramTask = DoExecuteExternalProcessBase(context, nugetCmdLinePath);
-
-            runProgramTask.WithArguments(_command);
+            Arguments.Add(_command);
 
             if (Verbosity.HasValue)
-                runProgramTask.WithArguments("-Verbosity", Verbosity.ToString());
+                WithArguments("-Verbosity", Verbosity.ToString());
             if (ApiKey != null)
-                runProgramTask.WithArguments("-ApiKey").WithArguments(ApiKey);
-
-            return runProgramTask.Execute(context);
+                WithArguments("-ApiKey", ApiKey);
         }
 
         private string FindNuGetCmdLinePath()
@@ -105,15 +82,15 @@ namespace FlubuCore.Tasks.Nuget
             if (!Directory.Exists(PackagesDirName))
                 return null;
 
-            const string NuGetCmdLinePackageName = "NuGet.CommandLine";
-            int packageNameLen = NuGetCmdLinePackageName.Length;
+            const string nuGetCmdLinePackageName = "NuGet.CommandLine";
+            int packageNameLen = nuGetCmdLinePackageName.Length;
 
             string highestVersionDir = null;
             Version highestVersion = null;
 
             foreach (string directory in Directory.EnumerateDirectories(
                 PackagesDirName,
-                string.Format(CultureInfo.InvariantCulture, "{0}.*", NuGetCmdLinePackageName)))
+                string.Format(CultureInfo.InvariantCulture, "{0}.*", nuGetCmdLinePackageName)))
             {
                 string dirLocalName = Path.GetFileName(directory);
 

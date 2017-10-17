@@ -104,10 +104,10 @@ namespace FlubuCore.Tasks.Nuget
                 Verbosity = NuGetCmdLineTask.NuGetVerbosity.Detailed
             };
 
-            nugetTask.AddArgument(destNuspecFile.FileName);
+            nugetTask.WithArguments(destNuspecFile.FileName);
 
             if (BasePath != null)
-                nugetTask.AddArgument("-BasePath").AddArgument(BasePath);
+                nugetTask.WithArguments("-BasePath", BasePath);
 
             nugetTask.ExecuteVoid(context);
 
@@ -139,10 +139,10 @@ namespace FlubuCore.Tasks.Nuget
             };
 
             if (_nuGetServerUrl != null)
-                nugetTask.AddArgument("-Source").AddArgument(_nuGetServerUrl);
+                nugetTask.WithArguments("-Source", _nuGetServerUrl);
 
             nugetTask
-                .AddArgument(nupkgFileName)
+                .WithArguments(nupkgFileName)
                 .ExecuteVoid(context);
 
             return 0;

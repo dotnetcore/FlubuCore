@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FlubuCore.Tasks.Utils
+﻿namespace FlubuCore.Tasks.Utils
 {
     /// <summary>
     /// Creates a service entry in the registry and Service Database.
