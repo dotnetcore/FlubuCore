@@ -151,7 +151,7 @@ namespace FlubuCore.Tasks.Solution
             Validate();
 
             if (!_doNotSetConfiguration)
-                WithArguments(_buildConfiguration);
+                WithArguments($"/p:Configuration={_buildConfiguration}");
 
             ExecuteWorkingFolder = UseSolutionDirAsWorkingDir && string.IsNullOrEmpty(ExecuteWorkingFolder)
                 ? Path.GetDirectoryName(_solutionFileName)
