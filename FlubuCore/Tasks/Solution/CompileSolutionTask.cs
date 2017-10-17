@@ -93,6 +93,28 @@ namespace FlubuCore.Tasks.Solution
         }
 
         /// <summary>
+        /// Sets the logging level of console logger. See msbuild help for more details.
+        /// </summary>
+        /// <param name="level">Logging level (quiet, minimal,normal, detailed, and diagnostic)</param>
+        /// <returns></returns>
+        public CompileSolutionTask LogLevel(string level)
+        {
+            _loggingOptions.Add($"Verbosity={level}");
+            return this;
+        }
+
+        /// <summary>
+        /// Add console logger option. See msbuild for more details.
+        /// </summary>
+        /// <param name="option">Option to set to the /clp parameter (NoSummary)</param>
+        /// <returns></returns>
+        public CompileSolutionTask LogOption(string option)
+        {
+            _loggingOptions.Add(option);
+            return this;
+        }
+
+        /// <summary>
         /// Add'sTarget argument to MSBuild. 
         /// </summary>
         public CompileSolutionTask WithTarget(string target)

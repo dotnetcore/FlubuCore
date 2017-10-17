@@ -1,3 +1,6 @@
+1.8.2.0
+- add support for setting verbosity and other logging properties for msbuild (Compile Task).  
+
 1.8.1.0
 - dotnet-flubu is now also build in .netcoreapp 1.0 target framework to support older versions.  
 
