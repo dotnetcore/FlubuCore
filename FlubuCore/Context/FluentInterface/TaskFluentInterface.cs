@@ -286,5 +286,10 @@ namespace FlubuCore.Context.FluentInterface
         {
             return Context.CreateTask<ServiceCreateTask>(serviceName, pathToService);
         }
+
+        public ExecutePowerShellScriptTask ExecutePowerShellScript(string pathToPowerShellScript)
+        {
+            return Context.CreateTask<ExecutePowerShellScriptTask>(pathToPowerShellScript);
+        }
     }
 }

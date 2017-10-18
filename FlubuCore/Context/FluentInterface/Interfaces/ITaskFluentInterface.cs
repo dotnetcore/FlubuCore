@@ -277,5 +277,13 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="pathToService>path to service executable (.exe) file.</param>
         /// <returns><see cref="ServiceControlTask"/></returns>
         ServiceCreateTask CreateService(string serviceName, string pathToService);
+
+        /// <summary>
+        /// Executes specified powershell script.
+        /// </summary>
+        /// <param name="pathToPowerShellScript">Path to the power shell script file. Use .\ for relative path.</param>
+        /// <returns></returns>
+        ExecutePowerShellScriptTask ExecutePowerShellScript(string pathToPowerShellScript);
+
     }
 }

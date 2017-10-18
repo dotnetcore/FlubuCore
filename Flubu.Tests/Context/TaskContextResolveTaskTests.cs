@@ -348,6 +348,12 @@ namespace Flubu.Tests.Context
         }
 
         [Fact]
+        public void ResolveExecutePowerShellScriptTask()
+        {
+            Context.Tasks().ExecutePowerShellScript(".\\test.ps1");
+        }
+
+        [Fact]
 	    public void ResolveUploadPackageTask()
 	    {
 		    Context.Tasks().FlubuWebApiTasks().UploadPackageTask("test", "test");
