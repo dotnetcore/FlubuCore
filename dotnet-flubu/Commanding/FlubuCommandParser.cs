@@ -34,13 +34,13 @@ namespace DotNet.Cli.Flubu.Commanding
 
             _commandApp.HelpOption("-?|-h|--help");
 
-            _command = _commandApp.Argument("<COMMAND> [arguments]", "The command to execute");
+            _command = _commandApp.Argument("<COMMAND> [arguments]", "The command to execute", true);
 
             _configurationOption = _commandApp.Option("-c|--configuration <CONFIGURATION>", "Configuration under which to run", CommandOptionType.SingleValue);
             _outputOption = _commandApp.Option("-o|--output <OUTPUT_DIR>", "Directory in which to find the binaries to be run", CommandOptionType.SingleValue);
 
             _scriptPath = _commandApp.Option("-s|--script <SCRIPT>", "Build script file to use.", CommandOptionType.SingleValue);
-            _targetsToExecute = _commandApp.Option("-tte|--targetsToExececute <TARGETS_TO_EXECUTE>", "Target's that must be executed. Otherwise fails.", CommandOptionType.SingleValue);
+            _targetsToExecute = _commandApp.Option("-tte|--targetsToExecute <TARGETS_TO_EXECUTE>", "Target's that must be executed. Otherwise fails.", CommandOptionType.SingleValue);
             _commandApp.OnExecute(() => PrepareDefaultArguments());
 
             if (args == null)
@@ -63,7 +63,7 @@ namespace DotNet.Cli.Flubu.Commanding
 
              _parsed.Output = _outputOption.Value();
             _parsed.Config = _configurationOption.Value() ?? Constants.DefaultConfiguration;
-            _parsed.MainCommand = _command.Value;
+            _parsed.MainCommands = _command.Values;
             _parsed.Script = _scriptPath.Value();
             if (_targetsToExecute.HasValue())
             {

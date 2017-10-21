@@ -39,7 +39,7 @@ namespace Flubu.Tests
 
             targetTree.AddTarget("test target");
 
-            Assert.True(targetTree.HasTarget("test target"));
+            Assert.True(targetTree.HasAllTargets(new List<string>() { "test target" }, out _));
         }
 
         [Fact]

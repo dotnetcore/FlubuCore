@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FlubuCore.Context;
 using FlubuCore.Targeting;
@@ -25,8 +26,8 @@ namespace Flubu.Tests.Integration
             SimpleBuildScript bs = new SimpleBuildScript();
             bs.Run(session);
 
-            Assert.True(session.TargetTree.HasTarget("test"));
-            Assert.True(session.TargetTree.HasTarget("test1"));
+            Assert.True(session.TargetTree.HasAllTargets(new List<string>() { "test" }, out _));
+            Assert.True(session.TargetTree.HasAllTargets(new List<string>() { "test1" }, out _));
 
             ITarget t = session.TargetTree.GetTarget("test");
             ITarget t1 = session.TargetTree.GetTarget("test1");
@@ -42,7 +43,7 @@ namespace Flubu.Tests.Integration
             SimpleBuildScript bs = new SimpleBuildScript();
             bs.Run(session);
 
-            Assert.True(session.TargetTree.HasTarget("extensions"));
+            Assert.True(session.TargetTree.HasAllTargets(new List<string>() { "extensions" }, out _));
 
             Target t = (Target)session.TargetTree.GetTarget("extensions");
 
@@ -57,7 +58,7 @@ namespace Flubu.Tests.Integration
             SimpleBuildScript bs = new SimpleBuildScript();
             bs.Run(session);
 
-            Assert.True(session.TargetTree.HasTarget("package"));
+            Assert.True(session.TargetTree.HasAllTargets(new List<string>() { "package" }, out _));
 
             Target t = (Target)session.TargetTree.GetTarget("package");
 
@@ -76,7 +77,7 @@ namespace Flubu.Tests.Integration
             SimpleBuildScript bs = new SimpleBuildScript();
             bs.Run(session);
 
-            Assert.True(session.TargetTree.HasTarget("Linux"));
+            Assert.True(session.TargetTree.HasAllTargets(new List<string>() { "Linux" }, out _));
 
             Target t = (Target)session.TargetTree.GetTarget("Linux");
 
@@ -92,7 +93,7 @@ namespace Flubu.Tests.Integration
             SimpleBuildScript bs = new SimpleBuildScript();
             bs.Run(session);
 
-            Assert.True(session.TargetTree.HasTarget("IIS"));
+            Assert.True(session.TargetTree.HasAllTargets(new List<string>() { "IIS" }, out _));
 
             Target t = (Target)session.TargetTree.GetTarget("IIS");
 

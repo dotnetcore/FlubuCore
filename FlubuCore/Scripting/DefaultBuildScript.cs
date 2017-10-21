@@ -39,25 +39,27 @@ namespace FlubuCore.Scripting
 
         protected abstract void ConfigureTargets(ITaskContext session);
 
-        private static string ParseCmdLineArgs(ITaskContextInternal context, TargetTree targetTree)
+        private static List<string> ParseCmdLineArgs(ITaskContextInternal context, TargetTree targetTree)
         {
-            if (string.IsNullOrEmpty(context.Args.MainCommand))
+            if (context.Args.MainCommands == null || context.Args.MainCommands.Count == 0)
             {
                 return null;
             }
 
-            if (targetTree.HasTarget(context.Args.MainCommand))
+            List<string> notFoundTargets;
+            if (targetTree.HasAllTargets(context.Args.MainCommands, out notFoundTargets))
             {
-                return context.Args.MainCommand;
+                return context.Args.MainCommands;
             }
 
             if (context.Args.TreatUnknownTargetAsException)
             {
-                throw new TargetNotFoundException($"Target { context.Args.MainCommand } not found.");
+                throw new TargetNotFoundException($"Target { String.Join(" and ", notFoundTargets) } not found.");
             }
 
-            context.LogInfo($"ERROR: Target {context.Args.MainCommand} not found.");
-            return "help";
+            context.LogInfo($"ERROR: Target {String.Join(" and ", notFoundTargets)} not found.");
+            return new List<string>
+            { "help"};
         }
 
         private void RunBuild(ITaskSession taskSession)
@@ -70,13 +72,13 @@ namespace FlubuCore.Scripting
 
             ConfigureTargets(taskSession);
 
-            string targetToRun = ParseCmdLineArgs(taskSession, taskSession.TargetTree);
+            List<string> targetsToRun = ParseCmdLineArgs(taskSession, taskSession.TargetTree);
 
-            if (string.IsNullOrEmpty(targetToRun))
+            if (targetsToRun == null || targetsToRun.Count == 0)
             {
                 ITarget defaultTarget = taskSession.TargetTree.DefaultTarget;
-
-                targetToRun = defaultTarget?.TargetName ?? "help";
+                targetsToRun = new List<string>();
+                targetsToRun.Add(defaultTarget?.TargetName ?? "help");
             }
 
             taskSession.Start(s =>
@@ -99,7 +101,11 @@ namespace FlubuCore.Scripting
                 s.LogInfo(s.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
             });
 
-            taskSession.TargetTree.RunTarget(taskSession, targetToRun);
+            foreach (var targetToRun in targetsToRun)
+            {
+                taskSession.TargetTree.RunTarget(taskSession, targetToRun);
+            }
+           
             AssertAllTargetDependenciesWereExecuted(taskSession);
         }
 

@@ -108,8 +108,9 @@ namespace FlubuCore.WebApi.Controllers
 
 	    private void PrepareCommandArguments(ExecuteScriptRequest request)
 	    {
+            _commandArguments.MainCommands = new List<string>();
 		    var scriptFullPath = Path.Combine(_hostingEnvironment.ContentRootPath, "scripts", request.ScriptFileName);
-			_commandArguments.MainCommand = request.TargetToExecute;
+			_commandArguments.MainCommands.Add(request.TargetToExecute);
 		    _commandArguments.Script = scriptFullPath;
 		    _commandArguments.RemainingCommands = request.RemainingCommands;
 		    if (request.ScriptArguments != null && request.ScriptArguments.Count > 0)

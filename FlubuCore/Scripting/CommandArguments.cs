@@ -8,7 +8,7 @@ namespace FlubuCore.Scripting
 
         public bool Help { get; set; }
 
-        public string MainCommand { get; set; }
+        public List<string> MainCommands { get; set; }
 
         public string Output { get; set; }
 
