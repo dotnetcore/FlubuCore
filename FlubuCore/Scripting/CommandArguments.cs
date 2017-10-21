@@ -18,6 +18,8 @@ namespace FlubuCore.Scripting
 
         public List<string> TargetsToExecute { get; set; }
 
+        public bool executeTargetsInParallel { get; set; }
+
 
 	    public DictionaryWithDefault<string, string> ScriptArguments;
 		

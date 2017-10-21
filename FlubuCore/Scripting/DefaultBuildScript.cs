@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.IO;
 using FlubuCore.Targeting;
@@ -101,11 +102,25 @@ namespace FlubuCore.Scripting
                 s.LogInfo(s.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
             });
 
-            foreach (var targetToRun in targetsToRun)
+            if (targetsToRun.Count == 1 || !taskSession.Args.executeTargetsInParallel)
             {
-                taskSession.TargetTree.RunTarget(taskSession, targetToRun);
+                foreach (var targetToRun in targetsToRun)
+                {
+                    taskSession.TargetTree.RunTarget(taskSession, targetToRun);
+                }
             }
-           
+            else
+            {
+                taskSession.LogInfo("Running target's in parallel.");
+                List<Task> tTasks = new List<Task>();
+                foreach (var targetToRun in targetsToRun)
+                {
+                    tTasks.Add(taskSession.TargetTree.RunTargetAsync(taskSession, targetToRun));
+                }
+
+                Task.WaitAll(tTasks.ToArray());
+            }
+
             AssertAllTargetDependenciesWereExecuted(taskSession);
         }
 

@@ -267,6 +267,7 @@ namespace FlubuCore.Tasks
         protected virtual async Task<T> DoExecuteAsync(ITaskContextInternal context)
         {
             return await Task.Run(() => DoExecute(context));
+            
         }
     }
 }
