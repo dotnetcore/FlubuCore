@@ -44,6 +44,34 @@ namespace FlubuCore.Context
             return (T)Convert.ChangeType(_properties[propertyName], typeof(T), CultureInfo.InvariantCulture);
         }
 
+        public T Get<T>(PredefinedBuildProperties propertyName)
+        {
+            string propName;
+
+            switch (propertyName)
+            {
+                case PredefinedBuildProperties.OsPlatform:
+                    propName = BuildProps.OSPlatform;
+                    break;
+                case PredefinedBuildProperties.OutputDir:
+                    propName = BuildProps.OutputDir;
+                    break;
+                case PredefinedBuildProperties.PathToDotnetExecutable:
+                    propName = BuildProps.DotNetExecutable;
+                    break;
+                case PredefinedBuildProperties.ProductRootDir:
+                    propName = BuildProps.ProductRootDir;
+                    break;
+                case PredefinedBuildProperties.UserProfileFolder:
+                    propName = BuildProps.UserHomeFolder;
+                    break;
+                default:
+                   throw new NotSupportedException("Property name is not mapped.");
+            }
+
+            return Get<T>(propName);
+        }
+
         public T TryGet<T>(string propertyName)
         {
             propertyName = propertyName.ToLowerInvariant();
