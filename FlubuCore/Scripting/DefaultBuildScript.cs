@@ -129,7 +129,18 @@ namespace FlubuCore.Scripting
             taskSession.SetBuildVersion(new Version(1, 0, 0, 0));
             taskSession.SetDotnetExecutable(Dotnet.FindDotnetExecutable());
             bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-            taskSession.SetOSPlatform(isWindows ? OSPlatform.Windows : OSPlatform.Linux);
+            OSPlatform platform;
+            if (!isWindows)
+            {
+                bool isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+                platform = isLinux ? OSPlatform.Linux : OSPlatform.OSX;
+            }
+            else
+            {
+                platform = OSPlatform.Windows;
+            }
+
+            taskSession.SetOSPlatform(platform);
             taskSession.SetNodeExecutablePath(IOExtensions.GetNodePath(isWindows));
             taskSession.SetProfileFolder(IOExtensions.GetUserProfileFolder(isWindows));
             taskSession.SetNpmPath(IOExtensions.GetNpmPath(isWindows));
