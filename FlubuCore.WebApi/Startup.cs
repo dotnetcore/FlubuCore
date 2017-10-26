@@ -15,6 +15,7 @@ using FlubuCore.WebApi.Services;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -107,14 +108,15 @@ namespace FlubuCore.WebApi
 
                 ClockSkew = TimeSpan.Zero
             };
-
+#if NETCOREAPP1_1
             app.UseJwtBearerAuthentication(new JwtBearerOptions
             {
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true,
                 TokenValidationParameters = tokenValidationParameters
             });
-
+#endif
+            //// todo fix for NetCoreApp2.0
             app.UseMvc();
         }
     }

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Models;
 using FlubuCore.WebApi.Repository.Exceptions;
-using Microsoft.AspNetCore.Razor.Chunks;
 using Newtonsoft.Json;
 
 namespace FlubuCore.WebApi.Repository
