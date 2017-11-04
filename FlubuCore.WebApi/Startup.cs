@@ -6,7 +6,6 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using FlubuCore.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Controllers;
 using FlubuCore.WebApi.Controllers.Attributes;
@@ -83,35 +82,6 @@ namespace FlubuCore.WebApi
 	        services.Configure<WebApiSettings>(settings => Configuration.GetSection(nameof(WebApiSettings)).Bind(settings));
             services.Configure<NotificationSettings>(settings => Configuration.GetSection(nameof(NotificationSettings)).Bind(settings));
 
-#if NETCOREAPP2_0
-             
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidIssuer = jwtAppSettingOptions[nameof(JwtOptions.Issuer)],
-
-                ValidateAudience = true,
-                ValidAudience = jwtAppSettingOptions[nameof(JwtOptions.Audience)],
-
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = _signingKey,
-
-                RequireExpirationTime = true,
-                ValidateLifetime = true,
-
-                ClockSkew = TimeSpan.Zero
-            };
-            
-            services.AddAuthentication(o =>
-            {
-                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(o =>
-            {
-                o.TokenValidationParameters = new TokenValidationParameters();
-            });
-#endif
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -120,7 +90,7 @@ namespace FlubuCore.WebApi
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             loggerFactory.AddFile("Logs/Flubu-{Date}.txt");
-#if NETCOREAPP1_1
+
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtOptions));
             var tokenValidationParameters = new TokenValidationParameters
             {
@@ -138,20 +108,15 @@ namespace FlubuCore.WebApi
 
                 ClockSkew = TimeSpan.Zero
             };
-
+#if NETCOREAPP1_1
             app.UseJwtBearerAuthentication(new JwtBearerOptions
             {
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true,
                 TokenValidationParameters = tokenValidationParameters
-
             });
- #endif
-            
-#if NETCOREAPP2_0
-            app.UseAuthentication();
 #endif
-           
+            //// todo fix for NetCoreApp2.0
             app.UseMvc();
         }
     }
