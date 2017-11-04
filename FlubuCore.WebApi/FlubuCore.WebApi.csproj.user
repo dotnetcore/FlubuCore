@@ -2,6 +2,5 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ShowAllFiles>true</ShowAllFiles>
-    <ActiveDebugFramework>netcoreapp1.1</ActiveDebugFramework>
   </PropertyGroup>
 </Project>
