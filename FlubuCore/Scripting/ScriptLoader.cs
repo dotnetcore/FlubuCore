@@ -37,8 +37,12 @@ namespace FlubuCore.Scripting
                 MetadataReference.CreateFromFile(Path.Combine(coreDir, "mscorlib.dll")),
                 MetadataReference.CreateFromFile(typeof(object).GetTypeInfo().Assembly.Location),
                 MetadataReference.CreateFromFile(flubuPath),
-                MetadataReference.CreateFromFile(typeof(File).GetTypeInfo().Assembly.Location)
+                MetadataReference.CreateFromFile(typeof(File).GetTypeInfo().Assembly.Location),
             };
+
+#if NETSTANDARD2_0
+            references.Add(MetadataReference.CreateFromFile(typeof(Console).GetTypeInfo().Assembly.Location));
+#endif
 
             // Enumerate all assemblies referenced by this executing assembly
             // and provide them as references to the build script we're about to
