@@ -108,8 +108,8 @@ namespace FlubuCore.WebApi.Controllers
                 ExpiresIn = (int) _jwtOptions.ValidFor.TotalSeconds
             };
 
-            var json = JsonConvert.SerializeObject(response2, _serializerSettings);
-            return new OkObjectResult(json);
+
+            return Ok(response2);
         }
 
         private static void ThrowIfInvalidOptions(JwtOptions options)
