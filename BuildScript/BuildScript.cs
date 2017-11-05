@@ -81,8 +81,8 @@ public class MyBuildScript : DefaultBuildScript
 
 	    var flubuTests = context.CreateTarget("test")
 		    .SetDescription("Runs all tests in solution.")
-		    .AddCoreTaskAsync(x => x.ExecuteDotnetTask("test").WithArguments("Flubu.Tests\\Flubu.Tests.csproj"))
-		    .AddCoreTaskAsync(x => x.ExecuteDotnetTask("test").WithArguments("FlubuCore.WebApi.Tests\\FlubuCore.WebApi.Tests.csproj"));
+		    .AddCoreTask(x => x.ExecuteDotnetTask("test").WithArguments("Flubu.Tests\\Flubu.Tests.csproj"))
+		    .AddCoreTask(x => x.ExecuteDotnetTask("test").WithArguments("FlubuCore.WebApi.Tests\\FlubuCore.WebApi.Tests.csproj"));
 
 		var nugetPublish = context.CreateTarget("nuget.publish")
             .Do(PublishNuGetPackage).
