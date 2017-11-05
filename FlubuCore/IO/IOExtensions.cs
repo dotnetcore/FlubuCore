@@ -38,7 +38,6 @@ namespace FlubuCore.IO
         {
             // todo find node executable
             var user = GetUserProfileFolder(isWindows);
-
             return Path.Combine(user, isWindows ? "AppData/Roaming/npm" : ".npm");
         }
     }
