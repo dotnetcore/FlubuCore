@@ -48,6 +48,9 @@
     <DocumentationFile>bin\x64\Release\netstandard1.6\FlubuCore.xml</DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
+   <PropertyGroup Condition="'$$(TargetFramework)' == 'net462'">
+     <DefineConstants>NET462</DefineConstants>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <DefineConstants>NETSTANDARD2_0;</DefineConstants>
   </PropertyGroup>

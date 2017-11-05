@@ -15,7 +15,10 @@ namespace FlubuCore.IO
 
         public static string GetUserProfileFolder(bool isWindows)
         {
-            // todo fix when Environment is available https://github.com/dotnet/corefx/issues/5248
+#if NETSTANDARD2_0 || NET462
+             return Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+#endif
+
             if (isWindows)
                 return Environment.GetEnvironmentVariable("USERPROFILE");
 
