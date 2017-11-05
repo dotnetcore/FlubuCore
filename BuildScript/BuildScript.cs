@@ -100,7 +100,7 @@ public class MyBuildScript : DefaultBuildScript
         context.CreateTarget("rebuild.server")
             .SetDescription("Rebuilds the solution and publishes nuget packages.")
             .DependsOn(compile, flubuTests)
-            .DependsOnAsync(pack, publishWebApi)
+            .DependsOn(pack, publishWebApi)
             .DependsOn(flubuRunnerMerge)
             .DependsOn(nugetPublish)
             .DependsOn(packageFlubuRunner)
