@@ -108,7 +108,7 @@ namespace FlubuCore.WebApi
                 o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(o =>
             {
-                o.TokenValidationParameters = new TokenValidationParameters();
+                o.TokenValidationParameters = tokenValidationParameters;
             });
 #endif
 
