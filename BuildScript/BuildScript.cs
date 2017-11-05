@@ -48,12 +48,12 @@ public class MyBuildScript : DefaultBuildScript
 
         var publishWebApi = context.CreateTarget("Publish.WebApi")
             .SetDescription("Publishes flubu web api for deployment")
-            .AddCoreTask(x => x.Publish("FlubuCore.WebApi"));
+            .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("netcoreapp2.0"));
 
         var packageWebApi = context.CreateTarget("Package.WebApi")
             .SetDescription("Prepares flubu web api deployment package.")
             .AddTask(x => x.PackageTask("output").
-             AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp1.1\publish", "FlubuCore.WebApi", true)
+             AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp2.0\publish", "FlubuCore.WebApi", true)
             .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
             .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
             .AddFileToPackage("BuildScript\\Deploy.csproj", "")
