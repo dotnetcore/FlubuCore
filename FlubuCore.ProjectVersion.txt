@@ -1,8 +1,21 @@
+2.0.0.0
+- dotnet flubu cli tool now also runs on .net core app 2.0
+- FlubuCore now supports .net standard 2.0
+- Flubu web api now also runs on .net core app 2.0
+- Added support for multiple target execution in script runner.
+- Added task for executing powershell scripts
+- Added NunitWithDotCover task
+- Added Get predefined build properties in IBuildPropertiesSession  
+- Added standard console logger parameters and standard verbosity level parameters to compile solution task
+- Updated nuget packages
+- 
+- Some other minor improvements 
 1.9.0.0
 - add support for setting verbosity and other logging properties for msbuild (Compile Task).  
 - Improved ServiceControlTask inteface
 - Added CreateService task 
 - All Task that uses external program now implements external process tasks interface(Improved usability)
+
 1.8.1.0
 - dotnet-flubu is now also build in .netcoreapp 1.0 target framework to support older versions.  
 
