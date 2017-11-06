@@ -10,7 +10,9 @@
 	<PackageLicenseUrl>http://www.opensource.org/licenses/bsd-license.php</PackageLicenseUrl>
 	<PackageProjectUrl>https://github.com/flubu-core/flubu.core</PackageProjectUrl>
 	<Description>
-    A C# library for building projects and executing deployment scripts using C# code.
+	  This package includes the flubu dotnet cli tool for executing FlubuCore scripts.
+
+    Flubu is a C# library for building projects and executing deployment scripts using C# code.
 
     Wiki can be found at: https://github.com/flubu-core/flubu.core/wiki
 

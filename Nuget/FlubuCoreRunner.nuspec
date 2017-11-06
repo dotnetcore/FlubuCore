@@ -10,7 +10,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>http://www.opensource.org/licenses/bsd-license.php</licenseUrl>
     <description>
-      A C# library for building projects and executing deployment scripts using C# code.
+	  This package includes the Flubu runner which is used for executing Flubu scripts. 
+      Flubu is a C# library for building projects and executing deployment scripts using C# code.
       Wiki can be found at: https://github.com/flubu-core/flubu.core/wiki
       A detailed example of how Flubu is used to build example project: https://github.com/flubu-core/examples
     </description>
