@@ -2,6 +2,8 @@
 
 ### Flubu - Fluent builder ###
 
+Flubu is A C# library for building projects and executing deployment scripts using C# code.
+
 ### How do I get set up? ###
 
 * Clone repository
