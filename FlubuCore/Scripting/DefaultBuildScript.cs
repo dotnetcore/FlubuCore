@@ -141,9 +141,9 @@ namespace FlubuCore.Scripting
             }
 
             taskSession.SetOSPlatform(platform);
-            taskSession.SetNodeExecutablePath(IOExtensions.GetNodePath(isWindows));
-            taskSession.SetProfileFolder(IOExtensions.GetUserProfileFolder(isWindows));
-            taskSession.SetNpmPath(IOExtensions.GetNpmPath(isWindows));
+            taskSession.SetNodeExecutablePath(IOExtensions.GetNodePath());
+            taskSession.SetProfileFolder(IOExtensions.GetUserProfileFolder());
+            taskSession.SetNpmPath(IOExtensions.GetNpmPath());
             taskSession.SetBuildDir("build");
             taskSession.SetOutputDir("output");
             taskSession.SetProductRootDir(".");
