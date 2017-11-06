@@ -1,6 +1,7 @@
 ﻿using FlubuCore.Tasks.Iis;
 using FlubuCore.Tasks.NetCore;
 using System;
+using System.Collections.Generic;
 using FlubuCore.Tasks.Utils;
 using Xunit;
 
@@ -146,7 +147,7 @@ namespace Flubu.Tests.Context
         [Fact]
         public void ResoveDotnetNugetPushTask()
         {
-          Assert.NotNull(Context.CoreTasks().NugetPush("test"));
+            Assert.NotNull(Context.CoreTasks().NugetPush("test"));
         }
 
         [Fact]
@@ -354,33 +355,46 @@ namespace Flubu.Tests.Context
         }
 
         [Fact]
-	    public void ResolveUploadPackageTask()
-	    {
-		    Context.Tasks().FlubuWebApiTasks().UploadPackageTask("test", "test");
-	    }
+        public void ResolveUploadPackageTask()
+        {
+            Context.Tasks().FlubuWebApiTasks().UploadPackageTask("test", "test");
+        }
 
-	    [Fact]
-	    public void ResolveExecuteScriptTask()
-	    {
-		    Context.Tasks().FlubuWebApiTasks().ExecuteScriptTask("command", "test");
-	    }
+        [Fact]
+        public void ResolveExecuteScriptTask()
+        {
+            Context.Tasks().FlubuWebApiTasks().ExecuteScriptTask("command", "test");
+        }
 
-	    [Fact]
-	    public void ResolveGetTokenTask()
-	    {
-		    Context.Tasks().FlubuWebApiTasks().GetTokenTask("user", "pass");
-	    }
+        [Fact]
+        public void ResolveGetTokenTask()
+        {
+            Context.Tasks().FlubuWebApiTasks().GetTokenTask("user", "pass");
+        }
 
-	    [Fact]
-	    public void ResolveDeletePackagesTask()
-	    {
-		    Context.Tasks().FlubuWebApiTasks().DeletePackagesTask();
-	    }
+        [Fact]
+        public void ResolveDeletePackagesTask()
+        {
+            Context.Tasks().FlubuWebApiTasks().DeletePackagesTask();
+        }
 
-	    [Fact]
-	    public void ResolveUploadScriptTask()
-	    {
-		    Context.Tasks().FlubuWebApiTasks().UploadScriptTask("test");
-	    }
-	}
+        [Fact]
+        public void ResolveUploadScriptTask()
+        {
+            Context.Tasks().FlubuWebApiTasks().UploadScriptTask("test");
+        }
+
+        [Fact]
+        public void ResolveNunitWithDotCoverTask()
+        {
+            Context.Tasks().NUnitWithDotCover("test", new List<string>());
+        }
+
+        [Fact]
+        public void ResolveNunitWithDotCoverTask2()
+        {
+            Context.Tasks().NUnitWithDotCover("test", new string[2]);
+
+        }
+    }
 }
