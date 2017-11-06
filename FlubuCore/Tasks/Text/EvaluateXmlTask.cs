@@ -30,17 +30,21 @@ namespace Flubu.Tasks.Text
         /// <param name="context">The script execution environment.</param>
         protected override int DoExecute(ITaskContextInternal context)
         {
-            using (StreamReader reader = new StreamReader(xmlFileName))
+            using (FileStream fileStream = new FileStream(xmlFileName, FileMode.Open, FileAccess.Read))
             {
-                XPathDocument doc = new XPathDocument(reader);
-                XPathNavigator navigator = doc.CreateNavigator();
-
-                foreach (Expression expression in expressions)
+                using (StreamReader reader = new StreamReader(fileStream))
                 {
-                    object result = navigator.Evaluate(expression.Xpath);
-                    context.Properties.Set(expression.PropertyName, result);
+                    XPathDocument doc = new XPathDocument(reader);
+                    XPathNavigator navigator = doc.CreateNavigator();
 
-                    context.LogInfo($"Property '{expression.Xpath}': executing XPath expression '{expression.PropertyName}' evaluates to '{result}'");
+                    foreach (Expression expression in expressions)
+                    {
+                        object result = navigator.Evaluate(expression.Xpath);
+                        context.Properties.Set(expression.PropertyName, result);
+
+                        context.LogInfo(
+                            $"Property '{expression.Xpath}': executing XPath expression '{expression.PropertyName}' evaluates to '{result}'");
+                    }
                 }
             }
 
