@@ -4,6 +4,13 @@
 
 Flubu is A C# library for building projects and executing deployment scripts using C# code.
 
+| Job              | Platform     | Build status                                                                                                                                                        | 
+|-----------------------------|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Flubu | Windows| [![Build Status](http://lucidlynx.comtrade.com:8080/buildStatus/icon?job=FlubuCore)](http://lucidlynx.comtrade.com:8080/job/FlubuCore) | &nbsp;
+| Flubu runner System tests - tests on .net 461 mvc project | Windows| [![Build Status](http://lucidlynx.comtrade.com:8080/buildStatus/icon?job=FlubuCore.Runner.SystemTests)](http://lucidlynx.comtrade.com:8080/job/FlubuCore.Runner.SystemTests) | &nbsp;
+| Flubu cli tool System tests - tests on .net core 1.1 csproj project  | Windows| [![Build Status](http://lucidlynx.comtrade.com:8080/buildStatus/icon?job=FlubuCore_SystemTests_Net_Core_csproj)](http://lucidlynx.comtrade.com:8080/job/FlubuCore_SystemTests_Net_Core_csproj) | &nbsp;
+| Flubu cli tool System tests - tests on .net core 1.1  xproj project  | Windows| [![Build Status](http://lucidlynx.comtrade.com:8080/buildStatus/icon?job=FlubuCore_SystemTests_.Net_Core_xproj)](http://lucidlynx.comtrade.com:8080/job/FlubuCore_SystemTests_.Net_Core_xproj) | &nbsp;
+
 ### How do I get set up? ###
 
 * Clone repository
