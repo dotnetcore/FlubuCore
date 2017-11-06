@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
+using System.IO;
 using System.Xml;
 using FlubuCore.Context;
 
@@ -42,12 +43,15 @@ namespace FlubuCore.Tasks.Text
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(xmlFileName);
+            using (FileStream fileStream = new FileStream(xmlFileName, FileMode.Open, FileAccess.Read))
+            {
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(fileStream);
 
-            PerformVisits(context, xmlDoc);
+                PerformVisits(context, xmlDoc);
 
-            return 0;
+                return 0;
+            }
         }
 
         private void PerformVisits(ITaskContextInternal context, XmlDocument xmlDoc)
