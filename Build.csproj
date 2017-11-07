@@ -1,9 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>Build</AssemblyName>
     <PackageId>Build</PackageId>
-    <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6</PackageTargetFallback>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove=".git\**" />
@@ -73,14 +72,9 @@
     <Compile Include="BuildScript.cs" Exclude="**;bin\**;obj\**;**\*.xproj;packages\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NETStandard.Library" Version="1.6.1" />
-    <PackageReference Include="Microsoft.NETCore.App" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.2" />
-    <PackageReference Include="dotnet-flubu" Version="1.4.10" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-flubu" Version="1.4.10" />
+    <DotNetCliToolReference Include="dotnet-flubu" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="FlubuCore.WebApi\FlubuCore.WebApi.csproj" />
