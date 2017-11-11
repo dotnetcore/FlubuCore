@@ -1,4 +1,5 @@
 2.0.1.0
+- Fixed DotnetNugetPushTask
 - All dotnet core tasks that have Project argument can now be mixed with WithArgument fluent interface and BuildPropertie SolutionFileName
 - All dotnet core tasks that have Configuration argument can now be mixed with WithArgument fluent interface and BuildPropertie Configuration
 - .Project() fluent interface in net core tasks can now be used at any place and not anymore only at the begining

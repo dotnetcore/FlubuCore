@@ -138,9 +138,11 @@ public class MyBuildScript : DefaultBuildScript
 
         try
         {
-            context.CoreTasks().NugetPush($"output\\FlubuCore.WebApi.Model.{nugetVersion}.nupkg")
-                .ServerUrl("https://www.nuget.org/api/v2/package")
-                .ApiKey("8da65a4d-9409-4d1b-9759-3b604d7a34ae").Execute(context);
+            context.CoreTasks().ExecuteDotnetTask("nuget")
+                .WithArguments("push")
+                .WithArguments($"output\\FlubuCore.WebApi.Model.{nugetVersion}.nupkg")
+                .WithArguments("-s", "https://www.nuget.org/api/v2/package")
+                .WithArguments("-k", "8da65a4d-9409-4d1b-9759-3b604d7a34ae").Execute(context);
         }
         catch (Exception e)
         {
@@ -148,21 +150,25 @@ public class MyBuildScript : DefaultBuildScript
         }
 
         try
-		{
-			context.CoreTasks().NugetPush($"output\\FlubuCore.WebApi.Client.{nugetVersion}.nupkg")
-			    .ServerUrl("https://www.nuget.org/api/v2/package")
-			    .ApiKey("8da65a4d-9409-4d1b-9759-3b604d7a34ae").Execute(context);
+        {
+            context.CoreTasks().ExecuteDotnetTask("nuget")
+                .WithArguments("push")
+                .WithArguments($"output\\FlubuCore.WebApi.Client.{nugetVersion}.nupkg")
+                .WithArguments("-s", "https://www.nuget.org/api/v2/package")
+                .WithArguments("-k", "8da65a4d-9409-4d1b-9759-3b604d7a34ae").Execute(context);
         }
-		catch (Exception e)
-		{
-			Console.WriteLine($"Failed to publish FlubuCore.WebApi.Client. exception: {e.Message}");
-		}
+        catch (Exception e)
+        {
+            Console.WriteLine($"Failed to publish FlubuCore.WebApi.Client. exception: {e.Message}");
+        }
 
-		try
-		{
-            context.CoreTasks().NugetPush($"output\\FlubuCore.{nugetVersion}.nupkg")
-                .ServerUrl("https://www.nuget.org/api/v2/package")
-                .ApiKey("8da65a4d-9409-4d1b-9759-3b604d7a34ae").Execute(context);
+        try
+        {
+            context.CoreTasks().ExecuteDotnetTask("nuget")
+                .WithArguments("push")
+                .WithArguments($"output\\FlubuCore.{nugetVersion}.nupkg")
+                .WithArguments("-s", "https://www.nuget.org/api/v2/package")
+                .WithArguments("-k", "8da65a4d-9409-4d1b-9759-3b604d7a34ae").Execute(context);
         }
         catch (Exception e)
         {
@@ -171,9 +177,11 @@ public class MyBuildScript : DefaultBuildScript
 
         try
         {
-            context.CoreTasks().NugetPush(($"output\\dotnet-flubu.{nugetVersion}.nupkg"))
-           .WithArguments("-s", "https://www.nuget.org/api/v2/package")
-           .WithArguments("-k", "8da65a4d-9409-4d1b-9759-3b604d7a34ae").Execute(context);
+            context.CoreTasks().ExecuteDotnetTask("nuget")
+                .WithArguments("push")
+                .WithArguments($"output\\dotnet-flubu.{nugetVersion}.nupkg")
+                .WithArguments("-s", "https://www.nuget.org/api/v2/package")
+                .WithArguments("-k", "8da65a4d-9409-4d1b-9759-3b604d7a34ae").Execute(context);
         }
         catch (Exception e)
         {

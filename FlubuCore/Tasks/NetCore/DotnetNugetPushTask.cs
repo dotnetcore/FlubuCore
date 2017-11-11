@@ -10,8 +10,9 @@ namespace FlubuCore.Tasks.NetCore
         /// Pushes the nuget package to nuget server.
         /// </summary>
         /// <param name="packagePath">Path to nupkg</param>
-        public DotnetNugetPushTask(string packagePath) : base("nuget push")
+        public DotnetNugetPushTask(string packagePath) : base("nuget")
         {
+            WithArguments("push");
             WithArguments(packagePath);
         }
 
