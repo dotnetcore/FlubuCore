@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using FlubuCore.Context;
 
@@ -7,8 +8,6 @@ namespace FlubuCore.Tasks.NetCore
 {
     public class DotnetPackTask : ExecuteDotnetTaskBase<DotnetPackTask>
     {
-        protected bool _configurationIsSet;
-
         public DotnetPackTask() : base(StandardDotnetCommands.Pack)
         { 
         }
@@ -43,7 +42,6 @@ namespace FlubuCore.Tasks.NetCore
         public DotnetPackTask Configuration(string configuration)
         {
             WithArguments("-c", configuration);
-            _configurationIsSet = true;
             return this;
         }
 
@@ -100,7 +98,7 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override void BeforeExecute(ITaskContextInternal context)
         {
-            if (!_configurationIsSet)
+            if (!Arguments.Exists(x => x == "-c" || x == "--configuration"))
             {
                 var configuration = context.Properties.Get<string>(BuildProps.BuildConfiguration, null);
                 if (configuration != null)
@@ -108,6 +106,7 @@ namespace FlubuCore.Tasks.NetCore
                     Configuration(configuration);
                 }
             }
+
         }
     }
 }
