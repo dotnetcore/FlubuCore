@@ -1,3 +1,8 @@
+2.0.1.0
+- All dotnet core tasks that have Project argument can now be mixed with WithArgument fluent interface and BuildPropertie SolutionFileName
+- All dotnet core tasks that have Configuration argument can now be mixed with WithArgument fluent interface and BuildPropertie Configuration
+- .Project() fluent interface in net core tasks can now be used at any place and not anymore only at the begining
+
 2.0.0.0
 - dotnet flubu cli tool now also runs on .net core app 2.0
 - FlubuCore now supports .net standard 2.0
@@ -8,8 +13,8 @@
 - Added Get predefined build properties in IBuildPropertiesSession  
 - Added standard console logger parameters and standard verbosity level parameters to compile solution task
 - Updated nuget packages
-- 
 - Some other minor improvements 
+
 1.9.0.0
 - add support for setting verbosity and other logging properties for msbuild (Compile Task).  
 - Improved ServiceControlTask inteface
