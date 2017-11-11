@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetPackTask Project(string projectName)
         {
-            WithArguments(projectName);
+            Arguments.Insert(0, projectName);
             return this;
         }
 
@@ -106,7 +106,6 @@ namespace FlubuCore.Tasks.NetCore
                     Configuration(configuration);
                 }
             }
-
         }
     }
 }
