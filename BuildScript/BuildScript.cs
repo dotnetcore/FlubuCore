@@ -150,7 +150,6 @@ public class MyBuildScript : DefaultBuildScript
         try
 		{
 			context.CoreTasks().NugetPush($"output\\FlubuCore.WebApi.Client.{nugetVersion}.nupkg")
-			 .WithArguments("push")
 			    .ServerUrl("https://www.nuget.org/api/v2/package")
 			    .ApiKey("8da65a4d-9409-4d1b-9759-3b604d7a34ae").Execute(context);
         }
