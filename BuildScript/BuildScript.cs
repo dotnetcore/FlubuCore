@@ -54,28 +54,26 @@ public class MyBuildScript : DefaultBuildScript
 
         var packageWebApi = context.CreateTarget("Package.WebApi")
             .SetDescription("Prepares flubu web api deployment package.")
-            .AddTask(x => x.PackageTask("output").
-             AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp2.0\publish", "FlubuCore.WebApi", true)
-            .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
-            .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
-            .AddFileToPackage("BuildScript\\Deploy.csproj", "")
-            .AddFileToPackage("BuildScript\\Deploy.bat", "")
-            .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
-            .DisableLogging()
-            .ZipPackage("FlubuCore.WebApi", true));
-
-        var packageWebApiWin = context.CreateTarget("Package.WebApi.Win")
-            .SetDescription("Prepares flubu web api deployment package.")
-            .AddTask(x => x.PackageTask("output").
-                AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp1.1\publish", "FlubuCore.WebApi", true)
+            .AddTask(x => x.PackageTask("output")
+                .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp1.1\publish", "FlubuCore.WebApi", true)
                 .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
                 .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
-                .AddFileToPackage("output\\build.exe", "deploy.exe")
-                .AddFileToPackage("output\\build.exe.config", "deploy.exe.config")
-                .AddFileToPackage("output\\FlubuCore.dll", "")
+                .AddFileToPackage("BuildScript\\Deploy.csproj", "")
+                .AddFileToPackage("BuildScript\\Deploy.bat", "")
                 .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
                 .DisableLogging()
-                .ZipPackage("FlubuCore.WebApi-Win", true));
+                .ZipPackage("FlubuCore.WebApi-NetCoreApp1.1", true))
+            .AddTask(x => x.PackageTask("output")
+                .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp2.0\publish", "FlubuCore.WebApi", true)
+                .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
+                .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
+                .AddFileToPackage("BuildScript\\Deploy.csproj", "")
+                .AddFileToPackage("BuildScript\\Deploy.bat", "")
+                .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
+                .DisableLogging()
+                .ZipPackage("FlubuCore.WebApi-NetCoreApp2.0", true));
+
+    
 
         var flubuRunnerMerge = context.CreateTarget("merge")
             .SetDescription("Merge's all assemblyes into .net flubu console application")
