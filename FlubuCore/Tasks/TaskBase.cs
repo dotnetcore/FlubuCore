@@ -70,7 +70,7 @@ namespace FlubuCore.Tasks
         protected virtual bool LogDuration => false;
 
         /// <inheritdoc />
-        public ITask DoNotFailOnError()
+        public ITaskOfT<T> DoNotFailOnError()
         {
             DoNotFail = true;
 
