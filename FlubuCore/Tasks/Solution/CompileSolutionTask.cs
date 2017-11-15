@@ -13,9 +13,10 @@ namespace FlubuCore.Tasks.Solution
     /// <summary>
     /// Task compiles solution with MsBuild.
     /// </summary>
-    public class CompileSolutionTask : TaskBase<int>, IExternalProcess<CompileSolutionTask>
+    public class CompileSolutionTask : ExternalProcessTaskBase<CompileSolutionTask>
     {
         private readonly List<string> _msbuildPaths = new List<string>();
+        private readonly List<string> _loggingOptions = new List<string>();
 
         private readonly IFlubuEnviromentService _enviromentService;
 
@@ -23,8 +24,6 @@ namespace FlubuCore.Tasks.Solution
 
         private string _buildConfiguration;
 
-        private readonly List<string> _arguments = new List<string>();
-        private string _workingFolder;
         private bool _doNotSetConfiguration;
 
         /// <summary>
@@ -34,7 +33,6 @@ namespace FlubuCore.Tasks.Solution
         public CompileSolutionTask(IFlubuEnviromentService enviromentService)
         {
             _enviromentService = enviromentService;
-            _arguments.Add("/consoleloggerparameters:NoSummary");
         }
 
         /// <inheritdoc />
@@ -49,30 +47,9 @@ namespace FlubuCore.Tasks.Solution
            string buildConfiguration,
            IFlubuEnviromentService enviromentService) : this(enviromentService)
         {
-           _solutionFileName = solutionFileName;
-           _buildConfiguration = buildConfiguration;
+            _solutionFileName = solutionFileName;
+            _buildConfiguration = buildConfiguration;
             _enviromentService = enviromentService;
-        }
-
-        /// <summary>
-        /// Add's argument to MSBuild.
-        /// </summary>
-        /// <param name="argument">Argument to be added</param>
-        /// <returns></returns>
-        public CompileSolutionTask AddArgument(string argument)
-        {
-            _arguments.Add(argument);
-            return this;
-        }
-
-        /// <summary>
-        /// Clears all extra msbuild arguments.
-        /// </summary>
-        /// <returns></returns>
-        public CompileSolutionTask ClearAllArguments()
-        {
-            _arguments.Clear();
-            return this;
         }
 
         /// <summary>
@@ -82,21 +59,10 @@ namespace FlubuCore.Tasks.Solution
         /// <returns></returns>
         public CompileSolutionTask Platform(string platform)
         {
-            if(string.IsNullOrEmpty(platform))
+            if (string.IsNullOrEmpty(platform))
                 throw new ArgumentNullException(nameof(platform));
 
-            _arguments.Add($"/p:Platform={platform}");
-            return this;
-        }
-
-        /// <summary>
-        /// Sets working folder for compile.
-        /// </summary>
-        /// <param name="workingFolder"></param>
-        /// <returns></returns>
-        public CompileSolutionTask WorkingFolder(string workingFolder)
-        {
-            _workingFolder = workingFolder;
+            WithArguments($"/p:Platform={platform}");
             return this;
         }
 
@@ -178,7 +144,7 @@ namespace FlubuCore.Tasks.Solution
         /// </summary>
         public CompileSolutionTask WithTarget(string target)
         {
-            _arguments.Add($"/t:{target}");
+            WithArguments($"/t:{target}");
             return this;
         }
 
@@ -193,9 +159,9 @@ namespace FlubuCore.Tasks.Solution
         public bool UseSolutionDirAsWorkingDir { get; set; }
 
         /// <inheritdoc />
-        protected override int DoExecute(ITaskContextInternal context)
+        protected override void PrepareExecutableParameters(ITaskContextInternal context)
         {
-            string msbuildPath = FindMsBuildPath(context);
+            ExecutablePath = FindMsBuildPath(context);
             if (string.IsNullOrEmpty(_solutionFileName))
             {
                 _solutionFileName = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
@@ -208,25 +174,22 @@ namespace FlubuCore.Tasks.Solution
 
             Validate();
 
-            string workingFolder = UseSolutionDirAsWorkingDir && string.IsNullOrEmpty(_workingFolder)
-                ? Path.GetDirectoryName(_solutionFileName)
-                : _workingFolder ?? ".";
-
-            IRunProgramTask task = context.Tasks()
-                .RunProgramTask(msbuildPath)
-                .WorkingFolder(workingFolder)
-                .WithArguments(_solutionFileName)
-                .WithArguments(_arguments.ToArray());
-
-            if (DoNotLog)
-                task.NoLog();
-
             if (!_doNotSetConfiguration)
-                task.WithArguments($"/p:Configuration={_buildConfiguration}");
+                WithArguments($"/p:Configuration={_buildConfiguration}");
 
-            task.ExecuteVoid(context);
+            ExecuteWorkingFolder = UseSolutionDirAsWorkingDir && string.IsNullOrEmpty(ExecuteWorkingFolder)
+                ? Path.GetDirectoryName(_solutionFileName)
+                : ExecuteWorkingFolder ?? ".";
 
-            return 0;
+            InsertArgument(0, _solutionFileName);
+
+            if (_loggingOptions.Count <= 0)
+                _loggingOptions.Add("NoSummary");
+
+            WithArguments($"/clp:{string.Join(";", _loggingOptions.ToArray())}");
+
+            if (NoOutputLog)
+                WithArguments("/noconlog");
         }
 
         private string FindMsBuildPath(ITaskContextInternal context)
@@ -279,7 +242,7 @@ namespace FlubuCore.Tasks.Solution
                 if (msbuilds.TryGetValue(ToolsVersion, out msbuildPath))
                     return Path.Combine(msbuildPath, "MSBuild.exe");
 
-                KeyValuePair<Version, string> higherVersion = msbuilds.FirstOrDefault(x => x.Key > this.ToolsVersion);
+                KeyValuePair<Version, string> higherVersion = msbuilds.FirstOrDefault(x => x.Key > ToolsVersion);
                 if (higherVersion.Equals(default(KeyValuePair<Version, string>)))
                     throw new TaskExecutionException(string.Format("Requested MSBuild tools version {0} not found and there are no higher versions", ToolsVersion), 0);
                 context.LogInfo(string.Format("Requested MSBuild tools version {0} not found, using a higher version {1}", ToolsVersion, higherVersion.Key));
@@ -306,21 +269,6 @@ namespace FlubuCore.Tasks.Solution
             {
                 throw new TaskExecutionException("Build configuraiton is not set. Set it through constructor or build properties.", 0);
             }
-        }
-
-        public CompileSolutionTask WithArguments(string arg)
-        {
-            throw new NotImplementedException();
-        }
-
-        public CompileSolutionTask WithArguments(params string[] args)
-        {
-            throw new NotImplementedException();
-        }
-
-        public CompileSolutionTask DoNotLogOutput()
-        {
-            throw new NotImplementedException();
         }
     }
 }
