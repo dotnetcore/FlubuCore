@@ -122,6 +122,27 @@ namespace FlubuCore.Targeting
         }
 
         /// <summary>
+        ///     Determines whether the specified targets exists.
+        /// </summary>
+        /// <param name="targetNames">Name of the target.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified target exists; otherwise, <c>false</c>.
+        /// </returns>
+        public bool HasAllTargets(List<string> targetNames, out List<string> notFoundTargets)
+        {
+            notFoundTargets = new List<string>();
+            foreach (var targetName in targetNames)
+            {
+                if (!HasTarget(targetName))
+                {
+                    notFoundTargets.Add(targetName);
+                }
+            }
+
+            return notFoundTargets.Count == 0;
+        }
+
+        /// <summary>
         ///     Determines whether the specified target exists.
         /// </summary>
         /// <param name="targetName">Name of the target.</param>

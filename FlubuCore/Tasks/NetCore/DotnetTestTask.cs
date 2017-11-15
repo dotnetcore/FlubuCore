@@ -7,10 +7,6 @@ namespace FlubuCore.Tasks.NetCore
 {
     public class DotnetTestTask : ExecuteDotnetTaskBase<DotnetTestTask>
     {
-        protected bool _projectNameIsSet;
-
-        protected bool _configurationIsSet;
-
         public DotnetTestTask() : base(StandardDotnetCommands.Test)
         {
         }
@@ -22,8 +18,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetTestTask Project(string projectName)
         {
-            WithArguments(projectName);
-            _projectNameIsSet = true;
+            Arguments.Insert(0, projectName);
             return this;
         }
 
@@ -95,7 +90,6 @@ namespace FlubuCore.Tasks.NetCore
         public DotnetTestTask Configuration(string configuration)
         {
             WithArguments("-c", configuration);
-            _configurationIsSet = true;
             return this;
         }
 
@@ -122,16 +116,16 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override void BeforeExecute(ITaskContextInternal context)
         {
-            if (!_projectNameIsSet)
+            if (Arguments.Count == 0 || Arguments[0].StartsWith("-"))
             {
-               var solustionFileName =  context.Properties.Get<string>(BuildProps.SolutionFileName, null);
+                var solustionFileName = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
                 if (solustionFileName != null)
                 {
                     Project(solustionFileName);
                 }
             }
 
-            if (!_configurationIsSet)
+            if (!Arguments.Exists(x => x == "-c" || x == "--configuration"))
             {
                 var configuration = context.Properties.Get<string>(BuildProps.BuildConfiguration, null);
                 if (configuration != null)

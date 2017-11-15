@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using FlubuCore.Tasks.FileSystem;
 using FlubuCore.Tasks.FlubuWebApi;
 using FlubuCore.Tasks.Nuget;
@@ -112,6 +113,22 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="projectName"></param>
         /// <returns></returns>
         NUnitTask NUnitTaskByAssemblyName(params string[] testAssemblyFileName);
+
+        /// <summary>
+        /// Task will execute tests in the specified <see cref="testAssemblyFileNames"/> list of test assemblies using 
+        /// the specified NUnit test runner executable.
+        /// </summary>
+        /// <param name="nunitRunnerFileName">The file path to NUnit's console runner.</param>
+        /// <param name="testAssemblyFileNames">The list of of file paths to the assemblies containing unit tests.</param>
+        NUnitWithDotCoverTask NUnitWithDotCover(string nunitRunnerFileName, params string[] testAssemblyFileNames);
+
+        /// <summary>
+        /// Task  will execute tests in the specified <see cref="testAssemblyFileNames"/> list of test assemblies using 
+        /// the specified NUnit test runner executable.
+        /// </summary>
+        /// <param name="nunitRunnerFileName">The file path to NUnit's console runner.</param>
+        /// <param name="testAssemblyFileNames">The list of of file paths to the assemblies containing unit tests.</param>
+        NUnitWithDotCoverTask NUnitWithDotCover(string nunitRunnerFileName, IList<string> testAssemblyFileNames);
 
         ReplaceTokensTask ReplaceTokensTask(string sourceFileName);
 
@@ -277,5 +294,13 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="pathToService>path to service executable (.exe) file.</param>
         /// <returns><see cref="ServiceControlTask"/></returns>
         ServiceCreateTask CreateService(string serviceName, string pathToService);
+
+        /// <summary>
+        /// Executes specified powershell script.
+        /// </summary>
+        /// <param name="pathToPowerShellScript">Path to the power shell script file. Use .\ for relative path.</param>
+        /// <returns></returns>
+        ExecutePowerShellScriptTask ExecutePowerShellScript(string pathToPowerShellScript);
+
     }
 }

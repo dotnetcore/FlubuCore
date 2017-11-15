@@ -34,16 +34,16 @@ namespace DeploymentScript
             var json = File.ReadAllText("DeploymentConfig.json");
             config = JsonConvert.DeserializeObject<DeploymentConfig>(json);
             ValidateDeploymentConfig(config);
-            
+
             IUserRepository repository = new UserRepository();
             var hashService = new HashService();
-            
+
             repository.AddUserAsync(new User
             {
                 Username = config.Username,
                 Password = hashService.Hash(config.Password)
             });
-          
+
             context.Tasks().UpdateJsonFileTask(@".\FlubuCore.WebApi\appsettings.json")
                 .Update(new KeyValuePair<string, JValue>("WebApiSettings.AllowScriptUpload", new JValue(config.AllowScriptUpload))).Execute(context);
 
@@ -51,7 +51,7 @@ namespace DeploymentScript
                 .Update("JwtOptions.SecretKey", GenerateRandomString(30)).Execute(context);
 
             context.Tasks().CopyFileTask("Users.json", "FlubuCore.WebApi\\Users.json", true).Execute(context);
-           
+
             context.Tasks().CopyDirectoryStructureTask("FlubuCore.Webapi", config.DeploymentPath, true).Execute(context);
             context.Tasks().CreateDirectoryTask(config.DeploymentPath + "\\Packages", false).Execute(context);
             context.Tasks().CreateDirectoryTask(config.DeploymentPath + "\\Scripts", false).Execute(context);

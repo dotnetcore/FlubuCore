@@ -1,19 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <WarningsAsErrors>true</WarningsAsErrors>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AssemblyName>Flubu.Tests</AssemblyName>
     <PackageId>Flubu.Tests</PackageId>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
-    <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;dnxcore50;portable-net45+win8</PackageTargetFallback>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
 	<GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
 	<GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
 	<GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
-  <Version>1.8.2.0</Version><AssemblyVersion>1.8.2.0</AssemblyVersion><FileVersion>1.8.2.0</FileVersion></PropertyGroup>
+  <Version>2.0.2.0</Version><AssemblyVersion>2.0.2.0</AssemblyVersion><FileVersion>2.0.2.0</FileVersion></PropertyGroup>
+ 
   <ItemGroup>
     <Content Include="TestData\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -21,22 +21,21 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\dotnet-flubu\dotnet-flubu.csproj" />
-    <ProjectReference Include="..\FlubuCore\FlubuCore.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.DotNet.InternalAbstractions" Version="1.0.500-preview2-1-003177" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
-    <PackageReference Include="xunit" Version="2.2.0" />
-    <PackageReference Include="moq" Version="4.7.63" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="moq" Version="4.7.142" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta001">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Documentation.Analyser" Version="1.0.6166.19031">
       <PrivateAssets>All</PrivateAssets>
+     
     </PackageReference>
-    <PackageReference Include="Microsoft.NETCore.App" Version="1.0" />
-    <PackageReference Include="NETStandard.Library" Version="1.6.1" />
+
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />

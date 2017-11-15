@@ -5,6 +5,7 @@ using System.Linq;
 using FlubuCore.Context;
 using FlubuCore.Services;
 using FlubuCore.Tasks.Process;
+using FlubuCore.Tasks.Solution.VSSolutionBrowsing;
 
 namespace FlubuCore.Tasks.Solution
 {
@@ -123,7 +124,52 @@ namespace FlubuCore.Tasks.Solution
         /// </summary>
         public CompileSolutionTask WithMaxCpuCount(int count)
         {
-            _arguments.Add($"/maxcpucount:{count}");
+            WithArguments($"/maxcpucount:{count}");
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the logging level of console logger. See msbuild help for more details.
+        /// </summary>
+        /// <param name="level">Logging level (quiet, minimal,normal, detailed, and diagnostic)</param>
+        /// <returns></returns>
+        public CompileSolutionTask LogLevel(string level)
+        {
+            _loggingOptions.Add($"Verbosity={level}");
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the logging level of console logger. See msbuild help for more details.
+        /// </summary>
+        /// <param name="level">Logging level (quiet, minimal,normal, detailed, and diagnostic)</param>
+        /// <returns></returns>
+        public CompileSolutionTask LogLevel(StandardVerbosityLevelParameters level)
+        {
+            _loggingOptions.Add($"Verbosity={level.ToString().ToLower()}");
+            return this;
+        }
+
+        /// <summary>
+        /// Add console logger option(clp). See msbuild for more details.
+        /// </summary>
+        /// <param name="option">Option to set to the /clp parameter (NoSummary)</param>
+        /// <returns></returns>
+        public CompileSolutionTask LogOption(string option)
+        {
+            _loggingOptions.Add(option);
+            return this;
+        }
+
+
+        /// <summary>
+        /// Add console logger option(clp). See msbuild for more details.
+        /// </summary>
+        /// <param name="option">Option to set to the /clp parameter (NoSummary)</param>
+        /// <returns></returns>
+        public CompileSolutionTask LogOption(StandardConsoleLoggerParameters option)
+        {
+            _loggingOptions.Add(option.ToString());
             return this;
         }
 

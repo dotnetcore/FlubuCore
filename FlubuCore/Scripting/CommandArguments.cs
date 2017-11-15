@@ -8,7 +8,7 @@ namespace FlubuCore.Scripting
 
         public bool Help { get; set; }
 
-        public string MainCommand { get; set; }
+        public List<string> MainCommands { get; set; }
 
         public string Output { get; set; }
 
@@ -17,6 +17,8 @@ namespace FlubuCore.Scripting
         public string Script { get; set; }
 
         public List<string> TargetsToExecute { get; set; }
+
+        public bool executeTargetsInParallel { get; set; }
 
 
 	    public DictionaryWithDefault<string, string> ScriptArguments;

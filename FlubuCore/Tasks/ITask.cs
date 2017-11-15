@@ -20,11 +20,5 @@ namespace FlubuCore.Tasks
         /// <param name="context"></param>
         /// <returns></returns>
         Task ExecuteVoidAsync(ITaskContext context);
-
-        /// <summary>
-        /// Do not fail task if error occurs.
-        /// </summary>
-        /// <returns></returns>
-        ITask DoNotFailOnError();
     }
 }

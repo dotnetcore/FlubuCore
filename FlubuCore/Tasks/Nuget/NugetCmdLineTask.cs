@@ -66,7 +66,8 @@ namespace FlubuCore.Tasks.Nuget
                 return;
             }
 
-            WithArguments(_command);
+            InsertArgument(0, _command);
+       
 
             if (Verbosity.HasValue)
                 WithArguments("-Verbosity", Verbosity.ToString());

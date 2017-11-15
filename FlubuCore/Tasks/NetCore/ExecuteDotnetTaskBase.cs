@@ -6,7 +6,7 @@ namespace FlubuCore.Tasks.NetCore
 {
     public abstract class ExecuteDotnetTaskBase<TTask> : TaskBase<int> where TTask : class, ITask
     {
-        private readonly List<string> _arguments = new List<string>();
+        internal List<string> Arguments { get; } = new List<string>();
         private string _workingFolder;
         private string _dotnetExecutable;
         private bool _doNotLogOutput;
@@ -33,7 +33,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public TTask WithArguments(string arg)
         {
-            _arguments.Add(arg);
+            Arguments.Add(arg);
             return this as TTask;
         }
 
@@ -44,7 +44,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public TTask WithArguments(params string[] args)
         {
-            _arguments.AddRange(args);
+            Arguments.AddRange(args);
             return this as TTask;
         }
 
@@ -76,6 +76,8 @@ namespace FlubuCore.Tasks.NetCore
             return this as TTask;
         }
 
+     
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             string program = _dotnetExecutable;
@@ -102,7 +104,7 @@ namespace FlubuCore.Tasks.NetCore
 
             task
                 .WithArguments(Command)
-                .WithArguments(_arguments.ToArray())
+                .WithArguments(Arguments.ToArray())
                 .WorkingFolder(_workingFolder)
                 .CaptureErrorOutput()
                 .CaptureOutput()

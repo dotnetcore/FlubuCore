@@ -33,7 +33,7 @@ namespace Flubu.Tests.Commanding
         {
             var res = _parser.Parse(new[] { value });
 
-            Assert.Equal(value, res.MainCommand);
+            Assert.Equal(value, res.MainCommands[0]);
             Assert.Empty(res.RemainingCommands);
             Assert.False(res.Help);
         }
@@ -44,9 +44,9 @@ namespace Flubu.Tests.Commanding
         [InlineData("package")]
         public void ParseMultipleCommands(string value)
         {
-            var res = _parser.Parse(new[] { value, "another", "another1" });
+            var res = _parser.Parse(new[] { value, "-another", "-another1" });
 
-            Assert.Equal(value, res.MainCommand);
+            Assert.Equal(value, res.MainCommands[0]);
             Assert.Equal(2, res.RemainingCommands.Count);
             Assert.False(res.Help);
         }

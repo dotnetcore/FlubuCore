@@ -10,10 +10,6 @@ namespace FlubuCore.Tasks.NetCore
     /// </summary>
     public class DotnetBuildTask : ExecuteDotnetTaskBase<DotnetBuildTask>
     {
-        protected bool _projectNameIsSet;
-
-        protected bool _configurationIsSet;
-
         public DotnetBuildTask() : base(StandardDotnetCommands.Build)
         {
         }
@@ -25,8 +21,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetBuildTask Project(string projectName)
         {
-            _projectNameIsSet = true;
-            WithArguments(projectName);
+            Arguments.Insert(0, projectName);
             return this;
         }
 
@@ -55,7 +50,6 @@ namespace FlubuCore.Tasks.NetCore
         public DotnetBuildTask Configuration(string configuration)
         {
             WithArguments("-c", configuration);
-            _configurationIsSet = true;
             return this;
         }
 
@@ -81,7 +75,7 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override void BeforeExecute(ITaskContextInternal context)
         {
-            if (!_projectNameIsSet)
+            if (Arguments.Count == 0 || Arguments[0].StartsWith("-"))
             {
                 var solustionFileName = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
                 if (solustionFileName != null)
@@ -90,7 +84,7 @@ namespace FlubuCore.Tasks.NetCore
                 }
             }
 
-            if (!_configurationIsSet)
+            if (!Arguments.Exists(x => x == "-c" || x == "--configuration"))
             {
                 var configuration = context.Properties.Get<string>(BuildProps.BuildConfiguration, null);
                 if (configuration != null)

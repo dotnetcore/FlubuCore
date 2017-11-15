@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.IO;
 using FlubuCore.Targeting;
@@ -39,25 +40,27 @@ namespace FlubuCore.Scripting
 
         protected abstract void ConfigureTargets(ITaskContext session);
 
-        private static string ParseCmdLineArgs(ITaskContextInternal context, TargetTree targetTree)
+        private static List<string> ParseCmdLineArgs(ITaskContextInternal context, TargetTree targetTree)
         {
-            if (string.IsNullOrEmpty(context.Args.MainCommand))
+            if (context.Args.MainCommands == null || context.Args.MainCommands.Count == 0)
             {
                 return null;
             }
 
-            if (targetTree.HasTarget(context.Args.MainCommand))
+            List<string> notFoundTargets;
+            if (targetTree.HasAllTargets(context.Args.MainCommands, out notFoundTargets))
             {
-                return context.Args.MainCommand;
+                return context.Args.MainCommands;
             }
 
             if (context.Args.TreatUnknownTargetAsException)
             {
-                throw new TargetNotFoundException($"Target { context.Args.MainCommand } not found.");
+                throw new TargetNotFoundException($"Target { String.Join(" and ", notFoundTargets) } not found.");
             }
 
-            context.LogInfo($"ERROR: Target {context.Args.MainCommand} not found.");
-            return "help";
+            context.LogInfo($"ERROR: Target {String.Join(" and ", notFoundTargets)} not found.");
+            return new List<string>
+            { "help"};
         }
 
         private void RunBuild(ITaskSession taskSession)
@@ -70,13 +73,13 @@ namespace FlubuCore.Scripting
 
             ConfigureTargets(taskSession);
 
-            string targetToRun = ParseCmdLineArgs(taskSession, taskSession.TargetTree);
+            List<string> targetsToRun = ParseCmdLineArgs(taskSession, taskSession.TargetTree);
 
-            if (string.IsNullOrEmpty(targetToRun))
+            if (targetsToRun == null || targetsToRun.Count == 0)
             {
                 ITarget defaultTarget = taskSession.TargetTree.DefaultTarget;
-
-                targetToRun = defaultTarget?.TargetName ?? "help";
+                targetsToRun = new List<string>();
+                targetsToRun.Add(defaultTarget?.TargetName ?? "help");
             }
 
             taskSession.Start(s =>
@@ -99,7 +102,25 @@ namespace FlubuCore.Scripting
                 s.LogInfo(s.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
             });
 
-            taskSession.TargetTree.RunTarget(taskSession, targetToRun);
+            if (targetsToRun.Count == 1 || !taskSession.Args.executeTargetsInParallel)
+            {
+                foreach (var targetToRun in targetsToRun)
+                {
+                    taskSession.TargetTree.RunTarget(taskSession, targetToRun);
+                }
+            }
+            else
+            {
+                taskSession.LogInfo("Running target's in parallel.");
+                List<Task> tTasks = new List<Task>();
+                foreach (var targetToRun in targetsToRun)
+                {
+                    tTasks.Add(taskSession.TargetTree.RunTargetAsync(taskSession, targetToRun));
+                }
+
+                Task.WaitAll(tTasks.ToArray());
+            }
+
             AssertAllTargetDependenciesWereExecuted(taskSession);
         }
 
@@ -108,10 +129,21 @@ namespace FlubuCore.Scripting
             taskSession.SetBuildVersion(new Version(1, 0, 0, 0));
             taskSession.SetDotnetExecutable(Dotnet.FindDotnetExecutable());
             bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-            taskSession.SetOSPlatform(isWindows ? OSPlatform.Windows : OSPlatform.Linux);
-            taskSession.SetNodeExecutablePath(IOExtensions.GetNodePath(isWindows));
-            taskSession.SetProfileFolder(IOExtensions.GetUserProfileFolder(isWindows));
-            taskSession.SetNpmPath(IOExtensions.GetNpmPath(isWindows));
+            OSPlatform platform;
+            if (!isWindows)
+            {
+                bool isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+                platform = isLinux ? OSPlatform.Linux : OSPlatform.OSX;
+            }
+            else
+            {
+                platform = OSPlatform.Windows;
+            }
+
+            taskSession.SetOSPlatform(platform);
+            taskSession.SetNodeExecutablePath(IOExtensions.GetNodePath());
+            taskSession.SetProfileFolder(IOExtensions.GetUserProfileFolder());
+            taskSession.SetNpmPath(IOExtensions.GetNpmPath());
             taskSession.SetBuildDir("build");
             taskSession.SetOutputDir("output");
             taskSession.SetProductRootDir(".");

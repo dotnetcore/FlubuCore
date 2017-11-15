@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Tasks.FileSystem;
@@ -130,6 +131,18 @@ namespace FlubuCore.Context.FluentInterface
             var task = new NUnitTask();
             task.TestAssemblyFileNames.AddRange(testAssemblyFileName);
             return task;
+        }
+
+        /// <inheritdoc />
+        public NUnitWithDotCoverTask NUnitWithDotCover(string nunitRunnerFileName, params string[] testAssemblyFileNames)
+        {
+            return Context.CreateTask<NUnitWithDotCoverTask>(nunitRunnerFileName, testAssemblyFileNames);
+        }
+
+        /// <inheritdoc />
+        public NUnitWithDotCoverTask NUnitWithDotCover(string nunitRunnerFileName, IList<string> testAssemblyFileNames)
+        {
+            return Context.CreateTask<NUnitWithDotCoverTask>(nunitRunnerFileName, testAssemblyFileNames.ToArray());
         }
 
         /// <inheritdoc />
@@ -285,6 +298,11 @@ namespace FlubuCore.Context.FluentInterface
         public ServiceCreateTask CreateService(string serviceName, string pathToService)
         {
             return Context.CreateTask<ServiceCreateTask>(serviceName, pathToService);
+        }
+
+        public ExecutePowerShellScriptTask ExecutePowerShellScript(string pathToPowerShellScript)
+        {
+            return Context.CreateTask<ExecutePowerShellScriptTask>(pathToPowerShellScript);
         }
     }
 }

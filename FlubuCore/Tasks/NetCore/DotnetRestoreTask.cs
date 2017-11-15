@@ -7,16 +7,13 @@ namespace FlubuCore.Tasks.NetCore
 {
     public class DotnetRestoreTask : ExecuteDotnetTaskBase<DotnetRestoreTask>
     {
-        protected bool _projectNameIsSet;
-
         public DotnetRestoreTask() : base(StandardDotnetCommands.Restore)
         {
         }
 
         public DotnetRestoreTask Project(string projectName)
         {
-            WithArguments(projectName);
-            _projectNameIsSet = true;
+            Arguments.Insert(0, projectName);
             return this;
         }
 
@@ -106,7 +103,7 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override void BeforeExecute(ITaskContextInternal context)
         {
-            if (!_projectNameIsSet)
+            if (Arguments.Count == 0 || Arguments[0].StartsWith("-"))
             {
                 var solustionFileName = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
                 if (solustionFileName != null)

@@ -30,5 +30,11 @@ namespace FlubuCore.Tasks
         /// <returns></returns>
         ITaskOfT<T> NoLog();
 
+        /// <summary>
+        /// Do not fail task if error occurs.
+        /// </summary>
+        /// <returns></returns>
+        ITaskOfT<T> DoNotFailOnError();
+
     }
 }
