@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using FlubuCore.Context;
@@ -103,8 +102,8 @@ namespace FlubuCore.Tasks.Testing
         public NUnitTask ExcludeCategory(string category)
         {
             _categories = string.IsNullOrEmpty(_categories)
-                ? string.Format(CultureInfo.InvariantCulture, "cat != {0}", category)
-                : string.Format(CultureInfo.InvariantCulture, "{0} && cat != {1}", _categories, category);
+                ? $"cat != {category}"
+                : $"{_categories} && cat != {category}";
 
             return this;
         }
@@ -117,8 +116,8 @@ namespace FlubuCore.Tasks.Testing
         public NUnitTask IncludeCategory(string category)
         {
             _categories = string.IsNullOrEmpty(_categories)
-                ? string.Format(CultureInfo.InvariantCulture, "cat == {0}", category)
-                : string.Format(CultureInfo.InvariantCulture, "{0} || cat == {1}", _categories, category);
+                ? $"cat == {category}"
+                : $"{_categories} || cat == {category}";
 
             return this;
         }
@@ -183,8 +182,7 @@ namespace FlubuCore.Tasks.Testing
             task.WorkingFolder(_workingDirectory);
             foreach (var testAssemblyFileName in TestAssemblyFileNames)
             {
-                task.
-                WithArguments(string.Format(testAssemblyFileName));
+                task.WithArguments(string.Format(testAssemblyFileName));
             }
 
             foreach (var nunitCommandLineOption in _nunitCommandLineOptions)
@@ -196,7 +194,7 @@ namespace FlubuCore.Tasks.Testing
                 task.WithArguments($"/framework:{_targetFramework}");
 
             if (!string.IsNullOrEmpty(_categories))
-                task.WithArguments($"--where \"{_categories}\"");
+                task.WithArguments("--where", _categories);
 
             task.ExecuteVoid(context);
 
