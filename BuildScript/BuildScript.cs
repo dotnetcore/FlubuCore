@@ -74,8 +74,6 @@ public class MyBuildScript : DefaultBuildScript
                 .DisableLogging()
                 .ZipPackage("FlubuCore.WebApi-NetCoreApp2.0", true));
 
-    
-
         var flubuRunnerMerge = context.CreateTarget("merge")
             .SetDescription("Merge's all assemblyes into .net flubu console application")
             .Do(TargetMerge);
@@ -93,6 +91,10 @@ public class MyBuildScript : DefaultBuildScript
             .SetDescription("Packages .net 4.62 Flubu runner into zip.")
             .Do(TargetPackageFlubuRunner);
 
+        var packageDotnetFlubu = context.CreateTarget("package.DotnetFlubu")
+            .SetDescription("Packages .net 4.62 dotnet-flubu tool into zip.")
+            .Do(TargetPackageDotnetFlubu);
+
         context.CreateTarget("rebuild")
             .SetDescription("Rebuilds the solution")
             .SetAsDefault()
@@ -104,6 +106,7 @@ public class MyBuildScript : DefaultBuildScript
             .DependsOnAsync(pack, publishWebApi)
             .DependsOn(flubuRunnerMerge)
             .DependsOn(packageFlubuRunner)
+            .DependsOn(packageDotnetFlubu)
             .DependsOn(packageWebApi);
             ////.DependsOn(packageWebApiWin);
 
@@ -126,6 +129,16 @@ public class MyBuildScript : DefaultBuildScript
             .AddFileToPackage(@"output\build.exe.config", "flubu.runner")
             .AddFileToPackage(@"output\flubucore.dll", "flubu.runner")
             .ZipPackage("Flubu runner", true)
+            .Execute(context);
+    }
+
+    private static void TargetPackageDotnetFlubu(ITaskContext context)
+    {
+        context.CoreTasks().Publish("dotnet-flubu").Framework("netcoreapp2.0").Execute(context);
+
+        context.Tasks().PackageTask("output")
+            .AddDirectoryToPackage(@"dotnet-flubu\bin\release\netcoreapp2.0\publish", "dotnet-flubu")
+            .ZipPackage("dotnet-flubu", true)
             .Execute(context);
     }
 
