@@ -1,5 +1,6 @@
 2.0.3.0
 - Fixed NUnit Categories option
+- DoNotFailOnError is now declared in ITaskOfT interface instead in ITask
 
 2.0.2.0
 - Fixed PublishNuGetPackageTask (NugetCmdLineTask)
