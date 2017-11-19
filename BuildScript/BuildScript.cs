@@ -82,8 +82,8 @@ public class MyBuildScript : DefaultBuildScript
 
 	    var flubuTests = context.CreateTarget("test")
 		    .SetDescription("Runs all tests in solution.")
-		    .AddCoreTask(x => x.Test().Project("Flubu.Tests\\Flubu.Tests.csproj"))
-		    .AddCoreTask(x => x.Test().Project("FlubuCore.WebApi.Tests\\FlubuCore.WebApi.Tests.csproj"));
+		    .AddCoreTaskAsync(x => x.Test().Project("Flubu.Tests\\Flubu.Tests.csproj"))
+		    .AddCoreTaskAsync(x => x.Test().Project("FlubuCore.WebApi.Tests\\FlubuCore.WebApi.Tests.csproj"));
 
 		var nugetPublish = context.CreateTarget("nuget.publish")
             .Do(PublishNuGetPackage).
@@ -101,9 +101,8 @@ public class MyBuildScript : DefaultBuildScript
         context.CreateTarget("rebuild.server")
             .SetDescription("Rebuilds the solution and publishes nuget packages.")
             .DependsOn(compile, flubuTests)
-            .DependsOn(pack, publishWebApi)
+            .DependsOnAsync(pack, publishWebApi)
             .DependsOn(flubuRunnerMerge)
-            .DependsOn(nugetPublish)
             .DependsOn(packageFlubuRunner)
             .DependsOn(packageWebApi);
             ////.DependsOn(packageWebApiWin);
