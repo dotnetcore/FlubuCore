@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FlubuCore.Scripting
+﻿namespace FlubuCore.Scripting
 {
-    public class TargetNotFoundException : Exception
+    public class TargetNotFoundException : FlubuException
     {
         public TargetNotFoundException(string message) : base(message)
         {

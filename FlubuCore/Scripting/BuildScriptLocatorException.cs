@@ -2,7 +2,7 @@
 
 namespace FlubuCore.Scripting
 {
-    public class BuildScriptLocatorException : Exception
+    public class BuildScriptLocatorException : FlubuException
     {
         public BuildScriptLocatorException(string message)
             : base(message)

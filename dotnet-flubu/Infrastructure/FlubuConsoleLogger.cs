@@ -20,12 +20,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
 
         public FlubuConsoleLogger(string name)
         {
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            Name = name;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
 
             Console = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
                 ? (IConsole)new WindowsLogConsole()
@@ -34,20 +29,9 @@ namespace DotNet.Cli.Flubu.Infrastructure
 
         public IConsole Console
         {
-            get
-            {
-                return _console;
-            }
+            get => _console;
 
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-
-                _console = value;
-            }
+            set => _console = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         public string Name { get; }

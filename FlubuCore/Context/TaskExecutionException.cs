@@ -1,8 +1,6 @@
-using System;
-
 namespace FlubuCore.Context
 {
-    public class TaskExecutionException : Exception
+    public class TaskExecutionException : FlubuException
     {
         public TaskExecutionException(string message, int errorCode)
             : base(message)
@@ -10,6 +8,6 @@ namespace FlubuCore.Context
             ErrorCode = errorCode;
         }
 
-        public int ErrorCode { get; private set; }
+        public int ErrorCode { get; }
     }
 }

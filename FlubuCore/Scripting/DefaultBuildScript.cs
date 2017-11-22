@@ -18,7 +18,7 @@ namespace FlubuCore.Scripting
                 RunBuild(taskSession);
                 return 0;
             }
-            catch (TaskExecutionException e)
+            catch (FlubuException e)
             {
                 if (taskSession.Args.RethrowOnException)
                     throw;

@@ -54,7 +54,7 @@ namespace FlubuCore.Commanding
 
                 return result;
             }
-            catch (BuildScriptLocatorException e)
+            catch (FlubuException e)
             {
                 if (_args.RethrowOnException)
                     throw;
