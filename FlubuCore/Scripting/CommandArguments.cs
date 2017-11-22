@@ -8,6 +8,8 @@ namespace FlubuCore.Scripting
 
         public bool Help { get; set; }
 
+        public bool Debug { get; set; }
+
         public List<string> MainCommands { get; set; }
 
         public string Output { get; set; }

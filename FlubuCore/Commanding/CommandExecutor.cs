@@ -58,14 +58,18 @@ namespace FlubuCore.Commanding
             {
                 if (_args.RethrowOnException)
                     throw;
-                _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{e}", null, (t, ex) => t);
+
+                string exString = _args.Debug ? e.ToString() : e.Message;
+                _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{exString}", null, (t, ex) => t);
                 return StatusCodes.BuildScriptNotFound;
             }
             catch (Exception e)
             {
                 if (_args.RethrowOnException)
                     throw;
-                _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{e}", null, (t, ex) => t);
+
+                string exString = _args.Debug ? e.ToString() : e.Message;
+                _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{exString}", null, (t, ex) => t);
                 return 3;
             }
         }
