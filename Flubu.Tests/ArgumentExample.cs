@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using FlubuCore;
 using Xunit;
 
 namespace Flubu.Tests
@@ -13,18 +14,26 @@ namespace Flubu.Tests
     public class Tests
     {
         [Fact]
-        public void ValueFromArgumentTest()
+        public void StringValueFromArgumentTest()
         {
             SomeTask task = new SomeTask();
-            task.AddArgMapping(x => x.AddPath("default path"), "-p", "help bla bla");
+            task.FromArgument(x => x.AddPath("default path"), "-p", "help bla bla");
             Assert.Equal("Path from arg", task.Path);
+        }
+
+        [Fact]
+        public void IntValueFromArgumentTest()
+        {
+            SomeTask task = new SomeTask();
+            task.FromArgument(x => x.SetLevel(0), "-l", "help bla bla");
+            Assert.Equal(2, task.Level);
         }
 
         [Fact]
         public void DefaultValuetTest()
         {
             SomeTask task = new SomeTask();
-            task.AddArgMapping(x => x.AddPath("default path"), "-nonexist");
+            task.FromArgument(x => x.AddPath("default path"), "-nonexist");
             Assert.Equal("default path", task.Path);
         }
     }
@@ -34,9 +43,12 @@ namespace Flubu.Tests
         private static Dictionary<string, string> args = new Dictionary<string, string>()
         {
             { "-p", "Path from arg" },
+            { "-l", "2" },
         };
 
         public string Path { get; set; }
+
+        public int Level { get; set; }
 
         public SomeTask AddPath(string path)
         {
@@ -44,7 +56,13 @@ namespace Flubu.Tests
             return this;
         }
 
-        public void AddArgMapping(Expression<Action<SomeTask>> taskMethod, string key, string help = null)
+        public SomeTask SetLevel(int level)
+        {
+            Level = level;
+            return this;
+        }
+
+        public void FromArgument(Expression<Action<SomeTask>> taskMethod, string key, string help = null)
         {
             if (!args.ContainsKey(key))
             {
@@ -54,28 +72,9 @@ namespace Flubu.Tests
 
             string value = args[key];
             MethodParameterModifier parameterModifier = new MethodParameterModifier();
-            var newExpression = (Expression<Action<SomeTask>>) parameterModifier.Modify(taskMethod, value);
+            var newExpression = (Expression<Action<SomeTask>>) parameterModifier.Modify(taskMethod, new List<string>() { value });
             var action = newExpression.Compile();
             action.Invoke(this);
-        }
-    }
-
-    public class MethodParameterModifier : ExpressionVisitor
-    {
-        private string _value;
-
-        public Expression Modify(Expression expression, string value)
-        {
-            _value = value;
-            return Visit(expression);
-        }
-
-        protected override Expression VisitMethodCall(MethodCallExpression node)
-        {
-            List<ConstantExpression> newargs = new List<ConstantExpression>();
-            newargs.Add(Expression.Constant(_value, typeof(string)));
-            MethodCallExpression methodCallExpression = node.Update(node.Object, newargs);
-            return base.VisitMethodCall(methodCallExpression);
         }
     }
 }
