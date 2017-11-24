@@ -3,7 +3,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Linux
 {
-    public class SystemCtlTask : TaskBase<int>
+    public class SystemCtlTask : TaskBase<int, SystemCtlTask>
     {
         private readonly string _command;
         private readonly string _service;

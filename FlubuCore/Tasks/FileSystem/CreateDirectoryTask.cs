@@ -6,7 +6,7 @@ namespace FlubuCore.Tasks.FileSystem
     /// <summary>
     /// Task creates directroy
     /// </summary>
-    public class CreateDirectoryTask : TaskBase<int>
+    public class CreateDirectoryTask : TaskBase<int, CreateDirectoryTask>
     {
         private readonly bool _forceRecreate;
 

@@ -8,7 +8,7 @@ using FlubuCore.Tasks.Text;
 
 namespace FlubuCore.Tasks.Nuget
 {
-    public class PublishNuGetPackageTask : TaskBase<int>
+    public class PublishNuGetPackageTask : TaskBase<int, PublishNuGetPackageTask>
     {
         public const string DefaultNuGetApiKeyEnvVariable = "NuGetOrgApiKey";
 

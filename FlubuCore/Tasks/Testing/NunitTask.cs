@@ -15,7 +15,7 @@ namespace FlubuCore.Tasks.Testing
     /// Run NUnit tests with NUnit console runner.
     /// </summary>
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-    public class NUnitTask : TaskBase<int>
+    public class NUnitTask : TaskBase<int, NUnitTask>
     {
         private readonly List<string> _nunitCommandLineOptions = new List<string>();
 

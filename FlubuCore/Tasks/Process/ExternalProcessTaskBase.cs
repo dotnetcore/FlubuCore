@@ -3,7 +3,7 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.Process
 {
-    public abstract class ExternalProcessTaskBase<T> : TaskBase<int>, IExternalProcess<T> where T : class, ITask
+    public abstract class ExternalProcessTaskBase<TTask> : TaskBase<int, TTask>, IExternalProcess<TTask> where TTask : class, ITask
     {
         /// <summary>
         /// Arguments for the command line.
@@ -30,37 +30,37 @@ namespace FlubuCore.Tasks.Process
             return _arguments;
         }
 
-        protected T InsertArgument(int index, string arg)
+        protected TTask InsertArgument(int index, string arg)
         {
             _arguments.Insert(index, arg);
-            return this as T;
+            return this as TTask;
         }
         /// <inheritdoc />
-        public T WithArguments(string arg)
+        public TTask WithArguments(string arg)
         {
             _arguments.Add(arg);
-            return this as T;
+            return this as TTask;
         }
 
         /// <inheritdoc />
-        public T WithArguments(params string[] args)
+        public TTask WithArguments(params string[] args)
         {
             _arguments.AddRange(args);
-            return this as T;
+            return this as TTask;
         }
 
         /// <inheritdoc />
-        public T WorkingFolder(string folder)
+        public TTask WorkingFolder(string folder)
         {
             ExecuteWorkingFolder = folder;
-            return this as T;
+            return this as TTask;
         }
 
         /// <inheritdoc />
-        public T DoNotLogOutput()
+        public TTask DoNotLogOutput()
         {
             NoOutputLog = true;
-            return this as T;
+            return this as TTask;
         }
 
         /// <inheritdoc />
@@ -68,10 +68,10 @@ namespace FlubuCore.Tasks.Process
         /// Clear all arguments for command line executable.
         /// </summary>
         /// <returns></returns>
-        public T ClearArguments()
+        public TTask ClearArguments()
         {
             _arguments.Clear();
-            return this as T;
+            return this as TTask;
         }
 
         /// <inheritdoc />
@@ -80,10 +80,10 @@ namespace FlubuCore.Tasks.Process
         /// </summary>
         /// <param name="executableFullFilePath"></param>
         /// <returns></returns>
-        public T Executable(string executableFullFilePath)
+        public TTask Executable(string executableFullFilePath)
         {
             ExecutablePath = executableFullFilePath;
-            return this as T;
+            return this as TTask;
         }
 
         /// <inheritdoc />

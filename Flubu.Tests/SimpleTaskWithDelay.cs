@@ -8,7 +8,7 @@ using FlubuCore.Tasks;
 
 namespace Flubu.Tests
 {
-    public class SimpleTaskWithDelay : TaskBase<int>
+    public class SimpleTaskWithDelay : TaskBase<int, SimpleTaskWithDelay>
     {
         protected override int DoExecute(ITaskContextInternal context)
         {

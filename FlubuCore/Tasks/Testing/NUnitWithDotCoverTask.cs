@@ -25,7 +25,7 @@ namespace FlubuCore.Tasks.Testing
     /// the task skips downloading it.
     /// </para>
     /// </remarks>
-    public class NUnitWithDotCoverTask : TaskBase<int>
+    public class NUnitWithDotCoverTask : TaskBase<int, NUnitWithDotCoverTask>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NUnitWithDotCoverTask"/> class that
@@ -132,7 +132,7 @@ namespace FlubuCore.Tasks.Testing
             get { return coverageHtmlReportFileName; }
         }
 
-        protected override  int DoExecute(ITaskContextInternal context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             string dotCoverExeFileName;
             if (!EnsureDotCoverIsAvailable(context, out dotCoverExeFileName))

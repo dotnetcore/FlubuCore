@@ -7,7 +7,7 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.Nuget
 {
-    public class FindNuGetPackageInUserRepositoryTask : TaskBase<int>
+    public class FindNuGetPackageInUserRepositoryTask : TaskBase<int, FindNuGetPackageInUserRepositoryTask>
     {
         public FindNuGetPackageInUserRepositoryTask(string packageId)
         {

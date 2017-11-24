@@ -7,7 +7,7 @@ using FlubuCore.Context;
 namespace FlubuCore.Tasks.Text
 {
     /// <inheritdoc />
-    public class ReplaceTokensTask : TaskBase<int>
+    public class ReplaceTokensTask : TaskBase<int, ReplaceTokensTask>
     {
         private readonly Dictionary<string, string> _tokens = new Dictionary<string, string>();
 

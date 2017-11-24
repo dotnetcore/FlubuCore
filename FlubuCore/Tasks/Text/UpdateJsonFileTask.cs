@@ -9,7 +9,7 @@ using NuGet.Packaging;
 
 namespace FlubuCore.Tasks.Text
 {
-    public class UpdateJsonFileTask : TaskBase<int>
+    public class UpdateJsonFileTask : TaskBase<int, UpdateJsonFileTask>
     {
         private readonly string _fileName;
         private readonly Dictionary<string, JValue> _updates = new Dictionary<string, JValue>();

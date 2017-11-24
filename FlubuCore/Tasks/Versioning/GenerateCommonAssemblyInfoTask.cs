@@ -4,7 +4,7 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.Versioning
 {
-    public class GenerateCommonAssemblyInfoTask : TaskBase<int>
+    public class GenerateCommonAssemblyInfoTask : TaskBase<int, GenerateCommonAssemblyInfoTask>
     {
         private bool _generateAssemblyVersion;
         private bool _generateAssemblyVersionSet;

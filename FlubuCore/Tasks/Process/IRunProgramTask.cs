@@ -1,9 +1,8 @@
 ﻿namespace FlubuCore.Tasks.Process
 {
     /// <inheritdoc cref="ITaskOfT{T}"/>
-    public interface IRunProgramTask : ITaskOfT<int>, IExternalProcess<IRunProgramTask>
+    public interface IRunProgramTask : ITaskOfT<int, IRunProgramTask>, IExternalProcess<IRunProgramTask>
     {
-
         /// <summary>
         /// Capture output of the running program.
         /// </summary>

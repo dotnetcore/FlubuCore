@@ -8,7 +8,7 @@ namespace FlubuCore.Tasks.Utils
     /// <summary>
     /// Sleep task. Just wait for specified period of time.
     /// </summary>
-    public class SleepTask : TaskBase<int>
+    public class SleepTask : TaskBase<int, SleepTask>
     {
         private readonly TimeSpan _delay;
 

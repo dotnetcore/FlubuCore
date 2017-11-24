@@ -12,7 +12,7 @@ namespace FlubuCore.Tasks.Iis
 {
     using NuGet.Packaging;
 
-    public class CreateWebApplicationTask : IisTaskBase, ICreateWebApplicationTask
+    public class CreateWebApplicationTask : IisTaskBase<ICreateWebApplicationTask>, ICreateWebApplicationTask
     {
         private string _localPath;
 

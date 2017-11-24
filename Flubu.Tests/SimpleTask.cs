@@ -6,7 +6,7 @@ using FlubuCore.Tasks;
 
 namespace Flubu.Tests
 {
-    public class SimpleTask : TaskBase<int>
+    public class SimpleTask : TaskBase<int, SimpleTask>
     {
         protected override int DoExecute(ITaskContextInternal context)
         {

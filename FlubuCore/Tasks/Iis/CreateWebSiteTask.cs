@@ -8,7 +8,7 @@ using Microsoft.Web.Administration;
 
 namespace FlubuCore.Tasks.Iis
 {
-       public class CreateWebsiteTask : IisTaskBase, ICreateWebsiteTask
+       public class CreateWebsiteTask : IisTaskBase<ICreateWebsiteTask>, ICreateWebsiteTask
     {
         /// <summary>
         /// Name of the website

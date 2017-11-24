@@ -6,7 +6,7 @@ using FlubuCore.WebApi.Client;
 
 namespace FlubuCore.Tasks.FlubuWebApi
 {
-    public abstract class WebApiBaseTask<T, ReturnT> : TaskBase<ReturnT> where T : class
+    public abstract class WebApiBaseTask<TTask, ReturnT> : TaskBase<ReturnT, TTask> where TTask : class, ITask
     {
 	    public WebApiBaseTask(IWebApiClient webApiClient)
 	    {
@@ -19,11 +19,11 @@ namespace FlubuCore.Tasks.FlubuWebApi
 		/// </summary>
 		/// <param name="webApiUrl"></param>
 		/// <returns></returns>
-	    public T SetWebApiBaseUrl(string webApiUrl)
+	    public TTask SetWebApiBaseUrl(string webApiUrl)
 	    {
 		    WebApiClient.WebApiBaseUrl = webApiUrl;
 		    WebApiUrlSet = true;
-		    return this as T;
+		    return this as TTask;
 	    }
 
 		/// <summary>
@@ -31,10 +31,10 @@ namespace FlubuCore.Tasks.FlubuWebApi
 		/// </summary>
 		/// <param name="timeout"></param>
 		/// <returns></returns>
-	    public T SetTimeout(TimeSpan timeout)
+	    public TTask SetTimeout(TimeSpan timeout)
 	    {
 		    WebApiClient.Timeout = timeout;
-			return this as T;
+			return this as TTask;
 		}
 
 		/// <summary>
@@ -42,10 +42,10 @@ namespace FlubuCore.Tasks.FlubuWebApi
 		/// </summary>
 		/// <param name="token"></param>
 		/// <returns></returns>
-	    public T SetToken(string token)
+	    public TTask SetToken(string token)
 	    {
 		    WebApiClient.Token = token;
-		    return this as T;
+		    return this as TTask;
 	    }
 
 		protected void PrepareWebApiClient(ITaskContextInternal context)

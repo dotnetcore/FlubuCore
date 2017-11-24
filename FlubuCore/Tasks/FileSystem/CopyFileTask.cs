@@ -6,7 +6,7 @@ namespace FlubuCore.Tasks.FileSystem
     /// <summary>
     /// Copies file to specified soruce
     /// </summary>
-    public class CopyFileTask : TaskBase<int>
+    public class CopyFileTask : TaskBase<int, CopyFileTask>
     {
         private readonly string _destinationFileName;
         private readonly bool _overwrite;

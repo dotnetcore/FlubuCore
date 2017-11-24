@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FlubuCore.Tasks.Iis.Interfaces
 {
-    public interface IAddWebsiteBindingTask : ITaskOfT<int>
+    public interface IAddWebsiteBindingTask : ITaskOfT<int, IAddWebsiteBindingTask>
     {
         /// <summary>
         /// Add's binding.

@@ -10,7 +10,7 @@ namespace FlubuCore.Tasks.Text
     /// <summary>
     /// Updates an XML file using the specified update commands.
     /// </summary>
-    public class UpdateXmlFileTask : TaskBase<int>
+    public class UpdateXmlFileTask : TaskBase<int, UpdateXmlFileTask>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateXmlFileTask"/> class with

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FlubuCore.Tasks.Linux
 {
-    public class SshCommandTask : TaskBase<int>
+    public class SshCommandTask : TaskBase<int, SshCommandTask>
     {
         private readonly List<string> _commands = new List<string>();
         private readonly string _host;

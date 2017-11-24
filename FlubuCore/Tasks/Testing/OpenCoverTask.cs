@@ -8,7 +8,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace FlubuCore.Tasks.Testing
 {
-    public class OpenCoverTask : TaskBase<int>
+    public class OpenCoverTask : TaskBase<int, OpenCoverTask>
     {
         private readonly List<string> _includeList = new List<string>();
         private readonly List<string> _excludeList = new List<string>();

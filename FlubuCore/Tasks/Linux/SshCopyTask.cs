@@ -5,7 +5,7 @@ using System.IO;
 
 namespace FlubuCore.Tasks.Linux
 {
-    public class SshCopyTask : TaskBase<int>
+    public class SshCopyTask : TaskBase<int, SshCopyTask>
     {
         private readonly string _host;
         private readonly List<SourceDestinationPair> _items = new List<SourceDestinationPair>();

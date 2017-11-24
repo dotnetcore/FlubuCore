@@ -5,7 +5,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace FlubuCore.Tasks.Testing
 {
-    public class CoverageReportTask : TaskBase<int>
+    public class CoverageReportTask : TaskBase<int, CoverageReportTask>
     {
         private readonly List<string> _inputFiles = new List<string>();
         private string _toolPath = "./tools/reportgenerator/ReportGenerator.exe";

@@ -4,7 +4,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.NetCore
 {
-    public abstract class ExecuteDotnetTaskBase<TTask> : TaskBase<int> where TTask : class, ITask
+    public abstract class ExecuteDotnetTaskBase<TTask> : TaskBase<int, TTask> where TTask : class, ITask
     {
         internal List<string> Arguments { get; } = new List<string>();
         private string _workingFolder;

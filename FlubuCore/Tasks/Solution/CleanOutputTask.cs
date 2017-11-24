@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Solution.VSSolutionBrowsing;
 
 namespace FlubuCore.Tasks.Solution
 {
-    public class CleanOutputTask : TaskBase<int>
+    public class CleanOutputTask : TaskBase<int, CleanOutputTask>
     {
         private bool _cleanBuildDir;
 

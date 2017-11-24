@@ -8,7 +8,7 @@ using FlubuCore.Tasks;
 
 namespace FlubuCore.Targeting
 {
-    public class Target : TaskBase<int>, ITarget
+    public class Target : TaskBase<int, Target>, ITarget
     {
         private readonly Dictionary<string, TaskExecutionMode> _dependencies = new Dictionary<string, TaskExecutionMode>();
 

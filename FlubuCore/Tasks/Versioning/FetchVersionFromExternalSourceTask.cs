@@ -4,7 +4,7 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.Versioning
 {
-    public class FetchVersionFromExternalSourceTask : TaskBase<Version>
+    public class FetchVersionFromExternalSourceTask : TaskBase<Version, FetchVersionFromExternalSourceTask>
     {
         private readonly List<string> _environmentVariables = new List<string>
         {

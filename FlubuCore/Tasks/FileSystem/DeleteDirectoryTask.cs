@@ -4,7 +4,7 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.FileSystem
 {
-    public class DeleteDirectoryTask : TaskBase<int>
+    public class DeleteDirectoryTask : TaskBase<int, DeleteDirectoryTask>
     {
         private readonly string _directoryPath;
 

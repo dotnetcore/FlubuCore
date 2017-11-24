@@ -11,7 +11,7 @@ namespace FlubuCore.Tasks.Text
     /// <summary>
     /// Runs XPath queries on the specified XML file and provides an interface for visiting each query result.
     /// </summary>
-    public class VisitXmlFileTask : TaskBase<int>
+    public class VisitXmlFileTask : TaskBase<int, VisitXmlFileTask>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="VisitXmlFileTask"/> class with the specified

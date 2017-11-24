@@ -8,7 +8,7 @@ using Microsoft.Web.Administration;
 
 namespace FlubuCore.Tasks.Iis
 {
-    public interface ICreateWebsiteTask : ITaskOfT<int>
+    public interface ICreateWebsiteTask : ITaskOfT<int, ICreateWebsiteTask>
     {
         /// <summary>
         /// set the web site name.

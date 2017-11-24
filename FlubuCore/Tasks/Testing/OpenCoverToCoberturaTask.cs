@@ -4,7 +4,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace FlubuCore.Tasks.Testing
 {
-    public class OpenCoverToCoberturaTask : TaskBase<int>
+    public class OpenCoverToCoberturaTask : TaskBase<int, OpenCoverToCoberturaTask>
     {
         private readonly string _input;
         private readonly string _output;

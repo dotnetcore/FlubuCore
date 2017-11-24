@@ -7,7 +7,7 @@ using FlubuCore.Packaging;
 
 namespace FlubuCore.Tasks.Packaging
 {
-    public class PackageTask : TaskBase<int>
+    public class PackageTask : TaskBase<int, PackageTask>
     {
         private readonly List<SourcePackagingInfo> _sourcePackagingInfos;
         private string _destinationRootDir;

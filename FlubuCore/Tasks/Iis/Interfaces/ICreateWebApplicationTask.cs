@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FlubuCore.Tasks.Iis.Interfaces
 {
-    public interface ICreateWebApplicationTask : ITaskOfT<int>
+    public interface ICreateWebApplicationTask : ITaskOfT<int, ICreateWebApplicationTask>
     {
         ICreateWebApplicationTask Mode(CreateWebApplicationMode mode);
             

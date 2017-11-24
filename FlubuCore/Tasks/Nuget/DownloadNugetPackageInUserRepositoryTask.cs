@@ -8,7 +8,7 @@ using FlubuCore.IO;
 
 namespace FlubuCore.Tasks.Nuget
 {
-    public class DownloadNugetPackageInUserRepositoryTask : TaskBase<int>
+    public class DownloadNugetPackageInUserRepositoryTask : TaskBase<int, DownloadNugetPackageInUserRepositoryTask>
     {
         public DownloadNugetPackageInUserRepositoryTask(string packageId, Version packageVersion = null)
         {

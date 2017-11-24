@@ -7,7 +7,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace FlubuCore.Tasks.Process
 {
-    public class RunProgramTask : TaskBase<int>, IRunProgramTask
+    public class RunProgramTask : TaskBase<int, IRunProgramTask>, IRunProgramTask
     {
         private string _programToExecute;
         private readonly List<string> _arguments = new List<string>();

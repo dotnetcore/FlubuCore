@@ -5,7 +5,7 @@ using FlubuCore.Tasks.Solution;
 
 namespace FlubuCore.Tasks.Versioning
 {
-    public class FetchBuildVersionFromFileTask : TaskBase<Version>, IFetchBuildVersionTask
+    public class FetchBuildVersionFromFileTask : TaskBase<Version, FetchBuildVersionFromFileTask>, IFetchBuildVersionTask
     {
         private string _productRootDir;
         private string _productId;

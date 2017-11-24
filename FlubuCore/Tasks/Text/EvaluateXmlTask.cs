@@ -11,7 +11,7 @@ namespace Flubu.Tasks.Text
     /// <summary>
     /// Evaluates XPath expressions on a specified XML file and stores results in <seealso cref="ITaskContext"/> properties.
     /// </summary>
-    public class EvaluateXmlTask : TaskBase<int>
+    public class EvaluateXmlTask : TaskBase<int, EvaluateXmlTask>
     {
         public EvaluateXmlTask(string xmlFileName)
         {

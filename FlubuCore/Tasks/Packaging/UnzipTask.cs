@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace FlubuCore.Tasks.Packaging
 {
-    public class UnzipTask : TaskBase<int>
+    public class UnzipTask : TaskBase<int, UnzipTask>
     {
         private readonly string _fileName;
         private readonly string _destination;

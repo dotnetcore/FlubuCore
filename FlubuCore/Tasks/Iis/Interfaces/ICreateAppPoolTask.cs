@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FlubuCore.Tasks.Iis
 {
-    public interface ICreateAppPoolTask : ITaskOfT<int>
+    public interface ICreateAppPoolTask : ITaskOfT<int, CreateAppPoolTask>
     {
         /// <summary>
         /// Classic managed pipelinemode will be used instead of integrated managed pipelinemode.

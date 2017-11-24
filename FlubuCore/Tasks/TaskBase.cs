@@ -10,7 +10,7 @@ namespace FlubuCore.Tasks
     /// <summary>
     ///     A base abstract class from which tasks can be implemented.
     /// </summary>
-    public abstract class TaskBase<T> : ITaskOfT<T>
+    public abstract class TaskBase<TResult, TTask> : ITaskOfT<TResult, TTask> where TTask : class, ITask
     {
         private int _retriedTimes;
 
@@ -70,18 +70,18 @@ namespace FlubuCore.Tasks
         protected virtual bool LogDuration => false;
 
         /// <inheritdoc />
-        public ITaskOfT<T> DoNotFailOnError()
+        public TTask DoNotFailOnError()
         {
             DoNotFail = true;
 
-            return this;
+            return this as TTask;
         }
 
         /// <inheritdoc />
-        public ITaskOfT<T> NoLog()
+        public TTask NoLog()
         {
             DoNotLog = true;
-            return this;
+            return this as TTask;
         }
 
         /// <summary>
@@ -115,12 +115,12 @@ namespace FlubuCore.Tasks
         /// <param name="numberOfRetries">Number of retries before task fails.</param>
         /// <param name="delay">Delay time in miliseconds between retries.</param>
         /// <returns></returns>
-        public ITaskOfT<T> Retry(int numberOfRetries, int delay = 500)
+        public TTask Retry(int numberOfRetries, int delay = 500)
         {
             DoRetry = true;
             NumberOfRetries = numberOfRetries;
             RetryDelay = delay;
-            return this;
+            return this as TTask;
         }
 
         /// <inheritdoc />
@@ -147,7 +147,7 @@ namespace FlubuCore.Tasks
         ///     class.
         /// </remarks>
         /// <param name="context">The script execution environment.</param>
-        public T Execute(ITaskContext context)
+        public TResult Execute(ITaskContext context)
         {
             ITaskContextInternal contextInternal = (ITaskContextInternal)context;
 
@@ -171,7 +171,7 @@ namespace FlubuCore.Tasks
                 {
                     if (DoNotFail)
                     {
-                        return default(T);
+                        return default(TResult);
                     }
 
                     throw;
@@ -187,7 +187,7 @@ namespace FlubuCore.Tasks
 
                 if (DoNotFail)
                 {
-                    return default(T);
+                    return default(TResult);
                 }
 
                 throw;
@@ -205,7 +205,7 @@ namespace FlubuCore.Tasks
         }
 
         /// <inheritdoc />
-        public async Task<T> ExecuteAsync(ITaskContext context)
+        public async Task<TResult> ExecuteAsync(ITaskContext context)
         {
             ITaskContextInternal contextInternal = (ITaskContextInternal)context;
             Context = context ?? throw new ArgumentNullException(nameof(context));
@@ -257,14 +257,14 @@ namespace FlubuCore.Tasks
         /// </summary>
         /// <remarks>This method has to be implemented by the inheriting task.</remarks>
         /// <param name="context">The script execution environment.</param>
-        protected abstract T DoExecute(ITaskContextInternal context);
+        protected abstract TResult DoExecute(ITaskContextInternal context);
 
         /// <summary>
         /// Virtual method defining the actual work for a task.
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected virtual async Task<T> DoExecuteAsync(ITaskContextInternal context)
+        protected virtual async Task<TResult> DoExecuteAsync(ITaskContextInternal context)
         {
             return await Task.Run(() => DoExecute(context));
             

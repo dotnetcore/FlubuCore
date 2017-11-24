@@ -6,7 +6,7 @@ namespace FlubuCore.Tasks
     /// <summary>
     ///     Specifies basic properties and methods for a task.
     /// </summary>
-    public interface ITaskOfT<T> : ITask
+    public interface ITaskOfT<T, TTask> : ITask where TTask : ITask
     {
         /// <summary>
         ///     Executes the task using the specified script execution environment.
@@ -22,19 +22,19 @@ namespace FlubuCore.Tasks
         /// <param name="numberOfRetries">Number of retries before task fails.</param>
         /// <param name="delay">Delay time in miliseconds between retries.</param>
         /// <returns></returns>
-        ITaskOfT<T> Retry(int numberOfRetries, int delay);
+        TTask Retry(int numberOfRetries, int delay);
 
         /// <summary>
         /// Do not log messages.
         /// </summary>
         /// <returns></returns>
-        ITaskOfT<T> NoLog();
+        TTask NoLog();
 
         /// <summary>
         /// Do not fail task if error occurs.
         /// </summary>
         /// <returns></returns>
-        ITaskOfT<T> DoNotFailOnError();
+        TTask DoNotFailOnError();
 
     }
 }

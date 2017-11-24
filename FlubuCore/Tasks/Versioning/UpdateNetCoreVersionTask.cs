@@ -7,7 +7,7 @@ using FlubuCore.Tasks.Text;
 
 namespace FlubuCore.Tasks.Versioning
 {
-    public class UpdateNetCoreVersionTask : TaskBase<int>
+    public class UpdateNetCoreVersionTask : TaskBase<int, UpdateNetCoreVersionTask>
     {
         private readonly List<string> _files = new List<string>();
 

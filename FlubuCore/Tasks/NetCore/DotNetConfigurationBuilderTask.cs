@@ -6,7 +6,7 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.NetCore
 {
-    public class DotnetConfigurationBuilderTask : TaskBase<int>
+    public class DotnetConfigurationBuilderTask : TaskBase<int, DotnetConfigurationBuilderTask>
     {
         private readonly string _destinationConfiguration;
         private readonly List<string> _sourceFiles = new List<string>();
