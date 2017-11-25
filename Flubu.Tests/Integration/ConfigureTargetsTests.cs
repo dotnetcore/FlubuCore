@@ -61,7 +61,6 @@ namespace Flubu.Tests.Integration
             Assert.True(session.TargetTree.HasAllTargets(new List<string>() { "package" }, out _));
 
             Target t = (Target)session.TargetTree.GetTarget("package");
-
             Assert.Equal(4, t.Tasks.Count);
 
             Assert.Equal(2, t.Dependencies.Count);
