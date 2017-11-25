@@ -15,5 +15,11 @@ namespace Flubu.Tests
             Task.Delay(1000).Wait();
             return 0;
         }
+
+        protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
+        {
+            await Task.Delay(1000);
+            return 0;
+        }
     }
 }
