@@ -247,7 +247,7 @@ namespace FlubuCore.Tasks
                 {
                     _retriedTimes++;
                     contextInternal.LogInfo($"Task failed. Retriying for {_retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
-                    Thread.Sleep(RetryDelay);
+                    await Task.Delay(RetryDelay);
                     return await ExecuteAsync(context);
                 }
 
@@ -292,7 +292,7 @@ namespace FlubuCore.Tasks
 
             foreach (var fromArgument in _fromArguments)
             {
-                if (!Context.ScriptArgs.ContainsKey(fromArgument.ArgKey))
+                if (! Context.ScriptArgs.ContainsKey(fromArgument.ArgKey))
                 {
                     fromArgument.TaskMethod.Compile().Invoke(this as TTask);
                     return;
