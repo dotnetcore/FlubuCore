@@ -345,7 +345,7 @@ namespace Flubu.Tests.Context
         [Fact]
         public void ResolveServiceCreateTask()
         {
-            Context.Tasks().CreateService("ServiceName", "c:\\tmp\\myservice.exe");
+            Context.Tasks().CreateWindowsService("ServiceName", "c:\\tmp\\myservice.exe");
         }
 
         [Fact]
