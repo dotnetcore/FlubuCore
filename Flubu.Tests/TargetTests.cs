@@ -56,7 +56,7 @@ namespace Flubu.Tests
         }
 
         [Fact]
-        public void ExecuteTargetWithAsyncTaskTest()
+        public async Task ExecuteTargetWithAsyncTaskTest()
         {
             TargetTree targetTree = _provider.GetService<TargetTree>();
 
@@ -64,12 +64,12 @@ namespace Flubu.Tests
 
             target1.AddTaskAsync(new SimpleTask(new FlubuEnviromentService()));
 
-            target1.ExecuteVoid(Context);
+            await target1.ExecuteVoidAsync(Context);
         }
 
 
         [Fact]
-        public void ExecuteTargetWith2AsyncTaskTest()
+        public async Task ExecuteTargetWith2AsyncTaskTest()
         {
             TargetTree targetTree = _provider.GetService<TargetTree>();
 
@@ -79,7 +79,7 @@ namespace Flubu.Tests
             Stopwatch sw = new Stopwatch();
 
             sw.Start();
-            target1.ExecuteVoid(Context);
+            await target1.ExecuteVoidAsync(Context);
             sw.Stop();
 
             var elapsed = sw.Elapsed;
@@ -105,7 +105,7 @@ namespace Flubu.Tests
         }
 
         [Fact]
-        public void ExecuteTargetWith2Async1Sync2Test()
+        public async Task ExecuteTargetWith2Async1Sync2Test()
         {
             TargetTree targetTree = _provider.GetService<TargetTree>();
 
@@ -117,7 +117,7 @@ namespace Flubu.Tests
             Stopwatch sw = new Stopwatch();
 
             sw.Start();
-            target1.ExecuteVoid(Context);
+            await target1.ExecuteVoidAsync(Context);
             sw.Stop();
 
             Assert.True(sw.ElapsedMilliseconds > 2000);
@@ -125,7 +125,7 @@ namespace Flubu.Tests
         }
 
         [Fact]
-        public void ExecuteTargetWith2Async1Sync2AsyncTest()
+        public async Task ExecuteTargetWith2Async1Sync2AsyncTest()
         {
             TargetTree targetTree = _provider.GetService<TargetTree>();
 
@@ -137,7 +137,7 @@ namespace Flubu.Tests
             Stopwatch sw = new Stopwatch();
 
             sw.Start();
-            target1.ExecuteVoid(Context);
+            await  target1.ExecuteVoidAsync(Context);
             sw.Stop();
 
             Assert.True(sw.ElapsedMilliseconds > 3000);
@@ -145,7 +145,7 @@ namespace Flubu.Tests
         }
 
         [Fact]
-        public void DependsOnAsyncTargetTest()
+        public async Task DependsOnAsyncTargetTest()
         {
             TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" } });
 
@@ -159,7 +159,7 @@ namespace Flubu.Tests
 
             sw.Start();
 
-            target3.ExecuteVoid(Context);
+            await target3.ExecuteVoidAsync(Context);
             sw.Stop();
 
             Assert.Equal(2, targetTree.DependenciesExecutedCount);
