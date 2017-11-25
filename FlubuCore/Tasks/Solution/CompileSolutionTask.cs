@@ -26,6 +26,10 @@ namespace FlubuCore.Tasks.Solution
 
         private bool _doNotSetConfiguration;
 
+        private bool _useSolutionDirAsWorkingDir;
+
+        private Version _toolsVersion;
+
         /// <summary>
         /// Task compiles specified solution with MSBuild.
         /// </summary>
@@ -151,12 +155,37 @@ namespace FlubuCore.Tasks.Solution
         /// <summary>
         /// Msbuild version to be used for build.
         /// </summary>
-        public Version ToolsVersion { get; set; }
+        [Obsolete("Use fluent interface instead", true)]
+        public Version ToolsVersion
+        {
+            get => _toolsVersion;
+            set => _toolsVersion = value;
+        }
+
+        /// <summary>
+        /// Msbuild version to be used for build.
+        /// </summary>
+        public CompileSolutionTask SetToolsVersion(Version version)
+        {
+            _toolsVersion = version;
+            return this;
+        }
 
         /// <summary>
         /// Should we use solution directory for working folder
         /// </summary>
+        [Obsolete("Use fluent interface instead", true)]
         public bool UseSolutionDirAsWorkingDir { get; set; }
+
+        /// <summary>
+        /// Solution directory is used for working directory.
+        /// </summary>
+        /// <returns></returns>
+        public CompileSolutionTask UseSolutionDirectoryAsWorkingDir()
+        {
+            _useSolutionDirAsWorkingDir = true;
+            return this;
+        }
 
         /// <inheritdoc />
         protected override void PrepareExecutableParameters(ITaskContextInternal context)
@@ -177,7 +206,7 @@ namespace FlubuCore.Tasks.Solution
             if (!_doNotSetConfiguration)
                 WithArguments($"/p:Configuration={_buildConfiguration}");
 
-            ExecuteWorkingFolder = UseSolutionDirAsWorkingDir && string.IsNullOrEmpty(ExecuteWorkingFolder)
+            ExecuteWorkingFolder = _useSolutionDirAsWorkingDir && string.IsNullOrEmpty(ExecuteWorkingFolder)
                 ? Path.GetDirectoryName(_solutionFileName)
                 : ExecuteWorkingFolder ?? ".";
 
@@ -237,15 +266,15 @@ namespace FlubuCore.Tasks.Solution
             if (msbuilds == null || msbuilds.Count == 0)
                 throw new TaskExecutionException("No MSBuild tools found on the system", 0);
 
-            if (ToolsVersion != null)
+            if (_toolsVersion != null)
             {
-                if (msbuilds.TryGetValue(ToolsVersion, out msbuildPath))
+                if (msbuilds.TryGetValue(_toolsVersion, out msbuildPath))
                     return Path.Combine(msbuildPath, "MSBuild.exe");
 
-                KeyValuePair<Version, string> higherVersion = msbuilds.FirstOrDefault(x => x.Key > ToolsVersion);
+                KeyValuePair<Version, string> higherVersion = msbuilds.FirstOrDefault(x => x.Key > _toolsVersion);
                 if (higherVersion.Equals(default(KeyValuePair<Version, string>)))
-                    throw new TaskExecutionException(string.Format("Requested MSBuild tools version {0} not found and there are no higher versions", ToolsVersion), 0);
-                context.LogInfo(string.Format("Requested MSBuild tools version {0} not found, using a higher version {1}", ToolsVersion, higherVersion.Key));
+                    throw new TaskExecutionException(string.Format("Requested MSBuild tools version {0} not found and there are no higher versions", _toolsVersion), 0);
+                context.LogInfo(string.Format("Requested MSBuild tools version {0} not found, using a higher version {1}", _toolsVersion, higherVersion.Key));
                 msbuildPath = higherVersion.Value;
             }
             else
