@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using System.Threading;
@@ -13,6 +15,8 @@ namespace FlubuCore.Tasks
     public abstract class TaskBase<TResult, TTask> : ITaskOfT<TResult, TTask> where TTask : class, ITask
     {
         private int _retriedTimes;
+
+        private List<(Expression<Action<TTask>> TaskMethod, string ArgKey)> _fromArguments = new List<(Expression<Action<TTask>> TaskMethod, string ArgKey)>();
 
         /// <summary>
         ///     Gets a value indicating whether this instance is safe to execute in dry run mode.
@@ -81,6 +85,13 @@ namespace FlubuCore.Tasks
         public TTask NoLog()
         {
             DoNotLog = true;
+            return this as TTask;
+        }
+
+
+        public TTask FromArgument(Expression<Action<TTask>> taskMethod, string argKey, string help = null)
+        {
+            _fromArguments.Add((taskMethod, argKey));
             return this as TTask;
         }
 
@@ -163,6 +174,7 @@ namespace FlubuCore.Tasks
 
             try
             {
+                InvokeFromMethods();
                 return DoExecute(contextInternal);
             }
             catch (Exception)
@@ -221,6 +233,7 @@ namespace FlubuCore.Tasks
 
             try
             {
+                InvokeFromMethods();
                 return await DoExecuteAsync(contextInternal);
             }
             catch (Exception)
@@ -268,6 +281,29 @@ namespace FlubuCore.Tasks
         {
             return await Task.Run(() => DoExecute(context));
             
+        }
+
+        private void InvokeFromMethods()
+        {
+            if (_fromArguments.Count == 0)
+            {
+                return;
+            }
+
+            foreach (var fromArgument in _fromArguments)
+            {
+                if (! Context.ScriptArgs.ContainsKey(fromArgument.ArgKey))
+                {
+                    fromArgument.TaskMethod.Compile().Invoke(this as TTask);
+                    return;
+                }
+
+                string value = Context.ScriptArgs[fromArgument.ArgKey];
+                MethodParameterModifier parameterModifier = new MethodParameterModifier();
+                var newExpression = (Expression<Action<TTask>>)parameterModifier.Modify(fromArgument.TaskMethod, new List<string>() { value });
+                var action = newExpression.Compile();
+                action.Invoke(this as TTask);
+            }
         }
     }
 }
