@@ -6,8 +6,6 @@ namespace FlubuCore.Tasks
 {
     public interface ITask
     {
-        Stopwatch TaskStopwatch { get; }
-
         /// <summary>
         ///     Executes the task using the specified script execution environment.
         /// </summary>

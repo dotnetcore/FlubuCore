@@ -93,9 +93,13 @@ namespace FlubuCore.Scripting
 
                 foreach (ITarget target in sortedTargets.Values)
                 {
-                    if (target.TaskStopwatch.ElapsedTicks > 0)
+                    var targt = target as Target;
+                    if (targt == null) continue;
+
+                    if (targt.TaskStopwatch.ElapsedTicks > 0)
                     {
-                        s.LogInfo($"Target {target.TargetName} took {(int)target.TaskStopwatch.Elapsed.TotalSeconds} s");
+                        s.LogInfo(
+                            $"Target {target.TargetName} took {(int) targt.TaskStopwatch.Elapsed.TotalSeconds} s");
                     }
                 }
 
