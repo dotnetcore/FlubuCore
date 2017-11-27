@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore;
+using FlubuCore.Context;
 using FlubuCore.Services;
 using Moq;
 using Xunit;
@@ -64,7 +65,7 @@ namespace Flubu.Tests.Tasks
         }
 
 
-        [Fact(Skip = "Not implemented yet")]
+        [Fact]
         public void FromArgument_StringValueFromArgumentToIntParameter_Throws()
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
@@ -73,7 +74,8 @@ namespace Flubu.Tests.Tasks
             });
 
             _task.FromArgument(x => x.SetLevel(-1), "-l", "help bla bla");
-            _task.Execute(Context.Object);
+            var ex =  Assert.Throws<TaskExecutionException>(() =>  _task.Execute(Context.Object));
+            Assert.Equal("Parameter 'Int32 level' in method 'SetLevel' can not be modified with value 'abc'", ex.Message);
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using FlubuCore.Context;
@@ -300,9 +301,23 @@ namespace FlubuCore.Tasks
 
                 string value = Context.ScriptArgs[fromArgument.ArgKey];
                 MethodParameterModifier parameterModifier = new MethodParameterModifier();
-                var newExpression = (Expression<Action<TTask>>)parameterModifier.Modify(fromArgument.TaskMethod, new List<string>() { value });
-                var action = newExpression.Compile();
-                action.Invoke(this as TTask);
+                try
+                {
+                    var newExpression = (Expression<Action<TTask>>)parameterModifier.Modify(fromArgument.TaskMethod, new List<string>() { value });
+                    var action = newExpression.Compile();
+                    action.Invoke(this as TTask);
+                }
+                catch (FormatException e)
+                {
+                   var methodInfo = ((MethodCallExpression) fromArgument.TaskMethod.Body).Method;
+                   var parameters =  methodInfo.GetParameters().ToList();
+                    if (parameters.Count == 1)
+                    {
+                        throw new TaskExecutionException(
+                            $"Parameter '{parameters[0].ParameterType.Name} {parameters[0].Name}' in method '{methodInfo.Name}' can not be modified with value '{value}'",
+                            0, e);
+                    }
+                }
             }
         }
     }
