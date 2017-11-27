@@ -47,6 +47,7 @@ namespace Flubu.Tests.Tasks
             Assert.Equal(2, _task.Level);
         }
 
+
         [Fact]
         public void FromArgument_DefaultValue_Succesfull()
         {
