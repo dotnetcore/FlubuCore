@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using FlubuCore.Tasks;
 using FlubuCore.Tasks.FileSystem;
-using FlubuCore.Tasks.FlubuWebApi;
 using FlubuCore.Tasks.Nuget;
 using FlubuCore.Tasks.Packaging;
 using FlubuCore.Tasks.Process;
@@ -302,5 +302,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns></returns>
         ExecutePowerShellScriptTask ExecutePowerShellScript(string pathToPowerShellScript);
 
+
+        DoTask Do(Action<ITaskContextInternal> action);
     }
 }
