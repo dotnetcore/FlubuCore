@@ -314,7 +314,7 @@ namespace FlubuCore.Tasks
                     if (parameters.Count == 1)
                     {
                         throw new TaskExecutionException(
-                            $"Parameter '{parameters[0].ParameterType.Name} {parameters[0].Name}' in method '{methodInfo.Name}' can not be modified with value '{value}'",
+                            $"Parameter '{parameters[0].ParameterType.Name} {parameters[0].Name}' in method '{methodInfo.Name}' can not be modified with value '{value}' from argument '{fromArgument.ArgKey}'.",
                             0, e);
                     }
                 }

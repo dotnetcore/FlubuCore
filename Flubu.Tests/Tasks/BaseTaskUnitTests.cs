@@ -66,7 +66,7 @@ namespace Flubu.Tests.Tasks
 
 
         [Fact]
-        public void FromArgument_StringValueFromArgumentToIntParameter_Throws()
+        public void FromArgument_StringValueFromArgumentToIntParameter_ThrowsTaskExecutionException()
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
@@ -75,7 +75,7 @@ namespace Flubu.Tests.Tasks
 
             _task.FromArgument(x => x.SetLevel(-1), "-l", "help bla bla");
             var ex =  Assert.Throws<TaskExecutionException>(() =>  _task.Execute(Context.Object));
-            Assert.Equal("Parameter 'Int32 level' in method 'SetLevel' can not be modified with value 'abc'", ex.Message);
+            Assert.Equal("Parameter 'Int32 level' in method 'SetLevel' can not be modified with value 'abc' from argument '-l'.", ex.Message);
         }
     }
 }
