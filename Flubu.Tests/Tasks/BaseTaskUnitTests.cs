@@ -39,11 +39,11 @@ namespace Flubu.Tests.Tasks
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
-                { "-l", "2" }
+                {"-l", "2"}
             });
 
             _task.FromArgument(x => x.SetLevel(0), "-l", "help bla bla");
-          
+
             _task.Execute(Context.Object);
             Assert.Equal(2, _task.Level);
         }
@@ -54,7 +54,7 @@ namespace Flubu.Tests.Tasks
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
-                { "-l", "2" },
+                {"-l", "2"},
             });
 
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
@@ -70,12 +70,56 @@ namespace Flubu.Tests.Tasks
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
-                { "-l", "abc" }
+                {"-l", "abc"}
             });
 
             _task.FromArgument(x => x.SetLevel(-1), "-l", "help bla bla");
-            var ex =  Assert.Throws<TaskExecutionException>(() =>  _task.Execute(Context.Object));
-            Assert.Equal("Parameter 'Int32 level' in method 'SetLevel' can not be modified with value 'abc' from argument '-l'.", ex.Message);
+            var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
+            Assert.Equal(
+                "Parameter 'Int32 level' in method 'SetLevel' can not be modified with value 'abc' from argument '-l'.",
+                ex.Message);
+            Assert.Equal(21, ex.ErrorCode);
+        }
+
+        [Fact]
+        public void FromArgument_DisabledOnExecute_ThrowsTaskExecutionException()
+        {
+            _task.FromArgument(x => x.Execute(Context.Object), "-t");
+            var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
+            Assert.Equal("FromArgument is not allowed on method 'Execute'.", ex.Message);
+            Assert.Equal(20, ex.ErrorCode);
+        }
+
+        [Fact]
+        public void FromArgument_DisabledOnExecuteAsync_ThrowsTaskExecutionException()
+        {
+            _task.FromArgument(x => x.ExecuteAsync(Context.Object), "-t");
+            var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
+            Assert.Equal(20, ex.ErrorCode);
+        }
+
+        [Fact]
+        public void FromArgument_DisabledOnExecuteVoid_ThrowsTaskExecutionException()
+        {
+            _task.FromArgument(x => x.ExecuteVoid(Context.Object), "-t");
+            var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
+            Assert.Equal(20, ex.ErrorCode);
+        }
+
+        [Fact]
+        public void FromArgument_DisabledOnExecuteVoidAsync_ThrowsTaskExecutionException()
+        {
+            _task.FromArgument(x => x.ExecuteVoidAsync(Context.Object), "-t");
+            var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
+            Assert.Equal(20, ex.ErrorCode);
+        }
+
+        [Fact]
+        public void FromArgument_DisabledOnFromArgument_ThrowsTaskExecutionException()
+        {
+            _task.FromArgument(x => x.FromArgument(null, "t", "test"), "-t");
+            var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
+            Assert.Equal(20, ex.ErrorCode);
         }
     }
 }

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using System.Threading;
+using FlubuCore.Tasks.Attributes;
 
 namespace FlubuCore.Tasks
 {
@@ -18,19 +20,11 @@ namespace FlubuCore.Tasks
         private int _retriedTimes;
 
         private List<(Expression<Action<TTask>> TaskMethod, string ArgKey)> _fromArguments = new List<(Expression<Action<TTask>> TaskMethod, string ArgKey)>();
-
-        /// <summary>
-        ///     Gets a value indicating whether this instance is safe to execute in dry run mode.
-        /// </summary>
-        /// <value>
-        ///     <c>true</c> if this instance is safe to execute in dry run mode; otherwise, <c>false</c>.
-        /// </value>
-        public virtual bool IsSafeToExecuteInDryRun => false;
-
+        
         /// <summary>
         /// Stopwatch for timings.
         /// </summary>
-        public Stopwatch TaskStopwatch { get; } = new Stopwatch();
+        internal Stopwatch TaskStopwatch { get; } = new Stopwatch();
 
         /// <summary>
         /// Message that will be displayed when executing task.
@@ -89,7 +83,7 @@ namespace FlubuCore.Tasks
             return this as TTask;
         }
 
-
+        [DisableFromArgument]
         public TTask FromArgument(Expression<Action<TTask>> taskMethod, string argKey, string help = null)
         {
             _fromArguments.Add((taskMethod, argKey));
@@ -136,12 +130,14 @@ namespace FlubuCore.Tasks
         }
 
         /// <inheritdoc />
+        [DisableFromArgument]
         public void ExecuteVoid(ITaskContext context)
         {
             Execute(context);
         }
 
         /// <inheritdoc />
+        [DisableFromArgument]
         public async Task ExecuteVoidAsync(ITaskContext context)
         {
             await ExecuteAsync(context);
@@ -159,6 +155,7 @@ namespace FlubuCore.Tasks
         ///     class.
         /// </remarks>
         /// <param name="context">The script execution environment.</param>
+        [DisableFromArgument]
         public TResult Execute(ITaskContext context)
         {
             ITaskContextInternal contextInternal = (ITaskContextInternal)context;
@@ -218,6 +215,7 @@ namespace FlubuCore.Tasks
         }
 
         /// <inheritdoc />
+        [DisableFromArgument]
         public async Task<TResult> ExecuteAsync(ITaskContext context)
         {
             ITaskContextInternal contextInternal = (ITaskContextInternal)context;
@@ -293,6 +291,17 @@ namespace FlubuCore.Tasks
 
             foreach (var fromArgument in _fromArguments)
             {
+                var methodCallExpression = fromArgument.TaskMethod.Body as MethodCallExpression;
+                if (methodCallExpression != null)
+                {
+                    var attribute = methodCallExpression.Method.GetCustomAttribute<DisableFromArgumentAttribute>();
+
+                    if (attribute != null)
+                    {
+                        throw new TaskExecutionException($"FromArgument is not allowed on method '{methodCallExpression.Method.Name}'.", 20);
+                    }
+                }
+
                 if (! Context.ScriptArgs.ContainsKey(fromArgument.ArgKey))
                 {
                     fromArgument.TaskMethod.Compile().Invoke(this as TTask);
@@ -315,7 +324,7 @@ namespace FlubuCore.Tasks
                     {
                         throw new TaskExecutionException(
                             $"Parameter '{parameters[0].ParameterType.Name} {parameters[0].Name}' in method '{methodInfo.Name}' can not be modified with value '{value}' from argument '{fromArgument.ArgKey}'.",
-                            0, e);
+                            21, e);
                     }
                 }
             }
