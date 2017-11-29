@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using Flubu.Tasks.Text;
 using FlubuCore.Context;
 using FlubuCore.IO;
 using FlubuCore.Tasks.Nuget;
@@ -41,6 +40,19 @@ namespace FlubuCore.Tasks.Testing
 
             this.nunitRunnerFileName = nunitRunnerFileName;
             this.testAssemblyFileNames = testAssemblyFileNames;
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes NUnit unit tests with dot cover on assemblies: {testAssemblyFileNames.Concat(x => x, ", ")}";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         /// <summary>
@@ -362,5 +374,6 @@ namespace FlubuCore.Tasks.Testing
         private string dotCoverAttributeFilters = "*.ExcludeFromCodeCoverageAttribute";
         private string nunitCmdLineOptions = "/labels /nodots";
         private bool failBuildOnViolations = true;
+        private string _description;
     }
 }

@@ -10,8 +10,23 @@ namespace FlubuCore.Tasks.NetCore
     /// </summary>
     public class DotnetBuildTask : ExecuteDotnetTaskBase<DotnetBuildTask>
     {
+        private string _description;
+
         public DotnetBuildTask() : base(StandardDotnetCommands.Build)
         {
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes dotnet command Build.";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         /// <summary>

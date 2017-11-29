@@ -14,6 +14,8 @@ namespace FlubuCore.Tasks.Linux
             _service = service;
         }
 
+        protected override string Description { get; set; }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             IRunProgramTask task = context

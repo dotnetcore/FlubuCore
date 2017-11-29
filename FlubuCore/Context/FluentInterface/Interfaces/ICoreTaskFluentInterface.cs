@@ -26,7 +26,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         ExecuteDotnetTask ExecuteDotnetTask(StandardDotnetCommands command);
 
         /// <summary>
-        /// Updates the version in csproj / project.json file
+        /// Updates the version in csproj or project.json file
         /// </summary>
         /// <param name="files">The project files to update.</param>
         /// <returns></returns>

@@ -2,13 +2,29 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
+using Renci.SshNet.Messages;
 
 namespace FlubuCore.Tasks.NetCore
 {
     public class DotnetTestTask : ExecuteDotnetTaskBase<DotnetTestTask>
     {
+        private string _description;
+
         public DotnetTestTask() : base(StandardDotnetCommands.Test)
         {
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes dotnet command Test";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         /// <summary>

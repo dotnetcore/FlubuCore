@@ -19,12 +19,26 @@ namespace FlubuCore.Tasks.Process
         private bool _captureOutput;
         private bool _captureErrorOutput;
         private bool _doNotLogOutput;
+        private string _description;
 
         /// <inheritdoc />
         public RunProgramTask(ICommandFactory commandFactory, string programToExecute)
         {
             _commandFactory = commandFactory;
             _programToExecute = programToExecute;
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Runs program '{_programToExecute}'";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         /// <inheritdoc />

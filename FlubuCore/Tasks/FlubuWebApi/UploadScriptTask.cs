@@ -11,12 +11,27 @@ namespace FlubuCore.Tasks.FlubuWebApi
     public class UploadScriptTask : WebApiBaseTask<UploadScriptTask, int>
     {
 	    private readonly string _scriptFilePath;
-	    public UploadScriptTask(IWebApiClient webApiClient, string scriptFIlePath) : base(webApiClient)
+        private string _description;
+
+        public UploadScriptTask(IWebApiClient webApiClient, string scriptFIlePath) : base(webApiClient)
 	    {
 		    _scriptFilePath = scriptFIlePath;
 	    }
 
-		protected override int DoExecute(ITaskContextInternal context)
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Upload flubu script {_scriptFilePath} tp flubu server {WebApiClient.WebApiBaseUrl}";
+                }
+                return _description;
+            }
+            set { _description = value; }
+        }
+
+        protected override int DoExecute(ITaskContextInternal context)
 	    {
 		    Task<int> task = DoExecuteAsync(context);
 

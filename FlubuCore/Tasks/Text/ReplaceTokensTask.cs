@@ -18,11 +18,25 @@ namespace FlubuCore.Tasks.Text
         private Encoding _destinationEncoding = Encoding.UTF8;
         private Encoding _sourceEncoding = Encoding.UTF8;
         private bool _useTmpFile;
+        private string _description;
 
         /// <inheritdoc />
         public ReplaceTokensTask(string sourceFileName)
         {
             _sourceFileName = sourceFileName;
+        }
+        
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Replaces tokens in file '{_sourceFileName}' to file '{_destinationFileName}";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         /// <summary>

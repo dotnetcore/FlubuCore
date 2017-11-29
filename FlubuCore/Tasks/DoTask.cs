@@ -12,6 +12,8 @@ namespace FlubuCore.Tasks
             _taskAction = taskAction;
         }
 
+        protected override string Description { get; set; }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             _taskAction.Invoke(context);
@@ -30,6 +32,8 @@ namespace FlubuCore.Tasks
             _taskAction = taskAction;
             _param = param;
         }
+
+        protected override string Description { get; set; }
 
         protected override int DoExecute(ITaskContextInternal context)
         {
@@ -52,6 +56,8 @@ namespace FlubuCore.Tasks
             _param = param;
             _param2 = param2;
         }
+
+        protected override string Description { get; set; }
 
         protected override int DoExecute(ITaskContextInternal context)
         {
@@ -77,6 +83,8 @@ namespace FlubuCore.Tasks
             _param2 = param2;
             _param3 = param3;
         }
+
+        protected override string Description { get; set; }
 
         protected override int DoExecute(ITaskContextInternal context)
         {
@@ -105,6 +113,8 @@ namespace FlubuCore.Tasks
             _param3 = param3;
             _param4 = param4;
         }
+
+        protected override string Description { get; set; }
 
         protected override int DoExecute(ITaskContextInternal context)
         {
@@ -136,6 +146,8 @@ namespace FlubuCore.Tasks
             _param4 = param4;
             _param5 = param5;
         }
+
+        protected override string Description { get; set; }
 
         protected override int DoExecute(ITaskContextInternal context)
         {

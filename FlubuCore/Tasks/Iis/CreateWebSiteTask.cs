@@ -35,10 +35,24 @@ namespace FlubuCore.Tasks.Iis
         private IList<MimeType> _mimeTypes;
 
         private CreateWebApplicationMode _siteMode = CreateWebApplicationMode.DoNothingIfExists;
+        private string _description;
 
         public CreateWebsiteTask()
         {
             _mimeTypes = new List<MimeType>();
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Creates web site {_webSiteName}";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         public CreateWebsiteBindingProtocol WebsiteName(string siteName)

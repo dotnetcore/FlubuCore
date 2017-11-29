@@ -38,6 +38,8 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         private string _targetFramework;
 
+        private string _description;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="NUnitTask"/> class.
         /// </summary>
@@ -47,6 +49,19 @@ namespace FlubuCore.Tasks.Testing
         {
             _nunitConsoleFileName = nunitConsoleFileName;
             _projectNames = projectNames;
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes NUnit unit tests. Assemblyes:'{string.Join(",", TestAssemblyFileNames)}', Projects:{string.Join(",", _projectNames)}";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         /// <summary>

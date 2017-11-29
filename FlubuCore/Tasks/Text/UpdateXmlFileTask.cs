@@ -22,6 +22,19 @@ namespace FlubuCore.Tasks.Text
             this.fileName = fileName;
         }
 
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Update XML file '{fileName}'";
+                }
+                return _description;
+            }
+            set { _description = value; }
+        }
+
         /// <summary>
         /// Adds an "update" command to the list of commands to be performed on the XML file.
         /// </summary>
@@ -287,6 +300,7 @@ namespace FlubuCore.Tasks.Text
         private readonly Dictionary<string, string> xpathUpdates = new Dictionary<string, string> ();
         private readonly List<string> xpathDeletes = new List<string> ();
         private readonly List<UpdateXmlFileTaskAddition> xpathAdditions = new List<UpdateXmlFileTaskAddition> ();
+        private string _description;
 
         internal class UpdateXmlFileTaskAddition
         {

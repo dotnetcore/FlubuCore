@@ -12,6 +12,8 @@ namespace FlubuCore.Tasks.Versioning
             "BUILD_NUMBER"
         };
 
+        protected override string Description { get; set; }
+
         protected override Version DoExecute(ITaskContextInternal context)
         {
             Version newVer = null;

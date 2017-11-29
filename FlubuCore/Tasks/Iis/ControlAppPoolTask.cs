@@ -17,6 +17,7 @@ namespace FlubuCore.Tasks.Iis
         private ControlApplicationPoolAction _action;
 
         private bool _failIfNotExist;
+        private string _description;
 
         public ControlAppPoolTask(string applicationPoolName, ControlApplicationPoolAction action)
         {
@@ -29,7 +30,20 @@ namespace FlubuCore.Tasks.Iis
             this._failIfNotExist = true;
             return this;
         }
-        
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"{_action.ToString()}s application pool {_applicationPoolName}.";
+                }
+                return _description;
+            }
+            set { _description = value; }
+        }
+
 
         protected override int DoExecute(ITaskContextInternal context)
         {

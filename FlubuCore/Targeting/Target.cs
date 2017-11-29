@@ -18,8 +18,6 @@ namespace FlubuCore.Targeting
 
         private readonly TargetTree _targetTree;
 
-        private string _description;
-
         internal Target(TargetTree targetTree, string targetName, CommandArguments args)
         {
             _targetTree = targetTree;
@@ -31,11 +29,8 @@ namespace FlubuCore.Targeting
 
         public List<Tuple<ITask, TaskExecutionMode>> Tasks => _tasks;
 
-        /// <summary>
-        ///     Gets the description of the target.
-        /// </summary>
-        /// <value>The description of the target.</value>
-        public string Description => _description;
+
+        string ITarget.Description { get; }
 
         /// <summary>
         ///     Gets a value indicating whether this target is hidden. Hidden targets will not be
@@ -48,6 +43,7 @@ namespace FlubuCore.Targeting
 
         protected override bool LogDuration => true;
 
+        protected override string Description { get; set; }
         protected override string DescriptionForLog => TargetName;
 
         /// <summary>
@@ -188,7 +184,7 @@ namespace FlubuCore.Targeting
         /// <returns>this target</returns>
         public ITarget SetDescription(string description)
         {
-            _description = description;
+            Description = description;
             return this;
         }
 

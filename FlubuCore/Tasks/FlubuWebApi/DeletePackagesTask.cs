@@ -9,11 +9,26 @@ namespace FlubuCore.Tasks.FlubuWebApi
 {
     public class DeletePackagesTask : WebApiBaseTask<DeletePackagesTask, int>
     {
-	    public DeletePackagesTask(IWebApiClient webApiClient) : base(webApiClient)
+        private string _description;
+
+        public DeletePackagesTask(IWebApiClient webApiClient) : base(webApiClient)
 	    {
 	    }
 
-		protected override int DoExecute(ITaskContextInternal context)
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Deletes all previously uploaded packages from flubu server '{WebApiClient.WebApiBaseUrl}'.";
+                }
+                return _description;
+            }
+            set { _description = value; }
+        }
+
+        protected override int DoExecute(ITaskContextInternal context)
 		{
 			Task<int> task = DoExecuteAsync(context);
 

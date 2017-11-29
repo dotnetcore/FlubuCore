@@ -26,6 +26,8 @@ namespace FlubuCore.Tasks
         /// </summary>
         internal Stopwatch TaskStopwatch { get; } = new Stopwatch();
 
+        protected abstract string Description { get; set; }
+
         /// <summary>
         /// Message that will be displayed when executing task.
         /// </summary>
@@ -87,6 +89,13 @@ namespace FlubuCore.Tasks
         public TTask FromArgument(Expression<Action<TTask>> taskMethod, string argKey, string help = null)
         {
             _fromArguments.Add((taskMethod, argKey));
+            return this as TTask;
+        }
+
+        [DisableFromArgument]
+        public TTask FromArgument(Expression<Func<TTask, object>> member, string argKey, string help = null)
+        {
+            ////_fromArguments.Add((member, argKey));
             return this as TTask;
         }
 

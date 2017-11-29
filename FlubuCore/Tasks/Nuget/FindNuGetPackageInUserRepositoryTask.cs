@@ -29,6 +29,8 @@ namespace FlubuCore.Tasks.Nuget
             get { return packageDirectory; }
         }
 
+        protected override string Description { get; set; }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             packageVersion = null;

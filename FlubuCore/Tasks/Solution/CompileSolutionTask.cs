@@ -29,6 +29,7 @@ namespace FlubuCore.Tasks.Solution
         private bool _useSolutionDirAsWorkingDir;
 
         private Version _toolsVersion;
+        private string _description;
 
         /// <summary>
         /// Task compiles specified solution with MSBuild.
@@ -54,6 +55,19 @@ namespace FlubuCore.Tasks.Solution
             _solutionFileName = solutionFileName;
             _buildConfiguration = buildConfiguration;
             _enviromentService = enviromentService;
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Compiles solution {_solutionFileName} in {_buildConfiguration} mode.";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         /// <summary>

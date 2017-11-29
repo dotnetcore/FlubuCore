@@ -47,11 +47,25 @@ namespace FlubuCore.Tasks.Iis
         private CreateWebApplicationMode mode = CreateWebApplicationMode.FailIfAlreadyExists;
 
         private string applicationName;
+        private string _description;
 
         public CreateWebApplicationTask(string applicationName)
         {
             this.mimeTypes = new List<MimeType>();
             this.applicationName = applicationName;
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Creates web application {applicationName}";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         public ICreateWebApplicationTask Mode(CreateWebApplicationMode mode)

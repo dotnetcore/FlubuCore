@@ -11,9 +11,23 @@ namespace FlubuCore.Tasks.NetCore
     public class DotnetPublishTask : ExecuteDotnetTaskBase<DotnetPublishTask>
     {
         protected bool _configurationIsSet;
+        private string _description;
 
         public DotnetPublishTask() : base(StandardDotnetCommands.Publish)
         {
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes dotnet command Publish";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         /// <summary>

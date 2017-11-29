@@ -11,6 +11,7 @@ namespace FlubuCore.Tasks.Utils
     public class SleepTask : TaskBase<int, SleepTask>
     {
         private readonly TimeSpan _delay;
+        private string _description;
 
         /// <summary>
         /// Constructs new <see cref="SleepTask"/>
@@ -28,6 +29,19 @@ namespace FlubuCore.Tasks.Utils
         public SleepTask(TimeSpan delay)
         {
             _delay = delay;
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Sleeps for {_delay.Milliseconds} in milliseconds";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         /// <inheritdoc />

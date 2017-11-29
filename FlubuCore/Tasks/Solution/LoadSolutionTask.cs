@@ -5,6 +5,8 @@ namespace FlubuCore.Tasks.Solution
 {
     public class LoadSolutionTask : TaskBase<int, LoadSolutionTask>
     {
+        private string _description;
+
         /// <summary>
         /// Task load's solution to <see cref="TaskContextSession"/> solution file name is retieved from <see cref="TaskContextSession"/>
         /// </summary>
@@ -15,6 +17,19 @@ namespace FlubuCore.Tasks.Solution
         public LoadSolutionTask(string solutionFile)
         {
             SolutionFile = solutionFile;
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Loads solution {SolutionFile}";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         public string SolutionFile { get; private set; }

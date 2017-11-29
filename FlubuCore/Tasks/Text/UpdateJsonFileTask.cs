@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.WebApi.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NuGet.Packaging;
@@ -16,10 +17,24 @@ namespace FlubuCore.Tasks.Text
         private string _output;
         private bool _failIfNotFound = true;
         private bool _failOnTypeMismatch;
+        private string _description;
 
         public UpdateJsonFileTask(string fileName)
         {
             _fileName = fileName;
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Updates json file '{_fileName}'";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         /// <summary>

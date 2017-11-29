@@ -16,12 +16,26 @@ namespace FlubuCore.Tasks.Versioning
         private readonly IFileWrapper _file;
 
         private Version _version;
+        private string _description;
 
         public UpdateNetCoreVersionTask(IPathWrapper pathWrapper, IFileWrapper filWrapper, string file)
         {
             _file = filWrapper;
             _pathWrapper = pathWrapper;
             _files.Add(file);
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Updates version, AssemblyVersion and FileVersion in csproj/project.json {_file} to {_version.ToString(3)}";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         internal List<string> AdditionalProperties { get; } = new List<string>();

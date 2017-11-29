@@ -14,11 +14,25 @@ namespace FlubuCore.Tasks.Solution
     public class CleanOutputTask : TaskBase<int, CleanOutputTask>
     {
         private bool _cleanBuildDir;
+        private string _description;
 
         public CleanOutputTask CleanBuildDir()
         {
             this._cleanBuildDir = true;
             return this;
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Cleans project outputs in solution";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         protected override int DoExecute(ITaskContextInternal context)

@@ -41,6 +41,19 @@ namespace FlubuCore.Tasks.Text
             return this;
         }
 
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Update XML file '{xmlFileName}";
+                }
+                return _description;
+            }
+            set { _description = value; }
+        }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             using (FileStream fileStream = new FileStream(xmlFileName, FileMode.Open, FileAccess.Read))
@@ -62,6 +75,7 @@ namespace FlubuCore.Tasks.Text
 
         private readonly string xmlFileName;
         private readonly List<Visitor> visitors = new List<Visitor>();
+        private string _description;
 
         private class Visitor
         {

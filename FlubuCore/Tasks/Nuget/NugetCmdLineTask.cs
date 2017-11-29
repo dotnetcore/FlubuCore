@@ -11,11 +11,25 @@ namespace FlubuCore.Tasks.Nuget
         private const string PackagesDirName = "packages";
         
         private readonly string _command;
+        private string _description;
 
         public NuGetCmdLineTask(string command, string workingDirectory = null) 
         {
             _command = command;
             ExecuteWorkingFolder = workingDirectory;
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Execute NuGet command line tool (command='{_command}')'";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         /// <summary>

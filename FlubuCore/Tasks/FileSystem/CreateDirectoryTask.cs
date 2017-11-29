@@ -9,6 +9,7 @@ namespace FlubuCore.Tasks.FileSystem
     public class CreateDirectoryTask : TaskBase<int, CreateDirectoryTask>
     {
         private readonly bool _forceRecreate;
+        private string _description;
 
         /// <summary>
         /// Task creates directory at the given location.
@@ -19,6 +20,19 @@ namespace FlubuCore.Tasks.FileSystem
         {
             DirectoryPath = directoryPath;
             _forceRecreate = forceRecreate;
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Creates directory {DirectoryPath}";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         protected string DirectoryPath { get; set; }

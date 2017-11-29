@@ -81,6 +81,8 @@ namespace FlubuCore.Tasks.FileSystem
             return this;
         }
 
+        protected override string Description { get; set; }
+
         /// <summary>
         ///     Internal task execution code.
         /// </summary>

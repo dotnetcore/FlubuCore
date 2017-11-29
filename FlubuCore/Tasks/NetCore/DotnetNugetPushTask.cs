@@ -6,6 +6,8 @@ namespace FlubuCore.Tasks.NetCore
 {
     public class DotnetNugetPushTask : ExecuteDotnetTaskBase<DotnetNugetPushTask>
     {
+        private string _description;
+
         /// <summary>
         /// Pushes the nuget package to nuget server.
         /// </summary>
@@ -15,6 +17,20 @@ namespace FlubuCore.Tasks.NetCore
             WithArguments("push");
             WithArguments(packagePath);
         }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes dotnet command Nuget Push";
+                }
+                return _description;
+            }
+            set { _description = value; }
+        }
+
 
         /// <summary>
         ///  Specifies the server URL

@@ -7,8 +7,23 @@ namespace FlubuCore.Tasks.NetCore
 {
     public class DotnetCleanTask : ExecuteDotnetTaskBase<DotnetCleanTask>
     {
+        private string _description;
+
         public DotnetCleanTask() : base(StandardDotnetCommands.Clean)
         {
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes dotnet command Clean";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         /// <summary>
