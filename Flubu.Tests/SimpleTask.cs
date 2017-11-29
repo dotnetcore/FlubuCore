@@ -32,6 +32,8 @@ namespace Flubu.Tests
             _flubuEnviromentService = flubuEnviromentService;
         }
 
+        protected override string Description { get; set; }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             _flubuEnviromentService.ListAvailableMSBuildToolsVersions();
