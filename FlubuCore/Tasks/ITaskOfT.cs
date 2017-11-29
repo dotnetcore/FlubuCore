@@ -40,5 +40,7 @@ namespace FlubuCore.Tasks
 
         TTask FromArgument(Expression<Action<TTask>> taskMethod, string argKey, string help = null);
 
+        TTask SetDescription(string description);
+
     }
 }

@@ -92,37 +92,11 @@ namespace FlubuCore.Tasks
             return this as TTask;
         }
 
-        [DisableFromArgument]
-        public TTask FromArgument(Expression<Func<TTask, object>> member, string argKey, string help = null)
+        public TTask SetDescription(string description)
         {
-            ////_fromArguments.Add((member, argKey));
+            Description = description;
             return this as TTask;
         }
-
-        /// <summary>
-        /// Log info if task logging is not disabled.
-        /// </summary>
-        /// <param name="message"></param>
-        protected void DoLogInfo(string message)
-        {
-            if (DoNotLog || Context == null)
-                return;
-
-            Context.LogInfo(message);
-        }
-
-        /// <summary>
-        /// Log error if task logging is not disabled.
-        /// </summary>
-        /// <param name="message"></param>
-        protected void DoLogError(string message)
-        {
-            if (DoNotLog || Context == null)
-                return;
-
-            Context.LogError(message);
-        }
-
 
         /// <inheritdoc />
         /// <summary>
@@ -288,7 +262,30 @@ namespace FlubuCore.Tasks
         protected virtual async Task<TResult> DoExecuteAsync(ITaskContextInternal context)
         {
             return await Task.Run(() => DoExecute(context));
-            
+        }
+
+        /// <summary>
+        /// Log info if task logging is not disabled.
+        /// </summary>
+        /// <param name="message"></param>
+        protected void DoLogInfo(string message)
+        {
+            if (DoNotLog || Context == null)
+                return;
+
+            Context.LogInfo(message);
+        }
+
+        /// <summary>
+        /// Log error if task logging is not disabled.
+        /// </summary>
+        /// <param name="message"></param>
+        protected void DoLogError(string message)
+        {
+            if (DoNotLog || Context == null)
+                return;
+
+            Context.LogError(message);
         }
 
         private void InvokeFromMethods()
