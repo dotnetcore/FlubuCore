@@ -40,6 +40,11 @@ namespace FlubuCore.Tasks
 
         TTask FromArgument(Expression<Action<TTask>> taskMethod, string argKey, string help = null);
 
+        /// <summary>
+        /// Overrides default task description.
+        /// </summary>
+        /// <param name="description"></param>
+        /// <returns></returns>
         TTask SetDescription(string description);
 
     }

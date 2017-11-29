@@ -49,20 +49,6 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void FromArgument_Property_Succesfull()
-        {
-            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
-            {
-                {"-l", "2"}
-            });
-
-            _task.FromArgument(x => x.Level == 5, "-l", "help bla bla");
-
-            _task.Execute(Context.Object);
-            Assert.Equal(2, _task.Level);
-        }
-
-        [Fact]
         public void FromArgument_DefaultValue_Succesfull()
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()

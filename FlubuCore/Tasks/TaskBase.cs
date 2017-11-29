@@ -21,6 +21,8 @@ namespace FlubuCore.Tasks
 
         private List<(Expression<Action<TTask>> TaskMethod, string ArgKey)> _fromArguments = new List<(Expression<Action<TTask>> TaskMethod, string ArgKey)>();
         
+        internal Dictionary<string, string> ArgumentHelp { get;  } = new Dictionary<string, string>();
+
         /// <summary>
         /// Stopwatch for timings.
         /// </summary>
@@ -89,12 +91,11 @@ namespace FlubuCore.Tasks
         public TTask FromArgument(Expression<Action<TTask>> taskMethod, string argKey, string help = null)
         {
             _fromArguments.Add((taskMethod, argKey));
-            return this as TTask;
-        }
+            if (!string.IsNullOrEmpty(help))
+            {
+                ArgumentHelp.Add(argKey, help);
+            }
 
-        public TTask SetDescription(string description)
-        {
-            Description = description;
             return this as TTask;
         }
 
@@ -109,6 +110,12 @@ namespace FlubuCore.Tasks
             DoRetry = true;
             NumberOfRetries = numberOfRetries;
             RetryDelay = delay;
+            return this as TTask;
+        }
+
+        public TTask SetDescription(string description)
+        {
+            Description = description;
             return this as TTask;
         }
 
@@ -308,7 +315,7 @@ namespace FlubuCore.Tasks
                     }
                 }
 
-                if (! Context.ScriptArgs.ContainsKey(fromArgument.ArgKey))
+                if (!Context.ScriptArgs.ContainsKey(fromArgument.ArgKey))
                 {
                     fromArgument.TaskMethod.Compile().Invoke(this as TTask);
                     return;
