@@ -27,7 +27,7 @@
     <file src="..\output\FlubuCore.dll" target="content\temp" /> 
     <file src="..\output\Build.exe" target="content\temp" />
 	<file src="..\output\Build.exe.config" target="content\temp" />
-    <file src="..\FlubuCore\Scripting\BuildScript.cs" target="content" /> 
+    <file src="..\FlubuCore\BuildScript.cs" target="content" /> 
 	<file src="..\nuget\tools\Install.ps1" target="tools\Install.ps1" />
     <file src="..\Nuget\readme.txt" target="" /> 
   </files>
