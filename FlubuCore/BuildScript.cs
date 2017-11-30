@@ -1,6 +1,7 @@
 ﻿using FlubuCore.Context;
+using FlubuCore.Scripting;
 
-namespace FlubuCore.Scripting
+namespace FlubuCore
 {
     /// <summary>
     /// Build script template.
