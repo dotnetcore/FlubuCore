@@ -1,3 +1,6 @@
+2.0.6.0 
+- Fixed PublishNugetPackageTask when using newer version of nuget.exe
+
 2.0.5.0
 - Fixed BuildScript template for Flubu.Runner
 
