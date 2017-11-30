@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using FlubuCore.Context;
 
 namespace FlubuCore.Tasks
@@ -35,6 +37,8 @@ namespace FlubuCore.Tasks
         /// </summary>
         /// <returns></returns>
         TTask DoNotFailOnError();
+
+        TTask FromArgument(Expression<Action<TTask>> taskMethod, string argKey, string help = null);
 
     }
 }
