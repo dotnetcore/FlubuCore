@@ -91,7 +91,7 @@ namespace FlubuCore.Tasks.Nuget
             context.LogInfo($"Preparing the {destNuspecFile} file");
 
             new ReplaceTokensTask(_nuspecFileName)
-                .Replace("version", context.Properties.GetBuildVersion().ToString())
+                .Replace("version", context.Properties.GetBuildVersion().ToString(3))
                 .UseToken("$")
                 .ToDestination(destNuspecFile.ToString())
                 .ExecuteVoid(context);
@@ -115,7 +115,7 @@ namespace FlubuCore.Tasks.Nuget
                 CultureInfo.InvariantCulture,
                 "{0}.{1}.nupkg",
                 _packageId,
-                context.Properties.GetBuildVersion());
+                context.Properties.GetBuildVersion().ToString(3));
             context.LogInfo($"NuGet package file {nupkgFileName} created");
 
             // do not push new packages from a local build
