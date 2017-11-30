@@ -83,8 +83,8 @@ namespace Flubu.Tests
             sw.Stop();
 
             var elapsed = sw.Elapsed;
-            Assert.True(sw.ElapsedMilliseconds > 1000);
-            Assert.True(sw.ElapsedMilliseconds < 1999);
+            Assert.True(sw.ElapsedMilliseconds > 1000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds < 1999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
         [Fact]
@@ -101,7 +101,7 @@ namespace Flubu.Tests
             target1.ExecuteVoid(Context);
             sw.Stop();
 
-            Assert.True(sw.ElapsedMilliseconds > 2000);
+            Assert.True(sw.ElapsedMilliseconds > 2000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
         [Fact]
@@ -120,8 +120,8 @@ namespace Flubu.Tests
             await target1.ExecuteVoidAsync(Context);
             sw.Stop();
 
-            Assert.True(sw.ElapsedMilliseconds > 2000);
-            Assert.True(sw.ElapsedMilliseconds < 2999);
+            Assert.True(sw.ElapsedMilliseconds > 2000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds < 2999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
         [Fact]
@@ -140,8 +140,8 @@ namespace Flubu.Tests
             await  target1.ExecuteVoidAsync(Context);
             sw.Stop();
 
-            Assert.True(sw.ElapsedMilliseconds > 3000);
-            Assert.True(sw.ElapsedMilliseconds < 3999);
+            Assert.True(sw.ElapsedMilliseconds > 3000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds < 3999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
         [Fact]
@@ -164,8 +164,8 @@ namespace Flubu.Tests
 
             Assert.Equal(2, targetTree.DependenciesExecutedCount);
 
-            Assert.True(sw.ElapsedMilliseconds > 1000);
-            Assert.True(sw.ElapsedMilliseconds < 1999);
+            Assert.True(sw.ElapsedMilliseconds > 1000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds < 1999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
         [Fact]
@@ -193,7 +193,7 @@ namespace Flubu.Tests
 
             Assert.Equal(2, targetTree.DependenciesExecutedCount);
 
-            Assert.True(sw.ElapsedMilliseconds > 2000);
+            Assert.True(sw.ElapsedMilliseconds > 2000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
     }
 }
