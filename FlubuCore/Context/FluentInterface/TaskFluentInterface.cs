@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using FlubuCore.Context.FluentInterface.Interfaces;
-using FlubuCore.Tasks;
 using FlubuCore.Tasks.FileSystem;
 using FlubuCore.Tasks.Nuget;
 using FlubuCore.Tasks.Packaging;
@@ -304,11 +303,6 @@ namespace FlubuCore.Context.FluentInterface
         public ExecutePowerShellScriptTask ExecutePowerShellScript(string pathToPowerShellScript)
         {
             return Context.CreateTask<ExecutePowerShellScriptTask>(pathToPowerShellScript);
-        }
-
-        public DoTask Do(Action<ITaskContextInternal> action)
-        {
-            return Context.CreateTask<DoTask>(action);
         }
     }
 }
