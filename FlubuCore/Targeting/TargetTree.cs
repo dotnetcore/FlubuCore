@@ -6,6 +6,7 @@ using FlubuCore.Context;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Task = System.Threading.Tasks.Task;
 
 namespace FlubuCore.Targeting
 {
@@ -24,7 +25,7 @@ namespace FlubuCore.Targeting
 
             AddTarget("help")
                 .SetDescription("Displays the available targets in the build")
-                .Do(TargetHelp);
+                .Do(TargetsHelp);
 
             AddTarget("tasks")
                 .SetDescription("Displays all registered tasks")
@@ -186,6 +187,17 @@ namespace FlubuCore.Targeting
             await target.ExecuteVoidAsync(taskContext);
         }
 
+        public void RunTargetHelp(ITaskContextInternal taskContext, string targetName)
+        {
+            if (!_targets.ContainsKey(targetName))
+            {
+                throw new ArgumentException($"The target '{targetName}' does not exist");
+            }
+
+            Target target = _targets[targetName] as Target;
+            target.TargetHelp(taskContext);
+        }
+
         public void SetDefaultTarget(ITarget target)
         {
             DefaultTarget = target;
@@ -195,7 +207,7 @@ namespace FlubuCore.Targeting
         ///     The target for displaying help in the command line.
         /// </summary>
         /// <param name="context">The task context.</param>
-        public void TargetHelp(ITaskContextInternal context)
+        public void TargetsHelp(ITaskContextInternal context)
         {
             context.LogInfo("Targets:");
 

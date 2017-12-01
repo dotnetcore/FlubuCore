@@ -244,6 +244,18 @@ namespace FlubuCore.Targeting
             return this;
         }
 
+        public void TargetHelp(ITaskContextInternal context)
+        {
+            _targetTree.MarkTargetAsExecuted(this);
+            context.LogInfo($"{TargetName} help");
+            context.LogInfo($"{TargetName} will execute next tasks:");
+            for ( int i = 0; i < _tasks.Count; i++)
+            {
+                var task = (TaskHelp)_tasks[i].Item1;
+               task.LogTaskHelp(context);
+            }
+        }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             if (_targetTree == null)
@@ -265,7 +277,7 @@ namespace FlubuCore.Targeting
             }
 
             int n = _tasks.Count;
-            List<Task> tTasks = new List<Task>();
+            List<System.Threading.Tasks.Task> tTasks = new List<System.Threading.Tasks.Task>();
             for (int i = 0; i < n; i++)
             { 
                 context.LogInfo($"Executing task {_tasks[i].Item1.GetType().Name}");
@@ -281,14 +293,14 @@ namespace FlubuCore.Targeting
                     {
                         if (_tasks[i + 1].Item2 != TaskExecutionMode.Synchronous) continue;
                         if (tTasks.Count <= 0) continue;
-                        Task.WaitAll(tTasks.ToArray());
-                        tTasks = new List<Task>();
+                        System.Threading.Tasks.Task.WaitAll(tTasks.ToArray());
+                        tTasks = new List<System.Threading.Tasks.Task>();
                     }
                     else
                     {
                         if (tTasks.Count > 0)
                         {
-                            Task.WaitAll(tTasks.ToArray());
+                            System.Threading.Tasks.Task.WaitAll(tTasks.ToArray());
                         }
                     }
                 }

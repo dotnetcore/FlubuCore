@@ -13,6 +13,7 @@ using FlubuCore.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit;
+using Task = System.Threading.Tasks.Task;
 
 namespace Flubu.Tests
 {

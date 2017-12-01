@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using FlubuCore.Context;
 using System.Threading;
 using FlubuCore.Tasks.Attributes;
+using Microsoft.Build.Utilities;
+using Task = System.Threading.Tasks.Task;
 
 namespace FlubuCore.Tasks
 {
@@ -15,7 +17,7 @@ namespace FlubuCore.Tasks
     /// <summary>
     ///     A base abstract class from which tasks can be implemented.
     /// </summary>
-    public abstract class TaskBase<TResult, TTask> : ITaskOfT<TResult, TTask> where TTask : class, ITask
+    public abstract class TaskBase<TResult, TTask> : TaskHelp, ITaskOfT<TResult, TTask> where TTask : class, ITask
     {
         private int _retriedTimes;
 
@@ -128,7 +130,7 @@ namespace FlubuCore.Tasks
 
         /// <inheritdoc />
         [DisableFromArgument]
-        public async Task ExecuteVoidAsync(ITaskContext context)
+        public async System.Threading.Tasks.Task ExecuteVoidAsync(ITaskContext context)
         {
             await ExecuteAsync(context);
         }
@@ -236,7 +238,7 @@ namespace FlubuCore.Tasks
                 {
                     _retriedTimes++;
                     contextInternal.LogInfo($"Task failed. Retriying for {_retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
-                    await Task.Delay(RetryDelay);
+                    await System.Threading.Tasks.Task.Delay(RetryDelay);
                     return await ExecuteAsync(context);
                 }
 
@@ -254,6 +256,18 @@ namespace FlubuCore.Tasks
             }
         }
 
+        public override void LogTaskHelp(ITaskContext context)
+        {
+            context.LogInfo(string.Empty);
+            context.LogInfo($"TaskName: {Description}");
+            context.LogInfo(string.Empty);
+            context.LogInfo("Task arguments:");
+            foreach (var argument in ArgumentHelp)
+            {
+                context.LogInfo($"    {argument.Key}    {argument.Value}");
+            }
+        }
+
         /// <summary>
         ///     Abstract method defining the actual work for a task.
         /// </summary>
@@ -268,7 +282,7 @@ namespace FlubuCore.Tasks
         /// <returns></returns>
         protected virtual async Task<TResult> DoExecuteAsync(ITaskContextInternal context)
         {
-            return await Task.Run(() => DoExecute(context));
+            return await System.Threading.Tasks.Task.Run(() => DoExecute(context));
         }
 
         /// <summary>
@@ -342,5 +356,10 @@ namespace FlubuCore.Tasks
                 }
             }
         }
+    }
+
+    public abstract class TaskHelp
+    {
+        public abstract void LogTaskHelp(ITaskContext context);
     }
 }

@@ -106,6 +106,11 @@ namespace FlubuCore.Scripting
                 s.LogInfo(s.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
             });
 
+            if (targetsToRun.Count == 2 && targetsToRun[1].Equals("help", StringComparison.OrdinalIgnoreCase))
+            {
+                
+            }
+
             if (targetsToRun.Count == 1 || !taskSession.Args.executeTargetsInParallel)
             {
                 foreach (var targetToRun in targetsToRun)

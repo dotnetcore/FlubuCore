@@ -17,6 +17,6 @@ namespace FlubuCore.Tasks
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        Task ExecuteVoidAsync(ITaskContext context);
+        System.Threading.Tasks.Task ExecuteVoidAsync(ITaskContext context);
     }
 }
