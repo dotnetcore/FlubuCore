@@ -276,13 +276,19 @@ namespace FlubuCore.Tasks
 
         public override void LogTaskHelp(ITaskContext context)
         {
+            context.LogInfo(" ");
             context.LogInfo(string.Empty);
             context.LogInfo($"{TaskName}: {Description}");
+            if (ArgumentHelp == null || ArgumentHelp.Count <= 0)
+            {
+                return;
+            }
+
             context.LogInfo(string.Empty);
-            context.LogInfo("Task arguments:");
+            context.LogInfo("   Task arguments:");
             foreach (var argument in ArgumentHelp)
             {
-                context.LogInfo($"    {argument.Key}    {argument.Value}");
+                context.LogInfo($"        {argument.Key}    {argument.Value}");
             }
         }
 

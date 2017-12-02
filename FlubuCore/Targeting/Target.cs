@@ -247,8 +247,8 @@ namespace FlubuCore.Targeting
         public void TargetHelp(ITaskContextInternal context)
         {
             _targetTree.MarkTargetAsExecuted(this);
-            context.LogInfo($"{TargetName} help");
-            context.LogInfo($"{TargetName} will execute next tasks:");
+            context.LogInfo(" ");
+            context.LogInfo($"Target {TargetName} will execute next tasks:");
             for ( int i = 0; i < _tasks.Count; i++)
             {
                 var task = (TaskHelp)_tasks[i].Item1;
