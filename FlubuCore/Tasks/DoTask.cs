@@ -3,7 +3,7 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks
 {
-    public class DoTask : TaskBase<int, DoTask>
+    public class DoTask : DoTaskBase<int, DoTask>
     {
         private readonly Action<ITaskContextInternal> _taskAction;
 
@@ -21,7 +21,7 @@ namespace FlubuCore.Tasks
         }
     }
 
-    public class DoTask2<T> : TaskBase<int, DoTask2<T>>
+    public class DoTask2<T> : DoTaskBase<int, DoTask2<T>>
     {
         private readonly Action<ITaskContextInternal, T> _taskAction;
 
@@ -42,7 +42,7 @@ namespace FlubuCore.Tasks
         }
     }
 
-    public class DoTask3<T, T2> : TaskBase<int, DoTask3<T, T2>>
+    public class DoTask3<T, T2> : DoTaskBase<int, DoTask3<T, T2>>
     {
         private readonly Action<ITaskContextInternal, T, T2> _taskAction;
 
@@ -66,7 +66,7 @@ namespace FlubuCore.Tasks
         }
     }
 
-    public class DoTask4<T, T2, T3> : TaskBase<int, DoTask4<T, T2, T3>>
+    public class DoTask4<T, T2, T3> : DoTaskBase<int, DoTask4<T, T2, T3>>
     {
         private readonly Action<ITaskContextInternal, T, T2, T3> _taskAction;
 
@@ -93,7 +93,7 @@ namespace FlubuCore.Tasks
         }
     }
 
-    public class DoTask5<T, T2, T3, T4> : TaskBase<int, DoTask5<T, T2, T3, T4>>
+    public class DoTask5<T, T2, T3, T4> : DoTaskBase<int, DoTask5<T, T2, T3, T4>>
     {
         private readonly Action<ITaskContextInternal, T, T2, T3, T4> _taskAction;
 
@@ -123,7 +123,7 @@ namespace FlubuCore.Tasks
         }
     }
 
-    public class DoTask6<T, T2, T3, T4, T5> : TaskBase<int, DoTask6<T, T2, T3, T4, T5>>
+    public class DoTask6<T, T2, T3, T4, T5> : DoTaskBase<int, DoTask6<T, T2, T3, T4, T5>>
     {
         private readonly Action<ITaskContextInternal, T, T2, T3, T4, T5> _taskAction;
 
