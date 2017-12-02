@@ -21,6 +21,8 @@ namespace FlubuCore.Tasks
     {
         private int _retriedTimes;
 
+        private string _taskName;
+
         private List<(Expression<Action<TTask>> TaskMethod, string ArgKey)> _fromArguments = new List<(Expression<Action<TTask>> TaskMethod, string ArgKey)>();
         
         internal Dictionary<string, string> ArgumentHelp { get;  } = new Dictionary<string, string>();
@@ -31,6 +33,22 @@ namespace FlubuCore.Tasks
         internal Stopwatch TaskStopwatch { get; } = new Stopwatch();
 
         protected abstract string Description { get; set; }
+
+        protected string TaskName
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(_taskName))
+                {
+                    return _taskName;
+                }
+
+                var type = typeof(TTask);
+                return type.Name;
+            }
+
+            set => _taskName = value;
+        }
 
         /// <summary>
         /// Message that will be displayed when executing task.
@@ -259,7 +277,7 @@ namespace FlubuCore.Tasks
         public override void LogTaskHelp(ITaskContext context)
         {
             context.LogInfo(string.Empty);
-            context.LogInfo($"TaskName: {Description}");
+            context.LogInfo($"{TaskName}: {Description}");
             context.LogInfo(string.Empty);
             context.LogInfo("Task arguments:");
             foreach (var argument in ArgumentHelp)
