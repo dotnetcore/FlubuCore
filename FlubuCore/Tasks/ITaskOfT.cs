@@ -38,7 +38,14 @@ namespace FlubuCore.Tasks
         /// <returns></returns>
         TTask DoNotFailOnError();
 
-        TTask FromArgument(Expression<Action<TTask>> taskMethod, string argKey, string help = null);
+        /// <summary>
+        /// Passes argument value with specified key to specified method in <seealso cref="taskMethod"/> 
+        /// </summary>
+        /// <param name="taskMethod"></param>
+        /// <param name="argKey"></param>
+        /// <param name="help"></param>
+        /// <returns></returns>
+        TTask FromArgument(Expression<Action<TTask>> taskMethod, string argKey, string help = null, bool includeParameterlessMethodByDefault = false);
 
         /// <summary>
         /// Overrides default task description.

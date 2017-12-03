@@ -12,7 +12,7 @@ namespace FlubuCore.Tasks
             return this as TTask;
         }
 
-        internal void SetBaseParameters(string taskName, string taskDescription, int retryTimes, int retryDelay, bool noLog, bool doNotFailOnError)
+        internal void SetBaseTaskParameters(string taskName, string taskDescription, int retryTimes, int retryDelay, bool noLog, bool doNotFailOnError)
         {
             if (taskName != null)
             {

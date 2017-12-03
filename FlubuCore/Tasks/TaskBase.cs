@@ -23,7 +23,7 @@ namespace FlubuCore.Tasks
 
         private string _taskName;
 
-        private List<(Expression<Action<TTask>> TaskMethod, string ArgKey)> _fromArguments = new List<(Expression<Action<TTask>> TaskMethod, string ArgKey)>();
+        private List<(Expression<Action<TTask>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)> _fromArguments = new List<(Expression<Action<TTask>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)>();
         
         internal Dictionary<string, string> ArgumentHelp { get;  } = new Dictionary<string, string>();
 
@@ -108,9 +108,9 @@ namespace FlubuCore.Tasks
         }
 
         [DisableFromArgument]
-        public TTask FromArgument(Expression<Action<TTask>> taskMethod, string argKey, string help = null)
+        public TTask FromArgument(Expression<Action<TTask>> taskMethod, string argKey, string help = null, bool includeParameterlessMethodByDefault = true)
         {
-            _fromArguments.Add((taskMethod, argKey));
+            _fromArguments.Add((taskMethod, argKey, includeParameterlessMethodByDefault));
             if (!string.IsNullOrEmpty(help))
             {
                 ArgumentHelp.Add(argKey, help);
@@ -368,9 +368,18 @@ namespace FlubuCore.Tasks
                         throw new TaskExecutionException($"FromArgument is not allowed on method '{methodCallExpression.Method.Name}'.", 20);
                     }
                 }
+                else
+                {
+                    continue;
+                }
 
                 if (!Context.ScriptArgs.ContainsKey(fromArgument.ArgKey))
                 {
+                    if (methodCallExpression.Arguments.Count == 0 && !fromArgument.includeParameterlessMethodByDefault)
+                    {
+                        return;
+                    }
+
                     fromArgument.TaskMethod.Compile().Invoke(this as TTask);
                     return;
                 }
@@ -379,6 +388,17 @@ namespace FlubuCore.Tasks
                 MethodParameterModifier parameterModifier = new MethodParameterModifier();
                 try
                 {
+                    if (methodCallExpression.Arguments.Count == 0)
+                    {
+                        var succeded = bool.TryParse(value, out var boolValue );
+                        if (succeded && boolValue)
+                        {
+                            fromArgument.TaskMethod.Compile().Invoke(this as TTask);
+                        }
+
+                        return;
+                    }
+
                     var newExpression = (Expression<Action<TTask>>)parameterModifier.Modify(fromArgument.TaskMethod, new List<string>() { value });
                     var action = newExpression.Compile();
                     action.Invoke(this as TTask);

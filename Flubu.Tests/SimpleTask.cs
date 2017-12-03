@@ -15,6 +15,8 @@ namespace Flubu.Tests
 
         public int Level { get; set; }
 
+        public bool BoolValue { get; set; }
+
         public SimpleTask AddPath(string path)
         {
             Path = path;
@@ -24,6 +26,12 @@ namespace Flubu.Tests
         public SimpleTask SetLevel(int level)
         {
             Level = level;
+            return this;
+        }
+
+        public SimpleTask NoParameter()
+        {
+            BoolValue = true;
             return this;
         }
 

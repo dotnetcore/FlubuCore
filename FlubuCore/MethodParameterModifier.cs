@@ -21,8 +21,7 @@ namespace FlubuCore
 
             for (int i = 0; i < node.Arguments.Count; i++)
             {
-                newMethodParameters.Add(Expression.Constant(ParseValue(_values[i], node.Arguments[0].Type),
-                    node.Arguments[0].Type));
+                newMethodParameters.Add(Expression.Constant(ParseValue(_values[i], node.Arguments[0].Type), node.Arguments[0].Type));
             }
 
             MethodCallExpression methodCallExpression = node.Update(node.Object, newMethodParameters);

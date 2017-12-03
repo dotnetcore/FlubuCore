@@ -79,7 +79,7 @@ namespace FlubuCore.Targeting
         public ITarget DoAsync(Action<ITaskContextInternal> targetAction, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
             var task = new DoTask(targetAction);
-            task.SetBaseParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
             Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
             return this;
         }
@@ -87,7 +87,7 @@ namespace FlubuCore.Targeting
         public ITarget DoAsync<T>(Action<ITaskContextInternal, T> targetAction, T param, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
             var task = new DoTask2<T>(targetAction, param);
-            task.SetBaseParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
             Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
             return this;
         }
@@ -95,7 +95,7 @@ namespace FlubuCore.Targeting
         public ITarget DoAsync<T, T2>(Action<ITaskContextInternal, T, T2> targetAction, T param, T2 param2, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
             var task = new DoTask3<T, T2>(targetAction, param, param2);
-            task.SetBaseParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
             Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
             return this;
         }
@@ -103,7 +103,7 @@ namespace FlubuCore.Targeting
         public ITarget DoAsync<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
             var task = new DoTask4<T1, T2, T3>(targetAction, param, param2, param3);
-            task.SetBaseParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
             Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
             return this;
         }
@@ -111,7 +111,7 @@ namespace FlubuCore.Targeting
         public ITarget DoAsync<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2, T3 param3, T4 param4, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
             var task = new DoTask5<T1, T2, T3, T4>(targetAction, param, param2, param3, param4);
-            task.SetBaseParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
             Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
             return this;
         }
@@ -119,7 +119,7 @@ namespace FlubuCore.Targeting
         public ITarget DoAsync<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
             var task = new DoTask6<T1, T2, T3, T4, T5>(targetAction, param, param2, param3, param4, param5);
-            task.SetBaseParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
             Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
             return this;
         }
@@ -127,7 +127,7 @@ namespace FlubuCore.Targeting
         public ITarget Do(Action<ITaskContextInternal> targetAction, string taskName = null, string taskDescription = null,  int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
             var task = new DoTask(targetAction);
-            task.SetBaseParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
 
             Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
             return this;
@@ -136,7 +136,7 @@ namespace FlubuCore.Targeting
         public ITarget Do<T>(Action<ITaskContextInternal, T> targetAction, T param, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
             var task = new DoTask2<T>(targetAction, param);
-            task.SetBaseParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
             Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
             return this;
         }
@@ -144,7 +144,7 @@ namespace FlubuCore.Targeting
         public ITarget Do<T, T2>(Action<ITaskContextInternal, T, T2> targetAction, T param, T2 param2, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
             var task = new DoTask3<T, T2>(targetAction, param, param2);
-            task.SetBaseParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
             Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
             return this;
         }
@@ -152,7 +152,7 @@ namespace FlubuCore.Targeting
         public ITarget Do<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
             var task = new DoTask4<T1, T2, T3>(targetAction, param, param2, param3);
-            task.SetBaseParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
             Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
             return this;
         }
@@ -160,7 +160,7 @@ namespace FlubuCore.Targeting
         public ITarget Do<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2, T3 param3, T4 param4, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
             var task = new DoTask5<T1, T2, T3, T4>(targetAction, param, param2, param3, param4);
-            task.SetBaseParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
             Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
             return this;
         }
@@ -168,7 +168,7 @@ namespace FlubuCore.Targeting
         public ITarget Do<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
             var task = new DoTask6<T1, T2, T3, T4, T5>(targetAction, param, param2, param3, param4, param5);
-            task.SetBaseParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
             Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
             return this;
         }

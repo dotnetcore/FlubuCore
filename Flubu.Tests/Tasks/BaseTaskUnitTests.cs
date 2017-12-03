@@ -63,6 +63,95 @@ namespace Flubu.Tests.Tasks
             Assert.Equal("default value", _task.Path);
         }
 
+        [Fact]
+        public void FromArgument_MethodWithNoParametersIncludeWithBoolArgument_Succesfull()
+        {
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
+            {
+                {"-l", "true"},
+            });
+
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
+
+            _task.FromArgument(x => x.NoParameter(), "-l");
+            _task.Execute(Context.Object);
+            Assert.Equal(true, _task.BoolValue);
+        }
+
+        [Fact]
+        public void FromArgument_MethodWithNoParametersExcludeWithBoolArgument_Succesfull()
+        {
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
+            {
+                {"-l", "false"},
+            });
+
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
+
+            _task.FromArgument(x => x.NoParameter(), "-l");
+            _task.Execute(Context.Object);
+            Assert.Equal(true, _task.BoolValue);
+        }
+
+        [Fact]
+        public void FromArgument_MethodWithNoParametersIncludeByDefault_Succesfull()
+        {
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
+            {
+                {"-s", "some arg"},
+            });
+
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
+
+            _task.FromArgument(x => x.NoParameter(), "-l");
+            _task.Execute(Context.Object);
+            Assert.Equal(true, _task.BoolValue);
+        }
+
+        [Fact]
+        public void FromArgument_MethodWithNoParametersExcludeByDefault_Succesfull()
+        {
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
+            {
+                {"-s", "some arg"},
+            });
+
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
+
+            _task.FromArgument(x => x.NoParameter(), "-l", includeParameterlessMethodByDefault: false);
+            _task.Execute(Context.Object);
+            Assert.Equal(false, _task.BoolValue);
+        }
+
+        [Fact]
+        public void FromArgument_MethodWithNoParametersArgumentNotBoolValueIncludedByDefault_Succesfull()
+        {
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
+            {
+                {"-l", "some arg"},
+            });
+
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
+
+            _task.FromArgument(x => x.NoParameter(), "-l");
+            _task.Execute(Context.Object);
+            Assert.Equal(true, _task.BoolValue);
+        }
+
+        [Fact]
+        public void FromArgument_MethodWithNoParametersArgumentNotBoolValueExcludedByDefault_Succesfull()
+        {
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
+            {
+                {"-l", "some arg"},
+            });
+
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
+
+            _task.FromArgument(x => x.NoParameter(), "-l", includeParameterlessMethodByDefault: false);
+            _task.Execute(Context.Object);
+            Assert.Equal(false, _task.BoolValue);
+        }
 
         [Fact]
         public void FromArgument_StringValueFromArgumentToIntParameter_ThrowsTaskExecutionException()
@@ -116,7 +205,7 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void FromArgument_DisabledOnFromArgument_ThrowsTaskExecutionException()
         {
-            _task.FromArgument(x => x.FromArgument(null, "t", "test"), "-t");
+            _task.FromArgument(x => x.FromArgument(null, "t", "test", true), "-t");
             var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
             Assert.Equal(20, ex.ErrorCode);
         }
