@@ -115,6 +115,14 @@ namespace FlubuCore.Tasks
             {
                 ArgumentHelp.Add(argKey, help);
             }
+            else
+            {
+                var methodExpression = taskMethod.Body as MethodCallExpression;
+                if (methodExpression != null)
+                {
+                    ArgumentHelp.Add(argKey, $"Pass argument '{argKey}' to method '{methodExpression.Method.Name}'.");
+                }
+            }
 
             return this as TTask;
         }
