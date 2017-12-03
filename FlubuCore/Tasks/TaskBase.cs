@@ -147,14 +147,7 @@ namespace FlubuCore.Tasks
             Description = description;
             return this as TTask;
         }
-
-        [DisableFromArgument]
-        public TTask AddArgumentHelp(string argKey, string help)
-        {
-            ArgumentHelp.Add(argKey, help);
-            return this as TTask;
-        }
-
+        
         /// <inheritdoc />
         [DisableFromArgument]
         public void ExecuteVoid(ITaskContext context)

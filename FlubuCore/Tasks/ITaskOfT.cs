@@ -54,13 +54,5 @@ namespace FlubuCore.Tasks
         /// <param name="description"></param>
         /// <returns></returns>
         TTask SetDescription(string description);
-
-        /// <summary>
-        /// Adds argument help for specified key.
-        /// </summary>
-        /// <param name="argKey"></param>
-        /// <param name="help"></param>
-        /// <returns></returns>
-        TTask AddArgumentHelp(string argKey, string help);
     }
 }
