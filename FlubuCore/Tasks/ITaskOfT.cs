@@ -46,6 +46,5 @@ namespace FlubuCore.Tasks
         /// <param name="description"></param>
         /// <returns></returns>
         TTask SetDescription(string description);
-
     }
 }

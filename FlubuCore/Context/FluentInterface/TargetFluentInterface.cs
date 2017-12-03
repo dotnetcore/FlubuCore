@@ -62,83 +62,83 @@ namespace FlubuCore.Context.FluentInterface
             return this;
         }
 
-        public ITargetFluentInterface Do(Action<ITaskContextInternal> targetAction)
+        public ITargetFluentInterface Do(Action<ITaskContextInternal> targetAction, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-            Target.Do(targetAction);
+            Target.Do(targetAction, taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
             return this;
         }
 
-        public ITargetFluentInterface Do<T>(Action<ITaskContextInternal, T> targetAction, T param)
+        public ITargetFluentInterface Do<T>(Action<ITaskContextInternal, T> targetAction, T param, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-            Target.Do(targetAction, param);
-            return this;
-        }
-
-
-        public ITargetFluentInterface Do<T, T1>(Action<ITaskContextInternal, T, T1> targetAction, T param, T1 param2)
-        {
-            Target.Do(targetAction, param, param2);
+            Target.Do(targetAction, param, taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
             return this;
         }
 
 
-        public ITargetFluentInterface Do<T, T1, T2>(Action<ITaskContextInternal, T, T1, T2> targetAction, T param, T1 param2, T2 param3)
+        public ITargetFluentInterface Do<T, T1>(Action<ITaskContextInternal, T, T1> targetAction, T param, T1 param2, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-            Target.Do(targetAction, param, param2, param3);
+            Target.Do(targetAction, param, param2, taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
             return this;
         }
 
 
-        public ITargetFluentInterface Do<T, T1, T2, T3>(Action<ITaskContextInternal, T, T1, T2, T3> targetAction, T param, T1 param2, T2 param3, T3 param4)
+        public ITargetFluentInterface Do<T, T1, T2>(Action<ITaskContextInternal, T, T1, T2> targetAction, T param, T1 param2, T2 param3, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-            Target.Do(targetAction, param, param2, param3, param4);
+            Target.Do(targetAction, param, param2, param3, taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
             return this;
         }
 
 
-        public ITargetFluentInterface Do<T, T1, T2, T3, T4>(Action<ITaskContextInternal, T, T1, T2, T3, T4> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5)
+        public ITargetFluentInterface Do<T, T1, T2, T3>(Action<ITaskContextInternal, T, T1, T2, T3> targetAction, T param, T1 param2, T2 param3, T3 param4, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-            Target.Do(targetAction, param, param2, param3, param4, param5);
-            return this;
-        }
-
-        public ITargetFluentInterface DoAsync(Action<ITaskContextInternal> targetAction)
-        {
-            Target.DoAsync(targetAction);
-            return this;
-        }
-
-        public ITargetFluentInterface DoAsync<T>(Action<ITaskContextInternal, T> targetAction, T param)
-        {
-            Target.DoAsync(targetAction, param);
+            Target.Do(targetAction, param, param2, param3, param4, taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
             return this;
         }
 
 
-        public ITargetFluentInterface DoAsync<T, T1>(Action<ITaskContextInternal, T, T1> targetAction, T param, T1 param2)
+        public ITargetFluentInterface Do<T, T1, T2, T3, T4>(Action<ITaskContextInternal, T, T1, T2, T3, T4> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-            Target.DoAsync(targetAction, param, param2);
+            Target.Do(targetAction, param, param2, param3, param4, param5, taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            return this;
+        }
+
+        public ITargetFluentInterface DoAsync(Action<ITaskContextInternal> targetAction, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
+        {
+            Target.DoAsync(targetAction, taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            return this;
+        }
+
+        public ITargetFluentInterface DoAsync<T>(Action<ITaskContextInternal, T> targetAction, T param, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
+        {
+            Target.DoAsync(targetAction, param, taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
             return this;
         }
 
 
-        public ITargetFluentInterface DoAsync<T, T1, T2>(Action<ITaskContextInternal, T, T1, T2> targetAction, T param, T1 param2, T2 param3)
+        public ITargetFluentInterface DoAsync<T, T1>(Action<ITaskContextInternal, T, T1> targetAction, T param, T1 param2, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-            Target.Do(targetAction, param, param2, param3);
+            Target.DoAsync(targetAction, param, param2, taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
             return this;
         }
 
 
-        public ITargetFluentInterface DoAsync<T, T1, T2, T3>(Action<ITaskContextInternal, T, T1, T2, T3> targetAction, T param, T1 param2, T2 param3, T3 param4)
+        public ITargetFluentInterface DoAsync<T, T1, T2>(Action<ITaskContextInternal, T, T1, T2> targetAction, T param, T1 param2, T2 param3, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-            Target.DoAsync(targetAction, param, param2, param3, param4);
+            Target.Do(targetAction, param, param2, param3, taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
             return this;
         }
 
 
-        public ITargetFluentInterface DoAsync<T, T1, T2, T3, T4>(Action<ITaskContextInternal, T, T1, T2, T3, T4> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5)
+        public ITargetFluentInterface DoAsync<T, T1, T2, T3>(Action<ITaskContextInternal, T, T1, T2, T3> targetAction, T param, T1 param2, T2 param3, T3 param4, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-            Target.DoAsync(targetAction, param, param2, param3, param4, param5);
+            Target.DoAsync(targetAction, param, param2, param3, param4, taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            return this;
+        }
+
+
+        public ITargetFluentInterface DoAsync<T, T1, T2, T3, T4>(Action<ITaskContextInternal, T, T1, T2, T3, T4> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
+        {
+            Target.DoAsync(targetAction, param, param2, param3, param4, param5, taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
             return this;
         }
 

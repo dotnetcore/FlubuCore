@@ -53,84 +53,84 @@ namespace FlubuCore.Targeting
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
-        ITarget Do(Action<ITaskContextInternal> targetAction);
+        ITarget Do(Action<ITaskContextInternal> targetAction, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false);
 
         /// <summary>
         /// Execute custom code in script.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
-        ITarget Do<T1>(Action<ITaskContextInternal, T1> targetAction, T1 param);
+        ITarget Do<T1>(Action<ITaskContextInternal, T1> targetAction, T1 param, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false);
 
         /// <summary>
         /// Execute custom code in script.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
-        ITarget Do<T1, T2>(Action<ITaskContextInternal, T1, T2> targetAction, T1 param, T2 param2);
+        ITarget Do<T1, T2>(Action<ITaskContextInternal, T1, T2> targetAction, T1 param, T2 param2, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false);
         
         /// <summary>
         /// Execute custom code in script.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
-        ITarget Do<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3);
+        ITarget Do<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false);
 
         /// <summary>
         /// Execute custom code in script.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
-        ITarget Do<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2, T3 param3, T4 param4);
+        ITarget Do<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2, T3 param3, T4 param4, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false);
 
         /// <summary>
         /// Execute custom code in script.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
-        ITarget Do<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5);
+        ITarget Do<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false);
        
         /// <summary>
         /// Execute custom code in script asynchronous.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
-        ITarget DoAsync(Action<ITaskContextInternal> targetAction);
+        ITarget DoAsync(Action<ITaskContextInternal> targetAction, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false);
 
         /// <summary>
         /// Execute custom code in script.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
-        ITarget DoAsync<T1>(Action<ITaskContextInternal, T1> targetAction, T1 param);
+        ITarget DoAsync<T1>(Action<ITaskContextInternal, T1> targetAction, T1 param, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false);
 
         /// <summary>
         /// Execute custom code in script.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
-        ITarget DoAsync<T1, T2>(Action<ITaskContextInternal, T1, T2> targetAction, T1 param, T2 param2);
+        ITarget DoAsync<T1, T2>(Action<ITaskContextInternal, T1, T2> targetAction, T1 param, T2 param2, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false);
 
         /// <summary>
         /// Execute custom code in script.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
-        ITarget DoAsync<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3);
+        ITarget DoAsync<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false);
 
         /// <summary>
         /// Execute custom code in script.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
-        ITarget DoAsync<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2, T3 param3, T4 param4);
+        ITarget DoAsync<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2, T3 param3, T4 param4, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false);
 
         /// <summary>
         /// Execute custom code in script.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
-        ITarget DoAsync<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5);
+        ITarget DoAsync<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false);
 
         /// <summary>
         ///     Overrides any previously specified target action with the new one.
