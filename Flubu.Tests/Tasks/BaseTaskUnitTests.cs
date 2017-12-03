@@ -152,7 +152,6 @@ namespace Flubu.Tests.Tasks
             _task.Execute(Context.Object);
             Assert.Equal(false, _task.BoolValue);
         }
-
         [Fact]
         public void FromArgument_StringValueFromArgumentToIntParameter_ThrowsTaskExecutionException()
         {
