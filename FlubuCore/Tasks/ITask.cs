@@ -6,8 +6,6 @@ namespace FlubuCore.Tasks
 {
     public interface ITask
     {
-        Stopwatch TaskStopwatch { get; }
-
         /// <summary>
         ///     Executes the task using the specified script execution environment.
         /// </summary>
@@ -19,6 +17,6 @@ namespace FlubuCore.Tasks
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        Task ExecuteVoidAsync(ITaskContext context);
+        System.Threading.Tasks.Task ExecuteVoidAsync(ITaskContext context);
     }
 }

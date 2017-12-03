@@ -18,6 +18,8 @@ namespace FlubuCore.Tasks.Text
             _sourceFiles.AddRange(sourceFiles);
         }
 
+        protected override string Description { get; set; }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             JObject dest = new JObject();

@@ -10,6 +10,8 @@ namespace Flubu.Tests
 {
     public class SimpleTaskWithDelay : TaskBase<int, SimpleTaskWithDelay>
     {
+        protected override string Description { get; set; }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             Task.Delay(2000).Wait();

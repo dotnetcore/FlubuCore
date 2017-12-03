@@ -9,6 +9,7 @@ namespace FlubuCore.Tasks.FileSystem
         private readonly string _directoryPath;
 
         private readonly bool _failIfNotExists;
+        private string _description;
 
         public DeleteDirectoryTask(string directoryPath, bool failIfNotExists)
         {
@@ -23,6 +24,19 @@ namespace FlubuCore.Tasks.FileSystem
         {
             var task = new DeleteDirectoryTask(directoryPath, failIfNotExists);
             task.ExecuteVoid(context);
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Deletes directory '{_directoryPath}'.";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         protected override int DoExecute(ITaskContextInternal context)

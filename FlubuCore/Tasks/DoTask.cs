@@ -6,7 +6,7 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks
 {
-    public class DoTask : TaskBase<int, DoTask>
+    public class DoTask : DoTaskBase<int, DoTask>
     {
         private Action<ITaskContextInternal> _taskAction;
 
@@ -15,6 +15,8 @@ namespace FlubuCore.Tasks
             _taskAction = taskAction;
         }
 
+        protected override string Description { get; set; }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             _taskAction.Invoke(context);
@@ -22,7 +24,7 @@ namespace FlubuCore.Tasks
         }
     }
 
-    public class DoTask2<T> : TaskBase<int, DoTask2<T>>
+    public class DoTask2<T> : DoTaskBase<int, DoTask2<T>>
     {
         private Action<ITaskContextInternal, T> _taskAction;
 
@@ -34,6 +36,8 @@ namespace FlubuCore.Tasks
             _param = param;
         }
 
+        protected override string Description { get; set; }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             _taskAction.Invoke(context, _param);
@@ -41,7 +45,7 @@ namespace FlubuCore.Tasks
         }
     }
 
-    public class DoTask3<T, T2> : TaskBase<int, DoTask3<T, T2>>
+    public class DoTask3<T, T2> : DoTaskBase<int, DoTask3<T, T2>>
     {
         private Action<ITaskContextInternal, T, T2> _taskAction;
 
@@ -56,6 +60,8 @@ namespace FlubuCore.Tasks
             _param2 = param2;
         }
 
+        protected override string Description { get; set; }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             _taskAction.Invoke(context, _param, _param2);
@@ -63,7 +69,7 @@ namespace FlubuCore.Tasks
         }
     }
 
-    public class DoTask4<T, T2, T3> : TaskBase<int, DoTask4<T, T2, T3>>
+    public class DoTask4<T, T2, T3> : DoTaskBase<int, DoTask4<T, T2, T3>>
     {
         private Action<ITaskContextInternal, T, T2, T3> _taskAction;
 
@@ -81,6 +87,8 @@ namespace FlubuCore.Tasks
             _param3 = param3;
         }
 
+        protected override string Description { get; set; }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             _taskAction.Invoke(context, _param, _param2, _param3);
@@ -88,7 +96,7 @@ namespace FlubuCore.Tasks
         }
     }
 
-    public class DoTask5<T, T2, T3, T4> : TaskBase<int, DoTask5<T, T2, T3, T4>>
+    public class DoTask5<T, T2, T3, T4> : DoTaskBase<int, DoTask5<T, T2, T3, T4>>
     {
         private Action<ITaskContextInternal, T, T2, T3, T4> _taskAction;
 
@@ -109,6 +117,8 @@ namespace FlubuCore.Tasks
             _param4 = param4;
         }
 
+        protected override string Description { get; set; }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             _taskAction.Invoke(context, _param, _param2, _param3, _param4 );
@@ -116,7 +126,7 @@ namespace FlubuCore.Tasks
         }
     }
 
-    public class DoTask6<T, T2, T3, T4, T5> : TaskBase<int, DoTask6<T, T2, T3, T4, T5>>
+    public class DoTask6<T, T2, T3, T4, T5> : DoTaskBase<int, DoTask6<T, T2, T3, T4, T5>>
     {
         private Action<ITaskContextInternal, T, T2, T3, T4, T5> _taskAction;
 
@@ -139,6 +149,8 @@ namespace FlubuCore.Tasks
             _param4 = param4;
             _param5 = param5;
         }
+
+        protected override string Description { get; set; }
 
         protected override int DoExecute(ITaskContextInternal context)
         {

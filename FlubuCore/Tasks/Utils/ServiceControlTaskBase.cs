@@ -9,9 +9,15 @@ namespace FlubuCore.Tasks.Utils
     /// <typeparam name="TTask"></typeparam>
     public abstract class ServiceControlTaskBase<TTask> : ExternalProcessTaskBase<TTask> where TTask : class, ITask
     {
+        protected string ServiceName { get; }
+
+        protected string Command { get; }
+
         /// <inheritdoc />
         public ServiceControlTaskBase(string command, string serviceName)
         {
+            Command = command;
+            ServiceName = serviceName;
             WithArguments(command, serviceName);
             ExecutablePath = "sc";
         }

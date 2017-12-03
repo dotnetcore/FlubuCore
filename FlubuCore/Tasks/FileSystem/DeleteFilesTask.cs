@@ -8,6 +8,7 @@ namespace FlubuCore.Tasks.FileSystem
         private readonly string _directoryPath;
         private readonly string _filePattern;
         private readonly bool _recursive;
+        private string _description;
 
         /// <summary>
         /// 
@@ -30,6 +31,19 @@ namespace FlubuCore.Tasks.FileSystem
         {
             var task = new DeleteFilesTask(directoryPath, filePattern, recursive);
             task.ExecuteVoid(context);
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Deletes all files that matches '{_filePattern}' pattern in folder '{_directoryPath}' ";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         protected override int DoExecute(ITaskContextInternal context)

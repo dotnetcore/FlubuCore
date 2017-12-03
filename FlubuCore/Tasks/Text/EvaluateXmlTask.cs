@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml.XPath;
 using FlubuCore.Context;
-using FlubuCore.Tasks;
 
-namespace Flubu.Tasks.Text
+namespace FlubuCore.Tasks.Text
 {
     /// <summary>
     /// Evaluates XPath expressions on a specified XML file and stores results in <seealso cref="ITaskContext"/> properties.
@@ -23,6 +20,8 @@ namespace Flubu.Tasks.Text
             expressions.Add(new Expression(propertyName, xpath));
             return this;
         }
+
+        protected override string Description { get; set; }
 
         /// <summary>
         /// Internal task execution code.

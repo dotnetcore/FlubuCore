@@ -13,10 +13,24 @@ namespace FlubuCore.Tasks.Iis
         private string _appPoolName;
 
         private bool _failIfNotExist;
+        private string _description;
 
         public DeleteAppPoolTask(string appPoolName)
         {
             this._appPoolName = appPoolName;
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Deletes application pool {_appPoolName}";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         public IDeleteAppPoolTask FailIfNotExist()

@@ -1,8 +1,15 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using System.Threading;
+using FlubuCore.Tasks.Attributes;
+using Microsoft.Build.Utilities;
+using Task = System.Threading.Tasks.Task;
 
 namespace FlubuCore.Tasks
 {
@@ -10,22 +17,38 @@ namespace FlubuCore.Tasks
     /// <summary>
     ///     A base abstract class from which tasks can be implemented.
     /// </summary>
-    public abstract class TaskBase<TResult, TTask> : ITaskOfT<TResult, TTask> where TTask : class, ITask
+    public abstract class TaskBase<TResult, TTask> : TaskHelp, ITaskOfT<TResult, TTask> where TTask : class, ITask
     {
         private int _retriedTimes;
 
-        /// <summary>
-        ///     Gets a value indicating whether this instance is safe to execute in dry run mode.
-        /// </summary>
-        /// <value>
-        ///     <c>true</c> if this instance is safe to execute in dry run mode; otherwise, <c>false</c>.
-        /// </value>
-        public virtual bool IsSafeToExecuteInDryRun => false;
+        private string _taskName;
+
+        private List<(Expression<Action<TTask>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)> _fromArguments = new List<(Expression<Action<TTask>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)>();
+        
+        internal Dictionary<string, string> ArgumentHelp { get;  } = new Dictionary<string, string>();
 
         /// <summary>
         /// Stopwatch for timings.
         /// </summary>
-        public Stopwatch TaskStopwatch { get; } = new Stopwatch();
+        internal Stopwatch TaskStopwatch { get; } = new Stopwatch();
+
+        protected abstract string Description { get; set; }
+
+        protected string TaskName
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(_taskName))
+                {
+                    return _taskName;
+                }
+
+                var type = typeof(TTask);
+                return type.Name;
+            }
+
+            set => _taskName = value;
+        }
 
         /// <summary>
         /// Message that will be displayed when executing task.
@@ -84,30 +107,25 @@ namespace FlubuCore.Tasks
             return this as TTask;
         }
 
-        /// <summary>
-        /// Log info if task logging is not disabled.
-        /// </summary>
-        /// <param name="message"></param>
-        protected void DoLogInfo(string message)
+        [DisableFromArgument]
+        public TTask FromArgument(Expression<Action<TTask>> taskMethod, string argKey, string help = null, bool includeParameterlessMethodByDefault = true)
         {
-            if (DoNotLog || Context == null)
-                return;
+            _fromArguments.Add((taskMethod, argKey, includeParameterlessMethodByDefault));
+            if (!string.IsNullOrEmpty(help))
+            {
+                ArgumentHelp.Add(argKey, help);
+            }
+            else
+            {
+                var methodExpression = taskMethod.Body as MethodCallExpression;
+                if (methodExpression != null)
+                {
+                    ArgumentHelp.Add(argKey, $"Pass argument '{argKey}' to method '{methodExpression.Method.Name}'.");
+                }
+            }
 
-            Context.LogInfo(message);
+            return this as TTask;
         }
-
-        /// <summary>
-        /// Log error if task logging is not disabled.
-        /// </summary>
-        /// <param name="message"></param>
-        protected void DoLogError(string message)
-        {
-            if (DoNotLog || Context == null)
-                return;
-
-            Context.LogError(message);
-        }
-
 
         /// <inheritdoc />
         /// <summary>
@@ -123,14 +141,23 @@ namespace FlubuCore.Tasks
             return this as TTask;
         }
 
+        [DisableFromArgument]
+        public TTask SetDescription(string description)
+        {
+            Description = description;
+            return this as TTask;
+        }
+        
         /// <inheritdoc />
+        [DisableFromArgument]
         public void ExecuteVoid(ITaskContext context)
         {
             Execute(context);
         }
 
         /// <inheritdoc />
-        public async Task ExecuteVoidAsync(ITaskContext context)
+        [DisableFromArgument]
+        public async System.Threading.Tasks.Task ExecuteVoidAsync(ITaskContext context)
         {
             await ExecuteAsync(context);
         }
@@ -147,6 +174,7 @@ namespace FlubuCore.Tasks
         ///     class.
         /// </remarks>
         /// <param name="context">The script execution environment.</param>
+        [DisableFromArgument]
         public TResult Execute(ITaskContext context)
         {
             ITaskContextInternal contextInternal = (ITaskContextInternal)context;
@@ -163,6 +191,7 @@ namespace FlubuCore.Tasks
 
             try
             {
+                InvokeFromMethods();
                 return DoExecute(contextInternal);
             }
             catch (Exception)
@@ -205,6 +234,7 @@ namespace FlubuCore.Tasks
         }
 
         /// <inheritdoc />
+        [DisableFromArgument]
         public async Task<TResult> ExecuteAsync(ITaskContext context)
         {
             ITaskContextInternal contextInternal = (ITaskContextInternal)context;
@@ -221,6 +251,7 @@ namespace FlubuCore.Tasks
 
             try
             {
+                InvokeFromMethods();
                 return await DoExecuteAsync(contextInternal);
             }
             catch (Exception)
@@ -234,7 +265,7 @@ namespace FlubuCore.Tasks
                 {
                     _retriedTimes++;
                     contextInternal.LogInfo($"Task failed. Retriying for {_retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
-                    await Task.Delay(RetryDelay);
+                    await System.Threading.Tasks.Task.Delay(RetryDelay);
                     return await ExecuteAsync(context);
                 }
 
@@ -252,6 +283,24 @@ namespace FlubuCore.Tasks
             }
         }
 
+        public override void LogTaskHelp(ITaskContext context)
+        {
+            context.LogInfo(" ");
+            context.LogInfo(string.Empty);
+            context.LogInfo($"{TaskName}: {Description}");
+            if (ArgumentHelp == null || ArgumentHelp.Count <= 0)
+            {
+                return;
+            }
+
+            context.LogInfo(string.Empty);
+            context.LogInfo("   Task arguments:");
+            foreach (var argument in ArgumentHelp)
+            {
+                context.LogInfo($"        {argument.Key}    {argument.Value}");
+            }
+        }
+
         /// <summary>
         ///     Abstract method defining the actual work for a task.
         /// </summary>
@@ -266,8 +315,104 @@ namespace FlubuCore.Tasks
         /// <returns></returns>
         protected virtual async Task<TResult> DoExecuteAsync(ITaskContextInternal context)
         {
-            return await Task.Run(() => DoExecute(context));
-            
+            return await System.Threading.Tasks.Task.Run(() => DoExecute(context));
         }
+
+        /// <summary>
+        /// Log info if task logging is not disabled.
+        /// </summary>
+        /// <param name="message"></param>
+        protected void DoLogInfo(string message)
+        {
+            if (DoNotLog || Context == null)
+                return;
+
+            Context.LogInfo(message);
+        }
+
+        /// <summary>
+        /// Log error if task logging is not disabled.
+        /// </summary>
+        /// <param name="message"></param>
+        protected void DoLogError(string message)
+        {
+            if (DoNotLog || Context == null)
+                return;
+
+            Context.LogError(message);
+        }
+
+        private void InvokeFromMethods()
+        {
+            if (_fromArguments.Count == 0)
+            {
+                return;
+            }
+
+            foreach (var fromArgument in _fromArguments)
+            {
+                var methodCallExpression = fromArgument.TaskMethod.Body as MethodCallExpression;
+                if (methodCallExpression != null)
+                {
+                    var attribute = methodCallExpression.Method.GetCustomAttribute<DisableFromArgumentAttribute>();
+
+                    if (attribute != null)
+                    {
+                        throw new TaskExecutionException($"FromArgument is not allowed on method '{methodCallExpression.Method.Name}'.", 20);
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+
+                if (!Context.ScriptArgs.ContainsKey(fromArgument.ArgKey))
+                {
+                    if (methodCallExpression.Arguments.Count == 0 && !fromArgument.includeParameterlessMethodByDefault)
+                    {
+                        return;
+                    }
+
+                    fromArgument.TaskMethod.Compile().Invoke(this as TTask);
+                    return;
+                }
+
+                string value = Context.ScriptArgs[fromArgument.ArgKey];
+                MethodParameterModifier parameterModifier = new MethodParameterModifier();
+                try
+                {
+                    if (methodCallExpression.Arguments.Count == 0)
+                    {
+                        var succeded = bool.TryParse(value, out var boolValue );
+                        if (succeded && boolValue)
+                        {
+                            fromArgument.TaskMethod.Compile().Invoke(this as TTask);
+                        }
+
+                        return;
+                    }
+
+                    var newExpression = (Expression<Action<TTask>>)parameterModifier.Modify(fromArgument.TaskMethod, new List<string>() { value });
+                    var action = newExpression.Compile();
+                    action.Invoke(this as TTask);
+                }
+                catch (FormatException e)
+                {
+                   var methodInfo = ((MethodCallExpression) fromArgument.TaskMethod.Body).Method;
+                   var parameters =  methodInfo.GetParameters().ToList();
+                    if (parameters.Count == 1)
+                    {
+                        throw new TaskExecutionException(
+                            $"Parameter '{parameters[0].ParameterType.Name} {parameters[0].Name}' in method '{methodInfo.Name}' can not be modified with value '{value}' from argument '{fromArgument.ArgKey}'.",
+                            21, e);
+                    }
+                }
+            }
+        }
+    }
+
+    public abstract class TaskHelp
+    {
+        public abstract void LogTaskHelp(ITaskContext context);
     }
 }

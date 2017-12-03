@@ -12,6 +12,7 @@ namespace FlubuCore.Tasks.FileSystem
         private readonly bool _overwrite;
 
         private readonly string _sourceFileName;
+        private string _description;
 
         /// <summary>
         /// Copies file to specified destination location.
@@ -27,6 +28,19 @@ namespace FlubuCore.Tasks.FileSystem
             _sourceFileName = sourceFileName;
             _destinationFileName = destinationFileName;
             _overwrite = overwrite;
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Copies file '{_sourceFileName}' to '{_destinationFileName}'.";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         protected override int DoExecute(ITaskContextInternal context)

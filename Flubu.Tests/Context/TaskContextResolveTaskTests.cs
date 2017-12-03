@@ -2,6 +2,7 @@
 using FlubuCore.Tasks.NetCore;
 using System;
 using System.Collections.Generic;
+using FlubuCore.Context;
 using FlubuCore.Tasks.Utils;
 using Xunit;
 
@@ -22,6 +23,16 @@ namespace Flubu.Tests.Context
         public void ResloveCompileSolutionTask2Test()
         {
             Context.Tasks().CompileSolutionTask("sln", "release");
+            Context.CreateTarget("ExecutePowerShell")
+                .AddTask(x => x.ExecutePowerShellScript(@".\hello.ps1")
+                    .FromArgument(y => y.Executable("test"), "-e", "FUll file path to executable")
+                    .FromArgument(y => y.DoNotLogOutput(), "-l", includeParameterlessMethodByDefault: false))  // default help is displayed
+                .Do(DeletePowerShellScript, taskName: "DeletePowerShellScript", taskDescription: "Deletes power shell script", doNotFailOnError: true);
+        }
+
+        private static void DeletePowerShellScript(ITaskContext context)
+        {
+           var example = context.ScriptArgs["-ps"];
         }
 
         [Fact]

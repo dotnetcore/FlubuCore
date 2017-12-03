@@ -13,6 +13,7 @@ using FlubuCore.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit;
+using Task = System.Threading.Tasks.Task;
 
 namespace Flubu.Tests
 {
@@ -50,7 +51,7 @@ namespace Flubu.Tests
 
             var target1 = targetTree.AddTarget("target 1");
 
-            target1.AddTask(new SimpleTask());
+            target1.AddTask(new SimpleTask(new FlubuEnviromentService()));
 
             target1.ExecuteVoid(Context);
         }
@@ -62,7 +63,7 @@ namespace Flubu.Tests
 
             var target1 = targetTree.AddTarget("target 1");
 
-            target1.AddTaskAsync(new SimpleTask());
+            target1.AddTaskAsync(new SimpleTask(new FlubuEnviromentService()));
 
             await target1.ExecuteVoidAsync(Context);
         }

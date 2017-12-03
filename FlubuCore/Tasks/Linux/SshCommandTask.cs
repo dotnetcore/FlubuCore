@@ -39,6 +39,8 @@ namespace FlubuCore.Tasks.Linux
             return this;
         }
 
+        protected override string Description { get; set; }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             Task<int> task = DoExecuteAsync(context);

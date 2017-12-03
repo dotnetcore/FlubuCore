@@ -16,10 +16,24 @@ namespace FlubuCore.Tasks.Iis
         private CreateApplicationPoolMode _mode;
 
         private string _managedRuntimeVersion;
+        private string _description;
 
         public CreateAppPoolTask(string applicationPoolName)
         {
             this._applicationPoolName = applicationPoolName;
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Creates application pool {_applicationPoolName}";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         public ICreateAppPoolTask UseClassicManagedPipelineMode()

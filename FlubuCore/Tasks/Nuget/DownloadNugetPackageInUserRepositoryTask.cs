@@ -57,6 +57,8 @@ namespace FlubuCore.Tasks.Nuget
             }
         }
 
+        protected override string Description { get; set; }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             FindNuGetPackageInUserRepositoryTask findPackageTask = new FindNuGetPackageInUserRepositoryTask(packageId);

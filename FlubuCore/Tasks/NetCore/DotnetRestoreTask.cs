@@ -7,8 +7,23 @@ namespace FlubuCore.Tasks.NetCore
 {
     public class DotnetRestoreTask : ExecuteDotnetTaskBase<DotnetRestoreTask>
     {
+        private string _description;
+
         public DotnetRestoreTask() : base(StandardDotnetCommands.Restore)
         {
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes dotnet command Restore";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         public DotnetRestoreTask Project(string projectName)

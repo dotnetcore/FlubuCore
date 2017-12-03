@@ -45,6 +45,8 @@ namespace FlubuCore.Tasks.Linux
             return this;
         }
 
+        protected override string Description { get; set; }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             context.LogInfo($"Connecting to {_userName}@{_host}");

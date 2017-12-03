@@ -18,6 +18,7 @@ namespace FlubuCore.Tasks.Packaging
         private bool _optimizeZip;
 
         private bool _logFiles = true;
+        private string _description;
 
         public PackageTask(string destinationRootDir = null)
         {
@@ -25,6 +26,19 @@ namespace FlubuCore.Tasks.Packaging
                 _destinationRootDir = destinationRootDir;
 
             _sourcePackagingInfos = new List<SourcePackagingInfo>();
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Packages specified files and folders to '{_destinationRootDir}'";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         private bool ShouldPackageBeZipped => !string.IsNullOrEmpty(_zipFileName) || !string.IsNullOrEmpty(_zipPrefix);

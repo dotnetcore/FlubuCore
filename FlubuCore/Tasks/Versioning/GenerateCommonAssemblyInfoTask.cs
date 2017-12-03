@@ -19,6 +19,7 @@ namespace FlubuCore.Tasks.Versioning
         private int _productVersionFieldCount = 2;
         private string _informationalVersion;
         private Version _buildVersion;
+        private string _description;
 
         public GenerateCommonAssemblyInfoTask()
         {
@@ -27,6 +28,19 @@ namespace FlubuCore.Tasks.Versioning
         public GenerateCommonAssemblyInfoTask(Version buildVersion)
         {
             _buildVersion = buildVersion;
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Generates common assembly info file.";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         public GenerateCommonAssemblyInfoTask BuildVersion(Version buildVersion)

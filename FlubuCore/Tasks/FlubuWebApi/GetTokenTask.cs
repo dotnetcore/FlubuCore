@@ -13,15 +13,29 @@ namespace FlubuCore.Tasks.FlubuWebApi
 	    private string _username;
 
 	    private string _password;
+        private string _description;
 
-	    public GetTokenTask(string username, string password, IWebApiClient webApiClient) : base(webApiClient)
+        public GetTokenTask(string username, string password, IWebApiClient webApiClient) : base(webApiClient)
 	    {
 		    _username = username;
 		    _password = password;
 
 	    }
 
-	    protected override string DoExecute(ITaskContextInternal context)
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Get's access token for flubu server {WebApiClient.WebApiBaseUrl}";
+                }
+                return _description;
+            }
+            set { _description = value; }
+        }
+
+        protected override string DoExecute(ITaskContextInternal context)
 	    {
 			Task<string> task = DoExecuteAsync(context);
 

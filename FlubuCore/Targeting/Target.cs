@@ -18,8 +18,6 @@ namespace FlubuCore.Targeting
 
         private readonly TargetTree _targetTree;
 
-        private string _description;
-
         internal Target(TargetTree targetTree, string targetName, CommandArguments args)
         {
             _targetTree = targetTree;
@@ -31,11 +29,8 @@ namespace FlubuCore.Targeting
 
         public List<Tuple<ITask, TaskExecutionMode>> Tasks => _tasks;
 
-        /// <summary>
-        ///     Gets the description of the target.
-        /// </summary>
-        /// <value>The description of the target.</value>
-        public string Description => _description;
+
+        string ITarget.Description { get; }
 
         /// <summary>
         ///     Gets a value indicating whether this target is hidden. Hidden targets will not be
@@ -48,6 +43,7 @@ namespace FlubuCore.Targeting
 
         protected override bool LogDuration => true;
 
+        protected override string Description { get; set; }
         protected override string DescriptionForLog => TargetName;
 
         /// <summary>
@@ -80,75 +76,100 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget DoAsync(Action<ITaskContextInternal> targetAction)
+        public ITarget DoAsync(Action<ITaskContextInternal> targetAction, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask(targetAction), TaskExecutionMode.Parallel));
+            var task = new DoTask(targetAction);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
             return this;
         }
 
-        public ITarget DoAsync<T>(Action<ITaskContextInternal, T> targetAction, T param)
+        public ITarget DoAsync<T>(Action<ITaskContextInternal, T> targetAction, T param, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask2<T>(targetAction, param), TaskExecutionMode.Parallel));
+            var task = new DoTask2<T>(targetAction, param);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
             return this;
         }
 
-        public ITarget DoAsync<T, T2>(Action<ITaskContextInternal, T, T2> targetAction, T param, T2 param2)
+        public ITarget DoAsync<T, T2>(Action<ITaskContextInternal, T, T2> targetAction, T param, T2 param2, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask3<T, T2>(targetAction, param, param2), TaskExecutionMode.Parallel));
+            var task = new DoTask3<T, T2>(targetAction, param, param2);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
             return this;
         }
 
-        public ITarget DoAsync<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3)
+        public ITarget DoAsync<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask4<T1, T2, T3>(targetAction, param, param2, param3), TaskExecutionMode.Parallel));
+            var task = new DoTask4<T1, T2, T3>(targetAction, param, param2, param3);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
             return this;
         }
 
-        public ITarget DoAsync<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2, T3 param3, T4 param4)
+        public ITarget DoAsync<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2, T3 param3, T4 param4, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask5<T1, T2, T3, T4>(targetAction, param, param2, param3, param4), TaskExecutionMode.Parallel));
+            var task = new DoTask5<T1, T2, T3, T4>(targetAction, param, param2, param3, param4);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
             return this;
         }
 
-        public ITarget DoAsync<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5)
+        public ITarget DoAsync<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask6<T1, T2, T3, T4, T5>(targetAction, param, param2, param3, param4, param5), TaskExecutionMode.Parallel));
+            var task = new DoTask6<T1, T2, T3, T4, T5>(targetAction, param, param2, param3, param4, param5);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
             return this;
         }
 
-        public ITarget Do(Action<ITaskContextInternal> targetAction)
+        public ITarget Do(Action<ITaskContextInternal> targetAction, string taskName = null, string taskDescription = null,  int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-           Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask(targetAction), TaskExecutionMode.Synchronous));
+            var task = new DoTask(targetAction);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
             return this;
         }
 
-        public ITarget Do<T>(Action<ITaskContextInternal, T> targetAction, T param)
+        public ITarget Do<T>(Action<ITaskContextInternal, T> targetAction, T param, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask2<T>(targetAction, param), TaskExecutionMode.Synchronous));
+            var task = new DoTask2<T>(targetAction, param);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
             return this;
         }
 
-        public ITarget Do<T, T2>(Action<ITaskContextInternal, T, T2> targetAction, T param, T2 param2)
+        public ITarget Do<T, T2>(Action<ITaskContextInternal, T, T2> targetAction, T param, T2 param2, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask3<T, T2>(targetAction, param, param2), TaskExecutionMode.Synchronous));
+            var task = new DoTask3<T, T2>(targetAction, param, param2);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
             return this;
         }
 
-        public ITarget Do<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3)
+        public ITarget Do<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask4<T1, T2, T3>(targetAction, param, param2, param3), TaskExecutionMode.Synchronous));
+            var task = new DoTask4<T1, T2, T3>(targetAction, param, param2, param3);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
             return this;
         }
 
-        public ITarget Do<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2, T3 param3, T4 param4)
+        public ITarget Do<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2, T3 param3, T4 param4, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask5<T1, T2, T3, T4>(targetAction, param, param2, param3, param4), TaskExecutionMode.Synchronous));
+            var task = new DoTask5<T1, T2, T3, T4>(targetAction, param, param2, param3, param4);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
             return this;
         }
 
-        public ITarget Do<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5)
+        public ITarget Do<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, string taskName = null, string taskDescription = null, int retryTimes = 0, int retryDelay = 500, bool noLog = false, bool doNotFailOnError = false)
         {
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(new DoTask6<T1, T2, T3, T4, T5>(targetAction, param, param2, param3, param4, param5), TaskExecutionMode.Synchronous));
+            var task = new DoTask6<T1, T2, T3, T4, T5>(targetAction, param, param2, param3, param4, param5);
+            task.SetBaseTaskParameters(taskName, taskDescription, retryTimes, retryDelay, noLog, doNotFailOnError);
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
             return this;
         }
 
@@ -188,7 +209,7 @@ namespace FlubuCore.Targeting
         /// <returns>this target</returns>
         public ITarget SetDescription(string description)
         {
-            _description = description;
+            Description = description;
             return this;
         }
 
@@ -248,6 +269,18 @@ namespace FlubuCore.Targeting
             return this;
         }
 
+        public void TargetHelp(ITaskContextInternal context)
+        {
+            _targetTree.MarkTargetAsExecuted(this);
+            context.LogInfo(" ");
+            context.LogInfo($"Target {TargetName} will execute next tasks:");
+            for ( int i = 0; i < _tasks.Count; i++)
+            {
+                var task = (TaskHelp)_tasks[i].Item1;
+               task.LogTaskHelp(context);
+            }
+        }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             if (_targetTree == null)
@@ -269,7 +302,7 @@ namespace FlubuCore.Targeting
             }
 
             int n = _tasks.Count;
-            List<Task> tTasks = new List<Task>();
+            List<System.Threading.Tasks.Task> tTasks = new List<System.Threading.Tasks.Task>();
             for (int i = 0; i < n; i++)
             { 
                 context.LogInfo($"Executing task {_tasks[i].Item1.GetType().Name}");
@@ -285,14 +318,14 @@ namespace FlubuCore.Targeting
                     {
                         if (_tasks[i + 1].Item2 != TaskExecutionMode.Synchronous) continue;
                         if (tTasks.Count <= 0) continue;
-                        Task.WaitAll(tTasks.ToArray());
-                        tTasks = new List<Task>();
+                        System.Threading.Tasks.Task.WaitAll(tTasks.ToArray());
+                        tTasks = new List<System.Threading.Tasks.Task>();
                     }
                     else
                     {
                         if (tTasks.Count > 0)
                         {
-                            Task.WaitAll(tTasks.ToArray());
+                            System.Threading.Tasks.Task.WaitAll(tTasks.ToArray());
                         }
                     }
                 }

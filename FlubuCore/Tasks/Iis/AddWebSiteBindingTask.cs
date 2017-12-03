@@ -43,6 +43,8 @@ namespace FlubuCore.Tasks.Iis
             return this;
         }
 
+        protected override string Description { get; set; }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             if (string.IsNullOrEmpty(_siteName))

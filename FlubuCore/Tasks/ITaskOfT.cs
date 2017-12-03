@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using FlubuCore.Context;
 
 namespace FlubuCore.Tasks
@@ -36,5 +38,21 @@ namespace FlubuCore.Tasks
         /// <returns></returns>
         TTask DoNotFailOnError();
 
+        /// <summary>
+        /// Passes argument value with specified key in <see cref="argKey"/> to specified method  in <see cref="taskMethod"/> 
+        /// </summary>
+        /// <param name="taskMethod">The method that the parameter value will be modified.</param>
+        /// <param name="argKey">The key of the argument that it will be pass through to method parameter in <see cref="taskMethod"/></param>
+        /// <param name="help">The argument help  text that wiil be display in target help. If not specified default help text is used.</param>
+        /// <param name="includeParameterlessMethodByDefault">If <c>true</c> <see cref="taskMethod"/> is invoked by default if <see cref="argKey"/> is not specified. Oterwise <see cref="taskMethod"/> is not invoked by default.</param>
+        /// <returns></returns>
+        TTask FromArgument(Expression<Action<TTask>> taskMethod, string argKey, string help = null, bool includeParameterlessMethodByDefault = false);
+
+        /// <summary>
+        /// Overrides default task description.
+        /// </summary>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        TTask SetDescription(string description);
     }
 }

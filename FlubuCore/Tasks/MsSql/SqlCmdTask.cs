@@ -2,6 +2,7 @@
 using System.IO;
 using FlubuCore.Context;
 using FlubuCore.Tasks.Process;
+using FlubuCore.WebApi.Client;
 
 namespace FlubuCore.Tasks.MsSql
 {
@@ -19,6 +20,7 @@ namespace FlubuCore.Tasks.MsSql
         private string _errorOutput;
         private readonly List<string> _sqlFiles = new List<string>();
         private bool _doNotLogOutput;
+        private string _description;
 
         /// <inheritdoc />
         public SqlCmdTask(string sqlFileName)
@@ -33,6 +35,19 @@ namespace FlubuCore.Tasks.MsSql
         {
             _sqlFiles.AddRange(sqlFiles);
             _sqlCmdExePaths.Add(DefaultSqlCmdExe);
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes sql scripts: {string.Join(",", _sqlFiles)}";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         /// <summary>

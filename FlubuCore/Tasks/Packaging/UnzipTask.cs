@@ -13,11 +13,25 @@ namespace FlubuCore.Tasks.Packaging
     {
         private readonly string _fileName;
         private readonly string _destination;
+        private string _description;
 
         public UnzipTask(string zipFile, string destinationFolder)
         {
             _fileName = zipFile;
             _destination = destinationFolder;
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Unzipps file '{_fileName}' to '{_description}'";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         protected override int DoExecute(ITaskContextInternal context)

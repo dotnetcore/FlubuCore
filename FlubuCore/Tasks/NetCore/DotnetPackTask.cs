@@ -8,8 +8,23 @@ namespace FlubuCore.Tasks.NetCore
 {
     public class DotnetPackTask : ExecuteDotnetTaskBase<DotnetPackTask>
     {
+        private string _description;
+
         public DotnetPackTask() : base(StandardDotnetCommands.Pack)
         { 
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes dotnet command Pack";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         /// <summary>

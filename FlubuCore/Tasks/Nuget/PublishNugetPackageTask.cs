@@ -24,11 +24,25 @@ namespace FlubuCore.Tasks.Nuget
         private string _nuGetServerUrl;
 
         private Func<ITaskContextInternal, string> _apiKeyFunc;
+        private string _description;
 
         public PublishNuGetPackageTask(string packageId, string nuspecFileName)
         {
             _packageId = packageId;
             _nuspecFileName = nuspecFileName;
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Pushes NuGet package {_packageId} to NuGet server '{_nuGetServerUrl}'";
+                }
+                return _description;
+            }
+            set { _description = value; }
         }
 
         /// <summary>

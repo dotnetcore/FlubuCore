@@ -93,14 +93,25 @@ namespace FlubuCore.Scripting
 
                 foreach (ITarget target in sortedTargets.Values)
                 {
-                    if (target.TaskStopwatch.ElapsedTicks > 0)
+                    var targt = target as Target;
+                    if (targt == null) continue;
+
+                    if (targt.TaskStopwatch.ElapsedTicks > 0)
                     {
-                        s.LogInfo($"Target {target.TargetName} took {(int)target.TaskStopwatch.Elapsed.TotalSeconds} s");
+                        s.LogInfo(
+                            $"Target {target.TargetName} took {(int) targt.TaskStopwatch.Elapsed.TotalSeconds} s");
                     }
                 }
 
                 s.LogInfo(s.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
             });
+
+            //// specific target help
+            if (targetsToRun.Count == 2 && targetsToRun[1].Equals("help", StringComparison.OrdinalIgnoreCase))
+            {
+                taskSession.TargetTree.RunTargetHelp(taskSession, targetsToRun[0]);
+                return;
+            }
 
             if (targetsToRun.Count == 1 || !taskSession.Args.executeTargetsInParallel)
             {
