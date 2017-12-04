@@ -383,7 +383,13 @@ namespace FlubuCore.Tasks
                 {
                     if (methodCallExpression.Arguments.Count == 0)
                     {
-                        var succeded = bool.TryParse(value, out var boolValue );
+                        if (string.IsNullOrEmpty(value))
+                        {
+                            value = "true";
+                        }
+                        
+                        var succeded = bool.TryParse(value, out var boolValue);
+
                         if (succeded && boolValue)
                         {
                             fromArgument.TaskMethod.Compile().Invoke(this as TTask);
