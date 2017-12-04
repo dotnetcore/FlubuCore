@@ -40,6 +40,7 @@ namespace FlubuCore.Tasks.Nuget
                 {
                     return $"Pushes NuGet package {_packageId} to NuGet server '{_nuGetServerUrl}'";
                 }
+
                 return _description;
             }
             set { _description = value; }

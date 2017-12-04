@@ -34,6 +34,7 @@ namespace FlubuCore.Tasks.Text
                 {
                     return $"Replaces tokens in file '{_sourceFileName}' to file '{_destinationFileName}";
                 }
+
                 return _description;
             }
             set { _description = value; }

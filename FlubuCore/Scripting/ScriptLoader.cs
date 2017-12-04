@@ -60,7 +60,7 @@ namespace FlubuCore.Scripting
             List<string> code = _file.ReadAllLines(fileName);
 
             AnalyserResult analyserResult = _analyser.Analyze(code);
-            references.AddRange(analyserResult.References.Select(i=> MetadataReference.CreateFromFile(i)));
+            references.AddRange(analyserResult.References.Select(i => MetadataReference.CreateFromFile(i)));
 
             foreach (var csFile in analyserResult.CsFiles)
             {

@@ -17,7 +17,8 @@ namespace FlubuCore.Tasks.FlubuWebApi
         private List<string> _commands;
         private string _description;
 
-        public ExecuteFlubuScriptTask(string mainCommand, string scriptFilePath, IWebApiClient webApiClient) : base(webApiClient)
+        public ExecuteFlubuScriptTask(string mainCommand, string scriptFilePath, IWebApiClient webApiClient)
+            : base(webApiClient)
         {
             _commands = new List<string>();
             _mainCommand = mainCommand;
@@ -48,22 +49,22 @@ namespace FlubuCore.Tasks.FlubuWebApi
             return this;
         }
 
-		protected override int DoExecute(ITaskContextInternal context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             Task<int> task = DoExecuteAsync(context);
 
             return task.GetAwaiter().GetResult();
         }
 
-	    protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
-	    {
-			PrepareWebApiClient(context);
-		    await WebApiClient.ExecuteScriptAsync(new ExecuteScriptRequest
+        protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
+        {
+            PrepareWebApiClient(context);
+            await WebApiClient.ExecuteScriptAsync(new ExecuteScriptRequest
             {
-               ScriptFileName = _scriptFilePath,
-               TargetToExecute = _mainCommand,
-               RemainingCommands = _commands
-              
+                ScriptFileName = _scriptFilePath,
+                TargetToExecute = _mainCommand,
+                RemainingCommands = _commands
+
             });
             return 0;
         }

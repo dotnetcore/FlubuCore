@@ -50,6 +50,7 @@ namespace FlubuCore.Tasks.Testing
                 {
                     return $"Executes NUnit unit tests with dot cover on assemblies: {testAssemblyFileNames.Concat(x => x, ", ")}";
                 }
+
                 return _description;
             }
             set { _description = value; }

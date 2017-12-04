@@ -17,14 +17,14 @@ namespace FlubuCore.Scripting.Analysis
         {
             AnalyserResult analyserResult = new AnalyserResult();
             int i = 0;
-            while(true)
+            while (true)
             {
                 if (i >= lines.Count)
                     break;
 
                 string line = lines[i];
 
-                foreach(var processor in _processors)
+                foreach (var processor in _processors)
                 {
                     bool ret = processor.Process(analyserResult, line, i);
 
@@ -33,6 +33,7 @@ namespace FlubuCore.Scripting.Analysis
                         RemoveNamespace(lines, analyserResult);
                         return analyserResult;
                     }
+
                     if (ret)
                     {
                         lines.RemoveAt(i);

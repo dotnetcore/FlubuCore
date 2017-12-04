@@ -47,20 +47,19 @@ namespace FlubuCore.Scripting
                 return null;
             }
 
-            List<string> notFoundTargets;
-            if (targetTree.HasAllTargets(context.Args.MainCommands, out notFoundTargets))
+            if (targetTree.HasAllTargets(context.Args.MainCommands, out var notFoundTargets))
             {
                 return context.Args.MainCommands;
             }
 
             if (context.Args.TreatUnknownTargetAsException)
             {
-                throw new TargetNotFoundException($"Target { String.Join(" and ", notFoundTargets) } not found.");
+                throw new TargetNotFoundException($"Target {string.Join(" and ", notFoundTargets)} not found.");
             }
 
-            context.LogInfo($"ERROR: Target {String.Join(" and ", notFoundTargets)} not found.");
+            context.LogInfo($"ERROR: Target {string.Join(" and ", notFoundTargets)} not found.");
             return new List<string>
-            { "help"};
+            { "help" };
         }
 
         private void RunBuild(ITaskSession taskSession)
@@ -78,8 +77,7 @@ namespace FlubuCore.Scripting
             if (targetsToRun == null || targetsToRun.Count == 0)
             {
                 ITarget defaultTarget = taskSession.TargetTree.DefaultTarget;
-                targetsToRun = new List<string>();
-                targetsToRun.Add(defaultTarget?.TargetName ?? "help");
+                targetsToRun = new List<string> { defaultTarget?.TargetName ?? "help" };
             }
 
             taskSession.Start(s =>
@@ -94,12 +92,11 @@ namespace FlubuCore.Scripting
                 foreach (ITarget target in sortedTargets.Values)
                 {
                     var targt = target as Target;
-                    if (targt == null) continue;
 
-                    if (targt.TaskStopwatch.ElapsedTicks > 0)
+                    if (targt?.TaskStopwatch.ElapsedTicks > 0)
                     {
                         s.LogInfo(
-                            $"Target {target.TargetName} took {(int) targt.TaskStopwatch.Elapsed.TotalSeconds} s");
+                            $"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s");
                     }
                 }
 
@@ -113,7 +110,7 @@ namespace FlubuCore.Scripting
                 return;
             }
 
-            if (targetsToRun.Count == 1 || !taskSession.Args.executeTargetsInParallel)
+            if (targetsToRun.Count == 1 || !taskSession.Args.ExecuteTargetsInParallel)
             {
                 foreach (var targetToRun in targetsToRun)
                 {
@@ -123,13 +120,13 @@ namespace FlubuCore.Scripting
             else
             {
                 taskSession.LogInfo("Running target's in parallel.");
-                List<Task> tTasks = new List<Task>();
+                List<Task> tasks = new List<Task>();
                 foreach (var targetToRun in targetsToRun)
                 {
-                    tTasks.Add(taskSession.TargetTree.RunTargetAsync(taskSession, targetToRun));
+                    tasks.Add(taskSession.TargetTree.RunTargetAsync(taskSession, targetToRun));
                 }
 
-                Task.WaitAll(tTasks.ToArray());
+                Task.WaitAll(tasks.ToArray());
             }
 
             AssertAllTargetDependenciesWereExecuted(taskSession);

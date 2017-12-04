@@ -13,7 +13,6 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
             return this;
         }
 
-
         public ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework, string runtime, Action<PackageTask> action, params string [] projects)
         {
             CreateZipPackageFromProjectsImplementation(zipPrefix, targetFramework, runtime, action, projects);
@@ -30,7 +29,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
             string project, string project2, Action<PackageTask> action = null, string runtime = null)
         {
             CreateZipPackageFromProjectsImplementation(zipPrefix, targetFramework, runtime, action, project, project2);
-            return this; ;
+            return this;
         }
 
         public ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework,
@@ -61,13 +60,35 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
             return this;
         }
 
-        public ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework,
-            string project, string project2, string project3, string project4, string project5, string project6, string project7, Action<PackageTask> action = null, string runtime = null)
+        public ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(
+            string zipPrefix,
+            string targetFramework,
+            string project,
+            string project2,
+            string project3,
+            string project4,
+            string project5,
+            string project6,
+            string project7,
+            Action<PackageTask> action = null,
+            string runtime = null)
         {
-            CreateZipPackageFromProjectsImplementation(zipPrefix, targetFramework, runtime, action, project, project2, project3, project4, project5, project6, project7);
+            CreateZipPackageFromProjectsImplementation(
+                zipPrefix,
+                targetFramework,
+                runtime,
+                action,
+                project,
+                project2,
+                project3,
+                project4,
+                project5,
+                project6,
+                project7);
+
             return this;
         }
-        
+
         private void CreateZipPackageFromProjectsImplementation(string zipPrefix, string targetFramework, string runtime, Action<PackageTask> action, params string[] projects)
         {
             var task = Context.Tasks().PackageTask(string.Empty); // must be string.Empty because of a constuctor

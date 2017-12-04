@@ -12,7 +12,8 @@ namespace FlubuCore.Tasks.NetCore
     {
         private string _description;
 
-        public DotnetBuildTask() : base(StandardDotnetCommands.Build)
+        public DotnetBuildTask()
+            : base(StandardDotnetCommands.Build)
         {
         }
 
@@ -24,6 +25,7 @@ namespace FlubuCore.Tasks.NetCore
                 {
                     return $"Executes dotnet command Build.";
                 }
+
                 return _description;
             }
             set { _description = value; }

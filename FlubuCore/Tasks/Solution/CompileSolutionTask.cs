@@ -50,7 +50,8 @@ namespace FlubuCore.Tasks.Solution
         public CompileSolutionTask(
            string solutionFileName,
            string buildConfiguration,
-           IFlubuEnviromentService enviromentService) : this(enviromentService)
+           IFlubuEnviromentService enviromentService)
+            : this(enviromentService)
         {
             _solutionFileName = solutionFileName;
             _buildConfiguration = buildConfiguration;
@@ -65,10 +66,28 @@ namespace FlubuCore.Tasks.Solution
                 {
                     return $"Compiles solution {_solutionFileName} in {_buildConfiguration} mode.";
                 }
+
                 return _description;
             }
+
             set { _description = value; }
         }
+
+        /// <summary>
+        /// Msbuild version to be used for build.
+        /// </summary>
+        [Obsolete("Use fluent interface instead", true)]
+        public Version ToolsVersion
+        {
+            get => _toolsVersion;
+            set => _toolsVersion = value;
+        }
+
+        /// <summary>
+        /// Should we use solution directory for working folder
+        /// </summary>
+        [Obsolete("Use fluent interface instead", true)]
+        public bool UseSolutionDirAsWorkingDir { get; set; }
 
         /// <summary>
         /// Add's Platform argument to MSBuild. If not set CPUAny is used as default.
@@ -93,6 +112,7 @@ namespace FlubuCore.Tasks.Solution
             _msbuildPaths.Add(pathToMsbuild);
             return this;
         }
+
         /// <summary>
         /// Configuration parameter won't be passed to msbuild command.
         /// </summary>
@@ -144,8 +164,7 @@ namespace FlubuCore.Tasks.Solution
             _loggingOptions.Add(option);
             return this;
         }
-
-
+        
         /// <summary>
         /// Add console logger option(clp). See msbuild for more details.
         /// </summary>
@@ -158,7 +177,7 @@ namespace FlubuCore.Tasks.Solution
         }
 
         /// <summary>
-        /// Add'sTarget argument to MSBuild. 
+        /// Add'sTarget argument to MSBuild.
         /// </summary>
         public CompileSolutionTask WithTarget(string target)
         {
@@ -169,27 +188,11 @@ namespace FlubuCore.Tasks.Solution
         /// <summary>
         /// Msbuild version to be used for build.
         /// </summary>
-        [Obsolete("Use fluent interface instead", true)]
-        public Version ToolsVersion
-        {
-            get => _toolsVersion;
-            set => _toolsVersion = value;
-        }
-
-        /// <summary>
-        /// Msbuild version to be used for build.
-        /// </summary>
         public CompileSolutionTask SetToolsVersion(Version version)
         {
             _toolsVersion = version;
             return this;
         }
-
-        /// <summary>
-        /// Should we use solution directory for working folder
-        /// </summary>
-        [Obsolete("Use fluent interface instead", true)]
-        public bool UseSolutionDirAsWorkingDir { get; set; }
 
         /// <summary>
         /// Solution directory is used for working directory.

@@ -22,6 +22,7 @@
                 {
                     return $"Creates new windows service '{ServiceName}' located at '{_pathToService}";
                 }
+
                 return _description;
             }
             set { _description = value; }
@@ -42,6 +43,7 @@
                     arg = "Delayed-Auto";
                     break;
                 }
+
                 default:
                 {
                     arg = start.ToString();

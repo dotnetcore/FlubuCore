@@ -20,16 +20,16 @@ namespace FlubuCore.Scripting
 
         public List<string> TargetsToExecute { get; set; }
 
-        public bool executeTargetsInParallel { get; set; }
+        public bool ExecuteTargetsInParallel { get; set; }
 
+        public DictionaryWithDefault<string, string> ScriptArguments { get; set; }
 
-	    public DictionaryWithDefault<string, string> ScriptArguments;
-		
         /// <summary>
-        /// If <c>true</c> specified target is unknown flubu treat this as exception. Otherwise help target is runned.
+        /// Gets or sets a value indicating whether <c>true</c> specified target is unknown flubu treat this as exception.
+        /// Otherwise help target is runned.
         /// </summary>
         public bool TreatUnknownTargetAsException { get; set; }
-        
+
         /// <summary>
         /// If <c>true</c> flubu rethrows exception when occures. Otherwise status code is returned. 
         /// </summary>

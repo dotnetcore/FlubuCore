@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.NetCore
             return new ExecuteDotnetTask(StandardDotnetCommands.Test)
                 .WorkingFolder(workingFolder)
                 .WithArguments(projectName);
-            
+
             //todo set xml outout for tests
         }
 

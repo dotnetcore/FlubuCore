@@ -77,7 +77,7 @@ namespace DotNet.Cli.Flubu.Commanding
 
             if (_parallelTargetExecution.HasValue())
             {
-                _parsed.executeTargetsInParallel = true;
+                _parsed.ExecuteTargetsInParallel = true;
             }
 
             if (_isDebug.HasValue())

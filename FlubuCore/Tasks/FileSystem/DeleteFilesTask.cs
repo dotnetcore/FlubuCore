@@ -41,8 +41,10 @@ namespace FlubuCore.Tasks.FileSystem
                 {
                     return $"Deletes all files that matches '{_filePattern}' pattern in folder '{_directoryPath}' ";
                 }
+
                 return _description;
             }
+
             set { _description = value; }
         }
 

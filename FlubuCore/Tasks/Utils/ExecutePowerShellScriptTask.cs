@@ -25,6 +25,7 @@ namespace FlubuCore.Tasks.Utils
                 {
                     return $"Executes powershell script {_pathToPowerShellScript}";
                 }
+
                 return _description;
             }
             set { _description = value; }

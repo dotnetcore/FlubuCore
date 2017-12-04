@@ -39,11 +39,12 @@ namespace FlubuCore.Tasks.Iis
                 {
                     return $"{_action.ToString()}s application pool {_applicationPoolName}.";
                 }
+
                 return _description;
             }
+
             set { _description = value; }
         }
-
 
         protected override int DoExecute(ITaskContextInternal context)
         {

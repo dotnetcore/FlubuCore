@@ -49,6 +49,7 @@ namespace FlubuCore.Tasks.Text
                 {
                     return $"Update XML file '{xmlFileName}";
                 }
+
                 return _description;
             }
             set { _description = value; }

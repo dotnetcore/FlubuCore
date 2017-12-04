@@ -125,7 +125,6 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITargetFluentInterface DoAsync<T, T1, T2, T3, T4>(Action<ITaskContextInternal, T, T1, T2, T3, T4> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5, Action<DoTask6<T, T1, T2, T3, T4>> taskAction = null);
-       
 
         /// <summary>
         ///     Sets the target as the default target for the runner.

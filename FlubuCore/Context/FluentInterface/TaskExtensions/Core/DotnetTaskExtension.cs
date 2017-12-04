@@ -89,7 +89,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
             return this;
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetBuild( Action<DotnetBuildTask> action = null)
+        public ICoreTaskExtensionsFluentInterface DotnetBuild(Action<DotnetBuildTask> action = null)
         {
            return DotnetBuild(null, null, action);
         }

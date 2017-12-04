@@ -1,7 +1,7 @@
-﻿using FlubuCore.Context;
-using Renci.SshNet;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using FlubuCore.Context;
+using Renci.SshNet;
 
 namespace FlubuCore.Tasks.Linux
 {
@@ -25,6 +25,8 @@ namespace FlubuCore.Tasks.Linux
             _password = password;
         }
 
+        protected override string Description { get; set; }
+
         public SshCopyTask WithFile(string sourceFile, string destinationFile)
         {
             _items.Add(new SourceDestinationPair(sourceFile, destinationFile, true));
@@ -42,8 +44,6 @@ namespace FlubuCore.Tasks.Linux
             _password = password;
             return this;
         }
-
-        protected override string Description { get; set; }
 
         protected override int DoExecute(ITaskContextInternal context)
         {
@@ -66,6 +66,7 @@ namespace FlubuCore.Tasks.Linux
                         cl.Upload(new DirectoryInfo(item.Source), item.Destination);
                     }
                 }
+
                 cl.Disconnect();
                 return 0;
             }

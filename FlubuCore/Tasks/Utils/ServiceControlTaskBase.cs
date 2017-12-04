@@ -7,12 +7,9 @@ namespace FlubuCore.Tasks.Utils
     /// Base class for 
     /// </summary>
     /// <typeparam name="TTask"></typeparam>
-    public abstract class ServiceControlTaskBase<TTask> : ExternalProcessTaskBase<TTask> where TTask : class, ITask
+    public abstract class ServiceControlTaskBase<TTask> : ExternalProcessTaskBase<TTask>
+        where TTask : class, ITask
     {
-        protected string ServiceName { get; }
-
-        protected string Command { get; }
-
         /// <inheritdoc />
         public ServiceControlTaskBase(string command, string serviceName)
         {
@@ -21,6 +18,10 @@ namespace FlubuCore.Tasks.Utils
             WithArguments(command, serviceName);
             ExecutablePath = "sc";
         }
+
+        protected string ServiceName { get; }
+
+        protected string Command { get; }
 
         /// <summary>
         /// Control services on another machine.
@@ -33,7 +34,7 @@ namespace FlubuCore.Tasks.Utils
                 server = $"\\\\{server.Trim()}";
 
             InsertArgument(0, server);
-            return (TTask) (object) this;
+            return (TTask)(object)this;
         }
     }
 }

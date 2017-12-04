@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FlubuCore.Context;
+﻿using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.NetCore
 {
@@ -10,10 +7,10 @@ namespace FlubuCore.Tasks.NetCore
     /// </summary>
     public class DotnetPublishTask : ExecuteDotnetTaskBase<DotnetPublishTask>
     {
-        protected bool _configurationIsSet;
         private string _description;
 
-        public DotnetPublishTask() : base(StandardDotnetCommands.Publish)
+        public DotnetPublishTask()
+            : base(StandardDotnetCommands.Publish)
         {
         }
 
@@ -23,11 +20,13 @@ namespace FlubuCore.Tasks.NetCore
             {
                 if (string.IsNullOrEmpty(_description))
                 {
-                    return $"Executes dotnet command Publish";
+                    return "Executes dotnet command Publish";
                 }
+
                 return _description;
             }
-            set { _description = value; }
+
+            set => _description = value;
         }
 
         /// <summary>
@@ -82,7 +81,6 @@ namespace FlubuCore.Tasks.NetCore
         public DotnetPublishTask Configuration(string configuration)
         {
             WithArguments("-c", configuration);
-            _configurationIsSet = true;
             return this;
         }
 

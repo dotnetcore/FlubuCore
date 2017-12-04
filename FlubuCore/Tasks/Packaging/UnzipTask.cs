@@ -29,6 +29,7 @@ namespace FlubuCore.Tasks.Packaging
                 {
                     return $"Unzipps file '{_fileName}' to '{_description}'";
                 }
+
                 return _description;
             }
             set { _description = value; }
@@ -69,7 +70,6 @@ namespace FlubuCore.Tasks.Packaging
 
                     if (metadata == null)
                     {
-                        
                         ExtractToFiles(context, entry, os, new List<string> { zipFile });
                         continue;
                     }

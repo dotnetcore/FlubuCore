@@ -200,7 +200,7 @@ namespace FlubuCore.Context.FluentInterface
 
         public ICoreTaskExtensionsFluentInterface CoreTaskExtensions()
         {
-            CoreTaskExtensionsFluentInterface coreTaskExtensionsFluent = (CoreTaskExtensionsFluentInterface) CoreTaskExtensionsFluent;
+            CoreTaskExtensionsFluentInterface coreTaskExtensionsFluent = (CoreTaskExtensionsFluentInterface)CoreTaskExtensionsFluent;
             coreTaskExtensionsFluent.Target = this;
             coreTaskExtensionsFluent.Context = Context;
             return coreTaskExtensionsFluent;

@@ -36,6 +36,7 @@ namespace FlubuCore.Tasks.Packaging
                 {
                     return $"Packages specified files and folders to '{_destinationRootDir}'";
                 }
+
                 return _description;
             }
             set { _description = value; }

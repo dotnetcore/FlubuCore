@@ -27,6 +27,7 @@ namespace FlubuCore.Tasks.Nuget
                 {
                     return $"Execute NuGet command line tool (command='{_command}')'";
                 }
+
                 return _description;
             }
             set { _description = value; }

@@ -172,7 +172,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         OpenCoverToCoberturaTask OpenCoverToCoberturaTask(string input, string output);
 
         /// <summary>
-        // /Task runs open cover tool.
+        /// Task runs open cover tool.
         /// </summary>
         /// <returns></returns>
         OpenCoverTask OpenCoverTask();

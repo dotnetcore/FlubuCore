@@ -3,7 +3,8 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.Process
 {
-    public abstract class ExternalProcessTaskBase<TTask> : TaskBase<int, TTask>, IExternalProcess<TTask> where TTask : class, ITask
+    public abstract class ExternalProcessTaskBase<TTask> : TaskBase<int, TTask>, IExternalProcess<TTask>
+        where TTask : class, ITask
     {
         /// <summary>
         /// Arguments for the command line.
@@ -11,19 +12,22 @@ namespace FlubuCore.Tasks.Process
         private readonly List<string> _arguments = new List<string>();
 
         /// <summary>
-        /// Working folder.
+        /// Gets or sets working folder.
         /// </summary>
-        protected string ExecuteWorkingFolder;
-        
+        /// <value>
+        /// Working folder.
+        /// </value>
+        protected string ExecuteWorkingFolder { get; set; }
+
         /// <summary>
         /// Executable path.
         /// </summary>
-        protected string ExecutablePath;
+        protected string ExecutablePath { get; set; }
 
         /// <summary>
         /// Do not log to console if possible.
         /// </summary>
-        protected bool NoOutputLog;
+        protected bool NoOutputLog { get; set; }
 
         public List<string> GetArguments()
         {

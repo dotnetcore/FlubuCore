@@ -20,6 +20,7 @@ namespace FlubuCore.Tasks.Linux
                 {
                     break;
                 }
+
                 if (i.Key == ConsoleKey.Backspace)
                 {
                     if (pwd.Length > 0)

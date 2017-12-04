@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using FlubuCore.Context;
-using System.Threading;
 using FlubuCore.Tasks.Attributes;
 using Task = System.Threading.Tasks.Task;
 
@@ -15,14 +15,15 @@ namespace FlubuCore.Tasks
     /// <summary>
     ///     A base abstract class from which tasks can be implemented.
     /// </summary>
-    public abstract class TaskBase<TResult, TTask> : TaskHelp, ITaskOfT<TResult, TTask> where TTask : class, ITask
+    public abstract class TaskBase<TResult, TTask> : TaskHelp, ITaskOfT<TResult, TTask>
+        where TTask : class, ITask
     {
-        private int _retriedTimes;
+        private readonly List<(Expression<Action<TTask>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)> _fromArguments =
+            new List<(Expression<Action<TTask>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)>();
 
+        private int _retriedTimes;
         private string _taskName;
 
-        private readonly List<(Expression<Action<TTask>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)> _fromArguments = new List<(Expression<Action<TTask>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)>();
-        
         internal Dictionary<string, string> ArgumentHelp { get;  } = new Dictionary<string, string>();
 
         /// <summary>
@@ -71,7 +72,7 @@ namespace FlubuCore.Tasks
         /// <summary>
         /// Task context. It will be set after the execute method.
         /// </summary>
-        protected  ITaskContext Context { get; private set; }
+        protected ITaskContext Context { get; private set; }
 
         /// <summary>
         /// If set to true, task should not log anything.
@@ -82,7 +83,7 @@ namespace FlubuCore.Tasks
         /// Number of retries in case of an exception.
         /// </summary>
         protected int NumberOfRetries { get; private set; }
-        
+
         /// <summary>
         ///     Gets a value indicating whether the duration of the task should be logged after the task
         ///     has finished.
@@ -148,7 +149,7 @@ namespace FlubuCore.Tasks
             Description = description;
             return this as TTask;
         }
-        
+
         /// <inheritdoc />
         [DisableForMember]
         public void ExecuteVoid(ITaskContext context)
@@ -382,7 +383,7 @@ namespace FlubuCore.Tasks
                         {
                             value = "true";
                         }
-                        
+
                         var succeded = bool.TryParse(value, out var boolValue);
 
                         if (succeded && boolValue)
@@ -399,8 +400,9 @@ namespace FlubuCore.Tasks
                 }
                 catch (FormatException e)
                 {
-                   var methodInfo = ((MethodCallExpression) fromArgument.TaskMethod.Body).Method;
-                   var parameters =  methodInfo.GetParameters().ToList();
+                    var methodInfo = ((MethodCallExpression)fromArgument.TaskMethod.Body).Method;
+                    var parameters = methodInfo.GetParameters().ToList();
+
                     if (parameters.Count == 1)
                     {
                         throw new TaskExecutionException(

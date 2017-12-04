@@ -23,6 +23,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
                 {
                     return $"Deletes all previously uploaded packages from flubu server '{WebApiClient.WebApiBaseUrl}'.";
                 }
+
                 return _description;
             }
             set { _description = value; }

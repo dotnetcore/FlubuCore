@@ -10,15 +10,16 @@ namespace FlubuCore.Tasks.FlubuWebApi
 {
     public class UploadPackageTask : WebApiBaseTask<UploadPackageTask, int>
     {
-	    private string _packageSearchPattern;
+        private string _packageSearchPattern;
 
-	    private string _directoryPath;
+        private string _directoryPath;
         private string _description;
 
-        public UploadPackageTask(IWebApiClient client, string directoryPath) : base(client)
-		{
-		    _directoryPath = directoryPath;
-	    }
+        public UploadPackageTask(IWebApiClient client, string directoryPath)
+            : base(client)
+        {
+            _directoryPath = directoryPath;
+        }
 
         protected override string Description
         {
@@ -39,28 +40,28 @@ namespace FlubuCore.Tasks.FlubuWebApi
         /// <param name="packageSearchPattern"></param>
         /// <returns></returns>
         public UploadPackageTask PackageSearchPattern(string packageSearchPattern)
-	    {
-		    _packageSearchPattern = packageSearchPattern;
-		    return this;
-	    }
+        {
+            _packageSearchPattern = packageSearchPattern;
+            return this;
+        }
 
-		protected override int DoExecute(ITaskContextInternal context)
-	    {
-		    Task<int> task = DoExecuteAsync(context);
+        protected override int DoExecute(ITaskContextInternal context)
+        {
+            Task<int> task = DoExecuteAsync(context);
 
-		    return task.GetAwaiter().GetResult();
-	    }
+            return task.GetAwaiter().GetResult();
+        }
 
-	    protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
-	    {
-			PrepareWebApiClient(context);
-			await WebApiClient.UploadPackageAsync(new UploadPackageRequest
-		    {
-			    PackageSearchPattern = _packageSearchPattern,
-				DirectoryPath = _directoryPath
-		    });
+        protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
+        {
+            PrepareWebApiClient(context);
+            await WebApiClient.UploadPackageAsync(new UploadPackageRequest
+            {
+                PackageSearchPattern = _packageSearchPattern,
+                DirectoryPath = _directoryPath
+            });
 
-		    return 0;
-	    }
-	}
+            return 0;
+        }
+    }
 }

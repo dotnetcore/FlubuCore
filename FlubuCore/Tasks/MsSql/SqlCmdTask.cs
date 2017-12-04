@@ -14,20 +14,17 @@ namespace FlubuCore.Tasks.MsSql
             @"C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\SQLCMD.EXE";
 
         private readonly List<string> _sqlCmdExePaths = new List<string>();
+        private readonly List<string> _sqlFiles = new List<string>();
         private string _output;
         private string _errorOutput;
-        private readonly List<string> _sqlFiles = new List<string>();
         private string _description;
 
-        /// <inheritdoc />
         public SqlCmdTask(string sqlFileName)
         {
             _sqlFiles.Add(sqlFileName);
             _sqlCmdExePaths.Add(DefaultSqlCmdExe);
         }
 
-
-        /// <inheritdoc />
         public SqlCmdTask(params string[] sqlFiles)
         {
             _sqlFiles.AddRange(sqlFiles);
@@ -36,14 +33,9 @@ namespace FlubuCore.Tasks.MsSql
 
         protected override string Description
         {
-            get
-            {
-                if (string.IsNullOrEmpty(_description))
-                {
-                    return $"Executes sql scripts: {string.Join(",", _sqlFiles)}";
-                }
-                return _description;
-            }
+            get => string.IsNullOrEmpty(_description)
+                ? $"Executes sql scripts: {string.Join(",", _sqlFiles)}"
+                : _description;
             set => _description = value;
         }
 

@@ -30,6 +30,7 @@ namespace FlubuCore.Tasks.Solution
                 {
                     return $"Cleans project outputs in solution";
                 }
+
                 return _description;
             }
             set { _description = value; }

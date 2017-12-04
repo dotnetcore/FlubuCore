@@ -2,7 +2,8 @@
 {
     public class TargetNotFoundException : FlubuException
     {
-        public TargetNotFoundException(string message) : base(message)
+        public TargetNotFoundException(string message)
+            : base(message)
         {
         }
     }

@@ -272,10 +272,11 @@ namespace FlubuCore.Targeting
             _targetTree.MarkTargetAsExecuted(this);
             context.LogInfo(" ");
             context.LogInfo($"Target {TargetName} will execute next tasks:");
-            for ( int i = 0; i < _tasks.Count; i++)
+
+            for (int i = 0; i < _tasks.Count; i++)
             {
                 var task = (TaskHelp)_tasks[i].Item1;
-               task.LogTaskHelp(context);
+                task.LogTaskHelp(context);
             }
         }
 
@@ -288,7 +289,7 @@ namespace FlubuCore.Targeting
 
             context.LogInfo($"Executing target {TargetName}");
 
-            _targetTree. MarkTargetAsExecuted(this);
+            _targetTree.MarkTargetAsExecuted(this);
             _targetTree.EnsureDependenciesExecuted(context, TargetName);
 
             if (_args.TargetsToExecute != null)
@@ -300,9 +301,9 @@ namespace FlubuCore.Targeting
             }
 
             int n = _tasks.Count;
-            List<System.Threading.Tasks.Task> tTasks = new List<System.Threading.Tasks.Task>();
+            List<System.Threading.Tasks.Task> tasks = new List<System.Threading.Tasks.Task>();
             for (int i = 0; i < n; i++)
-            { 
+            {
                 context.LogInfo($"Executing task {_tasks[i].Item1.GetType().Name}");
                 if (_tasks[i].Item2 == TaskExecutionMode.Synchronous)
                 {
@@ -311,19 +312,19 @@ namespace FlubuCore.Targeting
                 else
                 {
                     var i1 = i;
-                    tTasks.Add(_tasks[i1].Item1.ExecuteVoidAsync(context));
+                    tasks.Add(_tasks[i1].Item1.ExecuteVoidAsync(context));
                     if (i + 1 < n)
                     {
                         if (_tasks[i + 1].Item2 != TaskExecutionMode.Synchronous) continue;
-                        if (tTasks.Count <= 0) continue;
-                        System.Threading.Tasks.Task.WaitAll(tTasks.ToArray());
-                        tTasks = new List<System.Threading.Tasks.Task>();
+                        if (tasks.Count <= 0) continue;
+                        System.Threading.Tasks.Task.WaitAll(tasks.ToArray());
+                        tasks = new List<System.Threading.Tasks.Task>();
                     }
                     else
                     {
-                        if (tTasks.Count > 0)
+                        if (tasks.Count > 0)
                         {
-                            System.Threading.Tasks.Task.WaitAll(tTasks.ToArray());
+                            System.Threading.Tasks.Task.WaitAll(tasks.ToArray());
                         }
                     }
                 }

@@ -24,6 +24,7 @@ namespace FlubuCore.Tasks.NetCore
                 {
                     return $"Execute dotnet command '{Command}'";
                 }
+
                 return _description;
             }
             set { _description = value; }

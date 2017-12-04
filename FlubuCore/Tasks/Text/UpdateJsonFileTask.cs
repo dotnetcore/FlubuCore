@@ -32,6 +32,7 @@ namespace FlubuCore.Tasks.Text
                 {
                     return $"Updates json file '{_fileName}'";
                 }
+
                 return _description;
             }
             set { _description = value; }

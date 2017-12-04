@@ -141,7 +141,7 @@ namespace FlubuCore.Tasks.Process
                 .WorkingDirectory(_workingFolder ?? currentDirectory)
                 .OnErrorLine(l =>
                 {
-                    if(!_doNotLogOutput)
+                    if (!_doNotLogOutput)
                         DoLogInfo(l);
 
                     if (_captureOutput)
@@ -149,7 +149,7 @@ namespace FlubuCore.Tasks.Process
                 })
                 .OnOutputLine(l =>
                 {
-                    if(!_doNotLogOutput)
+                    if (!_doNotLogOutput)
                         DoLogInfo(l);
 
                     if (_captureErrorOutput)

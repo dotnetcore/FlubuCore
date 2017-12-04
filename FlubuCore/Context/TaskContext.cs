@@ -26,7 +26,7 @@ namespace FlubuCore.Context
             TargetTree = targetTree;
         }
 
-		public TargetTree TargetTree { get; }
+        public TargetTree TargetTree { get; }
 
         public ITaskFluentInterface Tasks()
         {

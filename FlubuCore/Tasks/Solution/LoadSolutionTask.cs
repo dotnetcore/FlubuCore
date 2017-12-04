@@ -27,6 +27,7 @@ namespace FlubuCore.Tasks.Solution
                 {
                     return $"Loads solution {SolutionFile}";
                 }
+
                 return _description;
             }
             set { _description = value; }

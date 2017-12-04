@@ -55,6 +55,8 @@ namespace FlubuCore.Tasks.FileSystem
         /// <value>The inclusion pattern.</value>
         public string InclusionPattern { get; set; }
 
+        protected override string Description { get; set; }
+
         /// <summary>
         ///     Sets the exclusion regular expression pattern for files.
         /// </summary>
@@ -80,8 +82,6 @@ namespace FlubuCore.Tasks.FileSystem
             InclusionPattern = inclusionPattern;
             return this;
         }
-
-        protected override string Description { get; set; }
 
         /// <summary>
         ///     Internal task execution code.

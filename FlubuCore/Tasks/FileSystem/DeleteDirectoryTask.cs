@@ -17,15 +17,6 @@ namespace FlubuCore.Tasks.FileSystem
             _failIfNotExists = failIfNotExists;
         }
 
-        public static void Execute(
-            ITaskContextInternal context,
-            string directoryPath,
-            bool failIfNotExists)
-        {
-            var task = new DeleteDirectoryTask(directoryPath, failIfNotExists);
-            task.ExecuteVoid(context);
-        }
-
         protected override string Description
         {
             get
@@ -34,9 +25,20 @@ namespace FlubuCore.Tasks.FileSystem
                 {
                     return $"Deletes directory '{_directoryPath}'.";
                 }
+
                 return _description;
             }
+
             set { _description = value; }
+        }
+
+        public static void Execute(
+            ITaskContextInternal context,
+            string directoryPath,
+            bool failIfNotExists)
+        {
+            var task = new DeleteDirectoryTask(directoryPath, failIfNotExists);
+            task.ExecuteVoid(context);
         }
 
         protected override int DoExecute(ITaskContextInternal context)

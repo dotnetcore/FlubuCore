@@ -31,6 +31,7 @@ namespace FlubuCore.Tasks.Iis
                 {
                     return $"Creates application pool {_applicationPoolName}";
                 }
+
                 return _description;
             }
             set { _description = value; }

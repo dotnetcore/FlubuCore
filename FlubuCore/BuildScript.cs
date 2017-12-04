@@ -20,7 +20,7 @@ namespace FlubuCore
 
         protected override void ConfigureTargets(ITaskContext session)
         {
-            //Add custom targets to build and dependencies to default target if needed.
+            // Add custom targets to build and dependencies to default target if needed.
             session.CreateTarget("rebuild")
                 .SetDescription("Rebuilds the project.")
                 .SetAsDefault()

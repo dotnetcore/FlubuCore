@@ -19,6 +19,7 @@
                 {
                     return $"{Command} service '{ServiceName}'";
                 }
+
                 return _description;
             }
             set { _description = value; }

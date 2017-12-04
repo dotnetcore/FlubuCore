@@ -118,7 +118,7 @@ namespace FlubuCore.Tasks
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            _taskAction.Invoke(context, _param, _param2, _param3, _param4 );
+            _taskAction.Invoke(context, _param, _param2, _param3, _param4);
             return 0;
         }
     }

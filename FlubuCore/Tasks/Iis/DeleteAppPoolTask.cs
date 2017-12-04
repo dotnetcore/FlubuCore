@@ -28,6 +28,7 @@ namespace FlubuCore.Tasks.Iis
                 {
                     return $"Deletes application pool {_appPoolName}";
                 }
+
                 return _description;
             }
             set { _description = value; }

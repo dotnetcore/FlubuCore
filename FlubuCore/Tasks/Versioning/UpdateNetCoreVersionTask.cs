@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using FlubuCore.Context;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Tasks.Text;
@@ -33,9 +32,11 @@ namespace FlubuCore.Tasks.Versioning
                 {
                     return $"Updates version, AssemblyVersion and FileVersion in csproj/project.json {_file} to {_version.ToString(3)}";
                 }
+
                 return _description;
             }
-            set { _description = value; }
+
+            set => _description = value;
         }
 
         internal List<string> AdditionalProperties { get; } = new List<string>();
@@ -84,7 +85,6 @@ namespace FlubuCore.Tasks.Versioning
             }
 
             context.LogInfo($"Update version to {_version}");
-            
             string newVersion = _version.ToString(3);
             int res = 0;
 
