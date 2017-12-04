@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FlubuCore.Tasks.Attributes
 {
-    public class DisableFromArgumentAttribute : Attribute
+    public class DisableForMemberAttribute : Attribute
     {
     }
 }
