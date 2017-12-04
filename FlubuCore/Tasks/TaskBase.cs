@@ -21,7 +21,7 @@ namespace FlubuCore.Tasks
 
         private string _taskName;
 
-        private readonly List<(Expression<Action<TTask>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)> _fromArguments = new List<(Expression<Action<TTask>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)>();
+        private readonly List<(Expression<Action<TTask>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)> _forMembers = new List<(Expression<Action<TTask>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)>();
         
         internal Dictionary<string, string> ArgumentHelp { get;  } = new Dictionary<string, string>();
 
@@ -109,7 +109,7 @@ namespace FlubuCore.Tasks
         public TTask ForMember(Expression<Action<TTask>> taskMethod, string argKey, string help = null, bool includeParameterlessMethodByDefault = true)
         {
             string key = argKey.TrimStart('-');
-            _fromArguments.Add((taskMethod, key, includeParameterlessMethodByDefault));
+            _forMembers.Add((taskMethod, key, includeParameterlessMethodByDefault));
             if (!string.IsNullOrEmpty(help))
             {
                 ArgumentHelp.Add(argKey, help);
@@ -190,7 +190,7 @@ namespace FlubuCore.Tasks
 
             try
             {
-                InvokeFromMethods();
+                InvokeForMembers();
                 return DoExecute(contextInternal);
             }
             catch (Exception)
@@ -247,7 +247,7 @@ namespace FlubuCore.Tasks
 
             try
             {
-                InvokeFromMethods();
+                InvokeForMembers();
                 return await DoExecuteAsync(contextInternal);
             }
             catch (Exception)
@@ -337,74 +337,84 @@ namespace FlubuCore.Tasks
             Context.LogError(message);
         }
 
-        private void InvokeFromMethods()
+        private void InvokeForMembers()
         {
-            if (_fromArguments.Count == 0)
+            if (_forMembers.Count == 0)
             {
                 return;
             }
 
-            foreach (var fromArgument in _fromArguments)
+            foreach (var forMember in _forMembers)
             {
-                var methodCallExpression = fromArgument.TaskMethod.Body as MethodCallExpression;
-                if (methodCallExpression != null)
-                {
-                    var attribute = methodCallExpression.Method.GetCustomAttribute<DisableForMemberAttribute>();
-
-                    if (attribute != null)
-                    {
-                        throw new TaskExecutionException($"ForMember is not allowed on method '{methodCallExpression.Method.Name}'.", 20);
-                    }
-                }
-                else
+                var methodCallExpression = forMember.TaskMethod.Body as MethodCallExpression;
+                if (methodCallExpression == null)
                 {
                     continue;
                 }
 
-                if (!Context.ScriptArgs.ContainsKey(fromArgument.ArgKey))
+                var attribute = methodCallExpression.Method.GetCustomAttribute<DisableForMemberAttribute>();
+
+                if (attribute != null)
                 {
-                    if (methodCallExpression.Arguments.Count == 0 && !fromArgument.includeParameterlessMethodByDefault)
+                    throw new TaskExecutionException($"ForMember is not allowed on method '{methodCallExpression.Method.Name}'.", 20);
+                }
+
+                if (!Context.ScriptArgs.ContainsKey(forMember.ArgKey))
+                {
+                    if (methodCallExpression.Arguments.Count == 0 && !forMember.includeParameterlessMethodByDefault)
                     {
                         return;
                     }
 
-                    fromArgument.TaskMethod.Compile().Invoke(this as TTask);
+                    forMember.TaskMethod.Compile().Invoke(this as TTask);
                     return;
                 }
 
-                string value = Context.ScriptArgs[fromArgument.ArgKey];
-                MethodParameterModifier parameterModifier = new MethodParameterModifier();
+                string argumentValue = Context.ScriptArgs[forMember.ArgKey];
+
                 try
                 {
                     if (methodCallExpression.Arguments.Count == 0)
                     {
-                        if (string.IsNullOrEmpty(value))
+                        if (string.IsNullOrEmpty(argumentValue))
                         {
-                            value = "true";
+                            forMember.TaskMethod.Compile().Invoke(this as TTask);
+                            return;
                         }
                         
-                        var succeded = bool.TryParse(value, out var boolValue);
+                        var succeded = bool.TryParse(argumentValue, out var boolValue);
 
-                        if (succeded && boolValue)
+                        if (succeded)
                         {
-                            fromArgument.TaskMethod.Compile().Invoke(this as TTask);
+                            if (boolValue)
+                            {
+                                forMember.TaskMethod.Compile().Invoke(this as TTask);
+                            }
+                        }
+                        else
+                        {
+                            if (forMember.includeParameterlessMethodByDefault)
+                            {
+                                forMember.TaskMethod.Compile().Invoke(this as TTask);
+                            } 
                         }
 
                         return;
                     }
 
-                    var newExpression = (Expression<Action<TTask>>)parameterModifier.Modify(fromArgument.TaskMethod, new List<string>() { value });
-                    var action = newExpression.Compile();
-                    action.Invoke(this as TTask);
+                    MethodParameterModifier parameterModifier = new MethodParameterModifier();
+                    var newExpression = (Expression<Action<TTask>>)parameterModifier.Modify(forMember.TaskMethod, new List<string>() { argumentValue });
+                     newExpression.Compile().Invoke(this as TTask);
+             
                 }
                 catch (FormatException e)
                 {
-                   var methodInfo = ((MethodCallExpression) fromArgument.TaskMethod.Body).Method;
-                   var parameters =  methodInfo.GetParameters().ToList();
+                   var methodInfo = ((MethodCallExpression)forMember.TaskMethod.Body).Method;
+                   var parameters = methodInfo.GetParameters().ToList();
                     if (parameters.Count == 1)
                     {
                         throw new TaskExecutionException(
-                            $"Parameter '{parameters[0].ParameterType.Name} {parameters[0].Name}' in method '{methodInfo.Name}' can not be modified with value '{value}' from argument '-{fromArgument.ArgKey}'.",
+                            $"Parameter '{parameters[0].ParameterType.Name} {parameters[0].Name}' in method '{methodInfo.Name}' can not be modified with value '{argumentValue}' from argument '-{forMember.ArgKey}'.",
                             21, e);
                     }
                 }
