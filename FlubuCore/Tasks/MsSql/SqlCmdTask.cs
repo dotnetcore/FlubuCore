@@ -2,11 +2,9 @@
 using System.IO;
 using FlubuCore.Context;
 using FlubuCore.Tasks.Process;
-using FlubuCore.WebApi.Client;
 
 namespace FlubuCore.Tasks.MsSql
 {
-    /// <inheritdoc cref="TaskBase{T}" />
     /// <summary>
     /// Execute SQL script file with sqlcmd.exe
     /// </summary>
@@ -19,7 +17,6 @@ namespace FlubuCore.Tasks.MsSql
         private string _output;
         private string _errorOutput;
         private readonly List<string> _sqlFiles = new List<string>();
-        private bool _doNotLogOutput;
         private string _description;
 
         /// <inheritdoc />
@@ -47,7 +44,7 @@ namespace FlubuCore.Tasks.MsSql
                 }
                 return _description;
             }
-            set { _description = value; }
+            set => _description = value;
         }
 
         /// <summary>
@@ -201,7 +198,7 @@ namespace FlubuCore.Tasks.MsSql
             {
                 IRunProgramTask task = context.Tasks().RunProgramTask(program);
 
-                if (_doNotLogOutput)
+                if (NoOutputLog)
                     task.DoNotLogOutput();
 
                 if (DoNotLog)

@@ -10,9 +10,7 @@ namespace FlubuCore.Tasks.Linux
         private readonly string _host;
         private readonly List<SourceDestinationPair> _items = new List<SourceDestinationPair>();
         private readonly string _userName;
-        private string _destination;
         private string _password;
-        private string _sourceDir;
 
         public SshCopyTask(string host, string userName)
         {
