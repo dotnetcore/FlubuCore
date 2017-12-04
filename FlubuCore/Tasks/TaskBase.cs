@@ -381,7 +381,7 @@ namespace FlubuCore.Tasks
                             forMember.TaskMethod.Compile().Invoke(this as TTask);
                             return;
                         }
-                        
+
                         var succeded = bool.TryParse(argumentValue, out var boolValue);
 
                         if (succeded)
@@ -396,26 +396,26 @@ namespace FlubuCore.Tasks
                             if (forMember.includeParameterlessMethodByDefault)
                             {
                                 forMember.TaskMethod.Compile().Invoke(this as TTask);
-                            } 
+                            }
                         }
 
                         return;
                     }
 
                     MethodParameterModifier parameterModifier = new MethodParameterModifier();
-                    var newExpression = (Expression<Action<TTask>>)parameterModifier.Modify(forMember.TaskMethod, new List<string>() { argumentValue });
-                     newExpression.Compile().Invoke(this as TTask);
-             
+                    var newExpression = (Expression<Action<TTask>>) parameterModifier.Modify(forMember.TaskMethod, new List<string>() {argumentValue});
+                    newExpression.Compile().Invoke(this as TTask);
                 }
                 catch (FormatException e)
                 {
-                   var methodInfo = ((MethodCallExpression)forMember.TaskMethod.Body).Method;
-                   var parameters = methodInfo.GetParameters().ToList();
+                    var methodInfo = ((MethodCallExpression)forMember.TaskMethod.Body).Method;
+                    var parameters = methodInfo.GetParameters().ToList();
                     if (parameters.Count == 1)
                     {
                         throw new TaskExecutionException(
                             $"Parameter '{parameters[0].ParameterType.Name} {parameters[0].Name}' in method '{methodInfo.Name}' can not be modified with value '{argumentValue}' from argument '-{forMember.ArgKey}'.",
-                            21, e);
+                            21,
+                            e);
                     }
                 }
             }
