@@ -195,7 +195,20 @@ namespace FlubuCore.Targeting
             }
 
             Target target = _targets[targetName] as Target;
+
             target.TargetHelp(taskContext);
+
+            if (target.Dependencies.Count > 0)
+            {
+                taskContext.LogInfo(" ");
+                taskContext.LogInfo($"Target {targetName}  dependencies: ");
+                foreach (var targetDependencyName in target.Dependencies)
+                {
+                    taskContext.LogInfo("------------------------------------");
+                    var targetDependecy = _targets[targetDependencyName.Key] as Target;
+                    targetDependecy?.TargetHelp(taskContext);
+                }
+            }
         }
 
         public void SetDefaultTarget(ITarget target)
