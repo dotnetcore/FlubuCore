@@ -25,8 +25,8 @@ namespace Flubu.Tests.Context
             Context.Tasks().CompileSolutionTask("sln", "release");
             Context.CreateTarget("ExecutePowerShell")
                 .AddTask(x => x.ExecutePowerShellScript(@".\hello.ps1")
-                    .FromArgument(y => y.Executable("test"), "-e", "FUll file path to executable")
-                    .FromArgument(y => y.DoNotLogOutput(), "-l", includeParameterlessMethodByDefault: false))  // default help is displayed
+                    .ForMember(y => y.Executable("test"), "-e", "FUll file path to executable")
+                    .ForMember(y => y.DoNotLogOutput(), "-l", includeParameterlessMethodByDefault: false))  // default help is displayed
                 .Do(DeletePowerShellScript, taskName: "DeletePowerShellScript", taskDescription: "Deletes power shell script", doNotFailOnError: true);
         }
 
