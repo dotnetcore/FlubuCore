@@ -107,8 +107,8 @@ namespace FlubuCore.Tasks
             return this as TTask;
         }
 
-        [DisableFromArgument]
-        public TTask FromArgument(Expression<Action<TTask>> taskMethod, string argKey, string help = null, bool includeParameterlessMethodByDefault = true)
+        [DisableForMember]
+        public TTask ForMember(Expression<Action<TTask>> taskMethod, string argKey, string help = null, bool includeParameterlessMethodByDefault = true)
         {
             _fromArguments.Add((taskMethod, argKey, includeParameterlessMethodByDefault));
             if (!string.IsNullOrEmpty(help))
@@ -141,7 +141,7 @@ namespace FlubuCore.Tasks
             return this as TTask;
         }
 
-        [DisableFromArgument]
+        [DisableForMember]
         public TTask SetDescription(string description)
         {
             Description = description;
@@ -149,14 +149,14 @@ namespace FlubuCore.Tasks
         }
         
         /// <inheritdoc />
-        [DisableFromArgument]
+        [DisableForMember]
         public void ExecuteVoid(ITaskContext context)
         {
             Execute(context);
         }
 
         /// <inheritdoc />
-        [DisableFromArgument]
+        [DisableForMember]
         public async System.Threading.Tasks.Task ExecuteVoidAsync(ITaskContext context)
         {
             await ExecuteAsync(context);
@@ -174,7 +174,7 @@ namespace FlubuCore.Tasks
         ///     class.
         /// </remarks>
         /// <param name="context">The script execution environment.</param>
-        [DisableFromArgument]
+        [DisableForMember]
         public TResult Execute(ITaskContext context)
         {
             ITaskContextInternal contextInternal = (ITaskContextInternal)context;
@@ -234,7 +234,7 @@ namespace FlubuCore.Tasks
         }
 
         /// <inheritdoc />
-        [DisableFromArgument]
+        [DisableForMember]
         public async Task<TResult> ExecuteAsync(ITaskContext context)
         {
             ITaskContextInternal contextInternal = (ITaskContextInternal)context;
@@ -354,11 +354,11 @@ namespace FlubuCore.Tasks
                 var methodCallExpression = fromArgument.TaskMethod.Body as MethodCallExpression;
                 if (methodCallExpression != null)
                 {
-                    var attribute = methodCallExpression.Method.GetCustomAttribute<DisableFromArgumentAttribute>();
+                    var attribute = methodCallExpression.Method.GetCustomAttribute<DisableForMemberAttribute>();
 
                     if (attribute != null)
                     {
-                        throw new TaskExecutionException($"FromArgument is not allowed on method '{methodCallExpression.Method.Name}'.", 20);
+                        throw new TaskExecutionException($"ForMember is not allowed on method '{methodCallExpression.Method.Name}'.", 20);
                     }
                 }
                 else

@@ -29,7 +29,7 @@ namespace Flubu.Tests.Tasks
                 {"-s", "value from arg"}
             });
 
-            _task.FromArgument(x => x.AddPath("default vaue"), "-s");
+            _task.ForMember(x => x.AddPath("default vaue"), "-s");
             _task.Execute(Context.Object);
             Assert.Equal("value from arg", _task.Path);
         }
@@ -42,7 +42,7 @@ namespace Flubu.Tests.Tasks
                 {"-l", "2"}
             });
 
-            _task.FromArgument(x => x.SetLevel(0), "-l", "help bla bla");
+            _task.ForMember(x => x.SetLevel(0), "-l", "help bla bla");
 
             _task.Execute(Context.Object);
             Assert.Equal(2, _task.Level);
@@ -58,7 +58,7 @@ namespace Flubu.Tests.Tasks
 
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
 
-            _task.FromArgument(x => x.AddPath("default value"), "-s");
+            _task.ForMember(x => x.AddPath("default value"), "-s");
             _task.Execute(Context.Object);
             Assert.Equal("default value", _task.Path);
         }
@@ -73,7 +73,7 @@ namespace Flubu.Tests.Tasks
 
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
 
-            _task.FromArgument(x => x.NoParameter(), "-l");
+            _task.ForMember(x => x.NoParameter(), "-l");
             _task.Execute(Context.Object);
             Assert.Equal(true, _task.BoolValue);
         }
@@ -88,7 +88,7 @@ namespace Flubu.Tests.Tasks
 
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
 
-            _task.FromArgument(x => x.NoParameter(), "-l");
+            _task.ForMember(x => x.NoParameter(), "-l");
             _task.Execute(Context.Object);
             Assert.Equal(true, _task.BoolValue);
         }
@@ -103,7 +103,7 @@ namespace Flubu.Tests.Tasks
 
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
 
-            _task.FromArgument(x => x.NoParameter(), "-l");
+            _task.ForMember(x => x.NoParameter(), "-l");
             _task.Execute(Context.Object);
             Assert.Equal(true, _task.BoolValue);
         }
@@ -118,7 +118,7 @@ namespace Flubu.Tests.Tasks
 
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
 
-            _task.FromArgument(x => x.NoParameter(), "-l", includeParameterlessMethodByDefault: false);
+            _task.ForMember(x => x.NoParameter(), "-l", includeParameterlessMethodByDefault: false);
             _task.Execute(Context.Object);
             Assert.Equal(false, _task.BoolValue);
         }
@@ -133,7 +133,7 @@ namespace Flubu.Tests.Tasks
 
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
 
-            _task.FromArgument(x => x.NoParameter(), "-l");
+            _task.ForMember(x => x.NoParameter(), "-l");
             _task.Execute(Context.Object);
             Assert.Equal(true, _task.BoolValue);
         }
@@ -148,7 +148,7 @@ namespace Flubu.Tests.Tasks
 
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
 
-            _task.FromArgument(x => x.NoParameter(), "-l", includeParameterlessMethodByDefault: false);
+            _task.ForMember(x => x.NoParameter(), "-l", includeParameterlessMethodByDefault: false);
             _task.Execute(Context.Object);
             Assert.Equal(false, _task.BoolValue);
         }
@@ -160,7 +160,7 @@ namespace Flubu.Tests.Tasks
                 {"-l", "abc"}
             });
 
-            _task.FromArgument(x => x.SetLevel(-1), "-l", "help bla bla");
+            _task.ForMember(x => x.SetLevel(-1), "-l", "help bla bla");
             var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
             Assert.Equal(
                 "Parameter 'Int32 level' in method 'SetLevel' can not be modified with value 'abc' from argument '-l'.",
@@ -171,16 +171,16 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void FromArgument_DisabledOnExecute_ThrowsTaskExecutionException()
         {
-            _task.FromArgument(x => x.Execute(Context.Object), "-t");
+            _task.ForMember(x => x.Execute(Context.Object), "-t");
             var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
-            Assert.Equal("FromArgument is not allowed on method 'Execute'.", ex.Message);
+            Assert.Equal("ForMember is not allowed on method 'Execute'.", ex.Message);
             Assert.Equal(20, ex.ErrorCode);
         }
 
         [Fact]
         public void FromArgument_DisabledOnExecuteAsync_ThrowsTaskExecutionException()
         {
-            _task.FromArgument(x => x.ExecuteAsync(Context.Object), "-t");
+            _task.ForMember(x => x.ExecuteAsync(Context.Object), "-t");
             var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
             Assert.Equal(20, ex.ErrorCode);
         }
@@ -188,7 +188,7 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void FromArgument_DisabledOnExecuteVoid_ThrowsTaskExecutionException()
         {
-            _task.FromArgument(x => x.ExecuteVoid(Context.Object), "-t");
+            _task.ForMember(x => x.ExecuteVoid(Context.Object), "-t");
             var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
             Assert.Equal(20, ex.ErrorCode);
         }
@@ -196,7 +196,7 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void FromArgument_DisabledOnExecuteVoidAsync_ThrowsTaskExecutionException()
         {
-            _task.FromArgument(x => x.ExecuteVoidAsync(Context.Object), "-t");
+            _task.ForMember(x => x.ExecuteVoidAsync(Context.Object), "-t");
             var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
             Assert.Equal(20, ex.ErrorCode);
         }
@@ -204,7 +204,7 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void FromArgument_DisabledOnFromArgument_ThrowsTaskExecutionException()
         {
-            _task.FromArgument(x => x.FromArgument(null, "t", "test", true), "-t");
+            _task.ForMember(x => x.ForMember(null, "t", "test", true), "-t");
             var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
             Assert.Equal(20, ex.ErrorCode);
         }
