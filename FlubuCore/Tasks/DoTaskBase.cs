@@ -6,38 +6,27 @@ namespace FlubuCore.Tasks
 {
     public  abstract class DoTaskBase<TResult, TTask> : TaskBase<TResult, TTask> where TTask : class, ITask
     {
+        /// <summary>
+        /// Name of the task that is displayed in help.
+        /// </summary>
+        /// <param name="taskName"></param>
+        /// <returns></returns>
         public TTask SetTaskName(string taskName)
         {
             TaskName = taskName;
             return this as TTask;
         }
 
-        internal void SetBaseTaskParameters(string taskName, string taskDescription, int retryTimes, int retryDelay, bool noLog, bool doNotFailOnError)
+        /// <summary>
+        /// Adds help for specified argument.
+        /// </summary>
+        /// <param name="argKey"></param>
+        /// <param name="help"></param>
+        /// <returns></returns>
+        public TTask AddArgumentHelp(string argKey, string help)
         {
-            if (taskName != null)
-            {
-               SetTaskName(taskName);
-            }
-
-            if (taskDescription != null)
-            {
-                SetDescription(taskDescription);
-            }
-
-            if (retryTimes != 0)
-            {
-               Retry(retryTimes, retryDelay);
-            }
-
-            if (noLog)
-            {
-                NoLog();
-            }
-
-            if (doNotFailOnError)
-            {
-                DoNotFailOnError();
-            }
+            ArgumentHelp.Add(argKey, help);
+            return this as TTask;
         }
     }
 }
