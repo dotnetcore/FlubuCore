@@ -96,7 +96,7 @@ namespace DotNet.Cli.Flubu.Commanding
 		    {
 			    if (remainingArgument.StartsWith("-"))
 			    {
-			        var arg = remainingArgument.TrimStart();
+			        var arg = remainingArgument.TrimStart('-');
 				    if (arg.Contains("="))
 				    {
 					    var splitedArg = arg.Split(new[] {'='}, 2);

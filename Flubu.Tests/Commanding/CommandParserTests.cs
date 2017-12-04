@@ -47,7 +47,7 @@ namespace Flubu.Tests.Commanding
             var res = _parser.Parse(new[] { value, "-another", "-another1" });
 
             Assert.Equal(value, res.MainCommands[0]);
-            Assert.Equal(2, res.RemainingCommands.Count);
+            Assert.Equal(2, res.ScriptArguments.Count);
             Assert.False(res.Help);
         }
 

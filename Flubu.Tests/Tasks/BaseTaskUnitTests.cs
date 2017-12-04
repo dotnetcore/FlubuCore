@@ -26,7 +26,7 @@ namespace Flubu.Tests.Tasks
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
-                {"-s", "value from arg"}
+                {"s", "value from arg"}
             });
 
             _task.ForMember(x => x.AddPath("default vaue"), "-s");
@@ -39,7 +39,7 @@ namespace Flubu.Tests.Tasks
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
-                {"-l", "2"}
+                {"l", "2"}
             });
 
             _task.ForMember(x => x.SetLevel(0), "-l", "help bla bla");
@@ -53,7 +53,7 @@ namespace Flubu.Tests.Tasks
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
-                {"-l", "2"},
+                {"l", "2"},
             });
 
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
@@ -68,7 +68,7 @@ namespace Flubu.Tests.Tasks
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
-                {"-l", "true"},
+                {"l", "true"},
             });
 
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
@@ -83,7 +83,7 @@ namespace Flubu.Tests.Tasks
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
-                {"-l", "false"},
+                {"l", "false"},
             });
 
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
@@ -98,7 +98,7 @@ namespace Flubu.Tests.Tasks
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
-                {"-s", "some arg"},
+                {"s", "some arg"},
             });
 
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
@@ -113,7 +113,7 @@ namespace Flubu.Tests.Tasks
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
-                {"-s", "some arg"},
+                {"s", "some arg"},
             });
 
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
@@ -128,7 +128,7 @@ namespace Flubu.Tests.Tasks
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
-                {"-l", "some arg"},
+                {"l", "some arg"},
             });
 
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
@@ -143,7 +143,7 @@ namespace Flubu.Tests.Tasks
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
-                {"-l", "some arg"},
+                {"l", "some arg"},
             });
 
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
@@ -157,7 +157,7 @@ namespace Flubu.Tests.Tasks
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
-                {"-l", "abc"}
+                {"l", "abc"}
             });
 
             _task.ForMember(x => x.SetLevel(-1), "-l", "help bla bla");

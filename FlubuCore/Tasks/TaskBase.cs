@@ -110,7 +110,8 @@ namespace FlubuCore.Tasks
         [DisableForMember]
         public TTask ForMember(Expression<Action<TTask>> taskMethod, string argKey, string help = null, bool includeParameterlessMethodByDefault = true)
         {
-            _fromArguments.Add((taskMethod, argKey, includeParameterlessMethodByDefault));
+            string key = argKey.TrimStart('-');
+            _fromArguments.Add((taskMethod, key, includeParameterlessMethodByDefault));
             if (!string.IsNullOrEmpty(help))
             {
                 ArgumentHelp.Add(argKey, help);
@@ -409,7 +410,7 @@ namespace FlubuCore.Tasks
                     if (parameters.Count == 1)
                     {
                         throw new TaskExecutionException(
-                            $"Parameter '{parameters[0].ParameterType.Name} {parameters[0].Name}' in method '{methodInfo.Name}' can not be modified with value '{value}' from argument '{fromArgument.ArgKey}'.",
+                            $"Parameter '{parameters[0].ParameterType.Name} {parameters[0].Name}' in method '{methodInfo.Name}' can not be modified with value '{value}' from argument '-{fromArgument.ArgKey}'.",
                             21, e);
                     }
                 }
