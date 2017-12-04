@@ -1,3 +1,9 @@
+2.1.0.0
+- Added support for explicit argument pass-through to targets and tasks(ForMember method on tasks)
+- Added Target help 
+- Extended Do with base task actions(second optional parameter in Do).
+- CompileSolutionTask have now completly fluent interface.
+
 2.0.6.0 
 - Fixed PublishNugetPackageTask when using newer version of nuget.exe
 
