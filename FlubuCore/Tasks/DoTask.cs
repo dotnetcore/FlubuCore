@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using FlubuCore.Context;
 
 namespace FlubuCore.Tasks
 {
     public class DoTask : DoTaskBase<int, DoTask>
     {
-        private Action<ITaskContextInternal> _taskAction;
+        private readonly Action<ITaskContextInternal> _taskAction;
 
         public DoTask(Action<ITaskContextInternal> taskAction)
         {
@@ -26,9 +23,9 @@ namespace FlubuCore.Tasks
 
     public class DoTask2<T> : DoTaskBase<int, DoTask2<T>>
     {
-        private Action<ITaskContextInternal, T> _taskAction;
+        private readonly Action<ITaskContextInternal, T> _taskAction;
 
-        private T _param;
+        private readonly T _param;
 
         public DoTask2(Action<ITaskContextInternal, T> taskAction, T param)
         {
@@ -47,11 +44,11 @@ namespace FlubuCore.Tasks
 
     public class DoTask3<T, T2> : DoTaskBase<int, DoTask3<T, T2>>
     {
-        private Action<ITaskContextInternal, T, T2> _taskAction;
+        private readonly Action<ITaskContextInternal, T, T2> _taskAction;
 
-        private T _param;
+        private readonly T _param;
 
-        private T2 _param2;
+        private readonly T2 _param2;
 
         public DoTask3(Action<ITaskContextInternal, T, T2> taskAction, T param, T2 param2)
         {
@@ -71,13 +68,13 @@ namespace FlubuCore.Tasks
 
     public class DoTask4<T, T2, T3> : DoTaskBase<int, DoTask4<T, T2, T3>>
     {
-        private Action<ITaskContextInternal, T, T2, T3> _taskAction;
+        private readonly Action<ITaskContextInternal, T, T2, T3> _taskAction;
 
-        private T _param;
+        private readonly T _param;
 
-        private T2 _param2;
+        private readonly T2 _param2;
 
-        private T3 _param3;
+        private readonly T3 _param3;
 
         public DoTask4(Action<ITaskContextInternal, T, T2, T3> taskAction, T param, T2 param2, T3 param3)
         {
@@ -98,15 +95,15 @@ namespace FlubuCore.Tasks
 
     public class DoTask5<T, T2, T3, T4> : DoTaskBase<int, DoTask5<T, T2, T3, T4>>
     {
-        private Action<ITaskContextInternal, T, T2, T3, T4> _taskAction;
+        private readonly Action<ITaskContextInternal, T, T2, T3, T4> _taskAction;
 
-        private T _param;
+        private readonly T _param;
 
-        private T2 _param2;
+        private readonly T2 _param2;
 
-        private T3 _param3;
+        private readonly T3 _param3;
 
-        private T4 _param4;
+        private readonly T4 _param4;
 
         public DoTask5(Action<ITaskContextInternal, T, T2, T3, T4> taskAction, T param, T2 param2, T3 param3, T4 param4)
         {
@@ -128,17 +125,17 @@ namespace FlubuCore.Tasks
 
     public class DoTask6<T, T2, T3, T4, T5> : DoTaskBase<int, DoTask6<T, T2, T3, T4, T5>>
     {
-        private Action<ITaskContextInternal, T, T2, T3, T4, T5> _taskAction;
+        private readonly Action<ITaskContextInternal, T, T2, T3, T4, T5> _taskAction;
 
-        private T _param;
+        private readonly T _param;
 
-        private T2 _param2;
+        private readonly T2 _param2;
 
-        private T3 _param3;
+        private readonly T3 _param3;
 
-        private T4 _param4;
+        private readonly T4 _param4;
 
-        private T5 _param5;
+        private readonly T5 _param5;
 
         public DoTask6(Action<ITaskContextInternal, T, T2, T3, T4, T5> taskAction, T param, T2 param2, T3 param3, T4 param4, T5 param5)
         {

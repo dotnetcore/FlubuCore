@@ -1,6 +1,5 @@
 ﻿using System;
 using FlubuCore.Context.FluentInterface;
-using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
@@ -11,8 +10,6 @@ namespace FlubuCore.Context
     public class TaskContextInternal : TaskContext, ITaskContextInternal
     {
         private bool _disposed;
-
-        private int _executionDepth;
 
         public TaskContextInternal(
             ILogger log,
@@ -29,16 +26,6 @@ namespace FlubuCore.Context
         public CommandArguments Args { get; }
 
         public bool IsInteractive { get; set; } = true;
-
-        public void IncreaseDepth()
-        {
-            _executionDepth++;
-        }
-
-        public void DecreaseDepth()
-        {
-            _executionDepth--;
-        }
 
         public void Fail(string message, int errorCode = 0)
         {

@@ -1,5 +1,4 @@
-﻿using FlubuCore.Tasks.Solution;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace FlubuCore.Tasks
 {

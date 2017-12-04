@@ -15,10 +15,6 @@ namespace FlubuCore.Context
 
         bool IsInteractive { get; }
 
-        void DecreaseDepth();
-
         void Fail(string message, int errorCode);
-
-        void IncreaseDepth();
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FlubuCore.Context
+﻿namespace FlubuCore.Context
 {
     /// <summary>
     /// All build properties that are predefined by flubu.

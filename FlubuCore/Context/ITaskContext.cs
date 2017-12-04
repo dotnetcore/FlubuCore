@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using FlubuCore.Context.FluentInterface.Interfaces;
-using FlubuCore.Targeting;
-
-namespace FlubuCore.Context
+﻿using FlubuCore.Context.FluentInterface.Interfaces;namespace FlubuCore.Context
 {
     public interface ITaskContext : IBuildPropertiesContext
     {

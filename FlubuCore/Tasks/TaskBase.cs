@@ -8,12 +8,10 @@ using System.Threading.Tasks;
 using FlubuCore.Context;
 using System.Threading;
 using FlubuCore.Tasks.Attributes;
-using Microsoft.Build.Utilities;
 using Task = System.Threading.Tasks.Task;
 
 namespace FlubuCore.Tasks
 {
-    /// <inheritdoc />
     /// <summary>
     ///     A base abstract class from which tasks can be implemented.
     /// </summary>
@@ -23,7 +21,7 @@ namespace FlubuCore.Tasks
 
         private string _taskName;
 
-        private List<(Expression<Action<TTask>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)> _fromArguments = new List<(Expression<Action<TTask>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)>();
+        private readonly List<(Expression<Action<TTask>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)> _fromArguments = new List<(Expression<Action<TTask>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)>();
         
         internal Dictionary<string, string> ArgumentHelp { get;  } = new Dictionary<string, string>();
 
@@ -118,8 +116,7 @@ namespace FlubuCore.Tasks
             }
             else
             {
-                var methodExpression = taskMethod.Body as MethodCallExpression;
-                if (methodExpression != null)
+                if (taskMethod.Body is MethodCallExpression methodExpression)
                 {
                     string defaultValue = methodExpression.Arguments.Count == 1
                         ? $"Default value: '{methodExpression.Arguments[0]}'."
@@ -161,7 +158,7 @@ namespace FlubuCore.Tasks
 
         /// <inheritdoc />
         [DisableForMember]
-        public async System.Threading.Tasks.Task ExecuteVoidAsync(ITaskContext context)
+        public async Task ExecuteVoidAsync(ITaskContext context)
         {
             await ExecuteAsync(context);
         }
@@ -190,8 +187,6 @@ namespace FlubuCore.Tasks
             {
                 DoLogInfo(DescriptionForLog);
             }
-
-            contextInternal.IncreaseDepth();
 
             try
             {
@@ -228,7 +223,6 @@ namespace FlubuCore.Tasks
             finally
             {
                 TaskStopwatch.Stop();
-                contextInternal.DecreaseDepth();
 
                 if (LogDuration)
                 {
@@ -251,8 +245,6 @@ namespace FlubuCore.Tasks
                 DoLogInfo(DescriptionForLog);
             }
 
-            contextInternal.IncreaseDepth();
-
             try
             {
                 InvokeFromMethods();
@@ -269,7 +261,7 @@ namespace FlubuCore.Tasks
                 {
                     _retriedTimes++;
                     contextInternal.LogInfo($"Task failed. Retriying for {_retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
-                    await System.Threading.Tasks.Task.Delay(RetryDelay);
+                    await Task.Delay(RetryDelay);
                     return await ExecuteAsync(context);
                 }
 
@@ -278,7 +270,6 @@ namespace FlubuCore.Tasks
             finally
             {
                 TaskStopwatch.Stop();
-                contextInternal.DecreaseDepth();
 
                 if (LogDuration)
                 {
@@ -319,7 +310,7 @@ namespace FlubuCore.Tasks
         /// <returns></returns>
         protected virtual async Task<TResult> DoExecuteAsync(ITaskContextInternal context)
         {
-            return await System.Threading.Tasks.Task.Run(() => DoExecute(context));
+            return await Task.Run(() => DoExecute(context));
         }
 
         /// <summary>

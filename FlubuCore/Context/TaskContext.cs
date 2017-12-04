@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using FlubuCore.Context.FluentInterface;
+﻿using FlubuCore.Context.FluentInterface;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
