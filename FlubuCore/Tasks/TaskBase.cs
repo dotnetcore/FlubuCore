@@ -121,7 +121,10 @@ namespace FlubuCore.Tasks
                 var methodExpression = taskMethod.Body as MethodCallExpression;
                 if (methodExpression != null)
                 {
-                    ArgumentHelp.Add(argKey, $"Pass argument '{argKey}' to method '{methodExpression.Method.Name}'.");
+                    string defaultValue = methodExpression.Arguments.Count == 1
+                        ? $"Default value: '{methodExpression.Arguments[0]}'."
+                        : null;
+                    ArgumentHelp.Add(argKey, $"Pass argument '{argKey}' to method '{methodExpression.Method.Name}'. {defaultValue}");
                 }
             }
 
