@@ -4,11 +4,10 @@ using Xunit;
 
 namespace Flubu.Tests.Tasks
 {
-  
     public class DotnetRestoreUnitTests : TaskUnitTestBase
     {
         private readonly DotnetRestoreTask _task;
-        
+
         public DotnetRestoreUnitTests()
         {
             _task = new DotnetRestoreTask();

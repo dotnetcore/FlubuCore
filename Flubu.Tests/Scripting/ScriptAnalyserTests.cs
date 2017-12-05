@@ -22,7 +22,7 @@ namespace Flubu.Tests.Scripting
 
             _analyser = new ScriptAnalyser(processors);
         }
-    
+
         [Theory]
         [InlineData("Foo\r\npublic class SomeBuildScript : Base\r\n{\r\n}", "SomeBuildScript")]
         [InlineData("Foo\r\npublic class BuildScript    : Base\r\n{\r\n}", "BuildScript")]
@@ -93,7 +93,7 @@ namespace Flubu.Tests.Scripting
                 "}"
             };
 
-             _analyser.Analyze(lines);
+            _analyser.Analyze(lines);
             Assert.Equal(4, lines.Count);
         }
     }

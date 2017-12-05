@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FlubuCore.Services;
-using Xunit;
+﻿using Xunit;
 
 namespace Flubu.Tests.Services
 {
@@ -11,7 +6,7 @@ namespace Flubu.Tests.Services
     {
         [Fact(Skip = "Explicit test.")]
         public void ListAvailableToolsVersionTest()
-        { 
+        {
         }
     }
 }

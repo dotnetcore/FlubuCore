@@ -36,12 +36,11 @@ namespace Flubu.Tests.Tasks
             {
             }
 
-
             Context.SetBuildVersion(new Version(1, 0, 0, 0));
 
             new PackageTask(@"tmp\output")
                 .AddFileToPackage(@"tmp\Test\test1.txt", "test")
-                .AddFileToPackage(@"tmp\Test\test1.txt", "")
+                .AddFileToPackage(@"tmp\Test\test1.txt", string.Empty)
                 .ZipPackage(@"test.zip", true, 4)
                 .ExecuteVoid(Context);
 
@@ -163,7 +162,6 @@ namespace Flubu.Tests.Tasks
                 Assert.Single(archive.Entries);
             }
         }
-
 
         [Fact]
         public void PackagingWihoutZippingTest()

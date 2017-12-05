@@ -1,5 +1,5 @@
-﻿using FlubuCore.Tasks.Linux;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
+using FlubuCore.Tasks.Linux;
 using Xunit;
 
 namespace Flubu.Tests.Tasks

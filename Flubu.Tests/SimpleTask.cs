@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FlubuCore.Context;
+﻿using FlubuCore.Context;
 using FlubuCore.Services;
 using FlubuCore.Tasks;
 
@@ -9,7 +6,14 @@ namespace Flubu.Tests
 {
     public class SimpleTask : TaskBase<int, SimpleTask>
     {
-        private IFlubuEnviromentService _flubuEnviromentService;
+        private readonly IFlubuEnviromentService _flubuEnviromentService;
+
+        public SimpleTask(IFlubuEnviromentService flubuEnviromentService)
+        {
+            _flubuEnviromentService = flubuEnviromentService;
+        }
+
+        protected override string Description { get; set; }
 
         public string Path { get; set; }
 
@@ -34,13 +38,6 @@ namespace Flubu.Tests
             BoolValue = true;
             return this;
         }
-
-        public SimpleTask(IFlubuEnviromentService flubuEnviromentService)
-        {
-            _flubuEnviromentService = flubuEnviromentService;
-        }
-
-        protected override string Description { get; set; }
 
         protected override int DoExecute(ITaskContextInternal context)
         {

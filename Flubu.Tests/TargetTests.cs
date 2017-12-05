@@ -23,7 +23,8 @@ namespace Flubu.Tests
         private readonly IServiceCollection _services = new ServiceCollection();
         private readonly IServiceProvider _provider;
 
-        public TargetTests(FlubuTestFixture fixture) : base(fixture.LoggerFactory)
+        public TargetTests(FlubuTestFixture fixture)
+            : base(fixture.LoggerFactory)
         {
             _services
                 .AddCoreComponents()
@@ -67,7 +68,6 @@ namespace Flubu.Tests
 
             await target1.ExecuteVoidAsync(Context);
         }
-
 
         [Fact]
         public async Task ExecuteTargetWith2AsyncTaskTest()
@@ -138,7 +138,7 @@ namespace Flubu.Tests
             Stopwatch sw = new Stopwatch();
 
             sw.Start();
-            await  target1.ExecuteVoidAsync(Context);
+            await target1.ExecuteVoidAsync(Context);
             sw.Stop();
 
             Assert.True(sw.ElapsedMilliseconds > 6000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
@@ -172,8 +172,7 @@ namespace Flubu.Tests
         [Fact]
         public void DependsOnTargetTest()
         {
-            TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments {TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" }});
-            
+            TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" } });
             var target1 = targetTree.AddTarget("target 1").AddTask(new SimpleTaskWithDelay());
 
             var target2 = targetTree.AddTarget("target 2").AddTask(new SimpleTaskWithDelay());

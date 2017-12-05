@@ -70,32 +70,32 @@ namespace DotNet.Cli.Flubu.Infrastructure
 
         public static IServiceCollection AddTasks(this IServiceCollection services)
         {
-	        return services
-		        .AddTransient<ITaskFluentInterface, TaskFluentInterface>()
-		        .AddTransient<IIisTaskFluentInterface, IisTaskFluentInterface>()
-		        .AddTransient<ICoreTaskFluentInterface, CoreTaskFluentInterface>()
-		        .AddTransient<ILinuxTaskFluentInterface, LinuxTaskFluentInterface>()
-		        .AddTransient<IWebApiFluentInterface, WebApiFluentInterface>()
-		        .AddTransient<ITargetFluentInterface, TargetFluentInterface>()
-		        .AddTransient<ITaskExtensionsFluentInterface, TaskExtensionsFluentInterface>()
-		        .AddTransient<ICoreTaskExtensionsFluentInterface, CoreTaskExtensionsFluentInterface>()
-		        .AddTransient<GenerateCommonAssemblyInfoTask>()
-		        .AddTransient<FetchBuildVersionFromFileTask>()
-		        .AddTransient<FetchVersionFromExternalSourceTask>()
-		        .AddTransient<CreateWebsiteTask>()
-		        .AddTransient<AddWebsiteBindingTask>()
-		        .AddTransient<OpenCoverTask>()
-		        .AddTask<LoadSolutionTask>()
-		        .AddTask<CompileSolutionTask>()
-		        .AddTask<CleanOutputTask>()
-		        .AddTask<DotnetRestoreTask>()
-		        .AddTask<DotnetTestTask>()
-		        .AddTask<DotnetBuildTask>()
-		        .AddTask<DotnetPublishTask>()
-		        .AddTask<DotnetPackTask>()
-		        .AddTask<DotnetCleanTask>()
-		        .AddTask<DeletePackagesTask>();
-		}
+            return services
+                .AddTransient<ITaskFluentInterface, TaskFluentInterface>()
+                .AddTransient<IIisTaskFluentInterface, IisTaskFluentInterface>()
+                .AddTransient<ICoreTaskFluentInterface, CoreTaskFluentInterface>()
+                .AddTransient<ILinuxTaskFluentInterface, LinuxTaskFluentInterface>()
+                .AddTransient<IWebApiFluentInterface, WebApiFluentInterface>()
+                .AddTransient<ITargetFluentInterface, TargetFluentInterface>()
+                .AddTransient<ITaskExtensionsFluentInterface, TaskExtensionsFluentInterface>()
+                .AddTransient<ICoreTaskExtensionsFluentInterface, CoreTaskExtensionsFluentInterface>()
+                .AddTransient<GenerateCommonAssemblyInfoTask>()
+                .AddTransient<FetchBuildVersionFromFileTask>()
+                .AddTransient<FetchVersionFromExternalSourceTask>()
+                .AddTransient<CreateWebsiteTask>()
+                .AddTransient<AddWebsiteBindingTask>()
+                .AddTransient<OpenCoverTask>()
+                .AddTask<LoadSolutionTask>()
+                .AddTask<CompileSolutionTask>()
+                .AddTask<CleanOutputTask>()
+                .AddTask<DotnetRestoreTask>()
+                .AddTask<DotnetTestTask>()
+                .AddTask<DotnetBuildTask>()
+                .AddTask<DotnetPublishTask>()
+                .AddTask<DotnetPackTask>()
+                .AddTask<DotnetCleanTask>()
+                .AddTask<DeletePackagesTask>();
+        }
 
         public static IServiceCollection AddArguments(this IServiceCollection services, string[] args)
         {
@@ -106,7 +106,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddSingleton(parser)
                 .AddSingleton(app)
                 .AddSingleton(parser.Parse(args));
-            
+
             return services;
         }
     }

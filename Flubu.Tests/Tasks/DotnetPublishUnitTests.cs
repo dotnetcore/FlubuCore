@@ -1,55 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FlubuCore.Context;
-using FlubuCore.Context.FluentInterface.Interfaces;
-using FlubuCore.Tasks;
+﻿using FlubuCore.Context;
 using FlubuCore.Tasks.NetCore;
-using FlubuCore.Tasks.Process;
-using Microsoft.Extensions.Logging;
-using Moq;
 using Xunit;
 
 namespace Flubu.Tests.Tasks
 {
-  
     public class DotnetPublishUnitTests : TaskUnitTestBase
     {
-        private DotnetPublishTask task;
-        
+        private readonly DotnetPublishTask _task;
+
         public DotnetPublishUnitTests()
         {
-            task = new DotnetPublishTask();
-            task.DotnetExecutable("dotnet");
+            _task = new DotnetPublishTask();
+            _task.DotnetExecutable("dotnet");
             Tasks.Setup(x => x.RunProgramTask("dotnet")).Returns(RunProgramTask.Object);
-        }
-
-        [Fact]
-        public void ConfigurationFromFluentInterfaceConfigurationTest()
-        {
-            task.Configuration("Release");
-            task.ExecuteVoid(Context.Object);
-            Assert.Equal(2, task.Arguments.Count);
-            Assert.Equal("-c", task.Arguments[0]);
-            Assert.Equal("Release", task.Arguments[1]);
-        }
-
-        [Fact]
-        public void ConfigurationFromFluentInterfaceWithArgumentsTest()
-        {
-            task.WithArguments("--configuration", "Release");
-            task.ExecuteVoid(Context.Object);
-            Assert.Equal("--configuration", task.Arguments[0]);
-            Assert.Equal("Release", task.Arguments[1]);
         }
 
         [Fact]
         public void ConfigurationFromBuildPropertiesTest()
         {
             Properties.Setup(x => x.Get<string>(BuildProps.BuildConfiguration, null)).Returns("Release");
-            task.ExecuteVoid(Context.Object);
-            Assert.Equal("-c", task.Arguments[0]);
-            Assert.Equal("Release", task.Arguments[1]);
+            _task.ExecuteVoid(Context.Object);
+            Assert.Equal("-c", _task.Arguments[0]);
+            Assert.Equal("Release", _task.Arguments[1]);
+        }
+
+        [Fact]
+        public void ConfigurationFromFluentInterfaceConfigurationTest()
+        {
+            _task.Configuration("Release");
+            _task.ExecuteVoid(Context.Object);
+            Assert.Equal(2, _task.Arguments.Count);
+            Assert.Equal("-c", _task.Arguments[0]);
+            Assert.Equal("Release", _task.Arguments[1]);
+        }
+
+        [Fact]
+        public void ConfigurationFromFluentInterfaceWithArgumentsTest()
+        {
+            _task.WithArguments("--configuration", "Release");
+            _task.ExecuteVoid(Context.Object);
+            Assert.Equal("--configuration", _task.Arguments[0]);
+            Assert.Equal("Release", _task.Arguments[1]);
         }
     }
 }

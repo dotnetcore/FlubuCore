@@ -51,7 +51,7 @@ namespace Flubu.Tests.Tasks
             ExecuteDotnetTask task = Context.CoreTasks().ExecuteDotnetTask("help")
                 .DotnetExecutable("C:/Program Files/dotnet/dotnet.exe");
 
-           var res = task.Execute(Context);
+            var res = task.Execute(Context);
 
             Assert.Equal(0, res);
         }

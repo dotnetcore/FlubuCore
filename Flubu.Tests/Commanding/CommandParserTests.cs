@@ -56,38 +56,21 @@ namespace Flubu.Tests.Commanding
         [InlineData("--script")]
         public void ParseScript(string value)
         {
-            var res = _parser.Parse(new[] { "test", value, "b.cs"});
+            var res = _parser.Parse(new[] { "test", value, "b.cs" });
 
             Assert.Equal("b.cs", res.Script);
-			Assert.Empty(res.ScriptArguments);
+            Assert.Empty(res.ScriptArguments);
         }
 
-	    [Fact]
-	    public void ParseScriptArguments()
-	    {
-			var res = _parser.Parse(new[] { "test", "-s", "b.cs", "-User=Test", "--Password=pass" });
-			Assert.Equal(2, res.ScriptArguments.Count);
-			Assert.Equal("Test", res.ScriptArguments["User"]);
-		    Assert.Equal("pass", res.ScriptArguments["Password"]);
-		}
+        [Fact]
+        public void GetDefaultScriptArgumentWhenKeyNotFound()
+        {
+            var res = _parser.Parse(new[] { "test", "-s", "b.cs", "--Password=pass=qq" });
+            Assert.Single(res.ScriptArguments);
+            Assert.Null(res.ScriptArguments["NonExist"]);
+        }
 
-	    [Fact]
-	    public void ParseScriptArguments2()
-	    {
-		    var res = _parser.Parse(new[] { "test", "-s", "b.cs", "--Password=pass=qq" });
-		    Assert.Single(res.ScriptArguments);
-		    Assert.Equal("pass=qq", res.ScriptArguments["Password"]);
-	    }
-
-	    [Fact]
-	    public void GetDefaultScriptArgumentWhenKeyNotFound()
-	    {
-		    var res = _parser.Parse(new[] { "test", "-s", "b.cs", "--Password=pass=qq" });
-		    Assert.Single(res.ScriptArguments);
-		    Assert.Null(res.ScriptArguments["NonExist"]);
-	    }
-
-		[Fact]
+        [Fact]
         public void ParseEmpty()
         {
             var res = _parser.Parse(new string[0]);
@@ -103,6 +86,23 @@ namespace Flubu.Tests.Commanding
 
             Assert.Equal("Debug", res.Config);
             Assert.False(res.Help);
+        }
+
+        [Fact]
+        public void ParseScriptArguments()
+        {
+            var res = _parser.Parse(new[] { "test", "-s", "b.cs", "-User=Test", "--Password=pass" });
+            Assert.Equal(2, res.ScriptArguments.Count);
+            Assert.Equal("Test", res.ScriptArguments["User"]);
+            Assert.Equal("pass", res.ScriptArguments["Password"]);
+        }
+
+        [Fact]
+        public void ParseScriptArguments2()
+        {
+            var res = _parser.Parse(new[] { "test", "-s", "b.cs", "--Password=pass=qq" });
+            Assert.Single(res.ScriptArguments);
+            Assert.Equal("pass=qq", res.ScriptArguments["Password"]);
         }
     }
 }

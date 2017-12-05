@@ -27,7 +27,7 @@ namespace Flubu.Tests
             Context = new TaskContextInternal(
                 loggerFactory.CreateLogger<TaskSession>(),
                 new TaskContextSession(),
-                new CommandArguments(){ },
+                new CommandArguments() { },
                 new TargetTree(ServiceProvider, new CommandArguments()),
                 Factory,
                 new FluentInterfaceFactory(ServiceProvider));

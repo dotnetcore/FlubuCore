@@ -1,7 +1,7 @@
-﻿using FlubuCore.Tasks.Iis;
-using FlubuCore.Tasks.NetCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using FlubuCore.Tasks.Iis;
+using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Utils;
 using Xunit;
 
@@ -394,7 +394,6 @@ namespace Flubu.Tests.Context
         public void ResolveNunitWithDotCoverTask2()
         {
             Context.Tasks().NUnitWithDotCover("test", new string[2]);
-
         }
     }
 }

@@ -66,7 +66,7 @@ namespace DotNet.Cli.Flubu.Commanding
         {
             _parsed.Help = false;
 
-             _parsed.Output = _outputOption.Value();
+            _parsed.Output = _outputOption.Value();
             _parsed.Config = _configurationOption.Value() ?? Constants.DefaultConfiguration;
             _parsed.MainCommands = _command.Values;
             _parsed.Script = _scriptPath.Value();
@@ -83,36 +83,35 @@ namespace DotNet.Cli.Flubu.Commanding
             if (_isDebug.HasValue())
                 _parsed.Debug = true;
 
-			PrepareRemaingCommandsAndScriptArgs();
+            PrepareRemaingCommandsAndScriptArgs();
 
-	        return 0;
+            return 0;
         }
 
-	    private void PrepareRemaingCommandsAndScriptArgs()
-	    {
-		    _parsed.RemainingCommands = new List<string>();
-		    _parsed.ScriptArguments = new DictionaryWithDefault<string, string>(null);
-		    foreach (var remainingArgument in _commandApp.RemainingArguments)
-		    {
-			    if (remainingArgument.StartsWith("-"))
-			    {
-			        var arg = remainingArgument.TrimStart('-');
-				    if (arg.Contains("="))
-				    {
-					    var splitedArg = arg.Split(new[] {'='}, 2);
-					    _parsed.ScriptArguments.Add(splitedArg[0], splitedArg[1]);
-				    }
-				    else
-				    {
-				        _parsed.ScriptArguments.Add(arg, null);
+        private void PrepareRemaingCommandsAndScriptArgs()
+        {
+            _parsed.RemainingCommands = new List<string>();
+            _parsed.ScriptArguments = new DictionaryWithDefault<string, string>(null);
+            foreach (var remainingArgument in _commandApp.RemainingArguments)
+            {
+                if (remainingArgument.StartsWith("-"))
+                {
+                    var arg = remainingArgument.TrimStart('-');
+                    if (arg.Contains("="))
+                    {
+                        var splitedArg = arg.Split(new[] { '=' }, 2);
+                        _parsed.ScriptArguments.Add(splitedArg[0], splitedArg[1]);
                     }
-			    }
-			    else
-			    {
-				    _parsed.RemainingCommands.Add(remainingArgument);
-			    }
-		    }
-	    }
-
+                    else
+                    {
+                        _parsed.ScriptArguments.Add(arg, null);
+                    }
+                }
+                else
+                {
+                    _parsed.RemainingCommands.Add(remainingArgument);
+                }
+            }
+        }
     }
 }

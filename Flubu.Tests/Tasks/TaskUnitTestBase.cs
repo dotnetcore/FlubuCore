@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FlubuCore.Context;
+﻿using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Tasks.Process;
 using Moq;
@@ -10,17 +7,7 @@ namespace Flubu.Tests.Tasks
 {
     public abstract class TaskUnitTestBase
     {
-        protected Mock<ITaskContextInternal> Context { get; set; }
-
-        protected Mock<IBuildPropertiesSession> Properties { get; set; }
-
-        protected Mock<ITaskFluentInterface> Tasks { get; set; }
-        
-        protected Mock<ICoreTaskFluentInterface> CoreTasks { get; set; }
-
-        protected  Mock<IRunProgramTask> RunProgramTask { get; set; }
-
-        public TaskUnitTestBase(MockBehavior propertiesMockBehavior = MockBehavior.Strict)
+        protected TaskUnitTestBase(MockBehavior propertiesMockBehavior = MockBehavior.Strict)
         {
             Tasks = new Mock<ITaskFluentInterface>();
             CoreTasks = new Mock<ICoreTaskFluentInterface>();
@@ -37,5 +24,15 @@ namespace Flubu.Tests.Tasks
             RunProgramTask.Setup(x => x.CaptureErrorOutput()).Returns(RunProgramTask.Object);
             RunProgramTask.Setup(x => x.CaptureOutput()).Returns(RunProgramTask.Object);
         }
+
+        protected Mock<ITaskContextInternal> Context { get; set; }
+
+        protected Mock<IBuildPropertiesSession> Properties { get; set; }
+
+        protected Mock<ITaskFluentInterface> Tasks { get; set; }
+
+        protected Mock<ICoreTaskFluentInterface> CoreTasks { get; set; }
+
+        protected Mock<IRunProgramTask> RunProgramTask { get; set; }
     }
 }
