@@ -1,37 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace FlubuCore
 {
     public class DictionaryWithDefault<TKey, TValue> : Dictionary<TKey, TValue>
     {
-        private TValue _default;
-
         public DictionaryWithDefault()
         {
         }
 
         public DictionaryWithDefault(TValue defaultValue)
         {
-            _default = defaultValue;
+            DefaultValue = defaultValue;
         }
 
-        public TValue DefaultValue
-        {
-            get { return _default; }
-            set { _default = value; }
-        }
+        public TValue DefaultValue { get; set; }
 
         public new TValue this[TKey key]
         {
             get
             {
                 TValue t;
-                return base.TryGetValue(key, out t) ? t : _default;
+                return TryGetValue(key, out t) ? t : DefaultValue;
             }
 
-            set { base[key] = value; }
+            set => base[key] = value;
         }
     }
 }
