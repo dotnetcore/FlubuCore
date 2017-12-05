@@ -175,7 +175,7 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void FromArgument_DisabledOnExecuteAsync_ThrowsTaskExecutionException()
         {
-            _task.ForMember(x => x.ExecuteAsync(Context.Object).Wait(), "-t");
+            _task.ForMember(x => x.ExecuteAsync(Context.Object), "-t");
             var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
             Assert.Equal(20, ex.ErrorCode);
         }
@@ -191,7 +191,7 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void FromArgument_DisabledOnExecuteVoidAsync_ThrowsTaskExecutionException()
         {
-            _task.ForMember(x => x.ExecuteVoidAsync(Context.Object).Wait(), "-t");
+            _task.ForMember(x => x.ExecuteVoidAsync(Context.Object), "-t");
             var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
             Assert.Equal(20, ex.ErrorCode);
         }
