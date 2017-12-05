@@ -9,11 +9,10 @@ namespace FlubuCore.Tasks.Process
 {
     public class RunProgramTask : TaskBase<int, IRunProgramTask>, IRunProgramTask
     {
-        private string _programToExecute;
         private readonly List<string> _arguments = new List<string>();
         private readonly StringBuilder _output = new StringBuilder();
         private readonly StringBuilder _errorOutput = new StringBuilder();
-
+        private string _programToExecute;
         private ICommandFactory _commandFactory;
         private string _workingFolder;
         private bool _captureOutput;
@@ -36,8 +35,10 @@ namespace FlubuCore.Tasks.Process
                 {
                     return $"Runs program '{_programToExecute}'";
                 }
+
                 return _description;
             }
+
             set { _description = value; }
         }
 
@@ -52,7 +53,7 @@ namespace FlubuCore.Tasks.Process
             _arguments.Add(arg);
             return this;
         }
-        /// <inheritdoc />
+
         /// <summary>
         /// Add's arguments to the program.
         /// </summary>

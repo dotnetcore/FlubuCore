@@ -34,7 +34,6 @@ namespace FlubuCore.Tasks.NetCore
             set { _description = value; }
         }
 
-
         /// <summary>
         ///  Specifies the server URL
         /// </summary>

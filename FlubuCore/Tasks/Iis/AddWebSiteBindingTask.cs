@@ -19,6 +19,8 @@ namespace FlubuCore.Tasks.Iis
 
         private string _certificateHash;
 
+        protected override string Description { get; set; }
+
         public IAddWebsiteBindingTask SiteName(string name)
         {
             _siteName = name;
@@ -42,8 +44,6 @@ namespace FlubuCore.Tasks.Iis
             _certificateHash = hash;
             return this;
         }
-
-        protected override string Description { get; set; }
 
         protected override int DoExecute(ITaskContextInternal context)
         {

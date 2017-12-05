@@ -35,6 +35,7 @@ namespace FlubuCore.Tasks.Text
 
                 return _description;
             }
+
             set { _description = value; }
         }
 

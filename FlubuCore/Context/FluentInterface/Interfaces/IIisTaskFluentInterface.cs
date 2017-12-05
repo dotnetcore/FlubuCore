@@ -40,6 +40,5 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <returns></returns>
         IAddWebsiteBindingTask AddWebsiteBindingTask();
-
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks;
@@ -61,7 +60,7 @@ namespace FlubuCore.Targeting
         {
             ITarget target = _targets[targetName];
             int n = target.Dependencies.Count;
-            List<Task> tTasks = new List<Task>();
+            List<Task> tasks = new List<Task>();
             for (int i = 0; i < n; i++)
             {
                 var dependantTargetName = target.Dependencies.Keys.ElementAt(i);
@@ -79,33 +78,31 @@ namespace FlubuCore.Targeting
                     DependenciesExecutedCount++;
                 }
 
-               
                 if (executionMode == TaskExecutionMode.Synchronous)
                 {
                     RunTarget(taskContext, dependantTargetName);
                 }
                 else
                 {
-                    tTasks.Add(RunTargetAsync(taskContext, dependantTargetName));
+                    tasks.Add(RunTargetAsync(taskContext, dependantTargetName));
                     if (i + 1 < n)
                     {
                         if (target.Dependencies.Values.ElementAt(i + 1) != TaskExecutionMode.Synchronous)
                             continue;
-                        if (tTasks.Count <= 0)
+                        if (tasks.Count <= 0)
                             continue;
 
-                        Task.WaitAll(tTasks.ToArray());
-                        tTasks = new List<Task>();
+                        Task.WaitAll(tasks.ToArray());
+                        tasks = new List<Task>();
                     }
                     else
                     {
-                        if (tTasks.Count > 0)
+                        if (tasks.Count > 0)
                         {
-                            Task.WaitAll(tTasks.ToArray());
+                            Task.WaitAll(tasks.ToArray());
                         }
                     }
                 }
-          
             }
         }
 

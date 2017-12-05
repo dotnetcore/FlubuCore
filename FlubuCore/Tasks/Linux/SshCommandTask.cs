@@ -1,9 +1,9 @@
-﻿using FlubuCore.Context;
-using Renci.SshNet;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using FlubuCore.Context;
+using Renci.SshNet;
 
 namespace FlubuCore.Tasks.Linux
 {
@@ -27,6 +27,8 @@ namespace FlubuCore.Tasks.Linux
             _password = password;
         }
 
+        protected override string Description { get; set; }
+
         public SshCommandTask WithCommand(string command)
         {
             _commands.Add(command);
@@ -38,8 +40,6 @@ namespace FlubuCore.Tasks.Linux
             _password = password;
             return this;
         }
-
-        protected override string Description { get; set; }
 
         protected override int DoExecute(ITaskContextInternal context)
         {

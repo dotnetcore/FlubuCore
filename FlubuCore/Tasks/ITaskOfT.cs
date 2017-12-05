@@ -8,14 +8,15 @@ namespace FlubuCore.Tasks
     /// <summary>
     ///     Specifies basic properties and methods for a task.
     /// </summary>
-    public interface ITaskOfT<T, TTask> : ITask where TTask : ITask
+    public interface ITaskOfT<T, TTask> : ITask
+        where TTask : ITask
     {
         /// <summary>
         ///     Executes the task using the specified script execution environment.
         /// </summary>
         /// <param name="context">The script execution environment.</param>
         T Execute(ITaskContext context);
-        
+
         Task<T> ExecuteAsync(ITaskContext context);
 
         /// <summary>
@@ -39,7 +40,7 @@ namespace FlubuCore.Tasks
         TTask DoNotFailOnError();
 
         /// <summary>
-        /// Passes argument value with specified key in <see cref="argKey"/> to specified method  in <see cref="taskMethod"/> 
+        /// Passes argument value with specified key in <see cref="argKey"/> to specified method  in <see cref="taskMethod"/>
         /// </summary>
         /// <param name="taskMethod">The method that the parameter value will be modified.</param>
         /// <param name="argKey">The key of the argument that it will be pass through to method parameter in <see cref="taskMethod"/></param>

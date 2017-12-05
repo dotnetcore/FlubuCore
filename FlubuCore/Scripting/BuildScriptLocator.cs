@@ -13,7 +13,7 @@ namespace FlubuCore.Scripting
             "deployscript.cs",
             "DeployScript.cs",
             "buildscript\\buildscript.cs",
-            "buildscripts\\buildscript.cs"
+            "buildscripts\\buildscript.cs",
         };
 
         private readonly ILogger<BuildScriptLocator> _log;

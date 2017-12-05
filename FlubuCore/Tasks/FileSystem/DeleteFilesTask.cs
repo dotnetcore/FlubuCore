@@ -11,7 +11,6 @@ namespace FlubuCore.Tasks.FileSystem
         private string _description;
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="directoryPath"></param>
         /// <param name="filePattern">The search string to match against the names of files in path. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters but doesnt support regular expressions.</param>
@@ -21,16 +20,6 @@ namespace FlubuCore.Tasks.FileSystem
             _directoryPath = directoryPath;
             _filePattern = filePattern;
             _recursive = recursive;
-        }
-
-        public static void Execute(
-            ITaskContextInternal context,
-            string directoryPath,
-            string filePattern,
-            bool recursive)
-        {
-            var task = new DeleteFilesTask(directoryPath, filePattern, recursive);
-            task.ExecuteVoid(context);
         }
 
         protected override string Description
@@ -46,6 +35,16 @@ namespace FlubuCore.Tasks.FileSystem
             }
 
             set { _description = value; }
+        }
+
+        public static void Execute(
+            ITaskContextInternal context,
+            string directoryPath,
+            string filePattern,
+            bool recursive)
+        {
+            var task = new DeleteFilesTask(directoryPath, filePattern, recursive);
+            task.ExecuteVoid(context);
         }
 
         protected override int DoExecute(ITaskContextInternal context)

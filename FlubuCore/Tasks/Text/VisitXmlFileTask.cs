@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Globalization;
 using System.IO;
 using System.Xml;
 using FlubuCore.Context;
@@ -13,16 +12,35 @@ namespace FlubuCore.Tasks.Text
     /// </summary>
     public class VisitXmlFileTask : TaskBase<int, VisitXmlFileTask>
     {
+        private readonly string _xmlFileName;
+        private readonly List<Visitor> _visitors = new List<Visitor>();
+        private string _description;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="VisitXmlFileTask"/> class with the specified
-        /// XML file to be analyzed. 
+        /// XML file to be analyzed.
         /// </summary>
         /// <param name="xmlFileName">
         /// File name of the XML file to be queried.
         /// </param>
         public VisitXmlFileTask(string xmlFileName)
         {
-            this.xmlFileName = xmlFileName;
+            _xmlFileName = xmlFileName;
+        }
+
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Update XML file '{_xmlFileName}";
+                }
+
+                return _description;
+            }
+
+            set { _description = value; }
         }
 
         /// <summary>
@@ -37,27 +55,13 @@ namespace FlubuCore.Tasks.Text
             Contract.Requires(visitorFunc != null);
             Contract.Ensures(ReferenceEquals(Contract.Result<VisitXmlFileTask>(), this));
 
-            visitors.Add(new Visitor(xpath, visitorFunc));
+            _visitors.Add(new Visitor(xpath, visitorFunc));
             return this;
-        }
-
-        protected override string Description
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_description))
-                {
-                    return $"Update XML file '{xmlFileName}";
-                }
-
-                return _description;
-            }
-            set { _description = value; }
         }
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            using (FileStream fileStream = new FileStream(xmlFileName, FileMode.Open, FileAccess.Read))
+            using (FileStream fileStream = new FileStream(_xmlFileName, FileMode.Open, FileAccess.Read))
             {
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.Load(fileStream);
@@ -70,46 +74,42 @@ namespace FlubuCore.Tasks.Text
 
         private void PerformVisits(ITaskContextInternal context, XmlDocument xmlDoc)
         {
-            foreach (Visitor visitor in visitors)
+            foreach (Visitor visitor in _visitors)
                 visitor.PerformVisit(context, xmlDoc);
         }
 
-        private readonly string xmlFileName;
-        private readonly List<Visitor> visitors = new List<Visitor>();
-        private string _description;
-
         private class Visitor
         {
+            private readonly string _xpath;
+            private readonly Func<XmlNode, bool> _visitorFunc;
+
             public Visitor(string xpath, Func<XmlNode, bool> visitorFunc)
             {
                 Contract.Requires(xpath != null);
                 Contract.Requires(visitorFunc != null);
 
-                this.xpath = xpath;
-                this.visitorFunc = visitorFunc;
+                _xpath = xpath;
+                _visitorFunc = visitorFunc;
             }
 
             public void PerformVisit(ITaskContextInternal context, XmlDocument xmlDoc)
             {
-                context.LogInfo($"Performing visit on XPath '{xpath}'");
+                context.LogInfo($"Performing visit on XPath '{_xpath}'");
 
-                XmlNodeList nodes = xmlDoc.SelectNodes(xpath);
+                XmlNodeList nodes = xmlDoc.SelectNodes(_xpath);
                 if (nodes == null || nodes.Count == 0)
                 {
-                    context.LogInfo($"XPath '{xpath}' returns empty list");
+                    context.LogInfo($"XPath '{_xpath}' returns empty list");
                     return;
                 }
 
-                context.LogInfo($"XPath '{xpath}' returns {nodes.Count} nodes");
+                context.LogInfo($"XPath '{_xpath}' returns {nodes.Count} nodes");
                 foreach (XmlNode node in nodes)
                 {
-                    if (!visitorFunc(node))
+                    if (!_visitorFunc(node))
                         return;
                 }
             }
-
-            private readonly string xpath;
-            private readonly Func<XmlNode, bool> visitorFunc;
         }
     }
 }

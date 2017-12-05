@@ -3,6 +3,6 @@
     public enum TaskExecutionMode
     {
         Synchronous,
-        Parallel
+        Parallel,
     }
 }

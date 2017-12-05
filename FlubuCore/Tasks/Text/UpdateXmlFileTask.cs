@@ -232,26 +232,30 @@ namespace FlubuCore.Tasks.Text
                 var rootNode = xmldoc.SelectSingleNode(addition.RootXPath);
 
                 if (rootNode == null)
+                {
                     throw new ArgumentException(
                         string.Format(
                             CultureInfo.InvariantCulture,
                             "Path '{0}' does not exist.",
                             addition.RootXPath));
+                }
 
                 if (rootNode.NodeType != XmlNodeType.Element)
+                {
                     throw new ArgumentException(
                         string.Format(
                             CultureInfo.InvariantCulture,
                             "Node '{0}' is of incorrect type '{1}', it should be an element.",
                             addition.RootXPath,
                             rootNode.NodeType));
+                }
 
                 XmlNode childNode = null;
                 if (addition.ChildNodeName.StartsWith("@", StringComparison.OrdinalIgnoreCase))
                 {
                     childNode = xmldoc.CreateAttribute(addition.ChildNodeName.Substring(1));
                     childNode.Value = addition.Value;
-                    rootNode.Attributes.Append((XmlAttribute) childNode);
+                    rootNode.Attributes.Append((XmlAttribute)childNode);
                 }
                 else
                 {
@@ -262,7 +266,7 @@ namespace FlubuCore.Tasks.Text
 
                     if (addition.Attributes != null)
                     {
-                        var element = (XmlElement) childNode;
+                        var element = (XmlElement)childNode;
 
                         foreach (var attribute in addition.Attributes.Keys)
                             element.SetAttribute(attribute, addition.Attributes[attribute]);
@@ -295,7 +299,7 @@ namespace FlubuCore.Tasks.Text
                 if (node2.NodeType == XmlNodeType.Element)
                     node2 = node2.ParentNode;
                 else if (node2.NodeType == XmlNodeType.Attribute)
-                    node2 = ((XmlAttribute) node2).OwnerElement;
+                    node2 = ((XmlAttribute)node2).OwnerElement;
                 else
                     node2 = null;
             }

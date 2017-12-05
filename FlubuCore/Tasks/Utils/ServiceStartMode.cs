@@ -7,6 +7,6 @@
         Auto,
         Demand,
         Disabled,
-        DelayedAuto
+        DelayedAuto,
     }
 }

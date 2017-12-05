@@ -7,7 +7,7 @@ namespace FlubuCore.Tasks.Linux
     {
         private readonly string _command;
         private readonly string _service;
-        
+
         public SystemCtlTask(string command, string service)
         {
             _command = command;
@@ -25,7 +25,7 @@ namespace FlubuCore.Tasks.Linux
 
             if (DoNotFail)
                 task.DoNotFailOnError();
-            
+
             return task.Execute(context);
         }
     }

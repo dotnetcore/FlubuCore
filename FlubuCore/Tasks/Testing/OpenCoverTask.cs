@@ -20,6 +20,8 @@ namespace FlubuCore.Tasks.Testing
 
         private UnitTestProvider _provider;
 
+        protected override string Description { get; set; }
+
         public OpenCoverTask WorkingFolder(string path)
         {
             _workingFolder = path;
@@ -86,8 +88,6 @@ namespace FlubuCore.Tasks.Testing
             _provider = UnitTestProvider.DotnetCore;
             return this;
         }
-
-        protected override string Description { get; set; }
 
         protected override int DoExecute(ITaskContextInternal context)
         {

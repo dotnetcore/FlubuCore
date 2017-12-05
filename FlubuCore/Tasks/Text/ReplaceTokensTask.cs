@@ -25,7 +25,7 @@ namespace FlubuCore.Tasks.Text
         {
             _sourceFileName = sourceFileName;
         }
-        
+
         protected override string Description
         {
             get
@@ -37,6 +37,7 @@ namespace FlubuCore.Tasks.Text
 
                 return _description;
             }
+
             set { _description = value; }
         }
 

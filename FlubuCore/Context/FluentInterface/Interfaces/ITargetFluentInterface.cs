@@ -83,7 +83,6 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITargetFluentInterface Do<T, T1, T2, T3, T4>(Action<ITaskContextInternal, T, T1, T2, T3, T4> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5, Action<DoTask6<T, T1, T2, T3, T4>> taskAction = null);
 
-
         /// <summary>
         /// Execute custom code in script asynchronous. U can invoke base task actions through optional parameters.
         /// </summary>

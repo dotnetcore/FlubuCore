@@ -74,13 +74,11 @@ namespace FlubuCore.Context.FluentInterface
             return this;
         }
 
-
         public ITargetFluentInterface Do<T, T1>(Action<ITaskContextInternal, T, T1> targetAction, T param, T1 param2, Action<DoTask3<T, T1>> taskAction = null)
         {
             Target.Do(targetAction, param, param2, taskAction);
             return this;
         }
-
 
         public ITargetFluentInterface Do<T, T1, T2>(Action<ITaskContextInternal, T, T1, T2> targetAction, T param, T1 param2, T2 param3, Action<DoTask4<T, T1, T2>> taskAction = null)
         {
@@ -88,13 +86,11 @@ namespace FlubuCore.Context.FluentInterface
             return this;
         }
 
-
         public ITargetFluentInterface Do<T, T1, T2, T3>(Action<ITaskContextInternal, T, T1, T2, T3> targetAction, T param, T1 param2, T2 param3, T3 param4, Action<DoTask5<T, T1, T2, T3>> taskAction = null)
         {
             Target.Do(targetAction, param, param2, param3, param4, taskAction);
             return this;
         }
-
 
         public ITargetFluentInterface Do<T, T1, T2, T3, T4>(Action<ITaskContextInternal, T, T1, T2, T3, T4> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5, Action<DoTask6<T, T1, T2, T3, T4>> taskAction = null)
         {
@@ -114,13 +110,11 @@ namespace FlubuCore.Context.FluentInterface
             return this;
         }
 
-
         public ITargetFluentInterface DoAsync<T, T1>(Action<ITaskContextInternal, T, T1> targetAction, T param, T1 param2, Action<DoTask3<T, T1>> taskAction = null)
         {
             Target.DoAsync(targetAction, param, param2, taskAction);
             return this;
         }
-
 
         public ITargetFluentInterface DoAsync<T, T1, T2>(Action<ITaskContextInternal, T, T1, T2> targetAction, T param, T1 param2, T2 param3, Action<DoTask4<T, T1, T2>> taskAction = null)
         {
@@ -128,20 +122,17 @@ namespace FlubuCore.Context.FluentInterface
             return this;
         }
 
-
         public ITargetFluentInterface DoAsync<T, T1, T2, T3>(Action<ITaskContextInternal, T, T1, T2, T3> targetAction, T param, T1 param2, T2 param3, T3 param4, Action<DoTask5<T, T1, T2, T3>> taskAction = null)
         {
             Target.DoAsync(targetAction, param, param2, param3, param4, taskAction);
             return this;
         }
 
-
         public ITargetFluentInterface DoAsync<T, T1, T2, T3, T4>(Action<ITaskContextInternal, T, T1, T2, T3, T4> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5, Action<DoTask6<T, T1, T2, T3, T4>> taskAction = null)
         {
             Target.DoAsync(targetAction, param, param2, param3, param4, param5, taskAction);
             return this;
         }
-
 
         public ITargetFluentInterface SetAsDefault()
         {
@@ -188,7 +179,6 @@ namespace FlubuCore.Context.FluentInterface
             Target.AddTaskAsync(result);
             return this;
         }
-
 
         public ITaskExtensionsFluentInterface TaskExtensions()
         {

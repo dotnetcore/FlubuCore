@@ -43,6 +43,7 @@ namespace FlubuCore.Tasks.Nuget
 
                 return _description;
             }
+
             set { _description = value; }
         }
 
@@ -77,7 +78,7 @@ namespace FlubuCore.Tasks.Nuget
         }
 
         /// <summary>
-        /// Name of the enviroment variable to use to get api key. 
+        /// Name of the enviroment variable to use to get api key.
         /// </summary>
         /// <param name="variableName"></param>
         public PublishNuGetPackageTask ForApiKeyUseEnvironmentVariable(string variableName = DefaultNuGetApiKeyEnvVariable)

@@ -9,7 +9,7 @@ namespace FlubuCore.Tasks.Versioning
         private readonly List<string> _environmentVariables = new List<string>
         {
             "APPVEYOR_BUILD_NUMBER",
-            "BUILD_NUMBER"
+            "BUILD_NUMBER",
         };
 
         protected override string Description { get; set; }

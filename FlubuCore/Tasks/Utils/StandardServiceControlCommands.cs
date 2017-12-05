@@ -13,13 +13,13 @@
         Stop,
 
         /// <summary>
-        /// Creates a windows service. 
+        /// Creates a windows service.
         /// </summary>
         Create,
 
         /// <summary>
         /// Deletes a windows service.
         /// </summary>
-        Delete
+        Delete,
     }
 }

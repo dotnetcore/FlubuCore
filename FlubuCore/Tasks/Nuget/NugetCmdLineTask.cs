@@ -9,14 +9,23 @@ namespace FlubuCore.Tasks.Nuget
     public class NuGetCmdLineTask : ExternalProcessTaskBase<NuGetCmdLineTask>
     {
         private const string PackagesDirName = "packages";
-        
         private readonly string _command;
         private string _description;
 
-        public NuGetCmdLineTask(string command, string workingDirectory = null) 
+        public NuGetCmdLineTask(string command, string workingDirectory = null)
         {
             _command = command;
             ExecuteWorkingFolder = workingDirectory;
+        }
+
+        /// <summary>
+        /// Verbosity
+        /// </summary>
+        public enum NuGetVerbosity
+        {
+            Normal,
+            Quiet,
+            Detailed,
         }
 
         protected override string Description
@@ -30,17 +39,8 @@ namespace FlubuCore.Tasks.Nuget
 
                 return _description;
             }
-            set { _description = value; }
-        }
 
-        /// <summary>
-        /// Verbosity
-        /// </summary>
-        public enum NuGetVerbosity
-        {
-            Normal,
-            Quiet,
-            Detailed
+            set { _description = value; }
         }
 
         public NuGetVerbosity? Verbosity { get; set; }
@@ -82,10 +82,10 @@ namespace FlubuCore.Tasks.Nuget
             }
 
             InsertArgument(0, _command);
-       
 
             if (Verbosity.HasValue)
                 WithArguments("-Verbosity", Verbosity.ToString());
+
             if (ApiKey != null)
                 WithArguments("-ApiKey", ApiKey);
         }
@@ -98,15 +98,15 @@ namespace FlubuCore.Tasks.Nuget
             if (!Directory.Exists(PackagesDirName))
                 return null;
 
-            const string nuGetCmdLinePackageName = "NuGet.CommandLine";
-            int packageNameLen = nuGetCmdLinePackageName.Length;
+            const string getCmdLinePackageName = "NuGet.CommandLine";
+            int packageNameLen = getCmdLinePackageName.Length;
 
             string highestVersionDir = null;
             Version highestVersion = null;
 
             foreach (string directory in Directory.EnumerateDirectories(
                 PackagesDirName,
-                string.Format(CultureInfo.InvariantCulture, "{0}.*", nuGetCmdLinePackageName)))
+                string.Format(CultureInfo.InvariantCulture, "{0}.*", getCmdLinePackageName)))
             {
                 string dirLocalName = Path.GetFileName(directory);
 

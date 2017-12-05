@@ -62,7 +62,7 @@ namespace FlubuCore.Packaging
            FileFullPath zipFileName,
            FullPath baseDir,
            bool optimizeFiles,
-           List<string> sources, 
+           List<string> sources,
            bool logFiles = true)
         {
             _taskContext = taskContext;

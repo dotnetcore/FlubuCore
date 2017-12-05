@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Text;
 using FlubuCore.Context;
 using FlubuCore.IO;
 
@@ -10,106 +8,87 @@ namespace FlubuCore.Tasks.Nuget
 {
     public class DownloadNugetPackageInUserRepositoryTask : TaskBase<int, DownloadNugetPackageInUserRepositoryTask>
     {
-        public DownloadNugetPackageInUserRepositoryTask(string packageId, Version packageVersion = null)
-        {
-            this.packageId = packageId;
-            this.packageVersion = packageVersion;
-        }
-
-        public NuGetCmdLineTask.NuGetVerbosity? Verbosity
-        {
-            get { return verbosity; }
-            set { verbosity = value; }
-        }
-
-        public string PackageSource
-        {
-            get { return packageSource; }
-            set { packageSource = value; }
-        }
-
-        public string ConfigFile
-        {
-            get { return configFile; }
-            set { configFile = value; }
-        }
-
-        public string PackageDirectory
-        {
-            get { return packageDirectory; }
-        }
-
         public const string FlubuCachePathOverrideEnvVariableName = "FLUBU_CACHE";
         private const string NuGetDirectoryName = "NuGet";
+        private readonly string _packageId;
+        private readonly Version _packageVersion;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu")]
+        public DownloadNugetPackageInUserRepositoryTask(string packageId, Version packageVersion = null)
+        {
+            _packageId = packageId;
+            _packageVersion = packageVersion;
+        }
+
         public static string NuGetPackagesCacheDir
         {
             get
             {
-                string overrideValue = Environment.GetEnvironmentVariable(FlubuCachePathOverrideEnvVariableName);
+                var overrideValue = Environment.GetEnvironmentVariable(FlubuCachePathOverrideEnvVariableName);
                 if (overrideValue == null)
+                {
                     return Path.Combine(
                         IOExtensions.GetUserProfileFolder(),
                         Path.Combine(".flubu", NuGetDirectoryName));
+                }
 
                 return Path.Combine(overrideValue, NuGetDirectoryName);
             }
         }
 
+        public NuGetCmdLineTask.NuGetVerbosity? Verbosity { get; set; }
+
+        public string PackageSource { get; set; } = "https://www.nuget.org/api/v2/";
+
+        public string ConfigFile { get; set; }
+
+        public string PackageDirectory { get; private set; }
+
         protected override string Description { get; set; }
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            FindNuGetPackageInUserRepositoryTask findPackageTask = new FindNuGetPackageInUserRepositoryTask(packageId);
+            var findPackageTask = new FindNuGetPackageInUserRepositoryTask(_packageId);
             findPackageTask.Execute(context);
 
-            if (findPackageTask.PackageVersion != null && packageVersion != null
-                && findPackageTask.PackageVersion > packageVersion)
+            if (findPackageTask.PackageVersion != null && _packageVersion != null
+                                                       && findPackageTask.PackageVersion > _packageVersion)
             {
-                packageDirectory = findPackageTask.PackageDirectory;
+                PackageDirectory = findPackageTask.PackageDirectory;
                 return 0;
             }
 
             if (findPackageTask.PackageDirectory != null)
             {
-                packageDirectory = findPackageTask.PackageDirectory;
+                PackageDirectory = findPackageTask.PackageDirectory;
                 return 0;
             }
 
-            NuGetCmdLineTask task = new NuGetCmdLineTask("install")
-                .WithArguments(packageId)
-                .WithArguments($"-Source {packageSource}")
+            var task = new NuGetCmdLineTask("install")
+                .WithArguments(_packageId)
+                .WithArguments($"-Source {PackageSource}")
                 .WithArguments("-NonInteractive")
                 .WithArguments($"-OutputDirectory {NuGetPackagesCacheDir}");
 
-            if (packageVersion != null)
-                task.WithArguments($"-Version {packageVersion.ToString()}");
+            if (_packageVersion != null)
+                task.WithArguments($"-Version {_packageVersion}");
 
-            if (configFile != null)
-                task.WithArguments($"-ConfigFile {configFile}");
+            if (ConfigFile != null)
+                task.WithArguments($"-ConfigFile {ConfigFile}");
 
-            if (verbosity.HasValue)
-                task.Verbosity = verbosity.Value;
+            if (Verbosity.HasValue)
+                task.Verbosity = Verbosity.Value;
 
             task.Execute(context);
 
             findPackageTask.Execute(context);
-            packageDirectory = findPackageTask.PackageDirectory;
+            PackageDirectory = findPackageTask.PackageDirectory;
 
-            if (packageDirectory == null)
-                context.LogError($"Something is wrong, after downloading it the NuGet package '{packageId}' still could not be found.");
-            else
-                context.LogError("Package downloaded to '{packageDirectory}'");
+            context.LogError(
+                PackageDirectory == null
+                    ? $"Something is wrong, after downloading it the NuGet package '{_packageId}' still could not be found."
+                    : "Package downloaded to '{packageDirectory}'");
 
             return 0;
         }
-
-        private readonly string packageId;
-        private readonly Version packageVersion;
-        private string packageDirectory;
-        private string configFile;
-        private NuGetCmdLineTask.NuGetVerbosity? verbosity;
-        private string packageSource = "https://www.nuget.org/api/v2/";
     }
 }

@@ -10,7 +10,9 @@
         }
 
         public string Source { get; }
+
         public string Destination { get; }
+
         public bool IsFile { get; }
     }
 }

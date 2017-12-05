@@ -29,7 +29,7 @@ namespace FlubuCore.Packaging
             _taskContext = taskContext;
             _copier = copier;
             _destinationRootDir = destinationRootDir;
-            this._logFiles = logFiles;
+            _logFiles = logFiles;
         }
 
         public CopyProcessor AddTransformation(string sourceId, LocalPath destinationDir)
@@ -153,7 +153,7 @@ namespace FlubuCore.Packaging
 
             foreach (PackagedFileInfo sourceFile in filesSource.ListFiles())
             {
-                if (!LoggingHelper.LogIfFilteredOut(sourceFile.FileFullPath.ToString(), _filter, _taskContext, this._logFiles))
+                if (!LoggingHelper.LogIfFilteredOut(sourceFile.FileFullPath.ToString(), _filter, _taskContext, _logFiles))
                 {
                     continue;
                 }

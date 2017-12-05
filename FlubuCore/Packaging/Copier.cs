@@ -6,19 +6,18 @@ namespace FlubuCore.Packaging
 {
     public class Copier : ICopier
     {
-        private readonly ITaskContextInternal _taskContext;
-
         private readonly bool _logCopiedFiles;
+        private readonly ITaskContextInternal _taskContext;
 
         public Copier(ITaskContextInternal taskContext, bool logCopiedFiles = true)
         {
-           _taskContext = taskContext;
-           this._logCopiedFiles = logCopiedFiles;
+            _taskContext = taskContext;
+            _logCopiedFiles = logCopiedFiles;
         }
 
         public void Copy(FileFullPath sourceFileName, FileFullPath destinationFileName)
         {
-            string directoryName = destinationFileName.Directory.ToString();
+            var directoryName = destinationFileName.Directory.ToString();
 
             if (!string.IsNullOrEmpty(directoryName))
             {
@@ -28,10 +27,9 @@ namespace FlubuCore.Packaging
                     Directory.CreateDirectory(directoryName);
                 }
             }
-            if (this._logCopiedFiles)
-            {
-                _taskContext.LogInfo(string.Format("Copying file '{0}' to '{1}'", sourceFileName, destinationFileName));
-            }
+
+            if (_logCopiedFiles)
+                    _taskContext.LogInfo(string.Format("Copying file '{0}' to '{1}'", sourceFileName, destinationFileName));
 
             File.Copy(sourceFileName.ToString(), destinationFileName.ToString(), true);
         }

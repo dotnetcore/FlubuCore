@@ -32,6 +32,7 @@ namespace FlubuCore.Tasks.Packaging
 
                 return _description;
             }
+
             set { _description = value; }
         }
 

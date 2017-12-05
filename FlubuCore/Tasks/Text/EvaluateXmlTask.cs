@@ -10,18 +10,21 @@ namespace FlubuCore.Tasks.Text
     /// </summary>
     public class EvaluateXmlTask : TaskBase<int, EvaluateXmlTask>
     {
+        private readonly string _xmlFileName;
+        private readonly List<Expression> _expressions = new List<Expression>();
+
         public EvaluateXmlTask(string xmlFileName)
         {
-            this.xmlFileName = xmlFileName;
-        }
-
-        public EvaluateXmlTask AddExpression(string propertyName, string xpath)
-        {
-            expressions.Add(new Expression(propertyName, xpath));
-            return this;
+            _xmlFileName = xmlFileName;
         }
 
         protected override string Description { get; set; }
+
+        public EvaluateXmlTask AddExpression(string propertyName, string xpath)
+        {
+            _expressions.Add(new Expression(propertyName, xpath));
+            return this;
+        }
 
         /// <summary>
         /// Internal task execution code.
@@ -29,14 +32,14 @@ namespace FlubuCore.Tasks.Text
         /// <param name="context">The script execution environment.</param>
         protected override int DoExecute(ITaskContextInternal context)
         {
-            using (FileStream fileStream = new FileStream(xmlFileName, FileMode.Open, FileAccess.Read))
+            using (FileStream fileStream = new FileStream(_xmlFileName, FileMode.Open, FileAccess.Read))
             {
                 using (StreamReader reader = new StreamReader(fileStream))
                 {
                     XPathDocument doc = new XPathDocument(reader);
                     XPathNavigator navigator = doc.CreateNavigator();
 
-                    foreach (Expression expression in expressions)
+                    foreach (Expression expression in _expressions)
                     {
                         object result = navigator.Evaluate(expression.Xpath);
                         context.Properties.Set(expression.PropertyName, result);
@@ -50,29 +53,17 @@ namespace FlubuCore.Tasks.Text
             return 0;
         }
 
-        private readonly string xmlFileName;
-        private readonly List<Expression> expressions = new List<Expression>();
-
         private class Expression
         {
             public Expression(string propertyName, string xpath)
             {
-                this.xpath = xpath;
-                this.propertyName = propertyName;
+                Xpath = xpath;
+                PropertyName = propertyName;
             }
 
-            public string Xpath
-            {
-                get { return xpath; }
-            }
+            public string Xpath { get; }
 
-            public string PropertyName
-            {
-                get { return propertyName; }
-            }
-
-            private readonly string xpath;
-            private readonly string propertyName;
+            public string PropertyName { get; }
         }
     }
 }

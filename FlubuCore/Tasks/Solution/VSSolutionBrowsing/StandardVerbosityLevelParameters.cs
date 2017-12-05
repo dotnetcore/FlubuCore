@@ -11,6 +11,5 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         Normal,
         Detailed,
         Diagnostic,
-
     }
 }

@@ -11,12 +11,9 @@ namespace FlubuCore.Services
         /// Gets the Windows system root directory path.
         /// </summary>
         /// <value>The Windows system root directory path.</value>
-        public static string SystemRootDir
-        {
-            get { return Environment.GetEnvironmentVariable("SystemRoot"); }
-        }
+        public static string SystemRootDir => Environment.GetEnvironmentVariable("SystemRoot");
 
-        public static void FillVersionsFromMSBuildToolsVersionsRegPath(
+        public static void FillVersionsFromMsBuildToolsVersionsRegPath(
             SortedDictionary<Version, string> toolsVersions)
         {
             using (RegistryKey toolsVersionsKey =
@@ -31,9 +28,8 @@ namespace FlubuCore.Services
                     {
                         if (toolsVersionKey == null) continue;
 
-                        object msBuildToolsPathObj = toolsVersionKey.GetValue("MSBuildToolsPath");
-                        string msBuildToolsPath = msBuildToolsPathObj as string;
-                        if (msBuildToolsPath != null) toolsVersions.Add(new Version(toolsVersion), msBuildToolsPath);
+                        object buildToolsPathObj = toolsVersionKey.GetValue("MSBuildToolsPath");
+                        if (buildToolsPathObj is string buildToolsPath) toolsVersions.Add(new Version(toolsVersion), buildToolsPath);
                     }
                 }
             }
@@ -48,12 +44,11 @@ namespace FlubuCore.Services
                     return;
 
                 object key150Value = vs2017Key.GetValue("15.0");
-                string vs2017RootPath = key150Value as string;
-                if (vs2017RootPath == null)
+                if (!(key150Value is string vs2017RootPath))
                     return;
 
-                string msBuildToolsPath = Path.Combine(vs2017RootPath, @"MSBuild\15.0\Bin");
-                toolsVersions.Add(new Version("15.0"), msBuildToolsPath);
+                string buildToolsPath = Path.Combine(vs2017RootPath, @"MSBuild\15.0\Bin");
+                toolsVersions.Add(new Version("15.0"), buildToolsPath);
             }
         }
     }

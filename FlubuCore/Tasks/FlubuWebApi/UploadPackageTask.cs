@@ -29,8 +29,10 @@ namespace FlubuCore.Tasks.FlubuWebApi
                 {
                     return $"Uploads package found in directory {_directoryPath} to flubu server {WebApiClient.WebApiBaseUrl}";
                 }
+
                 return _description;
             }
+
             set { _description = value; }
         }
 

@@ -8,11 +8,13 @@ namespace FlubuCore.Tasks.NetCore
     {
         private string _description;
 
-        public ExecuteDotnetTask(string command) : base(command)
+        public ExecuteDotnetTask(string command)
+            : base(command)
         {
         }
 
-        public ExecuteDotnetTask(StandardDotnetCommands command) : base(command)
+        public ExecuteDotnetTask(StandardDotnetCommands command)
+            : base(command)
         {
         }
 
@@ -27,6 +29,7 @@ namespace FlubuCore.Tasks.NetCore
 
                 return _description;
             }
+
             set { _description = value; }
         }
     }

@@ -72,7 +72,7 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
                 {
                     IgnoreComments = true,
                     IgnoreProcessingInstructions = true,
-                    IgnoreWhitespace = true
+                    IgnoreWhitespace = true,
                 };
 
                 using (XmlReader xmlReader = XmlReader.Create(stream, xmlReaderSettings))

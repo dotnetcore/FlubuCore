@@ -17,13 +17,13 @@ namespace FlubuCore.Tasks.Testing
             _output = outputFile;
         }
 
+        protected override string Description { get; set; }
+
         public OpenCoverToCoberturaTask WorkingFolder(string path)
         {
             _workingFolder = path;
             return this;
         }
-
-        protected override string Description { get; set; }
 
         protected override int DoExecute(ITaskContextInternal context)
         {

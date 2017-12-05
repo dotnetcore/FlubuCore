@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.WebApi.Client;
@@ -10,11 +8,9 @@ namespace FlubuCore.Tasks.FlubuWebApi
 {
     public class ExecuteFlubuScriptTask : WebApiBaseTask<ExecuteFlubuScriptTask, int>
     {
-        private string _mainCommand;
-
-        private string _scriptFilePath;
-
-        private List<string> _commands;
+        private readonly string _mainCommand;
+        private readonly string _scriptFilePath;
+        private readonly List<string> _commands;
         private string _description;
 
         public ExecuteFlubuScriptTask(string mainCommand, string scriptFilePath, IWebApiClient webApiClient)
@@ -33,8 +29,10 @@ namespace FlubuCore.Tasks.FlubuWebApi
                 {
                     return $"Execute flubu script '{_scriptFilePath}' with command '{_mainCommand}' on flubu server '{WebApiClient.WebApiBaseUrl}'";
                 }
+
                 return _description;
             }
+
             set { _description = value; }
         }
 
@@ -63,8 +61,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
             {
                 ScriptFileName = _scriptFilePath,
                 TargetToExecute = _mainCommand,
-                RemainingCommands = _commands
-
+                RemainingCommands = _commands,
             });
             return 0;
         }

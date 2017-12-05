@@ -27,8 +27,10 @@ namespace FlubuCore.Tasks.FlubuWebApi
                 {
                     return $"Upload flubu script {_scriptFilePath} tp flubu server {WebApiClient.WebApiBaseUrl}";
                 }
+
                 return _description;
             }
+
             set { _description = value; }
         }
 

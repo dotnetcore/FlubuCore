@@ -62,12 +62,12 @@ namespace FlubuCore.Scripting
             AnalyserResult analyserResult = _analyser.Analyze(code);
             references.AddRange(analyserResult.References.Select(i => MetadataReference.CreateFromFile(i)));
 
-            foreach (var csFile in analyserResult.CsFiles)
+            foreach (var file in analyserResult.CsFiles)
             {
-                if (_file.Exists(csFile))
+                if (_file.Exists(file))
                 {
-                    _log.LogInformation($"File found: {csFile}");
-                    List<string> additionalCode = _file.ReadAllLines(csFile);
+                    _log.LogInformation($"File found: {file}");
+                    List<string> additionalCode = _file.ReadAllLines(file);
 
                     AnalyserResult additionalCodeAnalyserResult = _analyser.Analyze(additionalCode);
                     if (additionalCodeAnalyserResult.CsFiles.Count > 0)
@@ -75,7 +75,7 @@ namespace FlubuCore.Scripting
                         throw new NotSupportedException("//#imp is only supported in main buildscript .cs file.");
                     }
 
-                   var usings = additionalCode.Where(x => x.StartsWith("using"));
+                    var usings = additionalCode.Where(x => x.StartsWith("using"));
 
                     references.AddRange(additionalCodeAnalyserResult.References.Select(i => MetadataReference.CreateFromFile(i)));
                     code.InsertRange(0, usings);
@@ -83,7 +83,7 @@ namespace FlubuCore.Scripting
                 }
                 else
                 {
-                    _log.LogInformation($"File was not found: {csFile}");
+                    _log.LogInformation($"File was not found: {file}");
                 }
             }
 

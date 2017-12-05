@@ -1,6 +1,7 @@
 ﻿namespace FlubuCore.Tasks
 {
-    public  abstract class DoTaskBase<TResult, TTask> : TaskBase<TResult, TTask> where TTask : class, ITask
+    public abstract class DoTaskBase<TResult, TTask> : TaskBase<TResult, TTask>
+        where TTask : class, ITask
     {
         /// <summary>
         /// Name of the task that is displayed in help.

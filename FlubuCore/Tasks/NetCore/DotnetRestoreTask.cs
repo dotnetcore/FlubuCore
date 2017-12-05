@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FlubuCore.Context;
+﻿using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.NetCore
 {
@@ -9,7 +6,8 @@ namespace FlubuCore.Tasks.NetCore
     {
         private string _description;
 
-        public DotnetRestoreTask() : base(StandardDotnetCommands.Restore)
+        public DotnetRestoreTask()
+            : base(StandardDotnetCommands.Restore)
         {
         }
 
@@ -19,11 +17,12 @@ namespace FlubuCore.Tasks.NetCore
             {
                 if (string.IsNullOrEmpty(_description))
                 {
-                    return $"Executes dotnet command Restore";
+                    return "Executes dotnet command Restore";
                 }
 
                 return _description;
             }
+
             set { _description = value; }
         }
 
@@ -45,7 +44,6 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="runtime"></param>
         /// <returns></returns>
@@ -77,7 +75,6 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="configFile"></param>
         /// <returns></returns>

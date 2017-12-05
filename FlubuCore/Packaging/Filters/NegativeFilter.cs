@@ -8,7 +8,7 @@ namespace FlubuCore.Packaging
         /// Neagatives given filter.
         /// </summary>
         /// <param name="filter">Filter to be negatived.</param>
-        public NegativeFilter( IFileFilter filter)
+        public NegativeFilter(IFileFilter filter)
         {
             _filter = filter;
         }

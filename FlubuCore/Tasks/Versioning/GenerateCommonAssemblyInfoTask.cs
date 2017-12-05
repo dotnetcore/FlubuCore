@@ -38,8 +38,10 @@ namespace FlubuCore.Tasks.Versioning
                 {
                     return $"Generates common assembly info file.";
                 }
+
                 return _description;
             }
+
             set { _description = value; }
         }
 

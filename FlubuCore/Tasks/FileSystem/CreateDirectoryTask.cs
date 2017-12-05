@@ -30,8 +30,10 @@ namespace FlubuCore.Tasks.FileSystem
                 {
                     return $"Creates directory {DirectoryPath}";
                 }
+
                 return _description;
             }
+
             set { _description = value; }
         }
 

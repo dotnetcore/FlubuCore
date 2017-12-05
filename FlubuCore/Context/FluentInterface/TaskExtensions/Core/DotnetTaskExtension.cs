@@ -132,7 +132,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
             return this;
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetPack( params string[] projects)
+        public ICoreTaskExtensionsFluentInterface DotnetPack(params string[] projects)
         {
             return DotnetPack(null, projects);
         }
@@ -200,7 +200,6 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
             return this;
         }
 
-
         public ICoreTaskExtensionsFluentInterface UpdateDotnetVersion(string[] projectFiles, string[] additionalProps)
         {
             Target.AddCoreTask(x => x.UpdateNetCoreVersionTask(projectFiles)
@@ -242,7 +241,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
 
         private ExecuteDotnetTask AddEfMigration(string workingFolder, string migrationName = "default", Action<ExecuteDotnetTask> action = null)
         {
-           var task = Context.CoreTasks()
+            var task = Context.CoreTasks()
                 .ExecuteDotnetTask("ef")
                 .WorkingFolder(workingFolder)
                 .WithArguments("migrations", "add", migrationName);

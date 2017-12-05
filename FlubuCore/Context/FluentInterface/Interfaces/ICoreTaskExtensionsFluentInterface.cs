@@ -122,7 +122,6 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns></returns>
         ICoreTaskExtensionsFluentInterface DotnetUnitTest(string project = null, Action<DotnetTestTask> action = null);
 
-
         /// <summary>
         /// Runs tests using a test runner specified in the project.json / csproj.
         /// </summary>

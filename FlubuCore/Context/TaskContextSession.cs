@@ -66,7 +66,7 @@ namespace FlubuCore.Context
                     propName = BuildProps.UserHomeFolder;
                     break;
                 default:
-                   throw new NotSupportedException("Property name is not mapped.");
+                    throw new NotSupportedException("Property name is not mapped.");
             }
 
             return Get<T>(propName);

@@ -4,7 +4,7 @@ using FlubuCore.Context;
 namespace FlubuCore.Tasks.FileSystem
 {
     /// <summary>
-    /// Copies file to specified soruce
+    ///     Copies file to specified soruce
     /// </summary>
     public class CopyFileTask : TaskBase<int, CopyFileTask>
     {
@@ -15,7 +15,7 @@ namespace FlubuCore.Tasks.FileSystem
         private string _description;
 
         /// <summary>
-        /// Copies file to specified destination location.
+        ///     Copies file to specified destination location.
         /// </summary>
         /// <param name="sourceFileName">Path of file to be copied. </param>
         /// <param name="destinationFileName">Destination location of the file to be copied.</param>
@@ -35,12 +35,12 @@ namespace FlubuCore.Tasks.FileSystem
             get
             {
                 if (string.IsNullOrEmpty(_description))
-                {
                     return $"Copies file '{_sourceFileName}' to '{_destinationFileName}'.";
-                }
+
                 return _description;
             }
-            set { _description = value; }
+
+            set => _description = value;
         }
 
         protected override int DoExecute(ITaskContextInternal context)

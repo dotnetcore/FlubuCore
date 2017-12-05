@@ -14,9 +14,9 @@ namespace FlubuCore.WebApi.Tests.ClientTests
     [Collection("Client tests")]
     public class PackagesClientTests : ClientBaseTests
     {
-	    private IUserRepository repository;
+	    private readonly IUserRepository _repository;
 
-	    private IHashService hashService;
+	    private readonly IHashService _hashService;
 
 	    public PackagesClientTests(ClientFixture clientFixture) : base(clientFixture)
 	    {
@@ -25,10 +25,10 @@ namespace FlubuCore.WebApi.Tests.ClientTests
 			    File.Delete("Users.json");
 		    }
 
-		    repository = new UserRepository();
-		    hashService = new HashService();
-		    var hashedPassword = hashService.Hash("password");
-		    var result = repository.AddUserAsync(new User
+		    _repository = new UserRepository();
+		    _hashService = new HashService();
+		    var hashedPassword = _hashService.Hash("password");
+		    var result = _repository.AddUserAsync(new User
 		    {
 			    Username = "User",
 			    Password = hashedPassword
@@ -86,7 +86,10 @@ namespace FlubuCore.WebApi.Tests.ClientTests
 	        var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
 	        Client.Token = token.Token;
 			Directory.CreateDirectory("Packages");
-            using (File.Create("packages\\test.txt"));
+            using (File.Create("packages\\test.txt"))
+            {
+            }
+
             await Client.DeletePackagesAsync();
             Assert.False(File.Exists("packages\\test.txt"));
             Assert.True(Directory.Exists("Packages"));

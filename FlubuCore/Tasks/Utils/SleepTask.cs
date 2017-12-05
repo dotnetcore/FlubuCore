@@ -39,8 +39,10 @@ namespace FlubuCore.Tasks.Utils
                 {
                     return $"Sleeps for {_delay.Milliseconds} in milliseconds";
                 }
+
                 return _description;
             }
+
             set { _description = value; }
         }
 

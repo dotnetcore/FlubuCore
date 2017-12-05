@@ -1,22 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using FlubuCore.Context;
 using FlubuCore.WebApi.Client;
 
 namespace FlubuCore.Tasks.FlubuWebApi
 {
-    public abstract class WebApiBaseTask<TTask, ReturnT> : TaskBase<ReturnT, TTask>
+    public abstract class WebApiBaseTask<TTask, TReturnT> : TaskBase<TReturnT, TTask>
         where TTask : class, ITask
     {
-        protected bool WebApiUrlSet { get; set; } = false;
-
-        protected IWebApiClient WebApiClient { get; set; }
-
-        public WebApiBaseTask(IWebApiClient webApiClient)
+        protected WebApiBaseTask(IWebApiClient webApiClient)
         {
             WebApiClient = webApiClient;
         }
+
+        protected bool WebApiUrlSet { get; set; }
+
+        protected IWebApiClient WebApiClient { get; set; }
 
         /// <summary>
         /// Set's web api base url on web api client.

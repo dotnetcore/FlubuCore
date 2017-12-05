@@ -11,15 +11,15 @@ namespace FlubuCore.Scripting.Processors
             if (!line.StartsWith("//#imp"))
                 return false;
 
-            int csIndex = line.IndexOf(" ", StringComparison.Ordinal);
+            int index = line.IndexOf(" ", StringComparison.Ordinal);
 
-            if (csIndex < 0)
+            if (index < 0)
             {
                 return true;
             }
 
-            string csFile = line.Substring(csIndex);
-            analyserResult.CsFiles.Add(Path.GetFullPath(csFile.Trim()));
+            string file = line.Substring(index);
+            analyserResult.CsFiles.Add(Path.GetFullPath(file.Trim()));
             return true;
         }
     }

@@ -110,12 +110,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <summary>
         /// Task runs tests that are in specified assembly..
         /// </summary>
-        /// <param name="projectName"></param>
+        /// <param name="testAssemblyFileName"></param>
         /// <returns></returns>
         NUnitTask NUnitTaskByAssemblyName(params string[] testAssemblyFileName);
 
         /// <summary>
-        /// Task will execute tests in the specified <see cref="testAssemblyFileNames"/> list of test assemblies using 
+        /// Task will execute tests in the specified <see cref="testAssemblyFileNames"/> list of test assemblies using
         /// the specified NUnit test runner executable.
         /// </summary>
         /// <param name="nunitRunnerFileName">The file path to NUnit's console runner.</param>
@@ -123,7 +123,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         NUnitWithDotCoverTask NUnitWithDotCover(string nunitRunnerFileName, params string[] testAssemblyFileNames);
 
         /// <summary>
-        /// Task  will execute tests in the specified <see cref="testAssemblyFileNames"/> list of test assemblies using 
+        /// Task  will execute tests in the specified <see cref="testAssemblyFileNames"/> list of test assemblies using
         /// the specified NUnit test runner executable.
         /// </summary>
         /// <param name="nunitRunnerFileName">The file path to NUnit's console runner.</param>
@@ -191,7 +191,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns></returns>
         IIisTaskFluentInterface IisTasks();
 
-	    IWebApiFluentInterface FlubuWebApiTasks();
+        IWebApiFluentInterface FlubuWebApiTasks();
 
         /// <summary>
         /// Task copies file to specified location.
@@ -242,7 +242,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="tokens">Fist paramteter text to be replaced. Second parameter text to be replaced with</param>
         /// <returns></returns>
         ReplaceTokensTask ReplaceTextTask(string sourceFile, params Tuple<string, string>[] tokens);
-        
+
         /// <summary>
         /// Task updates xml. Xml elements can be added, updated or deleted.
         /// </summary>
@@ -291,7 +291,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// Creates windows service with sc.exe command.
         /// </summary>
         /// <param name="serviceName">Name of the service to control.</param>
-        /// <param name="pathToService>path to service executable (.exe) file.</param>
+        /// <param name="pathToService">path to service executable .exe</param>
         /// <returns><see cref="ServiceControlTask"/></returns>
         ServiceCreateTask CreateWindowsService(string serviceName, string pathToService);
 
@@ -301,6 +301,5 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="pathToPowerShellScript">Path to the power shell script file. Use .\ for relative path.</param>
         /// <returns></returns>
         ExecutePowerShellScriptTask ExecutePowerShellScript(string pathToPowerShellScript);
-
     }
 }

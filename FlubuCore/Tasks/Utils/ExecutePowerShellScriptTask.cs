@@ -14,7 +14,7 @@ namespace FlubuCore.Tasks.Utils
         {
             _pathToPowerShellScript = pathToPowerShellScript;
             WithArguments($"&  {pathToPowerShellScript}");
-                ExecutablePath = "powershell";
+            ExecutablePath = "powershell";
         }
 
         protected override string Description
@@ -28,6 +28,7 @@ namespace FlubuCore.Tasks.Utils
 
                 return _description;
             }
+
             set { _description = value; }
         }
     }

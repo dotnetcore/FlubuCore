@@ -4,9 +4,9 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.NetCore
 {
-    public abstract class ExecuteDotnetTaskBase<TTask> : TaskBase<int, TTask> where TTask : class, ITask
+    public abstract class ExecuteDotnetTaskBase<TTask> : TaskBase<int, TTask>
+        where TTask : class, ITask
     {
-        internal List<string> Arguments { get; } = new List<string>();
         private string _workingFolder;
         private string _dotnetExecutable;
         private bool _doNotLogOutput;
@@ -21,10 +21,12 @@ namespace FlubuCore.Tasks.NetCore
             Command = command.ToString().ToLowerInvariant();
         }
 
+        internal List<string> Arguments { get; } = new List<string>();
+
         /// <summary>
         /// Dotnet command to be executed.
         /// </summary>
-        public string Command { get; private set; }
+        public string Command { get; }
 
         /// <summary>
         /// Add's Argument to the dotnet see <c>Command</c>
@@ -40,7 +42,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <summary>
         /// Add's Arguments to the dotnet see <c>Command</c>
         /// </summary>
-        /// <param name="arg"></param>
+        /// <param name="args"></param>
         /// <returns></returns>
         public TTask WithArguments(params string[] args)
         {
@@ -69,14 +71,12 @@ namespace FlubuCore.Tasks.NetCore
             _dotnetExecutable = fullPath;
             return this as TTask;
         }
-        
+
         public TTask DoNotLogOutput()
         {
             _doNotLogOutput = true;
             return this as TTask;
         }
-
-     
 
         protected override int DoExecute(ITaskContextInternal context)
         {

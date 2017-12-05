@@ -28,7 +28,6 @@ namespace FlubuCore.Targeting
 
         public List<Tuple<ITask, TaskExecutionMode>> Tasks => _tasks;
 
-
         string ITarget.Description { get; }
 
         /// <summary>
@@ -43,6 +42,7 @@ namespace FlubuCore.Targeting
         protected override bool LogDuration => true;
 
         protected override string Description { get; set; }
+
         protected override string DescriptionForLog => TargetName;
 
         /// <summary>
@@ -134,7 +134,6 @@ namespace FlubuCore.Targeting
         public ITarget Do<T>(Action<ITaskContextInternal, T> targetAction, T param, Action<DoTask2<T>> taskAction = null)
         {
             var task = new DoTask2<T>(targetAction, param);
-          
             Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
             return this;
         }

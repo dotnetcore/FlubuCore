@@ -9,7 +9,8 @@ namespace FlubuCore.Tasks.NetCore
     {
         private string _description;
 
-        public DotnetCleanTask() : base(StandardDotnetCommands.Clean)
+        public DotnetCleanTask()
+            : base(StandardDotnetCommands.Clean)
         {
         }
 
@@ -24,6 +25,7 @@ namespace FlubuCore.Tasks.NetCore
 
                 return _description;
             }
+
             set { _description = value; }
         }
 

@@ -3,6 +3,6 @@
     public enum SourceType
     {
         File,
-        Directory
+        Directory,
     }
 }

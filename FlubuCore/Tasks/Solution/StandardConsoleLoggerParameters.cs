@@ -74,6 +74,6 @@ namespace FlubuCore.Tasks.Solution
         /// <summary>
         /// Use ANSI console colors even if console does not support it
         /// </summary>
-        ForceConsoleColor
+        ForceConsoleColor,
     }
 }

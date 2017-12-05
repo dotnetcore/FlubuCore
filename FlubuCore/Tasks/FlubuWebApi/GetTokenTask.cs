@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.WebApi.Client;
 using FlubuCore.WebApi.Model;
@@ -10,9 +7,8 @@ namespace FlubuCore.Tasks.FlubuWebApi
 {
     public class GetTokenTask : WebApiBaseTask<GetTokenTask, string>
     {
-        private string _username;
-
-        private string _password;
+        private readonly string _password;
+        private readonly string _username;
         private string _description;
 
         public GetTokenTask(string username, string password, IWebApiClient webApiClient)
@@ -20,7 +16,6 @@ namespace FlubuCore.Tasks.FlubuWebApi
         {
             _username = username;
             _password = password;
-
         }
 
         protected override string Description
@@ -28,17 +23,17 @@ namespace FlubuCore.Tasks.FlubuWebApi
             get
             {
                 if (string.IsNullOrEmpty(_description))
-                {
                     return $"Get's access token for flubu server {WebApiClient.WebApiBaseUrl}";
-                }
+
                 return _description;
             }
-            set { _description = value; }
+
+            set => _description = value;
         }
 
         protected override string DoExecute(ITaskContextInternal context)
         {
-            Task<string> task = DoExecuteAsync(context);
+            var task = DoExecuteAsync(context);
 
             return task.GetAwaiter().GetResult();
         }
@@ -52,6 +47,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
                 Username = _username,
                 Password = _password
             });
+
             WebApiClient.Token = response.Token;
             return response.Token;
         }

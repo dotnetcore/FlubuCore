@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using FlubuCore.Context;
 using Microsoft.Web.Administration;
 
@@ -9,74 +6,72 @@ namespace FlubuCore.Tasks.Iis
 {
     public class CreateAppPoolTask : TaskBase<int, CreateAppPoolTask>, ICreateAppPoolTask
     {
-        private string _applicationPoolName;
+        private readonly string _applicationPoolName;
 
         private bool _classicManagedPipelineMode;
+        private string _description;
+
+        private string _managedRuntimeVersion;
 
         private CreateApplicationPoolMode _mode;
 
-        private string _managedRuntimeVersion;
-        private string _description;
-
         public CreateAppPoolTask(string applicationPoolName)
         {
-            this._applicationPoolName = applicationPoolName;
+            _applicationPoolName = applicationPoolName;
         }
 
         protected override string Description
         {
             get
             {
-                if (string.IsNullOrEmpty(_description))
-                {
-                    return $"Creates application pool {_applicationPoolName}";
-                }
+                if (string.IsNullOrEmpty(_description)) return $"Creates application pool {_applicationPoolName}";
 
                 return _description;
             }
-            set { _description = value; }
+            set => _description = value;
         }
 
         public ICreateAppPoolTask UseClassicManagedPipelineMode()
         {
-            this._classicManagedPipelineMode = true;
+            _classicManagedPipelineMode = true;
             return this;
         }
 
-        public ICreateAppPoolTask Mode(CreateApplicationPoolMode  mode)
+        public ICreateAppPoolTask Mode(CreateApplicationPoolMode mode)
         {
-            this._mode = mode;
+            _mode = mode;
             return this;
         }
 
         public ICreateAppPoolTask ManagedRuntimeVersion(string managedRuntimeVersion)
         {
-            this._managedRuntimeVersion = managedRuntimeVersion;
+            _managedRuntimeVersion = managedRuntimeVersion;
             return this;
         }
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            using (ServerManager serverManager = new ServerManager())
+            using (var serverManager = new ServerManager())
             {
-                ApplicationPoolCollection applicationPoolCollection = serverManager.ApplicationPools;
+                var applicationPoolCollection = serverManager.ApplicationPools;
 
                 ApplicationPool appPoolToWorkOn = null;
-                bool updatedExisting = false;
+                var updatedExisting = false;
 
-                foreach (ApplicationPool applicationPool in applicationPoolCollection)
+                foreach (var applicationPool in applicationPoolCollection)
                 {
                     if (applicationPool.Name == _applicationPoolName)
                     {
                         if (_mode == CreateApplicationPoolMode.DoNothingIfExists)
                         {
-                            context.LogInfo($"Application pool '{_applicationPoolName}' already exists, doing nothing.");
+                            context.LogInfo(
+                                $"Application pool '{_applicationPoolName}' already exists, doing nothing.");
                         }
                         else if (_mode == CreateApplicationPoolMode.FailIfAlreadyExists)
                         {
                             throw new TaskExecutionException(
                                 string.Format(
-                                    System.Globalization.CultureInfo.InvariantCulture,
+                                    CultureInfo.InvariantCulture,
                                     "Application '{0}' already exists.",
                                     _applicationPoolName), 1);
                         }
@@ -93,15 +88,16 @@ namespace FlubuCore.Tasks.Iis
 
                 appPoolToWorkOn.AutoStart = true;
                 appPoolToWorkOn.Enable32BitAppOnWin64 = true;
-                appPoolToWorkOn.ManagedPipelineMode = _classicManagedPipelineMode ? ManagedPipelineMode.Classic : ManagedPipelineMode.Integrated;
-                if (!string.IsNullOrEmpty(this._managedRuntimeVersion))
-                {
-                    appPoolToWorkOn.ManagedRuntimeVersion = this._managedRuntimeVersion;
-                }
+                appPoolToWorkOn.ManagedPipelineMode = _classicManagedPipelineMode
+                    ? ManagedPipelineMode.Classic
+                    : ManagedPipelineMode.Integrated;
+                if (!string.IsNullOrEmpty(_managedRuntimeVersion))
+                    appPoolToWorkOn.ManagedRuntimeVersion = _managedRuntimeVersion;
                 ////serverManager.ApplicationPools.Add(appPoolToWorkOn);
                 serverManager.CommitChanges();
 
-                context.LogInfo(string.Format("Application pool '{0}' {1}.", _applicationPoolName, updatedExisting ? "updated" : "created"));
+                context.LogInfo(string.Format("Application pool '{0}' {1}.", _applicationPoolName,
+                    updatedExisting ? "updated" : "created"));
             }
 
             return 0;

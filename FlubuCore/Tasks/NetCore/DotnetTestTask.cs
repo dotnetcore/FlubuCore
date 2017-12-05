@@ -10,7 +10,8 @@ namespace FlubuCore.Tasks.NetCore
     {
         private string _description;
 
-        public DotnetTestTask() : base(StandardDotnetCommands.Test)
+        public DotnetTestTask()
+            : base(StandardDotnetCommands.Test)
         {
         }
 
@@ -25,6 +26,7 @@ namespace FlubuCore.Tasks.NetCore
 
                 return _description;
             }
+
             set { _description = value; }
         }
 
@@ -153,4 +155,3 @@ namespace FlubuCore.Tasks.NetCore
         }
     }
 }
-

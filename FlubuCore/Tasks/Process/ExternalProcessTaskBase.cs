@@ -39,6 +39,7 @@ namespace FlubuCore.Tasks.Process
             _arguments.Insert(index, arg);
             return this as TTask;
         }
+
         /// <inheritdoc />
         public TTask WithArguments(string arg)
         {

@@ -18,7 +18,6 @@ namespace FlubuCore.Scripting.Processors
 
             string dll = line.Substring(dllIndex);
             var type = Type.GetType(dll, true);
-            
             analyserResult.References.Add(type.GetTypeInfo().Assembly.Location);
             return true;
         }

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.IO;
 using FlubuCore.Tasks.FileSystem;
@@ -16,24 +12,25 @@ namespace FlubuCore.Tasks.Solution
         private bool _cleanBuildDir;
         private string _description;
 
-        public CleanOutputTask CleanBuildDir()
-        {
-            this._cleanBuildDir = true;
-            return this;
-        }
-
         protected override string Description
         {
             get
             {
                 if (string.IsNullOrEmpty(_description))
                 {
-                    return $"Cleans project outputs in solution";
+                    return "Cleans project outputs in solution";
                 }
 
                 return _description;
             }
-            set { _description = value; }
+
+            set => _description = value;
+        }
+
+        public CleanOutputTask CleanBuildDir()
+        {
+            _cleanBuildDir = true;
+            return this;
         }
 
         protected override int DoExecute(ITaskContextInternal context)
@@ -45,10 +42,8 @@ namespace FlubuCore.Tasks.Solution
 
             solution.ForEachProject(projectInfo =>
                 {
-                    if (projectInfo is VSProjectWithFileInfo)
+                    if (projectInfo is VSProjectWithFileInfo info)
                     {
-                        VSProjectWithFileInfo info = (VSProjectWithFileInfo)projectInfo;
-
                         LocalPath projectOutputPath = info.GetProjectOutputPath(buildConfiguration);
 
                         if (projectOutputPath == null)

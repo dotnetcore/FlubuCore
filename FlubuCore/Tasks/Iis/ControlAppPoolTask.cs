@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 using FlubuCore.Context;
 using Microsoft.Web.Administration;
 
@@ -12,23 +9,17 @@ namespace FlubuCore.Tasks.Iis
 {
     public class ControlAppPoolTask : TaskBase<int, IControlAppPoolTask>, IControlAppPoolTask
     {
-        private string _applicationPoolName;
+        private readonly string _applicationPoolName;
 
-        private ControlApplicationPoolAction _action;
+        private readonly ControlApplicationPoolAction _action;
 
         private bool _failIfNotExist;
         private string _description;
 
         public ControlAppPoolTask(string applicationPoolName, ControlApplicationPoolAction action)
         {
-            this._applicationPoolName = applicationPoolName;
-            this._action = action;
-        }
-
-        public IControlAppPoolTask FailIfNotExist()
-        {
-            this._failIfNotExist = true;
-            return this;
+            _applicationPoolName = applicationPoolName;
+            _action = action;
         }
 
         protected override string Description
@@ -46,15 +37,21 @@ namespace FlubuCore.Tasks.Iis
             set { _description = value; }
         }
 
+        public IControlAppPoolTask FailIfNotExist()
+        {
+            _failIfNotExist = true;
+            return this;
+        }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             using (ServerManager serverManager = new ServerManager())
             {
                 ApplicationPoolCollection applicationPoolCollection = serverManager.ApplicationPools;
-                const string Message = "Application pool '{0}' has been {1}ed.";
+                const string message = "Application pool '{0}' has been {1}ed.";
                 foreach (ApplicationPool applicationPool in applicationPoolCollection)
                 {
-                    if (applicationPool.Name == this._applicationPoolName)
+                    if (applicationPool.Name == _applicationPoolName)
                     {
                         string logMessage;
                         switch (_action)
@@ -62,7 +59,7 @@ namespace FlubuCore.Tasks.Iis
                             case ControlApplicationPoolAction.Start:
                                 {
                                     RunWithRetries(x => applicationPool.Start(), 3);
-                                    logMessage = string.Format(CultureInfo.InvariantCulture, Message, _applicationPoolName, _action);
+                                    logMessage = string.Format(CultureInfo.InvariantCulture, message, _applicationPoolName, _action);
                                     break;
                                 }
 
@@ -72,14 +69,14 @@ namespace FlubuCore.Tasks.Iis
                                         x => applicationPool.Stop(),
                                         3,
                                         -2147023834 /*app pool already stopped*/);
-                                    logMessage = string.Format(CultureInfo.InvariantCulture, Message, _applicationPoolName, "stopp");
+                                    logMessage = string.Format(CultureInfo.InvariantCulture, message, _applicationPoolName, "stopp");
                                     break;
                                 }
 
                             case ControlApplicationPoolAction.Recycle:
                                 {
                                     RunWithRetries(x => applicationPool.Recycle(), 3);
-                                    logMessage = string.Format(CultureInfo.InvariantCulture, Message, _applicationPoolName, _action);
+                                    logMessage = string.Format(CultureInfo.InvariantCulture, message, _applicationPoolName, _action);
                                     break;
                                 }
 
@@ -95,14 +92,14 @@ namespace FlubuCore.Tasks.Iis
                 }
 
                 string appPoolDoesNotExistMessage = string.Format(
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    CultureInfo.InvariantCulture,
                     "Application pool '{0}' does not exist.",
                     _applicationPoolName);
 
                 if (_failIfNotExist)
                     throw new TaskExecutionException(appPoolDoesNotExistMessage, 1);
 
-                context.LogInfo(Message);
+                context.LogInfo(message);
                 return 0;
             }
         }

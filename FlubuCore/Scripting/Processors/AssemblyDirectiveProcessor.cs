@@ -17,7 +17,6 @@ namespace FlubuCore.Scripting.Processors
                 return true;
 
             string dll = line.Substring(dllIndex);
-            
             analyserResult.References.Add(Path.GetFullPath(dll.Trim()));
             return true;
         }

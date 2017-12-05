@@ -7,7 +7,8 @@
     {
         private string _description;
 
-        public ServiceControlTask(string command, string serviceName) : base(command, serviceName)
+        public ServiceControlTask(string command, string serviceName)
+            : base(command, serviceName)
         {
         }
 
@@ -22,6 +23,7 @@
 
                 return _description;
             }
+
             set { _description = value; }
         }
     }

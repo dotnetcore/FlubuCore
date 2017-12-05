@@ -30,6 +30,7 @@ namespace FlubuCore.Tasks.Solution
 
                 return _description;
             }
+
             set { _description = value; }
         }
 

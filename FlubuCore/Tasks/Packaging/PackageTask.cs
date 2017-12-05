@@ -39,6 +39,7 @@ namespace FlubuCore.Tasks.Packaging
 
                 return _description;
             }
+
             set { _description = value; }
         }
 
@@ -69,7 +70,7 @@ namespace FlubuCore.Tasks.Packaging
         /// <param name="sourceDirectoryPath">Path of the source directory to be copied.</param>
         /// <param name="destinationDirectory">Name of the directory that the source directory will be copied to.</param>
         /// <param name="recursive">If <c>true</c> subfolders in the source directory are also added. Otherwise not.</param>
-        /// 
+        /// <param name="fileFilters"></param>
         /// <returns></returns>
         public PackageTask AddDirectoryToPackage(string sourceDirectoryPath, string destinationDirectory, bool recursive, params IFileFilter[] fileFilters)
         {
@@ -101,7 +102,7 @@ namespace FlubuCore.Tasks.Packaging
         }
 
         /// <summary>
-        /// If <c>true</c> zip is optimized by removing duplicated files. When unziped those files are copied to original locations. 
+        /// If <c>true</c> zip is optimized by removing duplicated files. When unziped those files are copied to original locations.
         /// For unziping Unzip task has to be ussed.
         /// </summary>
         /// <returns></returns>
@@ -204,14 +205,15 @@ namespace FlubuCore.Tasks.Packaging
                     zipFile = zipFile.Substring(0, zipFile.Length - 4);
                 }
 
-                zipFile = Path.Combine(_destinationRootDir,
-                    _addVersionAsPostFixToZipFileName
-                        ? $"{zipFile}_{context.Properties.GetBuildVersion().ToString(_versionFieldCount)}.zip"
-                        : $"{zipFile}.zip");
+                string tmp = _addVersionAsPostFixToZipFileName
+                    ? $"{zipFile}_{context.Properties.GetBuildVersion().ToString(_versionFieldCount)}.zip"
+                    : $"{zipFile}.zip";
+
+                zipFile = Path.Combine(_destinationRootDir, tmp);
 
                 context.LogInfo($"Creating zip file {zipFile}");
 
-                ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(zipFile), df, _optimizeZip, sourceIds, this._logFiles);
+                ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(zipFile), df, _optimizeZip, sourceIds, _logFiles);
                 zipProcessor.Process(copiedPackageDef);
             }
 

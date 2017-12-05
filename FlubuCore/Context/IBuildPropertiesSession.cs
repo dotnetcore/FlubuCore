@@ -24,7 +24,7 @@ namespace FlubuCore.Context
         T Get<T>(string propertyName);
 
         /// <summary>
-        /// Get's the property that predefined by flubu by property name. All properties can also be overriden 
+        /// Get's the property that predefined by flubu by property name. All properties can also be overriden
         /// </summary>
         /// <typeparam name="T">Type of returned property</typeparam>
         /// <param name="propertyName">The property name</param>

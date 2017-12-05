@@ -28,6 +28,7 @@ namespace FlubuCore.Tasks.NetCore
 
                 return _description;
             }
+
             set { _description = value; }
         }
 

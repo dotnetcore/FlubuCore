@@ -31,7 +31,7 @@ namespace FlubuCore.Scripting
         public bool TreatUnknownTargetAsException { get; set; }
 
         /// <summary>
-        /// If <c>true</c> flubu rethrows exception when occures. Otherwise status code is returned. 
+        /// If <c>true</c> flubu rethrows exception when occures. Otherwise status code is returned.
         /// </summary>
         public bool RethrowOnException { get; set; }
     }

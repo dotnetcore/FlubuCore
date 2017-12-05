@@ -51,6 +51,21 @@ namespace FlubuCore.Tasks.Testing
             _projectNames = projectNames;
         }
 
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes NUnit unit tests. Assemblyes:'{string.Join(",", TestAssemblyFileNames)}', Projects:{string.Join(",", _projectNames)}";
+                }
+
+                return _description;
+            }
+
+            set => _description = value;
+        }
+
         /// <summary>
         /// Gets a list of assemblies to be tested
         /// </summary>
@@ -163,21 +178,6 @@ namespace FlubuCore.Tasks.Testing
         {
             _nunitConsoleFileName = fullFilePath;
             return this;
-        }
-
-        protected override string Description
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_description))
-                {
-                    return $"Executes NUnit unit tests. Assemblyes:'{string.Join(",", TestAssemblyFileNames)}', Projects:{string.Join(",", _projectNames)}";
-                }
-
-                return _description;
-            }
-
-            set => _description = value;
         }
 
         /// <inheritdoc />

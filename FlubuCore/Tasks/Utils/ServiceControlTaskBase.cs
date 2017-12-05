@@ -1,17 +1,16 @@
-﻿using FlubuCore.Context;
-using FlubuCore.Tasks.Process;
+﻿using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Utils
 {
     /// <summary>
-    /// Base class for 
+    /// Base class for <see cref="ServiceControlTask" />
     /// </summary>
     /// <typeparam name="TTask"></typeparam>
     public abstract class ServiceControlTaskBase<TTask> : ExternalProcessTaskBase<TTask>
         where TTask : class, ITask
     {
         /// <inheritdoc />
-        public ServiceControlTaskBase(string command, string serviceName)
+        protected ServiceControlTaskBase(string command, string serviceName)
         {
             Command = command;
             ServiceName = serviceName;

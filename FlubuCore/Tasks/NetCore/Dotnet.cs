@@ -43,7 +43,6 @@ namespace FlubuCore.Tasks.NetCore
             {
                 dotnetExecutable = "/usr/bin/dotnet";
             }
-       
 
             return IOExtensions.GetFullPath(dotnetExecutable);
         }

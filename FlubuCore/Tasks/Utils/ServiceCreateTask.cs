@@ -5,10 +5,11 @@
     /// </summary>
     public class ServiceCreateTask : ServiceControlTaskBase<ServiceCreateTask>
     {
-        private string _pathToService;
+        private readonly string _pathToService;
         private string _description;
 
-        public ServiceCreateTask(string serviceName, string pathToService) : base(StandardServiceControlCommands.Create.ToString(), serviceName)
+        public ServiceCreateTask(string serviceName, string pathToService)
+            : base(StandardServiceControlCommands.Create.ToString(), serviceName)
         {
             _pathToService = pathToService;
             WithArguments($"binPath={pathToService}");
@@ -25,6 +26,7 @@
 
                 return _description;
             }
+
             set { _description = value; }
         }
 

@@ -1,6 +1,7 @@
 ﻿namespace FlubuCore.Tasks.Process
 {
-    public interface IExternalProcess<out T> where T : ITask
+    public interface IExternalProcess<out T>
+        where T : ITask
     {
         /// <summary>
         /// Set the full file path of the executable file.

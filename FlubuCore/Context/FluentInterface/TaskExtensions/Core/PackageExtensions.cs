@@ -13,7 +13,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
             return this;
         }
 
-        public ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework, string runtime, Action<PackageTask> action, params string [] projects)
+        public ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework, string runtime, Action<PackageTask> action, params string[] projects)
         {
             CreateZipPackageFromProjectsImplementation(zipPrefix, targetFramework, runtime, action, projects);
             return this;

@@ -10,8 +10,9 @@ namespace FlubuCore.Tasks.NetCore
     {
         private string _description;
 
-        public DotnetPackTask() : base(StandardDotnetCommands.Pack)
-        { 
+        public DotnetPackTask()
+            : base(StandardDotnetCommands.Pack)
+        {
         }
 
         protected override string Description
@@ -20,11 +21,12 @@ namespace FlubuCore.Tasks.NetCore
             {
                 if (string.IsNullOrEmpty(_description))
                 {
-                    return $"Executes dotnet command Pack";
+                    return "Executes dotnet command Pack";
                 }
 
                 return _description;
             }
+
             set { _description = value; }
         }
 

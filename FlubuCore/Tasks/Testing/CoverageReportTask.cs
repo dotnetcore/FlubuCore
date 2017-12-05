@@ -17,13 +17,13 @@ namespace FlubuCore.Tasks.Testing
             _inputFiles.AddRange(inputFiles);
         }
 
+        protected override string Description { get; set; }
+
         public CoverageReportTask TargetFolder(string path)
         {
             _targetFolder = path;
             return this;
         }
-
-        protected override string Description { get; set; }
 
         protected override int DoExecute(ITaskContextInternal context)
         {

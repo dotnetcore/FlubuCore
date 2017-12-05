@@ -164,7 +164,7 @@ namespace FlubuCore.Tasks.Solution
             _loggingOptions.Add(option);
             return this;
         }
-        
+
         /// <summary>
         /// Add console logger option(clp). See msbuild for more details.
         /// </summary>

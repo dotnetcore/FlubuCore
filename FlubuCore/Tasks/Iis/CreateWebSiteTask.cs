@@ -53,6 +53,7 @@ namespace FlubuCore.Tasks.Iis
 
                 return _description;
             }
+
             set { _description = value; }
         }
 
