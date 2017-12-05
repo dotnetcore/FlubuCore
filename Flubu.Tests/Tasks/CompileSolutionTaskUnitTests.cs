@@ -30,7 +30,7 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void IfToolsVersionIsNotSpecifiedUseHighestOne()
         {
-            SetupMSBuildVersions();
+            SetupMsBuildVersions();
             SetupRunProgramTask();
 
             _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
@@ -41,7 +41,7 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void ExactToolsVersionWasFound()
         {
-            SetupMSBuildVersions();
+            SetupMsBuildVersions();
             SetupRunProgramTask();
 
             _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
@@ -53,7 +53,7 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void ToolsVersionWasNotFoundButThereIsNewerOne()
         {
-            SetupMSBuildVersions(include40: false);
+            SetupMsBuildVersions(include40: false);
             SetupRunProgramTask();
 
             _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
@@ -65,7 +65,7 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void ToolsVersionWasNotFoundAndThereIsNoNewerOne()
         {
-            SetupMSBuildVersions(include40: false, include120: false);
+            SetupMsBuildVersions(include40: false, include120: false);
 
             _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
             _task.SetToolsVersion(new Version("4.0"));
@@ -80,13 +80,13 @@ namespace Flubu.Tests.Tasks
             _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
             _task.WithArguments("aaa");
 
-            Assert.Equal(1, _task.GetArguments().Count);
+            Assert.Single(_task.GetArguments());
         }
 
         [Fact]
         public void CheckArgsWhenExecuting()
         {
-            SetupMSBuildVersions(include40: false, include120: false);
+            SetupMsBuildVersions(include40: false, include120: false);
             SetupRunProgramTask();
 
             _taskFluentInterface.Setup(x => x.RunProgramTask(It.IsAny<string>())).Returns(_runProgramTask.Object);
@@ -97,7 +97,7 @@ namespace Flubu.Tests.Tasks
         }
 
 
-        private void SetupMSBuildVersions(bool include40 = true, bool include120 = true)
+        private void SetupMsBuildVersions(bool include40 = true, bool include120 = true)
         {
             IDictionary<Version, string> msbuilds = new SortedDictionary<Version, string>();
             msbuilds.Add(new Version("2.0"), "somewhere2.0");

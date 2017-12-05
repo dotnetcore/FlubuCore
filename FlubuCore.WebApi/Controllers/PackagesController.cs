@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.IO;
-using FlubuCore.IO.Wrappers;
 using FlubuCore.WebApi.Controllers.Exception;
-using FlubuCore.WebApi.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlubuCore.WebApi.Controllers
@@ -19,7 +14,7 @@ namespace FlubuCore.WebApi.Controllers
 	[Authorize]
     public class PackagesController : ControllerBase
     {
-        private readonly string[] allowedFileExtension = new []{".zip", ".7z", ".rar"};
+        private readonly string[] _allowedFileExtension = new []{".zip", ".7z", ".rar"};
         
         private readonly IHostingEnvironment _hostingEnvironment;
 
@@ -48,7 +43,7 @@ namespace FlubuCore.WebApi.Controllers
             foreach (var formFile in form.Files)
             {
                 var fileExtension = Path.GetExtension(formFile.FileName);
-                if (!allowedFileExtension.Contains(fileExtension, StringComparer.OrdinalIgnoreCase))
+                if (!_allowedFileExtension.Contains(fileExtension, StringComparer.OrdinalIgnoreCase))
                 {
                     if (form.Files.Count == 1)
                     {
@@ -72,7 +67,7 @@ namespace FlubuCore.WebApi.Controllers
         public IActionResult CleanPackagesDirectory()
         {
             var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "packages");
-            System.IO.DirectoryInfo di = new DirectoryInfo(uploads);
+            var di = new DirectoryInfo(uploads);
 
             foreach (FileInfo file in di.GetFiles())
             {

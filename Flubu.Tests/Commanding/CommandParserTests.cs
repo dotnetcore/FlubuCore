@@ -59,7 +59,7 @@ namespace Flubu.Tests.Commanding
             var res = _parser.Parse(new[] { "test", value, "b.cs"});
 
             Assert.Equal("b.cs", res.Script);
-			Assert.Equal(0, res.ScriptArguments.Count);
+			Assert.Empty(res.ScriptArguments);
         }
 
 	    [Fact]
@@ -75,7 +75,7 @@ namespace Flubu.Tests.Commanding
 	    public void ParseScriptArguments2()
 	    {
 		    var res = _parser.Parse(new[] { "test", "-s", "b.cs", "--Password=pass=qq" });
-		    Assert.Equal(1, res.ScriptArguments.Count);
+		    Assert.Single(res.ScriptArguments);
 		    Assert.Equal("pass=qq", res.ScriptArguments["Password"]);
 	    }
 
@@ -83,8 +83,8 @@ namespace Flubu.Tests.Commanding
 	    public void GetDefaultScriptArgumentWhenKeyNotFound()
 	    {
 		    var res = _parser.Parse(new[] { "test", "-s", "b.cs", "--Password=pass=qq" });
-		    Assert.Equal(1, res.ScriptArguments.Count);
-		    Assert.Equal(null, res.ScriptArguments["NonExist"]);
+		    Assert.Single(res.ScriptArguments);
+		    Assert.Null(res.ScriptArguments["NonExist"]);
 	    }
 
 		[Fact]

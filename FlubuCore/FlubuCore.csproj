@@ -5,15 +5,15 @@
     <AssemblyName>FlubuCore</AssemblyName>
     <PackageId>FlubuCore</PackageId>
     <PackageTags>dotnet;flubu;build;builder;script;buildscript;automation;VisualStudio</PackageTags>
-	<PackageLicenseUrl>http://www.opensource.org/licenses/bsd-license.php</PackageLicenseUrl>
-	<PackageProjectUrl>https://bitbucket.org/zoroz/flubu.core</PackageProjectUrl>
-	<Description>
-	  A C# library for building projects and executing deployment scripts using C# code.
-      
-	  Wiki can be found at: https://github.com/flubu-core/flubu.core/wiki
-      
-	  A detailed example of how Flubu is used to build example project: https://bitbucket.org/zoroz/flubu.core.examples
-	 </Description>
+    <PackageLicenseUrl>http://www.opensource.org/licenses/bsd-license.php</PackageLicenseUrl>
+    <PackageProjectUrl>https://bitbucket.org/zoroz/flubu.core</PackageProjectUrl>
+    <Description>
+      A C# library for building projects and executing deployment scripts using C# code.
+
+      Wiki can be found at: https://github.com/flubu-core/flubu.core/wiki
+
+      A detailed example of how Flubu is used to build example project: https://bitbucket.org/zoroz/flubu.core.examples
+    </Description>
     <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.6' ">$(PackageTargetFallback);dotnet5.6</PackageTargetFallback>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
@@ -37,7 +37,7 @@
     <DocumentationFile>bin\Release\netstandard1.6\FlubuCore.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$$(TargetFramework)' == 'net462'">
-     <DefineConstants>NET462</DefineConstants>
+    <DefineConstants>NET462</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <DefineConstants>NETSTANDARD2_0;</DefineConstants>

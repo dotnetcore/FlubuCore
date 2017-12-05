@@ -140,7 +140,7 @@ namespace Flubu.Tests.Tasks
 
             using (ZipArchive archive = ZipFile.OpenRead("tmp\\output\\test.flubu.zip"))
             {
-                Assert.Equal(1, archive.Entries.Count);
+                Assert.Single(archive.Entries);
             }
         }
 
@@ -160,7 +160,7 @@ namespace Flubu.Tests.Tasks
 
             using (ZipArchive archive = ZipFile.OpenRead("tmp\\output\\test.flubu.zip"))
             {
-                Assert.Equal(1, archive.Entries.Count);
+                Assert.Single(archive.Entries);
             }
         }
 

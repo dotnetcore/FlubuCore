@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FlubuCore;
+﻿using FlubuCore;
 using FlubuCore.Context;
 using FlubuCore.Services;
 using Moq;
@@ -11,13 +8,11 @@ namespace Flubu.Tests.Tasks
 {
     public class BaseTaskUnitTests : TaskUnitTestBase
     {
-        private SimpleTask _task;
-
-        private Mock<IFlubuEnviromentService> flubuEnviromentService;
+        private readonly SimpleTask _task;
 
         public BaseTaskUnitTests()
         {
-            flubuEnviromentService = new Mock<IFlubuEnviromentService>();
+            var flubuEnviromentService = new Mock<IFlubuEnviromentService>();
             _task = new SimpleTask(flubuEnviromentService.Object);
         }
 
@@ -75,7 +70,7 @@ namespace Flubu.Tests.Tasks
 
             _task.ForMember(x => x.NoParameter(), "-l");
             _task.Execute(Context.Object);
-            Assert.Equal(true, _task.BoolValue);
+            Assert.True(_task.BoolValue);
         }
 
         [Fact]
@@ -90,7 +85,7 @@ namespace Flubu.Tests.Tasks
 
             _task.ForMember(x => x.NoParameter(), "-l");
             _task.Execute(Context.Object);
-            Assert.Equal(true, _task.BoolValue);
+            Assert.True(_task.BoolValue);
         }
 
         [Fact]
@@ -105,7 +100,7 @@ namespace Flubu.Tests.Tasks
 
             _task.ForMember(x => x.NoParameter(), "-l");
             _task.Execute(Context.Object);
-            Assert.Equal(true, _task.BoolValue);
+            Assert.True(_task.BoolValue);
         }
 
         [Fact]
@@ -120,7 +115,7 @@ namespace Flubu.Tests.Tasks
 
             _task.ForMember(x => x.NoParameter(), "-l", includeParameterlessMethodByDefault: false);
             _task.Execute(Context.Object);
-            Assert.Equal(false, _task.BoolValue);
+            Assert.False(_task.BoolValue);
         }
 
         [Fact]
@@ -135,7 +130,7 @@ namespace Flubu.Tests.Tasks
 
             _task.ForMember(x => x.NoParameter(), "-l");
             _task.Execute(Context.Object);
-            Assert.Equal(true, _task.BoolValue);
+            Assert.True(_task.BoolValue);
         }
 
         [Fact]
@@ -150,7 +145,7 @@ namespace Flubu.Tests.Tasks
 
             _task.ForMember(x => x.NoParameter(), "-l", includeParameterlessMethodByDefault: false);
             _task.Execute(Context.Object);
-            Assert.Equal(false, _task.BoolValue);
+            Assert.False(_task.BoolValue);
         }
         [Fact]
         public void FromArgument_StringValueFromArgumentToIntParameter_ThrowsTaskExecutionException()
@@ -180,7 +175,7 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void FromArgument_DisabledOnExecuteAsync_ThrowsTaskExecutionException()
         {
-            _task.ForMember(x => x.ExecuteAsync(Context.Object), "-t");
+            _task.ForMember(x => x.ExecuteAsync(Context.Object).Wait(), "-t");
             var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
             Assert.Equal(20, ex.ErrorCode);
         }
@@ -196,7 +191,7 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void FromArgument_DisabledOnExecuteVoidAsync_ThrowsTaskExecutionException()
         {
-            _task.ForMember(x => x.ExecuteVoidAsync(Context.Object), "-t");
+            _task.ForMember(x => x.ExecuteVoidAsync(Context.Object).Wait(), "-t");
             var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
             Assert.Equal(20, ex.ErrorCode);
         }

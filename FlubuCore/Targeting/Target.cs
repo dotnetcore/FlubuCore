@@ -204,7 +204,7 @@ namespace FlubuCore.Targeting
         /// </summary>
         /// <param name="description">The description</param>
         /// <returns>this target</returns>
-        public ITarget SetDescription(string description)
+        public new ITarget SetDescription(string description)
         {
             Description = description;
             return this;

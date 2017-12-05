@@ -1,23 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netcoreapp1.0;netcoreapp1.1;netcoreapp2.0;net462</TargetFrameworks>
-   
+
     <WarningsAsErrors>true</WarningsAsErrors>
     <AssemblyName>dotnet-flubu</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>dotnet-flubu</PackageId>
-	<PackageTags>dotnet;flubu;build;builder;script;buildscript;automation;VisualStudio</PackageTags>
-	<PackageLicenseUrl>http://www.opensource.org/licenses/bsd-license.php</PackageLicenseUrl>
-	<PackageProjectUrl>https://github.com/flubu-core/flubu.core</PackageProjectUrl>
-	<Description>
-	  This package includes the flubu dotnet cli tool for executing FlubuCore scripts.
+    <PackageTags>dotnet;flubu;build;builder;script;buildscript;automation;VisualStudio</PackageTags>
+    <PackageLicenseUrl>http://www.opensource.org/licenses/bsd-license.php</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/flubu-core/flubu.core</PackageProjectUrl>
+    <Description>
+      This package includes the flubu dotnet cli tool for executing FlubuCore scripts.
 
-    Flubu is a C# library for building projects and executing deployment scripts using C# code.
+      Flubu is a C# library for building projects and executing deployment scripts using C# code.
 
-    Wiki can be found at: https://github.com/flubu-core/flubu.core/wiki
+      Wiki can be found at: https://github.com/flubu-core/flubu.core/wiki
 
-    A detailed example of how Flubu is used to build example project: https://github.com/flubu-core/examples
-  </Description>
+      A detailed example of how Flubu is used to build example project: https://github.com/flubu-core/examples
+    </Description>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
@@ -25,6 +25,8 @@
     <FileVersion>2.1.2.0</FileVersion>
     <Version>2.1.2.0</Version>
     <RootNamespace>DotNet.Cli.Flubu</RootNamespace>
+    <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>1701;1702;1705;1591;1573;1572;1574</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp1.0'">
     <RuntimeIdentifiers>win7-x64;win7-x86;osx.10.10-x64;osx.10.11-x64;ubuntu.14.04-x64;ubuntu.16.04-x64;centos.7-x64;rhel.7.2-x64;debian.8-x64;fedora.23-x64;opensuse.13.2-x64</RuntimeIdentifiers>
@@ -45,14 +47,9 @@
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="2.4.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="2.4.0" />
     <PackageReference Include="NLog.Extensions.Logging" Version="1.0.0-rtm-beta3" />
-   
-    <!--<PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta001">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Documentation.Analyser" Version="1.0.6166.19031">
-      <PrivateAssets>All</PrivateAssets>
-    </PackageReference>-->
- 
     <PackageReference Include="System.ServiceProcess.ServiceController" Version="4.4.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp1.0'">

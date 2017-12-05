@@ -81,11 +81,11 @@ namespace Flubu.Tests.Integration
             Target t = (Target)session.TargetTree.GetTarget("Linux");
 
             Assert.Equal(2, t.Tasks.Count);
-            Assert.Equal(0, t.Dependencies.Count);
+            Assert.Empty(t.Dependencies);
         }
 
         [Fact]
-        public void ConfigureTargetWithIISTasks()
+        public void ConfigureTargetWithIisTasks()
         {
             ITaskSession session = _sp.GetRequiredService<ITaskSession>();
 
@@ -97,7 +97,7 @@ namespace Flubu.Tests.Integration
             Target t = (Target)session.TargetTree.GetTarget("IIS");
 
             Assert.Equal(2, t.Tasks.Count);
-            Assert.Equal(0, t.Dependencies.Count);
+            Assert.Empty(t.Dependencies);
         }
     }
 }

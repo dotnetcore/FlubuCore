@@ -93,7 +93,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
                         Password = "Password"
                     });
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                 }
             }

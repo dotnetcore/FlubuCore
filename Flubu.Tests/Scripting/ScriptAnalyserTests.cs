@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Castle.Components.DictionaryAdapter;
 using FlubuCore.Scripting.Analysis;
 using FlubuCore.Scripting.Processors;
 using Xunit;
@@ -75,8 +74,8 @@ namespace Flubu.Tests.Scripting
             var res = _analyser.Analyze(lines);
 
             Assert.Equal("MyScript", res.ClassName);
-            Assert.Equal(1, res.References.Count);
-            Assert.Equal(1, res.CsFiles.Count);
+            Assert.Single(res.References);
+            Assert.Single(res.CsFiles);
             Assert.Equal(2, lines.Count);
         }
 

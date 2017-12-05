@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.IO.Wrappers;
-using FlubuCore.Tasks.Text;
 using FlubuCore.Tasks.Versioning;
 using Moq;
 using Xunit;
@@ -16,9 +12,9 @@ namespace Flubu.Tests.Tasks
     {
         private readonly FlubuTestFixture _fixture;
 
-        private Mock<IFileWrapper> _file;
+        private readonly Mock<IFileWrapper> _file;
 
-        private Mock<IPathWrapper> _path;
+        private readonly Mock<IPathWrapper> _path;
 
         public UpdateNetCoreVersionTaskUnitTests(FlubuTestFixture fixture)
             : base(fixture.LoggerFactory)
@@ -38,7 +34,7 @@ namespace Flubu.Tests.Tasks
 
             TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.ExecuteVoid(Context));
 
-            Assert.Equal(1, task.AdditionalProperties.Count);
+            Assert.Single(task.AdditionalProperties);
             Assert.Equal(1, e.ErrorCode);
         }
 
