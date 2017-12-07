@@ -28,8 +28,6 @@ namespace FlubuCore.Targeting
 
         public List<Tuple<ITask, TaskExecutionMode>> Tasks => _tasks;
 
-        string ITarget.Description { get; }
-
         /// <summary>
         ///     Gets a value indicating whether this target is hidden. Hidden targets will not be
         ///     visible in the list of targets displayed to the user as help.
@@ -42,6 +40,11 @@ namespace FlubuCore.Targeting
         protected override bool LogDuration => true;
 
         protected override string Description { get; set; }
+
+        string ITarget.Description
+        {
+            get { return Description; }
+        }
 
         protected override string DescriptionForLog => TargetName;
 
