@@ -17,7 +17,7 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void FromArgument_StringValueFromArgumentToStringParameter_Succesfull()
+        public void ForMember_StringValueForMemberToStringParameter_Succesfull()
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
@@ -30,7 +30,7 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void FromArgument_IntValueFromArgumentToIntParameter_Succesfull()
+        public void ForMember_IntValueForMemberToIntParameter_Succesfull()
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
@@ -44,7 +44,7 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void FromArgument_DefaultValue_Succesfull()
+        public void ForMember_DefaultValue_Succesfull()
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
@@ -59,7 +59,7 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void FromArgument_MethodWithNoParametersIncludeWithBoolArgument_Succesfull()
+        public void ForMember_MethodWithNoParametersIncludeWithBoolArgument_Succesfull()
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
@@ -74,7 +74,7 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void FromArgument_MethodWithNoParametersExcludeWithBoolArgument_Succesfull()
+        public void ForMember_MethodWithNoParametersExcludeWithBoolArgument_Succesfull()
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
@@ -89,7 +89,7 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void FromArgument_MethodWithNoParametersIncludeByDefault_Succesfull()
+        public void ForMember_MethodWithNoParametersIncludeByDefault_Succesfull()
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
@@ -104,7 +104,7 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void FromArgument_MethodWithNoParametersExcludeByDefault_Succesfull()
+        public void ForMember_MethodWithNoParametersExcludeByDefault_Succesfull()
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
@@ -119,7 +119,7 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void FromArgument_MethodWithNoParametersArgumentNotBoolValueIncludedByDefault_Succesfull()
+        public void ForMember_MethodWithNoParametersArgumentNotBoolValueIncludedByDefault_Succesfull()
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
@@ -134,7 +134,7 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void FromArgument_MethodWithNoParametersArgumentNotBoolValueExcludedByDefault_Succesfull()
+        public void ForMember_MethodWithNoParametersArgumentNotBoolValueExcludedByDefault_Succesfull()
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
@@ -149,7 +149,7 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void FromArgument_StringValueFromArgumentToIntParameter_ThrowsTaskExecutionException()
+        public void ForMember_StringValueForMemberToIntParameter_ThrowsTaskExecutionException()
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
@@ -165,7 +165,7 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void FromArgument_DisabledOnExecute_ThrowsTaskExecutionException()
+        public void ForMember_DisabledOnExecute_ThrowsTaskExecutionException()
         {
             _task.ForMember(x => x.Execute(Context.Object), "-t");
             var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
@@ -174,7 +174,7 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void FromArgument_DisabledOnExecuteAsync_ThrowsTaskExecutionException()
+        public void ForMember_DisabledOnExecuteAsync_ThrowsTaskExecutionException()
         {
             _task.ForMember(x => x.ExecuteAsync(Context.Object), "-t");
             var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
@@ -182,7 +182,7 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void FromArgument_DisabledOnExecuteVoid_ThrowsTaskExecutionException()
+        public void ForMember_DisabledOnExecuteVoid_ThrowsTaskExecutionException()
         {
             _task.ForMember(x => x.ExecuteVoid(Context.Object), "-t");
             var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
@@ -190,7 +190,7 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void FromArgument_DisabledOnExecuteVoidAsync_ThrowsTaskExecutionException()
+        public void ForMember_DisabledOnExecuteVoidAsync_ThrowsTaskExecutionException()
         {
             _task.ForMember(x => x.ExecuteVoidAsync(Context.Object), "-t");
             var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
@@ -198,7 +198,7 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void FromArgument_DisabledOnFromArgument_ThrowsTaskExecutionException()
+        public void ForMember_DisabledOnForMember_ThrowsTaskExecutionException()
         {
             _task.ForMember(x => x.ForMember(null, "t", "test", true), "-t");
             var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
