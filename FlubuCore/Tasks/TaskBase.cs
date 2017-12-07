@@ -23,7 +23,7 @@ namespace FlubuCore.Tasks
         private int _retriedTimes;
         private string _taskName;
 
-        internal Dictionary<string, string> ArgumentHelp { get;  } = new Dictionary<string, string>();
+        internal List<(string argumentKey, string help)> ArgumentHelp { get; } = new List<(string argumentKey, string help)>();
 
         /// <summary>
         /// Stopwatch for timings.
@@ -112,7 +112,7 @@ namespace FlubuCore.Tasks
             _forMembers.Add((taskMethod, key, includeParameterlessMethodByDefault));
             if (!string.IsNullOrEmpty(help))
             {
-                ArgumentHelp.Add(argKey, help);
+                ArgumentHelp.Add((argKey, help));
             }
             else
             {
@@ -121,7 +121,7 @@ namespace FlubuCore.Tasks
                     string defaultValue = methodExpression.Arguments.Count == 1
                         ? $"Default value: '{methodExpression.Arguments[0]}'."
                         : null;
-                    ArgumentHelp.Add(argKey, $"Pass argument '{argKey}' to method '{methodExpression.Method.Name}'. {defaultValue}");
+                    ArgumentHelp.Add((argKey, $"Pass argument '{argKey}' to method '{methodExpression.Method.Name}'. {defaultValue}"));
                 }
             }
 
@@ -292,7 +292,7 @@ namespace FlubuCore.Tasks
             context.LogInfo("   Task arguments:");
             foreach (var argument in ArgumentHelp)
             {
-                context.LogInfo($"        {argument.Key}    {argument.Value}");
+                context.LogInfo($"        {argument.argumentKey}    {argument.help}");
             }
         }
 

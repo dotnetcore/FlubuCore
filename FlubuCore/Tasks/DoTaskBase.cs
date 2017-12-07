@@ -22,7 +22,7 @@
         /// <returns></returns>
         public TTask AddArgumentHelp(string argKey, string help)
         {
-            ArgumentHelp.Add(argKey, help);
+            ArgumentHelp.Add((argKey, help));
             return this as TTask;
         }
     }

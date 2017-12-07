@@ -27,6 +27,8 @@ namespace Flubu.Tests.Tasks
             _task.ForMember(x => x.AddPath("default vaue"), "-s");
             _task.Execute(Context.Object);
             Assert.Equal("value from arg", _task.Path);
+            Assert.Equal("-s", _task.ArgumentHelp[0].argumentKey);
+            Assert.Equal("Pass argument '-s' to method 'AddPath'. Default value: '\"default vaue\"'.", _task.ArgumentHelp[0].help);
         }
 
         [Fact]
@@ -41,6 +43,31 @@ namespace Flubu.Tests.Tasks
 
             _task.Execute(Context.Object);
             Assert.Equal(2, _task.Level);
+            Assert.Equal("-l", _task.ArgumentHelp[0].argumentKey);
+            Assert.Equal("help bla bla", _task.ArgumentHelp[0].help);
+        }
+
+        [Fact]
+        public void ForMember_SameArgumentKeyOnMoreMembers_Succesfull()
+        {
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
+            {
+                { "s", "value from arg" }
+            });
+
+            _task.ForMember(x => x.AddPath("default vaue"), "-s", "help");
+            _task.ForMember(x => x.AddPath2("default vaue"), "-s", "help2");
+            _task.ForMember(x => x.AddPath3("default vaue"), "-s", "help3");
+            _task.Execute(Context.Object);
+            Assert.Equal("value from arg", _task.Path);
+            Assert.Equal("value from arg", _task.Path2);
+            Assert.Equal("value from arg", _task.Path3);
+            Assert.Equal("-s", _task.ArgumentHelp[0].argumentKey);
+            Assert.Equal("help", _task.ArgumentHelp[0].help);
+            Assert.Equal("-s", _task.ArgumentHelp[1].argumentKey);
+            Assert.Equal("help2", _task.ArgumentHelp[1].help);
+            Assert.Equal("-s", _task.ArgumentHelp[2].argumentKey);
+            Assert.Equal("help3", _task.ArgumentHelp[2].help);
         }
 
         [Fact]
