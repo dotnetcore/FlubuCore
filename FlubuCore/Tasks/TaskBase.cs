@@ -193,7 +193,7 @@ namespace FlubuCore.Tasks
                 InvokeForMembers();
                 return DoExecute(contextInternal);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 if (!DoRetry)
                 {
@@ -208,7 +208,8 @@ namespace FlubuCore.Tasks
                 while (_retriedTimes < NumberOfRetries)
                 {
                     _retriedTimes++;
-                    contextInternal.LogInfo($"Task failed. Retriying for {_retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
+                    contextInternal.LogInfo($"Task failed: {ex.Message}");
+                    contextInternal.LogInfo($"Retriying for {_retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
                     Thread.Sleep(RetryDelay);
                     return Execute(context);
                 }
@@ -250,7 +251,7 @@ namespace FlubuCore.Tasks
                 InvokeForMembers();
                 return await DoExecuteAsync(contextInternal);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 if (!DoRetry)
                 {
@@ -260,7 +261,8 @@ namespace FlubuCore.Tasks
                 while (_retriedTimes < NumberOfRetries)
                 {
                     _retriedTimes++;
-                    contextInternal.LogInfo($"Task failed. Retriying for {_retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
+                    contextInternal.LogInfo($"Task failed: {ex.Message}");
+                    contextInternal.LogInfo($"Retriying for {_retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
                     await Task.Delay(RetryDelay);
                     return await ExecuteAsync(context);
                 }
