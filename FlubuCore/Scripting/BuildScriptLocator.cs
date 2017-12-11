@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text;
+using System.Threading.Tasks;
 using FlubuCore.IO.Wrappers;
 using Microsoft.Extensions.Logging;
 
@@ -35,6 +36,12 @@ namespace FlubuCore.Scripting
         public Task<IBuildScript> FindBuildScript(CommandArguments args)
         {
             string fileName = GetFileName(args);
+
+            if (fileName == null)
+            {
+                ReportUnspecifiedBuildScript();
+            }
+
             return FindAndCreateBuildScriptInstanceAsync(fileName);
         }
 
@@ -72,6 +79,17 @@ namespace FlubuCore.Scripting
             }
 
             throw new BuildScriptLocatorException($"The build script file specified ('{args.Script}') does not exist.");
+        }
+
+        private void ReportUnspecifiedBuildScript()
+        {
+            var errorMsg =
+                new StringBuilder(
+                    "The build script file was not specified. Please specify it as the argument or use some of the default paths for script file: ");
+            foreach (var defaultScriptLocation in BuildScriptLocator.DefaultScriptLocations)
+                errorMsg.AppendLine(defaultScriptLocation);
+
+            throw new BuildScriptLocatorException(errorMsg.ToString());
         }
     }
 }
