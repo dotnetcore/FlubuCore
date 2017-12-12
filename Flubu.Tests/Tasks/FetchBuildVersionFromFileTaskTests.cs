@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Tasks.Versioning;
@@ -23,9 +24,11 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void FetchBuildVersionFromFileTest()
         {
+            var fileName = GetOsPlatform() == OSPlatform.Windows ? @"TestData\Flubu.ProjectVersion.txt" : @"TestData/Flubu.ProjectVersion.txt";
+
             Context.Properties.Set(BuildProps.ProductRootDir, ".");
             var task = new FetchBuildVersionFromFileTask();
-            task.ProjectVersionFileName(@"TestData\Flubu.ProjectVersion.txt".ExpandToExecutingPath());
+            task.ProjectVersionFileName(fileName.ExpandToExecutingPath());
             var buildVersion = task.Execute(Context);
 
             Assert.Equal(4, buildVersion.Major);

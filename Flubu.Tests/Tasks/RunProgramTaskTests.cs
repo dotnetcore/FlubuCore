@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using FlubuCore.Tasks.Process;
 using Microsoft.DotNet.Cli.Utils;
 using Moq;
@@ -24,11 +25,11 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        [Trait("Category", "OnlyWindows")]
         public void ExecuteDotNetCommandWithFullPath()
         {
+            var fileName = GetOsPlatform() == OSPlatform.Windows ? "C:\\Program Files\\dotnet\\dotnet.exe" : "/usr/bin/dotnet";
             string currentFolder = Directory.GetCurrentDirectory();
-            var path = Path.GetFullPath("C:\\Program Files\\dotnet\\dotnet.exe");
+            var path = Path.GetFullPath(fileName);
             _commandFactory.Setup(i => i.Create(path, new List<string> { "--version" }, null, "Debug")).Returns(_command.Object);
 
             _command.Setup(i => i.CaptureStdErr()).Returns(_command.Object);
@@ -38,7 +39,7 @@ namespace Flubu.Tests.Tasks
             _command.Setup(i => i.OnOutputLine(It.IsAny<Action<string>>())).Returns(_command.Object);
             _command.Setup(i => i.Execute()).Returns(new CommandResult(new ProcessStartInfo { Arguments = "aa" }, 0, string.Empty, string.Empty));
 
-            RunProgramTask task = new RunProgramTask(_commandFactory.Object, "C:/Program Files/dotnet/dotnet.exe");
+            RunProgramTask task = new RunProgramTask(_commandFactory.Object, fileName);
 
             int res = task
                 .WithArguments("--version")

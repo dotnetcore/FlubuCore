@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
@@ -40,5 +41,28 @@ namespace Flubu.Tests
         protected IServiceProvider ServiceProvider { get; }
 
         protected ILoggerFactory LoggerFactory { get; }
+
+        public string PathToDotnetExecutable
+        {
+            get
+            {
+                return GetOsPlatform() == OSPlatform.Windows ? "C:\\Program Files\\dotnet\\dotnet.exe" : "/usr/bin/dotnet";
+            }
+        }
+
+        public static OSPlatform GetOsPlatform()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return OSPlatform.Windows;
+            }
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                return OSPlatform.Linux;
+            }
+
+            return OSPlatform.OSX;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using FlubuCore.Context;
+﻿using System.Runtime.InteropServices;
+using FlubuCore.Context;
 using FlubuCore.Tasks.NetCore;
 using Xunit;
 
@@ -16,11 +17,10 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        [Trait("Category", "OnlyWindows")]
         public void ExecuteNonExistentCommand()
         {
             ExecuteDotnetTask task = Context.CoreTasks().ExecuteDotnetTask("nonexist")
-                .DotnetExecutable("C:/Program Files/dotnet/dotnet.exe");
+                .DotnetExecutable(PathToDotnetExecutable);
 
             TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.ExecuteVoid(Context));
         }
@@ -29,7 +29,7 @@ namespace Flubu.Tests.Tasks
         public void ExecuteWrongArgsCommand()
         {
             ExecuteDotnetTask task = new ExecuteDotnetTask("build")
-                .DotnetExecutable("C:/Program Files/dotnet/dotnet.exe")
+                .DotnetExecutable(PathToDotnetExecutable)
                 .WithArguments("Flubu.NonExtstProj");
 
             TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.Execute(Context));
@@ -47,11 +47,10 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        [Trait("Category", "OnlyWindows")]
         public void ExecuteCommand()
         {
             ExecuteDotnetTask task = Context.CoreTasks().ExecuteDotnetTask("help")
-                .DotnetExecutable("C:/Program Files/dotnet/dotnet.exe");
+                .DotnetExecutable(PathToDotnetExecutable);
 
             var res = task.Execute(Context);
 
@@ -59,11 +58,10 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        [Trait("Category", "OnlyWindows")]
         public void ExecuteCommandTargetTreeCreate()
         {
             ExecuteDotnetTask task = new ExecuteDotnetTask("help");
-            task.DotnetExecutable("C:/Program Files/dotnet/dotnet.exe");
+            task.DotnetExecutable(PathToDotnetExecutable);
 
             int res = task.Execute(Context);
             Assert.Equal(0, res);
