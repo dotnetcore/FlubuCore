@@ -14,7 +14,13 @@ namespace FlubuCore.Tasks.Versioning
 
         private readonly List<string> _revisionNumbers = new List<string>();
 
-        protected override string Description { get; set; }
+        private string _description;
+
+        protected override string Description
+        {
+            get => string.IsNullOrEmpty(_description) ? "Fetches version (build and revision) from environment variables." : _description;
+            set => _description = value;
+        }
 
         public FetchVersionFromExternalSourceTask WithBuildNumber(string envName)
         {
@@ -32,6 +38,7 @@ namespace FlubuCore.Tasks.Versioning
                 return this;
 
             _revisionNumbers.Add(envName);
+
             return this;
         }
 
@@ -49,15 +56,15 @@ namespace FlubuCore.Tasks.Versioning
 
         protected override Version DoExecute(ITaskContextInternal context)
         {
-            string buildNumber = "0";
-            string revisionNumber = "0";
+            int? buildNumber = null, revisionNumber = null;
+
             foreach (string itm in _buildNumbers)
             {
                 string val = Environment.GetEnvironmentVariable(itm);
 
                 if (!string.IsNullOrEmpty(val))
                 {
-                    buildNumber = val;
+                    buildNumber = int.Parse(val);
                     break;
                 }
             }
@@ -68,18 +75,24 @@ namespace FlubuCore.Tasks.Versioning
 
                 if (!string.IsNullOrEmpty(val))
                 {
-                    revisionNumber = val;
+                    revisionNumber = int.Parse(val);
                     break;
                 }
             }
 
-            Version current = context.Properties.GetBuildVersion();
-            Version newVer = new Version(current.Major, current.Minor, int.Parse(buildNumber),
-                int.Parse(revisionNumber));
+            if (buildNumber != null || revisionNumber != null)
+            {
+                Version current = context.Properties.GetBuildVersion();
+                buildNumber = buildNumber ?? current.Build;
+                revisionNumber = revisionNumber ?? current.Revision;
+                Version newVer = new Version(current.Major, current.Minor, buildNumber.Value, revisionNumber.Value);
 
-            context.SetBuildVersion(newVer);
-            context.LogInfo($"Updated version to {newVer.ToString(3)}");
-            return newVer;
+                context.SetBuildVersion(newVer);
+                context.LogInfo($"Updated version to {newVer.ToString(4)}");
+                return newVer;
+            }
+
+            return null;
         }
     }
 }
