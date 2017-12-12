@@ -16,6 +16,7 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
+        [Trait("Category", "OnlyWindows")]
         public void ExecuteNonExistentCommand()
         {
             ExecuteDotnetTask task = Context.CoreTasks().ExecuteDotnetTask("nonexist")
@@ -46,6 +47,7 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
+        [Trait("Category", "OnlyWindows")]
         public void ExecuteCommand()
         {
             ExecuteDotnetTask task = Context.CoreTasks().ExecuteDotnetTask("help")
@@ -57,6 +59,7 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
+        [Trait("Category", "OnlyWindows")]
         public void ExecuteCommandTargetTreeCreate()
         {
             ExecuteDotnetTask task = new ExecuteDotnetTask("help");
