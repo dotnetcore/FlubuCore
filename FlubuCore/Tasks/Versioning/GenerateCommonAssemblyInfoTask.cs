@@ -16,7 +16,7 @@ namespace FlubuCore.Tasks.Versioning
         private string _buildConfiguration;
         private bool _generateConfigurationAttribute;
         private bool _generateCultureAttribute;
-        private int _productVersionFieldCount = 2;
+        private int _productVersionFieldCount;
         private string _informationalVersion;
         private Version _buildVersion;
         private string _description;
@@ -32,17 +32,8 @@ namespace FlubuCore.Tasks.Versioning
 
         protected override string Description
         {
-            get
-            {
-                if (string.IsNullOrEmpty(_description))
-                {
-                    return $"Generates common assembly info file.";
-                }
-
-                return _description;
-            }
-
-            set { _description = value; }
+            get => string.IsNullOrEmpty(_description) ? "Generates common assembly info file." : _description;
+            set => _description = value;
         }
 
         public GenerateCommonAssemblyInfoTask BuildVersion(Version buildVersion)
