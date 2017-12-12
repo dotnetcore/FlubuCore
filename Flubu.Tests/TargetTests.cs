@@ -91,6 +91,7 @@ namespace Flubu.Tests
         }
 
         [Fact]
+        [Trait("Category", "OnlyWindows")]
         public void ExecuteTargetWith2TaskTest()
         {
             TargetTree targetTree = _provider.GetService<TargetTree>();
