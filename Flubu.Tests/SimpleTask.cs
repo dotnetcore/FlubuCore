@@ -1,4 +1,5 @@
 ﻿using FlubuCore.Context;
+using FlubuCore.IO.Wrappers;
 using FlubuCore.Services;
 using FlubuCore.Tasks;
 
@@ -6,9 +7,9 @@ namespace Flubu.Tests
 {
     public class SimpleTask : TaskBase<int, SimpleTask>
     {
-        private readonly IFlubuEnviromentService _flubuEnviromentService;
+        private readonly IFileWrapper _flubuEnviromentService;
 
-        public SimpleTask(IFlubuEnviromentService flubuEnviromentService)
+        public SimpleTask(IFileWrapper flubuEnviromentService)
         {
             _flubuEnviromentService = flubuEnviromentService;
         }
@@ -57,7 +58,7 @@ namespace Flubu.Tests
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            _flubuEnviromentService.ListAvailableMSBuildToolsVersions();
+            _flubuEnviromentService.Exists("test");
             return 0;
         }
     }

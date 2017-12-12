@@ -1,5 +1,6 @@
 ﻿using FlubuCore;
 using FlubuCore.Context;
+using FlubuCore.IO.Wrappers;
 using FlubuCore.Services;
 using Moq;
 using Xunit;
@@ -12,8 +13,8 @@ namespace Flubu.Tests.Tasks
 
         public BaseTaskUnitTests()
         {
-            var flubuEnviromentService = new Mock<IFlubuEnviromentService>();
-            _task = new SimpleTask(flubuEnviromentService.Object);
+            var fileWrapper = new Mock<IFileWrapper>();
+            _task = new SimpleTask(fileWrapper.Object);
         }
 
         [Fact]

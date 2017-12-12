@@ -24,6 +24,7 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
+        [Trait("Category", "OnlyWindows")]
         public void ExecuteDotNetCommandWithFullPath()
         {
             string currentFolder = Directory.GetCurrentDirectory();

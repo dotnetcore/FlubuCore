@@ -40,6 +40,7 @@ namespace Flubu.Tests.Scripting
         [Theory]
         [InlineData("//#ass c:\\hello.dll", "c:\\hello.dll")]
         [InlineData("//#ass c:\\hello1.dll    \r\n", "c:\\hello1.dll")]
+        [Trait("Category", "OnlyWindows")]
         public void ParseDll(string line, string expected)
         {
             AssemblyDirectiveProcessor pr = new AssemblyDirectiveProcessor();
@@ -51,6 +52,7 @@ namespace Flubu.Tests.Scripting
         [Theory]
         [InlineData("//#imp c:\\test.cs", "c:\\test.cs")]
         [InlineData("//#imp c:\\test.cs    \r\n", "c:\\test.cs")]
+        [Trait("Category", "OnlyWindows")]
         public void ParseCs(string line, string expected)
         {
             CsDirectiveProcessor pr = new CsDirectiveProcessor();

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
+using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using FlubuCore.Services;
 using FlubuCore.Targeting;
@@ -52,7 +53,7 @@ namespace Flubu.Tests
 
             var target1 = targetTree.AddTarget("target 1");
 
-            target1.AddTask(new SimpleTask(new FlubuEnviromentService()));
+            target1.AddTask(new SimpleTask(new FileWrapper()));
 
             target1.ExecuteVoid(Context);
         }
@@ -64,12 +65,13 @@ namespace Flubu.Tests
 
             var target1 = targetTree.AddTarget("target 1");
 
-            target1.AddTaskAsync(new SimpleTask(new FlubuEnviromentService()));
+            target1.AddTaskAsync(new SimpleTask(new FileWrapper()));
 
             await target1.ExecuteVoidAsync(Context);
         }
 
         [Fact]
+        [Trait("Category", "OnlyWindows")]
         public async Task ExecuteTargetWith2AsyncTaskTest()
         {
             TargetTree targetTree = _provider.GetService<TargetTree>();
@@ -106,6 +108,7 @@ namespace Flubu.Tests
         }
 
         [Fact]
+        [Trait("Category", "OnlyWindows")]
         public async Task ExecuteTargetWith2Async1Sync2Test()
         {
             TargetTree targetTree = _provider.GetService<TargetTree>();
@@ -126,6 +129,7 @@ namespace Flubu.Tests
         }
 
         [Fact]
+        [Trait("Category", "OnlyWindows")]
         public async Task ExecuteTargetWith2Async1Sync2AsyncTest()
         {
             TargetTree targetTree = _provider.GetService<TargetTree>();
