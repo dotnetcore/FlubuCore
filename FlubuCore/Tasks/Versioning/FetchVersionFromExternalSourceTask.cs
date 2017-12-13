@@ -80,19 +80,16 @@ namespace FlubuCore.Tasks.Versioning
                 }
             }
 
-            if (buildNumber != null || revisionNumber != null)
-            {
-                Version current = context.Properties.GetBuildVersion();
-                buildNumber = buildNumber ?? current.Build;
-                revisionNumber = revisionNumber ?? current.Revision;
-                Version newVer = new Version(current.Major, current.Minor, buildNumber.Value, revisionNumber.Value);
+            Version current = context.Properties.GetBuildVersion();
 
-                context.SetBuildVersion(newVer);
-                context.LogInfo($"Updated version to {newVer.ToString(4)}");
-                return newVer;
-            }
+            if (buildNumber == null && revisionNumber == null) return current;
 
-            return null;
+            Version newVer = new Version(current.Major, current.Minor, buildNumber ?? current.Build,
+                revisionNumber ?? current.Revision);
+
+            context.SetBuildVersion(newVer);
+            context.LogInfo($"Updated version to {newVer.ToString(4)}");
+            return newVer;
         }
     }
 }
