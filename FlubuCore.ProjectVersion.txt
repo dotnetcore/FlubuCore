@@ -1,3 +1,9 @@
+2.1.6.0
+- Fixed error handling when build script is not found
+- FetchVersionFromFile has no option to skip saving version to session.
+- FetchVersionFromExternalSourceTask keeps existing version fields
+- GenerateCommonAssemblyInfoTask uses BuildProps.ProductVersionFieldCount 
+
 2.1.5.0
 - Added support for adding more Env. variables for version
 - Added support for revision number in FetchVersionFromExternalSourceTask

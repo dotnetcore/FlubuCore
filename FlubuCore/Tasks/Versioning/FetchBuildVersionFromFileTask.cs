@@ -7,6 +7,7 @@ namespace FlubuCore.Tasks.Versioning
 {
     public class FetchBuildVersionFromFileTask : TaskBase<Version, FetchBuildVersionFromFileTask>, IFetchBuildVersionTask
     {
+        private bool _doNotSaveVersionToSession;
         private string _productRootDir;
         private string _productId;
 
@@ -32,8 +33,14 @@ namespace FlubuCore.Tasks.Versioning
             set { _description = value; }
         }
 
+        public FetchBuildVersionFromFileTask DoNotSaveVersionToSession()
+        {
+            _doNotSaveVersionToSession = true;
+            return this;
+        }
+
         /// <summary>
-        /// File name where project version will be retrived from. If not set default filane is {SolutionName}.ProjectVersion.txt
+        /// File name where project version will be retrived from. If not set default file name is {ProductId from session}.ProjectVersion.txt
         /// </summary>
         public FetchBuildVersionFromFileTask ProjectVersionFileName(string projectVersionFileName)
         {
@@ -73,7 +80,11 @@ namespace FlubuCore.Tasks.Versioning
                 }
             }
 
-            context.SetBuildVersion(buildVersion);
+            if (!_doNotSaveVersionToSession)
+            {
+                context.SetBuildVersion(buildVersion);
+            }
+
             context.LogInfo($"Project build version (from file): {buildVersion}");
             return buildVersion;
         }
