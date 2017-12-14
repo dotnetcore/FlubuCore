@@ -146,7 +146,7 @@ public class MyBuildScript : DefaultBuildScript
         }
 
         context.Tasks().PackageTask(@"output/dotnet-flubu")
-            .AddDirectoryToPackage(@"dotnet-flubu/bin/release/netcoreapp2.0/publish", "", true)
+            .AddDirectoryToPackage(@"dotnet-flubu/bin/Release/netcoreapp2.0/publish", "", true)
             .ZipPackage("dotnet-flubu", true)
             .Execute(context);
     }
