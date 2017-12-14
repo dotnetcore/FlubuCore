@@ -92,7 +92,7 @@ public class MyBuildScript : DefaultBuildScript
             .Do(TargetPackageFlubuRunner);
 
         var packageDotnetFlubu = context.CreateTarget("package.DotnetFlubu")
-            .SetDescription("Packages .net 4.62 dotnet-flubu tool into zip.")
+            .SetDescription("Packages dotnet-flubu tool into zip.")
             .Do(TargetPackageDotnetFlubu);
 
         context.CreateTarget("rebuild")
@@ -124,7 +124,7 @@ public class MyBuildScript : DefaultBuildScript
 
         context.CreateTarget("rebuild.linux")
             .SetDescription("Rebuilds the solution and publishes nuget packages.")
-            .DependsOn(compileLinux, flubuTestsLinux);
+            .DependsOn(compileLinux, flubuTestsLinux, packageDotnetFlubu);
     }
 
     private static void TargetPackageFlubuRunner(ITaskContext context)
@@ -140,13 +140,13 @@ public class MyBuildScript : DefaultBuildScript
     private static void TargetPackageDotnetFlubu(ITaskContext context)
     {
         context.CoreTasks().Publish("dotnet-flubu").Framework("netcoreapp2.0").Execute(context);
-        if (!Directory.Exists(@"output\dotnet-flubu"))
+        if (!Directory.Exists(@"output/dotnet-flubu"))
         {
-            Directory.CreateDirectory(@"output\dotnet-flubu");
+            Directory.CreateDirectory(@"output/dotnet-flubu");
         }
 
-        context.Tasks().PackageTask(@"output\dotnet-flubu")
-            .AddDirectoryToPackage(@"dotnet-flubu\bin\release\netcoreapp2.0\publish", "", true)
+        context.Tasks().PackageTask(@"output/dotnet-flubu")
+            .AddDirectoryToPackage(@"dotnet-flubu/bin/release/netcoreapp2.0/publish", "", true)
             .ZipPackage("dotnet-flubu", true)
             .Execute(context);
     }

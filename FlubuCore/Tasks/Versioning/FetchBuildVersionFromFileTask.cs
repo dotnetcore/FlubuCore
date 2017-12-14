@@ -33,6 +33,10 @@ namespace FlubuCore.Tasks.Versioning
             set { _description = value; }
         }
 
+        /// <summary>
+        /// When set task does not store Version information to session <see cref="BuildProps.BuildVersion"/>
+        /// </summary>
+        /// <returns></returns>
         public FetchBuildVersionFromFileTask DoNotSaveVersionToSession()
         {
             _doNotSaveVersionToSession = true;
