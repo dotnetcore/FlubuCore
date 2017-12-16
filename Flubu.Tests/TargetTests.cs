@@ -202,6 +202,7 @@ namespace Flubu.Tests
         }
 
         [Fact]
+        [Trait("Category", "OnlyWindows")]
         public async Task DoAsyncTargetTest()
         {
             TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" } });
@@ -220,6 +221,7 @@ namespace Flubu.Tests
         }
 
         [Fact]
+        [Trait("Category", "OnlyWindows")]
         public async Task DoAsyncTargetTest2()
         {
             TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" } });
