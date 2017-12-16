@@ -86,8 +86,8 @@ namespace Flubu.Tests
             sw.Stop();
 
             var elapsed = sw.Elapsed;
-            Assert.True(sw.ElapsedMilliseconds > 2000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
-            Assert.True(sw.ElapsedMilliseconds < 3999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds > 2999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds < 5999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
         [Fact]
@@ -98,14 +98,14 @@ namespace Flubu.Tests
 
             var target1 = targetTree.AddTarget("target 1");
 
-            target1.AddTask(new SimpleTaskWithDelay(), new SimpleTaskWithDelay());
+            target1.AddTask(new SimpleTaskWithDelay(500), new SimpleTaskWithDelay(500));
             Stopwatch sw = new Stopwatch();
 
             sw.Start();
             target1.ExecuteVoid(Context);
             sw.Stop();
 
-            Assert.True(sw.ElapsedMilliseconds > 4000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds > 999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
         [Fact]
@@ -125,8 +125,8 @@ namespace Flubu.Tests
             await target1.ExecuteVoidAsync(Context);
             sw.Stop();
 
-            Assert.True(sw.ElapsedMilliseconds > 4000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
-            Assert.True(sw.ElapsedMilliseconds < 5999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds > 5999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds < 8999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
         [Fact]
@@ -146,8 +146,8 @@ namespace Flubu.Tests
             await target1.ExecuteVoidAsync(Context);
             sw.Stop();
 
-            Assert.True(sw.ElapsedMilliseconds > 6000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
-            Assert.True(sw.ElapsedMilliseconds < 7999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds > 8999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds < 11999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
         [Fact]
@@ -170,17 +170,17 @@ namespace Flubu.Tests
 
             Assert.Equal(2, targetTree.DependenciesExecutedCount);
 
-            Assert.True(sw.ElapsedMilliseconds > 2000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
-            Assert.True(sw.ElapsedMilliseconds < 3999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds > 3000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds < 5999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
         [Fact]
         public void DependsOnTargetTest()
         {
             TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" } });
-            var target1 = targetTree.AddTarget("target 1").AddTask(new SimpleTaskWithDelay());
+            var target1 = targetTree.AddTarget("target 1").AddTask(new SimpleTaskWithDelay(500));
 
-            var target2 = targetTree.AddTarget("target 2").AddTask(new SimpleTaskWithDelay());
+            var target2 = targetTree.AddTarget("target 2").AddTask(new SimpleTaskWithDelay(500));
 
             var target3 = targetTree.AddTarget("target 3");
             target3.DependsOn(target1, target2);
@@ -198,7 +198,7 @@ namespace Flubu.Tests
 
             Assert.Equal(2, targetTree.DependenciesExecutedCount);
 
-            Assert.True(sw.ElapsedMilliseconds > 2000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds > 999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
         [Fact]
@@ -216,8 +216,8 @@ namespace Flubu.Tests
             await target1.ExecuteVoidAsync(Context);
             sw.Stop();
 
-            Assert.True(sw.ElapsedMilliseconds > 2000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
-            Assert.True(sw.ElapsedMilliseconds < 3999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds > 3000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds < 5999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
         [Fact]
@@ -235,18 +235,18 @@ namespace Flubu.Tests
             await target1.ExecuteVoidAsync(Context);
             sw.Stop();
 
-            Assert.True(sw.ElapsedMilliseconds > 2000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
-            Assert.True(sw.ElapsedMilliseconds < 3999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds > 3000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds < 5999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
         private async Task DoWithDelay(ITaskContext context)
         {
-           await Task.Delay(2000);
+           await Task.Delay(3000);
         }
 
         private void DoWithDelay2(ITaskContext context)
         {
-            Task.Delay(2000).Wait();
+            Task.Delay(3000).Wait();
         }
     }
 }
