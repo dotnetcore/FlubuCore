@@ -200,5 +200,51 @@ namespace Flubu.Tests
 
             Assert.True(sw.ElapsedMilliseconds > 2000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
+
+        [Fact]
+        public async Task DoAsyncTargetTest()
+        {
+            TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" } });
+
+            var target1 = targetTree.AddTarget("target 1").DoAsync(DoWithDelay).DoAsync(DoWithDelay);
+
+            Stopwatch sw = new Stopwatch();
+
+            sw.Start();
+
+            target1.ExecuteVoid(Context);
+            sw.Stop();
+
+            Assert.True(sw.ElapsedMilliseconds > 2000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds < 3999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+        }
+
+        [Fact]
+        public async Task DoAsyncTargetTest2()
+        {
+            TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" } });
+
+            var target1 = targetTree.AddTarget("target 1").DoAsync(DoWithDelay).DoAsync((Action<ITaskContextInternal>)DoWithDelay2);
+
+            Stopwatch sw = new Stopwatch();
+
+            sw.Start();
+
+            target1.ExecuteVoid(Context);
+            sw.Stop();
+
+            Assert.True(sw.ElapsedMilliseconds > 2000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds < 3999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+        }
+
+        private async Task DoWithDelay(ITaskContext context)
+        {
+           await Task.Delay(2000);
+        }
+
+        private void DoWithDelay2(ITaskContext context)
+        {
+            Task.Delay(2000).Wait();
+        }
     }
 }

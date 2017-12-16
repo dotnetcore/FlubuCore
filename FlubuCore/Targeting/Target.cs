@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks;
@@ -121,6 +122,54 @@ namespace FlubuCore.Targeting
         public ITarget DoAsync<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, Action<DoTask6<T1, T2, T3, T4, T5>> taskAction = null)
         {
             var task = new DoTask6<T1, T2, T3, T4, T5>(targetAction, param, param2, param3, param4, param5);
+            taskAction?.Invoke(task);
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
+            return this;
+        }
+
+        public ITarget DoAsync(Func<ITaskContextInternal, Task> targetAction, Action<DoTaskAsync> taskAction = null)
+        {
+            var task = new DoTaskAsync(targetAction);
+            taskAction?.Invoke(task);
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
+            return this;
+        }
+
+        public ITarget DoAsync<T>(Func<ITaskContextInternal, T, Task> targetAction, T param, Action<DoTaskAsync2<T>> taskAction = null)
+        {
+            var task = new DoTaskAsync2<T>(targetAction, param);
+            taskAction?.Invoke(task);
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
+            return this;
+        }
+
+        public ITarget DoAsync<T, T2>(Func<ITaskContextInternal, T, T2, Task> targetAction, T param, T2 param2, Action<DoTaskAsync3<T, T2>> taskAction = null)
+        {
+            var task = new DoTaskAsync3<T, T2>(targetAction, param, param2);
+            taskAction?.Invoke(task);
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
+            return this;
+        }
+
+        public ITarget DoAsync<T1, T2, T3>(Func<ITaskContextInternal, T1, T2, T3, Task> targetAction, T1 param, T2 param2, T3 param3, Action<DoTaskAsync4<T1, T2, T3>> taskAction = null)
+        {
+            var task = new DoTaskAsync4<T1, T2, T3>(targetAction, param, param2, param3);
+            taskAction?.Invoke(task);
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
+            return this;
+        }
+
+        public ITarget DoAsync<T1, T2, T3, T4>(Func<ITaskContextInternal, T1, T2, T3, T4, Task> targetAction, T1 param, T2 param2, T3 param3, T4 param4, Action<DoTaskAsync5<T1, T2, T3, T4>> taskAction = null)
+        {
+            var task = new DoTaskAsync5<T1, T2, T3, T4>(targetAction, param, param2, param3, param4);
+            taskAction?.Invoke(task);
+            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
+            return this;
+        }
+
+        public ITarget DoAsync<T1, T2, T3, T4, T5>(Func<ITaskContextInternal, T1, T2, T3, T4, T5, Task> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, Action<DoTaskAsync6<T1, T2, T3, T4, T5>> taskAction = null)
+        {
+            var task = new DoTaskAsync6<T1, T2, T3, T4, T5>(targetAction, param, param2, param3, param4, param5);
             taskAction?.Invoke(task);
             Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
             return this;
