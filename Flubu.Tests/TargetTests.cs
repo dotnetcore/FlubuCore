@@ -213,7 +213,7 @@ namespace Flubu.Tests
 
             sw.Start();
 
-            target1.ExecuteVoid(Context);
+            await target1.ExecuteVoidAsync(Context);
             sw.Stop();
 
             Assert.True(sw.ElapsedMilliseconds > 2000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
@@ -232,7 +232,7 @@ namespace Flubu.Tests
 
             sw.Start();
 
-            target1.ExecuteVoid(Context);
+            await target1.ExecuteVoidAsync(Context);
             sw.Stop();
 
             Assert.True(sw.ElapsedMilliseconds > 2000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
