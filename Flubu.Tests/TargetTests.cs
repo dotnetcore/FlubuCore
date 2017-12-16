@@ -151,6 +151,7 @@ namespace Flubu.Tests
         }
 
         [Fact]
+        [Trait("Category", "OnlyWindows")]
         public async Task DependsOnAsyncTargetTest()
         {
             TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" } });
@@ -175,6 +176,7 @@ namespace Flubu.Tests
         }
 
         [Fact]
+        [Trait("Category", "OnlyWindows")]
         public void DependsOnTargetTest()
         {
             TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" } });
