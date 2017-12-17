@@ -364,8 +364,19 @@ namespace FlubuCore.Tasks
 
                     string value = Context.ScriptArgs[forMember.ArgKey];
                     var propertyInfo = (PropertyInfo)memberExpression.Member;
-                    object parsedValue = MethodParameterModifier.ParseValueByType(value, propertyInfo.PropertyType);
-                    propertyInfo.SetValue(this, parsedValue, null);
+                    try
+                    {
+                        object parsedValue = MethodParameterModifier.ParseValueByType(value, propertyInfo.PropertyType);
+                        propertyInfo.SetValue(this, parsedValue, null);
+                    }
+                    catch (FormatException ex)
+                    {
+                        throw new TaskExecutionException(
+                            $"Property '{propertyInfo.Name}' can not be modified with value '{value}' from argument '-{forMember.ArgKey}'.",
+                            21,
+                            ex);
+                    }
+
                     continue;
                 }
 

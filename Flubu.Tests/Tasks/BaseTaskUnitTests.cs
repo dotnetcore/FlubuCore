@@ -247,6 +247,22 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
+        public void ForMember_StringValueForMemberToIntProperty_ThrowsTaskExecutionException()
+        {
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
+            {
+                { "l", "abc" }
+            });
+
+            _task.ForMember(x => x.Level, "-l");
+            var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
+            Assert.Equal(
+                "Property 'Level' can not be modified with value 'abc' from argument '-l'.",
+                ex.Message);
+            Assert.Equal(21, ex.ErrorCode);
+        }
+
+        [Fact]
         public void ForMember_DisabledOnExecuteAsync_ThrowsTaskExecutionException()
         {
             _task.ForMember(x => x.ExecuteAsync(Context.Object), "-t");
