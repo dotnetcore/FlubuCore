@@ -177,21 +177,6 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void ForMember_StringValueForMemberToStringProperty_Succesfull()
-        {
-            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
-            {
-                { "s", "value from arg" }
-            });
-
-            _task.ForMember(x => x.Path, "-s");
-            _task.Execute(Context.Object);
-            Assert.Equal("value from arg", _task.Path);
-            ////Assert.Equal("-s", _task.ArgumentHelp[0].argumentKey);
-            ////Assert.Equal("Pass argument '-s' to method 'AddPath'. Default value: '\"default vaue\"'.", _task.ArgumentHelp[0].help);
-        }
-
-        [Fact]
         public void ForMember_StringValueForMemberToIntParameter_ThrowsTaskExecutionException()
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
@@ -215,6 +200,36 @@ namespace Flubu.Tests.Tasks
             Assert.Equal("ForMember is not allowed on method 'Execute'.", ex.Message);
             Assert.Equal(20, ex.ErrorCode);
         }
+
+        [Fact]
+        public void ForMember_StringValueForMemberToStringPropertyWithDefaultHelp_Succesfull()
+        {
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
+            {
+                { "s", "value from arg" }
+            });
+
+            _task.ForMember(x => x.Path, "-s");
+            _task.Execute(Context.Object);
+            Assert.Equal("value from arg", _task.Path);
+            Assert.Equal("-s", _task.ArgumentHelp[0].argumentKey);
+            Assert.Equal("Pass argument '-s' to property 'Path'.", _task.ArgumentHelp[0].help);
+        }
+
+        ////[Fact]
+        ////public void ForMember_IntValueForMemberToIntPropertyWithCustomHelp_Succesfull()
+        ////{
+        ////    Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
+        ////    {
+        ////        { "s", "1" }
+        ////    });
+
+        ////    _task.ForMember(x => x.Level, "-s", "level help");
+        ////    _task.Execute(Context.Object);
+        ////    Assert.Equal(1, _task.Level);
+        ////    Assert.Equal("-s", _task.ArgumentHelp[0].argumentKey);
+        ////    Assert.Equal("level help", _task.ArgumentHelp[0].help);
+        ////}
 
         [Fact]
         public void ForMember_DisabledOnExecuteAsync_ThrowsTaskExecutionException()

@@ -106,22 +106,27 @@ namespace FlubuCore.Tasks
         }
 
         [DisableForMember]
-        public TTask ForMember(Expression<Func<TTask, object>> taskMethod, string argKey, string help = null, bool includeParameterlessMethodByDefault = true)
+        public TTask ForMember(Expression<Func<TTask, object>> taskMember, string argKey, string help = null, bool includeParameterlessMethodByDefault = true)
         {
             string key = argKey.TrimStart('-');
-            _forMembers.Add((taskMethod, key, includeParameterlessMethodByDefault));
+            _forMembers.Add((taskMember, key, includeParameterlessMethodByDefault));
             if (!string.IsNullOrEmpty(help))
             {
                 ArgumentHelp.Add((argKey, help));
             }
             else
             {
-                if (taskMethod.Body is MethodCallExpression methodExpression)
+                if (taskMember.Body is MethodCallExpression methodExpression)
                 {
                     string defaultValue = methodExpression.Arguments.Count == 1
                         ? $"Default value: '{methodExpression.Arguments[0]}'."
                         : null;
                     ArgumentHelp.Add((argKey, $"Pass argument '{argKey}' to method '{methodExpression.Method.Name}'. {defaultValue}"));
+                }
+
+                if (taskMember.Body is MemberExpression memberExpression)
+                {
+                    ArgumentHelp.Add((argKey, $"Pass argument '{argKey}' to property '{memberExpression.Member.Name}'."));
                 }
             }
 
