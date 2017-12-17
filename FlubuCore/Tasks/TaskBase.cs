@@ -18,7 +18,7 @@ namespace FlubuCore.Tasks
     public abstract class TaskBase<TResult, TTask> : TaskHelp, ITaskOfT<TResult, TTask>
         where TTask : class, ITask
     {
-        private readonly List<(Expression<Action<TTask>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)> _forMembers = new List<(Expression<Action<TTask>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)>();
+        private readonly List<(Expression<Func<TTask, object>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)> _forMembers = new List<(Expression<Func<TTask, object>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)>();
 
         private int _retriedTimes;
         private string _taskName;
@@ -106,7 +106,7 @@ namespace FlubuCore.Tasks
         }
 
         [DisableForMember]
-        public TTask ForMember(Expression<Action<TTask>> taskMethod, string argKey, string help = null, bool includeParameterlessMethodByDefault = true)
+        public TTask ForMember(Expression<Func<TTask, object>> taskMethod, string argKey, string help = null, bool includeParameterlessMethodByDefault = true)
         {
             string key = argKey.TrimStart('-');
             _forMembers.Add((taskMethod, key, includeParameterlessMethodByDefault));
@@ -348,6 +348,20 @@ namespace FlubuCore.Tasks
 
             foreach (var forMember in _forMembers)
             {
+                var memberExpression = forMember.TaskMethod.Body as MemberExpression;
+                if (memberExpression != null)
+                {
+                    if (!Context.ScriptArgs.ContainsKey(forMember.ArgKey))
+                    {
+                        continue;
+                    }
+
+                    string value = Context.ScriptArgs[forMember.ArgKey];
+                    var propertyInfo = (PropertyInfo)memberExpression.Member;
+                    propertyInfo.SetValue(this, value, null);
+                    continue;
+                }
+
                 var methodCallExpression = forMember.TaskMethod.Body as MethodCallExpression;
                 if (methodCallExpression == null)
                 {
@@ -405,7 +419,7 @@ namespace FlubuCore.Tasks
                     }
 
                     MethodParameterModifier parameterModifier = new MethodParameterModifier();
-                    var newExpression = (Expression<Action<TTask>>)parameterModifier.Modify(forMember.TaskMethod, new List<string> { argumentValue });
+                    var newExpression = (Expression<Func<TTask, object>>)parameterModifier.Modify(forMember.TaskMethod, new List<string> { argumentValue });
                     newExpression.Compile().Invoke(this as TTask);
                 }
                 catch (FormatException e)

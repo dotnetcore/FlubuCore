@@ -47,7 +47,7 @@ namespace FlubuCore.Tasks
         /// <param name="help">The argument help  text that wiil be display in target help. If not specified default help text is used.</param>
         /// <param name="includeParameterlessMethodByDefault">If <c>true</c> <see cref="taskMethod"/> is invoked by default if <see cref="argKey"/> is not specified. Oterwise <see cref="taskMethod"/> is not invoked by default.</param>
         /// <returns></returns>
-        TTask ForMember(Expression<Action<TTask>> taskMethod, string argKey, string help = null, bool includeParameterlessMethodByDefault = false);
+        TTask ForMember(Expression<Func<TTask, object>> taskMethod, string argKey, string help = null, bool includeParameterlessMethodByDefault = false);
 
         /// <summary>
         /// Overrides default task description.
