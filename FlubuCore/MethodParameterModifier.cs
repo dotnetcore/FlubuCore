@@ -21,14 +21,14 @@ namespace FlubuCore
 
             for (int i = 0; i < node.Arguments.Count; i++)
             {
-                newMethodParameters.Add(Expression.Constant(ParseValue(_values[i], node.Arguments[i].Type), node.Arguments[i].Type));
+                newMethodParameters.Add(Expression.Constant(ParseValueByType(_values[i], node.Arguments[i].Type), node.Arguments[i].Type));
             }
 
             MethodCallExpression methodCallExpression = node.Update(node.Object, newMethodParameters);
             return base.VisitMethodCall(methodCallExpression);
         }
 
-        private object ParseValue(string value, Type type)
+        public static object ParseValueByType(string value, Type type)
         {
             switch (Type.GetTypeCode(type))
             {

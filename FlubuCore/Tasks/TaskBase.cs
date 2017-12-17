@@ -124,9 +124,10 @@ namespace FlubuCore.Tasks
                     ArgumentHelp.Add((argKey, $"Pass argument '{argKey}' to method '{methodExpression.Method.Name}'. {defaultValue}"));
                 }
 
-                if (taskMember.Body is MemberExpression memberExpression)
+                var propertyExpression = GetMemberExpression(taskMember);
+                if (propertyExpression != null)
                 {
-                    ArgumentHelp.Add((argKey, $"Pass argument '{argKey}' to property '{memberExpression.Member.Name}'."));
+                    ArgumentHelp.Add((argKey, $"Pass argument '{argKey}' to property '{propertyExpression.Member.Name}'."));
                 }
             }
 
@@ -353,7 +354,7 @@ namespace FlubuCore.Tasks
 
             foreach (var forMember in _forMembers)
             {
-                var memberExpression = forMember.TaskMethod.Body as MemberExpression;
+                var memberExpression = GetMemberExpression(forMember.TaskMethod);
                 if (memberExpression != null)
                 {
                     if (!Context.ScriptArgs.ContainsKey(forMember.ArgKey))
@@ -363,7 +364,8 @@ namespace FlubuCore.Tasks
 
                     string value = Context.ScriptArgs[forMember.ArgKey];
                     var propertyInfo = (PropertyInfo)memberExpression.Member;
-                    propertyInfo.SetValue(this, value, null);
+                    object parsedValue = MethodParameterModifier.ParseValueByType(value, propertyInfo.PropertyType);
+                    propertyInfo.SetValue(this, parsedValue, null);
                     continue;
                 }
 
@@ -441,6 +443,13 @@ namespace FlubuCore.Tasks
                     }
                 }
             }
+        }
+
+        private MemberExpression GetMemberExpression(Expression<Func<TTask, object>> exp)
+        {
+            var member = exp.Body as MemberExpression;
+            var unary = exp.Body as UnaryExpression;
+            return member ?? (unary != null ? unary.Operand as MemberExpression : null);
         }
     }
 

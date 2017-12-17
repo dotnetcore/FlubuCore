@@ -216,20 +216,35 @@ namespace Flubu.Tests.Tasks
             Assert.Equal("Pass argument '-s' to property 'Path'.", _task.ArgumentHelp[0].help);
         }
 
-        ////[Fact]
-        ////public void ForMember_IntValueForMemberToIntPropertyWithCustomHelp_Succesfull()
-        ////{
-        ////    Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
-        ////    {
-        ////        { "s", "1" }
-        ////    });
+        [Fact]
+        public void ForMember_IntValueForMemberToIntPropertyWithCustomHelp_Succesfull()
+        {
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
+            {
+                { "s", "1" }
+            });
 
-        ////    _task.ForMember(x => x.Level, "-s", "level help");
-        ////    _task.Execute(Context.Object);
-        ////    Assert.Equal(1, _task.Level);
-        ////    Assert.Equal("-s", _task.ArgumentHelp[0].argumentKey);
-        ////    Assert.Equal("level help", _task.ArgumentHelp[0].help);
-        ////}
+            _task.ForMember(x => x.Level, "-s", "level help");
+            _task.Execute(Context.Object);
+            Assert.Equal(1, _task.Level);
+            Assert.Equal("-s", _task.ArgumentHelp[0].argumentKey);
+            Assert.Equal("level help", _task.ArgumentHelp[0].help);
+        }
+
+        [Fact]
+        public void ForMember_BoolValueForMemberToBoolPropertyWithDefaultHelp_Succesfull()
+        {
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
+            {
+                { "s", "true" }
+            });
+
+            _task.ForMember(x => x.BoolValue, "-s");
+            _task.Execute(Context.Object);
+            Assert.True(_task.BoolValue);
+            Assert.Equal("-s", _task.ArgumentHelp[0].argumentKey);
+            Assert.Equal("Pass argument '-s' to property 'BoolValue'.", _task.ArgumentHelp[0].help);
+        }
 
         [Fact]
         public void ForMember_DisabledOnExecuteAsync_ThrowsTaskExecutionException()
