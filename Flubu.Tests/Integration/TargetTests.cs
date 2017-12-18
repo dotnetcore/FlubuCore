@@ -2,21 +2,17 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Context;
-using FlubuCore.Context.FluentInterface;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
-using FlubuCore.Services;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Xunit;
 using Task = System.Threading.Tasks.Task;
 
-namespace Flubu.Tests
+namespace Flubu.Tests.Integration
 {
     [Collection(nameof(FlubuTestCollection))]
     public class TargetTests : FlubuTestBase
