@@ -357,26 +357,7 @@ namespace FlubuCore.Tasks
                 var memberExpression = GetMemberExpression(forMember.TaskMethod);
                 if (memberExpression != null)
                 {
-                    if (!Context.ScriptArgs.ContainsKey(forMember.ArgKey))
-                    {
-                        continue;
-                    }
-
-                    string value = Context.ScriptArgs[forMember.ArgKey];
-                    var propertyInfo = (PropertyInfo)memberExpression.Member;
-                    try
-                    {
-                        object parsedValue = MethodParameterModifier.ParseValueByType(value, propertyInfo.PropertyType);
-                        propertyInfo.SetValue(this, parsedValue, null);
-                    }
-                    catch (FormatException ex)
-                    {
-                        throw new TaskExecutionException(
-                            $"Property '{propertyInfo.Name}' can not be modified with value '{value}' from argument '-{forMember.ArgKey}'.",
-                            21,
-                            ex);
-                    }
-
+                    PassArgumentValueToProperty(forMember, memberExpression);
                     continue;
                 }
 
@@ -453,6 +434,29 @@ namespace FlubuCore.Tasks
                             e);
                     }
                 }
+            }
+        }
+
+        private void PassArgumentValueToProperty((Expression<Func<TTask, object>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault) forMember, MemberExpression memberExpression)
+        {
+            if (!Context.ScriptArgs.ContainsKey(forMember.ArgKey))
+            {
+                return;
+            }
+
+            string value = Context.ScriptArgs[forMember.ArgKey];
+            var propertyInfo = (PropertyInfo)memberExpression.Member;
+            try
+            {
+                object parsedValue = MethodParameterModifier.ParseValueByType(value, propertyInfo.PropertyType);
+                propertyInfo.SetValue(this, parsedValue, null);
+            }
+            catch (FormatException ex)
+            {
+                throw new TaskExecutionException(
+                    $"Property '{propertyInfo.Name}' can not be modified with value '{value}' from argument '-{forMember.ArgKey}'.",
+                    21,
+                    ex);
             }
         }
 

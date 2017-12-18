@@ -241,6 +241,20 @@ namespace Flubu.Tests
             Assert.True(sw.ElapsedMilliseconds < 5999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
+        [Fact]
+        public void ForMember_PropertyTestWithDoTask_SuccesfullArgumentPassThrough()
+        {
+            var doTask = new DoTask2<string>(ForMemberDoTest, "test");
+            Context.ScriptArgs.Add("s", "value from arg");
+            doTask.ForMember(x => x.Param, "-s");
+            doTask.Execute(Context);
+        }
+
+        public void ForMemberDoTest(ITaskContext context, string param)
+        {
+            Assert.Equal("value from arg", param);
+        }
+
         private async Task DoWithDelay(ITaskContext context)
         {
            await Task.Delay(3000);

@@ -25,19 +25,19 @@ namespace FlubuCore.Tasks
     {
         private readonly Action<ITaskContextInternal, T> _taskAction;
 
-        private readonly T _param;
-
         public DoTask2(Action<ITaskContextInternal, T> taskAction, T param)
         {
             _taskAction = taskAction;
-            _param = param;
+            Param = param;
         }
+
+        public T Param { get; set; }
 
         protected override string Description { get; set; }
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            _taskAction.Invoke(context, _param);
+            _taskAction.Invoke(context, Param);
             return 0;
         }
     }
