@@ -59,16 +59,16 @@ namespace FlubuCore.Tasks
     {
         private readonly Func<ITaskContextInternal, T, T2, Task> _taskAction;
 
-        private readonly T _param;
-
-        private readonly T2 _param2;
-
         public DoTaskAsync3(Func<ITaskContextInternal, T, T2, Task> taskAction, T param, T2 param2)
         {
             _taskAction = taskAction;
-            _param = param;
-            _param2 = param2;
+            Param = param;
+            Param2 = param2;
         }
+
+        public T Param { get; set; }
+
+        public T2 Param2 { get; set; }
 
         protected override string Description { get; set; }
 
@@ -79,7 +79,7 @@ namespace FlubuCore.Tasks
 
         protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
         {
-            await _taskAction(context, _param, _param2);
+            await _taskAction(context, Param, Param2);
             return 0;
         }
     }
@@ -88,19 +88,19 @@ namespace FlubuCore.Tasks
     {
         private readonly Func<ITaskContextInternal, T, T2, T3, Task> _taskAction;
 
-        private readonly T _param;
-
-        private readonly T2 _param2;
-
-        private readonly T3 _param3;
-
         public DoTaskAsync4(Func<ITaskContextInternal, T, T2, T3, Task> taskAction, T param, T2 param2, T3 param3)
         {
             _taskAction = taskAction;
-            _param = param;
-            _param2 = param2;
-            _param3 = param3;
+            Param = param;
+            Param2 = param2;
+            Param3 = param3;
         }
+
+        public T Param { get; set; }
+
+        public T2 Param2 { get; set; }
+
+        public T3 Param3 { get; set; }
 
         protected override string Description { get; set; }
 
@@ -111,7 +111,7 @@ namespace FlubuCore.Tasks
 
         protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
         {
-            await _taskAction(context, _param, _param2, _param3);
+            await _taskAction(context, Param, Param2, Param3);
             return 0;
         }
     }
@@ -120,22 +120,22 @@ namespace FlubuCore.Tasks
     {
         private readonly Func<ITaskContextInternal, T, T2, T3, T4, Task> _taskAction;
 
-        private readonly T _param;
-
-        private readonly T2 _param2;
-
-        private readonly T3 _param3;
-
-        private readonly T4 _param4;
-
         public DoTaskAsync5(Func<ITaskContextInternal, T, T2, T3, T4, Task> taskAction, T param, T2 param2, T3 param3, T4 param4)
         {
             _taskAction = taskAction;
-            _param = param;
-            _param2 = param2;
-            _param3 = param3;
-            _param4 = param4;
+            Param = param;
+            Param2 = param2;
+            Param3 = param3;
+            Param4 = param4;
         }
+
+        public T Param { get; set; }
+
+        public T2 Param2 { get; set; }
+
+        public T3 Param3 { get; set; }
+
+        public T4 Param4 { get; set; }
 
         protected override string Description { get; set; }
 
@@ -146,7 +146,7 @@ namespace FlubuCore.Tasks
 
         protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
         {
-            await _taskAction(context, _param, _param2, _param3, _param4);
+            await _taskAction(context, Param, Param2, Param3, Param4);
             return 0;
         }
     }
@@ -155,25 +155,25 @@ namespace FlubuCore.Tasks
     {
         private readonly Func<ITaskContextInternal, T, T2, T3, T4, T5, Task> _taskAction;
 
-        private readonly T _param;
-
-        private readonly T2 _param2;
-
-        private readonly T3 _param3;
-
-        private readonly T4 _param4;
-
-        private readonly T5 _param5;
-
         public DoTaskAsync6(Func<ITaskContextInternal, T, T2, T3, T4, T5, Task> taskAction, T param, T2 param2, T3 param3, T4 param4, T5 param5)
         {
             _taskAction = taskAction;
-            _param = param;
-            _param2 = param2;
-            _param3 = param3;
-            _param4 = param4;
-            _param5 = param5;
+            Param = param;
+            Param2 = param2;
+            Param3 = param3;
+            Param4 = param4;
+            Param5 = param5;
         }
+
+        public T Param { get; set; }
+
+        public T2 Param2 { get; set; }
+
+        public T3 Param3 { get; set; }
+
+        public T4 Param4 { get; set; }
+
+        public T5 Param5 { get; set; }
 
         protected override string Description { get; set; }
 
@@ -184,7 +184,7 @@ namespace FlubuCore.Tasks
 
         protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
         {
-            await _taskAction(context, _param, _param2, _param3, _param4, _param5);
+            await _taskAction(context, Param, Param2, Param3, Param4, Param5);
             return 0;
         }
     }
