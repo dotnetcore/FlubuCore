@@ -39,7 +39,7 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddSingleton<IDirectoryWrapper, DirectoryWrapper>()
                 .AddSingleton<IFlubuEnviromentService, FlubuEnviromentService>()
                 .AddSingleton<ITaskFactory, DotnetTaskFactory>()
-                .AddScoped<IBuildPropertiesSession, TaskContextSession>()
+                .AddScoped<IBuildPropertiesSession, BuildPropertiesSession>()
                 .AddScoped<TargetTree>()
                 .AddScoped<ITaskSession, TaskSession>()
                 .AddScoped<ICommandFactory, CommandFactory>()

@@ -35,7 +35,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddSingleton<IFluentInterfaceFactory, FluentInterfaceFactory>()
                 .AddSingleton<IFileWrapper, FileWrapper>()
                 .AddSingleton<IPathWrapper, PathWrapper>()
-                .AddSingleton<IBuildPropertiesSession, TaskContextSession>()
+                .AddSingleton<IBuildPropertiesSession, BuildPropertiesSession>()
                 .AddSingleton<TargetTree>()
                 .AddSingleton<ITaskSession, TaskSession>()
                 .AddSingleton<IFlubuEnviromentService, FlubuEnviromentService>()

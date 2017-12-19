@@ -8,7 +8,7 @@ namespace FlubuCore.Context
     /// <summary>
     /// Used for storing task context properties into session.
     /// </summary>
-    public class TaskContextSession : IBuildPropertiesSession
+    public class BuildPropertiesSession : IBuildPropertiesSession
     {
         /// <summary>
         /// name value dictionary used for storing differend task context properties.
@@ -69,6 +69,8 @@ namespace FlubuCore.Context
                     throw new NotSupportedException("Property name is not mapped.");
             }
 
+            propName = propName.ToLowerInvariant();
+
             return Get<T>(propName);
         }
 
@@ -110,6 +112,7 @@ namespace FlubuCore.Context
         /// <returns></returns>
         public bool Has(string propertyName)
         {
+            propertyName = propertyName.ToLowerInvariant();
             return _properties.ContainsKey(propertyName);
         }
 
@@ -130,6 +133,7 @@ namespace FlubuCore.Context
         /// <param name="propertyValue">The propery value.</param>
         public void Set<T>(string propertyName, T propertyValue)
         {
+            propertyName = propertyName.ToLowerInvariant();
             _properties[propertyName] = propertyValue;
         }
 
@@ -147,6 +151,7 @@ namespace FlubuCore.Context
         /// <param name="propertyName">The name of property to be removed.</param>
         public void Remove(string propertyName)
         {
+            propertyName = propertyName.ToLowerInvariant();
             _properties.Remove(propertyName);
         }
     }

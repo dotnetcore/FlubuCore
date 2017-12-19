@@ -63,12 +63,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         CompileSolutionTask CompileSolutionTask(string solutionFileName, string buildConfiguration);
 
         /// <summary>
-        /// Task load's solution information to the <see cref="TaskContextSession"/> solution file name is retieved from <see cref="TaskContextSession"/>
+        /// Task load's solution information to the <see cref="BuildPropertiesSession"/> solution file name is retieved from <see cref="BuildPropertiesSession"/>
         /// </summary>
         LoadSolutionTask LoadSolutionTask();
 
         /// <summary>
-        /// Task load's specified solution information to the <see cref="TaskContextSession"/>
+        /// Task load's specified solution information to the <see cref="BuildPropertiesSession"/>
         /// </summary>
         /// <param name="solutionFileName">The solution file name of the solution to be loaded.</param>
         LoadSolutionTask LoadSolutionTask(string solutionFileName);

@@ -8,7 +8,7 @@ namespace FlubuCore.Tasks.Solution
         private string _description;
 
         /// <summary>
-        /// Task load's solution to <see cref="TaskContextSession"/> solution file name is retieved from <see cref="TaskContextSession"/>
+        /// Task load's solution to <see cref="BuildPropertiesSession"/> solution file name is retieved from <see cref="BuildPropertiesSession"/>
         /// </summary>
         public LoadSolutionTask()
         {
