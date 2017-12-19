@@ -1,3 +1,8 @@
+2.2.0.0
+- DoAsyncTask can now call true async method
+- ForMember now supports argument pass through to Properties
+- Param Properties in DoTask and DoTaskAsync are now public so they can be used for argument pass through in ForMember
+- Fixed build properties Set and Remove - Property name is now lower cased.
 2.1.6.0
 - Fixed error handling when build script is not found
 - FetchVersionFromFile has no option to skip saving version to session.
