@@ -55,8 +55,8 @@ namespace FlubuCore.WebApi.Tests.ClientTests
 
             await Client.UploadPackageAsync(new UploadPackageRequest { DirectoryPath = "TestData", PackageSearchPattern = "SimpleScript2.zip" });
 
-            Assert.True(File.Exists("Packages\\SimpleScript2.zip"));
-            Assert.False(File.Exists("Packages\\SimpleScript.zip"));
+            Assert.True(File.Exists("Packages/SimpleScript2.zip"));
+            Assert.False(File.Exists("Packages/SimpleScript.zip"));
         }
 
         [Fact]
@@ -76,8 +76,8 @@ namespace FlubuCore.WebApi.Tests.ClientTests
 
             await Client.UploadPackageAsync(new UploadPackageRequest { DirectoryPath = "TestData" });
 
-            Assert.True(File.Exists("Packages\\SimpleScript2.zip"));
-            Assert.True(File.Exists("Packages\\SimpleScript.zip"));
+            Assert.True(File.Exists("Packages/SimpleScript2.zip"));
+            Assert.True(File.Exists("Packages/SimpleScript.zip"));
         }
 
         [Fact]
@@ -86,12 +86,12 @@ namespace FlubuCore.WebApi.Tests.ClientTests
 	        var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
 	        Client.Token = token.Token;
 			Directory.CreateDirectory("Packages");
-            using (File.Create("packages\\test.txt"))
+            using (File.Create("packages/test.txt"))
             {
             }
 
             await Client.DeletePackagesAsync();
-            Assert.False(File.Exists("packages\\test.txt"));
+            Assert.False(File.Exists("packages/test.txt"));
             Assert.True(Directory.Exists("Packages"));
         }
     }

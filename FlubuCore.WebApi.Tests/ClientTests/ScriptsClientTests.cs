@@ -169,7 +169,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
 			    FilePath = "SimpleScript.cs"
 		    });
 
-			Assert.True(File.Exists("Scripts\\SimpleScript.cs"));
+			Assert.True(File.Exists("Scripts/SimpleScript.cs"));
 	    }
 
 	    [Fact]
@@ -185,7 +185,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
 
 			Assert.Equal(HttpStatusCode.Forbidden, exception.StatusCode);
 			Assert.Equal("FileExtensionNotAllowed", exception.ErrorCode);
-		    Assert.False(File.Exists("Scripts\\Users.json"));
+		    Assert.False(File.Exists("Scripts/Users.json"));
 	    }
 	}
 }
