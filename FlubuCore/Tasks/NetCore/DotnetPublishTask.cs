@@ -90,6 +90,37 @@ namespace FlubuCore.Tasks.NetCore
             return this;
         }
 
+        /// <summary>
+        ///  Set this flag to ignore project to project references and only restore the root project
+        /// </summary>
+        /// <returns></returns>
+        public DotnetPublishTask NoDependencies()
+        {
+            WithArguments("--no-dependencies");
+            return this;
+        }
+
+        /// <summary>
+        /// Set this flag to force all dependencies to be resolved even if the last restore was successful. This is equivalent to deleting project.assets.json.
+        /// </summary>
+        /// <returns></returns>
+        public DotnetPublishTask Force()
+        {
+            WithArguments("--force");
+            return this;
+        }
+
+        /// <summary>
+        /// Set the verbosity level of the command.
+        /// </summary>
+        /// <param name="verbosity"></param>
+        /// <returns></returns>
+        public DotnetPublishTask Verbosity(VerbosityOptions verbosity)
+        {
+            WithArguments("--verbosity", verbosity.ToString().ToLower());
+            return this;
+        }
+
         protected override void BeforeExecute(ITaskContextInternal context)
         {
             if (!Arguments.Exists(x => x == "-c" || x == "--configuration"))

@@ -133,6 +133,28 @@ namespace FlubuCore.Tasks.NetCore
             return this;
         }
 
+        /// <summary>
+        /// Set the verbosity level of the command.
+        /// </summary>
+        /// <param name="verbosity"></param>
+        /// <returns></returns>
+        public DotnetTestTask Verbosity(VerbosityOptions verbosity)
+        {
+            WithArguments("--verbosity", verbosity.ToString().ToLower());
+            return this;
+        }
+
+        /// <summary>
+        /// The directory where the test results are going to be placed. The specified directory will be created if it does not exist.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public DotnetTestTask ResultDirectory(string path)
+        {
+            WithArguments("-r", path);
+            return this;
+        }
+
         protected override void BeforeExecute(ITaskContextInternal context)
         {
             if (Arguments.Count == 0 || Arguments[0].StartsWith("-"))
