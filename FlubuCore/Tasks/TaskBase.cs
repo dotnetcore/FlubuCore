@@ -367,19 +367,19 @@ namespace FlubuCore.Tasks
                     continue;
                 }
 
-                var attribute = methodCallExpression.Method.GetCustomAttribute<DisableForMemberAttribute>();
-
-                if (attribute != null)
-                {
-                    throw new TaskExecutionException($"ForMember is not allowed on method '{methodCallExpression.Method.Name}'.", 20);
-                }
-
                 PassArgumentValueToMethodParameter(forMember, methodCallExpression);
             }
         }
 
         private void PassArgumentValueToMethodParameter((Expression<Func<TTask, object>> Member, string ArgKey, bool includeParameterlessMethodByDefault) forMember, MethodCallExpression methodCallExpression)
         {
+            var attribute = methodCallExpression.Method.GetCustomAttribute<DisableForMemberAttribute>();
+
+            if (attribute != null)
+            {
+                throw new TaskExecutionException($"ForMember is not allowed on method '{methodCallExpression.Method.Name}'.", 20);
+            }
+
             if (!Context.ScriptArgs.ContainsKey(forMember.ArgKey))
             {
                 if (methodCallExpression.Arguments.Count == 0 && !forMember.includeParameterlessMethodByDefault)
@@ -444,6 +444,13 @@ namespace FlubuCore.Tasks
 
         private void PassArgumentValueToProperty((Expression<Func<TTask, object>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault) forMember, MemberExpression memberExpression)
         {
+            var attribute = memberExpression.Member.GetCustomAttribute<DisableForMemberAttribute>();
+
+            if (attribute != null)
+            {
+                throw new TaskExecutionException($"ForMember is not allowed on property '{memberExpression.Member.Name}'.", 20);
+            }
+
             if (!Context.ScriptArgs.ContainsKey(forMember.ArgKey))
             {
                 return;

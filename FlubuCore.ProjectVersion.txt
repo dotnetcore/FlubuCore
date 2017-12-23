@@ -1,3 +1,6 @@
+2.2.2.0
+- Fixed ForMember when multiple ForMembers are applied on method.
+
 2.2.1.0
 - Added some more options to dotnet commands.
 
