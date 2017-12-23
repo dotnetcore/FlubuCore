@@ -74,7 +74,7 @@
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-flubu" Version="2.0.6" />
+    <DotNetCliToolReference Include="dotnet-flubu" Version="2.2.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="FlubuCore.WebApi\FlubuCore.WebApi.csproj" />
