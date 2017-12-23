@@ -374,65 +374,70 @@ namespace FlubuCore.Tasks
                     throw new TaskExecutionException($"ForMember is not allowed on method '{methodCallExpression.Method.Name}'.", 20);
                 }
 
-                if (!Context.ScriptArgs.ContainsKey(forMember.ArgKey))
-                {
-                    if (methodCallExpression.Arguments.Count == 0 && !forMember.includeParameterlessMethodByDefault)
-                    {
-                        continue;
-                    }
+                PassArgumentValueToMethodParameter(forMember, methodCallExpression);
+            }
+        }
 
-                    forMember.Member.Compile().Invoke(this as TTask);
-                    continue;
+        private void PassArgumentValueToMethodParameter((Expression<Func<TTask, object>> Member, string ArgKey, bool includeParameterlessMethodByDefault) forMember, MethodCallExpression methodCallExpression)
+        {
+            if (!Context.ScriptArgs.ContainsKey(forMember.ArgKey))
+            {
+                if (methodCallExpression.Arguments.Count == 0 && !forMember.includeParameterlessMethodByDefault)
+                {
+                    return;
                 }
 
-                string argumentValue = Context.ScriptArgs[forMember.ArgKey];
+                forMember.Member.Compile().Invoke(this as TTask);
+                return;
+            }
 
-                try
+            string argumentValue = Context.ScriptArgs[forMember.ArgKey];
+
+            try
+            {
+                if (methodCallExpression.Arguments.Count == 0)
                 {
-                    if (methodCallExpression.Arguments.Count == 0)
+                    if (string.IsNullOrEmpty(argumentValue))
                     {
-                        if (string.IsNullOrEmpty(argumentValue))
+                        forMember.Member.Compile().Invoke(this as TTask);
+                        return;
+                    }
+
+                    var succeded = bool.TryParse(argumentValue, out var boolValue);
+
+                    if (succeded)
+                    {
+                        if (boolValue)
                         {
                             forMember.Member.Compile().Invoke(this as TTask);
-                            continue;
                         }
-
-                        var succeded = bool.TryParse(argumentValue, out var boolValue);
-
-                        if (succeded)
-                        {
-                            if (boolValue)
-                            {
-                                forMember.Member.Compile().Invoke(this as TTask);
-                            }
-                        }
-                        else
-                        {
-                            if (forMember.includeParameterlessMethodByDefault)
-                            {
-                                forMember.Member.Compile().Invoke(this as TTask);
-                            }
-                        }
-
-                        continue;
                     }
-
-                    MethodParameterModifier parameterModifier = new MethodParameterModifier();
-                    var newExpression = (Expression<Func<TTask, object>>)parameterModifier.Modify(forMember.Member, new List<string> { argumentValue });
-                    newExpression.Compile().Invoke(this as TTask);
-                }
-                catch (FormatException e)
-                {
-                    var methodInfo = ((MethodCallExpression)forMember.Member.Body).Method;
-                    var parameters = methodInfo.GetParameters().ToList();
-
-                    if (parameters.Count == 1)
+                    else
                     {
-                        throw new TaskExecutionException(
-                            $"Parameter '{parameters[0].ParameterType.Name} {parameters[0].Name}' in method '{methodInfo.Name}' can not be modified with value '{argumentValue}' from argument '-{forMember.ArgKey}'.",
-                            21,
-                            e);
+                        if (forMember.includeParameterlessMethodByDefault)
+                        {
+                            forMember.Member.Compile().Invoke(this as TTask);
+                        }
                     }
+
+                    return;
+                }
+
+                MethodParameterModifier parameterModifier = new MethodParameterModifier();
+                var newExpression = (Expression<Func<TTask, object>>)parameterModifier.Modify(forMember.Member, new List<string> { argumentValue });
+                newExpression.Compile().Invoke(this as TTask);
+            }
+            catch (FormatException e)
+            {
+                var methodInfo = ((MethodCallExpression)forMember.Member.Body).Method;
+                var parameters = methodInfo.GetParameters().ToList();
+
+                if (parameters.Count == 1)
+                {
+                    throw new TaskExecutionException(
+                        $"Parameter '{parameters[0].ParameterType.Name} {parameters[0].Name}' in method '{methodInfo.Name}' can not be modified with value '{argumentValue}' from argument '-{forMember.ArgKey}'.",
+                        21,
+                        e);
                 }
             }
         }
