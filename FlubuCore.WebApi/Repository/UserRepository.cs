@@ -12,14 +12,17 @@ namespace FlubuCore.WebApi.Repository
 {
     public class UserRepository : IUserRepository
     {
-	    public async Task<List<User>> ListUsersAsync()
+        public const string FileName = "Users.json";
+
+
+        public async Task<List<User>> ListUsersAsync()
 	    {
-		    if (!File.Exists("Users.json"))
+		    if (!File.Exists(FileName))
 		    {
 			    return new List<User>();
 		    }
 
-			using (FileStream fileStream = new FileStream("Users.json", FileMode.Open, FileAccess.Read))
+			using (FileStream fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read))
 			{
 				using (StreamReader r = new StreamReader(fileStream))
 				{
@@ -34,10 +37,10 @@ namespace FlubuCore.WebApi.Repository
 	    {
 		    string newJson;
 
-		    if (File.Exists("Users.json"))
+		    if (File.Exists(FileName))
 		    {
 
-			    using (FileStream fileStream = new FileStream("Users.json", FileMode.Open, FileAccess.Read))
+			    using (FileStream fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read))
 			    {
 				    using (StreamReader r = new StreamReader(fileStream))
 				    {
@@ -61,7 +64,7 @@ namespace FlubuCore.WebApi.Repository
 			    newJson = JsonConvert.SerializeObject(persons);
 			}
 
-		    File.WriteAllText("Users.json", newJson);
+		    File.WriteAllText(FileName, newJson);
 		}
     }
 }
