@@ -6,6 +6,6 @@ namespace FlubuCore.WebApi.Model
 {
     public class UploadScriptRequest
     {
-		public string FilePath { get; set; }
+        public string FilePath { get; set; }
     }
 }

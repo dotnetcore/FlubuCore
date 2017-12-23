@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FlubuCore.WebApi.Model
 {
-    public  class ErrorModel
+    public class ErrorModel
     {
         public HttpStatusCode StatusCode { get; set; }
 

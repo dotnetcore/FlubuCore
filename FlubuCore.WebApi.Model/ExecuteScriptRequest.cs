@@ -10,6 +10,6 @@ namespace FlubuCore.WebApi.Model
 
         public string ScriptFileName { get; set; }
 
-		public Dictionary<string, string> ScriptArguments { get; set; }
+        public Dictionary<string, string> ScriptArguments { get; set; }
     }
 }

@@ -15,6 +15,6 @@ namespace FlubuCore.WebApi.Model
         /// The search string to match against the names of files in DirectoryPath.This parameter
         /// can contain a combination of valid literal path and wildcard (such as * and ?) characters, but doesn't support regular expressions.
         /// </summary>
-        public string PackageSearchPattern { get; set; } 
+        public string PackageSearchPattern { get; set; }
     }
 }

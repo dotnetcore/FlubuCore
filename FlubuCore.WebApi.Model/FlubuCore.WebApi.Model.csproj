@@ -2,11 +2,14 @@
 
   <PropertyGroup>
   <TargetFramework>netstandard1.4</TargetFramework>
+  <WarningsAsErrors>true</WarningsAsErrors>
   <AssemblyName>FlubuCore.WebApi.Model</AssemblyName>
   <PackageId>FlubuCore.WebApi.Model</PackageId>
   <PackageTags>dotnet;flubu;build;builder;script;buildscript;automation;VisualStudio</PackageTags>
   <PackageLicenseUrl>http://www.opensource.org/licenses/bsd-license.php</PackageLicenseUrl>
   <PackageProjectUrl>https://bitbucket.org/zoroz/flubu.core</PackageProjectUrl>
+  <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
+  <NoWarn>1701;1702;1705;1591;1573;1572;1574</NoWarn>
   <Description>
      DTO's for flubu web api and flubu web api client.
 
@@ -15,5 +18,9 @@
       A detailed example of how Flubu is used to build example project: https://bitbucket.org/zoroz/flubu.core.examples
    </Description>
       <Version>2.1.4.0</Version><AssemblyVersion>2.1.4.0</AssemblyVersion><FileVersion>2.1.4.0</FileVersion></PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" />
+  </ItemGroup>
 
 </Project>

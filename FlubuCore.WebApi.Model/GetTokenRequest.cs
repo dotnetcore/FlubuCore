@@ -6,7 +6,7 @@ namespace FlubuCore.WebApi.Model
 {
     public class GetTokenRequest
     {
-	    public const string WrongUsernamePassword = "WrongUsernameOrPassword";
+         public const string WrongUsernamePassword = "WrongUsernameOrPassword";
 
         public string Username { get; set; }
 
