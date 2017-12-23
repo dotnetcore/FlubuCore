@@ -90,6 +90,28 @@ namespace FlubuCore.Tasks.Solution
         public bool UseSolutionDirAsWorkingDir { get; set; }
 
         /// <summary>
+        /// Solution filename to build.
+        /// </summary>
+        /// <param name="solutionFileName"></param>
+        /// <returns></returns>
+        public CompileSolutionTask SolutionFileName(string solutionFileName)
+        {
+            _solutionFileName = solutionFileName;
+            return this;
+        }
+
+        /// <summary>
+        /// The build configuration solution will be build.
+        /// </summary>
+        /// <param name="buildConfiguration"></param>
+        /// <returns></returns>
+        public CompileSolutionTask BuildConfiguration(string buildConfiguration)
+        {
+            _buildConfiguration = buildConfiguration;
+            return this;
+        }
+
+        /// <summary>
         /// Add's Platform argument to MSBuild. If not set CPUAny is used as default.
         /// </summary>
         /// <param name="platform">The platform.</param>
