@@ -60,7 +60,7 @@ namespace FlubuCore
 
                 default:
                 {
-                    throw new NotSupportedException("Type not supported for mapping");
+                    throw new NotSupportedException("Type not supported for parsing.");
                 }
             }
         }
