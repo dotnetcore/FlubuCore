@@ -286,7 +286,7 @@ namespace FlubuCore.Tasks
             }
         }
 
-        public override void LogTaskHelp(ITaskContext context)
+        internal override void LogTaskHelp(ITaskContext context)
         {
             context.LogInfo(" ");
             context.LogInfo(string.Empty);
@@ -482,6 +482,6 @@ namespace FlubuCore.Tasks
 
     public abstract class TaskHelp
     {
-        public abstract void LogTaskHelp(ITaskContext context);
+        internal abstract void LogTaskHelp(ITaskContext context);
     }
 }
