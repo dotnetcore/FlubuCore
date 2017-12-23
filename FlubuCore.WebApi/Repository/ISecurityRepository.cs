@@ -11,6 +11,5 @@ namespace FlubuCore.WebApi.Repository
         Task<Security> GetSecurityAsync();
 
         void IncreaseFailedGetTokenAttempts(Security security);
-
     }
 }

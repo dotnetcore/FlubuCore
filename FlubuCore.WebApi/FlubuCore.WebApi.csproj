@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp1.1;netcoreapp2.0</TargetFrameworks>
+    <WarningsAsErrors>true</WarningsAsErrors>
+    <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>1701;1702;1705;1591;1573;1572;1574</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp1.1'">
     <ReferringTargetFrameworkForProjectReferences>.NETStandard,Version=v1.6</ReferringTargetFrameworkForProjectReferences>
@@ -28,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="7.2.1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" />
    
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp1.1'">

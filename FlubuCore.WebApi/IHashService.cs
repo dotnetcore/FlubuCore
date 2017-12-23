@@ -1,9 +1,9 @@
 ﻿namespace FlubuCore.WebApi
 {
-	public interface IHashService
-	{
-		string Hash(string valueToHash);
+    public interface IHashService
+    {
+        string Hash(string valueToHash);
 
-		bool Validate(string valueToValidate, string correctHash);
-	}
+        bool Validate(string valueToValidate, string correctHash);
+    }
 }

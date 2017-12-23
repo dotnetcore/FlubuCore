@@ -7,12 +7,9 @@ namespace FlubuCore.WebApi.Infrastructure
 {
     public class TimeProvider : ITimeProvider
     {
-	    public DateTime Now
-	    {
-		    get
-		    {
-			    return DateTime.Now;
-		    }
-	    }
+        public DateTime Now
+        {
+            get { return DateTime.Now; }
+        }
     }
 }

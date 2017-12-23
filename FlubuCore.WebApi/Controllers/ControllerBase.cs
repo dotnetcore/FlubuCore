@@ -10,7 +10,7 @@ namespace FlubuCore.WebApi.Controllers
     [ServiceFilter(typeof(ValidateRequestModelAttribute))]
     [ServiceFilter(typeof(ApiExceptionFilter))]
     [ServiceFilter(typeof(RestrictApiAccessFilter))]
-	public class ControllerBase : Controller
+    public class ControllerBase : Controller
     {
     }
 }

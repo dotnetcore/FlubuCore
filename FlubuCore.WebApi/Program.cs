@@ -19,7 +19,6 @@ namespace FlubuCore.WebApi
                 .UseStartup<Startup>()
                 .Build();
 
-
             host.Run();
         }
     }

@@ -7,6 +7,6 @@ namespace FlubuCore.WebApi.Infrastructure
 {
     public interface ITimeProvider
     {
-		DateTime Now { get; }
+        DateTime Now { get; }
     }
 }

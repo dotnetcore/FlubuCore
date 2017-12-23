@@ -14,7 +14,5 @@ namespace FlubuCore.WebApi.Configuration
         public string SmtpServerHost { get; set; }
 
         public int SmtpServerPort { get; set; }
-
-
     }
 }

@@ -32,7 +32,7 @@ namespace FlubuCore.WebApi.Infrastructure
         {
             services
                 .AddLogging()
-				.AddSingleton<ITimeProvider, TimeProvider>()
+                .AddSingleton<ITimeProvider, TimeProvider>()
                 .AddSingleton<IFluentInterfaceFactory, FluentInterfaceFactory>()
                 .AddSingleton<IFileWrapper, FileWrapper>()
                 .AddSingleton<IPathWrapper, PathWrapper>()
@@ -74,8 +74,8 @@ namespace FlubuCore.WebApi.Infrastructure
             return services
                 .AddTransient<ITaskFluentInterface, TaskFluentInterface>()
                 .AddTransient<IIisTaskFluentInterface, IisTaskFluentInterface>()
-	            .AddTransient<IWebApiFluentInterface, WebApiFluentInterface>()
-				.AddTransient<ICoreTaskFluentInterface, CoreTaskFluentInterface>()
+                .AddTransient<IWebApiFluentInterface, WebApiFluentInterface>()
+                .AddTransient<ICoreTaskFluentInterface, CoreTaskFluentInterface>()
                 .AddTransient<ILinuxTaskFluentInterface, LinuxTaskFluentInterface>()
                 .AddTransient<ITargetFluentInterface, TargetFluentInterface>()
                 .AddTransient<ITaskExtensionsFluentInterface, TaskExtensionsFluentInterface>()
@@ -94,8 +94,8 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddTask<DotnetBuildTask>()
                 .AddTask<DotnetPublishTask>()
                 .AddTask<DotnetPackTask>()
-			    .AddTask<DotnetCleanTask>()
-	            .AddTask<DeletePackagesTask>();
-		}
+                .AddTask<DotnetCleanTask>()
+                .AddTask<DeletePackagesTask>();
+        }
     }
 }

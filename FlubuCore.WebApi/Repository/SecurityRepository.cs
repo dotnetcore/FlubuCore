@@ -34,7 +34,6 @@ namespace FlubuCore.WebApi.Repository
             {
                 using (StreamReader r = new StreamReader(fileStream))
                 {
-
                     string json = await r.ReadToEndAsync();
                     return JsonConvert.DeserializeObject<Security>(json);
                 }

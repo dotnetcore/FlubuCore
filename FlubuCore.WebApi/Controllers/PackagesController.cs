@@ -11,11 +11,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace FlubuCore.WebApi.Controllers
 {
     [Route("api/[controller]")]
-	[Authorize]
+    [Authorize]
     public class PackagesController : ControllerBase
     {
-        private readonly string[] _allowedFileExtension = new []{".zip", ".7z", ".rar"};
-        
+        private readonly string[] _allowedFileExtension = { ".zip", ".7z", ".rar" };
+
         private readonly IHostingEnvironment _hostingEnvironment;
 
         public PackagesController(IHostingEnvironment hostingEnvironment)
@@ -32,12 +32,12 @@ namespace FlubuCore.WebApi.Controllers
             }
 
             var form = Request.Form;
-           
+
             if (form == null || form.Files.Count == 0)
             {
                 throw new HttpError(HttpStatusCode.BadRequest, "NoFiles");
             }
-         
+
             var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "packages");
 
             foreach (var formFile in form.Files)

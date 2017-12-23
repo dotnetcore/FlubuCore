@@ -12,39 +12,40 @@ using Microsoft.Extensions.Options;
 
 namespace FlubuCore.WebApi.Controllers.Attributes
 {
-	public class RestrictApiAccessFilter : ActionFilterAttribute
-	{
-		private readonly WebApiSettings _webApiSettings;
+    public class RestrictApiAccessFilter : ActionFilterAttribute
+    {
+        private readonly WebApiSettings _webApiSettings;
 
-		private readonly ITimeProvider _timeProvider;
+        private readonly ITimeProvider _timeProvider;
 
-		public RestrictApiAccessFilter(IOptions<WebApiSettings> webApiOptions, ITimeProvider timeProvider)
-		{
-			_webApiSettings = webApiOptions.Value;
-			_timeProvider = timeProvider;
-		}
+        public RestrictApiAccessFilter(IOptions<WebApiSettings> webApiOptions, ITimeProvider timeProvider)
+        {
+            _webApiSettings = webApiOptions.Value;
+            _timeProvider = timeProvider;
+        }
 
-		public override void OnActionExecuting(ActionExecutingContext context)
-		{
-			if (_webApiSettings.AllowedIps != null && _webApiSettings.AllowedIps.Count != 0)
-			{
-				string clientIp = context.HttpContext.Connection.RemoteIpAddress.ToString();
-				if (!_webApiSettings.AllowedIps.Contains(clientIp))
-				{
-					throw new HttpError(HttpStatusCode.Forbidden);
-				}
-			}
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            if (_webApiSettings.AllowedIps != null && _webApiSettings.AllowedIps.Count != 0)
+            {
+                string clientIp = context.HttpContext.Connection.RemoteIpAddress.ToString();
+                if (!_webApiSettings.AllowedIps.Contains(clientIp))
+                {
+                    throw new HttpError(HttpStatusCode.Forbidden);
+                }
+            }
 
-			if (_webApiSettings.TimeFrames != null && _webApiSettings.TimeFrames.Count > 0)
-			{
-				var now = _timeProvider.Now.TimeOfDay;
-				bool timeFrameMatch = _webApiSettings.TimeFrames.Any(timeFrame => timeFrame.TimeFrom < now && timeFrame.TimeTo > now);
+            if (_webApiSettings.TimeFrames != null && _webApiSettings.TimeFrames.Count > 0)
+            {
+                var now = _timeProvider.Now.TimeOfDay;
+                bool timeFrameMatch =
+                    _webApiSettings.TimeFrames.Any(timeFrame => timeFrame.TimeFrom < now && timeFrame.TimeTo > now);
 
-				if (!timeFrameMatch)
-				{
-					throw new HttpError(HttpStatusCode.Forbidden);
-				}
-			}
-		}
-	}
+                if (!timeFrameMatch)
+                {
+                    throw new HttpError(HttpStatusCode.Forbidden);
+                }
+            }
+        }
+    }
 }

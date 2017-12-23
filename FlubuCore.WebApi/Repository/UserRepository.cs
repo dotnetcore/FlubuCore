@@ -14,57 +14,54 @@ namespace FlubuCore.WebApi.Repository
     {
         public const string FileName = "Users.json";
 
-
         public async Task<List<User>> ListUsersAsync()
-	    {
-		    if (!File.Exists(FileName))
-		    {
-			    return new List<User>();
-		    }
+        {
+            if (!File.Exists(FileName))
+            {
+                return new List<User>();
+            }
 
-			using (FileStream fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read))
-			{
-				using (StreamReader r = new StreamReader(fileStream))
-				{
+            using (FileStream fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read))
+            {
+                using (StreamReader r = new StreamReader(fileStream))
+                {
+                    string json = await r.ReadToEndAsync();
+                    return JsonConvert.DeserializeObject<List<User>>(json);
+                }
+            }
+        }
 
-					string json = await r.ReadToEndAsync();
-					return JsonConvert.DeserializeObject<List<User>>(json);
-				}
-			}
-	    }
+        public async Task AddUserAsync(User user)
+        {
+            string newJson;
 
-	    public async Task AddUserAsync(User user)
-	    {
-		    string newJson;
+            if (File.Exists(FileName))
+            {
+                using (FileStream fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read))
+                {
+                    using (StreamReader r = new StreamReader(fileStream))
+                    {
+                        string json = await r.ReadToEndAsync();
 
-		    if (File.Exists(FileName))
-		    {
+                        List<User> persons = JsonConvert.DeserializeObject<List<User>>(json);
+                        if (persons.Exists(x => x.Username == user.Username))
+                        {
+                            throw new NotUniqueException($"Username {user.Username} already exists. ");
+                        }
 
-			    using (FileStream fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read))
-			    {
-				    using (StreamReader r = new StreamReader(fileStream))
-				    {
-					    string json = await r.ReadToEndAsync();
+                        persons.Add(user);
+                        newJson = JsonConvert.SerializeObject(persons);
+                    }
+                }
+            }
+            else
+            {
+                List<User> persons = new List<User>();
+                persons.Add(user);
+                newJson = JsonConvert.SerializeObject(persons);
+            }
 
-					    List<User> persons = JsonConvert.DeserializeObject<List<User>>(json);
-					    if (persons.Exists(x => x.Username == user.Username))
-					    {
-						    throw new NotUniqueException($"Username {user.Username} already exists. ");
-					    }
-
-					    persons.Add(user);
-					    newJson = JsonConvert.SerializeObject(persons);
-				    }
-			    }
-		    }
-		    else
-		    {
-				List<User> persons = new List<User>();
-			    persons.Add(user);
-			    newJson = JsonConvert.SerializeObject(persons);
-			}
-
-		    File.WriteAllText(FileName, newJson);
-		}
+            File.WriteAllText(FileName, newJson);
+        }
     }
 }

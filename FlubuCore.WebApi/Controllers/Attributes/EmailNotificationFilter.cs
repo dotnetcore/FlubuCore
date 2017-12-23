@@ -13,7 +13,8 @@ namespace FlubuCore.WebApi.Controllers.Attributes
 {
     public class EmailNotificationFilter : TypeFilterAttribute
     {
-        public EmailNotificationFilter(params NotificationFilter[] notificationFilters) : base(typeof(EmailNotificationFilterImpl))
+        public EmailNotificationFilter(params NotificationFilter[] notificationFilters)
+            : base(typeof(EmailNotificationFilterImpl))
         {
             Arguments = new object[] { notificationFilters };
         }
@@ -42,7 +43,7 @@ namespace FlubuCore.WebApi.Controllers.Attributes
                 return;
             }
 
-            if (_webApiSettings.NotificationFilters != null && 
+            if (_webApiSettings.NotificationFilters != null &&
                 _webApiSettings.NotificationFilters.Count != 0 &&
                 !_notificationFilters.Any(x => _webApiSettings.NotificationFilters.Any(y => y == x)))
             {

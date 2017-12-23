@@ -38,7 +38,7 @@ namespace FlubuCore.WebApi.Controllers.Exception
                     }
                 }
 
-                return string.Format("HttpStatusCode: '{0}', ErrorCode: '{1}', ErrorMessage: '{2}', {3}", StatusCode, ErrorCode, ErrorMessage ?? string.Empty , validationErrorMessages);
+                return string.Format("HttpStatusCode: '{0}', ErrorCode: '{1}', ErrorMessage: '{2}', {3}", StatusCode, ErrorCode, ErrorMessage ?? string.Empty, validationErrorMessages);
             }
         }
 

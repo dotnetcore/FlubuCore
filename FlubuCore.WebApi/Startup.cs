@@ -6,7 +6,6 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using FlubuCore.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Controllers;
 using FlubuCore.WebApi.Controllers.Attributes;
@@ -14,6 +13,7 @@ using FlubuCore.WebApi.Infrastructure;
 using FlubuCore.WebApi.Repository;
 using FlubuCore.WebApi.Services;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -27,6 +27,10 @@ namespace FlubuCore.WebApi
 {
     public class Startup
     {
+        private string _secretKey;
+
+        private SymmetricSecurityKey _signingKey;
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -39,10 +43,6 @@ namespace FlubuCore.WebApi
 
         public IConfigurationRoot Configuration { get; }
 
-        private string _secretKey;
-
-        private SymmetricSecurityKey _signingKey;
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -51,7 +51,7 @@ namespace FlubuCore.WebApi
                 {
                     options.ModelValidatorProviders.Clear();
                 })
-              .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
             services
                 .AddCoreComponents()
@@ -63,15 +63,15 @@ namespace FlubuCore.WebApi
             services.AddScoped<ValidateRequestModelAttribute>();
             services.AddScoped<EmailNotificationFilter>();
             services.AddScoped<RestrictApiAccessFilter>();
-	        services.AddTransient<IHashService, HashService>();
-	        services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IHashService, HashService>();
+            services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ISecurityRepository, SecurityRepository>();
             services.AddTransient<INotificationService, NotificationService>();
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtOptions));
             _secretKey = jwtAppSettingOptions["secretKey"];
-            double validFor = double.Parse(jwtAppSettingOptions[(nameof(JwtOptions.ValidFor))]);
+            double validFor = double.Parse(jwtAppSettingOptions[nameof(JwtOptions.ValidFor)]);
             _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secretKey));
-			
+
             services.Configure<JwtOptions>(options =>
             {
                 options.Issuer = jwtAppSettingOptions[nameof(JwtOptions.Issuer)];
@@ -80,11 +80,13 @@ namespace FlubuCore.WebApi
                 options.ValidFor = TimeSpan.FromMinutes(validFor);
             });
 
-	        services.Configure<WebApiSettings>(settings => Configuration.GetSection(nameof(WebApiSettings)).Bind(settings));
-            services.Configure<NotificationSettings>(settings => Configuration.GetSection(nameof(NotificationSettings)).Bind(settings));
+            services.Configure<WebApiSettings>(settings =>
+                Configuration.GetSection(nameof(WebApiSettings)).Bind(settings));
+            services.Configure<NotificationSettings>(settings =>
+                Configuration.GetSection(nameof(NotificationSettings)).Bind(settings));
 
 #if NETCOREAPP2_0
-             
+
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,
@@ -101,7 +103,7 @@ namespace FlubuCore.WebApi
 
                 ClockSkew = TimeSpan.Zero
             };
-            
+
             services.AddAuthentication(o =>
             {
                 o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -144,14 +146,13 @@ namespace FlubuCore.WebApi
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true,
                 TokenValidationParameters = tokenValidationParameters
-
             });
- #endif
-            
+#endif
+
 #if NETCOREAPP2_0
             app.UseAuthentication();
 #endif
-           
+
             app.UseMvc();
         }
     }

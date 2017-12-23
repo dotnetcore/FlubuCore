@@ -40,7 +40,7 @@ namespace FlubuCore.WebApi.Controllers.Attributes
         private void HandleInternalServerError(ExceptionContext context)
         {
             _logger.LogError("Exception occured: {0}", context.Exception);
-            context.HttpContext.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+            context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             string errorMessage;
             if (context.Exception is TaskExecutionException)
             {
@@ -55,7 +55,6 @@ namespace FlubuCore.WebApi.Controllers.Attributes
             {
                 ErrorCode = "InternalServerError",
                 ErrorMessage = errorMessage
-              
             };
 
             context.Result = new JsonResult(error);
@@ -64,8 +63,8 @@ namespace FlubuCore.WebApi.Controllers.Attributes
         private void HandleHttpError(ExceptionContext context)
         {
             _logger.LogWarning($"HttpError occured: {0}", context.Exception);
-            var httpError = (HttpError) context.Exception;
-            context.HttpContext.Response.StatusCode = (int) httpError.StatusCode;
+            var httpError = (HttpError)context.Exception;
+            context.HttpContext.Response.StatusCode = (int)httpError.StatusCode;
             if (httpError.StatusCode == HttpStatusCode.NotFound && string.IsNullOrEmpty(httpError.ErrorCode))
             {
                 var error = new ErrorModel

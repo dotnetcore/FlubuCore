@@ -14,11 +14,11 @@ namespace FlubuCore.WebApi.Controllers.Attributes
 {
     public class ValidateRequestModelAttribute : ActionFilterAttribute
     {
-        private readonly IValidatorFactory validatorFactory;
+        private readonly IValidatorFactory _validatorFactory;
 
         public ValidateRequestModelAttribute(IValidatorFactory validatorFactory)
         {
-            this.validatorFactory = validatorFactory;
+            _validatorFactory = validatorFactory;
             Order = 3;
         }
 
@@ -34,7 +34,7 @@ namespace FlubuCore.WebApi.Controllers.Attributes
             }
 
             var request = context.ActionArguments["request"];
-            var validator = validatorFactory.GetValidator(request.GetType());
+            var validator = _validatorFactory.GetValidator(request.GetType());
 
             if (validator == null)
             {

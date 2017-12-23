@@ -29,31 +29,31 @@ namespace FlubuCore.WebApi.Controllers
         private readonly JwtOptions _jwtOptions;
         private readonly ILogger _logger;
         private readonly JsonSerializerSettings _serializerSettings;
-	    private readonly IHashService _hashService;
-	    private readonly IUserRepository _userRepository;
+        private readonly IHashService _hashService;
+        private readonly IUserRepository _userRepository;
         private readonly ISecurityRepository _securityRepository;
         private readonly INotificationService _notificationService;
         private readonly WebApiSettings _webApiSettings;
 
         public AuthController(
-            IOptions<JwtOptions> jwtOptions, 
+            IOptions<JwtOptions> jwtOptions,
             IOptions<WebApiSettings> webApiOptions,
-            ILoggerFactory loggerFactory, 
+            ILoggerFactory loggerFactory,
             IUserRepository userRepository,
             ISecurityRepository securityRepository,
-            IHashService hashService, 
+            IHashService hashService,
             INotificationService notificationService)
         {
             _jwtOptions = jwtOptions.Value;
             ThrowIfInvalidOptions(_jwtOptions);
 
             _securityRepository = securityRepository;
-	        _hashService = hashService;
-	        _userRepository = userRepository;
+            _hashService = hashService;
+            _userRepository = userRepository;
             _logger = loggerFactory.CreateLogger<AuthController>();
             _notificationService = notificationService;
             _webApiSettings = webApiOptions.Value;
-			_serializerSettings = new JsonSerializerSettings
+            _serializerSettings = new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented
             };
@@ -66,20 +66,21 @@ namespace FlubuCore.WebApi.Controllers
         {
             var securityTask = _securityRepository.GetSecurityAsync();
             var security = await securityTask;
-            
+
             if (security.ApiAccessDisabled)
             {
-                _logger.LogWarning("Api access is denied becasuse to many failed get token attempts. To enable access open manually Security.json file and set property ApiAccessDisabled to false. ");
-                 throw new HttpError(HttpStatusCode.Forbidden);
+                _logger.LogWarning(
+                    "Api access is denied becasuse to many failed get token attempts. To enable access open manually Security.json file and set property ApiAccessDisabled to false. ");
+                throw new HttpError(HttpStatusCode.Forbidden);
             }
 
             var identityTask = GetClaimsIdentity(applicationUser, security);
             var identity = await identityTask;
 
-
             if (identity == null)
             {
-                _logger.LogInformation($"Invalid username ({applicationUser.Username}) or password ({applicationUser.Password})");
+                _logger.LogInformation(
+                    $"Invalid username ({applicationUser.Username}) or password ({applicationUser.Password})");
                 _securityRepository.IncreaseFailedGetTokenAttempts(security);
                 return BadRequest("Invalid credentials");
             }
@@ -88,7 +89,8 @@ namespace FlubuCore.WebApi.Controllers
             {
                 new Claim(JwtRegisteredClaimNames.Sub, applicationUser.Username),
                 new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
-                new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
+                new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(),
+                    ClaimValueTypes.Integer64),
             };
 
             // Create the JWT security token and encode it.
@@ -101,13 +103,12 @@ namespace FlubuCore.WebApi.Controllers
                 signingCredentials: _jwtOptions.SigningCredentials);
 
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-            
+
             var response2 = new GetTokenResponse
             {
                 Token = encodedJwt,
-                ExpiresIn = (int) _jwtOptions.ValidFor.TotalSeconds
+                ExpiresIn = (int)_jwtOptions.ValidFor.TotalSeconds
             };
-
 
             return Ok(response2);
         }
@@ -134,7 +135,8 @@ namespace FlubuCore.WebApi.Controllers
 
         /// <returns>Date converted to seconds since Unix epoch (Jan 1, 1970, midnight UTC).</returns>
         private static long ToUnixEpochDate(DateTime date)
-            => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
+            => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero))
+                .TotalSeconds);
 
         private async Task<ClaimsIdentity> GetClaimsIdentity(GetTokenRequest user, Security security)
         {
@@ -162,9 +164,9 @@ namespace FlubuCore.WebApi.Controllers
         private async Task SendSecurityEmailNotification()
         {
             if (_webApiSettings.SecurityNotificationsEnabled &&
-               ( _webApiSettings.NotificationFilters == null || 
-                _webApiSettings.NotificationFilters.Count == 0 ||
-                _webApiSettings.NotificationFilters.Contains(NotificationFilter.FailedGetToken)))
+                (_webApiSettings.NotificationFilters == null ||
+                 _webApiSettings.NotificationFilters.Count == 0 ||
+                 _webApiSettings.NotificationFilters.Contains(NotificationFilter.FailedGetToken)))
             {
                 await _notificationService.SendEmailAsync("Flubu security notification", $"Resource: '{HttpContext.Request.GetDisplayUrl()}' was accessed.");
             }
