@@ -3,10 +3,13 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard1.6;net462</TargetFrameworks>
     <AssemblyName>FlubuCore.WebApi.Client</AssemblyName>
+    <WarningsAsErrors>true</WarningsAsErrors>
     <PackageId>FlubuCore.WebApi.Client</PackageId>
     <PackageTags>dotnet;flubu;build;builder;script;buildscript;automation;VisualStudio</PackageTags>
     <PackageLicenseUrl>http://www.opensource.org/licenses/bsd-license.php</PackageLicenseUrl>
     <PackageProjectUrl>https://bitbucket.org/zoroz/flubu.core</PackageProjectUrl>
+    <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>1701;1702;1705;1591;1573;1572;1574</NoWarn>
     <Description>
      Flubu web api client.
 
@@ -18,6 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
     <Reference Include="System" />

@@ -5,7 +5,8 @@ namespace FlubuCore.WebApi.Client
 {
     public class WebApiException : Exception
     {
-        public WebApiException(HttpStatusCode statusCode, string message) : base(message)
+        public WebApiException(HttpStatusCode statusCode, string message)
+            : base(message)
         {
             StatusCode = statusCode;
         }

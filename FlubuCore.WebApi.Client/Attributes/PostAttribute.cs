@@ -4,7 +4,8 @@ namespace FlubuCore.WebApi.Client.Attributes
 {
     public class PostAttribute : HttpAttribute
     {
-        public PostAttribute(string path) : base(path)
+        public PostAttribute(string path)
+            : base(path)
         {
         }
 

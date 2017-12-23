@@ -4,7 +4,8 @@ namespace FlubuCore.WebApi.Client.Attributes
 {
     public class DeleteAttribute : HttpAttribute
     {
-        public DeleteAttribute(string path) : base(path)
+        public DeleteAttribute(string path)
+            : base(path)
         {
         }
 

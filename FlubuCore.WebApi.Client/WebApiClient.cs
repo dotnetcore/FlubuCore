@@ -12,7 +12,8 @@ namespace FlubuCore.WebApi.Client
 {
     public class WebApiClient : RestClient, IWebApiClient
     {
-        public WebApiClient(HttpClient client) : base(client)
+        public WebApiClient(HttpClient client)
+            : base(client)
         {
         }
 
@@ -22,45 +23,44 @@ namespace FlubuCore.WebApi.Client
             await SendAsync(request);
         }
 
-	    public async Task UploadScriptAsync(UploadScriptRequest request)
-	    {
-		    if (!File.Exists(request.FilePath))
-		    {
-			    return;
-		    }
+        public async Task UploadScriptAsync(UploadScriptRequest request)
+        {
+            if (!File.Exists(request.FilePath))
+            {
+                return;
+            }
 
-		    using (var content = new MultipartFormDataContent())
-		    {
-			      ////todo investigate why one content has to be added.
-			       content.Add(new ByteArrayContent(new byte[0]), "fake");
-			    
-			    
-				    var stream = new FileStream(request.FilePath, FileMode.Open);
-				    string fileName = Path.GetFileName(request.FilePath);
-				    content.Add(new StreamContent(stream), fileName, fileName);
+            using (var content = new MultipartFormDataContent())
+            {
+                ////todo investigate why one content has to be added.
+                content.Add(new ByteArrayContent(new byte[0]), "fake");
 
-			    Client.DefaultRequestHeaders.Authorization = !string.IsNullOrEmpty(Token) ? new AuthenticationHeaderValue("Bearer", Token) : null;
-			    var response = await Client.PostAsync(new Uri(string.Format("{0}api/scripts/upload", WebApiBaseUrl)), content);
+                var stream = new FileStream(request.FilePath, FileMode.Open);
+                string fileName = Path.GetFileName(request.FilePath);
+                content.Add(new StreamContent(stream), fileName, fileName);
 
-			    await GetResponse<Void>(response);
-		    }
-		}
+                Client.DefaultRequestHeaders.Authorization = !string.IsNullOrEmpty(Token)
+                    ? new AuthenticationHeaderValue("Bearer", Token)
+                    : null;
+                var response = await Client.PostAsync(new Uri(string.Format("{0}api/scripts/upload", WebApiBaseUrl)),
+                    content);
 
-	    public async Task UploadPackageAsync(UploadPackageRequest request)
+                await GetResponse<Void>(response);
+            }
+        }
+
+        public async Task UploadPackageAsync(UploadPackageRequest request)
         {
             FileInfo[] filesInDir;
-            DirectoryInfo hdDirectoryInWhichToSearch = new DirectoryInfo(request.DirectoryPath);
+            DirectoryInfo directoryInWhichToSearch = new DirectoryInfo(request.DirectoryPath);
             if (!string.IsNullOrEmpty(request.PackageSearchPattern))
             {
-
-                filesInDir = hdDirectoryInWhichToSearch.GetFiles(request.PackageSearchPattern);
+                filesInDir = directoryInWhichToSearch.GetFiles(request.PackageSearchPattern);
             }
             else
-
             {
-                filesInDir = hdDirectoryInWhichToSearch.GetFiles();
+                filesInDir = directoryInWhichToSearch.GetFiles();
             }
-
 
             if (filesInDir.Length == 0)
             {
@@ -69,17 +69,19 @@ namespace FlubuCore.WebApi.Client
 
             using (var content = new MultipartFormDataContent())
             {
-				////todo investigate why one content has to be added.
-	            content.Add(new ByteArrayContent(new byte[0]), "fake");
-				foreach (var file in filesInDir)
+                ////todo investigate why one content has to be added.
+                content.Add(new ByteArrayContent(new byte[0]), "fake");
+                foreach (var file in filesInDir)
                 {
                     var stream = new FileStream(file.FullName, FileMode.Open);
                     string fileName = Path.GetFileName(file.FullName);
                     content.Add(new StreamContent(stream), fileName, fileName);
-				}
+                }
 
-	            Client.DefaultRequestHeaders.Authorization = !string.IsNullOrEmpty(Token) ? new AuthenticationHeaderValue("Bearer", Token) : null;
-				var response = await Client.PostAsync(new Uri(string.Format("{0}api/packages", WebApiBaseUrl)), content);
+                Client.DefaultRequestHeaders.Authorization = !string.IsNullOrEmpty(Token)
+                    ? new AuthenticationHeaderValue("Bearer", Token)
+                    : null;
+                var response = await Client.PostAsync(new Uri(string.Format("{0}api/packages", WebApiBaseUrl)), content);
 
                 await GetResponse<Void>(response);
             }

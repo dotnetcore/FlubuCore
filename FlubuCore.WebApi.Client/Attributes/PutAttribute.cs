@@ -4,7 +4,8 @@ namespace FlubuCore.WebApi.Client.Attributes
 {
     public class PutAttribute : HttpAttribute
     {
-        public PutAttribute(string path) : base(path)
+        public PutAttribute(string path)
+            : base(path)
         {
         }
 

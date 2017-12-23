@@ -18,24 +18,28 @@ namespace FlubuCore.WebApi.Client
     {
         private string _webApiBaseUrl;
 
-        private List<MethodInfo> methods = null;
+        private List<MethodInfo> _methods = null;
 
         internal RestClient(HttpClient httpClient)
         {
             Client = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-	        if (httpClient.BaseAddress != null)
-	        {
-		        _webApiBaseUrl = httpClient.BaseAddress.ToString();
-	        }
+            if (httpClient.BaseAddress != null)
+            {
+                _webApiBaseUrl = httpClient.BaseAddress.ToString();
+            }
 
-	        GetAllClientMethods();
+            GetAllClientMethods();
         }
 
-		public string Token { get; set; }
+        public string Token { get; set; }
 
         public string WebApiBaseUrl
         {
-            get { return _webApiBaseUrl; }
+            get
+            {
+                return _webApiBaseUrl;
+            }
+
             set
             {
                 _webApiBaseUrl = value;
@@ -49,7 +53,10 @@ namespace FlubuCore.WebApi.Client
             set => Client.Timeout = value;
         }
 
-        internal async Task<TResponse> SendAsync<TResponse>([CallerMemberName] string memberName = "") where TResponse : new()
+        protected HttpClient Client { get; set; }
+
+        internal async Task<TResponse> SendAsync<TResponse>([CallerMemberName] string memberName = "")
+            where TResponse : new()
         {
             return await SendAsync<TResponse>(null, memberName);
         }
@@ -64,9 +71,10 @@ namespace FlubuCore.WebApi.Client
             await SendAsync<Void>(null, memberName);
         }
 
-        internal async Task<TResponse> SendAsync<TResponse>(object request, [CallerMemberName]string memberName = "", string queryString = null) where TResponse : new()
+        internal async Task<TResponse> SendAsync<TResponse>(object request, [CallerMemberName]string memberName = "", string queryString = null)
+            where TResponse : new()
         {
-            var method = methods.FirstOrDefault(x => x.Name == memberName);
+            var method = _methods.FirstOrDefault(x => x.Name == memberName);
             var attribute = method.GetCustomAttribute<HttpAttribute>();
             var relativePath = UrlHelpers.ReplaceParameterTemplatesInRelativePathWithValues(attribute.Path, request);
 
@@ -103,17 +111,19 @@ namespace FlubuCore.WebApi.Client
             return await GetResponse<TResponse>(responseMessage);
         }
 
-        protected async Task<T> GetResponse<T>(HttpResponseMessage response) where T : new()
+        protected async Task<T> GetResponse<T>(HttpResponseMessage response)
+            where T : new()
         {
             if (response.StatusCode != HttpStatusCode.OK)
             {
-			   
                 var errorString = await response.Content.ReadAsStringAsync();
-	            ErrorModel errorModel = null;
+                ErrorModel errorModel = null;
 
-				errorModel = !string.IsNullOrEmpty(errorString) ? JsonConvert.DeserializeObject<ErrorModel>(errorString) : new ErrorModel();
+                errorModel = !string.IsNullOrEmpty(errorString)
+                    ? JsonConvert.DeserializeObject<ErrorModel>(errorString)
+                    : new ErrorModel();
 
-	            throw new WebApiException(response.StatusCode, errorString)
+                throw new WebApiException(response.StatusCode, errorString)
                 {
                     ErrorCode = errorModel.ErrorCode,
                     ErrorMessage = errorModel.ErrorMessage
@@ -135,9 +145,7 @@ namespace FlubuCore.WebApi.Client
 
         protected virtual void GetAllClientMethods()
         {
-            methods = GetType().GetRuntimeMethods().ToList();
+            _methods = GetType().GetRuntimeMethods().ToList();
         }
-
-        protected HttpClient Client { get; set; }
     }
 }

@@ -50,22 +50,19 @@ namespace FlubuCore.WebApi.Client
                 .Where(x => x.CanRead)
                 .Where(x => x.GetValue(request, null) != null)
                 .ToList();
-            
-            // Get all properties (incl. string), exept IEnumerable ones 
+            //// Get all properties (incl. string), exept IEnumerable ones
             var properties = propertyInfos
                 .Where(x => (x.GetValue(request, null) is string) || !(x.GetValue(request, null) is IEnumerable))
-                .Select(x => new KeyValuePair<string, string>(x.Name, (x.GetValue(request, null) is DateTime) ?
-                                                                                ((DateTime)x.GetValue(request, null)).ToString("yyyy-MM-ddTHH:mm:ss")
-                                                                                : x.GetValue(request, null).ToString()))
+                .Select(x => new KeyValuePair<string, string>(x.Name, (x.GetValue(request, null) is DateTime) ? ((DateTime)x.GetValue(request, null)).ToString("yyyy-MM-ddTHH:mm:ss") : x.GetValue(request, null).ToString()))
                 .ToList();
 
             // Get all IEnumerable properties (excl. string)
-            var iEnumerableProperties = propertyInfos
+            var enumerableProperties = propertyInfos
                 .Where(x => !(x.GetValue(request, null) is string) && x.GetValue(request, null) is IEnumerable)
                 .ToList();
 
             // add all IEnumerable properties
-            foreach (var prop in iEnumerableProperties)
+            foreach (var prop in enumerableProperties)
             {
                 foreach (var item in (IEnumerable)prop.GetValue(request, null))
                 {
@@ -74,7 +71,9 @@ namespace FlubuCore.WebApi.Client
             }
 
             // Concat all key/value pairs into a string separated by ampersand
-            return string.Join("&", properties.Select(x => string.Concat(Uri.EscapeDataString(x.Key), "=", Uri.EscapeDataString(x.Value.ToString()))));
+            return string.Join("&",
+                properties.Select(x =>
+                    string.Concat(Uri.EscapeDataString(x.Key), "=", Uri.EscapeDataString(x.Value.ToString()))));
         }
     }
 }
