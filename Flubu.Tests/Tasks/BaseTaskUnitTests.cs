@@ -73,29 +73,12 @@ namespace Flubu.Tests.Tasks
         }
 
         [Fact]
-        public void ForMember_DefaultValue_Succesfull()
-        {
-            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
-            {
-                { "l", "2" },
-            });
-
-            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
-
-            _task.ForMember(x => x.AddPath("default value"), "-s");
-            _task.Execute(Context.Object);
-            Assert.Equal("default value", _task.Path);
-        }
-
-        [Fact]
         public void ForMember_MethodWithNoParametersIncludeWithBoolArgument_Succesfull()
         {
             Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
             {
                 { "l", "true" },
             });
-
-            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
 
             _task.ForMember(x => x.NoParameter(), "-l");
             _task.Execute(Context.Object);
@@ -110,11 +93,9 @@ namespace Flubu.Tests.Tasks
                 { "l", "false" },
             });
 
-            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
-
-            _task.ForMember(x => x.NoParameter(), "-l");
+            _task.ForMember(x => x.NoParameter(), "-l", "test", true);
             _task.Execute(Context.Object);
-            Assert.True(_task.BoolValue);
+            Assert.False(_task.BoolValue);
         }
 
         [Fact]
@@ -124,8 +105,6 @@ namespace Flubu.Tests.Tasks
             {
                 { "s", "some arg" },
             });
-
-            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
 
             _task.ForMember(x => x.NoParameter(), "-l");
             _task.Execute(Context.Object);
@@ -140,8 +119,6 @@ namespace Flubu.Tests.Tasks
                 { "s", "some arg" },
             });
 
-            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
-
             _task.ForMember(x => x.NoParameter(), "-l", includeParameterlessMethodByDefault: false);
             _task.Execute(Context.Object);
             Assert.False(_task.BoolValue);
@@ -155,8 +132,6 @@ namespace Flubu.Tests.Tasks
                 { "l", "some arg" },
             });
 
-            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
-
             _task.ForMember(x => x.NoParameter(), "-l");
             _task.Execute(Context.Object);
             Assert.True(_task.BoolValue);
@@ -169,8 +144,6 @@ namespace Flubu.Tests.Tasks
             {
                 { "l", "some arg" },
             });
-
-            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
 
             _task.ForMember(x => x.NoParameter(), "-l", includeParameterlessMethodByDefault: false);
             _task.Execute(Context.Object);
@@ -285,6 +258,116 @@ namespace Flubu.Tests.Tasks
             _task.ForMember(x => x.ForMember(null, "t", "test", true), "-t");
             var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
             Assert.Equal(20, ex.ErrorCode);
+        }
+
+        [Fact]
+        public void ForMember_MultipleForMembers_Succesfull()
+        {
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
+            {
+                { "l", "2" },
+            });
+
+            _task.ForMember(x => x.AddPath("default value"), "-s");
+            _task.ForMember(x => x.SetLevel(0), "-l", "help bla bla");
+
+            _task.Execute(Context.Object);
+            Assert.Equal(2, _task.Level);
+            Assert.Equal("default value", _task.Path);
+        }
+
+        [Fact]
+        public void ForMember_MultipleForMembers2_Succesfull()
+        {
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
+            {
+                { "l", "2" },
+                { "s", "test" },
+            });
+
+            _task.ForMember(x => x.AddPath("default value"), "-s");
+            _task.ForMember(x => x.SetLevel(0), "-l", "help bla bla");
+
+            _task.Execute(Context.Object);
+            Assert.Equal(2, _task.Level);
+            Assert.Equal("test", _task.Path);
+        }
+
+        [Fact]
+        public void ForMember_MultipleForMembers3_Succesfull()
+        {
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
+            {
+                { "s", "test" },
+            });
+
+            _task.ForMember(x => x.NoParameter(), "-l", "help bla bla", false);
+            _task.ForMember(x => x.AddPath("default value"), "-s");
+
+            _task.Execute(Context.Object);
+            Assert.Equal("test", _task.Path);
+        }
+
+        [Fact]
+        public void ForMember_MultipleForMembers4_Succesfull()
+        {
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
+            {
+                { "s", "test" },
+            });
+
+            _task.ForMember(x => x.NoParameter(), "-l", "help bla bla", true);
+            _task.ForMember(x => x.AddPath("default value"), "-s");
+
+            _task.Execute(Context.Object);
+            Assert.Equal("test", _task.Path);
+        }
+
+        [Fact]
+        public void ForMember_MultipleForMembers5_Succesfull()
+        {
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
+            {
+                { "s", "test" },
+            });
+
+            _task.ForMember(x => x.NoParameter(), "-l", "help bla bla", true);
+            _task.ForMember(x => x.AddPath("default value"), "-s");
+
+            _task.Execute(Context.Object);
+            Assert.Equal("test", _task.Path);
+        }
+
+        [Fact]
+        public void ForMember_MultipleForMembers6_Succesfull()
+        {
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
+            {
+                { "s", "test" },
+            });
+
+            _task.ForMember(x => x.Path3, "-t");
+            _task.ForMember(x => x.AddPath("default value"), "-s");
+
+            _task.Execute(Context.Object);
+            Assert.Equal("test", _task.Path);
+        }
+
+        [Fact]
+        public void ForMember_MultipleForMembers7_Succesfull()
+        {
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>()
+            {
+                { "s", "test" },
+                { "t", "test2" }
+            });
+
+            _task.ForMember(x => x.Path3, "-t");
+            _task.ForMember(x => x.AddPath("default value"), "-s");
+
+            _task.Execute(Context.Object);
+            Assert.Equal("test", _task.Path);
+            Assert.Equal("test2", _task.Path3);
         }
     }
 }

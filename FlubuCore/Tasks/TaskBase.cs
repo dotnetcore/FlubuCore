@@ -18,7 +18,7 @@ namespace FlubuCore.Tasks
     public abstract class TaskBase<TResult, TTask> : TaskHelp, ITaskOfT<TResult, TTask>
         where TTask : class, ITask
     {
-        private readonly List<(Expression<Func<TTask, object>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)> _forMembers = new List<(Expression<Func<TTask, object>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault)>();
+        private readonly List<(Expression<Func<TTask, object>> Member, string ArgKey, bool includeParameterlessMethodByDefault)> _forMembers = new List<(Expression<Func<TTask, object>> Member, string ArgKey, bool includeParameterlessMethodByDefault)>();
 
         private int _retriedTimes;
         private string _taskName;
@@ -354,14 +354,14 @@ namespace FlubuCore.Tasks
 
             foreach (var forMember in _forMembers)
             {
-                var memberExpression = GetMemberExpression(forMember.TaskMethod);
+                var memberExpression = GetMemberExpression(forMember.Member);
                 if (memberExpression != null)
                 {
                     PassArgumentValueToProperty(forMember, memberExpression);
                     continue;
                 }
 
-                var methodCallExpression = forMember.TaskMethod.Body as MethodCallExpression;
+                var methodCallExpression = forMember.Member.Body as MethodCallExpression;
                 if (methodCallExpression == null)
                 {
                     continue;
@@ -378,11 +378,11 @@ namespace FlubuCore.Tasks
                 {
                     if (methodCallExpression.Arguments.Count == 0 && !forMember.includeParameterlessMethodByDefault)
                     {
-                        return;
+                        continue;
                     }
 
-                    forMember.TaskMethod.Compile().Invoke(this as TTask);
-                    return;
+                    forMember.Member.Compile().Invoke(this as TTask);
+                    continue;
                 }
 
                 string argumentValue = Context.ScriptArgs[forMember.ArgKey];
@@ -393,8 +393,8 @@ namespace FlubuCore.Tasks
                     {
                         if (string.IsNullOrEmpty(argumentValue))
                         {
-                            forMember.TaskMethod.Compile().Invoke(this as TTask);
-                            return;
+                            forMember.Member.Compile().Invoke(this as TTask);
+                            continue;
                         }
 
                         var succeded = bool.TryParse(argumentValue, out var boolValue);
@@ -403,27 +403,27 @@ namespace FlubuCore.Tasks
                         {
                             if (boolValue)
                             {
-                                forMember.TaskMethod.Compile().Invoke(this as TTask);
+                                forMember.Member.Compile().Invoke(this as TTask);
                             }
                         }
                         else
                         {
                             if (forMember.includeParameterlessMethodByDefault)
                             {
-                                forMember.TaskMethod.Compile().Invoke(this as TTask);
+                                forMember.Member.Compile().Invoke(this as TTask);
                             }
                         }
 
-                        return;
+                        continue;
                     }
 
                     MethodParameterModifier parameterModifier = new MethodParameterModifier();
-                    var newExpression = (Expression<Func<TTask, object>>)parameterModifier.Modify(forMember.TaskMethod, new List<string> { argumentValue });
+                    var newExpression = (Expression<Func<TTask, object>>)parameterModifier.Modify(forMember.Member, new List<string> { argumentValue });
                     newExpression.Compile().Invoke(this as TTask);
                 }
                 catch (FormatException e)
                 {
-                    var methodInfo = ((MethodCallExpression)forMember.TaskMethod.Body).Method;
+                    var methodInfo = ((MethodCallExpression)forMember.Member.Body).Method;
                     var parameters = methodInfo.GetParameters().ToList();
 
                     if (parameters.Count == 1)
