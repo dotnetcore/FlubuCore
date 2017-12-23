@@ -11,39 +11,37 @@ namespace FlubuCore.WebApi.Tests
 {
     public class UserRepositoryTesst
     {
-	    private IUserRepository userRepository;
+        private IUserRepository _userRepository;
 
-	    public UserRepositoryTesst()
-	    {
-		    userRepository = new UserRepository();
-			if (File.Exists("Users.json"))
-			{
-				File.Delete("Users.json");
-			}
-		}
+        public UserRepositoryTesst()
+        {
+            _userRepository = new UserRepository();
+            if (File.Exists("Users.json"))
+            {
+                File.Delete("Users.json");
+            }
+        }
 
-	    [Fact]
-	    public async void AddAndListUsersTest()
-	    {
-		    await userRepository.AddUserAsync(new User
-		    {
-			    Username = "Test",
-				Password = "beda",
+        [Fact]
+        public async void AddAndListUsersTest()
+        {
+            await _userRepository.AddUserAsync(new User
+            {
+                Username = "Test",
+                Password = "beda",
+            });
 
-		    });
+            await _userRepository.AddUserAsync(new User
+            {
+                Username = "Test2",
+                Password = "beda",
+            });
 
-		    await userRepository.AddUserAsync(new User
-		    {
-			    Username = "Test2",
-			    Password = "beda",
-
-		    });
-
-		    var result = await userRepository.ListUsersAsync();
-			Assert.Equal(2, result.Count);
-			Assert.Equal("Test", result[0].Username);
-		    Assert.Equal("beda", result[0].Password);
-			Assert.Equal("Test2", result[1].Username);
-		}
+            var result = await _userRepository.ListUsersAsync();
+            Assert.Equal(2, result.Count);
+            Assert.Equal("Test", result[0].Username);
+            Assert.Equal("beda", result[0].Password);
+            Assert.Equal("Test2", result[1].Username);
+        }
     }
 }

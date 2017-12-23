@@ -23,114 +23,116 @@ namespace FlubuCore.WebApi.Tests.AttributeTests
 {
     public class RestrictApiAccessFilterTests
     {
-	    private RestrictApiAccessFilter filter;
+        private RestrictApiAccessFilter _filter;
 
-	    private IOptions<WebApiSettings> settingOptions;
+        private IOptions<WebApiSettings> _settingOptions;
 
-	    private Mock<ITimeProvider> timeProvider;
+        private Mock<ITimeProvider> _timeProvider;
 
-	    private ActionExecutingContext context;
+        private ActionExecutingContext _context;
 
-	    private WebApiSettings webApiSettings;
+        private WebApiSettings _webApiSettings;
 
-		public RestrictApiAccessFilterTests()
-	    {
-			timeProvider = new Mock<ITimeProvider>();
-			webApiSettings = new WebApiSettings();
-			settingOptions = new OptionsWrapper<WebApiSettings>(webApiSettings);
-		    context = new ActionExecutingContext(new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor()), new List<IFilterMetadata>(), new ConcurrentDictionary<string, object>(), new ScriptsController(null, null, null, settingOptions));
-			filter = new RestrictApiAccessFilter(settingOptions, timeProvider.Object);
-	    }
+        public RestrictApiAccessFilterTests()
+        {
+            _timeProvider = new Mock<ITimeProvider>();
+            _webApiSettings = new WebApiSettings();
+            _settingOptions = new OptionsWrapper<WebApiSettings>(_webApiSettings);
+            _context = new ActionExecutingContext(
+                new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor()),
+                new List<IFilterMetadata>(), new ConcurrentDictionary<string, object>(),
+                new ScriptsController(null, null, null, _settingOptions));
+            _filter = new RestrictApiAccessFilter(_settingOptions, _timeProvider.Object);
+        }
 
-	    [Fact]
-	    public void SettingsNull_Succesfull()
-	    {
-			filter.OnActionExecuting(context);
-		}
+        [Fact]
+        public void SettingsNull_Succesfull()
+        {
+            _filter.OnActionExecuting(_context);
+        }
 
-	    [Fact]
-	    public void SettingsEmpty_Succesfull()
-	    {
-			webApiSettings.TimeFrames = new List<TimeFrame>();
-			webApiSettings.AllowedIps = new List<string>();
-		    filter.OnActionExecuting(context);
-	    }
+        [Fact]
+        public void SettingsEmpty_Succesfull()
+        {
+            _webApiSettings.TimeFrames = new List<TimeFrame>();
+            _webApiSettings.AllowedIps = new List<string>();
+            _filter.OnActionExecuting(_context);
+        }
 
-		[Fact]
-	    public void IpOnWhiteList_Succesfull()
-	    {
-			context.HttpContext.Connection.RemoteIpAddress = new IPAddress(0x2414188f);
-			webApiSettings.AllowedIps = new List<string>
-			{
-				"143.24.20.36"
-			};
-			filter.OnActionExecuting(context);
-		}
+        [Fact]
+        public void IpOnWhiteList_Succesfull()
+        {
+            _context.HttpContext.Connection.RemoteIpAddress = new IPAddress(0x2414188f);
+            _webApiSettings.AllowedIps = new List<string>
+            {
+                "143.24.20.36"
+            };
+            _filter.OnActionExecuting(_context);
+        }
 
-	    [Fact]
-	    public void IpNotOnWhiteList_ThrowsForbiden()
-	    {
-		    context.HttpContext.Connection.RemoteIpAddress = new IPAddress(0x2414188f);
-		    webApiSettings.AllowedIps = new List<string>
-		    {
-			    "143.24.20.35"
-		    };
+        [Fact]
+        public void IpNotOnWhiteList_ThrowsForbiden()
+        {
+            _context.HttpContext.Connection.RemoteIpAddress = new IPAddress(0x2414188f);
+            _webApiSettings.AllowedIps = new List<string>
+            {
+                "143.24.20.35"
+            };
 
-			var exception = Assert.Throws<HttpError>(() => filter.OnActionExecuting(context));
-		    Assert.Equal(HttpStatusCode.Forbidden, exception.StatusCode);
-		}
+            var exception = Assert.Throws<HttpError>(() => _filter.OnActionExecuting(_context));
+            Assert.Equal(HttpStatusCode.Forbidden, exception.StatusCode);
+        }
 
-		[Theory]
-		[InlineData(20, 0, 1)]
-	    [InlineData(21, 0, 0)]
-	    [InlineData(23, 59, 59)]
-	    [InlineData(2, 14, 00)]
-		public void InsideTimeFrame_Succesfull(int hour, int min, int sec)
-	    {
-		    webApiSettings.TimeFrames = new List<TimeFrame>()
-		    {
-			    new TimeFrame
-			    {
-				    TimeFrom = new TimeSpan(2, 0, 0),
-				    TimeTo = new TimeSpan(2, 15, 0)
-			    },
-				new TimeFrame
-			    {
-				    TimeFrom = new TimeSpan(20, 0, 0),
-				    TimeTo = new TimeSpan(24, 0, 0)
-			    }
-			};
+        [Theory]
+        [InlineData(20, 0, 1)]
+        [InlineData(21, 0, 0)]
+        [InlineData(23, 59, 59)]
+        [InlineData(2, 14, 00)]
+        public void InsideTimeFrame_Succesfull(int hour, int min, int sec)
+        {
+            _webApiSettings.TimeFrames = new List<TimeFrame>()
+            {
+                new TimeFrame
+                {
+                    TimeFrom = new TimeSpan(2, 0, 0),
+                    TimeTo = new TimeSpan(2, 15, 0)
+                },
+                new TimeFrame
+                {
+                    TimeFrom = new TimeSpan(20, 0, 0),
+                    TimeTo = new TimeSpan(24, 0, 0)
+                }
+            };
 
-		    timeProvider.Setup(x => x.Now).Returns(new DateTime(2000, 1, 1, hour, min, sec, 0));
-			filter.OnActionExecuting(context);
-	    }
+            _timeProvider.Setup(x => x.Now).Returns(new DateTime(2000, 1, 1, hour, min, sec, 0));
+            _filter.OnActionExecuting(_context);
+        }
 
+        [Theory]
+        [InlineData(19, 59, 59)]
+        [InlineData(2, 15, 1)]
+        [InlineData(0, 0, 1)]
+        [InlineData(1, 59, 59)]
+        public void OutsideTimeFrame_ThrowsForbiden(int hour, int min, int sec)
+        {
+            _webApiSettings.TimeFrames = new List<TimeFrame>()
+            {
+                new TimeFrame
+                {
+                    TimeFrom = new TimeSpan(2, 0, 0),
+                    TimeTo = new TimeSpan(2, 15, 0)
+                },
+                new TimeFrame
+                {
+                    TimeFrom = new TimeSpan(20, 0, 0),
+                    TimeTo = new TimeSpan(24, 0, 0)
+                }
+            };
 
-	    [Theory]
-	    [InlineData(19, 59, 59)]
-	    [InlineData(2, 15, 1)]
-	    [InlineData(0, 0, 1)]
-	    [InlineData(1, 59, 59)]
-	    public void OutsideTimeFrame_ThrowsForbiden(int hour, int min, int sec)
-	    {
-		    webApiSettings.TimeFrames = new List<TimeFrame>()
-		    {
-			    new TimeFrame
-			    {
-				    TimeFrom = new TimeSpan(2, 0, 0),
-				    TimeTo = new TimeSpan(2, 15, 0)
-			    },
-			    new TimeFrame
-			    {
-				    TimeFrom = new TimeSpan(20, 0, 0),
-				    TimeTo = new TimeSpan(24, 0, 0)
-			    }
-		    };
+            _timeProvider.Setup(x => x.Now).Returns(new DateTime(2000, 1, 1, hour, min, sec, 0));
 
-		    timeProvider.Setup(x => x.Now).Returns(new DateTime(2000, 1, 1, hour, min, sec, 0));
-
-		    var exception = Assert.Throws<HttpError>(() => filter.OnActionExecuting(context));
-		    Assert.Equal(HttpStatusCode.Forbidden, exception.StatusCode);
-	    }
+            var exception = Assert.Throws<HttpError>(() => _filter.OnActionExecuting(_context));
+            Assert.Equal(HttpStatusCode.Forbidden, exception.StatusCode);
+        }
     }
 }

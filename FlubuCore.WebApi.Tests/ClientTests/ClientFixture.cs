@@ -12,30 +12,30 @@ namespace FlubuCore.WebApi.Tests.ClientTests
 {
     public class ClientFixture : IDisposable
     {
-        public TestServer Server { get; }
+        private IUserRepository _repository;
 
-	    private IUserRepository repository;
+        private IHashService _hashService;
 
-	    private IHashService hashService;
-
-		public ClientFixture()
+        public ClientFixture()
         {
-	        if (File.Exists("Users.json"))
-	        {
-		        File.Delete("Users.json");
-	        }
+            if (File.Exists("Users.json"))
+            {
+                File.Delete("Users.json");
+            }
 
-	        repository = new UserRepository();
-	        hashService = new HashService();
-	        var hashedPassword = hashService.Hash("password");
-	        var task = repository.AddUserAsync(new User
-	        {
-		        Username = "User",
-		        Password = hashedPassword
-	        });
-	        task.Wait();
-			Server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
+            _repository = new UserRepository();
+            _hashService = new HashService();
+            var hashedPassword = _hashService.Hash("password");
+            var task = _repository.AddUserAsync(new User
+            {
+                Username = "User",
+                Password = hashedPassword
+            });
+            task.Wait();
+            Server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
         }
+
+        public TestServer Server { get; }
 
         public void Dispose()
         {

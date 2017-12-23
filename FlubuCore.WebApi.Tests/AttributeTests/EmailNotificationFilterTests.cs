@@ -23,14 +23,14 @@ namespace FlubuCore.WebApi.Tests.AttributeTests
         private readonly WebApiSettings _webApiSettings;
         private readonly ActionExecutingContext _context;
         private EmailNotificationFilterImpl _filter;
-        
+
         public EmailNotificationFilterTests()
         {
             _webApiSettings = new WebApiSettings();
             _webApiOptions = new Mock<IOptions<WebApiSettings>>();
 
             _webApiOptions.Setup(x => x.Value).Returns(_webApiSettings);
-            _notificationService  =new Mock<INotificationService>(MockBehavior.Strict);
+            _notificationService = new Mock<INotificationService>(MockBehavior.Strict);
             var httpContext = new Mock<HttpContext>();
             var request = new Mock<HttpRequest>();
             request.Setup(x => x.Host).Returns(new HostString("localhost", 2000));
@@ -40,7 +40,6 @@ namespace FlubuCore.WebApi.Tests.AttributeTests
             request.Setup(x => x.Scheme).Returns("https");
             httpContext.Setup(x => x.Request).Returns(request.Object);
             _context = new ActionExecutingContext(new ActionContext(httpContext.Object, new Mock<RouteData>().Object, new Mock<ActionDescriptor>().Object), new List<IFilterMetadata>(), new ConcurrentDictionary<string, object>(), new Mock<Controller>().Object);
-       
         }
 
         [Fact]
@@ -94,12 +93,11 @@ namespace FlubuCore.WebApi.Tests.AttributeTests
             _notificationService.VerifyAll();
         }
 
-
         [Fact]
         public async Task EmailNotificationEnabledFiltersMatches()
         {
             _webApiSettings.SecurityNotificationsEnabled = true;
-            _webApiSettings.NotificationFilters = new List<NotificationFilter>() { NotificationFilter.ExecuteScript, NotificationFilter.GetToken};
+            _webApiSettings.NotificationFilters = new List<NotificationFilter>() { NotificationFilter.ExecuteScript, NotificationFilter.GetToken };
             _filter = new EmailNotificationFilterImpl(_notificationService.Object, _webApiOptions.Object,
                 new[] { NotificationFilter.ExecuteScript });
             _notificationService.Setup(x => x.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask);

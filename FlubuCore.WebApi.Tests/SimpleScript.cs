@@ -11,7 +11,6 @@ namespace FlubuCore.WebApi.Tests
     {
         protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
         {
-            
         }
 
         protected override void ConfigureTargets(ITaskContext session)

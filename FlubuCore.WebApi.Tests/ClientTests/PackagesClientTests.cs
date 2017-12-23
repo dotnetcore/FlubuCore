@@ -14,34 +14,35 @@ namespace FlubuCore.WebApi.Tests.ClientTests
     [Collection("Client tests")]
     public class PackagesClientTests : ClientBaseTests
     {
-	    private readonly IUserRepository _repository;
+        private readonly IUserRepository _repository;
 
-	    private readonly IHashService _hashService;
+        private readonly IHashService _hashService;
 
-	    public PackagesClientTests(ClientFixture clientFixture) : base(clientFixture)
-	    {
-		    if (File.Exists("Users.json"))
-		    {
-			    File.Delete("Users.json");
-		    }
+        public PackagesClientTests(ClientFixture clientFixture)
+            : base(clientFixture)
+        {
+            if (File.Exists("Users.json"))
+            {
+                File.Delete("Users.json");
+            }
 
-		    _repository = new UserRepository();
-		    _hashService = new HashService();
-		    var hashedPassword = _hashService.Hash("password");
-		    var result = _repository.AddUserAsync(new User
-		    {
-			    Username = "User",
-			    Password = hashedPassword
-		    });
+            _repository = new UserRepository();
+            _hashService = new HashService();
+            var hashedPassword = _hashService.Hash("password");
+            var result = _repository.AddUserAsync(new User
+            {
+                Username = "User",
+                Password = hashedPassword
+            });
 
-		    result.GetAwaiter().GetResult();
-	    }
+            result.GetAwaiter().GetResult();
+        }
 
-	    [Fact]
+        [Fact]
         public async Task Upload1PackageWithSearch_Succesfull()
         {
-			var token = await Client.GetToken(new GetTokenRequest {Username = "User", Password = "password"});
-	        Client.Token = token.Token;
+            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            Client.Token = token.Token;
 
             if (!Directory.Exists("Packages"))
             {
@@ -53,7 +54,11 @@ namespace FlubuCore.WebApi.Tests.ClientTests
                 Directory.CreateDirectory("Packages");
             }
 
-            await Client.UploadPackageAsync(new UploadPackageRequest { DirectoryPath = "TestData", PackageSearchPattern = "SimpleScript2.zip" });
+            await Client.UploadPackageAsync(new UploadPackageRequest
+            {
+                DirectoryPath = "TestData",
+                PackageSearchPattern = "SimpleScript2.zip"
+            });
 
             Assert.True(File.Exists("Packages/SimpleScript2.zip"));
             Assert.False(File.Exists("Packages/SimpleScript.zip"));
@@ -62,9 +67,9 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task Upload2Packages_Succesfull()
         {
-	        var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
-	        Client.Token = token.Token;
-			if (!Directory.Exists("Packages"))
+            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            Client.Token = token.Token;
+            if (!Directory.Exists("Packages"))
             {
                 Directory.CreateDirectory("Packages");
             }
@@ -83,9 +88,9 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task DeletePackages_Succesfull()
         {
-	        var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
-	        Client.Token = token.Token;
-			Directory.CreateDirectory("Packages");
+            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            Client.Token = token.Token;
+            Directory.CreateDirectory("Packages");
             using (File.Create("packages/test.txt"))
             {
             }
