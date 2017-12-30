@@ -12,7 +12,6 @@ namespace FlubuCore.Commanding
     {
         private readonly CommandArguments _args;
         private readonly IBuildScriptLocator _locator;
-
         private readonly ILogger<CommandExecutor> _log;
         private readonly ITaskSession _taskSession;
 

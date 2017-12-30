@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using FlubuCore;
+using FlubuCore.Commanding;
 using Microsoft.Extensions.Configuration;
 
 namespace DotNet.Cli.Flubu.Commanding
 {
-    public class FlubuConfigurationProvider
+    public class FlubuConfigurationProvider : IFlubuConfigurationProvider
     {
-        public Dictionary<string, string> BuildConfiguration(string jsonSettingsFile = "flubusettings.json")
+        public Dictionary<string, string> GetConfiguration(string jsonSettingsFile = "flubusettings.json")
         {
             try
             {

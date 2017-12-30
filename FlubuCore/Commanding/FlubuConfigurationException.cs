@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FlubuCore;
 
-namespace DotNet.Cli.Flubu.Commanding
+namespace FlubuCore.Commanding
 {
     public class FlubuConfigurationException : FlubuException
     {
