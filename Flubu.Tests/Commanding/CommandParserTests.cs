@@ -1,5 +1,7 @@
-﻿using DotNet.Cli.Flubu.Commanding;
+﻿using System.Collections.Generic;
+using DotNet.Cli.Flubu.Commanding;
 using Microsoft.Extensions.CommandLineUtils;
+using Moq;
 using Xunit;
 
 namespace Flubu.Tests.Commanding
@@ -8,9 +10,12 @@ namespace Flubu.Tests.Commanding
     {
         private readonly FlubuCommandParser _parser;
 
+        private readonly Mock<IFlubuConfigurationProvider> _flubuConfigurationProvider;
+
         public CommandParserTests()
         {
-            _parser = new FlubuCommandParser(new CommandLineApplication(false));
+            _flubuConfigurationProvider = new Mock<IFlubuConfigurationProvider>();
+            _parser = new FlubuCommandParser(new CommandLineApplication(false), _flubuConfigurationProvider.Object);
         }
 
         [Theory]
@@ -103,6 +108,17 @@ namespace Flubu.Tests.Commanding
             var res = _parser.Parse(new[] { "test", "-s", "b.cs", "--Password=pass=qq" });
             Assert.Single(res.ScriptArguments);
             Assert.Equal("pass=qq", res.ScriptArguments["Password"]);
+        }
+
+        [Fact]
+        public void ParseScriptArgumentsWithConfigurutarionOptions()
+        {
+            _flubuConfigurationProvider.Setup(x => x.GetConfiguration("flubusettings.json")).Returns(new Dictionary<string, string>() { { "option1", "value1" }, { "option2", "value2" }, { "option3", "value3" } });
+            var res = _parser.Parse(new[] { "test", "-s", "b.cs", "--option3=valueFromCommandLine" });
+            Assert.Equal(3, res.ScriptArguments.Count);
+            Assert.Equal("value1", res.ScriptArguments["option1"]);
+            Assert.Equal("value2", res.ScriptArguments["option2"]);
+            Assert.Equal("valueFromCommandLine", res.ScriptArguments["option3"]);
         }
     }
 }

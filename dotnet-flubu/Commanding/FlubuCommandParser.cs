@@ -11,6 +11,8 @@ namespace DotNet.Cli.Flubu.Commanding
     {
         private readonly CommandLineApplication _commandApp;
 
+        private readonly IFlubuConfigurationProvider _flubuConfigurationProvider;
+
         private CommandArgument _command;
 
         private CommandOption _configurationOption;
@@ -27,9 +29,12 @@ namespace DotNet.Cli.Flubu.Commanding
 
         private CommandOption _isDebug;
 
-        public FlubuCommandParser(CommandLineApplication commandApp)
+        public FlubuCommandParser(
+            CommandLineApplication commandApp,
+            IFlubuConfigurationProvider flubuConfigurationProvider)
         {
             _commandApp = commandApp;
+            _flubuConfigurationProvider = flubuConfigurationProvider;
         }
 
         public CommandArguments Parse(string[] args)
@@ -110,6 +115,23 @@ namespace DotNet.Cli.Flubu.Commanding
                 else
                 {
                     _parsed.RemainingCommands.Add(remainingArgument);
+                }
+            }
+
+            GetScriptArgumentsFromConfiguration();
+        }
+
+        private void GetScriptArgumentsFromConfiguration()
+        {
+            if (_flubuConfigurationProvider == null)
+                return;
+
+            var options = _flubuConfigurationProvider.GetConfiguration();
+            foreach (var option in options)
+            {
+                if (!_parsed.ScriptArguments.ContainsKey(option.Key))
+                {
+                    _parsed.ScriptArguments.Add(option.Key, option.Value);
                 }
             }
         }
