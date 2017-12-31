@@ -10,7 +10,7 @@ namespace DotNet.Cli.Flubu.Commanding
 {
     public class FlubuConfigurationProvider : IFlubuConfigurationProvider
     {
-        public Dictionary<string, string> GetConfiguration(string jsonSettingsFile = "flubusettings.json")
+        public Dictionary<string, string> GetConfiguration(string jsonSettingsFile)
         {
             try
             {

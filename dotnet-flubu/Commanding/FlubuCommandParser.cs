@@ -29,6 +29,8 @@ namespace DotNet.Cli.Flubu.Commanding
 
         private CommandOption _isDebug;
 
+        private CommandOption _configurationFile;
+
         public FlubuCommandParser(
             CommandLineApplication commandApp,
             IFlubuConfigurationProvider flubuConfigurationProvider)
@@ -51,6 +53,7 @@ namespace DotNet.Cli.Flubu.Commanding
             _parallelTargetExecution = _commandApp.Option("--parallel", "If applied target's are executed in parallel", CommandOptionType.NoValue);
             _targetsToExecute = _commandApp.Option("-tte|--targetsToExecute <TARGETS_TO_EXECUTE>", "Target's that must be executed. Otherwise fails.", CommandOptionType.SingleValue);
             _isDebug = _commandApp.Option("-d|--debug", "Enable debug logging.", CommandOptionType.NoValue);
+            _configurationFile = _commandApp.Option("-cf|--configurationFile", "Path to the json configuration file. If not specified configuration is readed from flubusettings.json ", CommandOptionType.SingleValue);
             _commandApp.OnExecute(() => PrepareDefaultArguments());
 
             if (args == null)
@@ -126,7 +129,9 @@ namespace DotNet.Cli.Flubu.Commanding
             if (_flubuConfigurationProvider == null)
                 return;
 
-            var options = _flubuConfigurationProvider.GetConfiguration();
+            var configurationFile = !string.IsNullOrEmpty(_configurationFile.Value()) ? _configurationFile.Value() : "flubusettings.json";
+
+            var options = _flubuConfigurationProvider.GetConfiguration(configurationFile);
             foreach (var option in options)
             {
                 if (!_parsed.ScriptArguments.ContainsKey(option.Key))
