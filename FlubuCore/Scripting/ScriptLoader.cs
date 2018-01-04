@@ -17,16 +17,19 @@ namespace FlubuCore.Scripting
     {
         private readonly IFileWrapper _file;
         private readonly IScriptAnalyser _analyser;
+        private readonly IBuildScriptLocator _buildScriptLocator;
+
         private readonly ILogger<ScriptLoader> _log;
 
-        public ScriptLoader(IFileWrapper file, IScriptAnalyser analyser, ILogger<ScriptLoader> log)
+        public ScriptLoader(IFileWrapper file, IScriptAnalyser analyser, IBuildScriptLocator buildScriptLocator, ILogger<ScriptLoader> log)
         {
             _file = file;
             _analyser = analyser;
             _log = log;
+            _buildScriptLocator = buildScriptLocator;
         }
 
-        public async Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(string fileName)
+        public async Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(CommandArguments args)
         {
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuPath = typeof(DefaultBuildScript).GetTypeInfo().Assembly.Location;
@@ -56,6 +59,8 @@ namespace FlubuCore.Scripting
 
                 references.Add(MetadataReference.CreateFromFile(loadedAssembly.Location));
             }
+
+            string fileName = _buildScriptLocator.FindBuildScript(args);
 
             List<string> code = _file.ReadAllLines(fileName);
 

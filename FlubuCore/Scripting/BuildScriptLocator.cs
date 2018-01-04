@@ -21,19 +21,15 @@ namespace FlubuCore.Scripting
 
         private readonly IFileWrapper _file;
 
-        private readonly IScriptLoader _scriptLoader;
-
         public BuildScriptLocator(
             IFileWrapper file,
-            ILogger<BuildScriptLocator> log,
-            IScriptLoader scriptLoader)
+            ILogger<BuildScriptLocator> log)
         {
             _file = file;
-            _scriptLoader = scriptLoader;
             _log = log;
         }
 
-        public Task<IBuildScript> FindBuildScript(CommandArguments args)
+        public string FindBuildScript(CommandArguments args)
         {
             string fileName = GetFileName(args);
 
@@ -42,12 +38,7 @@ namespace FlubuCore.Scripting
                 ReportUnspecifiedBuildScript();
             }
 
-            return FindAndCreateBuildScriptInstanceAsync(fileName);
-        }
-
-        private Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(string fileName)
-        {
-            return _scriptLoader.FindAndCreateBuildScriptInstanceAsync(fileName);
+            return fileName;
         }
 
         private string GetFileName(CommandArguments args)

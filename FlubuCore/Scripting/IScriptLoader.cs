@@ -4,6 +4,6 @@ namespace FlubuCore.Scripting
 {
     public interface IScriptLoader
     {
-        Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(string fileName);
+        Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(CommandArguments args);
     }
 }

@@ -4,6 +4,6 @@ namespace FlubuCore.Scripting
 {
     public interface IBuildScriptLocator
     {
-        Task<IBuildScript> FindBuildScript(CommandArguments args);
+        string FindBuildScript(CommandArguments args);
     }
 }
