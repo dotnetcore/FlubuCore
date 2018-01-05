@@ -11,18 +11,20 @@ namespace FlubuCore.Commanding
     public class CommandExecutor : ICommandExecutor
     {
         private readonly CommandArguments _args;
-        private readonly IBuildScriptLocator _locator;
+
+        private readonly IScriptLoader _scriptLoader;
+
         private readonly ILogger<CommandExecutor> _log;
         private readonly ITaskSession _taskSession;
 
         public CommandExecutor(
             CommandArguments args,
-            IBuildScriptLocator locator,
+            IScriptLoader scriptLoader,
             ITaskSession taskSession,
             ILogger<CommandExecutor> log)
         {
             _args = args;
-            _locator = locator;
+            _scriptLoader = scriptLoader;
             _taskSession = taskSession;
             _log = log;
         }
@@ -37,7 +39,7 @@ namespace FlubuCore.Commanding
 
             try
             {
-                var script = await _locator.FindBuildScript(_args);
+                var script = await _scriptLoader.FindAndCreateBuildScriptInstanceAsync(_args);
                 _taskSession.ScriptArgs = _args.ScriptArguments;
                 var result = script.Run(_taskSession);
 

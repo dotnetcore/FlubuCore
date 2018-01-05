@@ -17,17 +17,21 @@ namespace Flubu.Tests.Scripting
     {
         private readonly Mock<IFileWrapper> _fileLoader = new Mock<IFileWrapper>();
         private readonly Mock<IScriptAnalyser> _analyser = new Mock<IScriptAnalyser>();
+        private readonly Mock<IBuildScriptLocator> _scriptLocator = new Mock<IBuildScriptLocator>();
         private readonly Mock<ILogger<ScriptLoader>> _logger = new Mock<ILogger<ScriptLoader>>();
         private readonly ScriptLoader _loader;
 
         public ScriptExecutionTests()
         {
-            _loader = new ScriptLoader(_fileLoader.Object, _analyser.Object, _logger.Object);
+            _loader = new ScriptLoader(_fileLoader.Object, _analyser.Object, _scriptLocator.Object, _logger.Object);
         }
 
         [Fact]
         public async System.Threading.Tasks.Task LoadDefaultScript()
         {
+            CommandArguments args = new CommandArguments();
+            _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns("e.cs");
+
             _fileLoader.Setup(i => i.ReadAllLines("e.cs"))
                 .Returns(new List<string>
                 {
@@ -52,7 +56,7 @@ namespace Flubu.Tests.Scripting
             _analyser.Setup(i => i.Analyze(It.IsAny<List<string>>()))
                 .Returns(new AnalyserResult() { ClassName = "MyBuildScript" });
 
-            IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync("e.cs");
+            IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync(args);
             var provider = new ServiceCollection().BuildServiceProvider();
 
             t.Run(new TaskSession(
@@ -67,6 +71,8 @@ namespace Flubu.Tests.Scripting
         [Fact]
         public async System.Threading.Tasks.Task LoadSimpleScript()
         {
+            CommandArguments args = new CommandArguments();
+            _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns("e.cs");
             _fileLoader.Setup(i => i.ReadAllLines("e.cs"))
                 .Returns(new List<string>
                 {
@@ -87,7 +93,7 @@ namespace Flubu.Tests.Scripting
             _analyser.Setup(i => i.Analyze(It.IsAny<List<string>>()))
                 .Returns(new AnalyserResult() { ClassName = "MyBuildScript" });
 
-            IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync("e.cs");
+            IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync(args);
 
             var provider = new ServiceCollection().BuildServiceProvider();
 
@@ -103,6 +109,8 @@ namespace Flubu.Tests.Scripting
         [Fact]
         public async System.Threading.Tasks.Task LoadDefaultScriptWithAnotherClass()
         {
+            CommandArguments args = new CommandArguments();
+            _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns("e.cs");
             _fileLoader.Setup(i => i.ReadAllLines("e.cs"))
                 .Returns(new List<string>
                 {
@@ -130,7 +138,7 @@ namespace Flubu.Tests.Scripting
             _analyser.Setup(i => i.Analyze(It.IsAny<List<string>>()))
                 .Returns(new AnalyserResult() { ClassName = "MyBuildScript" });
 
-            IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync("e.cs");
+            IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync(args);
             var provider = new ServiceCollection().BuildServiceProvider();
 
             t.Run(new TaskSession(
