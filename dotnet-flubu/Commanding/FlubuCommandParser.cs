@@ -31,6 +31,8 @@ namespace DotNet.Cli.Flubu.Commanding
 
         private CommandOption _configurationFile;
 
+        private CommandOption _assemblyDirectories;
+
         public FlubuCommandParser(
             CommandLineApplication commandApp,
             IFlubuConfigurationProvider flubuConfigurationProvider)
@@ -54,6 +56,7 @@ namespace DotNet.Cli.Flubu.Commanding
             _targetsToExecute = _commandApp.Option("-tte|--targetsToExecute <TARGETS_TO_EXECUTE>", "Target's that must be executed. Otherwise fails.", CommandOptionType.SingleValue);
             _isDebug = _commandApp.Option("-d|--debug", "Enable debug logging.", CommandOptionType.NoValue);
             _configurationFile = _commandApp.Option("-cf|--configurationFile", "Path to the json configuration file. If not specified configuration is readed from flubusettings.json ", CommandOptionType.SingleValue);
+            _assemblyDirectories = _commandApp.Option("-ass", "Directory to search assemblies to include in script.", CommandOptionType.MultipleValue);
             _commandApp.OnExecute(() => PrepareDefaultArguments());
 
             if (args == null)
@@ -78,6 +81,7 @@ namespace DotNet.Cli.Flubu.Commanding
             _parsed.Config = _configurationOption.Value() ?? Constants.DefaultConfiguration;
             _parsed.MainCommands = _command.Values;
             _parsed.Script = _scriptPath.Value();
+            _parsed.AssemblyDirectories = _assemblyDirectories.Values;
             if (_targetsToExecute.HasValue())
             {
                 _parsed.TargetsToExecute = _targetsToExecute.Value().Split(',').ToList();

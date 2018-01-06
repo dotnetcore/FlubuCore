@@ -34,5 +34,7 @@ namespace FlubuCore.Scripting
         /// If <c>true</c> flubu rethrows exception when occures. Otherwise status code is returned.
         /// </summary>
         public bool RethrowOnException { get; set; }
+
+        public List<string> AssemblyDirectories { get; set; }
     }
 }

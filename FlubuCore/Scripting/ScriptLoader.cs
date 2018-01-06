@@ -101,7 +101,7 @@ namespace FlubuCore.Scripting
                 }
             }
 
-            referencesLocation.AddRange(FindAssemblyReferencesInDirectories(new List<string>()));
+            referencesLocation.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
 
             referencesLocation = referencesLocation.Distinct().ToList();
             references.AddRange(referencesLocation.Select(i => MetadataReference.CreateFromFile(i)));
