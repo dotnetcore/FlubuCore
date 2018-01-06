@@ -12,5 +12,7 @@ namespace FlubuCore.IO.Wrappers
         string[] GetFiles(string directoryPath, string searchPattern);
 
         string[] GetFiles(string directoryPath, string searchPattern, SearchOption searchOption);
+
+        bool Exists(string path);
     }
 }
