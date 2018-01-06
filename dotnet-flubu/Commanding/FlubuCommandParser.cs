@@ -102,8 +102,6 @@ namespace DotNet.Cli.Flubu.Commanding
 
         private void PrepareRemaingCommandsAndScriptArgs()
         {
-            _parsed.RemainingCommands = new List<string>();
-            _parsed.ScriptArguments = new DictionaryWithDefault<string, string>(null);
             foreach (var remainingArgument in _commandApp.RemainingArguments)
             {
                 if (remainingArgument.StartsWith("-"))
@@ -138,9 +136,63 @@ namespace DotNet.Cli.Flubu.Commanding
             var options = _flubuConfigurationProvider.GetConfiguration(configurationFile);
             foreach (var option in options)
             {
-                if (!_parsed.ScriptArguments.ContainsKey(option.Key))
+                switch (option.Key)
                 {
-                    _parsed.ScriptArguments.Add(option.Key, option.Value);
+                    case "s":
+                    case "script":
+                    {
+                        if (!string.IsNullOrEmpty(_parsed.Script))
+                        {
+                            _parsed.Script = option.Value;
+                        }
+
+                        break;
+                    }
+
+                    case "c":
+                    case "configuration":
+                    {
+                        if (!string.IsNullOrEmpty(_parsed.Config))
+                        {
+                            _parsed.Config = option.Value;
+                        }
+
+                        break;
+                    }
+
+                    case "d":
+                    case "debug":
+                    {
+                        if (!string.IsNullOrEmpty(_parsed.Config))
+                        {
+                            bool result;
+                            if (bool.TryParse(option.Value, out result))
+                            {
+                                if (result)
+                                {
+                                    _parsed.Debug = true;
+                                }
+                            }
+                        }
+
+                        break;
+                    }
+
+                    case "ass":
+                    {
+                        _parsed.AssemblyDirectories.Add(option.Value);
+                        break;
+                    }
+
+                    default:
+                    {
+                        if (!_parsed.ScriptArguments.ContainsKey(option.Key))
+                        {
+                            _parsed.ScriptArguments.Add(option.Key, option.Value);
+                        }
+
+                        break;
+                    }
                 }
             }
         }
