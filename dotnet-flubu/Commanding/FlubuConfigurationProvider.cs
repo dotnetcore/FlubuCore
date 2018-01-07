@@ -15,10 +15,19 @@ namespace DotNet.Cli.Flubu.Commanding
             try
             {
                 var builder = new ConfigurationBuilder();
-                var config = builder.SetBasePath(Directory.GetCurrentDirectory())
+                builder.SetBasePath(Directory.GetCurrentDirectory())
                     .AddEnvironmentVariables("flubu_")
-                    .AddJsonFile(jsonSettingsFile, optional: true)
-                    .Build();
+                    .AddJsonFile(jsonSettingsFile, optional: true);
+
+                string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                if (!string.IsNullOrEmpty(environment))
+                {
+                    var jsonSettingsEnvFile = Path.GetFileNameWithoutExtension(jsonSettingsFile);
+                    jsonSettingsEnvFile = $"{jsonSettingsEnvFile}.{environment}.json";
+                    builder.AddJsonFile(jsonSettingsEnvFile, optional: true);
+                }
+
+                var config = builder.Build();
 
                 Dictionary<string, string> dic = new Dictionary<string, string>();
                 config.Bind(dic);
