@@ -39,7 +39,7 @@ namespace FlubuCore.Targeting
         ///     the target is not specified in the command line.
         /// </remarks>
         /// <value>The default target.</value>
-        public ITarget DefaultTarget { get; private set; }
+        public List<ITarget> DefaultTargets { get; private set; } = new List<ITarget>();
 
         internal int DependenciesExecutedCount { get; private set; }
 
@@ -210,7 +210,7 @@ namespace FlubuCore.Targeting
 
         public void SetDefaultTarget(ITarget target)
         {
-            DefaultTarget = target;
+            DefaultTargets.Add(target);
         }
 
         /// <summary>
