@@ -127,7 +127,7 @@ namespace FlubuCore.Scripting
             }
             catch (CompilationErrorException e)
             {
-                throw new ScriptLoaderExcetpion($"Csharp source code file is not correct csharp flubu script file. Error: {e.Message}. See getting started on https://github.com/flubu-core/flubu.core/wiki", e);
+                throw new ScriptLoaderExcetpion($"Csharp source code file: {fileName} is not correct csharp flubu script file. Error: {e.Message}. See getting started on https://github.com/flubu-core/flubu.core/wiki", e);
             }
         }
 
