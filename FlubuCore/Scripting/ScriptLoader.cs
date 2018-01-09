@@ -127,7 +127,12 @@ namespace FlubuCore.Scripting
             }
             catch (CompilationErrorException e)
             {
-                throw new ScriptLoaderExcetpion($"Csharp source code file: {fileName} is not correct csharp flubu script file. Error: {e.Message}. See getting started on https://github.com/flubu-core/flubu.core/wiki", e);
+                if (e.Message.Contains("CS0234"))
+                {
+                    throw new ScriptLoaderExcetpion($"Csharp source code file: {fileName} has some compilation errors. {e.Message}. If u are using flubu script correctly you have to add assembly reference with #ref directive in build script. See build script fundamentals section 'Referencing other assemblies in build script' in https://github.com/flubu-core/flubu.core/wiki for more details.Otherwise if u think u are not using flubu correctly see Getting started section in wiki.", e);
+                }
+
+                throw new ScriptLoaderExcetpion($"Csharp source code file: {fileName} has some compilation errors. {e.Message}. See getting started and build script fundamentals in https://github.com/flubu-core/flubu.core/wiki", e);
             }
         }
 

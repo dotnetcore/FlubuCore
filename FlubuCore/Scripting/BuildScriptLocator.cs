@@ -72,7 +72,7 @@ namespace FlubuCore.Scripting
                 var extension = _path.GetExtension(args.Script);
                 if (string.IsNullOrEmpty(extension) || !extension.Equals(".cs"))
                 {
-                    throw new BuildScriptLocatorException($"The file specified ('{args.Script}') is not a csharp source code file.");
+                    throw new BuildScriptLocatorException($"The file specified ('{args.Script}') is not a csharp source code (.cs) file. See getting started on https://github.com/flubu-core/flubu.core/wiki");
                 }
 
                 return args.Script;
