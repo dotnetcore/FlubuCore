@@ -115,7 +115,7 @@ namespace FlubuCore.Scripting
             try
             {
                 ScriptState result = await script.RunAsync();
-                
+
                 var buildScript = result.Variables[0].Value as IBuildScript;
 
                 if (buildScript == null)
