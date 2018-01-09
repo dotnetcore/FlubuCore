@@ -114,14 +114,21 @@ namespace FlubuCore.Scripting
 
             ScriptState result = await script.RunAsync();
 
-            var buildScript = result.Variables[0].Value as IBuildScript;
-
-            if (buildScript == null)
+            try
             {
-                throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface.");
-            }
+                var buildScript = result.Variables[0].Value as IBuildScript;
 
-            return buildScript;
+                if (buildScript == null)
+                {
+                    throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
+                }
+
+                return buildScript;
+            }
+            catch (CompilationErrorException e)
+            {
+                throw new ScriptLoaderExcetpion($"Csharp source code file is not correct csharp flubu script file. Error: {e.Message}. See getting started on https://github.com/flubu-core/flubu.core/wiki", e);
+            }
         }
 
         private List<string> FindAssemblyReferencesInDirectories(List<string> directories)

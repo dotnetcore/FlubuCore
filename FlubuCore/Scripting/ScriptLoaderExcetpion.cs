@@ -10,5 +10,10 @@ namespace FlubuCore.Scripting
             : base(message)
         {
         }
+
+        public ScriptLoaderExcetpion(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
     }
 }
