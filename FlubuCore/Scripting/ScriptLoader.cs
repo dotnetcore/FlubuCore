@@ -112,10 +112,10 @@ namespace FlubuCore.Scripting
                 .Create(string.Join("\r\n", code), opts)
                 .ContinueWith(string.Format("var sc = new {0}();", analyserResult.ClassName));
 
-            ScriptState result = await script.RunAsync();
-
             try
             {
+                ScriptState result = await script.RunAsync();
+                
                 var buildScript = result.Variables[0].Value as IBuildScript;
 
                 if (buildScript == null)
