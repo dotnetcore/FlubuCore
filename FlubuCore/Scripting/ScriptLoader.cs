@@ -114,7 +114,14 @@ namespace FlubuCore.Scripting
 
             ScriptState result = await script.RunAsync();
 
-            return result.Variables[0].Value as IBuildScript;
+            var buildScript = result.Variables[0].Value as IBuildScript;
+
+            if (buildScript == null)
+            {
+                throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface.");
+            }
+
+            return buildScript;
         }
 
         private List<string> FindAssemblyReferencesInDirectories(List<string> directories)
