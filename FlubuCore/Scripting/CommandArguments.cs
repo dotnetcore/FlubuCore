@@ -4,15 +4,11 @@ namespace FlubuCore.Scripting
 {
     public class CommandArguments
     {
-        public string Config { get; set; }
-
         public bool Help { get; set; }
 
         public bool Debug { get; set; }
 
         public List<string> MainCommands { get; set; }
-
-        public string Output { get; set; }
 
         public List<string> RemainingCommands { get; set; } = new List<string>();
 

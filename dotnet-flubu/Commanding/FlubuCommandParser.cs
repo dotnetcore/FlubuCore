@@ -49,8 +49,6 @@ namespace DotNet.Cli.Flubu.Commanding
 
             _command = _commandApp.Argument("<COMMAND> [arguments]", "The command to execute", true);
 
-            _configurationOption = _commandApp.Option("-c|--configuration <CONFIGURATION>", "Configuration under which to run", CommandOptionType.SingleValue);
-            _outputOption = _commandApp.Option("-o|--output <OUTPUT_DIR>", "Directory in which to find the binaries to be run", CommandOptionType.SingleValue);
             _scriptPath = _commandApp.Option("-s|--script <SCRIPT>", "Build script file to use.", CommandOptionType.SingleValue);
             _parallelTargetExecution = _commandApp.Option("--parallel", "If applied target's are executed in parallel", CommandOptionType.NoValue);
             _targetsToExecute = _commandApp.Option("-tte|--targetsToExecute <TARGETS_TO_EXECUTE>", "Target's that must be executed. Otherwise fails.", CommandOptionType.SingleValue);
@@ -76,9 +74,6 @@ namespace DotNet.Cli.Flubu.Commanding
         private int PrepareDefaultArguments()
         {
             _parsed.Help = false;
-
-            _parsed.Output = _outputOption.Value();
-            _parsed.Config = _configurationOption.Value() ?? Constants.DefaultConfiguration;
             _parsed.MainCommands = _command.Values;
             _parsed.Script = _scriptPath.Value();
             _parsed.AssemblyDirectories = _assemblyDirectories.Values;
@@ -134,6 +129,11 @@ namespace DotNet.Cli.Flubu.Commanding
             var configurationFile = !string.IsNullOrEmpty(_configurationFile.Value()) ? _configurationFile.Value() : "flubusettings.json";
 
             var options = _flubuConfigurationProvider.GetConfiguration(configurationFile);
+            if (options == null)
+            {
+                return;
+            }
+
             foreach (var option in options)
             {
                 switch (option.Key)
@@ -149,21 +149,10 @@ namespace DotNet.Cli.Flubu.Commanding
                         break;
                     }
 
-                    case "c":
-                    case "configuration":
-                    {
-                        if (!string.IsNullOrEmpty(_parsed.Config))
-                        {
-                            _parsed.Config = option.Value;
-                        }
-
-                        break;
-                    }
-
                     case "d":
                     case "debug":
                     {
-                        if (!string.IsNullOrEmpty(_parsed.Config))
+                        if (!_parsed.Debug)
                         {
                             bool result;
                             if (bool.TryParse(option.Value, out result))

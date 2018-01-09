@@ -26,7 +26,6 @@ namespace Flubu.Tests.Commanding
         {
             var res = _parser.Parse(new[] { value });
 
-            Assert.Null(res.Config);
             Assert.True(res.Help);
         }
 
@@ -80,7 +79,6 @@ namespace Flubu.Tests.Commanding
         {
             var res = _parser.Parse(new string[0]);
 
-            Assert.Equal("Debug", res.Config);
             Assert.False(res.Help);
         }
 
@@ -88,8 +86,6 @@ namespace Flubu.Tests.Commanding
         public void ParseNull()
         {
             var res = _parser.Parse(null);
-
-            Assert.Equal("Debug", res.Config);
             Assert.False(res.Help);
         }
 
