@@ -20,12 +20,15 @@ namespace FlubuCore.Scripting
         private readonly ILogger<BuildScriptLocator> _log;
 
         private readonly IFileWrapper _file;
+        private readonly IPathWrapper _path;
 
         public BuildScriptLocator(
             IFileWrapper file,
+            IPathWrapper path,
             ILogger<BuildScriptLocator> log)
         {
             _file = file;
+            _path = path;
             _log = log;
         }
 
@@ -66,6 +69,12 @@ namespace FlubuCore.Scripting
         {
             if (_file.Exists(args.Script))
             {
+                var extension = _path.GetExtension(args.Script);
+                if (string.IsNullOrEmpty(extension) || !extension.Equals(".cs"))
+                {
+                    throw new BuildScriptLocatorException($"The file specified ('{args.Script}') is not a csharp source code file.");
+                }
+
                 return args.Script;
             }
 
