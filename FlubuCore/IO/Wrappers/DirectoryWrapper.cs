@@ -21,5 +21,10 @@ namespace FlubuCore.IO.Wrappers
         {
             return Directory.GetFiles(directoryPath, searchPattern, searchOption);
         }
+
+        public bool Exists(string path)
+        {
+            return Directory.Exists(path);
+        }
     }
 }

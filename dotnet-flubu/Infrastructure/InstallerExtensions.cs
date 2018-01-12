@@ -35,6 +35,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddSingleton<IFluentInterfaceFactory, FluentInterfaceFactory>()
                 .AddSingleton<IFileWrapper, FileWrapper>()
                 .AddSingleton<IPathWrapper, PathWrapper>()
+                .AddSingleton<IDirectoryWrapper, DirectoryWrapper>()
                 .AddSingleton<IBuildPropertiesSession, BuildPropertiesSession>()
                 .AddSingleton<TargetTree>()
                 .AddSingleton<ITaskSession, TaskSession>()
@@ -52,7 +53,8 @@ namespace DotNet.Cli.Flubu.Infrastructure
             services
                 .AddSingleton<IBuildScriptLocator, BuildScriptLocator>()
                 .AddSingleton<IScriptLoader, ScriptLoader>()
-                .AddSingleton<ICommandExecutor, CommandExecutor>();
+                .AddSingleton<ICommandExecutor, CommandExecutor>()
+                .AddSingleton<IFlubuConfigurationProvider, FlubuConfigurationProvider>();
 
             return services;
         }
@@ -100,7 +102,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
         public static IServiceCollection AddArguments(this IServiceCollection services, string[] args)
         {
             var app = new CommandLineApplication(false);
-            IFlubuCommandParser parser = new FlubuCommandParser(app);
+            IFlubuCommandParser parser = new FlubuCommandParser(app, new FlubuConfigurationProvider());
 
             services
                 .AddSingleton(parser)

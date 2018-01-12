@@ -1,3 +1,13 @@
+2.3.0.0
+- Explicit configuration pass through to tasks
+- Explicit enviroment variables pass through to tasks.
+- Implicitly add references to assemblies from default or specified directory
+- Default target is now supported on multiple targets 
+- Improved error handling when build script file is not csharp code file.
+- Improved error handling when build script file has compilation errors.
+- Improved error handling when build script does not inherit DefaultBuildScript or implement interface IBuildScript
+- Flubu runner: removed obsolete command options.
+
 2.2.2.0
 - Fixed ForMember when multiple ForMembers are applied on method.
 

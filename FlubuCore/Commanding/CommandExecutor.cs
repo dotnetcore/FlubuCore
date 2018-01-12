@@ -11,6 +11,7 @@ namespace FlubuCore.Commanding
     public class CommandExecutor : ICommandExecutor
     {
         private readonly CommandArguments _args;
+
         private readonly IScriptLoader _scriptLoader;
 
         private readonly ILogger<CommandExecutor> _log;

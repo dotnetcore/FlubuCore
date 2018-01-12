@@ -15,15 +15,24 @@ namespace FlubuCore.Scripting
 {
     public class ScriptLoader : IScriptLoader
     {
+        public static readonly string[] DefaultScriptReferencesLocations =
+        {
+            "flubulib",
+            "buildscript\\flubulib",
+            "buildscripts\\flubulib",
+        };
+
         private readonly IFileWrapper _file;
+        private readonly IDirectoryWrapper _directory;
         private readonly IScriptAnalyser _analyser;
         private readonly IBuildScriptLocator _buildScriptLocator;
 
         private readonly ILogger<ScriptLoader> _log;
 
-        public ScriptLoader(IFileWrapper file, IScriptAnalyser analyser, IBuildScriptLocator buildScriptLocator, ILogger<ScriptLoader> log)
+        public ScriptLoader(IFileWrapper file, IDirectoryWrapper directory, IScriptAnalyser analyser, IBuildScriptLocator buildScriptLocator, ILogger<ScriptLoader> log)
         {
             _file = file;
+            _directory = directory;
             _analyser = analyser;
             _log = log;
             _buildScriptLocator = buildScriptLocator;
@@ -33,18 +42,18 @@ namespace FlubuCore.Scripting
         {
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuPath = typeof(DefaultBuildScript).GetTypeInfo().Assembly.Location;
-            List<MetadataReference> references = new List<MetadataReference>
+            List<string> referencesLocation = new List<string>
             {
-                // Here we get the path to the mscorlib and private mscorlib
-                // libraries that are required for compilation to succeed.
-                MetadataReference.CreateFromFile(Path.Combine(coreDir, "mscorlib.dll")),
-                MetadataReference.CreateFromFile(typeof(object).GetTypeInfo().Assembly.Location),
-                MetadataReference.CreateFromFile(flubuPath),
-                MetadataReference.CreateFromFile(typeof(File).GetTypeInfo().Assembly.Location),
+                Path.Combine(coreDir, "mscorlib.dll"),
+                typeof(object).GetTypeInfo().Assembly.Location,
+                flubuPath,
+                typeof(File).GetTypeInfo().Assembly.Location
             };
 
+            List<MetadataReference> references = new List<MetadataReference>();
+
 #if NETSTANDARD2_0
-            references.Add(MetadataReference.CreateFromFile(typeof(Console).GetTypeInfo().Assembly.Location));
+            referencesLocation.Add(typeof(Console).GetTypeInfo().Assembly.Location);
 #endif
 
             // Enumerate all assemblies referenced by this executing assembly
@@ -57,7 +66,7 @@ namespace FlubuCore.Scripting
                 if (string.IsNullOrEmpty(loadedAssembly.Location))
                     continue;
 
-                references.Add(MetadataReference.CreateFromFile(loadedAssembly.Location));
+                referencesLocation.Add(loadedAssembly.Location);
             }
 
             string fileName = _buildScriptLocator.FindBuildScript(args);
@@ -65,7 +74,7 @@ namespace FlubuCore.Scripting
             List<string> code = _file.ReadAllLines(fileName);
 
             AnalyserResult analyserResult = _analyser.Analyze(code);
-            references.AddRange(analyserResult.References.Select(i => MetadataReference.CreateFromFile(i)));
+            referencesLocation.AddRange(analyserResult.References);
 
             foreach (var file in analyserResult.CsFiles)
             {
@@ -82,7 +91,7 @@ namespace FlubuCore.Scripting
 
                     var usings = additionalCode.Where(x => x.StartsWith("using"));
 
-                    references.AddRange(additionalCodeAnalyserResult.References.Select(i => MetadataReference.CreateFromFile(i)));
+                    referencesLocation.AddRange(additionalCodeAnalyserResult.References);
                     code.InsertRange(0, usings);
                     code.AddRange(additionalCode.Where(x => !x.StartsWith("using")));
                 }
@@ -92,6 +101,10 @@ namespace FlubuCore.Scripting
                 }
             }
 
+            referencesLocation.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
+
+            referencesLocation = referencesLocation.Distinct().ToList();
+            references.AddRange(referencesLocation.Select(i => MetadataReference.CreateFromFile(i)));
             var opts = ScriptOptions.Default
                 .WithReferences(references);
 
@@ -99,9 +112,43 @@ namespace FlubuCore.Scripting
                 .Create(string.Join("\r\n", code), opts)
                 .ContinueWith(string.Format("var sc = new {0}();", analyserResult.ClassName));
 
-            ScriptState result = await script.RunAsync();
+            try
+            {
+                ScriptState result = await script.RunAsync();
 
-            return result.Variables[0].Value as IBuildScript;
+                var buildScript = result.Variables[0].Value as IBuildScript;
+
+                if (buildScript == null)
+                {
+                    throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
+                }
+
+                return buildScript;
+            }
+            catch (CompilationErrorException e)
+            {
+                if (e.Message.Contains("CS0234"))
+                {
+                    throw new ScriptLoaderExcetpion($"Csharp source code file: {fileName} has some compilation errors. {e.Message}. If u are using flubu script correctly you have to add assembly reference with #ref directive in build script. See build script fundamentals section 'Referencing other assemblies in build script' in https://github.com/flubu-core/flubu.core/wiki for more details.Otherwise if u think u are not using flubu correctly see Getting started section in wiki.", e);
+                }
+
+                throw new ScriptLoaderExcetpion($"Csharp source code file: {fileName} has some compilation errors. {e.Message}. See getting started and build script fundamentals in https://github.com/flubu-core/flubu.core/wiki", e);
+            }
+        }
+
+        private List<string> FindAssemblyReferencesInDirectories(List<string> directories)
+        {
+            List<string> assemblieLocations = new List<string>();
+            directories.AddRange(DefaultScriptReferencesLocations);
+            foreach (var referencesLocation in directories)
+            {
+                if (_directory.Exists(referencesLocation))
+                {
+                    assemblieLocations.AddRange(_directory.GetFiles(referencesLocation, "*.dll", SearchOption.AllDirectories));
+                }
+            }
+
+            return assemblieLocations;
         }
     }
 }

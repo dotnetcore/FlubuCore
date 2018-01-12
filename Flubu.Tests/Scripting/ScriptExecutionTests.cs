@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.IO.Wrappers;
@@ -16,6 +17,7 @@ namespace Flubu.Tests.Scripting
     public class ScriptExecutionTests
     {
         private readonly Mock<IFileWrapper> _fileLoader = new Mock<IFileWrapper>();
+        private readonly Mock<IDirectoryWrapper> _directory = new Mock<IDirectoryWrapper>();
         private readonly Mock<IScriptAnalyser> _analyser = new Mock<IScriptAnalyser>();
         private readonly Mock<IBuildScriptLocator> _scriptLocator = new Mock<IBuildScriptLocator>();
         private readonly Mock<ILogger<ScriptLoader>> _logger = new Mock<ILogger<ScriptLoader>>();
@@ -23,7 +25,7 @@ namespace Flubu.Tests.Scripting
 
         public ScriptExecutionTests()
         {
-            _loader = new ScriptLoader(_fileLoader.Object, _analyser.Object, _scriptLocator.Object, _logger.Object);
+            _loader = new ScriptLoader(_fileLoader.Object, _directory.Object, _analyser.Object, _scriptLocator.Object, _logger.Object);
         }
 
         [Fact]

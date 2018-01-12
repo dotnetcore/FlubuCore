@@ -24,6 +24,20 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+ 
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+    <None Remove="appsettings2.json" />
+  </ItemGroup>
+ 
+  <ItemGroup>
+    <Content Include="appsettings2.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\dotnet-flubu\dotnet-flubu.csproj" />
   </ItemGroup>
