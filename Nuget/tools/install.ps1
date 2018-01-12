@@ -1,33 +1,43 @@
 param($installPath, $toolsPath, $package, $project)
+
 $projectFullName = $project.FullName
-$debugString = "install.ps1 executing for " + $projectFullName
-Write-Host $debugString
- $fileInfo = new-object -typename System.IO.FileInfo -ArgumentList $projectFullName
+Write-Host "Install.ps1 executing for $projectFullName."
+
+$fileInfo = new-object -typename System.IO.FileInfo -ArgumentList $projectFullName
 $projectDirectory = $fileInfo.DirectoryName
 $tempDirectory = "temp"
 $sourceDirectory = "$projectDirectory\$tempDirectory"
-Write-Host $sourceDirectory
- 
 $destinationDirectory = "$projectDirectory"
-Write-Host $destinationDirectory
+$buildscript = "BuildScript.cs"
+
+Write-Host "Source dir: $sourceDirectory"
+Write-Host "Destination dir: $destinationDirectory"
  
 if(test-path $sourceDirectory -pathtype container)
 {
- if (test-Path $destinationDirectory\Build.exe){
-     Write-Host "Removing old build.exe"
-     remove-item $destinationDirectory\Build.exe -recurse
- }
+    if (test-Path $destinationDirectory\Build.exe)
+    {
+        Write-Host "Removing old build.exe"
+        remove-item $destinationDirectory\Build.exe -recurse
+    }
 
- Write-Host "Copying files from $sourceDirectory to $destinationDirectory"
- robocopy $sourceDirectory $destinationDirectory /XO
- 
- Write-Host "Removing $tempDirectory from project."
- $tempDirectoryProjectItem = $project.ProjectItems.Item($tempDirectory)
- $tempDirectoryProjectItem.Remove()
+    Write-Host "Copying files from $sourceDirectory to $destinationDirectory"
+    # /XF skips BuildScript.cs
+    robocopy $sourceDirectory $destinationDirectory /XO /XF "$sourceDirectory\$buildscript"
 
- Write-Host "Deleting $sourceDirectory"
- remove-item $sourceDirectory -recurse
+    $buildscriptInProject = $project.ProjectItems | ? { $_.Properties.Item("Filename").Value -eq "$buildscript" }
+    if ($buildscriptInProject -eq $null)
+    {
+        Write-Host "Adding default $buildscript."
+        (Get-Interface $project.ProjectItems "EnvDTE.ProjectItems").AddFromFileCopy("$sourceDirectory\$buildscript")
+    }
+    else
+    {
+        Write-Host "File $buildscript already exists, preserving existing file."
+    }
+
+    Write-Host "Deleting $tempDirectory."
+    $project.ProjectItems.Item($tempDirectory).Delete()
 }
  
-$debugString = "install.ps1 complete" + $projectFullName
-Write-Host $debugString
+Write-Host "install.ps1 complete for $projectFullName."
