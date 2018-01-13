@@ -60,15 +60,7 @@ namespace FlubuCore.Tasks.Solution
 
         protected override string Description
         {
-            get
-            {
-                if (string.IsNullOrEmpty(_description))
-                {
-                    return $"Compiles solution {_solutionFileName} in {_buildConfiguration} mode.";
-                }
-
-                return _description;
-            }
+            get => string.IsNullOrEmpty(_description) ? $"Compiles the solution." : _description;
 
             set { _description = value; }
         }
