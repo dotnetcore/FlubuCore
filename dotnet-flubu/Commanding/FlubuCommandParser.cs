@@ -53,8 +53,8 @@ namespace DotNet.Cli.Flubu.Commanding
             _parallelTargetExecution = _commandApp.Option("--parallel", "If applied target's are executed in parallel", CommandOptionType.NoValue);
             _targetsToExecute = _commandApp.Option("-tte|--targetsToExecute <TARGETS_TO_EXECUTE>", "Target's that must be executed. Otherwise fails.", CommandOptionType.SingleValue);
             _isDebug = _commandApp.Option("-d|--debug", "Enable debug logging.", CommandOptionType.NoValue);
-            _configurationFile = _commandApp.Option("-cf|--configurationFile", "Path to the json configuration file. If not specified configuration is readed from flubusettings.json ", CommandOptionType.SingleValue);
-            _assemblyDirectories = _commandApp.Option("-ass", "Directory to search assemblies to include in script.", CommandOptionType.MultipleValue);
+            _configurationFile = _commandApp.Option("-cf|--configurationFile", "Path to the flubu json configuration file. If not specified configuration is readed from flubusettings.json ", CommandOptionType.SingleValue);
+            _assemblyDirectories = _commandApp.Option("-ass", "Directory to search assemblies to include automatically in script (Assemblies in subdirectories are also loaded). If not specified assemblies are loaded by default from FlubuLib directory.", CommandOptionType.MultipleValue);
             _commandApp.OnExecute(() => PrepareDefaultArguments());
 
             if (args == null)
