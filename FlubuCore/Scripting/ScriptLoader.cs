@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 using FlubuCore.IO.Wrappers;
@@ -47,8 +48,10 @@ namespace FlubuCore.Scripting
                 Path.Combine(coreDir, "mscorlib.dll"),
                 typeof(object).GetTypeInfo().Assembly.Location,
                 flubuPath,
-                typeof(File).GetTypeInfo().Assembly.Location
-            };
+                typeof(File).GetTypeInfo().Assembly.Location,
+                typeof(ILookup<string, string>).GetTypeInfo().Assembly.Location,
+                typeof(Expression).GetTypeInfo().Assembly.Location,
+        };
 
             List<MetadataReference> references = new List<MetadataReference>();
 
