@@ -144,7 +144,9 @@ namespace FlubuCore.Scripting
             {
                 if (_directory.Exists(referencesLocation))
                 {
-                    assemblieLocations.AddRange(_directory.GetFiles(referencesLocation, "*.dll", SearchOption.AllDirectories));
+                    DirectoryInfo folder = new DirectoryInfo(referencesLocation);
+                    var files = folder.GetFiles("*.dll", SearchOption.AllDirectories);
+                    assemblieLocations.AddRange(files.Select(x => x.FullName));
                 }
             }
 
