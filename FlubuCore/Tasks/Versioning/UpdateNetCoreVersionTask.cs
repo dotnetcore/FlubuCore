@@ -30,7 +30,7 @@ namespace FlubuCore.Tasks.Versioning
             {
                 if (string.IsNullOrEmpty(_description))
                 {
-                    return $"Updates version, AssemblyVersion and FileVersion in csproj/project.json {_file} to {_version.ToString(3)}";
+                    return $"Updates version, AssemblyVersion and FileVersion in csproj/project.json file.";
                 }
 
                 return _description;
