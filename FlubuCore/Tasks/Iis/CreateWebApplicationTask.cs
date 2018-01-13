@@ -41,7 +41,14 @@ namespace FlubuCore.Tasks.Iis
             set => _description = value;
         }
 
+        [Obsolete("Use CrearteWebAppMode instead")]
         public ICreateWebApplicationTask Mode(CreateWebApplicationMode mode)
+        {
+            _mode = mode;
+            return this;
+        }
+
+        public ICreateWebApplicationTask WebAppMode(CreateWebApplicationMode mode)
         {
             _mode = mode;
             return this;
