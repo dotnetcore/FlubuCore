@@ -300,7 +300,7 @@ namespace FlubuCore.Tasks
             context.LogInfo("   Task arguments:");
             foreach (var argument in ArgumentHelp)
             {
-                context.LogInfo($"        {argument.argumentKey}    {argument.help}");
+                context.LogInfo($"        -{argument.argumentKey}    {argument.help}");
             }
         }
 
