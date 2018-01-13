@@ -15,14 +15,13 @@ namespace FlubuCore.WebApi.Tests
 
         protected override void ConfigureTargets(ITaskContext session)
         {
-            session.CreateTarget("SuccesfullTarget").Do(SuccesfullTarget);
-
+            session.CreateTarget("SuccesfullTarget").Do(SuccesfullTarget, "f", taskAction: x => x.ForMember(m => m.Param, "FileName"));
             session.CreateTarget("FailedTarget").Do(FailedTarget);
         }
 
-        public void SuccesfullTarget(ITaskContext session)
+        public void SuccesfullTarget(ITaskContext session, string fileName)
         {
-            File.Create(session.ScriptArgs["FileName"]);
+            File.Create(fileName);
         }
 
         public void FailedTarget(ITaskContext session)
