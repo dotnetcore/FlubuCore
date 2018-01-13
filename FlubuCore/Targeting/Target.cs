@@ -186,6 +186,7 @@ namespace FlubuCore.Targeting
         public ITarget Do<T>(Action<ITaskContextInternal, T> targetAction, T param, Action<DoTask2<T>> taskAction = null)
         {
             var task = new DoTask2<T>(targetAction, param);
+            taskAction?.Invoke(task);
             Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
             return this;
         }
