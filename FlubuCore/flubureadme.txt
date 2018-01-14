@@ -3,4 +3,4 @@
   so that the community get's bigger.
 - You can find detailed examples of how flubu is used at https://github.com/flubu-core/examples
 - You can find release notes at: https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt
-- Have a question? Create a new issue at: https://github.com/flubu-core/flubu.core/issues
+- Have a question, have a suggestion or u want to report a bug? Create a new issue at: https://github.com/flubu-core/flubu.core/issues
