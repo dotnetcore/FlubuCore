@@ -22,7 +22,7 @@ namespace DotNet.Cli.Flubu.Commanding
         private CommandArguments _parsed;
 
         private CommandOption _scriptPath;
-
+        
         private CommandOption _targetsToExecute;
 
         private CommandOption _parallelTargetExecution;
@@ -32,6 +32,8 @@ namespace DotNet.Cli.Flubu.Commanding
         private CommandOption _configurationFile;
 
         private CommandOption _assemblyDirectories;
+
+        private CommandOption _noDependencies;
 
         public FlubuCommandParser(
             CommandLineApplication commandApp,
@@ -55,6 +57,7 @@ namespace DotNet.Cli.Flubu.Commanding
             _isDebug = _commandApp.Option("-d|--debug", "Enable debug logging.", CommandOptionType.NoValue);
             _configurationFile = _commandApp.Option("-cf|--configurationFile", "Path to the flubu json configuration file. If not specified configuration is readed from flubusettings.json ", CommandOptionType.SingleValue);
             _assemblyDirectories = _commandApp.Option("-ass", "Directory to search assemblies to include automatically in script (Assemblies in subdirectories are also loaded). If not specified assemblies are loaded by default from FlubuLib directory.", CommandOptionType.MultipleValue);
+            _noDependencies = _commandApp.Option("--noDependencies", "If applied no target dependencies are executed.", CommandOptionType.NoValue);
             _commandApp.OnExecute(() => PrepareDefaultArguments());
 
             if (args == null)
@@ -85,6 +88,11 @@ namespace DotNet.Cli.Flubu.Commanding
             if (_parallelTargetExecution.HasValue())
             {
                 _parsed.ExecuteTargetsInParallel = true;
+            }
+
+            if (_noDependencies.HasValue())
+            {
+                _parsed.NoDependencies = true;
             }
 
             if (_isDebug.HasValue())

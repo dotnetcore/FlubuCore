@@ -8,6 +8,11 @@ namespace FlubuCore.Scripting
 
         public bool Debug { get; set; }
 
+        /// <summary>
+        /// If <c>true</c> no target dependencies are executed.
+        /// </summary>
+        public bool NoDependencies { get; set; }
+
         public List<string> MainCommands { get; set; }
 
         public List<string> RemainingCommands { get; set; } = new List<string>();

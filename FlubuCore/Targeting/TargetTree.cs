@@ -58,6 +58,12 @@ namespace FlubuCore.Targeting
 
         public void EnsureDependenciesExecuted(ITaskContextInternal taskContext, string targetName)
         {
+            if (_args.NoDependencies)
+            {
+                taskContext.LogInfo("Skipping target dependencies.");
+                return;
+            }
+
             ITarget target = _targets[targetName];
             int n = target.Dependencies.Count;
             List<Task> tasks = new List<Task>();

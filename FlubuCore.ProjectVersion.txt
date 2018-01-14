@@ -1,3 +1,11 @@
+2.3.1.0
+- Fixed load assembly from directory
+- Fixed DoTask with one parameter TaskAction invocation.
+- Updated target help info
+- FlubuCore.Runner - Skip copying build script template if it already exists
+- readme for FlubuCore and dotnet-flubu nuget package.
+- Fixed some targets description.
+
 2.3.0.0
 - Explicit configuration pass through to tasks
 - Explicit enviroment variables pass through to tasks.
