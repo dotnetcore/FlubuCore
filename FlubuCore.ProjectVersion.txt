@@ -1,16 +1,16 @@
 2.3.1.0
-- Fixed load assembly from directory
-- Fixed DoTask with one parameter TaskAction invocation.
+- Fixed load assembly from directory (See wiki - build script fundamentals)
+- Fixed DoTask with one parameter TaskAction is now invoked.
 - Updated target help info
 - FlubuCore.Runner - Skip copying build script template if it already exists
 - readme for FlubuCore and dotnet-flubu nuget package.
 - Fixed some targets description.
 
 2.3.0.0
-- Explicit configuration pass through to tasks
-- Explicit enviroment variables pass through to tasks.
-- Implicitly add references to assemblies from default or specified directory
-- Default target is now supported on multiple targets 
+- Explicit configuration pass through to tasks (See wiki - build script fundamentals)
+- Explicit enviroment variables pass through to tasks. (See wiki - build script fundamentals)
+- Implicitly add references to assemblies from default or specified directory (See wiki - build script fundamentals)
+- Default target is now supported on multiple targets.
 - Improved error handling when build script file is not csharp code file.
 - Improved error handling when build script file has compilation errors.
 - Improved error handling when build script does not inherit DefaultBuildScript or implement interface IBuildScript
@@ -52,7 +52,7 @@
 - Added dependency targets to target help.
 
 2.1.0.0
-- Added support for explicit argument pass-through to targets and tasks(ForMember method on tasks).
+- Added support for explicit argument pass-through to targets and tasks(ForMember method on tasks) (See wiki - build script fundamentals).
 - Added Target help.
 - Extended Do with base task actions(second optional parameter in Do).
 - CompileSolutionTask have now completly fluent interface.
