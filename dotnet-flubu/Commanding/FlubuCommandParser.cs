@@ -22,7 +22,7 @@ namespace DotNet.Cli.Flubu.Commanding
         private CommandArguments _parsed;
 
         private CommandOption _scriptPath;
-        
+
         private CommandOption _targetsToExecute;
 
         private CommandOption _parallelTargetExecution;
