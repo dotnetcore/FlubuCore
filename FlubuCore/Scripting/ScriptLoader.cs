@@ -43,7 +43,7 @@ namespace FlubuCore.Scripting
         {
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuPath = typeof(DefaultBuildScript).GetTypeInfo().Assembly.Location;
-            List<string> referencesLocation = new List<string>
+            List<string> assemblyReferenceLocations = new List<string>
             {
                 Path.Combine(coreDir, "mscorlib.dll"),
                 typeof(object).GetTypeInfo().Assembly.Location,
@@ -69,7 +69,7 @@ namespace FlubuCore.Scripting
                 if (string.IsNullOrEmpty(loadedAssembly.Location))
                     continue;
 
-                referencesLocation.Add(loadedAssembly.Location);
+                assemblyReferenceLocations.Add(loadedAssembly.Location);
             }
 
             string fileName = _buildScriptLocator.FindBuildScript(args);
@@ -77,7 +77,7 @@ namespace FlubuCore.Scripting
             List<string> code = _file.ReadAllLines(fileName);
 
             AnalyserResult analyserResult = _analyser.Analyze(code);
-            referencesLocation.AddRange(analyserResult.References);
+            assemblyReferenceLocations.AddRange(analyserResult.References);
 
             foreach (var file in analyserResult.CsFiles)
             {
@@ -94,7 +94,7 @@ namespace FlubuCore.Scripting
 
                     var usings = additionalCode.Where(x => x.StartsWith("using"));
 
-                    referencesLocation.AddRange(additionalCodeAnalyserResult.References);
+                    assemblyReferenceLocations.AddRange(additionalCodeAnalyserResult.References);
                     code.InsertRange(0, usings);
                     code.AddRange(additionalCode.Where(x => !x.StartsWith("using")));
                 }
@@ -104,10 +104,10 @@ namespace FlubuCore.Scripting
                 }
             }
 
-            referencesLocation.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
+            assemblyReferenceLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
 
-            referencesLocation = referencesLocation.Distinct().ToList();
-            references.AddRange(referencesLocation.Select(i => MetadataReference.CreateFromFile(i)));
+            assemblyReferenceLocations = assemblyReferenceLocations.Distinct().ToList();
+            references.AddRange(assemblyReferenceLocations.Select(i => MetadataReference.CreateFromFile(i)));
             var opts = ScriptOptions.Default
                 .WithReferences(references);
 
@@ -141,19 +141,19 @@ namespace FlubuCore.Scripting
 
         private List<string> FindAssemblyReferencesInDirectories(List<string> directories)
         {
-            List<string> assemblieLocations = new List<string>();
+            List<string> assemblyLocations = new List<string>();
             directories.AddRange(DefaultScriptReferencesLocations);
-            foreach (var referencesLocation in directories)
+            foreach (var assemblyReferencesLocation in directories)
             {
-                if (_directory.Exists(referencesLocation))
+                if (_directory.Exists(assemblyReferencesLocation))
                 {
-                    DirectoryInfo folder = new DirectoryInfo(referencesLocation);
+                    DirectoryInfo folder = new DirectoryInfo(assemblyReferencesLocation);
                     var files = folder.GetFiles("*.dll", SearchOption.AllDirectories);
-                    assemblieLocations.AddRange(files.Select(x => x.FullName));
+                    assemblyLocations.AddRange(files.Select(x => x.FullName));
                 }
             }
 
-            return assemblieLocations;
+            return assemblyLocations;
         }
     }
 }

@@ -9,7 +9,7 @@
         {
             get => _description;
 
-            set { _description = value; }
+            set => _description = value;
         }
 
         /// <summary>
