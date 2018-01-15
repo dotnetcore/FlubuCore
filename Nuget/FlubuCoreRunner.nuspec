@@ -9,6 +9,7 @@
     <projectUrl>https://bitbucket.org/zoroz/flubu.core</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>http://www.opensource.org/licenses/bsd-license.php</licenseUrl>
+	<releaseNotes>https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt</releaseNotes>
     <description>
     This package includes the Flubu runner which is used for executing Flubu scripts. 
       Flubu is a C# library for building projects and executing deployment scripts using C# code.

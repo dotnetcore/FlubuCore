@@ -8,7 +8,7 @@
     <PackageTags>dotnet;flubu;build;builder;script;buildscript;automation;VisualStudio</PackageTags>
     <PackageLicenseUrl>http://www.opensource.org/licenses/bsd-license.php</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/flubu-core/flubu.core</PackageProjectUrl>
-    <PackageReleaseNotes>..\Nuget\FlubuCore\readme.txt</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt</PackageReleaseNotes>
     <Description>
       This package includes the flubu dotnet cli tool for executing FlubuCore scripts.
 

@@ -7,6 +7,7 @@
     <PackageTags>dotnet;flubu;build;builder;script;buildscript;automation;VisualStudio</PackageTags>
     <PackageLicenseUrl>http://www.opensource.org/licenses/bsd-license.php</PackageLicenseUrl>
     <PackageProjectUrl>https://bitbucket.org/zoroz/flubu.core</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt</PackageReleaseNotes>
     <Description>
       A C# library for building projects and executing deployment scripts using C# code.
 
