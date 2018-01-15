@@ -30,7 +30,7 @@ namespace Flubu.Tests.Tasks
             _task.Execute(Context.Object);
             Assert.Equal("value from arg", _task.Path);
             Assert.Equal("-s", _task.ArgumentHelp[0].argumentKey);
-            Assert.Equal("Pass argument '-s' to method 'AddPath'. Default value: '\"default vaue\"'.", _task.ArgumentHelp[0].help);
+            Assert.Equal("Pass argument with key '-s' to method 'AddPath'. Default value: '\"default vaue\"'.", _task.ArgumentHelp[0].help);
         }
 
         [Fact]
@@ -187,7 +187,7 @@ namespace Flubu.Tests.Tasks
             _task.Execute(Context.Object);
             Assert.Equal("value from arg", _task.Path);
             Assert.Equal("-s", _task.ArgumentHelp[0].argumentKey);
-            Assert.Equal("Pass argument '-s' to property 'Path'.", _task.ArgumentHelp[0].help);
+            Assert.Equal("Pass argument with key '-s' to property 'Path'.", _task.ArgumentHelp[0].help);
         }
 
         [Fact]
@@ -217,7 +217,7 @@ namespace Flubu.Tests.Tasks
             _task.Execute(Context.Object);
             Assert.True(_task.BoolValue);
             Assert.Equal("-s", _task.ArgumentHelp[0].argumentKey);
-            Assert.Equal("Pass argument '-s' to property 'BoolValue'.", _task.ArgumentHelp[0].help);
+            Assert.Equal("Pass argument with key '-s' to property 'BoolValue'.", _task.ArgumentHelp[0].help);
         }
 
         [Fact]
