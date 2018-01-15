@@ -121,13 +121,13 @@ namespace FlubuCore.Tasks
                     string defaultValue = methodExpression.Arguments.Count == 1
                         ? $"Default value: '{methodExpression.Arguments[0]}'."
                         : null;
-                    ArgumentHelp.Add((argKey, $"Pass argument '{argKey}' to method '{methodExpression.Method.Name}'. {defaultValue}"));
+                    ArgumentHelp.Add((argKey, $"Pass argument with key '{argKey}' to method '{methodExpression.Method.Name}'. {defaultValue}"));
                 }
 
                 var propertyExpression = GetMemberExpression(taskMember);
                 if (propertyExpression != null)
                 {
-                    ArgumentHelp.Add((argKey, $"Pass argument '{argKey}' to property '{propertyExpression.Member.Name}'."));
+                    ArgumentHelp.Add((argKey, $"Pass argument with key '{argKey}' to property '{propertyExpression.Member.Name}'."));
                 }
             }
 
