@@ -56,7 +56,7 @@ namespace FlubuCore.Scripting
             List<MetadataReference> references = new List<MetadataReference>();
 
 #if NETSTANDARD2_0
-            referencesLocation.Add(typeof(Console).GetTypeInfo().Assembly.Location);
+            assemblyReferenceLocations.Add(typeof(Console).GetTypeInfo().Assembly.Location);
 #endif
 
             // Enumerate all assemblies referenced by this executing assembly
