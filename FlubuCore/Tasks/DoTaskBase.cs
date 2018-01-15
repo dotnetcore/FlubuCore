@@ -3,6 +3,15 @@
     public abstract class DoTaskBase<TResult, TTask> : TaskBase<TResult, TTask>
         where TTask : class, ITask
     {
+        private string _description;
+
+        protected override string Description
+        {
+            get => _description;
+
+            set { _description = value; }
+        }
+
         /// <summary>
         /// Name of the task that is displayed in help.
         /// </summary>
