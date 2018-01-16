@@ -13,43 +13,43 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
             return this;
         }
 
-        public ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework, string runtime, Action<PackageTask> action, params string[] projects)
+        public ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework, string runtime, Action<PackageTask> packageTaskOptions, params string[] projects)
         {
-            CreateZipPackageFromProjectsImplementation(zipPrefix, targetFramework, runtime, action, projects);
+            CreateZipPackageFromProjectsImplementation(zipPrefix, targetFramework, runtime, packageTaskOptions, projects);
             return this;
         }
 
-        public ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework, string project, Action<PackageTask> action = null, string runtime = null)
+        public ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework, string project, Action<PackageTask> packageTaskOptions = null, string runtime = null)
         {
-            CreateZipPackageFromProjectsImplementation(zipPrefix, targetFramework, runtime, action, project);
-            return this;
-        }
-
-        public ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework,
-            string project, string project2, Action<PackageTask> action = null, string runtime = null)
-        {
-            CreateZipPackageFromProjectsImplementation(zipPrefix, targetFramework, runtime, action, project, project2);
+            CreateZipPackageFromProjectsImplementation(zipPrefix, targetFramework, runtime, packageTaskOptions, project);
             return this;
         }
 
         public ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework,
-            string project, string project2, string project3, Action<PackageTask> action = null, string runtime = null)
+            string project, string project2, Action<PackageTask> packageTaskOptions = null, string runtime = null)
         {
-            CreateZipPackageFromProjectsImplementation(zipPrefix, targetFramework, runtime, action, project, project2, project3);
+            CreateZipPackageFromProjectsImplementation(zipPrefix, targetFramework, runtime, packageTaskOptions, project, project2);
             return this;
         }
 
         public ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework,
-            string project, string project2, string project3, string project4, Action<PackageTask> action = null, string runtime = null)
+            string project, string project2, string project3, Action<PackageTask> packageTaskOptions = null, string runtime = null)
         {
-            CreateZipPackageFromProjectsImplementation(zipPrefix, targetFramework, runtime, action, project, project2, project3, project4);
+            CreateZipPackageFromProjectsImplementation(zipPrefix, targetFramework, runtime, packageTaskOptions, project, project2, project3);
             return this;
         }
 
         public ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework,
-            string project, string project2, string project3, string project4, string project5, Action<PackageTask> action = null, string runtime = null)
+            string project, string project2, string project3, string project4, Action<PackageTask> packageTaskOptions = null, string runtime = null)
         {
-            CreateZipPackageFromProjectsImplementation(zipPrefix, targetFramework, runtime, action, project, project2, project3, project4, project5);
+            CreateZipPackageFromProjectsImplementation(zipPrefix, targetFramework, runtime, packageTaskOptions, project, project2, project3, project4);
+            return this;
+        }
+
+        public ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework,
+            string project, string project2, string project3, string project4, string project5, Action<PackageTask> packageTaskOptions = null, string runtime = null)
+        {
+            CreateZipPackageFromProjectsImplementation(zipPrefix, targetFramework, runtime, packageTaskOptions, project, project2, project3, project4, project5);
             return this;
         }
 
@@ -70,14 +70,14 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
             string project5,
             string project6,
             string project7,
-            Action<PackageTask> action = null,
+            Action<PackageTask> packageTaskOptions = null,
             string runtime = null)
         {
             CreateZipPackageFromProjectsImplementation(
                 zipPrefix,
                 targetFramework,
                 runtime,
-                action,
+                packageTaskOptions,
                 project,
                 project2,
                 project3,

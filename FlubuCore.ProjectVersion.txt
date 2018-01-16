@@ -1,3 +1,12 @@
+2.3.2.0
+- Added symbols to flubu nuget packages
+- Added xml documentation files to nuget where they were missing
+- Added release notes link to nuget packages.
+- Improved default for member help
+- Breaking change: DoTask: Renamed taskAction -> doOptions
+- DoTask: Fixed set task description.
+- Breaking change: renamed action parameters on ITaskCoreExtesionsFluentInterface to taskAction or taskOptions.
+  
 2.3.1.0
 - Fixed load assembly from directory (See wiki - build script fundamentals)
 - Fixed DoTask with one parameter TaskAction is now invoked.

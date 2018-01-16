@@ -11,21 +11,21 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
            return DotnetRestore(null, projects);
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetRestore(Action<DotnetRestoreTask> action, params string[] projects)
+        public ICoreTaskExtensionsFluentInterface DotnetRestore(Action<DotnetRestoreTask> taskAction, params string[] projects)
         {
             foreach (string project in projects)
             {
                 var task = Context.CoreTasks().Restore(project);
-                action?.Invoke(task);
+                taskAction?.Invoke(task);
                 Target.AddTask(task);
             }
 
             return this;
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetRestore(Action<DotnetRestoreTask> action = null)
+        public ICoreTaskExtensionsFluentInterface DotnetRestore(Action<DotnetRestoreTask> taskAction = null)
         {
-            return DotnetRestore(null, null, action);
+            return DotnetRestore(null, null, taskAction);
         }
 
         public ICoreTaskExtensionsFluentInterface DotnetRestore(string project = null, string workingFolder = null, Action<DotnetRestoreTask> action = null)
@@ -41,27 +41,27 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
             return DotnetPublish(null, projects);
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetPublish(Action<DotnetPublishTask> action, params string[] projects)
+        public ICoreTaskExtensionsFluentInterface DotnetPublish(Action<DotnetPublishTask> taskAction, params string[] projects)
         {
             foreach (string project in projects)
             {
                 var task = Context.CoreTasks().Publish(project);
-                action?.Invoke(task);
+                taskAction?.Invoke(task);
                 Target.AddTask(task);
             }
 
             return this;
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetPublish(Action<DotnetPublishTask> action = null)
+        public ICoreTaskExtensionsFluentInterface DotnetPublish(Action<DotnetPublishTask> taskAction = null)
         {
-          return DotnetPublish(null, action);
+          return DotnetPublish(null, taskAction);
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetPublish(string project, Action<DotnetPublishTask> action = null)
+        public ICoreTaskExtensionsFluentInterface DotnetPublish(string project, Action<DotnetPublishTask> taskAction = null)
         {
             var task = Context.CoreTasks().Publish(project);
-            action?.Invoke(task);
+            taskAction?.Invoke(task);
             Target.AddTask(task);
 
             return this;
@@ -72,32 +72,32 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
             return DotnetBuild(null, projects);
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetBuild(Action<DotnetBuildTask> action = null, params string[] projects)
+        public ICoreTaskExtensionsFluentInterface DotnetBuild(Action<DotnetBuildTask> taskAction = null, params string[] projects)
         {
-            return DotnetBuild(null, action, projects);
+            return DotnetBuild(null, taskAction, projects);
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetBuild(string workingFolder = null, Action<DotnetBuildTask> action = null, params string[] projects)
+        public ICoreTaskExtensionsFluentInterface DotnetBuild(string workingFolder = null, Action<DotnetBuildTask> taskAction = null, params string[] projects)
         {
             foreach (string project in projects)
             {
                 var task = Context.CoreTasks().Build(project, workingFolder);
-                action?.Invoke(task);
+                taskAction?.Invoke(task);
                 Target.AddTask(task);
             }
 
             return this;
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetBuild(Action<DotnetBuildTask> action = null)
+        public ICoreTaskExtensionsFluentInterface DotnetBuild(Action<DotnetBuildTask> taskAction = null)
         {
-           return DotnetBuild(null, null, action);
+           return DotnetBuild(null, null, taskAction);
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetBuild(string project = null, string workingFolder = null, Action<DotnetBuildTask> action = null)
+        public ICoreTaskExtensionsFluentInterface DotnetBuild(string project = null, string workingFolder = null, Action<DotnetBuildTask> taskAction = null)
         {
             var task = Context.CoreTasks().Build(project, workingFolder);
-            action?.Invoke(task);
+            taskAction?.Invoke(task);
             Target.AddTask(task);
             return this;
         }
@@ -107,27 +107,27 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
             return DotnetUnitTest(null, projects);
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetUnitTest(Action<DotnetTestTask> action = null, params string[] projects)
+        public ICoreTaskExtensionsFluentInterface DotnetUnitTest(Action<DotnetTestTask> taskAction = null, params string[] projects)
         {
             foreach (string project in projects)
             {
                 var task = Context.CoreTasks().Test().Project(project);
-                action?.Invoke(task);
+                taskAction?.Invoke(task);
                 Target.AddTask(task);
             }
 
             return this;
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetUnitTest(Action<DotnetTestTask> action = null)
+        public ICoreTaskExtensionsFluentInterface DotnetUnitTest(Action<DotnetTestTask> taskAction = null)
         {
-            return DotnetUnitTest(null, action);
+            return DotnetUnitTest(null, taskAction);
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetUnitTest(string project, Action<DotnetTestTask> action = null)
+        public ICoreTaskExtensionsFluentInterface DotnetUnitTest(string project, Action<DotnetTestTask> taskAction = null)
         {
             var task = Context.CoreTasks().Test().Project(project);
-            action?.Invoke(task);
+            taskAction?.Invoke(task);
             Target.AddTask(task);
             return this;
         }
@@ -137,21 +137,21 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
             return DotnetPack(null, projects);
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetPack(Action<DotnetPackTask> action = null, params string[] projects)
+        public ICoreTaskExtensionsFluentInterface DotnetPack(Action<DotnetPackTask> taskAction = null, params string[] projects)
         {
             foreach (string project in projects)
             {
                 var task = Context.CoreTasks().Pack().Project(project);
-                action?.Invoke(task);
+                taskAction?.Invoke(task);
                 Target.AddTask(task);
             }
 
             return this;
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetPack(Action<DotnetPackTask> action = null)
+        public ICoreTaskExtensionsFluentInterface DotnetPack(Action<DotnetPackTask> taskAction = null)
         {
-            return DotnetPack(null, action);
+            return DotnetPack(null, taskAction);
         }
 
         public ICoreTaskExtensionsFluentInterface DotnetPack(string project, Action<DotnetPackTask> action = null)
@@ -167,35 +167,35 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
             return DotnetClean(null, projects);
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetClean(Action<DotnetCleanTask> action, params string[] projects)
+        public ICoreTaskExtensionsFluentInterface DotnetClean(Action<DotnetCleanTask> taskOptions, params string[] projects)
         {
             foreach (string project in projects)
             {
                 var task = Context.CoreTasks().Clean().Project(project);
-                action?.Invoke(task);
+                taskOptions?.Invoke(task);
                 Target.AddTask(task);
             }
 
             return this;
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetClean(string project, Action<DotnetCleanTask> action = null)
+        public ICoreTaskExtensionsFluentInterface DotnetClean(string project, Action<DotnetCleanTask> taskOptions = null)
         {
             var task = Context.CoreTasks().Clean().Project(project);
-            action?.Invoke(task);
+            taskOptions?.Invoke(task);
             Target.AddTask(task);
             return this;
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetClean(Action<DotnetCleanTask> action = null)
+        public ICoreTaskExtensionsFluentInterface DotnetClean(Action<DotnetCleanTask> taskOptions = null)
         {
-           return DotnetClean(null, action);
+           return DotnetClean(null, taskOptions);
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetNugetPush(string nugetPackagePath, Action<DotnetNugetPushTask> action = null)
+        public ICoreTaskExtensionsFluentInterface DotnetNugetPush(string nugetPackagePath, Action<DotnetNugetPushTask> taskOptions = null)
         {
             var task = Context.CoreTasks().NugetPush(nugetPackagePath);
-            action?.Invoke(task);
+            taskOptions?.Invoke(task);
             Target.AddTask(task);
             return this;
         }
@@ -208,31 +208,31 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
             return this;
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetAddEfMigration(string workingFolder, string migrationName = "default", Action<ExecuteDotnetTask> action = null)
+        public ICoreTaskExtensionsFluentInterface DotnetAddEfMigration(string workingFolder, string migrationName = "default", Action<ExecuteDotnetTask> taskOptions = null)
         {
-            var task = AddEfMigration(workingFolder, migrationName, action);
+            var task = AddEfMigration(workingFolder, migrationName, taskOptions);
             Target.AddTask(task);
             return this;
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetRemoveEfMigration(string workingFolder, bool forceRemove = true, Action<ExecuteDotnetTask> action = null)
+        public ICoreTaskExtensionsFluentInterface DotnetRemoveEfMigration(string workingFolder, bool forceRemove = true, Action<ExecuteDotnetTask> taskOptions = null)
         {
             var task = RemoveEfMigration(workingFolder, forceRemove);
 
-            action?.Invoke(task);
+            taskOptions?.Invoke(task);
             Target.AddTask(task);
             return this;
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetEfUpdateDatabase(string workingFolder, Action<ExecuteDotnetTask> action = null)
+        public ICoreTaskExtensionsFluentInterface DotnetEfUpdateDatabase(string workingFolder, Action<ExecuteDotnetTask> taskOptions = null)
         {
             var task = EfUpdateDatabase(workingFolder);
-            action?.Invoke(task);
+            taskOptions?.Invoke(task);
             Target.AddTask(task);
             return this;
         }
 
-        public ICoreTaskExtensionsFluentInterface DotnetEfDropDatabase(string workingFolder, Action<ExecuteDotnetTask> action = null)
+        public ICoreTaskExtensionsFluentInterface DotnetEfDropDatabase(string workingFolder, Action<ExecuteDotnetTask> taskOptions = null)
         {
             var task = EfDropDatabase(workingFolder);
             Target.AddTask(task);

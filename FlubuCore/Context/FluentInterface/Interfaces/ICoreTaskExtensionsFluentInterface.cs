@@ -24,7 +24,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="projects">Name of the project to add to add</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
         ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework,
-            string runtime, Action<PackageTask> action, params string[] projects);
+            string runtime, Action<PackageTask> packageTaskOptions, params string[] projects);
 
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
@@ -33,7 +33,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/publish</param>
         /// <param name="projects">Name of the project to add to add</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
-        ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework, string project, Action<PackageTask> action = null, string runtime = null);
+        ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework, string project, Action<PackageTask> packageTaskOptions = null, string runtime = null);
 
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
@@ -43,7 +43,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="projects">Name of the project to add to add</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
         ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework,
-            string project, string project2, Action<PackageTask> action = null, string runtime = null);
+            string project, string project2, Action<PackageTask> packageTaskOptions = null, string runtime = null);
 
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
@@ -53,7 +53,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="projects">Name of the project to add to add</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
         ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework,
-            string project, string project2, string project3, Action<PackageTask> action = null, string runtime = null);
+            string project, string project2, string project3, Action<PackageTask> packageTaskOptions = null, string runtime = null);
 
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
@@ -63,7 +63,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="projects">Name of the project to add to add</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
         ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework,
-            string project, string project2, string project3, string project4, Action<PackageTask> action = null,
+            string project, string project2, string project3, string project4, Action<PackageTask> packageTaskOptions = null,
             string runtime = null);
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns><see cref="PackageTask"/> instance.</returns>
         ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework,
             string project, string project2, string project3, string project4, string project5,
-            Action<PackageTask> action = null, string runtime = null);
+            Action<PackageTask> packageTaskOptions = null, string runtime = null);
 
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
@@ -97,7 +97,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns><see cref="PackageTask"/> instance.</returns>
         ICoreTaskExtensionsFluentInterface CreateZipPackageFromProjects(string zipPrefix, string targetFramework,
             string project, string project2, string project3, string project4, string project5, string project6,
-            string project7, Action<PackageTask> action = null, string runtime = null);
+            string project7, Action<PackageTask> packageTaskOptions = null, string runtime = null);
 
         /// <summary>
         /// Runs tests using a test runner specified in the project.json / csproj.
@@ -109,25 +109,25 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <summary>
         /// Runs tests using a test runner specified in the project.json / csproj.
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="taskAction"></param>
         /// <param name="projects">The projects to test, defaults to the current directory</param>
         /// <returns></returns>
-        ICoreTaskExtensionsFluentInterface DotnetUnitTest(Action<DotnetTestTask> action = null, params string[] projects);
+        ICoreTaskExtensionsFluentInterface DotnetUnitTest(Action<DotnetTestTask> taskAction = null, params string[] projects);
 
         /// <summary>
         /// Runs tests using a test runner specified in the project.json / csproj.
         /// </summary>
         /// <param name="project"></param>
-        /// <param name="action">The projects to test, defaults to the current directory</param>
+        /// <param name="taskAction">The projects to test, defaults to the current directory</param>
         /// <returns></returns>
-        ICoreTaskExtensionsFluentInterface DotnetUnitTest(string project = null, Action<DotnetTestTask> action = null);
+        ICoreTaskExtensionsFluentInterface DotnetUnitTest(string project = null, Action<DotnetTestTask> taskAction = null);
 
         /// <summary>
         /// Runs tests using a test runner specified in the project.json / csproj.
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="taskAction"></param>
         /// <returns></returns>
-        ICoreTaskExtensionsFluentInterface DotnetUnitTest(Action<DotnetTestTask> action = null);
+        ICoreTaskExtensionsFluentInterface DotnetUnitTest(Action<DotnetTestTask> taskAction = null);
 
         /// <summary>
         /// Restores the dependencies and tools for a given application / project.
@@ -139,17 +139,17 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <summary>
         /// Restores the dependencies and tools for a given application / project.
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="taskAction"></param>
         /// <param name="projects"></param>
         /// <returns></returns>
-        ICoreTaskExtensionsFluentInterface DotnetRestore(Action<DotnetRestoreTask> action, params string[] projects);
+        ICoreTaskExtensionsFluentInterface DotnetRestore(Action<DotnetRestoreTask> taskAction, params string[] projects);
 
         /// <summary>
         /// Restores the dependencies and tools for a given application / project.
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="taskAction"></param>
         /// <returns></returns>
-        ICoreTaskExtensionsFluentInterface DotnetRestore(Action<DotnetRestoreTask> action = null);
+        ICoreTaskExtensionsFluentInterface DotnetRestore(Action<DotnetRestoreTask> taskAction = null);
 
         /// <summary>
         /// compiles the application, reads through its dependencies specified in the project file and publishes the resulting set of files to a directory.
@@ -161,25 +161,25 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <summary>
         /// compiles the application, reads through its dependencies specified in the project file and publishes the resulting set of files to a directory.
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="taskAction"></param>
         /// <param name="projects"></param>
         /// <returns></returns>
-        ICoreTaskExtensionsFluentInterface DotnetPublish(Action<DotnetPublishTask> action, params string[] projects);
+        ICoreTaskExtensionsFluentInterface DotnetPublish(Action<DotnetPublishTask> taskAction, params string[] projects);
 
         /// <summary>
         /// compiles the application, reads through its dependencies specified in the project file and publishes the resulting set of files to a directory.
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="taskAction"></param>
         /// <returns></returns>
-        ICoreTaskExtensionsFluentInterface DotnetPublish(Action<DotnetPublishTask> action = null);
+        ICoreTaskExtensionsFluentInterface DotnetPublish(Action<DotnetPublishTask> taskAction = null);
 
         /// <summary>
         /// compiles the application, reads through its dependencies specified in the project file and publishes the resulting set of files to a directory.
         /// </summary>
         /// <param name="project"></param>
-        /// <param name="action"></param>
+        /// <param name="taskAction"></param>
         /// <returns></returns>
-        ICoreTaskExtensionsFluentInterface DotnetPublish(string project, Action<DotnetPublishTask> action = null);
+        ICoreTaskExtensionsFluentInterface DotnetPublish(string project, Action<DotnetPublishTask> taskAction = null);
 
         /// <summary>
         /// Builds a project and all of its dependencies
@@ -191,35 +191,35 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <summary>
         /// Builds a project and all of its dependencies
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="taskAction"></param>
         /// <param name="projects">The MSBuild project file to build. If a project file is not specified, MSBuild searches the current working directory for a file that has a file extension that ends in `proj` and uses that file.</param>
         /// <returns></returns>
-        ICoreTaskExtensionsFluentInterface DotnetBuild(Action<DotnetBuildTask> action, params string[] projects);
+        ICoreTaskExtensionsFluentInterface DotnetBuild(Action<DotnetBuildTask> taskAction, params string[] projects);
 
         /// <summary>
         /// Builds a project and all of its dependencies
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="taskAction"></param>
         /// <returns></returns>
-        ICoreTaskExtensionsFluentInterface DotnetBuild(Action<DotnetBuildTask> action = null);
+        ICoreTaskExtensionsFluentInterface DotnetBuild(Action<DotnetBuildTask> taskAction = null);
 
         /// <summary>
         /// Builds a project and all of its dependencies
         /// </summary>
         /// <param name="workingFolder"></param>
-        /// <param name="action"></param>
+        /// <param name="taskAction"></param>
         /// <param name="projects">The MSBuild project file to build. If a project file is not specified, MSBuild searches the current working directory for a file that has a file extension that ends in `proj` and uses that file.</param>
         /// <returns></returns>
-        ICoreTaskExtensionsFluentInterface DotnetBuild(string workingFolder = null, Action<DotnetBuildTask> action = null, params string[] projects);
+        ICoreTaskExtensionsFluentInterface DotnetBuild(string workingFolder = null, Action<DotnetBuildTask> taskAction = null, params string[] projects);
 
         /// <summary>
         /// Builds a project and all of its dependencies
         /// </summary>
         /// <param name="project">The MSBuild project file to build. If a project file is not specified, MSBuild searches the current working directory for a file that has a file extension that ends in `proj` and uses that file.</param>
         /// <param name="workingFolder"></param>
-        /// <param name="action"></param>
+        /// <param name="taskAction"></param>
         /// <returns></returns>
-        ICoreTaskExtensionsFluentInterface DotnetBuild(string project = null, string workingFolder = null, Action<DotnetBuildTask> action = null);
+        ICoreTaskExtensionsFluentInterface DotnetBuild(string project = null, string workingFolder = null, Action<DotnetBuildTask> taskAction = null);
 
         /// <summary>
         /// command builds the project and creates NuGet packages. The result of this command is a NuGet package.
@@ -231,48 +231,48 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <summary>
         /// command builds the project and creates NuGet packages. The result of this command is a NuGet package.
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="taskAction"></param>
         /// <param name="projects"></param>
         /// <returns></returns>
-        ICoreTaskExtensionsFluentInterface DotnetPack(Action<DotnetPackTask> action, params string[] projects);
+        ICoreTaskExtensionsFluentInterface DotnetPack(Action<DotnetPackTask> taskAction, params string[] projects);
 
         /// <summary>
         /// command builds the project and creates NuGet packages. The result of this command is a NuGet package.
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="taskAction"></param>
         /// <returns></returns>
-        ICoreTaskExtensionsFluentInterface DotnetPack(Action<DotnetPackTask> action = null);
+        ICoreTaskExtensionsFluentInterface DotnetPack(Action<DotnetPackTask> taskAction = null);
 
         /// <summary>
         /// Cleans the output of a project.
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="taskOptions"></param>
         /// <param name="projects"></param>
         /// <returns></returns>
-        ICoreTaskExtensionsFluentInterface DotnetClean(Action<DotnetCleanTask> action, params string[] projects);
+        ICoreTaskExtensionsFluentInterface DotnetClean(Action<DotnetCleanTask> taskOptions, params string[] projects);
 
         /// <summary>
         /// Cleans the output of a project.
         /// </summary>
         /// <param name="project"></param>
-        /// <param name="action"></param>
+        /// <param name="taskOptions"></param>
         /// <returns></returns>
-        ICoreTaskExtensionsFluentInterface DotnetClean(string project, Action<DotnetCleanTask> action = null);
+        ICoreTaskExtensionsFluentInterface DotnetClean(string project, Action<DotnetCleanTask> taskOptions = null);
 
         /// <summary>
         /// Cleans the output of a project.
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="taskOptions"></param>
         /// <returns></returns>
-        ICoreTaskExtensionsFluentInterface DotnetClean(Action<DotnetCleanTask> action = null);
+        ICoreTaskExtensionsFluentInterface DotnetClean(Action<DotnetCleanTask> taskOptions = null);
 
         /// <summary>
         /// Pushes the nuget package to nuget server.
         /// </summary>
         /// <param name="nugetPackagePath">Path to .nupkg file</param>
-        /// <param name="action"></param>
+        /// <param name="taskOptions"></param>
         /// <returns></returns>
-        ICoreTaskExtensionsFluentInterface DotnetNugetPush(string nugetPackagePath, Action<DotnetNugetPushTask> action = null);
+        ICoreTaskExtensionsFluentInterface DotnetNugetPush(string nugetPackagePath, Action<DotnetNugetPushTask> taskOptions = null);
 
         /// <summary>
         /// Updates the version in csproj / project.json file
@@ -282,13 +282,13 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns></returns>
         ICoreTaskExtensionsFluentInterface UpdateDotnetVersion(string[] projectFiles, string[] additionalProps);
 
-        ICoreTaskExtensionsFluentInterface DotnetAddEfMigration(string workingFolder, string migrationName = "default",  Action<ExecuteDotnetTask> action = null);
+        ICoreTaskExtensionsFluentInterface DotnetAddEfMigration(string workingFolder, string migrationName = "default",  Action<ExecuteDotnetTask> taskOptions = null);
 
-        ICoreTaskExtensionsFluentInterface DotnetRemoveEfMigration(string workingFolder, bool forceRemove = true, Action<ExecuteDotnetTask> action = null);
+        ICoreTaskExtensionsFluentInterface DotnetRemoveEfMigration(string workingFolder, bool forceRemove = true, Action<ExecuteDotnetTask> taskOptions = null);
 
-        ICoreTaskExtensionsFluentInterface DotnetEfUpdateDatabase(string workingFolder, Action<ExecuteDotnetTask> action = null);
+        ICoreTaskExtensionsFluentInterface DotnetEfUpdateDatabase(string workingFolder, Action<ExecuteDotnetTask> taskOptions = null);
 
-        ICoreTaskExtensionsFluentInterface DotnetEfDropDatabase(string workingFolder, Action<ExecuteDotnetTask> action = null);
+        ICoreTaskExtensionsFluentInterface DotnetEfDropDatabase(string workingFolder, Action<ExecuteDotnetTask> taskOptions = null);
 
         /// <summary>
         /// Moves back to target fluent interface.
