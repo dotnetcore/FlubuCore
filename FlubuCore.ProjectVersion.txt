@@ -6,7 +6,7 @@
 - Breaking change: DoTask: Renamed taskAction -> doOptions
 - DoTask: Fixed set task description.
 - Breaking change: renamed action parameters on ITaskCoreExtesionsFluentInterface to taskAction or taskOptions.
-  
+- Investigated and added example for writing flubu plugins. See wiki - Flubu Tasks plugins and flubu examples.   
 2.3.1.0
 - Fixed load assembly from directory (See wiki - build script fundamentals)
 - Fixed DoTask with one parameter TaskAction is now invoked.
