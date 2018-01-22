@@ -35,11 +35,3 @@ FlubuCore main build and Flubu core System tests are also runned on linux machin
 [**Release notes**](https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt
 )
 
-### Donations ###
-Please support the project and donate with PayPal
-
-[Donate 1€](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6AM64F76MHS6G)
-
-[Donate 5€](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HRGK5DWTALFDC)
-
-[Donate any amount](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EEPXW2GLAPPTL)
