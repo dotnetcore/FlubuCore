@@ -27,11 +27,7 @@ namespace FlubuCore.WebApi.Client
             {
                 _webApiBaseUrl = httpClient.BaseAddress.ToString();
             }
-            else
-            {
-                throw new ArgumentNullException(nameof(httpClient.BaseAddress));
-            }
-
+            
             GetAllClientMethods();
         }
 
