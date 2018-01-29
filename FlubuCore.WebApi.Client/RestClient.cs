@@ -27,6 +27,10 @@ namespace FlubuCore.WebApi.Client
             {
                 _webApiBaseUrl = httpClient.BaseAddress.ToString();
             }
+            else
+            {
+                throw new ArgumentNullException(nameof(httpClient.BaseAddress));
+            }
 
             GetAllClientMethods();
         }
@@ -93,7 +97,7 @@ namespace FlubuCore.WebApi.Client
                 Client.DefaultRequestHeaders.Accept.Clear();
                 Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-               Client.DefaultRequestHeaders.Authorization = !string.IsNullOrEmpty(Token) ? new AuthenticationHeaderValue("Bearer", Token) : null;
+                Client.DefaultRequestHeaders.Authorization = !string.IsNullOrEmpty(Token) ? new AuthenticationHeaderValue("Bearer", Token) : null;
             }
             else
             {
