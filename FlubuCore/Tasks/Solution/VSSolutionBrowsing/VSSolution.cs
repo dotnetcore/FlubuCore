@@ -187,7 +187,7 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         {
             ForEachProject(projectInfo =>
             {
-                if (projectInfo.ProjectTypeGuid == VSProjectType.CSharpProjectType.ProjectTypeGuid)
+                if (projectInfo.ProjectTypeGuid == VSProjectType.CSharpProjectType.ProjectTypeGuid || projectInfo.ProjectTypeGuid == VSProjectType.NewCSharpProjectType.ProjectTypeGuid)
                     ((VSProjectWithFileInfo)projectInfo).Project = VSProject.Load(((VSProjectWithFileInfo)projectInfo).ProjectFileNameFull.ToString());
             });
         }

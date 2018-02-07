@@ -25,6 +25,8 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         /// <value>The <see cref="VSProjectType"/> for C# projects.</value>
         public static VSProjectType CSharpProjectType { get; } = new VSProjectType(new Guid("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"), "C# Project");
 
+        public static VSProjectType NewCSharpProjectType { get; } = new VSProjectType(new Guid("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}"), "New C# Project");
+
         /// <summary>
         /// Gets the <see cref="VSProjectType"/> for solution folders.
         /// </summary>

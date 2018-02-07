@@ -16,6 +16,7 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
             // add some common project types
             RegisterProjectType(VSProjectType.SolutionFolderProjectType);
             RegisterProjectType(VSProjectType.CSharpProjectType);
+            RegisterProjectType(VSProjectType.NewCSharpProjectType);
         }
 
         /// <summary>

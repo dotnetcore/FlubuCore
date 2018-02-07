@@ -77,7 +77,7 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         public LocalPath GetProjectOutputPath(string buildConfiguration)
         {
             // skip non-C# projects
-            if (ProjectTypeGuid != VSProjectType.CSharpProjectType.ProjectTypeGuid)
+            if (ProjectTypeGuid != VSProjectType.CSharpProjectType.ProjectTypeGuid && ProjectTypeGuid != VSProjectType.NewCSharpProjectType.ProjectTypeGuid)
                 return null;
 
             // find the project configuration
