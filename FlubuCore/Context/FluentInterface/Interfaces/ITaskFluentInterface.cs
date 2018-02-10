@@ -31,6 +31,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns></returns>
         CopyDirectoryStructureTask CopyDirectoryStructureTask(string sourcePath, string destinationPath, bool overwriteExisting);
 
+        /// <summary>
+        /// Execute NuGet command line tool.
+        /// </summary>
+        /// <param name="command">The nuget command to be executed. See nuget.exe help for command list.</param>
+        /// <param name="workingDirectory"></param>
+        /// <returns></returns>
         NuGetCmdLineTask NuGetCmdLineTask(string command, string workingDirectory = null);
 
         /// <summary>
@@ -63,12 +69,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         CompileSolutionTask CompileSolutionTask(string solutionFileName, string buildConfiguration);
 
         /// <summary>
-        /// Task load's solution information to the <see cref="BuildPropertiesSession"/> solution file name is retieved from <see cref="BuildPropertiesSession"/>
+        /// Task load's solution information to the <see cref="BuildPropertiesSession"/> <see cref="BuildProps.Solution"/> solution file name is retieved from <see cref="BuildPropertiesSession"/>
         /// </summary>
         LoadSolutionTask LoadSolutionTask();
 
         /// <summary>
-        /// Task load's specified solution information to the <see cref="BuildPropertiesSession"/>
+        /// Task load's specified vs solution information to the <see cref="BuildPropertiesSession"/> <see cref="BuildProps.Solution"/>.
         /// </summary>
         /// <param name="solutionFileName">The solution file name of the solution to be loaded.</param>
         LoadSolutionTask LoadSolutionTask(string solutionFileName);
@@ -81,34 +87,34 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         CoverageReportTask CoverageReportTask(params string[] inputFiles);
 
         /// <summary>
-        /// Cleans the output of all projects in the solution.
+        /// Cleans the output directories of all projects in the solution.
         /// </summary>
         /// <returns></returns>
         CleanOutputTask CleanOutputTask();
 
         /// <summary>
-        /// Task runs tests that are in specified project.
+        /// Task runs nunit tests that are in specified project with command line options for nunit v3.
         /// </summary>
         /// <param name="projectName"></param>
         /// <returns></returns>
         NUnitTask NUnitTaskForNunitV3(params string[] projectName);
 
         /// <summary>
-        /// Task runs tests that are in specified project.
+        /// Task runs nunit tests that are in specified project with command line options for nunit v2.
         /// </summary>
         /// <param name="projectName"></param>
         /// <returns></returns>
         NUnitTask NUnitTaskForNunitV2(params string[] projectName);
 
         /// <summary>
-        /// Task runs tests that are in specified project.
+        /// Task runs nunit tests that are in specified project without any default command line options.
         /// </summary>
         /// <param name="projectName"></param>
         /// <returns></returns>
         NUnitTask NUnitTaskByProjectName(params string[] projectName);
 
         /// <summary>
-        /// Task runs tests that are in specified assembly..
+        /// Task runs nunit tests that are in specified assembly..
         /// </summary>
         /// <param name="testAssemblyFileName"></param>
         /// <returns></returns>
@@ -130,6 +136,11 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="testAssemblyFileNames">The list of of file paths to the assemblies containing unit tests.</param>
         NUnitWithDotCoverTask NUnitWithDotCover(string nunitRunnerFileName, IList<string> testAssemblyFileNames);
 
+        /// <summary>
+        /// Task replaces specified tokens in given file.
+        /// </summary>
+        /// <param name="sourceFileName"></param>
+        /// <returns></returns>
         ReplaceTokensTask ReplaceTokensTask(string sourceFileName);
 
         /// <summary>
@@ -191,6 +202,10 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns></returns>
         IIisTaskFluentInterface IisTasks();
 
+        /// <summary>
+        /// Flubu web api specific tasks.
+        /// </summary>
+        /// <returns></returns>
         IWebApiFluentInterface FlubuWebApiTasks();
 
         /// <summary>
@@ -203,7 +218,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         CopyFileTask CopyFileTask(string sourceFileName, string destinationFileName, bool overwrite);
 
         /// <summary>
-        /// /Task creates directory.
+        /// Task creates directory.
         /// </summary>
         /// <param name="directoryPath"></param>
         /// <param name="forceRecreate">If <c>true</c> directory is deleted if it exists and then created again.</param>
@@ -219,7 +234,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         DeleteDirectoryTask DeleteDirectoryTask(string directoryPath, bool failIfNotExists);
 
         /// <summary>
-        /// Task deletes files
+        /// Task deletes files in specified directory.
         /// </summary>
         /// <param name="directoryPath">Path of the directoy files to be deleted in</param>
         /// <param name="filePattern">The search string to match against the names of files in path. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters but doesnt support regular expressions.</param>
