@@ -18,16 +18,16 @@ FlubuCore main build and FlubuCore system tests are also runned on linux machine
 * See wiki on github
 
 ### examples ###
-[**.net simple example**](https://github.com/flubu-core/examples/blob/master/MVC_NET4.61/BuildScripts/BuildScriptSimple.cs
+* [**.net simple example**](https://github.com/flubu-core/examples/blob/master/MVC_NET4.61/BuildScripts/BuildScriptSimple.cs
 )
 
-[**.net example**](https://github.com/flubu-core/examples/blob/master/MVC_NET4.61/BuildScripts/BuildScript.cs
+* [**.net example**](https://github.com/flubu-core/examples/blob/master/MVC_NET4.61/BuildScripts/BuildScript.cs
 )
 
-[**.net core example**](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScript.cs
+* [**.net core example**](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScript.cs
 )
 
-[**.deploy script example**](https://github.com/flubu-core/examples/blob/master/DeployScriptExample/BuildScript/DeployScript.cs
+* [**.deploy script example**](https://github.com/flubu-core/examples/blob/master/DeployScriptExample/BuildScript/DeployScript.cs
 )
 
 ### Contribution guidelines ###
