@@ -13,15 +13,22 @@ Flubu is A C# library for building projects and executing deployment scripts usi
 
 FlubuCore main build and FlubuCore system tests are also runned on linux machine but status can not be displayed because build serveris hosted on private server.
 
-### How do I get set up? ###
-
-* Clone repository
-* run dotnet restore in cmd
-* run dotnet flubu in cmd
-
 ### Documentation ###
 
 * See wiki on github
+
+### examples ###
+[**.net simple example**](https://github.com/flubu-core/examples/blob/master/MVC_NET4.61/BuildScripts/BuildScriptSimple.cs
+)
+
+[**.net example**](https://github.com/flubu-core/examples/blob/master/MVC_NET4.61/BuildScripts/BuildScript.cs
+)
+
+[**.net core example**](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScript.cs
+)
+
+[**.deploy script example**](https://github.com/flubu-core/examples/blob/master/DeployScriptExample/BuildScript/DeployScript.cs
+)
 
 ### Contribution guidelines ###
 
@@ -34,4 +41,6 @@ FlubuCore main build and FlubuCore system tests are also runned on linux machine
 
 [**Release notes**](https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt
 )
+
+
 
