@@ -13,6 +13,7 @@ using FlubuCore.WebApi.Infrastructure;
 using FlubuCore.WebApi.Repository;
 using FlubuCore.WebApi.Services;
 using FluentValidation.AspNetCore;
+using LiteDB;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -58,7 +59,8 @@ namespace FlubuCore.WebApi
                 .AddCommandComponents()
                 .AddScriptAnalyser()
                 .AddTasks();
-
+            var db = new LiteRepository("Filename=database.db");
+            services.AddSingleton(db);
             services.AddScoped<ApiExceptionFilter>();
             services.AddScoped<ValidateRequestModelAttribute>();
             services.AddScoped<EmailNotificationFilter>();
