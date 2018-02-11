@@ -5,6 +5,7 @@ using System.Text;
 using FlubuCore.Services;
 using FlubuCore.WebApi.Models;
 using FlubuCore.WebApi.Repository;
+using LiteDB;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 
@@ -23,23 +24,28 @@ namespace FlubuCore.WebApi.Tests.ClientTests
                 File.Delete("Users.json");
             }
 
-            _repository = new UserRepository();
             _hashService = new HashService();
+            LiteRepository = new LiteRepository("Filename=database.db");
+            _repository = new UserRepository(LiteRepository);
             var hashedPassword = _hashService.Hash("password");
-            var task = _repository.AddUserAsync(new User
+            LiteRepository.Engine.DropCollection("users");
+            _repository.AddUser(new User
             {
                 Username = "User",
                 Password = hashedPassword
             });
-            task.Wait();
+
             Server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
         }
 
         public TestServer Server { get; }
 
+        public LiteRepository LiteRepository { get; }
+
         public void Dispose()
         {
             Server?.Dispose();
+            LiteRepository?.Dispose();
         }
     }
 }

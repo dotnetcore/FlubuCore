@@ -6,62 +6,29 @@ using System.Threading.Tasks;
 using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Models;
 using FlubuCore.WebApi.Repository.Exceptions;
+using LiteDB;
 using Newtonsoft.Json;
+using FileMode = System.IO.FileMode;
 
 namespace FlubuCore.WebApi.Repository
 {
     public class UserRepository : IUserRepository
     {
-        public const string FileName = "Users.json";
+        private readonly LiteRepository _repository;
 
-        public async Task<List<User>> ListUsersAsync()
+        public UserRepository(LiteRepository repository)
         {
-            if (!File.Exists(FileName))
-            {
-                return new List<User>();
-            }
-
-            using (FileStream fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read))
-            {
-                using (StreamReader r = new StreamReader(fileStream))
-                {
-                    string json = await r.ReadToEndAsync();
-                    return JsonConvert.DeserializeObject<List<User>>(json);
-                }
-            }
+            _repository = repository;
         }
 
-        public async Task AddUserAsync(User user)
+        public List<User> ListUsersAsync()
         {
-            string newJson;
+            return _repository.Query<User>("users").ToList();
+        }
 
-            if (File.Exists(FileName))
-            {
-                using (FileStream fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read))
-                {
-                    using (StreamReader r = new StreamReader(fileStream))
-                    {
-                        string json = await r.ReadToEndAsync();
-
-                        List<User> persons = JsonConvert.DeserializeObject<List<User>>(json);
-                        if (persons.Exists(x => x.Username == user.Username))
-                        {
-                            throw new NotUniqueException($"Username {user.Username} already exists. ");
-                        }
-
-                        persons.Add(user);
-                        newJson = JsonConvert.SerializeObject(persons);
-                    }
-                }
-            }
-            else
-            {
-                List<User> persons = new List<User>();
-                persons.Add(user);
-                newJson = JsonConvert.SerializeObject(persons);
-            }
-
-            File.WriteAllText(FileName, newJson);
+        public void AddUser(User user)
+        {
+            _repository.Insert(user, "users");
         }
     }
 }

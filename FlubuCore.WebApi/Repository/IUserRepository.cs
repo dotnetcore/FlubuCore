@@ -8,8 +8,8 @@ namespace FlubuCore.WebApi.Repository
 {
     public interface IUserRepository
     {
-        Task<List<User>> ListUsersAsync();
+       List<User> ListUsersAsync();
 
-        Task AddUserAsync(User user);
+       void AddUser(User user);
     }
 }

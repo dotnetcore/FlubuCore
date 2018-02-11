@@ -33,22 +33,6 @@ namespace FlubuCore.WebApi.Tests.ClientTests
                 Directory.Delete("Scripts", true);
                 Directory.CreateDirectory("Scripts");
             }
-
-            if (File.Exists("Users.json"))
-            {
-                File.Delete("Users.json");
-            }
-
-            _repository = new UserRepository();
-            _hashService = new HashService();
-            var hashedPassword = _hashService.Hash("password");
-            var result = _repository.AddUserAsync(new User
-            {
-                Username = "User",
-                Password = hashedPassword
-            });
-
-            result.GetAwaiter().GetResult();
         }
 
         [Fact]
@@ -178,7 +162,8 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         {
             var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
-
+            File.Delete("Users.Json");
+            File.WriteAllText("Users.json", "test");
             var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.UploadScriptAsync(
                 new UploadScriptRequest
                 {

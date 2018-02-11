@@ -140,7 +140,7 @@ namespace FlubuCore.WebApi.Controllers
 
         private async Task<ClaimsIdentity> GetClaimsIdentity(GetTokenRequest user, Security security)
         {
-            var users = await _userRepository.ListUsersAsync();
+            var users = _userRepository.ListUsersAsync();
             var usr = users.FirstOrDefault(x => x.Username == user.Username);
             if (usr == null)
             {

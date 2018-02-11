@@ -21,21 +21,6 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         public PackagesClientTests(ClientFixture clientFixture)
             : base(clientFixture)
         {
-            if (File.Exists("Users.json"))
-            {
-                File.Delete("Users.json");
-            }
-
-            _repository = new UserRepository();
-            _hashService = new HashService();
-            var hashedPassword = _hashService.Hash("password");
-            var result = _repository.AddUserAsync(new User
-            {
-                Username = "User",
-                Password = hashedPassword
-            });
-
-            result.GetAwaiter().GetResult();
         }
 
         [Fact]

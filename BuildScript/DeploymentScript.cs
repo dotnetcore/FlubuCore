@@ -8,6 +8,7 @@ using FlubuCore.WebApi.Repository;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using FlubuCore.WebApi;
+using LiteDB;
 
 //#ass .\FlubuCore.WebApi\FlubuCore.WebApi.dll
 //#ass .\FlubuCore.WebApi\FlubuCore.WebApi.Model.dll
@@ -34,15 +35,18 @@ namespace DeploymentScript
             var json = File.ReadAllText("DeploymentConfig.json");
             config = JsonConvert.DeserializeObject<DeploymentConfig>(json);
             ValidateDeploymentConfig(config);
-
-            IUserRepository repository = new UserRepository();
-            var hashService = new HashService();
-
-            repository.AddUserAsync(new User
+            using (var db = new LiteRepository("FileName=database.db"))
             {
-                Username = config.Username,
-                Password = hashService.Hash(config.Password)
-            });
+
+                IUserRepository repository = new UserRepository(db);
+                var hashService = new HashService();
+
+                repository.AddUser(new User
+                {
+                    Username = config.Username,
+                    Password = hashService.Hash(config.Password)
+                });
+            }
 
             context.Tasks().UpdateJsonFileTask(@".\FlubuCore.WebApi\appsettings.json")
                 .Update(new KeyValuePair<string, JValue>("WebApiSettings.AllowScriptUpload", new JValue(config.AllowScriptUpload))).Execute(context);

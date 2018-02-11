@@ -24,13 +24,8 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         public AuthClientTests(ClientFixture clientFixture)
             : base(clientFixture)
         {
-            _repository = new UserRepository();
+            _repository = new UserRepository(clientFixture.LiteRepository);
             _hashService = new HashService();
-            if (File.Exists("Users.json"))
-            {
-                File.Delete("Users.json");
-            }
-
             if (File.Exists("Security.json"))
             {
                 File.Delete("Security.json");
@@ -40,12 +35,6 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task GetTokenTest()
         {
-            var hashedPassword = _hashService.Hash("password");
-            await _repository.AddUserAsync(new User
-            {
-                Username = "User",
-                Password = hashedPassword
-            });
             var result = await Client.GetToken(new GetTokenRequest
             {
                 Username = "User",
@@ -58,12 +47,6 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task GetTokenWrongPassowrdTest()
         {
-            var hashedPassword = _hashService.Hash("password");
-            await _repository.AddUserAsync(new User
-            {
-                Username = "User",
-                Password = hashedPassword
-            });
             var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.GetToken(
                 new GetTokenRequest
                 {
@@ -77,13 +60,6 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task DisableGetTokenAfterToManyFailedGetTokenAttemptsTest()
         {
-            var hashedPassword = _hashService.Hash("password");
-            await _repository.AddUserAsync(new User
-            {
-                Username = "User",
-                Password = hashedPassword
-            });
-
             for (int i = 0; i < 5; i++)
             {
                 try
@@ -112,12 +88,6 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task GetTokenWrongUsernameTest()
         {
-            var hashedPassword = _hashService.Hash("password");
-            await _repository.AddUserAsync(new User
-            {
-                Username = "User",
-                Password = hashedPassword
-            });
             var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.GetToken(
                 new GetTokenRequest
                 {
