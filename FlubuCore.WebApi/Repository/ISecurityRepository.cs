@@ -8,7 +8,7 @@ namespace FlubuCore.WebApi.Repository
 {
     public interface ISecurityRepository
     {
-        Task<Security> GetSecurityAsync();
+        Security GetSecurityAsync();
 
         void IncreaseFailedGetTokenAttempts(Security security);
     }

@@ -64,8 +64,7 @@ namespace FlubuCore.WebApi.Controllers
         [EmailNotificationFilter(NotificationFilter.GetToken)]
         public async Task<IActionResult> GetToken([FromBody] GetTokenRequest applicationUser)
         {
-            var securityTask = _securityRepository.GetSecurityAsync();
-            var security = await securityTask;
+            var security = _securityRepository.GetSecurityAsync();
 
             if (security.ApiAccessDisabled)
             {

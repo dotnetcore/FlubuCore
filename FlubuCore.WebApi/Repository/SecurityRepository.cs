@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Models;
 using FlubuCore.WebApi.Repository.Exceptions;
+using LiteDB;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using FileMode = System.IO.FileMode;
 
 namespace FlubuCore.WebApi.Repository
 {
@@ -17,27 +19,26 @@ namespace FlubuCore.WebApi.Repository
 
         private readonly WebApiSettings _webApiSettings;
 
-        public SecurityRepository(IOptions<WebApiSettings> webApiSettings)
+        private readonly LiteRepository _repository;
+
+        public SecurityRepository(IOptions<WebApiSettings> webApiSettings, LiteRepository repository)
         {
+            _repository = repository;
             _webApiSettings = webApiSettings.Value;
-            if (!File.Exists(FileName))
-            {
-                Security security = new Security();
-                var json = JsonConvert.SerializeObject(security);
-                File.WriteAllText(FileName, json);
-            }
         }
 
-        public async Task<Security> GetSecurityAsync()
+        public Security GetSecurityAsync()
         {
-            using (FileStream fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read))
+            var security = _repository.FirstOrDefault<Security>();
+
+            if (security != null)
             {
-                using (StreamReader r = new StreamReader(fileStream))
-                {
-                    string json = await r.ReadToEndAsync();
-                    return JsonConvert.DeserializeObject<Security>(json);
-                }
+                return security;
             }
+
+            security = new Security();
+            _repository.Insert(security, "security");
+            return security;
         }
 
         public void IncreaseFailedGetTokenAttempts(Security security)
@@ -49,8 +50,7 @@ namespace FlubuCore.WebApi.Repository
                 security.FailedGetTokenAttempts = 0;
             }
 
-            var json = JsonConvert.SerializeObject(security);
-            File.WriteAllText(FileName, json);
+            _repository.Update(security);
         }
     }
 }

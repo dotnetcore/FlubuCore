@@ -26,10 +26,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         {
             _repository = new UserRepository(clientFixture.LiteRepository);
             _hashService = new HashService();
-            if (File.Exists("Security.json"))
-            {
-                File.Delete("Security.json");
-            }
+            clientFixture.LiteRepository.Engine.DropCollection("security");
         }
 
         [Fact]

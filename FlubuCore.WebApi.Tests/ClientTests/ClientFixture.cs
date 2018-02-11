@@ -19,11 +19,6 @@ namespace FlubuCore.WebApi.Tests.ClientTests
 
         public ClientFixture()
         {
-            if (File.Exists("Users.json"))
-            {
-                File.Delete("Users.json");
-            }
-
             _hashService = new HashService();
             LiteRepository = new LiteRepository("Filename=database.db");
             _repository = new UserRepository(LiteRepository);
