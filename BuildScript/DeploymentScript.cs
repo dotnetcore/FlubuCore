@@ -13,6 +13,8 @@ using LiteDB;
 //#ass .\FlubuCore.WebApi\FlubuCore.WebApi.dll
 //#ass .\FlubuCore.WebApi\FlubuCore.WebApi.Model.dll
 //#ass .\lib\Newtonsoft.Json.dll
+//#ass .\lib\LiteDB.dll
+
 namespace DeploymentScript
 {
     public class DeploymentScript : DefaultBuildScript

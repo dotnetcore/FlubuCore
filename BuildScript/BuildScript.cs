@@ -71,6 +71,7 @@ public class MyBuildScript : DefaultBuildScript
                 .AddFileToPackage("BuildScript\\Deploy.csproj", "")
                 .AddFileToPackage("BuildScript\\Deploy.bat", "")
                 .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
+                .AddFileToPackage(@"packages\litedb\4.1.1\lib\netstandard1.3\LiteDB.dll", "lib")
                 .DisableLogging()
                 .ZipPackage("FlubuCore.WebApi-NetCoreApp2.0", true));
 
