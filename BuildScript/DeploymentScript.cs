@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using FlubuCore.WebApi;
 using LiteDB;
 
+//#ass  .\lib\System.Reflection.TypeExtensions.dll
 //#ass .\FlubuCore.WebApi\FlubuCore.WebApi.dll
 //#ass .\FlubuCore.WebApi\FlubuCore.WebApi.Model.dll
 //#ass .\lib\Newtonsoft.Json.dll
@@ -56,7 +57,7 @@ namespace DeploymentScript
             context.Tasks().UpdateJsonFileTask(@".\FlubuCore.WebApi\appsettings.json")
                 .Update("JwtOptions.SecretKey", GenerateRandomString(30)).Execute(context);
 
-            context.Tasks().CopyFileTask("Users.json", "FlubuCore.WebApi\\Users.json", true).Execute(context);
+            context.Tasks().CopyFileTask("Database.db", "FlubuCore.WebApi\\Database.db", true).Execute(context);
 
             context.Tasks().CopyDirectoryStructureTask("FlubuCore.Webapi", config.DeploymentPath, true).Execute(context);
             context.Tasks().CreateDirectoryTask(config.DeploymentPath + "\\Packages", false).Execute(context);
