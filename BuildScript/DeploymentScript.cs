@@ -38,7 +38,22 @@ namespace DeploymentScript
             var json = File.ReadAllText("DeploymentConfig.json");
             config = JsonConvert.DeserializeObject<DeploymentConfig>(json);
             ValidateDeploymentConfig(config);
-            using (var db = new LiteRepository("FileName=database.db"))
+
+            string connectionString;
+            if (!string.IsNullOrWhiteSpace(config.LiteDbConnectionString))
+            {
+                connectionString = config.LiteDbConnectionString;
+            }
+            else
+            {
+                var liteDbPassword = GenerateRandomString(12);
+                connectionString = $"FileName=database.db Password={liteDbPassword}";
+            }
+
+            context.Tasks().UpdateJsonFileTask(@".\FlubuCore.WebApi\appsettings.json")
+                .Update(new KeyValuePair<string, JValue>("FlubuConnectionStrings.LiteDbConnectionString", new JValue(connectionString))).Execute(context);
+
+            using (var db = new LiteRepository(connectionString))
             {
 
                 IUserRepository repository = new UserRepository(db);
@@ -107,5 +122,7 @@ namespace DeploymentScript
         public bool AllowScriptUpload { get; set; }
 
         public string DeploymentPath { get; set; }
+
+        public string LiteDbConnectionString { get; set; }
     }
 }
