@@ -59,7 +59,11 @@ namespace FlubuCore.WebApi
                 .AddCommandComponents()
                 .AddScriptAnalyser()
                 .AddTasks();
-            var db = new LiteRepository("Filename=database.db");
+
+            var connectionStrings = Configuration.GetSection("FlubuConnectionStrings");
+            var liteDbConnectionString = connectionStrings["LiteDbConnectionString"];
+
+            var db = new LiteRepository(liteDbConnectionString);
             services.AddSingleton(db);
             services.AddScoped<ApiExceptionFilter>();
             services.AddScoped<ValidateRequestModelAttribute>();
