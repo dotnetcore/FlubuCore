@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using FlubuCore.Context;
 using System.IO;
-using System.Net;
 using FlubuCore.WebApi.Models;
 using FlubuCore.WebApi.Repository;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using FlubuCore.WebApi;
+using FlubuCore.WebApi.Infrastructure;
 using LiteDB;
 
 //#ass  .\lib\System.Reflection.TypeExtensions.dll
@@ -51,33 +51,66 @@ namespace DeploymentScript
                 connectionString = $"FileName=database.db; Password={liteDbPassword}";
             }
 
+            bool createDb = false;
+            var fileName = Files.GetFileNameFromConnectionString(connectionString);
+            var isPathRooted = Path.IsPathRooted(fileName);
+
+            if (config.RecreateDatabase)
+            {
+                createDb = true;
+            }
+            else
+            {
+                if (isPathRooted)
+                {
+                    if (!File.Exists(fileName))
+                    {
+                        createDb = true;
+                    }
+                }
+                else
+                {
+                    var dbPath = Path.Combine(config.DeploymentPath, fileName);
+                    if (!File.Exists(dbPath))
+                    {
+                        createDb = true;
+                    }
+                }
+            }
+
+            if (createDb)
+            {
+                using (var db = new LiteRepository(connectionString))
+                {
+                    IUserRepository repository = new UserRepository(db);
+                    var hashService = new HashService();
+
+                    repository.AddUser(new User
+                    {
+                        Username = config.Username,
+                        Password = hashService.Hash(config.Password),
+                    });
+                }
+
+                if (!isPathRooted)
+                {
+                    context.Tasks().CopyFileTask(fileName, Path.Combine("FlubuCore.WebApi", fileName), true).Execute(context);
+                }
+            }
+
             context.Tasks().UpdateJsonFileTask(@".\FlubuCore.WebApi\appsettings.json")
                 .Update(new KeyValuePair<string, JValue>("FlubuConnectionStrings.LiteDbConnectionString", new JValue(connectionString))).Execute(context);
-
-            using (var db = new LiteRepository(connectionString))
-            {
-
-                IUserRepository repository = new UserRepository(db);
-                var hashService = new HashService();
-
-                repository.AddUser(new User
-                {
-                    Username = config.Username,
-                    Password = hashService.Hash(config.Password)
-                });
-            }
 
             context.Tasks().UpdateJsonFileTask(@".\FlubuCore.WebApi\appsettings.json")
                 .Update(new KeyValuePair<string, JValue>("WebApiSettings.AllowScriptUpload", new JValue(config.AllowScriptUpload))).Execute(context);
 
             context.Tasks().UpdateJsonFileTask(@".\FlubuCore.WebApi\appsettings.json")
                 .Update("JwtOptions.SecretKey", GenerateRandomString(30)).Execute(context);
-
-            context.Tasks().CopyFileTask("Database.db", "FlubuCore.WebApi\\Database.db", true).Execute(context);
-
-            context.Tasks().CopyDirectoryStructureTask("FlubuCore.Webapi", config.DeploymentPath, true).Execute(context);
             context.Tasks().CreateDirectoryTask(config.DeploymentPath + "\\Packages", false).Execute(context);
             context.Tasks().CreateDirectoryTask(config.DeploymentPath + "\\Scripts", false).Execute(context);
+
+
+            context.Tasks().CopyDirectoryStructureTask("FlubuCore.Webapi", config.DeploymentPath, true).Execute(context);
         }
 
         private static void ValidateDeploymentConfig(DeploymentConfig config)
@@ -109,7 +142,7 @@ namespace DeploymentScript
                 stringChars[i] = chars[random.Next(chars.Length)];
             }
 
-            return new String(stringChars);
+            return new string(stringChars);
         }
 
     }
@@ -119,6 +152,8 @@ namespace DeploymentScript
         public string Username { get; set; }
 
         public string Password { get; set; }
+
+        public bool RecreateDatabase { get; set; }
 
         public bool AllowScriptUpload { get; set; }
 
