@@ -47,7 +47,7 @@ namespace DeploymentScript
             else
             {
                 var liteDbPassword = GenerateRandomString(12);
-                connectionString = $"FileName=database.db Password={liteDbPassword}";
+                connectionString = $"FileName=database.db; Password={liteDbPassword}";
             }
 
             context.Tasks().UpdateJsonFileTask(@".\FlubuCore.WebApi\appsettings.json")
