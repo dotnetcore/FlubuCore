@@ -40,75 +40,80 @@ namespace DeploymentScript
             config = JsonConvert.DeserializeObject<DeploymentConfig>(json);
             ValidateDeploymentConfig(config);
 
-            string connectionString;
-            if (!string.IsNullOrWhiteSpace(config.LiteDbConnectionString))
+            if (!config.CopyOnlyBinaries)
             {
-                connectionString = config.LiteDbConnectionString;
-            }
-            else
-            {
-                var liteDbPassword = GenerateRandomString(12);
-                connectionString = $"FileName=database.db; Password={liteDbPassword}";
-            }
-
-            bool createDb = false;
-            var fileName = Files.GetFileNameFromConnectionString(connectionString);
-            var isPathRooted = Path.IsPathRooted(fileName);
-
-            if (config.RecreateDatabase)
-            {
-                createDb = true;
-            }
-            else
-            {
-                if (isPathRooted)
+                string connectionString;
+                if (!string.IsNullOrWhiteSpace(config.LiteDbConnectionString))
                 {
-                    if (!File.Exists(fileName))
-                    {
-                        createDb = true;
-                    }
+                    connectionString = config.LiteDbConnectionString;
                 }
                 else
                 {
-                    var dbPath = Path.Combine(config.DeploymentPath, fileName);
-                    if (!File.Exists(dbPath))
+                    var liteDbPassword = GenerateRandomString(12);
+                    connectionString = $"FileName=database.db; Password={liteDbPassword}";
+                }
+
+                bool createDb = false;
+                var fileName = Files.GetFileNameFromConnectionString(connectionString);
+                var isPathRooted = Path.IsPathRooted(fileName);
+
+                if (config.RecreateDatabase)
+                {
+                    createDb = true;
+                }
+                else
+                {
+                    if (isPathRooted)
                     {
-                        createDb = true;
+                        if (!File.Exists(fileName))
+                        {
+                            createDb = true;
+                        }
+                    }
+                    else
+                    {
+                        var dbPath = Path.Combine(config.DeploymentPath, fileName);
+                        if (!File.Exists(dbPath))
+                        {
+                            createDb = true;
+                        }
                     }
                 }
-            }
 
-            if (createDb)
-            {
-                using (var db = new LiteRepository(connectionString))
+                if (createDb)
                 {
-                    IUserRepository repository = new UserRepository(db);
-                    var hashService = new HashService();
-
-                    repository.AddUser(new User
+                    using (var db = new LiteRepository(connectionString))
                     {
-                        Username = config.Username,
-                        Password = hashService.Hash(config.Password),
-                    });
+                        IUserRepository repository = new UserRepository(db);
+                        var hashService = new HashService();
+
+                        repository.AddUser(new User
+                        {
+                            Username = config.Username,
+                            Password = hashService.Hash(config.Password),
+                        });
+                    }
+
+                    if (!isPathRooted)
+                    {
+                        context.Tasks().CopyFileTask(fileName, Path.Combine("FlubuCore.WebApi", fileName), true)
+                            .Execute(context);
+                    }
                 }
 
-                if (!isPathRooted)
-                {
-                    context.Tasks().CopyFileTask(fileName, Path.Combine("FlubuCore.WebApi", fileName), true).Execute(context);
-                }
+                context.Tasks().UpdateJsonFileTask(@".\FlubuCore.WebApi\appsettings.json")
+                    .Update(new KeyValuePair<string, JValue>("FlubuConnectionStrings.LiteDbConnectionString",
+                        new JValue(connectionString))).Execute(context);
+
+                context.Tasks().UpdateJsonFileTask(@".\FlubuCore.WebApi\appsettings.json")
+                    .Update(new KeyValuePair<string, JValue>("WebApiSettings.AllowScriptUpload",
+                        new JValue(config.AllowScriptUpload))).Execute(context);
+
+                context.Tasks().UpdateJsonFileTask(@".\FlubuCore.WebApi\appsettings.json")
+                    .Update("JwtOptions.SecretKey", GenerateRandomString(30)).Execute(context);
+                context.Tasks().CreateDirectoryTask(config.DeploymentPath + "\\Packages", false).Execute(context);
+                context.Tasks().CreateDirectoryTask(config.DeploymentPath + "\\Scripts", false).Execute(context);
             }
-
-            context.Tasks().UpdateJsonFileTask(@".\FlubuCore.WebApi\appsettings.json")
-                .Update(new KeyValuePair<string, JValue>("FlubuConnectionStrings.LiteDbConnectionString", new JValue(connectionString))).Execute(context);
-
-            context.Tasks().UpdateJsonFileTask(@".\FlubuCore.WebApi\appsettings.json")
-                .Update(new KeyValuePair<string, JValue>("WebApiSettings.AllowScriptUpload", new JValue(config.AllowScriptUpload))).Execute(context);
-
-            context.Tasks().UpdateJsonFileTask(@".\FlubuCore.WebApi\appsettings.json")
-                .Update("JwtOptions.SecretKey", GenerateRandomString(30)).Execute(context);
-            context.Tasks().CreateDirectoryTask(config.DeploymentPath + "\\Packages", false).Execute(context);
-            context.Tasks().CreateDirectoryTask(config.DeploymentPath + "\\Scripts", false).Execute(context);
-
 
             context.Tasks().CopyDirectoryStructureTask("FlubuCore.Webapi", config.DeploymentPath, true).Execute(context);
         }
@@ -118,6 +123,11 @@ namespace DeploymentScript
             if (string.IsNullOrEmpty(config.DeploymentPath))
             {
                 throw new ArgumentException("DeploymentPath must not be empty in deployment config.");
+            }
+
+            if (config.CopyOnlyBinaries)
+            {
+                return;
             }
 
             if (string.IsNullOrEmpty(config.Username))
@@ -154,6 +164,8 @@ namespace DeploymentScript
         public string Password { get; set; }
 
         public bool RecreateDatabase { get; set; }
+
+        public bool CopyOnlyBinaries { get; set; }
 
         public bool AllowScriptUpload { get; set; }
 
