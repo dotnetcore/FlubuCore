@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.WebApi.Infrastructure;
 using Xunit;
 
 namespace Flubu.Tests
 {
-    public class DeploymentScriptTests
+    public class FilesTests
     {
         [Theory]
         [InlineData("FileName=database.db; Password=fsafa")]
@@ -20,7 +21,7 @@ namespace Flubu.Tests
         [InlineData("FileName=database.db;")]
         public void GetFileNameFromConnectionString_CorrectConnectionString_Succesfull(string connectionString)
         {
-            var fileName = DeploymentScript.DeploymentScript.GetFileNameFromConnectionString(connectionString);
+            var fileName = Files.GetFileNameFromConnectionString(connectionString);
             Assert.Equal("database.db", fileName);
         }
 
@@ -35,7 +36,7 @@ namespace Flubu.Tests
         [InlineData(null)]
         public void GetFileNameFromConnectionString_IncorectConnectionString_Succesfull(string connectionString)
         {
-            var fileName = DeploymentScript.DeploymentScript.GetFileNameFromConnectionString(connectionString);
+            var fileName = Files.GetFileNameFromConnectionString(connectionString);
             Assert.Null(fileName);
         }
     }

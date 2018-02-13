@@ -80,40 +80,6 @@ namespace DeploymentScript
             context.Tasks().CreateDirectoryTask(config.DeploymentPath + "\\Scripts", false).Execute(context);
         }
 
-        public static string GetFileNameFromConnectionString(string connectionString)
-        {
-            if (string.IsNullOrWhiteSpace(connectionString))
-            {
-                return null;
-            }
-        
-            var startIndex = connectionString.IndexOf("FileName=", StringComparison.OrdinalIgnoreCase);
-
-            if (startIndex == -1)
-            {
-                return null;
-            }
-
-            var fileName = connectionString.Substring(startIndex, connectionString.Length - startIndex);
-            fileName = fileName.Substring(fileName.IndexOf('=') + 1);
-            if (fileName.Contains(" "))
-            {
-                fileName = fileName.Substring(0, fileName.IndexOf(' '));
-            }
-
-            if (fileName.Contains(";"))
-            {
-                fileName = fileName.Substring(0, fileName.IndexOf(';'));
-            }
-
-            if (string.IsNullOrWhiteSpace(fileName))
-            {
-                return null;
-            }
-
-            return fileName;
-        }
-
         private static void ValidateDeploymentConfig(DeploymentConfig config)
         {
             if (string.IsNullOrEmpty(config.DeploymentPath))
