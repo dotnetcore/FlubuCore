@@ -39,6 +39,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Build.csproj" />
     <ProjectReference Include="..\dotnet-flubu\dotnet-flubu.csproj" />
   </ItemGroup>
   <ItemGroup>
