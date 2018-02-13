@@ -11,7 +11,7 @@ Flubu is A C# library for building projects and executing deployment scripts usi
 | Flubu cli tool System tests - tests on .net core 1.1 csproj project  | Windows| [![Build Status](http://lucidlynx.comtrade.com:8080/buildStatus/icon?job=FlubuCore_SystemTests_Net_Core_csproj)](http://lucidlynx.comtrade.com:8080/job/FlubuCore_SystemTests_Net_Core_csproj) | &nbsp;
 | Flubu cli tool System tests - tests on .net core 1.1  xproj project  | Windows| [![Build Status](http://lucidlynx.comtrade.com:8080/buildStatus/icon?job=FlubuCore_SystemTests_.Net_Core_xproj)](http://lucidlynx.comtrade.com:8080/job/FlubuCore_SystemTests_.Net_Core_xproj) | &nbsp;
 
-FlubuCore main build and FlubuCore system tests are also runned on linux machine but status can not be displayed because build serveris hosted on private server.
+FlubuCore main build and FlubuCore system tests are also runned on linux machine but status can not be displayed because build server is hosted on private server.
 
 ### Documentation ###
 
