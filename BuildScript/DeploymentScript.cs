@@ -54,8 +54,8 @@ namespace DeploymentScript
                 }
 
                 bool createDb = false;
-                var fileName = Files.GetFileNameFromConnectionString(connectionString);
-                var isPathRooted = Path.IsPathRooted(fileName);
+                var dbFileName = Files.GetFileNameFromConnectionString(connectionString);
+                var isPathRooted = Path.IsPathRooted(dbFileName);
 
                 if (config.RecreateDatabase)
                 {
@@ -65,14 +65,14 @@ namespace DeploymentScript
                 {
                     if (isPathRooted)
                     {
-                        if (!File.Exists(fileName))
+                        if (!File.Exists(dbFileName))
                         {
                             createDb = true;
                         }
                     }
                     else
                     {
-                        var dbPath = Path.Combine(config.DeploymentPath, fileName);
+                        var dbPath = Path.Combine(config.DeploymentPath, dbFileName);
                         if (!File.Exists(dbPath))
                         {
                             createDb = true;
@@ -82,6 +82,7 @@ namespace DeploymentScript
 
                 if (createDb)
                 {
+                    File.Delete(dbFileName);
                     using (var db = new LiteRepository(connectionString))
                     {
                         IUserRepository repository = new UserRepository(db);
@@ -96,7 +97,7 @@ namespace DeploymentScript
 
                     if (!isPathRooted)
                     {
-                        context.Tasks().CopyFileTask(fileName, Path.Combine("FlubuCore.WebApi", fileName), true)
+                        context.Tasks().CopyFileTask(dbFileName, Path.Combine("FlubuCore.WebApi", dbFileName), true)
                             .Execute(context);
                     }
                 }
