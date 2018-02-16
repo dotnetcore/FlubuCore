@@ -39,24 +39,23 @@ namespace DeploymentScript
             var json = File.ReadAllText("DeploymentConfig.json");
             config = JsonConvert.DeserializeObject<DeploymentConfig>(json);
             ValidateDeploymentConfig(config);
+            string connectionString;
+            if (!string.IsNullOrWhiteSpace(config.LiteDbConnectionString))
+            {
+                connectionString = config.LiteDbConnectionString;
+            }
+            else
+            {
+                var liteDbPassword = GenerateRandomString(12);
+                connectionString = $"FileName=database.db; Password={liteDbPassword}";
+            }
+
+            bool createDb = false;
+            var dbFileName = Files.GetFileNameFromConnectionString(connectionString);
+            var isPathRooted = Path.IsPathRooted(dbFileName);
 
             if (!config.CopyOnlyBinaries)
             {
-                string connectionString;
-                if (!string.IsNullOrWhiteSpace(config.LiteDbConnectionString))
-                {
-                    connectionString = config.LiteDbConnectionString;
-                }
-                else
-                {
-                    var liteDbPassword = GenerateRandomString(12);
-                    connectionString = $"FileName=database.db; Password={liteDbPassword}";
-                }
-
-                bool createDb = false;
-                var dbFileName = Files.GetFileNameFromConnectionString(connectionString);
-                var isPathRooted = Path.IsPathRooted(dbFileName);
-
                 if (config.RecreateDatabase)
                 {
                     createDb = true;
@@ -97,8 +96,19 @@ namespace DeploymentScript
 
                     if (!isPathRooted)
                     {
-                        context.Tasks().CopyFileTask(dbFileName, Path.Combine("FlubuCore.WebApi", dbFileName), true)
+                        var outputDbFilePath = Path.Combine("FlubuCore.WebApi", dbFileName);
+
+                        context.Tasks().CopyFileTask(dbFileName, outputDbFilePath, true)
                             .Execute(context);
+                    }
+                }
+                else
+                {
+                    ////Delete old db file if it exists so it doesnt rewrite database at deployed location.
+                    var outputDbFilePath = Path.Combine("FlubuCore.WebApi", dbFileName);
+                    if (File.Exists(outputDbFilePath))
+                    {
+                        File.Delete(outputDbFilePath);
                     }
                 }
 
@@ -114,6 +124,15 @@ namespace DeploymentScript
                     .Update("JwtOptions.SecretKey", GenerateRandomString(30)).Execute(context);
                 context.Tasks().CreateDirectoryTask(config.DeploymentPath + "\\Packages", false).Execute(context);
                 context.Tasks().CreateDirectoryTask(config.DeploymentPath + "\\Scripts", false).Execute(context);
+            }
+            else
+            {
+                ////Delete old db file if it exists so it doesnt rewrite database at deployed location.
+                var outputDbFilePath = Path.Combine("FlubuCore.WebApi", dbFileName);
+                if (File.Exists(outputDbFilePath))
+                {
+                    File.Delete(outputDbFilePath);
+                }
             }
 
             context.Tasks().CopyDirectoryStructureTask("FlubuCore.Webapi", config.DeploymentPath, true).Execute(context);
