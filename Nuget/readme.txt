@@ -9,3 +9,6 @@
 - You can find detailed examples of how flubu is used at https://github.com/flubu-core/examples
 - You can find release notes at: https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt
 - Have a question? Create a new issue at: https://github.com/flubu-core/flubu.core/issues
+- If u find a bug please report it :)
+- If u have any improvement or feature proposal's we would be glad to hear from you. Add new issue as proposal on github and we will discuss it with you.
+- If u want to fix a bug yourself, improve or add new feature to flubu.. Fork, Pull request but first add new issue on github so we discuss it.
