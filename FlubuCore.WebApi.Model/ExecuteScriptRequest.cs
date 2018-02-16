@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace FlubuCore.WebApi.Model
 {
@@ -11,5 +12,10 @@ namespace FlubuCore.WebApi.Model
         public string ScriptFileName { get; set; }
 
         public Dictionary<string, string> ScriptArguments { get; set; }
+
+        public override string ToString()
+        {
+            return $"TargetToExecute: '{TargetToExecute}' RemainingCommands: '{string.Join(", ", RemainingCommands)}', ScriptFileName '{ScriptFileName}', ScriptArguments:'{string.Join(";", ScriptArguments)}'.";
+        }
     }
 }

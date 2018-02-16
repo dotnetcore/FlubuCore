@@ -16,5 +16,10 @@ namespace FlubuCore.WebApi.Model
         /// can contain a combination of valid literal path and wildcard (such as * and ?) characters, but doesn't support regular expressions.
         /// </summary>
         public string PackageSearchPattern { get; set; }
+
+        public override string ToString()
+        {
+            return $"DirectoryPath: '{DirectoryPath}', PackageSeatchPattern: '{PackageSearchPattern}'";
+        }
     }
 }

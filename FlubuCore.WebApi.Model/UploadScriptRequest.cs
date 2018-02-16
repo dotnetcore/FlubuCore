@@ -7,5 +7,10 @@ namespace FlubuCore.WebApi.Model
     public class UploadScriptRequest
     {
         public string FilePath { get; set; }
+
+        public override string ToString()
+        {
+            return $"FilePath '{FilePath}'";
+        }
     }
 }
