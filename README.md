@@ -31,9 +31,9 @@ FlubuCore main build and FlubuCore system tests are also runned on linux machine
 )
 
 ### Contribution guidelines ###
-
-* Add new issue as proposal
-* Fork, Pull request.
+* If u find a bug please report it :) 
+* If u have any improvement or feature proposal's we would be glad to hear from you. Add new issue as proposal and we will discuss it with you.
+* If u want to fix a bug yourself, improve or add new feature to flubu.. Fork, Pull request but first add new issue so we discuss it.
 
 ### Who do I talk to? ###
 
