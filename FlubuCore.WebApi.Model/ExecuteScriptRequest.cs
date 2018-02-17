@@ -15,7 +15,19 @@ namespace FlubuCore.WebApi.Model
 
         public override string ToString()
         {
-            return $"TargetToExecute: '{TargetToExecute}' RemainingCommands: '{string.Join(", ", RemainingCommands)}', ScriptFileName '{ScriptFileName}', ScriptArguments:'{string.Join(";", ScriptArguments)}'.";
+            string remainingCommans = null;
+            if (RemainingCommands != null)
+            {
+                remainingCommans = $"RemainingCommands: '{string.Join(", ", RemainingCommands)}'";
+            }
+
+            string scriptArguments = null;
+            if (ScriptArguments != null)
+            {
+                scriptArguments = $"ScriptArguments:'{string.Join(";", ScriptArguments)}'";
+            }
+
+            return $"TargetToExecute: '{TargetToExecute}' , ScriptFileName '{ScriptFileName}', {scriptArguments} {remainingCommans}.";
         }
     }
 }
