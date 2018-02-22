@@ -21,7 +21,10 @@ namespace FlubuCore.Tasks
         private readonly List<(Expression<Func<TTask, object>> Member, string ArgKey, bool includeParameterlessMethodByDefault)> _forMembers = new List<(Expression<Func<TTask, object>> Member, string ArgKey, bool includeParameterlessMethodByDefault)>();
 
         private int _retriedTimes;
+
         private string _taskName;
+
+        private Action _doNotFailOnErrorAction;
 
         internal List<(string argumentKey, string help)> ArgumentHelp { get; } = new List<(string argumentKey, string help)>();
 
@@ -91,10 +94,10 @@ namespace FlubuCore.Tasks
         protected virtual bool LogDuration => false;
 
         /// <inheritdoc />
-        public TTask DoNotFailOnError()
+        public TTask DoNotFailOnError(Action doNotFailOnErrorAction = null)
         {
             DoNotFail = true;
-
+            _doNotFailOnErrorAction = doNotFailOnErrorAction;
             return this as TTask;
         }
 
@@ -205,6 +208,7 @@ namespace FlubuCore.Tasks
                 {
                     if (DoNotFail)
                     {
+                        _doNotFailOnErrorAction?.Invoke();
                         return default(TResult);
                     }
 
@@ -222,6 +226,7 @@ namespace FlubuCore.Tasks
 
                 if (DoNotFail)
                 {
+                    _doNotFailOnErrorAction?.Invoke();
                     return default(TResult);
                 }
 
@@ -263,6 +268,7 @@ namespace FlubuCore.Tasks
                 {
                     if (DoNotFail)
                     {
+                        _doNotFailOnErrorAction?.Invoke();
                         return default(TResult);
                     }
 
@@ -280,6 +286,7 @@ namespace FlubuCore.Tasks
 
                 if (DoNotFail)
                 {
+                    _doNotFailOnErrorAction?.Invoke();
                     return default(TResult);
                 }
 
