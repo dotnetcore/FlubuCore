@@ -261,6 +261,11 @@ namespace FlubuCore.Tasks
             {
                 if (!DoRetry)
                 {
+                    if (DoNotFail)
+                    {
+                        return default(TResult);
+                    }
+
                     throw;
                 }
 
@@ -271,6 +276,11 @@ namespace FlubuCore.Tasks
                     contextInternal.LogInfo($"Retriying for {_retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
                     await Task.Delay(RetryDelay);
                     return await ExecuteAsync(context);
+                }
+
+                if (DoNotFail)
+                {
+                    return default(TResult);
                 }
 
                 throw;
