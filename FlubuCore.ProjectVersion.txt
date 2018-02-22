@@ -1,3 +1,6 @@
+2.3.4.0
+- fixed all tasks to check for NoLog flag when logging
+
 2.3.3.0
 - Project loading: Added support for new project type - fixes cleanup task for new project types.
 - Improved CleanupOutputTask: Added some new fluent interface options
