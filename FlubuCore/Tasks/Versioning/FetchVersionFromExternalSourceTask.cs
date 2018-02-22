@@ -88,7 +88,7 @@ namespace FlubuCore.Tasks.Versioning
                 revisionNumber ?? current.Revision);
 
             context.SetBuildVersion(newVer);
-            context.LogInfo($"Updated version to {newVer.ToString(4)}");
+            DoLogInfo($"Updated version to {newVer.ToString(4)}");
             return newVer;
         }
     }

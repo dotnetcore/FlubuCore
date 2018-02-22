@@ -31,7 +31,7 @@ namespace FlubuCore.Tasks.Nuget
 
             if (!Directory.Exists(DownloadNugetPackageInUserRepositoryTask.NuGetPackagesCacheDir))
             {
-                context.LogInfo($"Flubu NuGet user repository directory '{DownloadNugetPackageInUserRepositoryTask.NuGetPackagesCacheDir}' does not exist.");
+                DoLogInfo($"Flubu NuGet user repository directory '{DownloadNugetPackageInUserRepositoryTask.NuGetPackagesCacheDir}' does not exist.");
                 return -1;
             }
 
@@ -54,7 +54,7 @@ namespace FlubuCore.Tasks.Nuget
                 }
             }
 
-            context.LogInfo(_packageVersion != null
+            DoLogInfo(_packageVersion != null
                 ? $"Found NuGet package {_packageId} version {_packageVersion} in user repository ('{_packageDirectory}')"
                 : $"No NuGet package {_packageId} in user repository (should be at '{_packageDirectory}')");
 

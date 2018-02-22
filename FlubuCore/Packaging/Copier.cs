@@ -23,13 +23,13 @@ namespace FlubuCore.Packaging
             {
                 if (!Directory.Exists(directoryName))
                 {
-                    _taskContext.LogInfo(string.Format("Creating directory '{0}'", directoryName));
+                    _taskContext.LogInfo($"Creating directory '{directoryName}'");
                     Directory.CreateDirectory(directoryName);
                 }
             }
 
             if (_logCopiedFiles)
-                    _taskContext.LogInfo(string.Format("Copying file '{0}' to '{1}'", sourceFileName, destinationFileName));
+                    _taskContext.LogInfo($"Copying file '{sourceFileName}' to '{destinationFileName}'");
 
             File.Copy(sourceFileName.ToString(), destinationFileName.ToString(), true);
         }

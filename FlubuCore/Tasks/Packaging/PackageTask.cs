@@ -211,7 +211,7 @@ namespace FlubuCore.Tasks.Packaging
 
                 zipFile = Path.Combine(_destinationRootDir, tmp);
 
-                context.LogInfo($"Creating zip file {zipFile}");
+                DoLogInfo($"Creating zip file {zipFile}");
 
                 ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(zipFile), df, _optimizeZip, sourceIds, _logFiles);
                 zipProcessor.Process(copiedPackageDef);

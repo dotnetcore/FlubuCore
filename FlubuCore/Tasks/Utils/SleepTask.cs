@@ -49,7 +49,7 @@ namespace FlubuCore.Tasks.Utils
         /// <inheritdoc />
         protected override int DoExecute(ITaskContextInternal context)
         {
-            context.LogInfo($"Sleeping for {_delay}");
+            DoLogInfo($"Sleeping for {_delay}");
 
             Task.Delay(_delay).Wait();
 

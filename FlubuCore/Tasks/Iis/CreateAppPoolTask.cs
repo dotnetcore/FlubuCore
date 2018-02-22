@@ -64,7 +64,7 @@ namespace FlubuCore.Tasks.Iis
                     {
                         if (_mode == CreateApplicationPoolMode.DoNothingIfExists)
                         {
-                            context.LogInfo(
+                            DoLogInfo(
                                 $"Application pool '{_applicationPoolName}' already exists, doing nothing.");
                         }
                         else if (_mode == CreateApplicationPoolMode.FailIfAlreadyExists)
@@ -96,8 +96,7 @@ namespace FlubuCore.Tasks.Iis
                 ////serverManager.ApplicationPools.Add(appPoolToWorkOn);
                 serverManager.CommitChanges();
 
-                context.LogInfo(string.Format("Application pool '{0}' {1}.", _applicationPoolName,
-                    updatedExisting ? "updated" : "created"));
+                DoLogInfo($"Application pool '{_applicationPoolName}' {(updatedExisting ? "updated" : "created")}.");
             }
 
             return 0;

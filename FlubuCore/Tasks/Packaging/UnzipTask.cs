@@ -39,7 +39,7 @@ namespace FlubuCore.Tasks.Packaging
         protected override int DoExecute(ITaskContextInternal context)
         {
             OSPlatform os = context.Properties.GetOSPlatform();
-            context.LogInfo($"Extract {_fileName} to {_destination}");
+            DoLogInfo($"Extract {_fileName} to {_destination}");
 
             if (!Directory.Exists(_destination))
                 Directory.CreateDirectory(_destination);
@@ -79,7 +79,7 @@ namespace FlubuCore.Tasks.Packaging
 
                     if (metaItem == null)
                     {
-                        context.LogInfo($"{zipFile} not found in metadata!");
+                        DoLogInfo($"{zipFile} not found in metadata!");
                         continue;
                     }
 
@@ -105,7 +105,7 @@ namespace FlubuCore.Tasks.Packaging
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
 
-                context.LogInfo($"inflating: {file}");
+                DoLogInfo($"inflating: {file}");
                 entry.ExtractToFile(file, true);
             }
         }

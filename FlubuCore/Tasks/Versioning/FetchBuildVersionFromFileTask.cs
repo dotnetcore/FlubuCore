@@ -89,7 +89,7 @@ namespace FlubuCore.Tasks.Versioning
                 context.SetBuildVersion(buildVersion);
             }
 
-            context.LogInfo($"Project build version (from file): {buildVersion}");
+            DoLogInfo($"Project build version (from file): {buildVersion}");
             return buildVersion;
         }
     }

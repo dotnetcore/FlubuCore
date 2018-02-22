@@ -45,7 +45,7 @@ namespace FlubuCore.Tasks.FileSystem
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            context.LogInfo($"Copy file '{_sourceFileName}' to '{_destinationFileName}'");
+            DoLogInfo($"Copy file '{_sourceFileName}' to '{_destinationFileName}'");
 
             var dir = Path.GetDirectoryName(_destinationFileName);
             if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))

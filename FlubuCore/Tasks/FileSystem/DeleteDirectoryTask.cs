@@ -43,7 +43,7 @@ namespace FlubuCore.Tasks.FileSystem
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            context.LogInfo($"Delete directory '{_directoryPath}'");
+            DoLogInfo($"Delete directory '{_directoryPath}'");
 
             if (!Directory.Exists(_directoryPath))
             {

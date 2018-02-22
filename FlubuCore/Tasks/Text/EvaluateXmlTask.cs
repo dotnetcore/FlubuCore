@@ -44,7 +44,7 @@ namespace FlubuCore.Tasks.Text
                         object result = navigator.Evaluate(expression.Xpath);
                         context.Properties.Set(expression.PropertyName, result);
 
-                        context.LogInfo(
+                        DoLogInfo(
                             $"Property '{expression.Xpath}': executing XPath expression '{expression.PropertyName}' evaluates to '{result}'");
                     }
                 }

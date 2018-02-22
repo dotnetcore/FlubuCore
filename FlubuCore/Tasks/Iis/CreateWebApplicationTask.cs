@@ -105,7 +105,7 @@ namespace FlubuCore.Tasks.Iis
                     {
                         if (_mode == CreateWebApplicationMode.DoNothingIfExists)
                         {
-                            context.LogInfo($"Web application '{_applicationName}' already exists, doing nothing.");
+                            DoLogInfo($"Web application '{_applicationName}' already exists, doing nothing.");
                             return 0;
                         }
 

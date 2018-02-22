@@ -62,7 +62,7 @@ namespace FlubuCore.Tasks.Iis
                 //// See if this binding is already on some site
                 if (manager.Sites.Where(st => st.Bindings.Where(b => b.Protocol == _bindProtocol).Any()).Any())
                 {
-                    context.LogInfo($"Binding for protocol '{_bindProtocol}' already exists! Doing nothing.");
+                    DoLogInfo($"Binding for protocol '{_bindProtocol}' already exists! Doing nothing.");
                     return 0;
                 }
 

@@ -165,7 +165,7 @@ namespace FlubuCore.Tasks.Text
                 return 2;
             }
 
-            context.LogInfo($"Update JSON file {_fileName} to file {_output ?? _fileName}. With {_updates.Count} updates");
+            DoLogInfo($"Update JSON file {_fileName} to file {_output ?? _fileName}. With {_updates.Count} updates");
             string file = File.ReadAllText(_fileName);
             JObject json = JObject.Parse(file);
             int res = 0;
@@ -179,7 +179,7 @@ namespace FlubuCore.Tasks.Text
                     if (_failIfNotFound)
                         context.Fail($"Propety {pair.Key} not found in {_fileName}", 3);
                     else
-                        context.LogInfo($"Propety {pair.Key} not found in {_fileName}");
+                        DoLogInfo($"Propety {pair.Key} not found in {_fileName}");
 
                     res = 3;
                     continue;
@@ -193,12 +193,12 @@ namespace FlubuCore.Tasks.Text
                         continue;
                     }
 
-                    context.LogInfo($"Propety {pair.Key} type mismatch.");
+                    DoLogInfo($"Propety {pair.Key} type mismatch.");
 
                     res = 4;
                 }
 
-                context.LogInfo($"Replacing {token.Path} with {pair.Value}.");
+                DoLogInfo($"Replacing {token.Path} with {pair.Value}.");
                 token.Replace(pair.Value);
             }
 

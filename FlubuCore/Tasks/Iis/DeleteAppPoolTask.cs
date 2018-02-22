@@ -50,7 +50,7 @@ namespace FlubuCore.Tasks.Iis
                         applicationPoolCollection.Remove(applicationPool);
                         serverManager.CommitChanges();
 
-                        context.LogInfo($"Application pool '{_appPoolName}' has been deleted.");
+                        DoLogInfo($"Application pool '{_appPoolName}' has been deleted.");
 
                         return 0;
                     }
@@ -65,7 +65,7 @@ namespace FlubuCore.Tasks.Iis
                             _appPoolName), 1);
                 }
 
-                context.LogInfo($"Application pool '{_appPoolName}' does not exist, doing nothing.");
+                DoLogInfo($"Application pool '{_appPoolName}' does not exist, doing nothing.");
                 return 0;
             }
         }

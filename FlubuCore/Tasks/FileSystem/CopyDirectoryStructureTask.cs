@@ -89,7 +89,7 @@ namespace FlubuCore.Tasks.FileSystem
         /// <param name="context">The script execution environment.</param>
         protected override int DoExecute(ITaskContextInternal context)
         {
-            context.LogInfo($"Copy directory structure from '{_sourcePath}' to '{_destinationPath}");
+            DoLogInfo($"Copy directory structure from '{_sourcePath}' to '{_destinationPath}");
             _copiedFilesList = new List<string>();
 
             Regex inclusionRegex = null;
@@ -133,7 +133,7 @@ namespace FlubuCore.Tasks.FileSystem
                         Directory.CreateDirectory(destinationPathRecursive);
 
                     fileInfo.CopyTo(filePath, _overwriteExisting);
-                    context.LogInfo($"Copied file '{fileSystemInfo.FullName}' to '{filePath}'");
+                    DoLogInfo($"Copied file '{fileSystemInfo.FullName}' to '{filePath}'");
                     _copiedFilesList.Add(filePath);
                 }
                 else

@@ -47,7 +47,7 @@ namespace FlubuCore.Tasks.FileSystem
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            context.LogInfo($"Create directory '{DirectoryPath}'");
+            DoLogInfo($"Create directory '{DirectoryPath}'");
 
             if (Directory.Exists(DirectoryPath))
             {

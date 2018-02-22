@@ -46,7 +46,7 @@ namespace FlubuCore.Tasks.Testing
             if (string.IsNullOrEmpty(nunitRunnerFileName))
             {
                 throw new ArgumentException("NUnit Runner file name should not be null or empty string",
-                    "nunitRunnerFileName");
+                    nameof(nunitRunnerFileName));
             }
 
             _nunitRunnerFileName = nunitRunnerFileName;
@@ -167,11 +167,7 @@ namespace FlubuCore.Tasks.Testing
                 snapshots.Add(snapshotFileName);
             }
 
-            string finalSnapshotFileName;
-            if (snapshots.Count > 1)
-                finalSnapshotFileName = MergeCoverageSnapshots(context, dotCoverExeFileName, snapshots);
-            else
-                finalSnapshotFileName = snapshots[0];
+            var finalSnapshotFileName = snapshots.Count > 1 ? MergeCoverageSnapshots(context, dotCoverExeFileName, snapshots) : snapshots[0];
 
             CoverageXmlReportFileName =
                 GenerateCoverageReport(context, dotCoverExeFileName, finalSnapshotFileName, "XML");
@@ -204,10 +200,10 @@ namespace FlubuCore.Tasks.Testing
             return true;
         }
 
-        private static string MergeCoverageSnapshots(ITaskContext context, string dotCoverExeFileName,
+        private string MergeCoverageSnapshots(ITaskContext context, string dotCoverExeFileName,
             List<string> snapshots)
         {
-            context.LogInfo("Merging coverage snapshots...");
+            DoLogInfo("Merging coverage snapshots...");
 
             var buildDir = context.Properties[BuildProps.BuildDir];
             var mergedSnapshotFileName =
@@ -224,13 +220,13 @@ namespace FlubuCore.Tasks.Testing
             return mergedSnapshotFileName;
         }
 
-        private static string GenerateCoverageReport(
+        private string GenerateCoverageReport(
             ITaskContext context,
             string dotCoverExeFileName,
             string snapshotFileName,
             string reportType)
         {
-            context.LogInfo($"Generating code coverage {reportType} report...");
+            DoLogInfo($"Generating code coverage {reportType} report...");
 
             var buildDir = context.Properties[BuildProps.BuildDir];
 
@@ -247,7 +243,7 @@ namespace FlubuCore.Tasks.Testing
             return coverageReportFileName;
         }
 
-        private static FileFullPath ExtractFullAssemblyFileName(
+        private FileFullPath ExtractFullAssemblyFileName(
             string testAssemblyFileName,
             out string assemblyId)
         {
@@ -257,7 +253,7 @@ namespace FlubuCore.Tasks.Testing
             return assemblyFullFileName;
         }
 
-        private static int? GetCoverageProperyValue(ITaskContext context, string propertyName)
+        private int? GetCoverageProperyValue(ITaskContext context, string propertyName)
         {
             var valueStr = context.Properties[propertyName];
             if (valueStr == null)
@@ -266,7 +262,7 @@ namespace FlubuCore.Tasks.Testing
             return int.Parse(valueStr, CultureInfo.InvariantCulture);
         }
 
-        private static int ClassCoverageComparer(Tuple<string, int> a, Tuple<string, int> b)
+        private int ClassCoverageComparer(Tuple<string, int> a, Tuple<string, int> b)
         {
             var c = a.Item2.CompareTo(b.Item2);
             if (c != 0)
@@ -297,7 +293,7 @@ namespace FlubuCore.Tasks.Testing
             var projectDir = Path.GetDirectoryName(assemblyFullFileName.ToString());
             var projectBinFileName = Path.GetFileName(assemblyFullFileName.FileName);
 
-            context.LogInfo("Running unit tests (with code coverage)...");
+            DoLogInfo("Running unit tests (with code coverage)...");
             var runDotCovertask = context.Tasks().RunProgramTask(dotCoverExeFileName);
             runDotCovertask.WithArguments("cover")
                 .WithArguments("/TargetExecutable={0}", _nunitRunnerFileName)
@@ -332,7 +328,7 @@ namespace FlubuCore.Tasks.Testing
             countViolationsTask.Execute(context);
 
             var totalCoverage = GetCoverageProperyValue(context, propertyTotalCoverage);
-            context.LogInfo($"Total test coverage is {totalCoverage}%");
+            DoLogInfo($"Total test coverage is {totalCoverage}%");
 
             var duplicatesCount = GetCoverageProperyValue(context, propertyClassesWithPoorCoverageCount);
             if (duplicatesCount.HasValue && duplicatesCount > 0)
@@ -341,7 +337,7 @@ namespace FlubuCore.Tasks.Testing
 
         private void FailBuildAndPrintOutCoverageReport(ITaskContext context, int? duplicatesCount)
         {
-            context.LogInfo(
+            DoLogInfo(
                 $"There are {duplicatesCount} classes that have the test coverage below the minimum {_minRequiredCoverage}% threshold");
 
             var classesWithPoorCoverageExpression = string.Format(
@@ -357,7 +353,7 @@ namespace FlubuCore.Tasks.Testing
                 classesWithPoorCoverageExpression,
                 node =>
                 {
-                    if (node.Attributes == null || node.ParentNode == null || node.ParentNode.Attributes == null)
+                    if (node.Attributes == null || node.ParentNode?.Attributes == null)
                         return true;
 
                     var className = node.Attributes["Name"].Value;
@@ -371,7 +367,7 @@ namespace FlubuCore.Tasks.Testing
 
             poorCoverageClasses.Sort(ClassCoverageComparer);
             foreach (var tuple in poorCoverageClasses)
-                context.LogInfo($"{tuple.Item1} ({tuple.Item2}%)");
+                DoLogInfo($"{tuple.Item1} ({tuple.Item2}%)");
 
             if (_failBuildOnViolations)
                 context.LogError("Failing the build because of poor test coverage");

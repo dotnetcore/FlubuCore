@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Solution
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            context.LogInfo($"Load solution {SolutionFile} properties");
+            DoLogInfo($"Load solution {SolutionFile} properties");
 
             if (string.IsNullOrEmpty(SolutionFile))
             {

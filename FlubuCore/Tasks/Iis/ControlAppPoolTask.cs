@@ -86,7 +86,7 @@ namespace FlubuCore.Tasks.Iis
 
                         serverManager.CommitChanges();
 
-                        context.LogInfo(logMessage);
+                        DoLogInfo(logMessage);
                         return 0;
                     }
                 }
@@ -99,7 +99,7 @@ namespace FlubuCore.Tasks.Iis
                 if (_failIfNotExist)
                     throw new TaskExecutionException(appPoolDoesNotExistMessage, 1);
 
-                context.LogInfo(message);
+                DoLogInfo(message);
                 return 0;
             }
         }

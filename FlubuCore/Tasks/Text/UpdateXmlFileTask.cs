@@ -165,7 +165,7 @@ namespace FlubuCore.Tasks.Text
                 {
                     var fullNodePath = ConstructXmlNodeFullName(node);
 
-                    context.LogInfo($"Node '{fullNodePath}' will be removed.");
+                    DoLogInfo($"Node '{fullNodePath}' will be removed.");
 
                     if (node.NodeType == XmlNodeType.Element)
                     {
@@ -204,7 +204,7 @@ namespace FlubuCore.Tasks.Text
         {
             var fullNodePath = ConstructXmlNodeFullName(node);
 
-            context.LogInfo($"Node '{fullNodePath}' will have value '{_xpathUpdates[xpath]}'");
+            DoLogInfo($"Node '{fullNodePath}' will have value '{_xpathUpdates[xpath]}'");
 
             if (node.NodeType == XmlNodeType.Attribute)
             {
@@ -277,7 +277,7 @@ namespace FlubuCore.Tasks.Text
 
                 var fullNodePath = ConstructXmlNodeFullName(rootNode);
 
-                context.LogInfo(
+                DoLogInfo(
                     $"Node '{fullNodePath}' will have a new child '{childNode.Name}' with value '{addition.Value}'");
             }
         }

@@ -47,7 +47,7 @@ namespace FlubuCore.Tasks.Linux
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            context.LogInfo($"Connecting to {_userName}@{_host}");
+            DoLogInfo($"Connecting to {_userName}@{_host}");
             string password = _password.GetPassword();
 
             using (ScpClient cl = new ScpClient(_host, _userName, password))
@@ -55,7 +55,7 @@ namespace FlubuCore.Tasks.Linux
                 cl.Connect();
                 foreach (SourceDestinationPair item in _items)
                 {
-                    context.LogInfo($"copy {item.Source}->{item.Destination}");
+                    DoLogInfo($"copy {item.Source}->{item.Destination}");
 
                     if (item.IsFile)
                     {

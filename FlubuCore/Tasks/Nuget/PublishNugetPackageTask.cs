@@ -104,7 +104,7 @@ namespace FlubuCore.Tasks.Nuget
 
             FileFullPath destNuspecFile = packagesDir.AddFileName("{0}.nuspec", _packageId);
 
-            context.LogInfo($"Preparing the {destNuspecFile} file");
+            DoLogInfo($"Preparing the {destNuspecFile} file");
 
             new ReplaceTokensTask(_nuspecFileName)
                 .Replace("version", context.Properties.GetBuildVersion().ToString(3))
@@ -113,7 +113,7 @@ namespace FlubuCore.Tasks.Nuget
                 .ExecuteVoid(context);
 
             // package it
-            context.LogInfo("Creating a NuGet package file");
+            DoLogInfo("Creating a NuGet package file");
             string nugetWorkingDir = destNuspecFile.Directory.ToString();
             NuGetCmdLineTask nugetTask = new NuGetCmdLineTask("pack", nugetWorkingDir)
             {
@@ -132,7 +132,7 @@ namespace FlubuCore.Tasks.Nuget
                 "{0}.{1}.nupkg",
                 _packageId,
                 context.Properties.GetBuildVersion().ToString(3));
-            context.LogInfo($"NuGet package file {nupkgFileName} created");
+            DoLogInfo($"NuGet package file {nupkgFileName} created");
 
             // do not push new packages from a local build
             if (context.IsInteractive && !_allowPushOnInteractiveBuild)
@@ -146,7 +146,7 @@ namespace FlubuCore.Tasks.Nuget
                 return 1;
 
             // publish the package file
-            context.LogInfo("Pushing the NuGet package to the repository");
+            DoLogInfo("Pushing the NuGet package to the repository");
 
             nugetTask = new NuGetCmdLineTask("push", nugetWorkingDir)
             {

@@ -50,7 +50,7 @@ namespace FlubuCore.Tasks.Linux
 
         protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
         {
-            context.LogInfo($"Connecting to host {_userName}@{_host}");
+            DoLogInfo($"Connecting to host {_userName}@{_host}");
 
             string password = _password.GetPassword();
 
@@ -62,7 +62,7 @@ namespace FlubuCore.Tasks.Linux
 
                 foreach (string command in _commands)
                 {
-                    context.LogInfo($"Executing command {command}");
+                    DoLogInfo($"Executing command {command}");
                     cmdText.Append($"{command} &&");
                 }
 
@@ -79,14 +79,14 @@ namespace FlubuCore.Tasks.Linux
                     {
                         if (task.Wait(1000))
                         {
-                            context.LogInfo($"Command response [{task.Result ?? cmd.Error}]");
+                            DoLogInfo($"Command response [{task.Result ?? cmd.Error}]");
                             break;
                         }
 
                         string data = await reader.ReadToEndAsync();
                         if (!string.IsNullOrEmpty(data))
                         {
-                            context.LogInfo(data);
+                            DoLogInfo(data);
                         }
                     }
 

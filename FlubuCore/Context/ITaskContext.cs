@@ -1,4 +1,6 @@
-﻿using FlubuCore.Context.FluentInterface.Interfaces;namespace FlubuCore.Context
+﻿using FlubuCore.Context.FluentInterface.Interfaces;
+
+namespace FlubuCore.Context
 {
     public interface ITaskContext : IBuildPropertiesContext
     {
