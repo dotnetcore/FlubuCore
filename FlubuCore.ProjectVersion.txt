@@ -1,5 +1,10 @@
+2.3.5.0
+- Fixed CleanoOutputTask for new csprojs
+
 2.3.4.0
-- fixed all tasks to check for NoLog flag when logging
+- Tasks: fixed all tasks to check for NoLog flag when logging
+- Tasks: DoNotFailOnError For ExecuteAsync added
+- Tasks: Added option to Add action to DoNotFailOnError
 
 2.3.3.0
 - Project loading: Added support for new project type - fixes cleanup task for new project types.

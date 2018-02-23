@@ -73,13 +73,12 @@ namespace FlubuCore.Tasks.Solution
                 {
                     if (projectInfo is VSProjectWithFileInfo info)
                     {
-                        LocalPath projectOutputPath = info.GetProjectOutputPath(buildConfiguration);
-
-                        if (projectOutputPath == null)
-                            return;
-
-                        FullPath projectFullOutputPath = info.ProjectDirectoryPath.CombineWith(projectOutputPath);
-                        DeleteDirectoryTask.Execute(context, projectFullOutputPath.ToString(), false);
+                        string projectBinPath = string.Format(
+                            CultureInfo.InvariantCulture,
+                            @"{0}\bin\{1}",
+                            projectInfo.ProjectName,
+                            buildConfiguration);
+                        DeleteDirectoryTask.Execute(context, projectBinPath, false);
 
                         string projectObjPath = string.Format(
                             CultureInfo.InvariantCulture,
