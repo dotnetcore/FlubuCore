@@ -219,7 +219,7 @@ namespace FlubuCore.Tasks
                 {
                     _retriedTimes++;
                     contextInternal.LogInfo($"Task failed: {ex.Message}");
-                    contextInternal.LogInfo($"Retriying for {_retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
+                    DoLogInfo($"Retriying for {_retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
                     Thread.Sleep(RetryDelay);
                     return Execute(context);
                 }
@@ -238,7 +238,7 @@ namespace FlubuCore.Tasks
 
                 if (LogDuration)
                 {
-                    contextInternal.LogInfo($"{DescriptionForLog} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
+                    DoLogInfo($"{DescriptionForLog} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
                 }
             }
         }
@@ -279,7 +279,7 @@ namespace FlubuCore.Tasks
                 {
                     _retriedTimes++;
                     contextInternal.LogInfo($"Task failed: {ex.Message}");
-                    contextInternal.LogInfo($"Retriying for {_retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
+                    DoLogInfo($"Retriying for {_retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
                     await Task.Delay(RetryDelay);
                     return await ExecuteAsync(context);
                 }
@@ -298,7 +298,7 @@ namespace FlubuCore.Tasks
 
                 if (LogDuration)
                 {
-                    contextInternal.LogInfo($"{DescriptionForLog} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
+                    DoLogInfo($"{DescriptionForLog} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
                 }
             }
         }
