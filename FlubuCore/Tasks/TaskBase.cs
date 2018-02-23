@@ -24,7 +24,7 @@ namespace FlubuCore.Tasks
 
         private string _taskName;
 
-        private Action _doNotFailOnErrorAction;
+        private Action<Exception> _doNotFailOnErrorAction;
 
         internal List<(string argumentKey, string help)> ArgumentHelp { get; } = new List<(string argumentKey, string help)>();
 
@@ -94,7 +94,7 @@ namespace FlubuCore.Tasks
         protected virtual bool LogDuration => false;
 
         /// <inheritdoc />
-        public TTask DoNotFailOnError(Action doNotFailOnErrorAction = null)
+        public TTask DoNotFailOnError(Action<Exception> doNotFailOnErrorAction = null)
         {
             DoNotFail = true;
             _doNotFailOnErrorAction = doNotFailOnErrorAction;
@@ -208,7 +208,7 @@ namespace FlubuCore.Tasks
                 {
                     if (DoNotFail)
                     {
-                        _doNotFailOnErrorAction?.Invoke();
+                        _doNotFailOnErrorAction?.Invoke(ex);
                         return default(TResult);
                     }
 
@@ -226,7 +226,7 @@ namespace FlubuCore.Tasks
 
                 if (DoNotFail)
                 {
-                    _doNotFailOnErrorAction?.Invoke();
+                    _doNotFailOnErrorAction?.Invoke(ex);
                     return default(TResult);
                 }
 
@@ -268,7 +268,7 @@ namespace FlubuCore.Tasks
                 {
                     if (DoNotFail)
                     {
-                        _doNotFailOnErrorAction?.Invoke();
+                        _doNotFailOnErrorAction?.Invoke(ex);
                         return default(TResult);
                     }
 
@@ -286,7 +286,7 @@ namespace FlubuCore.Tasks
 
                 if (DoNotFail)
                 {
-                    _doNotFailOnErrorAction?.Invoke();
+                    _doNotFailOnErrorAction?.Invoke(ex);
                     return default(TResult);
                 }
 
