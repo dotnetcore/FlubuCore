@@ -36,8 +36,8 @@ namespace FlubuCore.Infrastructure
                 .AddSingleton<IFlubuEnviromentService, FlubuEnviromentService>()
                 .AddSingleton<ICommandFactory, CommandFactory>()
                 .AddSingleton<ITaskFactory, DotnetTaskFactory>()
-                .AddSingleton<IWebApiClient, WebApiClient>()
-                .AddSingleton<HttpClient>();
+                .AddSingleton<IHttpClientFactory, HttpClientFactory>()
+                .AddSingleton<IWebApiClientFactory, WebApiClientFactory>();
 
             return services;
         }

@@ -13,7 +13,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
         private readonly string _scriptFilePath;
         private string _description;
 
-        public UploadScriptTask(IWebApiClient webApiClient, string scriptFIlePath)
+        public UploadScriptTask(IWebApiClientFactory webApiClient, string scriptFIlePath)
             : base(webApiClient)
         {
             _scriptFilePath = scriptFIlePath;
@@ -25,7 +25,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
             {
                 if (string.IsNullOrEmpty(_description))
                 {
-                    return $"Upload flubu script {_scriptFilePath} tp flubu server {WebApiClient.WebApiBaseUrl}";
+                    return $"Upload flubu script {_scriptFilePath} to flubu server.";
                 }
 
                 return _description;
@@ -43,8 +43,8 @@ namespace FlubuCore.Tasks.FlubuWebApi
 
         protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
         {
-            PrepareWebApiClient(context);
-            await WebApiClient.UploadScriptAsync(new UploadScriptRequest
+            var client = WebApiClientFactory.Create(context.Properties.Get<string>(BuildProps.LastWebApiBaseUrl));
+            await client.UploadScriptAsync(new UploadScriptRequest
             {
                 FilePath = _scriptFilePath
             });

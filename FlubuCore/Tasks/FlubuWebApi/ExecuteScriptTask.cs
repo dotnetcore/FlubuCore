@@ -13,7 +13,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
         private readonly List<string> _commands;
         private string _description;
 
-        public ExecuteFlubuScriptTask(string mainCommand, string scriptFilePath, IWebApiClient webApiClient)
+        public ExecuteFlubuScriptTask(string mainCommand, string scriptFilePath, IWebApiClientFactory webApiClient)
             : base(webApiClient)
         {
             _commands = new List<string>();
@@ -27,7 +27,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
             {
                 if (string.IsNullOrEmpty(_description))
                 {
-                    return $"Execute flubu script '{_scriptFilePath}' with command '{_mainCommand}' on flubu server '{WebApiClient.WebApiBaseUrl}'";
+                    return $"Execute flubu script '{_scriptFilePath}' with command '{_mainCommand}'.";
                 }
 
                 return _description;
@@ -56,8 +56,8 @@ namespace FlubuCore.Tasks.FlubuWebApi
 
         protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
         {
-            PrepareWebApiClient(context);
-            await WebApiClient.ExecuteScriptAsync(new ExecuteScriptRequest
+            var client = WebApiClientFactory.Create(context.Properties.Get<string>(BuildProps.LastWebApiBaseUrl));
+            await client.ExecuteScriptAsync(new ExecuteScriptRequest
             {
                 ScriptFileName = _scriptFilePath,
                 TargetToExecute = _mainCommand,

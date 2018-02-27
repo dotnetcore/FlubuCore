@@ -22,6 +22,7 @@ namespace FlubuCore.Infrastructure
             {
                 BaseAddress = new Uri(endpoint),
             };
+
             _clients[endpoint] = client;
 
             return client;

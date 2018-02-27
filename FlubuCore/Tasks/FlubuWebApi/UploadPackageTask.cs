@@ -15,7 +15,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
         private string _directoryPath;
         private string _description;
 
-        public UploadPackageTask(IWebApiClient client, string directoryPath)
+        public UploadPackageTask(IWebApiClientFactory client, string directoryPath)
             : base(client)
         {
             _directoryPath = directoryPath;
@@ -27,7 +27,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
             {
                 if (string.IsNullOrEmpty(_description))
                 {
-                    return $"Uploads package found in directory {_directoryPath} to flubu server {WebApiClient.WebApiBaseUrl}";
+                    return $"Uploads package found in directory {_directoryPath} to flubu server.";
                 }
 
                 return _description;
@@ -56,8 +56,8 @@ namespace FlubuCore.Tasks.FlubuWebApi
 
         protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
         {
-            PrepareWebApiClient(context);
-            await WebApiClient.UploadPackageAsync(new UploadPackageRequest
+            var client = WebApiClientFactory.Create(context.Properties.Get<string>(BuildProps.LastWebApiBaseUrl));
+            await client.UploadPackageAsync(new UploadPackageRequest
             {
                 PackageSearchPattern = _packageSearchPattern,
                 DirectoryPath = _directoryPath

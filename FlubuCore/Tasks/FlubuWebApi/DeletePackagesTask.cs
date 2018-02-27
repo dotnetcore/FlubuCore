@@ -8,7 +8,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
     {
         private string _description;
 
-        public DeletePackagesTask(IWebApiClient webApiClient)
+        public DeletePackagesTask(IWebApiClientFactory webApiClient)
             : base(webApiClient)
         {
         }
@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
                 if (string.IsNullOrEmpty(_description))
                 {
                     return
-                        $"Deletes all previously uploaded packages from flubu server '{WebApiClient.WebApiBaseUrl}'.";
+                        $"Deletes all previously uploaded packages from flubu server.";
                 }
 
                 return _description;
@@ -38,8 +38,8 @@ namespace FlubuCore.Tasks.FlubuWebApi
 
         protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
         {
-            PrepareWebApiClient(context);
-            await WebApiClient.DeletePackagesAsync();
+            var client = WebApiClientFactory.Create(context.Properties.Get<string>(BuildProps.LastWebApiBaseUrl));
+            await client.DeletePackagesAsync();
             return 0;
         }
     }
