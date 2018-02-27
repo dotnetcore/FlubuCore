@@ -119,9 +119,16 @@ namespace FlubuCore.WebApi.Client
                 var errorString = await response.Content.ReadAsStringAsync();
                 ErrorModel errorModel = null;
 
-                errorModel = !string.IsNullOrEmpty(errorString)
-                    ? JsonConvert.DeserializeObject<ErrorModel>(errorString)
-                    : new ErrorModel();
+                try
+                {
+                    errorModel = !string.IsNullOrEmpty(errorString)
+                        ? JsonConvert.DeserializeObject<ErrorModel>(errorString)
+                        : new ErrorModel();
+                }
+                catch (Exception e)
+                {
+                    throw new WebApiException(HttpStatusCode.InternalServerError, errorString);
+                }
 
                 throw new WebApiException(response.StatusCode, errorString)
                 {
