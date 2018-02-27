@@ -7,6 +7,7 @@ using FlubuCore.WebApi.Controllers.Exception;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace FlubuCore.WebApi.Controllers
 {
@@ -18,9 +19,12 @@ namespace FlubuCore.WebApi.Controllers
 
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        public PackagesController(IHostingEnvironment hostingEnvironment)
+        private readonly ILogger<PackagesController> _logger;
+
+        public PackagesController(IHostingEnvironment hostingEnvironment, ILogger<PackagesController> logger)
         {
             _hostingEnvironment = hostingEnvironment;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -53,10 +57,13 @@ namespace FlubuCore.WebApi.Controllers
 
                 if (formFile.Length > 0)
                 {
-                    using (var fileStream = new FileStream(Path.Combine(uploads, formFile.FileName), FileMode.Create))
+                    var uploadPath = Path.Combine(uploads, formFile.FileName);
+                    using (var fileStream = new FileStream(uploadPath, FileMode.Create))
                     {
                         await formFile.CopyToAsync(fileStream);
                     }
+
+                    _logger.LogInformation($"Uploaded {uploadPath}");
                 }
             }
 
