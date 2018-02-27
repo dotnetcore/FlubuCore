@@ -10,7 +10,7 @@ namespace FlubuCore.Scripting
 {
     public class BuildScriptEngine : IBuildScriptEngine
     {
-        protected BuildScriptEngine()
+        public BuildScriptEngine()
         {
 #if NETSTANDARD1_6
             throw new NotSupportedException("BuildScript engine is only supported in  =<.net standard2.0 and =<.net 4.62");
@@ -20,6 +20,22 @@ namespace FlubuCore.Scripting
 
             ServiceProvider = new ServiceCollection()
                 .AddCoreComponents()
+                .AddTasks()
+                .BuildServiceProvider();
+
+            Factory = new DotnetTaskFactory(ServiceProvider);
+#endif
+        }
+
+        public BuildScriptEngine(IServiceCollection serviceCollection, ILoggerFactory loggerFactory = null)
+        {
+#if NETSTANDARD1_6
+            throw new NotSupportedException("BuildScript engine is only supported in  =<.net standard2.0 and =<.net 4.62");
+#endif
+#if !NETSTANDARD1_6
+            LoggerFactory = loggerFactory == null ? new LoggerFactory() : loggerFactory;
+
+            ServiceProvider = serviceCollection.AddCoreComponents()
                 .AddTasks()
                 .BuildServiceProvider();
 
