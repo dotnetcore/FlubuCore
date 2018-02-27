@@ -25,7 +25,6 @@ namespace FlubuCore.Infrastructure
         public static IServiceCollection AddCoreComponents(this IServiceCollection services)
         {
             services
-                .AddLogging()
                 .AddSingleton<IFluentInterfaceFactory, FluentInterfaceFactory>()
                 .AddSingleton<IFileWrapper, FileWrapper>()
                 .AddSingleton<IPathWrapper, PathWrapper>()

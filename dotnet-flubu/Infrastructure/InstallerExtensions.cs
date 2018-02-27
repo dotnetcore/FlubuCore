@@ -31,6 +31,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
         public static IServiceCollection AddCommandComponents(this IServiceCollection services)
         {
             services
+                .AddLogging()
                 .AddSingleton<IBuildScriptLocator, BuildScriptLocator>()
                 .AddSingleton<IScriptLoader, ScriptLoader>()
                 .AddSingleton<ICommandExecutor, CommandExecutor>()
