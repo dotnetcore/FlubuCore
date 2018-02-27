@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FlubuCore.Scripting
 {
-    public abstract class BuildScriptEngine : IBuildScriptEngine
+    public class BuildScriptEngine : IBuildScriptEngine
     {
         protected BuildScriptEngine()
         {
