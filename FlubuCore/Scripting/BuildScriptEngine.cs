@@ -24,7 +24,7 @@ namespace FlubuCore.Scripting
                 .AddTasks()
                 .BuildServiceProvider();
 
-            Factory = new DotnetTaskFactory(ServiceProvider);
+            TaskFactory = new DotnetTaskFactory(ServiceProvider);
 #endif
         }
 
@@ -40,11 +40,11 @@ namespace FlubuCore.Scripting
                 .AddTasks()
                 .BuildServiceProvider();
 
-            Factory = new DotnetTaskFactory(ServiceProvider);
+            TaskFactory = new DotnetTaskFactory(ServiceProvider);
 #endif
         }
 
-        public ITaskFactory Factory { get; }
+        public ITaskFactory TaskFactory { get; }
 
         public IServiceProvider ServiceProvider { get; }
 

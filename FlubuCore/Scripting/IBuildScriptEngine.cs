@@ -9,7 +9,7 @@ namespace FlubuCore.Scripting
 {
     public interface IBuildScriptEngine
     {
-        ITaskFactory Factory { get; }
+        ITaskFactory TaskFactory { get; }
 
         IServiceProvider ServiceProvider { get; }
 
