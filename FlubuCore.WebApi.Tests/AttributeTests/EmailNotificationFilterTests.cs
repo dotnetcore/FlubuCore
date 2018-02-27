@@ -111,7 +111,7 @@ namespace FlubuCore.WebApi.Tests.AttributeTests
         {
             return Task.FromResult(new ActionExecutedContext(
                 new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor()),
-                new List<IFilterMetadata>(), new PackagesController(null)));
+                new List<IFilterMetadata>(), new PackagesController(null, null)));
         }
     }
 }

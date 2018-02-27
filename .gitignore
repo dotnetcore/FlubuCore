@@ -58,3 +58,4 @@ FlubuCore/FlubuCore.csproj.user
 FlubuCore.WebApi/Logs/
 dotnet-flubu/dotnet-flubu.csproj.user
 Build.csproj.user
+/.gitattributes
