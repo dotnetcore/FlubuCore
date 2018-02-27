@@ -3,6 +3,7 @@ using DotNet.Cli.Flubu.Commanding;
 using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore;
 using FlubuCore.Commanding;
+using FlubuCore.Infrastructure;
 using FlubuCore.Tasks;
 using FlubuCore.Tasks.Process;
 using Microsoft.CodeAnalysis;

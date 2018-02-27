@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Text;
 
-namespace FlubuCore
+namespace FlubuCore.Infrastructure
 {
     internal static class StringExtensions
     {

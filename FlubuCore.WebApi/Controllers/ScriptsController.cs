@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using FlubuCore.Commanding;
+using FlubuCore.Infrastructure;
 using FlubuCore.Scripting;
 using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Controllers.Attributes;

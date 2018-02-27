@@ -4,6 +4,7 @@ using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
+using FlubuCore.Infrastructure;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;

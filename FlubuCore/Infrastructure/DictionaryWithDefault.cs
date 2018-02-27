@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FlubuCore
+namespace FlubuCore.Infrastructure
 {
     public class DictionaryWithDefault<TKey, TValue> : Dictionary<TKey, TValue>
     {

@@ -1,4 +1,6 @@
-﻿namespace FlubuCore.Context
+﻿using FlubuCore.Infrastructure;
+
+namespace FlubuCore.Context
 {
     public class BuildPropertiesContext : IBuildPropertiesContext
     {

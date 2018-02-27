@@ -18,7 +18,7 @@ using FlubuCore.WebApi.Client;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FlubuCore
+namespace FlubuCore.Infrastructure
 {
     public static class InstallerExtensions
     {

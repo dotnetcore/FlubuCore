@@ -5,6 +5,7 @@ using System.Linq;
 using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore;
 using FlubuCore.Context;
+using FlubuCore.Infrastructure;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
