@@ -50,8 +50,10 @@ namespace FlubuCore.Scripting
 
         public ILoggerFactory LoggerFactory { get; }
 
-        public ITaskSession CreateTaskSession(CommandArguments commandArguments)
+        public ITaskSession CreateTaskSession(BuildScriptArguments buildScriptArguments)
         {
+            CommandArguments commandArguments = new CommandArguments(buildScriptArguments);
+
            return new TaskSession(
                 LoggerFactory.CreateLogger<TaskSession>(),
                 new TargetTree(ServiceProvider, commandArguments),
