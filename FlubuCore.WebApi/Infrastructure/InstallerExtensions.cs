@@ -28,7 +28,7 @@ namespace FlubuCore.WebApi.Infrastructure
 {
     public static class InstallerExtensions
     {
-        public static IServiceCollection AddCoreComponents(this IServiceCollection services)
+        public static IServiceCollection AddCoreComponentsForWebApi(this IServiceCollection services)
         {
             services
                 .AddLogging()
@@ -48,7 +48,7 @@ namespace FlubuCore.WebApi.Infrastructure
             return services;
         }
 
-        public static IServiceCollection AddCommandComponents(this IServiceCollection services)
+        public static IServiceCollection AddCommandComponentsForWebApi(this IServiceCollection services)
         {
             services
                 .AddScoped<IBuildScriptLocator, BuildScriptLocator>()
@@ -58,7 +58,7 @@ namespace FlubuCore.WebApi.Infrastructure
             return services;
         }
 
-        public static IServiceCollection AddScriptAnalyser(this IServiceCollection services)
+        public static IServiceCollection AddScriptAnalyserForWebApi(this IServiceCollection services)
         {
             return services
                 .AddScoped<IScriptAnalyser, ScriptAnalyser>()
@@ -69,7 +69,7 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddScoped<IDirectiveProcessor, NamespaceDirectiveProcessor>();
         }
 
-        public static IServiceCollection AddTasks(this IServiceCollection services)
+        public static IServiceCollection AddTasksForWebApi(this IServiceCollection services)
         {
             return services
                 .AddTransient<ITaskFluentInterface, TaskFluentInterface>()

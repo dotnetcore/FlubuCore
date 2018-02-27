@@ -5,9 +5,7 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
-using FlubuCore.Services;
 using FlubuCore.WebApi.Configuration;
-using FlubuCore.WebApi.Controllers;
 using FlubuCore.WebApi.Controllers.Attributes;
 using FlubuCore.WebApi.Infrastructure;
 using FlubuCore.WebApi.Repository;
@@ -55,10 +53,10 @@ namespace FlubuCore.WebApi
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
             services
-                .AddCoreComponents()
-                .AddCommandComponents()
-                .AddScriptAnalyser()
-                .AddTasks();
+                .AddCoreComponentsForWebApi()
+                .AddCommandComponentsForWebApi()
+                .AddScriptAnalyserForWebApi()
+                .AddTasksForWebApi();
 
             var connectionStrings = Configuration.GetSection("FlubuConnectionStrings");
             var liteDbConnectionString = connectionStrings["LiteDbConnectionString"];
