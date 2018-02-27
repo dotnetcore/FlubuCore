@@ -50,6 +50,13 @@ namespace FlubuCore.Scripting
 
         public ILoggerFactory LoggerFactory { get; }
 
+        public static IServiceCollection AddFlubuComponents(IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddCoreComponents().AddTasks();
+            serviceCollection.AddSingleton<IBuildScriptEngine, BuildScriptEngine>();
+            return serviceCollection;
+        }
+
         public ITaskSession CreateTaskSession(BuildScriptArguments buildScriptArguments)
         {
             CommandArguments commandArguments = new CommandArguments(buildScriptArguments);

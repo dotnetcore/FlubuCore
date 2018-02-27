@@ -1,3 +1,7 @@
+2.4.0.0
+- Added BuildScriptEngine for writing build script tests, build script debuging and executing flubu tasks in other .net (core) applications.
+-  
+
 2.3.5.0
 - Fixed CleanoOutputTask for new csprojs
 
