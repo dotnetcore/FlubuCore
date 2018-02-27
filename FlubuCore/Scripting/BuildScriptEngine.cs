@@ -49,15 +49,15 @@ namespace FlubuCore.Scripting
 
         public ILoggerFactory LoggerFactory { get; }
 
-        public ITaskSession CreateTaskSession()
+        public ITaskSession CreateTaskSession(CommandArguments commandArguments)
         {
            return new TaskSession(
                 LoggerFactory.CreateLogger<TaskSession>(),
-                new TargetTree(ServiceProvider, new CommandArguments()),
-                new CommandArguments() { },
+                new TargetTree(ServiceProvider, commandArguments),
+                commandArguments,
                 new DotnetTaskFactory(ServiceProvider),
                 new FluentInterfaceFactory(ServiceProvider),
-                new BuildPropertiesSession());
+                ServiceProvider.GetService<IBuildPropertiesSession>());
         }
     }
 }
