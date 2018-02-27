@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using DotNet.Cli.Flubu.Infrastructure;
+using FlubuCore;
 using FlubuCore.Context;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;

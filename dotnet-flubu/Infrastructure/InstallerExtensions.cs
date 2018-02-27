@@ -28,26 +28,6 @@ namespace DotNet.Cli.Flubu.Infrastructure
 {
     public static class InstallerExtensions
     {
-        public static IServiceCollection AddCoreComponents(this IServiceCollection services)
-        {
-            services
-                .AddLogging()
-                .AddSingleton<IFluentInterfaceFactory, FluentInterfaceFactory>()
-                .AddSingleton<IFileWrapper, FileWrapper>()
-                .AddSingleton<IPathWrapper, PathWrapper>()
-                .AddSingleton<IDirectoryWrapper, DirectoryWrapper>()
-                .AddSingleton<IBuildPropertiesSession, BuildPropertiesSession>()
-                .AddSingleton<TargetTree>()
-                .AddSingleton<ITaskSession, TaskSession>()
-                .AddSingleton<IFlubuEnviromentService, FlubuEnviromentService>()
-                .AddSingleton<ICommandFactory, CommandFactory>()
-                .AddSingleton<ITaskFactory, DotnetTaskFactory>()
-                .AddSingleton<IWebApiClient, WebApiClient>()
-                .AddSingleton<HttpClient>();
-
-            return services;
-        }
-
         public static IServiceCollection AddCommandComponents(this IServiceCollection services)
         {
             services
@@ -68,35 +48,6 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddSingleton<IDirectiveProcessor, AssemblyDirectiveProcessor>()
                 .AddSingleton<IDirectiveProcessor, ReferenceDirectiveProcessor>()
                 .AddSingleton<IDirectiveProcessor, NamespaceDirectiveProcessor>();
-        }
-
-        public static IServiceCollection AddTasks(this IServiceCollection services)
-        {
-            return services
-                .AddTransient<ITaskFluentInterface, TaskFluentInterface>()
-                .AddTransient<IIisTaskFluentInterface, IisTaskFluentInterface>()
-                .AddTransient<ICoreTaskFluentInterface, CoreTaskFluentInterface>()
-                .AddTransient<ILinuxTaskFluentInterface, LinuxTaskFluentInterface>()
-                .AddTransient<IWebApiFluentInterface, WebApiFluentInterface>()
-                .AddTransient<ITargetFluentInterface, TargetFluentInterface>()
-                .AddTransient<ITaskExtensionsFluentInterface, TaskExtensionsFluentInterface>()
-                .AddTransient<ICoreTaskExtensionsFluentInterface, CoreTaskExtensionsFluentInterface>()
-                .AddTransient<GenerateCommonAssemblyInfoTask>()
-                .AddTransient<FetchBuildVersionFromFileTask>()
-                .AddTransient<FetchVersionFromExternalSourceTask>()
-                .AddTransient<CreateWebsiteTask>()
-                .AddTransient<AddWebsiteBindingTask>()
-                .AddTransient<OpenCoverTask>()
-                .AddTask<LoadSolutionTask>()
-                .AddTask<CompileSolutionTask>()
-                .AddTask<CleanOutputTask>()
-                .AddTask<DotnetRestoreTask>()
-                .AddTask<DotnetTestTask>()
-                .AddTask<DotnetBuildTask>()
-                .AddTask<DotnetPublishTask>()
-                .AddTask<DotnetPackTask>()
-                .AddTask<DotnetCleanTask>()
-                .AddTask<DeletePackagesTask>();
         }
 
         public static IServiceCollection AddArguments(this IServiceCollection services, string[] args)

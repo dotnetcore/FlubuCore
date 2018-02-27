@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using DotNet.Cli.Flubu.Infrastructure;
+using FlubuCore;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.Scripting;

@@ -1,6 +1,7 @@
 ﻿using System;
 using DotNet.Cli.Flubu.Commanding;
 using DotNet.Cli.Flubu.Infrastructure;
+using FlubuCore;
 using FlubuCore.Commanding;
 using FlubuCore.Tasks;
 using FlubuCore.Tasks.Process;

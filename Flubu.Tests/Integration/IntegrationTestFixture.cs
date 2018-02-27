@@ -1,5 +1,6 @@
 ﻿using System;
 using DotNet.Cli.Flubu.Infrastructure;
+using FlubuCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
