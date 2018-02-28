@@ -72,7 +72,7 @@
     <Compile Include="BuildScript.cs" Exclude="**;bin\**;obj\**;**\*.xproj;packages\**" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-flubu" Version="2.3.3" />
+    <DotNetCliToolReference Include="dotnet-flubu" Version="2.4.0" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="LiteDB" Version="4.1.1" />
