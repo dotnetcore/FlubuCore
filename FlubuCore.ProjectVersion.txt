@@ -1,4 +1,4 @@
-2.3.5.0
+2.4.0.0
 - Added BuildScriptEngine for writing build script tests, build script debuging and executing flubu tasks in other .net (core) applications.
 - Flubu web api tasks now support sending requests to multiple flubu web api servers.
 - (Breaking Change)Improved Flubu web api tasks fluent interface. Web api base url and timeout can now be set in GetToken task. Token is now set implicitly.
