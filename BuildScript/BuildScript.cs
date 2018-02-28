@@ -164,7 +164,7 @@ public class MyBuildScript : DefaultBuildScript
                 .WithArguments("push")
                 .WithArguments($"output\\FlubuCore.WebApi.Model.{nugetVersion}.nupkg")
                 .WithArguments("-s", "https://www.nuget.org/api/v2/package")
-                .WithArguments("-k", "8da65a4d-9409-4d1b-9759-3b604d7a34ae").Execute(context);
+                .WithArguments("-k", "oy2a7v35w6znajubtraqhssbodsmh4eencpklv5venz6nq").Execute(context);
         }
         catch (Exception e)
         {
@@ -177,7 +177,7 @@ public class MyBuildScript : DefaultBuildScript
                 .WithArguments("push")
                 .WithArguments($"output\\FlubuCore.WebApi.Client.{nugetVersion}.nupkg")
                 .WithArguments("-s", "https://www.nuget.org/api/v2/package")
-                .WithArguments("-k", "8da65a4d-9409-4d1b-9759-3b604d7a34ae").Execute(context);
+                .WithArguments("-k", "oy2a7v35w6znajubtraqhssbodsmh4eencpklv5venz6nq").Execute(context);
         }
         catch (Exception e)
         {
@@ -190,7 +190,7 @@ public class MyBuildScript : DefaultBuildScript
                 .WithArguments("push")
                 .WithArguments($"output\\FlubuCore.{nugetVersion}.nupkg")
                 .WithArguments("-s", "https://www.nuget.org/api/v2/package")
-                .WithArguments("-k", "8da65a4d-9409-4d1b-9759-3b604d7a34ae").Execute(context);
+                .WithArguments("-k", "oy2a7v35w6znajubtraqhssbodsmh4eencpklv5venz6nq").Execute(context);
         }
         catch (Exception e)
         {
@@ -203,7 +203,7 @@ public class MyBuildScript : DefaultBuildScript
                 .WithArguments("push")
                 .WithArguments($"output\\dotnet-flubu.{nugetVersion}.nupkg")
                 .WithArguments("-s", "https://www.nuget.org/api/v2/package")
-                .WithArguments("-k", "8da65a4d-9409-4d1b-9759-3b604d7a34ae").Execute(context);
+                .WithArguments("-k", "oy2a7v35w6znajubtraqhssbodsmh4eencpklv5venz6nq").Execute(context);
         }
         catch (Exception e)
         {
@@ -214,7 +214,7 @@ public class MyBuildScript : DefaultBuildScript
         {
             var task = context.Tasks().PublishNuGetPackageTask("FlubuCore.Runner", @"Nuget\FlubuCoreRunner.nuspec");
             task.NugetServerUrl("https://www.nuget.org/api/v2/package")
-                .ForApiKeyUse("8da65a4d-9409-4d1b-9759-3b604d7a34ae")
+                .ForApiKeyUse("oy2a7v35w6znajubtraqhssbodsmh4eencpklv5venz6nq")
                 .PushOnInteractiveBuild()
                 .Execute(context);
         }
