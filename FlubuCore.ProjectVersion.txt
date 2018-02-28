@@ -5,6 +5,7 @@
 - Introduced HttpClientFactory which supports sending requests to different endpoints
 - WebApi: Added ping controller
 - WebApi: UploadPackage now logs which packages are uploaded.
+- WebApi: Increased upload size limit for iis to 200mb(web config)
 - WebApi client: Fixed error handling when response is not json.
 - Switched to DoLogInfo in TaskBase whichs improves NoLog
 - Added exception to DoNotFailOnError action.

@@ -4,7 +4,7 @@ using FlubuCore.Scripting;
 using FlubuCore.Tasks.Nuget;
 using System.IO;
 
-public class MyBuildScript : DefaultBuildScript
+public class BuildScript : DefaultBuildScript
 {
     protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
     {
