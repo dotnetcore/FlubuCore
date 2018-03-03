@@ -56,7 +56,7 @@ public class BuildScript : DefaultBuildScript
         var packageWebApi = context.CreateTarget("Package.WebApi")
             .SetDescription("Prepares flubu web api deployment package.")
                 .AddTask(x => x.PackageTask("output")
-                    .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\net462\publish", "FlubuCore.WebApi", true)
+                    .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\net462\win7-x64\publish", "FlubuCore.WebApi", true)
                     .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
                     .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
                     .AddFileToPackage("output\\build.exe", "")
