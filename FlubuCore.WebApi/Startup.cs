@@ -89,7 +89,7 @@ namespace FlubuCore.WebApi
             services.Configure<NotificationSettings>(settings =>
                 Configuration.GetSection(nameof(NotificationSettings)).Bind(settings));
 
-#if NETCOREAPP2_0
+#if NETCOREAPP2_0 || NET462
 
             var tokenValidationParameters = new TokenValidationParameters
             {
@@ -153,7 +153,7 @@ namespace FlubuCore.WebApi
             });
 #endif
 
-#if NETCOREAPP2_0
+#if NETCOREAPP2_0  || NET462
             app.UseAuthentication();
 #endif
 

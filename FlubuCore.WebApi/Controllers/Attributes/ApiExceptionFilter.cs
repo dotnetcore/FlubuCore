@@ -10,7 +10,6 @@ using FlubuCore.WebApi.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualBasic.CompilerServices;
 
 namespace FlubuCore.WebApi.Controllers.Attributes
 {
