@@ -23,7 +23,11 @@ namespace FlubuCore.Packaging
             {
                 if (!Directory.Exists(directoryName))
                 {
-                    _taskContext.LogInfo($"Creating directory '{directoryName}'");
+                    if (_logCopiedFiles)
+                    {
+                        _taskContext.LogInfo($"Creating directory '{directoryName}'");
+                    }
+
                     Directory.CreateDirectory(directoryName);
                 }
             }
