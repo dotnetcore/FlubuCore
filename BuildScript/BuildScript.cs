@@ -67,6 +67,7 @@ public class BuildScript : DefaultBuildScript
                     .AddFileToPackage(@"packages\litedb\4.1.1\lib\netstandard2.0\LiteDB.dll", "lib")
                     .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
                     .DisableLogging()
+                    .Retry(5)
                     .ZipPackage("FlubuCore.WebApi-Net462", true))
             .AddTask(x => x.PackageTask("output")
                 .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp2.0\publish", "FlubuCore.WebApi", true)
@@ -78,6 +79,7 @@ public class BuildScript : DefaultBuildScript
                 .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
                 .AddFileToPackage(@"packages\litedb\4.1.1\lib\netstandard2.0\LiteDB.dll", "lib")
                 .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
+                .Retry(5)
                 .DisableLogging()
                 .ZipPackage("FlubuCore.WebApi-NetCoreApp2.0-Windows", true))
                 .AddTask(x => x.PackageTask("output")
@@ -113,6 +115,7 @@ public class BuildScript : DefaultBuildScript
                 .AddFileToPackage(@"packages\litedb\4.1.1\lib\netstandard1.3\LiteDB.dll", "lib")
                 .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
                 .DisableLogging()
+                .Retry(5)
                 .ZipPackage("FlubuCore.WebApi-NetCoreApp1.1-LinuxMacInstaller", true));
 
         var flubuRunnerMerge = context.CreateTarget("merge")
