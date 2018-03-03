@@ -146,7 +146,7 @@ namespace FlubuCore.Tasks.Process
                         DoLogInfo(l);
 
                     if (_captureOutput)
-                        _output.AppendLine(l);
+                        _errorOutput.AppendLine(l);
                 })
                 .OnOutputLine(l =>
                 {
@@ -154,7 +154,7 @@ namespace FlubuCore.Tasks.Process
                         DoLogInfo(l);
 
                     if (_captureErrorOutput)
-                        _errorOutput.AppendLine(l);
+                        _output.AppendLine(l);
                 });
 
             DoLogInfo(
