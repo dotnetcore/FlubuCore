@@ -51,7 +51,8 @@ public class BuildScript : DefaultBuildScript
         var publishWebApi = context.CreateTarget("Publish.WebApi")
             .SetDescription("Publishes flubu web api for deployment")
             .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("netcoreapp2.0"))
-            .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("netcoreapp1.1"));
+            .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("netcoreapp1.1"))
+            .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("net462"));
 
         var packageWebApi = context.CreateTarget("Package.WebApi")
             .SetDescription("Prepares flubu web api deployment package.")
