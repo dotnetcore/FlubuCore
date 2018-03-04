@@ -74,17 +74,8 @@ namespace FlubuCore.WebApi.Controllers
         public IActionResult CleanPackagesDirectory()
         {
             var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "packages");
-            var di = new DirectoryInfo(uploads);
-
-            foreach (FileInfo file in di.GetFiles())
-            {
-                file.Delete();
-            }
-
-            foreach (DirectoryInfo dir in di.GetDirectories())
-            {
-                dir.Delete(true);
-            }
+            Directory.Delete(uploads, true);
+            Directory.CreateDirectory(uploads);
 
             return Ok();
         }
