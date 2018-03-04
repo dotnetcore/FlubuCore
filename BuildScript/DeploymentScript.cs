@@ -145,6 +145,19 @@ namespace DeploymentScript
                 throw new ArgumentException("DeploymentPath must not be empty in deployment config.");
             }
 
+            System.IO.FileInfo fi = null;
+            try {
+                fi = new System.IO.FileInfo(config.DeploymentPath);
+            }
+            catch (ArgumentException) { }
+            catch (System.IO.PathTooLongException) { }
+            catch (NotSupportedException) { }
+            if (ReferenceEquals(fi, null)) {
+                throw new ArgumentException("DeploymentPath is not a legal path. Did u use double '\\'?");
+            } else {
+                
+            }
+
             if (config.CopyOnlyBinaries)
             {
                 return;
