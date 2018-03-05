@@ -26,6 +26,10 @@ namespace FlubuCore.WebApi.Client
             if (httpClient.BaseAddress != null)
             {
                 _webApiBaseUrl = httpClient.BaseAddress.ToString();
+                if (!_webApiBaseUrl.EndsWith("/"))
+                {
+                    _webApiBaseUrl = $"{_webApiBaseUrl}/";
+                }
             }
 
             GetAllClientMethods();
