@@ -74,6 +74,11 @@ namespace FlubuCore.Tasks.FlubuWebApi
                 }
             }
 
+            if (!_webApiUrl.EndsWith("/"))
+            {
+                _webApiUrl = $"{_webApiUrl}/";
+            }
+
             context.Properties.Set(BuildProps.LastWebApiBaseUrl, _webApiUrl);
            var client = WebApiClientFactory.Create(_webApiUrl);
 
