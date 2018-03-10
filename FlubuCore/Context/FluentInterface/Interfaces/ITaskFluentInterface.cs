@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using FlubuCore.Tasks.FileSystem;
 using FlubuCore.Tasks.FlubuWebApi;
 using FlubuCore.Tasks.Nuget;
@@ -30,6 +31,14 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="overwriteExisting">If <c>True</c> directory on the destination path is overwriten if it exists. Otherwise not.</param>
         /// <returns></returns>
         CopyDirectoryStructureTask CopyDirectoryStructureTask(string sourcePath, string destinationPath, bool overwriteExisting);
+
+        /// <summary>
+        /// Creates new <see cref="HttpClient"/> or get's existing one. Depending on the base url.
+        /// </summary>
+        /// <remarks></remarks>
+        /// <param name="baseUrl">The base url</param>
+        /// <returns></returns>
+        HttpClient CreateHttpClient(string baseUrl);
 
         /// <summary>
         /// Execute NuGet command line tool.

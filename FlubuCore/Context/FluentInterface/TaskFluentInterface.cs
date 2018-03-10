@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using FlubuCore.Context.FluentInterface.Interfaces;
+using FlubuCore.Infrastructure;
 using FlubuCore.Tasks.FileSystem;
 using FlubuCore.Tasks.Nuget;
 using FlubuCore.Tasks.Packaging;
@@ -21,11 +23,14 @@ namespace FlubuCore.Context.FluentInterface
 
         private readonly WebApiFluentInterface _webApiFluentInterface;
 
+        private readonly IHttpClientFactory _httpClientFactory;
+
         /// <inheritdoc />
-        public TaskFluentInterface(IIisTaskFluentInterface iisTasksFluentInterface, IWebApiFluentInterface webApiFluentInterface)
+        public TaskFluentInterface(IIisTaskFluentInterface iisTasksFluentInterface, IWebApiFluentInterface webApiFluentInterface, IHttpClientFactory httpClientFactory)
         {
             _iisTasksFluentInterface = (IisTaskFluentInterface)iisTasksFluentInterface;
             _webApiFluentInterface = (WebApiFluentInterface)webApiFluentInterface;
+            _httpClientFactory = httpClientFactory;
         }
 
         /// <summary>
@@ -50,6 +55,11 @@ namespace FlubuCore.Context.FluentInterface
         public CopyDirectoryStructureTask CopyDirectoryStructureTask(string sourcePath, string destinationPath, bool overwriteExisting)
         {
             return Context.CreateTask<CopyDirectoryStructureTask>(sourcePath, destinationPath, overwriteExisting);
+        }
+
+        public HttpClient CreateHttpClient(string baseUrl)
+        {
+          return _httpClientFactory.Create(baseUrl);
         }
 
         /// <inheritdoc />

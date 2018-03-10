@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFrameworks>netcoreapp2.0;net462</TargetFrameworks>
     <WarningsAsErrors>true</WarningsAsErrors>
     <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1701;1702;1705;1591;1573;1572;1574</NoWarn>
@@ -15,7 +15,11 @@
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
   </ItemGroup>
-
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net462'">
+    <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
+    
+    <DefineConstants>NET462;</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlubuCore.WebApi.Client\FlubuCore.WebApi.Client.csproj" />
     <ProjectReference Include="..\FlubuCore.WebApi.Model\FlubuCore.WebApi.Model.csproj" />
