@@ -9,9 +9,9 @@ using Microsoft.Extensions.Logging;
 
 namespace FlubuCore.Scripting
 {
-    public class BuildScriptEngine : IBuildScriptEngine
+    public class FlubuEngine : IFlubuEngine
     {
-        public BuildScriptEngine()
+        public FlubuEngine()
         {
 #if NETSTANDARD1_6
             throw new NotSupportedException("BuildScript engine is only supported in  =<.net standard2.0 and =<.net 4.62");
@@ -28,7 +28,7 @@ namespace FlubuCore.Scripting
 #endif
         }
 
-        public BuildScriptEngine(IServiceCollection serviceCollection, ILoggerFactory loggerFactory = null)
+        public FlubuEngine(IServiceCollection serviceCollection, ILoggerFactory loggerFactory = null)
         {
 #if NETSTANDARD1_6
             throw new NotSupportedException("BuildScript engine is only supported in  =<.net standard2.0 and =<.net 4.62");
@@ -53,7 +53,7 @@ namespace FlubuCore.Scripting
         public static IServiceCollection AddFlubuComponents(IServiceCollection serviceCollection)
         {
             serviceCollection.AddCoreComponents().AddTasks();
-            serviceCollection.AddSingleton<IBuildScriptEngine, BuildScriptEngine>();
+            serviceCollection.AddSingleton<IFlubuEngine, FlubuEngine>();
             return serviceCollection;
         }
 

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FlubuCore.Scripting
 {
-    public interface IBuildScriptEngine
+    public interface IFlubuEngine
     {
         ITaskFactory TaskFactory { get; }
 
