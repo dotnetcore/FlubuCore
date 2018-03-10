@@ -23,7 +23,6 @@ namespace Flubu.Tests.Scripting
             var taskSession = _flubuEngine.CreateTaskSession(new BuildScriptArguments
             {
                 MainCommands = new List<string>() { "Do" },
-                TargetsToExecute = new List<string>() { "Do" }
             });
 
             Assert.NotNull(_flubuEngine.ServiceProvider);
@@ -48,6 +47,20 @@ namespace Flubu.Tests.Scripting
             var taskSession = _flubuEngine.CreateTaskSession(new BuildScriptArguments());
             taskSession.Tasks().CreateDirectoryTask(path, true).Execute(taskSession);
             Assert.True(Directory.Exists(path));
+        }
+
+        [Fact]
+        public void CreateHttpClientInTaskTest()
+        {
+            var taskSession = _flubuEngine.CreateTaskSession(new BuildScriptArguments
+            {
+                MainCommands = new List<string>() { "HttpClient" },
+            });
+
+            BuildScriptWithHttpClient script = new BuildScriptWithHttpClient();
+
+            var result = script.Run(taskSession);
+            Assert.Equal(0, result);
         }
     }
 }
