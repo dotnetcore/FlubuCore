@@ -8,6 +8,7 @@ using FlubuCore.Context.FluentInterface;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Context.FluentInterface.TaskExtensions;
 using FlubuCore.Context.FluentInterface.TaskExtensions.Core;
+using FlubuCore.Infrastructure;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using FlubuCore.Scripting.Analysis;
@@ -39,6 +40,7 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddSingleton<IDirectoryWrapper, DirectoryWrapper>()
                 .AddSingleton<IFlubuEnviromentService, FlubuEnviromentService>()
                 .AddSingleton<ITaskFactory, DotnetTaskFactory>()
+                .AddSingleton<IHttpClientFactory, HttpClientFactory>()
                 .AddScoped<IBuildPropertiesSession, BuildPropertiesSession>()
                 .AddScoped<TargetTree>()
                 .AddScoped<ITaskSession, TaskSession>()
