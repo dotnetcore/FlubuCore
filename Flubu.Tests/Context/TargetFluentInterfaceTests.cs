@@ -2,6 +2,7 @@
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Context.FluentInterface.TaskExtensions;
+using FlubuCore.Infrastructure;
 using FlubuCore.Targeting;
 using Moq;
 using Xunit;
@@ -24,7 +25,7 @@ namespace Flubu.Tests.Context
             _fluent.Target = _target.Object;
             _fluent.Context = _context.Object;
             _fluent.CoreTaskFluent = new CoreTaskFluentInterface(new LinuxTaskFluentInterface());
-            _fluent.TaskFluent = new TaskFluentInterface(new IisTaskFluentInterface(), new WebApiFluentInterface());
+            _fluent.TaskFluent = new TaskFluentInterface(new IisTaskFluentInterface(), new WebApiFluentInterface(), new HttpClientFactory());
             _fluent.TaskExtensionsFluent = new TaskExtensionsFluentInterface();
         }
 
