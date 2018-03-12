@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using FlubuCore.WebApi.Controllers.Exception;
 using Microsoft.AspNetCore.Authorization;
@@ -74,7 +75,17 @@ namespace FlubuCore.WebApi.Controllers
         public IActionResult CleanPackagesDirectory()
         {
             var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "packages");
-            Directory.Delete(uploads, true);
+
+            try
+            {
+                Directory.Delete(uploads, true);
+            }
+            catch (IOException)
+            {
+                Thread.Sleep(1000);
+                Directory.Delete(uploads, true);
+            }
+
             Directory.CreateDirectory(uploads);
 
             return Ok();
