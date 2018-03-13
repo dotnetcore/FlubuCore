@@ -17,6 +17,12 @@ namespace FlubuCore.WebApi.Model
         /// </summary>
         public string PackageSearchPattern { get; set; }
 
+        /// <summary>
+        /// if <see cref="UploadToSubDirectory"/>  is not set it is uploaded to the root directory 'packages'.
+        /// If it is set then package is uploaded to specified sub directory 'Pacakges\{UploadToSubDirectory}'.
+        /// </summary>
+        public string UploadToSubDirectory { get; set; }
+
         public override string ToString()
         {
             return $"DirectoryPath: '{DirectoryPath}', PackageSeatchPattern: '{PackageSearchPattern}'";

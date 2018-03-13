@@ -5,10 +5,13 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FlubuCore.WebApi.Controllers.Exception;
+using FlubuCore.WebApi.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json;
 
 namespace FlubuCore.WebApi.Controllers
 {
@@ -43,7 +46,32 @@ namespace FlubuCore.WebApi.Controllers
                 throw new HttpError(HttpStatusCode.BadRequest, "NoFiles");
             }
 
-            var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "packages");
+            string uploadDirectory = "packages";
+
+            if (form.ContainsKey("request"))
+            {
+                StringValues request = form["request"];
+                var json = request[0];
+                try
+                {
+                    var uploadPackageRequest = JsonConvert.DeserializeObject<UploadPackageRequest>(json);
+                    if (!string.IsNullOrWhiteSpace(uploadPackageRequest.UploadToSubDirectory))
+                    {
+                        uploadDirectory = Path.Combine(uploadDirectory, uploadPackageRequest.UploadToSubDirectory);
+                    }
+                }
+                catch (System.Exception e)
+                {
+                    _logger.LogWarning($"request was present but was not of type UploadPackageRequest. Package will be uploaded to root directory. Excetpion: {e}");
+                }
+            }
+
+            var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, uploadDirectory);
+
+            if (!Directory.Exists(uploads))
+            {
+                Directory.CreateDirectory(uploads);
+            }
 
             foreach (var formFile in form.Files)
             {

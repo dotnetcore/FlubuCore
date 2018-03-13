@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FlubuCore.WebApi.Client.Attributes;
 using FlubuCore.WebApi.Model;
+using Newtonsoft.Json;
 
 namespace FlubuCore.WebApi.Client
 {
@@ -70,7 +71,8 @@ namespace FlubuCore.WebApi.Client
             using (var content = new MultipartFormDataContent())
             {
                 ////todo investigate why one content has to be added.
-                content.Add(new ByteArrayContent(new byte[0]), "fake");
+                var json = JsonConvert.SerializeObject(request);
+                content.Add(new StringContent(json), "request");
                 foreach (var file in filesInDir)
                 {
                     var stream = new FileStream(file.FullName, FileMode.Open);
