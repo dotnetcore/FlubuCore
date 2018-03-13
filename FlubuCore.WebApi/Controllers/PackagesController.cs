@@ -46,32 +46,7 @@ namespace FlubuCore.WebApi.Controllers
                 throw new HttpError(HttpStatusCode.BadRequest, "NoFiles");
             }
 
-            string uploadDirectory = "packages";
-
-            if (form.ContainsKey("request"))
-            {
-                StringValues request = form["request"];
-                var json = request[0];
-                try
-                {
-                    var uploadPackageRequest = JsonConvert.DeserializeObject<UploadPackageRequest>(json);
-                    if (!string.IsNullOrWhiteSpace(uploadPackageRequest.UploadToSubDirectory))
-                    {
-                        uploadDirectory = Path.Combine(uploadDirectory, uploadPackageRequest.UploadToSubDirectory);
-                    }
-                }
-                catch (System.Exception e)
-                {
-                    _logger.LogWarning($"request was present but was not of type UploadPackageRequest. Package will be uploaded to root directory. Excetpion: {e}");
-                }
-            }
-
-            var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, uploadDirectory);
-
-            if (!Directory.Exists(uploads))
-            {
-                Directory.CreateDirectory(uploads);
-            }
+            var uploadDirectory = GetUploadDirectory();
 
             foreach (var formFile in form.Files)
             {
@@ -86,7 +61,7 @@ namespace FlubuCore.WebApi.Controllers
 
                 if (formFile.Length > 0)
                 {
-                    var uploadPath = Path.Combine(uploads, formFile.FileName);
+                    var uploadPath = Path.Combine(uploadDirectory, formFile.FileName);
                     using (var fileStream = new FileStream(uploadPath, FileMode.Create))
                     {
                         await formFile.CopyToAsync(fileStream);
@@ -117,6 +92,39 @@ namespace FlubuCore.WebApi.Controllers
             Directory.CreateDirectory(uploads);
 
             return Ok();
+        }
+
+        private string GetUploadDirectory()
+        {
+            var form = Request.Form;
+            string uploadDirectory = "packages";
+            if (form.ContainsKey("request"))
+            {
+                StringValues request = form["request"];
+                var json = request[0];
+                try
+                {
+                    var uploadPackageRequest = JsonConvert.DeserializeObject<UploadPackageRequest>(json);
+                    if (!string.IsNullOrWhiteSpace(uploadPackageRequest.UploadToSubDirectory))
+                    {
+                        uploadDirectory = Path.Combine(uploadDirectory, uploadPackageRequest.UploadToSubDirectory);
+                    }
+                }
+                catch (System.Exception e)
+                {
+                    _logger.LogWarning(
+                        $"request was present but was not of type UploadPackageRequest. Package will be uploaded to root directory. Excetpion: {e}");
+                }
+            }
+
+            uploadDirectory = Path.Combine(_hostingEnvironment.ContentRootPath, uploadDirectory);
+
+            if (!Directory.Exists(uploadDirectory))
+            {
+                Directory.CreateDirectory(uploadDirectory);
+            }
+
+            return uploadDirectory;
         }
     }
 }
