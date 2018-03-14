@@ -7,6 +7,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
 {
     public class DeletePackagesTask : WebApiBaseTask<DeletePackagesTask, int>
     {
+        private string _subDirectory = null;
         private string _description;
 
         public DeletePackagesTask(IWebApiClientFactory webApiClient)
@@ -30,6 +31,12 @@ namespace FlubuCore.Tasks.FlubuWebApi
             set => _description = value;
         }
 
+        public DeletePackagesTask DeleteFromSubDirectory(string subDirectory)
+        {
+            _subDirectory = subDirectory;
+            return this;
+        }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             var task = DoExecuteAsync(context);
@@ -39,8 +46,13 @@ namespace FlubuCore.Tasks.FlubuWebApi
 
         protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
         {
+            var request = new CleanPackagesDirectoryRequest
+            {
+                SubDirectoryToDelete = _subDirectory
+            };
+
             var client = WebApiClientFactory.Create(context.Properties.Get<string>(BuildProps.LastWebApiBaseUrl));
-            await client.DeletePackagesAsync(new CleanPackagesDirectoryRequest());
+            await client.DeletePackagesAsync(request);
             return 0;
         }
     }
