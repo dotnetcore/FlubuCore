@@ -104,14 +104,48 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         {
             var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
+            if (Directory.Exists("packages"))
+            {
+                Directory.Delete("Packages", true);
+            }
+
             Directory.CreateDirectory("Packages");
             using (File.Create("packages/test.txt"))
             {
             }
 
-            await Client.DeletePackagesAsync();
+            await Client.DeletePackagesAsync(new CleanPackagesDirectoryRequest());
             Assert.False(File.Exists("packages/test.txt"));
             Assert.True(Directory.Exists("Packages"));
+        }
+
+        [Fact]
+        public async Task DeletePackages_SubFolder_Succesfull()
+        {
+            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            Client.Token = token.Token;
+            if (Directory.Exists("packages"))
+            {
+                Directory.Delete("Packages", true);
+            }
+
+            Directory.CreateDirectory("Packages");
+            Directory.CreateDirectory("Packages/subdir");
+            using (File.Create("packages/subdir/test.txt"))
+            {
+            }
+
+            using (File.Create("packages/ttt.txt"))
+            {
+            }
+
+            await Client.DeletePackagesAsync(new CleanPackagesDirectoryRequest
+            {
+                SubDirectoryToDelete = "subdir"
+            });
+            Assert.False(File.Exists("packages/subdir/test.txt"));
+            Assert.True(File.Exists("packages//ttt.txt"));
+            Assert.True(Directory.Exists("Packages/subdir"));
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.WebApi.Client;
+using FlubuCore.WebApi.Model;
 
 namespace FlubuCore.Tasks.FlubuWebApi
 {
@@ -39,7 +40,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
         protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
         {
             var client = WebApiClientFactory.Create(context.Properties.Get<string>(BuildProps.LastWebApiBaseUrl));
-            await client.DeletePackagesAsync();
+            await client.DeletePackagesAsync(new CleanPackagesDirectoryRequest());
             return 0;
         }
     }

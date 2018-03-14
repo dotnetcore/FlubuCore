@@ -31,10 +31,10 @@ namespace FlubuCore.WebApi.Client
         Task UploadPackageAsync(UploadPackageRequest request);
 
         /// <summary>
-        /// Deletes all packages on flubu web api server.
+        /// Cleanes packages directory on flubu web api server.
         /// </summary>
         /// <returns></returns>
-        Task DeletePackagesAsync();
+        Task DeletePackagesAsync(CleanPackagesDirectoryRequest request);
 
         /// <summary>
         /// Get's the access token for flubu web api server.

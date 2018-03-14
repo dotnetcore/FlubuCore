@@ -90,9 +90,9 @@ namespace FlubuCore.WebApi.Client
         }
 
         [Delete("api/packages")]
-        public async Task DeletePackagesAsync()
+        public async Task DeletePackagesAsync(CleanPackagesDirectoryRequest request)
         {
-            await SendAsync();
+            await SendAsync(request);
         }
 
         [Post("api/Auth")]

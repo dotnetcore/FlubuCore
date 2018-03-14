@@ -75,21 +75,26 @@ namespace FlubuCore.WebApi.Controllers
         }
 
         [HttpDelete]
-        public IActionResult CleanPackagesDirectory()
+        public IActionResult CleanPackagesDirectory([FromBody]CleanPackagesDirectoryRequest request)
         {
-            var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "packages");
+            var uploadDirectory = Path.Combine(_hostingEnvironment.ContentRootPath, "packages");
+
+            if (!string.IsNullOrWhiteSpace(request.SubDirectoryToDelete))
+            {
+                uploadDirectory = Path.Combine(uploadDirectory, request.SubDirectoryToDelete);
+            }
 
             try
             {
-                Directory.Delete(uploads, true);
+                Directory.Delete(uploadDirectory, true);
             }
             catch (IOException)
             {
                 Thread.Sleep(1000);
-                Directory.Delete(uploads, true);
+                Directory.Delete(uploadDirectory, true);
             }
 
-            Directory.CreateDirectory(uploads);
+            Directory.CreateDirectory(uploadDirectory);
 
             return Ok();
         }
