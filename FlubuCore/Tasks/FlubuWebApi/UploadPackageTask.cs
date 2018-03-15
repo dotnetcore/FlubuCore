@@ -13,6 +13,9 @@ namespace FlubuCore.Tasks.FlubuWebApi
         private string _packageSearchPattern;
 
         private string _directoryPath;
+
+        private string _uploadToSubDirectory;
+
         private string _description;
 
         public UploadPackageTask(IWebApiClientFactory client, string directoryPath)
@@ -47,6 +50,12 @@ namespace FlubuCore.Tasks.FlubuWebApi
             return this;
         }
 
+        public UploadPackageTask UploadToSubDirectory(string subDirectory)
+        {
+            _uploadToSubDirectory = subDirectory;
+            return this;
+        }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             Task<int> task = DoExecuteAsync(context);
@@ -60,7 +69,8 @@ namespace FlubuCore.Tasks.FlubuWebApi
             await client.UploadPackageAsync(new UploadPackageRequest
             {
                 PackageSearchPattern = _packageSearchPattern,
-                DirectoryPath = _directoryPath
+                DirectoryPath = _directoryPath,
+                UploadToSubDirectory = _uploadToSubDirectory,
             });
 
             return 0;
