@@ -11,7 +11,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
         private readonly string _password;
         private readonly string _username;
         private string _webApiUrl;
-        private TimeSpan _timeout;
+        private TimeSpan? _timeout;
         private string _description;
 
         public GetTokenTask(string username, string password, IWebApiClientFactory webApiClient)
@@ -80,7 +80,12 @@ namespace FlubuCore.Tasks.FlubuWebApi
             }
 
             context.Properties.Set(BuildProps.LastWebApiBaseUrl, _webApiUrl);
-           var client = WebApiClientFactory.Create(_webApiUrl);
+            var client = WebApiClientFactory.Create(_webApiUrl);
+
+            if (_timeout.HasValue)
+            {
+                client.Timeout = _timeout.Value;
+            }
 
             var response = await client.GetToken(new GetTokenRequest
             {
