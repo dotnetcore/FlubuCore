@@ -116,15 +116,17 @@ namespace FlubuCore.Tasks.Iis
                     action(0);
                     break;
                 }
-                catch (COMException)
+                catch (COMException ex)
                 {
-                    //// todo ErrorCode is not available in .net core
-                    ////for (int j = 0; j < ignoredErrorCodes.Length; j++)
-                    ////{
-                    ////    if (ignoredErrorCodes[j] == ex.ErrorCode
-                    ////       return;
-                    ////}
-
+                    #if !NETSTANDARD1_6
+                    for (int j = 0; j < ignoredErrorCodes.Length; j++)
+                    {
+                        if (ignoredErrorCodes[j] == ex.ErrorCode)
+                        {
+                            return;
+                        }
+                    }
+                    #endif
                     if (i == retries - 1)
                         throw;
                     Thread.Sleep(1000);
