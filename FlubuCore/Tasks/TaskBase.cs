@@ -208,6 +208,7 @@ namespace FlubuCore.Tasks
                 {
                     if (DoNotFail)
                     {
+                        contextInternal.LogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                         _doNotFailOnErrorAction?.Invoke(ex);
                         return default(TResult);
                     }
@@ -226,6 +227,7 @@ namespace FlubuCore.Tasks
 
                 if (DoNotFail)
                 {
+                    contextInternal.LogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                     _doNotFailOnErrorAction?.Invoke(ex);
                     return default(TResult);
                 }
@@ -268,6 +270,7 @@ namespace FlubuCore.Tasks
                 {
                     if (DoNotFail)
                     {
+                        contextInternal.LogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                         _doNotFailOnErrorAction?.Invoke(ex);
                         return default(TResult);
                     }
@@ -286,6 +289,7 @@ namespace FlubuCore.Tasks
 
                 if (DoNotFail)
                 {
+                     contextInternal.LogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                     _doNotFailOnErrorAction?.Invoke(ex);
                     return default(TResult);
                 }
