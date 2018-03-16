@@ -18,7 +18,7 @@ namespace FlubuCore.WebApi.Client
     {
         private string _webApiBaseUrl;
 
-        private List<MethodInfo> _methods = null;
+        private Dictionary<string, MethodInfo> _methods = new Dictionary<string, MethodInfo>();
 
         internal RestClient(HttpClient httpClient)
         {
@@ -78,7 +78,7 @@ namespace FlubuCore.WebApi.Client
         internal async Task<TResponse> SendAsync<TResponse>(object request, [CallerMemberName]string memberName = "", string queryString = null)
             where TResponse : new()
         {
-            var method = _methods.FirstOrDefault(x => x.Name == memberName);
+            var method = _methods[memberName];
             var attribute = method.GetCustomAttribute<HttpAttribute>();
 
             if (attribute == null)
@@ -162,7 +162,17 @@ namespace FlubuCore.WebApi.Client
 
         protected virtual void GetAllClientMethods()
         {
-            _methods = GetType().GetRuntimeMethods().ToList();
+            AddMethods(GetType().GetRuntimeMethods());
+        }
+
+        private void AddMethods(IEnumerable<MethodInfo> methodsList)
+        {
+            string[] exclude = new[] { "ToString", "Equals", "GetHashCode", "GetType", "Finalize", "MemberwiseClone", nameof(RestClient.SendAsync) };
+
+            foreach (var method in methodsList.Where(x => !exclude.Contains(x.Name)))
+            {
+                _methods.Add(method.Name, method);
+            }
         }
     }
 }
