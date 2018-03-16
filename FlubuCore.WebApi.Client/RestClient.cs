@@ -80,6 +80,12 @@ namespace FlubuCore.WebApi.Client
         {
             var method = _methods.FirstOrDefault(x => x.Name == memberName);
             var attribute = method.GetCustomAttribute<HttpAttribute>();
+
+            if (attribute == null)
+            {
+                throw new ArgumentNullException($"Http attribute was not applied on method '{memberName}'");
+            }
+
             var relativePath = UrlHelpers.ReplaceParameterTemplatesInRelativePathWithValues(attribute.Path, request);
 
             HttpRequestMessage requestMessage = new HttpRequestMessage();
