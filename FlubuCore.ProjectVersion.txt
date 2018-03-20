@@ -1,3 +1,10 @@
+2.5.1.0
+- IIS control application poll task doesnt fail anymore if application poll is in same state as specified in control application pool task
+- WebApi: Added option to upload packages to specified subdirectory in packages folder.
+- WebApi: Added option to delete packages from specified subdirectory in packages folder.
+- FlubuCore: Fixed set timeout on web api tasks.
+- FlubuCore: When DoNotFail is applied on task exception is now logged. 
+
 2.5.0.0
 - Added create HttpClient task.
 - WebApi for .net 462 framework
