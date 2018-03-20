@@ -86,7 +86,10 @@ namespace FlubuCore.WebApi.Controllers
 
             try
             {
-                Directory.Delete(uploadDirectory, true);
+                if (Directory.Exists(uploadDirectory))
+                {
+                    Directory.Delete(uploadDirectory, true);
+                }
             }
             catch (IOException)
             {
