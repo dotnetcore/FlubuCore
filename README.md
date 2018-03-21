@@ -4,6 +4,28 @@
 
 Flubu is A C# library for building projects and executing deployment scripts using C# code.
 
+### Flubu main features / advantages ###
+
+* Net Core support (works also on linux and macOS).
+* Easy to learn and to use because you write build script entirely in C#.
+* Quite a lot of built in tasks (compile, running tests, managing iis, creating deploy package, publishing nuget packages, executing powershell scripts...)
+* Write your own custom c# code in script and execute it. 
+* Run any external program in script.
+* Reference any .net library or c# source code file in buildscript.
+* Fluent interface and intelisense.
+* Write tests, debug your build script.
+* Use flubu tasks in any  other application.
+* Web api is available for flubu. Useful for automated deployments remotely.
+* Write your own flubu tasks and extend flubu fluent interface with them.
+
+### Documentation ###
+
+* See wiki on github
+
+### Have a question? ###
+
+* [![Join the chat at https://gitter.im/FlubuCore/Lobby](https://badges.gitter.im/mbdavid/LiteDB.svg)](https://gitter.im/FlubuCore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 | Job              | Platform     | Build status                                                                                                                                                        | 
 |-----------------------------|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Flubu | Windows| [![Build Status](http://lucidlynx.comtrade.com:8080/buildStatus/icon?job=FlubuCore)](http://lucidlynx.comtrade.com:8080/job/FlubuCore) | &nbsp;
@@ -12,15 +34,6 @@ Flubu is A C# library for building projects and executing deployment scripts usi
 | Flubu cli tool System tests - tests on .net core 1.1  xproj project  | Windows| [![Build Status](http://lucidlynx.comtrade.com:8080/buildStatus/icon?job=FlubuCore_SystemTests_.Net_Core_xproj)](http://lucidlynx.comtrade.com:8080/job/FlubuCore_SystemTests_.Net_Core_xproj) | &nbsp;
 
 FlubuCore main build and FlubuCore system tests are also runned on linux machine but status can not be displayed because build server is hosted on private server.
-
-### Documentation ###
-
-* See wiki on github
-
-### Who do I talk to? ###
-
-* Have a question? 
-[![Join the chat at https://gitter.im/FlubuCore/Lobby](https://badges.gitter.im/mbdavid/LiteDB.svg)](https://gitter.im/FlubuCore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ### examples ###
 * [**.net simple example**](https://github.com/flubu-core/examples/blob/master/MVC_NET4.61/BuildScripts/BuildScriptSimple.cs
