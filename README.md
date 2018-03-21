@@ -37,7 +37,8 @@ FlubuCore main build and FlubuCore system tests are also runned on linux machine
 
 ### Who do I talk to? ###
 
-* Add new issue if u have a question regarding flubu.
+* Have a question? 
+[![Join the chat at https://gitter.im/FlubuCore/Lobby](https://badges.gitter.im/mbdavid/LiteDB.svg)](https://gitter.im/FlubuCore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [**Release notes**](https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt
 )
