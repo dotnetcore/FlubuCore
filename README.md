@@ -4,6 +4,11 @@
 
 Flubu is A C# library for building projects and executing deployment scripts using C# code.
 
+You can find FlubuCore on nuget.
+* .NET Core - search for Dotnet-Flubu' cli tool
+* .NET - search for 'Flubu.Runner'.
+
+
 ### Flubu main features / advantages ###
 
 * Net Core support (works also on linux and macOS).
