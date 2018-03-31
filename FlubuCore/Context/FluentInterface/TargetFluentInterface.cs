@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FlubuCore.Context.FluentInterface.Interfaces;
@@ -128,6 +129,12 @@ namespace FlubuCore.Context.FluentInterface
         public ITargetFluentInterface AddTask(params ITask[] tasks)
         {
             Target.AddTask(tasks);
+            return this;
+        }
+
+        public ITargetFluentInterface AddTasks(Action<ITargetFluentInterface> action)
+        {
+            action?.Invoke(this);
             return this;
         }
 

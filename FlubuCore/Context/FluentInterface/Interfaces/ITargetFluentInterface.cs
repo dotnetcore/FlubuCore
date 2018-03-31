@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
@@ -62,6 +63,8 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITargetFluentInterface Do<T, T1>(Action<ITaskContextInternal, T, T1> targetAction, T param, T1 param2, Action<DoTask3<T, T1>> doOptions = null);
+
+        ITargetFluentInterface AddTasks(Action<ITargetFluentInterface> action);
 
         /// <summary>
         /// Execute custom code in script. U can invoke base task actions through optional parameters.
