@@ -18,7 +18,6 @@ namespace FlubuCore.Scripting
             RethrowOnException = arguments.RethrowOnException;
             ScriptArguments = arguments.ScriptArguments;
             TargetsToExecute = arguments.TargetsToExecute;
-            TreatUnknownTargetAsException = arguments.TreatUnknownTargetAsException;
         }
 
         public bool Help { get; set; }

@@ -125,7 +125,6 @@ namespace FlubuCore.WebApi.Controllers
                 }
             }
 
-            _commandArguments.TreatUnknownTargetAsException = true;
             _commandArguments.RethrowOnException = true;
         }
     }

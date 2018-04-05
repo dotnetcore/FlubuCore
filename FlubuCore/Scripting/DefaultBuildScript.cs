@@ -18,6 +18,14 @@ namespace FlubuCore.Scripting
                 RunBuild(taskSession);
                 return 0;
             }
+            catch (TargetNotFoundException e)
+            {
+                if (taskSession.Args.RethrowOnException)
+                    throw;
+
+                taskSession.LogInfo(e.Message);
+                return 3;
+            }
             catch (FlubuException e)
             {
                 if (taskSession.Args.RethrowOnException)
@@ -40,19 +48,14 @@ namespace FlubuCore.Scripting
 
         protected abstract void ConfigureTargets(ITaskContext session);
 
-        private static List<string> ParseCmdLineArgs(ITaskContextInternal context, TargetTree targetTree)
+        private static (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) ParseCmdLineArgs(ITaskContextInternal context, TargetTree targetTree)
         {
-            if (context.Args.MainCommands == null || context.Args.MainCommands.Count == 0) return null;
+            if (context.Args.MainCommands == null || context.Args.MainCommands.Count == 0) return (null, false, null);
 
             if (targetTree.HasAllTargets(context.Args.MainCommands, out var notFoundTargets))
-                return context.Args.MainCommands;
+                return (context.Args.MainCommands, false, null);
 
-            if (context.Args.TreatUnknownTargetAsException)
-                throw new TargetNotFoundException($"Target {string.Join(" and ", notFoundTargets)} not found.");
-
-            context.LogInfo($"ERROR: Target {string.Join(" and ", notFoundTargets)} not found.");
-            return new List<string>
-                { "help" };
+            return (new List<string> { "help" }, true,  notFoundTargets);
         }
 
         private void RunBuild(ITaskSession taskSession)
@@ -65,22 +68,22 @@ namespace FlubuCore.Scripting
 
             ConfigureTargets(taskSession);
 
-            var targetsToRun = ParseCmdLineArgs(taskSession, taskSession.TargetTree);
+            var targetsInfo = ParseCmdLineArgs(taskSession, taskSession.TargetTree);
 
-            if (targetsToRun == null || targetsToRun.Count == 0)
+            if (targetsInfo.targetsToRun == null || targetsInfo.targetsToRun.Count == 0)
             {
                 var defaultTargets = taskSession.TargetTree.DefaultTargets;
-                targetsToRun = new List<string>();
+                targetsInfo.targetsToRun = new List<string>();
                 if (defaultTargets != null && defaultTargets.Count != 0)
                 {
                     foreach (var defaultTarget in defaultTargets)
                     {
-                        targetsToRun.Add(defaultTarget.TargetName);
+                        targetsInfo.targetsToRun.Add(defaultTarget.TargetName);
                     }
                 }
                 else
                 {
-                    targetsToRun.Add("help");
+                    targetsInfo.targetsToRun.Add("help");
                 }
             }
 
@@ -97,33 +100,40 @@ namespace FlubuCore.Scripting
 
                     if (targt?.TaskStopwatch.ElapsedTicks > 0)
                     {
-                        s.LogInfo(
-                            $"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s");
+                        s.LogInfo($"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s");
                     }
                 }
 
-                s.LogInfo(s.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
+                if (!targetsInfo.unknownTarget)
+                {
+                    s.LogInfo(s.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
+                }
             });
 
             //// specific target help
-            if (targetsToRun.Count == 2 && targetsToRun[1].Equals("help", StringComparison.OrdinalIgnoreCase))
+            if (targetsInfo.targetsToRun.Count == 2 && targetsInfo.targetsToRun[1].Equals("help", StringComparison.OrdinalIgnoreCase))
             {
-                taskSession.TargetTree.RunTargetHelp(taskSession, targetsToRun[0]);
+                taskSession.TargetTree.RunTargetHelp(taskSession, targetsInfo.targetsToRun[0]);
                 return;
             }
 
-            if (targetsToRun.Count == 1 || !taskSession.Args.ExecuteTargetsInParallel)
+            if (targetsInfo.targetsToRun.Count == 1 || !taskSession.Args.ExecuteTargetsInParallel)
             {
-                foreach (var targetToRun in targetsToRun) taskSession.TargetTree.RunTarget(taskSession, targetToRun);
+                foreach (var targetToRun in targetsInfo.targetsToRun) taskSession.TargetTree.RunTarget(taskSession, targetToRun);
             }
             else
             {
                 taskSession.LogInfo("Running target's in parallel.");
                 var tasks = new List<Task>();
-                foreach (var targetToRun in targetsToRun)
+                foreach (var targetToRun in targetsInfo.targetsToRun)
                     tasks.Add(taskSession.TargetTree.RunTargetAsync(taskSession, targetToRun));
 
                 Task.WaitAll(tasks.ToArray());
+            }
+
+            if (targetsInfo.unknownTarget)
+            {
+                throw new TargetNotFoundException($"Target {string.Join(" and ", targetsInfo.notFoundTargets)} not found.");
             }
 
             AssertAllTargetDependenciesWereExecuted(taskSession);
