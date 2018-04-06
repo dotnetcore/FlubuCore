@@ -1,3 +1,10 @@
+2.6.0.0
+- Added option to add multiple tasks, dependencies With (anonimous) method to target with Do method.
+- (BREAKING CHANGE)Migrated CoreTaskExtensions fluent interface to CoreTasks fluent interface. All extensions method have same name so update should be very simple.
+- (BREAKING CHANGE)Migreated TaskExtensions fluent interface to Tasks fluent interface. All extensions method have same name so update should be very simple.
+- When target is not found result is now not anymore success status code. 
+- Updated some nuget packages.
+
 2.5.1.0
 - IIS control application poll task doesnt fail anymore if application poll is in same state as specified in control application pool task
 - WebApi: Added option to upload packages to specified subdirectory in packages folder.
