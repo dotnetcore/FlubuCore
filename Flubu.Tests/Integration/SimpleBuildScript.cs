@@ -19,11 +19,6 @@ namespace Flubu.Tests.Integration
             ITargetFluentInterface test1 = session.CreateTarget("test1")
                 .DependsOn(test);
 
-            session.CreateTarget("extensions")
-                .CoreTaskExtensions()
-                .DotnetPublish("33")
-                .CreateZipPackageFromProjects("aa", "netcoreapp1.1", "fdf");
-
             var restore = session
                 .CreateTarget("restore")
                 .AddCoreTask(s => s.Restore());
@@ -47,17 +42,6 @@ namespace Flubu.Tests.Integration
                 .AddTask(x => x.IisTasks().DeleteAppPoolTask("test"));
 
             session.CreateTarget("Do").Do(DoExample, "test");
-
-            package
-                .CoreTaskExtensions()
-                .DotnetPublish("a", "b", "c")
-                .CreateZipPackageFromProjects("8d", "netcoreapp1.1", "a", "b", "c", task =>
-                {
-                    task.AddDirectoryToPackage("configuration", "configuration", true)
-                        .AddFileToPackage("DeployScript.cs", string.Empty)
-                        .AddFileToPackage("project.json", string.Empty)
-                        .AddFileToPackage("NuGet.config", string.Empty);
-                });
         }
 
         private void DoExample(ITaskContext context, string parameter)
