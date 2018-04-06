@@ -9,7 +9,7 @@ using FlubuCore.Tasks.Testing;
 
 namespace FlubuCore.Context.FluentInterface.TaskExtensions
 {
-    public static class ICoreTaskFluentInterfaceExtensions
+    public static class CoreTaskFluentInterfaceExtensions
     {
         public static ExecuteDotnetTask DotnetAddEfMigration(this ICoreTaskFluentInterface coreTask, string workingFolder, string migrationName = "default", Action<ExecuteDotnetTask> taskOptions = null)
         {

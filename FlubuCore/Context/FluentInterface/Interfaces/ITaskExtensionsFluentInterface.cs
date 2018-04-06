@@ -11,6 +11,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// Generate's common assembly info file. Information is taken from <see cref="BuildProps"/>
         /// </summary>
         /// <returns></returns>
+        [Obsolete("TaskExtensions fluent interface is obsolete all extensions were migrated to Tasks  fluent interface with same name as now as extension methods or new task.", true)]
         ITaskExtensionsFluentInterface GenerateCommonAssemblyInfo(Action<GenerateCommonAssemblyInfoTask> action = null);
 
         /// <summary>
@@ -18,6 +19,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="programs"></param>
         /// <returns></returns>
+        [Obsolete("TaskExtensions fluent interface is obsolete all extensions were migrated to Tasks  fluent interface with same name as now as extension methods or new task.", true)]
         ITaskExtensionsFluentInterface RunMultiProgram(params string[] programs);
 
         /// <summary>
@@ -27,6 +29,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="workingFolder"></param>
         /// <param name="args"></param>
         /// <returns></returns>
+        [Obsolete("TaskExtensions fluent interface is obsolete all extensions were migrated to Tasks  fluent interface with same name as now as extension methods or new task.", true)]
         ITaskExtensionsFluentInterface RunProgram(string program, string workingFolder, params string[] args);
 
         /// <summary>
@@ -35,6 +38,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="program"></param>
         /// <param name="workingFolder"></param>
         /// <returns></returns>
+        [Obsolete("TaskExtensions fluent interface is obsolete all extensions were migrated to Tasks  fluent interface with same name as now as extension methods or new task.", true)]
         ITaskExtensionsFluentInterface RunProgram(string program, string workingFolder, Action<IRunProgramTask> action = null);
 
         /// <summary>

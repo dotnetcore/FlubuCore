@@ -14,7 +14,7 @@ namespace FlubuCore.Tasks.Versioning
         private string _companyCopyright;
         private string _companyTrademark;
         private string _buildConfiguration;
-        private bool _generateConfigurationAttribute;
+        private bool _generateConfigurationAttribute = true;
         private bool _generateCultureAttribute;
         private int _productVersionFieldCount;
         private string _informationalVersion;

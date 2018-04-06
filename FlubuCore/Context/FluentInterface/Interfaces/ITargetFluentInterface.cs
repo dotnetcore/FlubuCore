@@ -192,28 +192,28 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         ITargetFluentInterface AddTask(params ITask[] tasks);
 
         /// <summary>
-        /// Add's the (core) task to the target.
+        /// Add's the specified task to the target.
         /// </summary>
         /// <param name="task">The task to be added</param>
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITargetFluentInterface AddTask(Func<ITaskFluentInterface, ITask> task);
 
         /// <summary>
-        /// Add's the .net core task to the target.
+        /// Add's the specified .net core task to the target.
         /// </summary>
         /// <param name="task">The .net core task to be added</param>
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITargetFluentInterface AddCoreTask(Func<ICoreTaskFluentInterface, ITask> task);
 
         /// <summary>
-        /// Add's the (core) task to the target that will be run asynchronous with other tasks.
+        /// Add's the specified task to the target that will be run asynchronous with other tasks.
         /// </summary>
         /// <param name="task">The task to be added</param>
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ITargetFluentInterface AddTaskAsync(Func<ITaskFluentInterface, ITask> task);
 
         /// <summary>
-        /// Add's the .net core task to the target that will be run asynchronous with other tasks.
+        /// Add's the specified .net core task to the target that will be run asynchronous with other tasks.
         /// </summary>
         /// <param name="task">The task to be added</param>
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
