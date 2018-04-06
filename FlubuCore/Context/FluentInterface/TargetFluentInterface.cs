@@ -132,37 +132,37 @@ namespace FlubuCore.Context.FluentInterface
             return this;
         }
 
-        public ITargetFluentInterface AddTasks(Action<ITargetFluentInterface> action)
+        public ITargetFluentInterface Do(Action<ITargetFluentInterface> action)
         {
             action?.Invoke(this);
             return this;
         }
 
-        public ITargetFluentInterface AddTasks<T>(Action<ITargetFluentInterface, T> action, T param, Action<AddTaskOptions<T>> tasksOptions = null)
+        public ITargetFluentInterface Do<T>(Action<ITargetFluentInterface, T> action, T param)
         {
             action?.Invoke(this, param);
             return this;
         }
 
-        public ITargetFluentInterface AddTasks<T, T2>(Action<ITargetFluentInterface, T, T2> action, T param, T2 param2, Action<AddTaskOptions<T>> tasksOptions = null)
+        public ITargetFluentInterface Do<T, T2>(Action<ITargetFluentInterface, T, T2> action, T param, T2 param2)
         {
             action?.Invoke(this, param, param2);
             return this;
         }
 
-        public ITargetFluentInterface AddTasks<T, T2, T3>(Action<ITargetFluentInterface, T, T2, T3> action, T param, T2 param2, T3 param3, Action<AddTaskOptions<T>> tasksOptions = null)
+        public ITargetFluentInterface Do<T, T2, T3>(Action<ITargetFluentInterface, T, T2, T3> action, T param, T2 param2, T3 param3)
         {
             action?.Invoke(this, param, param2, param3);
             return this;
         }
 
-        public ITargetFluentInterface AddTasks<T, T2, T3, T4>(Action<ITargetFluentInterface, T, T2, T3, T4> action, T param, T2 param2, T3 param3, T4 param4, Action<AddTaskOptions<T>> tasksOptions = null)
+        public ITargetFluentInterface Do<T, T2, T3, T4>(Action<ITargetFluentInterface, T, T2, T3, T4> action, T param, T2 param2, T3 param3, T4 param4)
         {
             action?.Invoke(this, param, param2, param3, param4);
             return this;
         }
 
-        public ITargetFluentInterface AddTasks<T, T2, T3, T4, T5>(Action<ITargetFluentInterface, T, T2, T3, T4, T5> action, T param, T2 param2, T3 param3, T4 param4, T5 param5, Action<AddTaskOptions<T>> tasksOptions = null)
+        public ITargetFluentInterface Do<T, T2, T3, T4, T5>(Action<ITargetFluentInterface, T, T2, T3, T4, T5> action, T param, T2 param2, T3 param3, T4 param4, T5 param5)
         {
             action?.Invoke(this, param, param2, param3, param4, param5);
             return this;

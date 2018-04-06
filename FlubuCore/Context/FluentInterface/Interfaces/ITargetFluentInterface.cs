@@ -224,42 +224,42 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="action">Define tasks to be added to target.</param>
         /// <returns></returns>
-        ITargetFluentInterface AddTasks(Action<ITargetFluentInterface> action);
+        ITargetFluentInterface Do(Action<ITargetFluentInterface> action);
 
         /// <summary>
         /// Adds set of tasks to target.
         /// </summary>
         /// <param name="action">Define tasks to be added to target.</param>
         /// <returns></returns>
-        ITargetFluentInterface AddTasks<T>(Action<ITargetFluentInterface, T> action, T param, Action<AddTaskOptions<T>> tasksOptions = null);
+        ITargetFluentInterface Do<T>(Action<ITargetFluentInterface, T> action, T param);
 
         /// <summary>
         /// Adds set of tasks to target.
         /// </summary>
         /// <param name="action">Define tasks to be added to target.</param>
         /// <returns></returns>
-        ITargetFluentInterface AddTasks<T, T2>(Action<ITargetFluentInterface, T, T2> action, T param, T2 param2, Action<AddTaskOptions<T>> tasksOptions = null);
+        ITargetFluentInterface Do<T, T2>(Action<ITargetFluentInterface, T, T2> action, T param, T2 param2);
 
         /// <summary>
         /// Adds set of tasks to target.
         /// </summary>
         /// <param name="action">Define tasks to be added to target.</param>
         /// <returns></returns>
-        ITargetFluentInterface AddTasks<T, T2, T3>(Action<ITargetFluentInterface, T, T2, T3> action, T param, T2 param2, T3 param3, Action<AddTaskOptions<T>> tasksOptions = null);
+        ITargetFluentInterface Do<T, T2, T3>(Action<ITargetFluentInterface, T, T2, T3> action, T param, T2 param2, T3 param3);
 
         /// <summary>
         /// Adds set of tasks to target.
         /// </summary>
         /// <param name="action">Define tasks to be added to target.</param>
         /// <returns></returns>
-        ITargetFluentInterface AddTasks<T, T2, T3, T4>(Action<ITargetFluentInterface, T, T2, T3, T4> action, T param, T2 param2, T3 param3, T4 param4, Action<AddTaskOptions<T>> tasksOptions = null);
+        ITargetFluentInterface Do<T, T2, T3, T4>(Action<ITargetFluentInterface, T, T2, T3, T4> action, T param, T2 param2, T3 param3, T4 param4);
 
         /// <summary>
         /// Adds set of tasks to target.
         /// </summary>
         /// <param name="action">Define tasks to be added to target.</param>
         /// <returns></returns>
-        ITargetFluentInterface AddTasks<T, T2, T3, T4, T5>(Action<ITargetFluentInterface, T, T2, T3, T4, T5> action, T param, T2 param2, T3 param3, T4 param4, T5 param5, Action<AddTaskOptions<T>> tasksOptions = null);
+        ITargetFluentInterface Do<T, T2, T3, T4, T5>(Action<ITargetFluentInterface, T, T2, T3, T4, T5> action, T param, T2 param2, T3 param3, T4 param4, T5 param5);
 
         /// <summary>
         /// Task extensions for various .net (core) tasks(Fluent interface).
