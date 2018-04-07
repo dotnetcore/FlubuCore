@@ -36,39 +36,6 @@ namespace Flubu.Tests.Integration
         }
 
         [Fact]
-        public void ConfigureTargetWithExtensionTasks()
-        {
-            ITaskSession session = _sp.GetRequiredService<ITaskSession>();
-
-            SimpleBuildScript bs = new SimpleBuildScript();
-            bs.Run(session);
-
-            Assert.True(session.TargetTree.HasAllTargets(new List<string>() { "extensions" }, out _));
-
-            Target t = (Target)session.TargetTree.GetTarget("extensions");
-
-            Assert.Equal(2, t.Tasks.Count);
-        }
-
-        [Fact]
-        public void ConfigureTargetWithExtensionTasksAndDependsOn()
-        {
-            ITaskSession session = _sp.GetRequiredService<ITaskSession>();
-
-            SimpleBuildScript bs = new SimpleBuildScript();
-            bs.Run(session);
-
-            Assert.True(session.TargetTree.HasAllTargets(new List<string>() { "package" }, out _));
-
-            Target t = (Target)session.TargetTree.GetTarget("package");
-            Assert.Equal(4, t.Tasks.Count);
-
-            Assert.Equal(2, t.Dependencies.Count);
-            Assert.Equal("init", t.Dependencies.First().Key);
-            Assert.Equal("restore", t.Dependencies.Last().Key);
-        }
-
-        [Fact]
         public void ConfigureTargetWithLinuxTasks()
         {
             ITaskSession session = _sp.GetRequiredService<ITaskSession>();
