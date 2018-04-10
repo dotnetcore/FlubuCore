@@ -13,7 +13,11 @@ namespace FlubuCore.WebApi
         public static void Main(string[] args)
         {
             var host = new WebHostBuilder()
-                .UseKestrel()
+                .UseKestrel(o =>
+                {
+                    o.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(10);
+                })
+
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
