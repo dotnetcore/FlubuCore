@@ -3,6 +3,8 @@
 - (BREAKING CHANGE)Migrated CoreTaskExtensions fluent interface to CoreTasks fluent interface. All extensions method have same name so update should be very simple.
 - (BREAKING CHANGE)Migreated TaskExtensions fluent interface to Tasks fluent interface. All extensions method have same name so update should be very simple.
 - When target is not found result is now not anymore success status code. 
+- WebApi: Increased request timeout to 10 minutes.
+- WebApi Increased keep alive timeout to 10 minutes.
 - Updated some nuget packages.
 
 2.5.1.0
