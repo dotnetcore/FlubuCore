@@ -21,6 +21,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
+using Logger = Serilog.Core.Logger;
 
 namespace FlubuCore.WebApi
 {
@@ -123,8 +125,12 @@ namespace FlubuCore.WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            Logger log = new LoggerConfiguration()
+                .WriteTo.LiteDB(@"Logs/logs.db", logCollectionName: "applog")
+                .CreateLogger();
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            loggerFactory.AddSerilog(log, true);
             loggerFactory.AddFile("Logs/Flubu-{Date}.txt");
 #if NETCOREAPP1_1
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtOptions));

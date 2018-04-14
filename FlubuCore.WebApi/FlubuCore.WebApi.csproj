@@ -15,7 +15,7 @@
     <DefineConstants>NETCOREAPP2_0;</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net462'">
-    <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
+    <RuntimeIdentifier>win7-x86</RuntimeIdentifier>
     <ReferringTargetFrameworkForProjectReferences>.NETStandard,Version=v2.0</ReferringTargetFrameworkForProjectReferences>
     <DefineConstants>NET462;</DefineConstants>
   </PropertyGroup>
@@ -50,6 +50,7 @@
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.1" />
+  
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
@@ -61,6 +62,7 @@
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.1" />
+  
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp1.1'">
     <PackageReference Include="MailKit" Version="1.20.0" />
@@ -78,6 +80,14 @@
   <ItemGroup>
     <ProjectReference Include="..\FlubuCore.WebApi.Model\FlubuCore.WebApi.Model.csproj" />
     <ProjectReference Include="..\FlubuCore\FlubuCore.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Serilog.Sinks.LiteDB">
+      <HintPath>..\packages\SerilogSinksLiTeDb\Serilog.Sinks.LiteDB.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.PeriodicBatching">
+      <HintPath>..\packages\SerilogSinksLiTeDb\Serilog.Sinks.PeriodicBatching.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

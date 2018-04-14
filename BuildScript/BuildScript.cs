@@ -162,7 +162,7 @@ public class BuildScript : DefaultBuildScript
             .SetDescription("Runs all tests in solution.")
             .AddCoreTask(x => x.Test().Project("Flubu.Tests\\Flubu.Tests.csproj").WithArguments("--filter", "Category!=OnlyWindows"));
             ////.AddCoreTask(x => x.Test().Project("FlubuCore.WebApi.Tests\\FlubuCore.WebApi.Tests.csproj"));
-
+            
         context.CreateTarget("rebuild.linux")
             .SetDescription("Rebuilds the solution and publishes nuget packages.")
             .DependsOn(compileLinux, flubuTestsLinux, packageDotnetFlubu);

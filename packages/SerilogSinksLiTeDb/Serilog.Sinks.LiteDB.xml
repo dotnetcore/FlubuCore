@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Serilog.Sinks.LiteDB</name>
+    </assembly>
+    <members>
+        <member name="T:Serilog.LoggerConfigurationLiteDBExtensions">
+            <summary>
+            Adds the WriteTo.LiteDB() extension method to <see cref="T:Serilog.LoggerConfiguration"/>.
+            </summary>
+        </member>
+        <member name="M:Serilog.LoggerConfigurationLiteDBExtensions.LiteDB(Serilog.Configuration.LoggerSinkConfiguration,System.String,System.String,Serilog.Events.LogEventLevel,System.Int32,System.Nullable{System.TimeSpan},Serilog.Formatting.ITextFormatter)">
+            <summary>
+            Adds a sink that writes log events as documents to a LiteDb database.
+            </summary>
+            <param name="loggerConfiguration">The logger configuration.</param>
+            <param name="databaseUrl">The URL of a created LiteDB collection that log events will be written to.</param>
+            <param name="logCollectionName">Name of the collection. Default is "log".</param>
+            <param name="restrictedToMinimumLevel">The minimum log event level required in order to write an event to the sink.</param>
+            <param name="batchPostingLimit">The batch posting limit.</param>
+            <param name="period">The period.</param>
+            <param name="formatter">The formatter.</param>
+            <returns>
+            Logger configuration, allowing configuration to continue.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">loggerConfiguration
+            or
+            databaseUrl</exception>
+            <exception cref="T:System.ArgumentNullException">A required parameter is null.</exception>
+        </member>
+        <member name="T:Serilog.Sinks.MongoDB.Sinks.LiteDB.EventIdHash">
+            <summary>
+            Hash functions for message templates. See <see cref="M:Serilog.Sinks.MongoDB.Sinks.LiteDB.EventIdHash.Compute(System.String)"/>.
+            </summary>
+        </member>
+        <member name="M:Serilog.Sinks.MongoDB.Sinks.LiteDB.EventIdHash.Compute(System.String)">
+            <summary>
+            Compute a 32-bit hash of the provided <paramref name="messageTemplate"/>. The
+            resulting hash value can be uses as an event id in lieu of transmitting the
+            full template string.
+            </summary>
+            <param name="messageTemplate">A message template.</param>
+            <returns>A 32-bit hash of the template.</returns>
+        </member>
+        <member name="T:Serilog.Sinks.MongoDB.Sinks.LiteDB.LiteDbJsonFormatter">
+            <summary>
+            An <see cref="T:Serilog.Formatting.ITextFormatter"/> that writes events in a compact JSON format, for consumption in environments
+            without message template support. Message templates are rendered into text and a hashed event id is included.
+            </summary>
+        </member>
+        <member name="M:Serilog.Sinks.MongoDB.Sinks.LiteDB.LiteDbJsonFormatter.#ctor(Serilog.Formatting.Json.JsonValueFormatter)">
+            <summary>
+            Construct a <see cref="T:Serilog.Sinks.MongoDB.Sinks.LiteDB.LiteDbJsonFormatter"/>, optionally supplying a formatter for
+            <see cref="T:Serilog.Events.LogEventPropertyValue"/>s on the event.
+            </summary>
+            <param name="valueFormatter">A value formatter, or null.</param>
+        </member>
+        <member name="M:Serilog.Sinks.MongoDB.Sinks.LiteDB.LiteDbJsonFormatter.Format(Serilog.Events.LogEvent,System.IO.TextWriter)">
+            <summary>
+            Format the log event into the output. Subsequent events will be newline-delimited.
+            </summary>
+            <param name="logEvent">The event to format.</param>
+            <param name="output">The output.</param>
+        </member>
+        <member name="M:Serilog.Sinks.MongoDB.Sinks.LiteDB.LiteDbJsonFormatter.FormatEvent(Serilog.Events.LogEvent,System.IO.TextWriter,Serilog.Formatting.Json.JsonValueFormatter)">
+            <summary>
+            Format the log event into the output.
+            </summary>
+            <param name="logEvent">The event to format.</param>
+            <param name="output">The output.</param>
+            <param name="valueFormatter">A value formatter for <see cref="T:Serilog.Events.LogEventPropertyValue"/>s on the event.</param>
+        </member>
+        <member name="T:Serilog.Sinks.MongoDB.Sinks.LiteDB.LiteDBSink">
+            <summary>
+            Writes log events as documents to a LiteDB database.
+            </summary>
+        </member>
+        <member name="M:Serilog.Sinks.MongoDB.Sinks.LiteDB.LiteDBSink.#ctor(System.String,System.Int32,System.Nullable{System.TimeSpan},System.String,Serilog.Formatting.ITextFormatter)">
+            <summary>
+            Construct a sink posting to the specified database.
+            </summary>
+            <param name="connectionString">The URL of a LiteDB database, or connection string name containing the URL.</param>
+            <param name="batchPostingLimit">The batch posting limit.</param>
+            <param name="period">The period.</param>
+            <param name="logCollectionName">Name of the LiteDb collection to use for the log. Default is "log".</param>
+            <param name="formatter">The formatter. Default is <see cref="T:Serilog.Sinks.MongoDB.Sinks.LiteDB.LiteDbJsonFormatter" /> used</param>
+        </member>
+        <member name="F:Serilog.Sinks.MongoDB.Sinks.LiteDB.LiteDBSink.DefaultBatchPostingLimit">
+            <summary>
+            A reasonable default for the number of events posted in
+            each batch.
+            </summary>
+        </member>
+        <member name="F:Serilog.Sinks.MongoDB.Sinks.LiteDB.LiteDBSink.DefaultLogCollectionName">
+            <summary>
+            The default name for the log collection.
+            </summary>
+        </member>
+        <member name="F:Serilog.Sinks.MongoDB.Sinks.LiteDB.LiteDBSink.DefaultPeriod">
+            <summary>
+            A reasonable default time to wait between checking for event batches.
+            </summary>
+        </member>
+        <member name="F:Serilog.Sinks.MongoDB.Sinks.LiteDB.LiteDBSink.DefaultFormatter">
+            <summary>
+            The default formatter
+            </summary>
+        </member>
+        <member name="M:Serilog.Sinks.MongoDB.Sinks.LiteDB.LiteDBSink.EmitBatch(System.Collections.Generic.IEnumerable{Serilog.Events.LogEvent})">
+            <summary>
+            Emit a batch of log events, running asynchronously.
+            </summary>
+            <param name="events">The events to emit.</param>
+            <remarks>
+            Override either <see cref="M:Serilog.Sinks.PeriodicBatching.PeriodicBatchingSink.EmitBatch(System.Collections.Generic.IEnumerable{Serilog.Events.LogEvent})" /> or <see cref="M:Serilog.Sinks.PeriodicBatching.PeriodicBatchingSink.EmitBatchAsync(System.Collections.Generic.IEnumerable{Serilog.Events.LogEvent})" />,
+            not both. Overriding EmitBatch() is preferred.
+            </remarks>
+        </member>
+    </members>
+</doc>
