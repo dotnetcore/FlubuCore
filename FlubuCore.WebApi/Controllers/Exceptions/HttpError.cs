@@ -2,7 +2,7 @@
 using System.Net;
 using FlubuCore.WebApi.Model;
 
-namespace FlubuCore.WebApi.Controllers.Exception
+namespace FlubuCore.WebApi.Controllers.Exceptions
 {
     public class HttpError : System.Exception
     {

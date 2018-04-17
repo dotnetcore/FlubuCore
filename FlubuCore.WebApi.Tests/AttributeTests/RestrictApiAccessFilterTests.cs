@@ -6,7 +6,7 @@ using System.Text;
 using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Controllers;
 using FlubuCore.WebApi.Controllers.Attributes;
-using FlubuCore.WebApi.Controllers.Exception;
+using FlubuCore.WebApi.Controllers.Exceptions;
 using FlubuCore.WebApi.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;

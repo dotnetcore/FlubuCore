@@ -5,7 +5,7 @@ using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using FlubuCore.Context;
-using FlubuCore.WebApi.Controllers.Exception;
+using FlubuCore.WebApi.Controllers.Exceptions;
 using FlubuCore.WebApi.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

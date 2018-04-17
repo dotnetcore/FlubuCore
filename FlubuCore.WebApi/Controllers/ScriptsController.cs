@@ -9,12 +9,14 @@ using FlubuCore.Infrastructure;
 using FlubuCore.Scripting;
 using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Controllers.Attributes;
-using FlubuCore.WebApi.Controllers.Exception;
+using FlubuCore.WebApi.Controllers.Exceptions;
 using FlubuCore.WebApi.Model;
+using LiteDB;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using FileMode = System.IO.FileMode;
 
 namespace FlubuCore.WebApi.Controllers
 {
@@ -48,6 +50,10 @@ namespace FlubuCore.WebApi.Controllers
             try
             {
                 var result = await _commandExecutor.ExecuteAsync();
+                using (var db = new LiteDatabase(@"Logs/logs.db"))
+                {
+                    IEnumerable<BsonDocument> test = db.GetCollection("log").Find(Query.EQ("RequestId", HttpContext.TraceIdentifier));
+                }
 
                 switch (result)
                 {

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using FlubuCore.Services;
 using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Controllers.Attributes;
-using FlubuCore.WebApi.Controllers.Exception;
+using FlubuCore.WebApi.Controllers.Exceptions;
 using FlubuCore.WebApi.Model;
 using FlubuCore.WebApi.Models;
 using FlubuCore.WebApi.Repository;

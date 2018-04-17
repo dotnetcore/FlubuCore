@@ -126,7 +126,7 @@ namespace FlubuCore.WebApi
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             Logger log = new LoggerConfiguration()
-                .WriteTo.LiteDB(@"Logs/logs.db", logCollectionName: "applog")
+                .WriteTo.LiteDB(@"Logs/logs.db")
                 .CreateLogger();
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
