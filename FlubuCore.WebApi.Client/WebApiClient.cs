@@ -19,9 +19,9 @@ namespace FlubuCore.WebApi.Client
         }
 
         [Post("api/scripts/execute")]
-        public async Task ExecuteScriptAsync(ExecuteScriptRequest request)
+        public async Task<ExecuteScriptResponse> ExecuteScriptAsync(ExecuteScriptRequest request)
         {
-            await SendAsync(request);
+           return await SendAsync<ExecuteScriptResponse>(request);
         }
 
         public async Task UploadScriptAsync(UploadScriptRequest request)

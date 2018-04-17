@@ -82,6 +82,7 @@ namespace FlubuCore.WebApi.Controllers.Attributes
                     ErrorCode = httpError.ErrorCode,
                     ErrorMessage = httpError.ErrorMessage,
                     ValidationErrors = httpError.ValidationErrors,
+                    Logs = httpError.Logs
                 };
 
                 context.Result = new JsonResult(error);

@@ -50,18 +50,14 @@ namespace FlubuCore.WebApi.Controllers
             try
             {
                 var result = await _commandExecutor.ExecuteAsync();
-                using (var db = new LiteDatabase(@"Logs/logs.db"))
-                {
-                    IEnumerable<BsonDocument> test = db.GetCollection("log").Find(Query.EQ("RequestId", HttpContext.TraceIdentifier));
-                }
-
+                ExecuteScriptResponse response = new ExecuteScriptResponse { Logs = await GetLogs() };
                 switch (result)
                 {
                     case 0:
-                        return Ok();
+                        return Ok(response);
                 }
 
-                throw new HttpError(HttpStatusCode.InternalServerError, result.ToString());
+                throw new HttpError(HttpStatusCode.InternalServerError, result.ToString()) { Logs = await GetLogs() };
             }
             catch (BuildScriptLocatorException e)
             {
@@ -71,6 +67,24 @@ namespace FlubuCore.WebApi.Controllers
             {
                 throw new HttpError(HttpStatusCode.BadRequest, ErrorCodes.TargetNotFound, e.Message);
             }
+        }
+
+        private async Task<List<string>> GetLogs()
+        {
+            await Task.Delay(2000);
+            List<string> logs = new List<string>();
+            using (var db = new LiteDatabase(@"Logs/logs.db"))
+            {
+                var test = db.GetCollection("log")
+                    .Find(Query.EQ("RequestId", HttpContext.TraceIdentifier)).ToList();
+
+                for (int i = 4; i < test.Count; i++)
+                {
+                    logs.Add(test[i]["_m"]);
+                }
+            }
+
+            return logs;
         }
 
         [HttpPost("Upload")]

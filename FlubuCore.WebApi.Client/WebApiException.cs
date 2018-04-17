@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 
 namespace FlubuCore.WebApi.Client
@@ -16,5 +17,7 @@ namespace FlubuCore.WebApi.Client
         public string ErrorCode { get; set; }
 
         public string ErrorMessage { get; set; }
+
+        public List<string> Logs { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace FlubuCore.WebApi.Client
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        Task ExecuteScriptAsync(ExecuteScriptRequest request);
+        Task<ExecuteScriptResponse> ExecuteScriptAsync(ExecuteScriptRequest request);
 
         Task UploadScriptAsync(UploadScriptRequest request);
 

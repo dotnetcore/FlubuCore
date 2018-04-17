@@ -143,7 +143,8 @@ namespace FlubuCore.WebApi.Client
                 throw new WebApiException(response.StatusCode, errorString)
                 {
                     ErrorCode = errorModel.ErrorCode,
-                    ErrorMessage = errorModel.ErrorMessage
+                    ErrorMessage = errorModel.ErrorMessage,
+                    Logs = errorModel.Logs,
                 };
             }
 

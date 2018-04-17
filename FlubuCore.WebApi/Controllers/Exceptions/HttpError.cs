@@ -48,6 +48,8 @@ namespace FlubuCore.WebApi.Controllers.Exceptions
 
         public string ErrorMessage { get; set; }
 
+        public List<string> Logs { get; set; }
+
         public List<ValidationError> ValidationErrors { get; set; }
 
         public static HttpError InternalServerError(string errorCode, string errorMessage)

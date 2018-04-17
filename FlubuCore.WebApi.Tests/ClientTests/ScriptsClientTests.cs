@@ -60,8 +60,10 @@ namespace FlubuCore.WebApi.Tests.ClientTests
                 ScriptArguments = new Dictionary<string, string>()
             };
             req.ScriptArguments.Add("FileName", "test.txt");
-            await Client.ExecuteScriptAsync(req);
-
+            var response = await Client.ExecuteScriptAsync(req);
+            Assert.Equal(6, response.Logs.Count);
+            Assert.StartsWith("Executing action method \"FlubuCore.WebApi.Controllers.ScriptsController.Execute", response.Logs[0]);
+            Assert.Equal("SuccesfullTarget finished (took 0 seconds)", response.Logs[response.Logs.Count - 1]);
             Assert.True(File.Exists("test.txt"));
         }
 

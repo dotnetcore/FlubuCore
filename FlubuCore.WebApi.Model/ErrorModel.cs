@@ -15,6 +15,8 @@ namespace FlubuCore.WebApi.Model
 
         public string StackTrace { get; set; }
 
+        public List<string> Logs { get; set; }
+
         public List<ValidationError> ValidationErrors { get; set; }
     }
 }
