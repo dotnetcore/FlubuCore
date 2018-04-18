@@ -15,7 +15,7 @@
     <DefineConstants>NETCOREAPP2_0;</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net462'">
-    <RuntimeIdentifier>win7-x86</RuntimeIdentifier>
+    <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
     <ReferringTargetFrameworkForProjectReferences>.NETStandard,Version=v2.0</ReferringTargetFrameworkForProjectReferences>
     <DefineConstants>NET462;</DefineConstants>
   </PropertyGroup>
