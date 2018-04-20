@@ -41,7 +41,7 @@ namespace FlubuCore.WebApi.Tests.AttributeTests
             _context = new ActionExecutingContext(
                 new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor()),
                 new List<IFilterMetadata>(), new ConcurrentDictionary<string, object>(),
-                new ScriptsController(null, null, null, _settingOptions));
+                new ScriptsController(null, null, null, null, _settingOptions));
             _filter = new RestrictApiAccessFilter(_settingOptions, _timeProvider.Object);
         }
 

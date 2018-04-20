@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using FlubuCore.WebApi.Infrastructure;
+
+namespace FlubuCore.WebApi.Repository
+{
+    public class RepositoryFactory : IRepositoryFactory
+    {
+        private readonly ILiteRepositoryFactory _liteRepositoryFactory;
+
+        private readonly ITimeProvider _timeProvider;
+
+        public RepositoryFactory(ILiteRepositoryFactory liteRepositoryFactory, ITimeProvider timeProvider)
+        {
+            _liteRepositoryFactory = liteRepositoryFactory;
+            _timeProvider = timeProvider;
+        }
+
+        public ISerilogRepository CreateSerilogRepository()
+        {
+            return new SerilogRepository(_liteRepositoryFactory.CreateLiteDatabase($"Logs/log_{_timeProvider.Now.Date}.db"));
+        }
+    }
+}

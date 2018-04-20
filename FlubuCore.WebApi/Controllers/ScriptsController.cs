@@ -11,6 +11,7 @@ using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Controllers.Attributes;
 using FlubuCore.WebApi.Controllers.Exceptions;
 using FlubuCore.WebApi.Model;
+using FlubuCore.WebApi.Repository;
 using LiteDB;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -24,6 +25,8 @@ namespace FlubuCore.WebApi.Controllers
     [Authorize]
     public class ScriptsController : ControllerBase
     {
+        private readonly IRepositoryFactory _repositoryFactory;
+
         private ICommandExecutor _commandExecutor;
 
         private CommandArguments _commandArguments;
@@ -32,9 +35,14 @@ namespace FlubuCore.WebApi.Controllers
 
         private WebApiSettings _webApiSettings;
 
-        public ScriptsController(ICommandExecutor commandExecutor, CommandArguments commandArguments,
-            IHostingEnvironment hostingEnvironment, IOptions<WebApiSettings> webApiOptions)
+        public ScriptsController(
+            IRepositoryFactory repositoryFactory,
+            ICommandExecutor commandExecutor,
+            CommandArguments commandArguments,
+            IHostingEnvironment hostingEnvironment,
+            IOptions<WebApiSettings> webApiOptions)
         {
+            _repositoryFactory = repositoryFactory;
             _commandExecutor = commandExecutor;
             _commandArguments = commandArguments;
             _hostingEnvironment = hostingEnvironment;
@@ -72,19 +80,7 @@ namespace FlubuCore.WebApi.Controllers
         private async Task<List<string>> GetLogs()
         {
             await Task.Delay(2000);
-            List<string> logs = new List<string>();
-            using (var db = new LiteDatabase(@"Logs/logs.db"))
-            {
-                var test = db.GetCollection("log")
-                    .Find(Query.EQ("RequestId", HttpContext.TraceIdentifier)).ToList();
-
-                for (int i = 4; i < test.Count; i++)
-                {
-                    logs.Add(test[i]["_m"]);
-                }
-            }
-
-            return logs;
+            return _repositoryFactory.CreateSerilogRepository().GetExecuteScriptLogs(HttpContext.TraceIdentifier);
         }
 
         [HttpPost("Upload")]

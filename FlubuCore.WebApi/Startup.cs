@@ -64,6 +64,9 @@ namespace FlubuCore.WebApi
             var liteDbConnectionString = connectionStrings["LiteDbConnectionString"];
 
             var db = new LiteRepository(liteDbConnectionString);
+            ILiteRepositoryFactory liteRepositoryFactory = new LiteRepositoryFactory();
+            services.AddSingleton(liteRepositoryFactory);
+            services.AddSingleton<IRepositoryFactory>(new RepositoryFactory(liteRepositoryFactory, new TimeProvider()));
             services.AddSingleton(db);
             services.AddScoped<ApiExceptionFilter>();
             services.AddScoped<ValidateRequestModelAttribute>();
