@@ -26,7 +26,7 @@ namespace FlubuCore.WebApi.Repository
             {
                 logs.Add(test[i]["_m"]);
             }
-    
+
         return logs;
     }
 }
