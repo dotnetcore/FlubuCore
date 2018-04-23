@@ -3476,17 +3476,17 @@
         </member>
         <member name="P:LiteDB.ConnectionString.Mode">
             <summary>
-            "mode": Define if datafile will be shared, exclusive or read only access (default: Shared)
+            "mode": Define if datafile will be shared, exclusive or read only access (default in environments with file locking: Shared, otherwise: Exclusive)
             </summary>
         </member>
         <member name="P:LiteDB.ConnectionString.InitialSize">
             <summary>
-            "initial size": If database is new, initialize with allocated space - support KB, MB, GB (default: null)
+            "initial size": If database is new, initialize with allocated space - support KB, MB, GB (default: 0 bytes)
             </summary>
         </member>
         <member name="P:LiteDB.ConnectionString.LimitSize">
             <summary>
-            "limit size": Max limit of datafile - support KB, MB, GB (default: null)
+            "limit size": Max limit of datafile - support KB, MB, GB (default: long.MaxValue - no limit)
             </summary>
         </member>
         <member name="P:LiteDB.ConnectionString.Log">
@@ -3496,7 +3496,7 @@
         </member>
         <member name="P:LiteDB.ConnectionString.UtcDate">
             <summary>
-            "utc": Returns date in UTC timezone from BSON deserialization (default: false == LocalTime)
+            "utc": Returns date in UTC timezone from BSON deserialization (default: false - LocalTime)
             </summary>
         </member>
         <member name="P:LiteDB.ConnectionString.Upgrade">
@@ -3506,7 +3506,12 @@
         </member>
         <member name="P:LiteDB.ConnectionString.Async">
             <summary>
-            "async": Use "sync over async" to UWP apps access any directory
+            "async": Use "sync over async" to UWP apps access any directory (default: false)
+            </summary>
+        </member>
+        <member name="P:LiteDB.ConnectionString.Flush">
+            <summary>
+            "flush": If true, apply flush direct to disk, ignoring OS cache [FileStream.Flush(true)]
             </summary>
         </member>
         <member name="M:LiteDB.ConnectionString.#ctor">
@@ -3526,7 +3531,7 @@
         </member>
         <member name="M:LiteDB.DictionaryExtensions.NextIndex``1(System.Collections.Generic.Dictionary{System.UInt16,``0})">
             <summary>
-            Get free index based on random number (fast than search one-by-one)
+            Get free index based on dictionary count number (if is in use, move to next number)
             </summary>
         </member>
         <member name="M:LiteDB.DictionaryExtensions.GetValue``1(System.Collections.Generic.Dictionary{System.String,System.String},System.String,``0)">
@@ -3554,6 +3559,16 @@
         <member name="M:LiteDB.IOExceptionExtensions.WaitFor(System.Int32)">
             <summary>
             WaitFor function used in all platforms
+            </summary>
+        </member>
+        <member name="M:LiteDB.StreamExtensions.TryUnlock(System.IO.FileStream,System.Int64,System.Int64)">
+            <summary>
+            Try unlock stream segment. Do nothing if was not possible (it's not locked)
+            </summary>
+        </member>
+        <member name="M:LiteDB.StreamExtensions.TryLock(System.IO.FileStream,System.Int64,System.Int64,System.TimeSpan)">
+            <summary>
+            Try lock a stream segment during timeout.
             </summary>
         </member>
         <member name="T:LiteDB.FileHelper">

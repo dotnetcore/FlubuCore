@@ -11,6 +11,7 @@ using FlubuCore.WebApi;
 using FlubuCore.WebApi.Infrastructure;
 using LiteDB;
 
+//#ass  .\lib\netstandard.dll
 //#ass  .\lib\System.Reflection.TypeExtensions.dll
 //#ass .\FlubuCore.WebApi\FlubuCore.WebApi.dll
 //#ass .\FlubuCore.WebApi\FlubuCore.WebApi.Model.dll
