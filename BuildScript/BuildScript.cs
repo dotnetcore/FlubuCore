@@ -79,6 +79,7 @@ public class BuildScript : DefaultBuildScript
                 .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
                 .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard2.0\LiteDB.dll", "lib")
                 .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
+                .AddFileToPackage(@"packages\netstandard.dll", "lib")
                 .DisableLogging()
                 .ZipPackage("FlubuCore.WebApi-NetCoreApp2.0-WindowsInstaller", true))
                 .AddTask(x => x.PackageTask("output\\WebApiPackages")
@@ -90,6 +91,7 @@ public class BuildScript : DefaultBuildScript
                     .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
                     .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard2.0\LiteDB.dll", "lib")
                     .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
+                .AddFileToPackage(@"packages\netstandard.dll", "lib")
                     .DisableLogging()
                     .ZipPackage("FlubuCore.WebApi-NetCoreApp2.0-LinuxMacInstaller", true))
             .AddTask(x => x.PackageTask("output\\WebApiPackages")
@@ -102,6 +104,7 @@ public class BuildScript : DefaultBuildScript
                 .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
                 .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard1.3\LiteDB.dll", "lib")
                 .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
+                .AddFileToPackage(@"packages\netstandard.dll", "lib")
                 .DisableLogging()
                 .ZipPackage("FlubuCore.WebApi-NetCoreApp1.1-WindowsInstaller", true))
             .AddTask(x => x.PackageTask("output\\WebApiPackages")
@@ -113,6 +116,7 @@ public class BuildScript : DefaultBuildScript
                 .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
                 .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard1.3\LiteDB.dll", "lib")
                 .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
+                .AddFileToPackage(@"packages\netstandard.dll", "lib")
                 .DisableLogging()
                 .ZipPackage("FlubuCore.WebApi-NetCoreApp1.1-LinuxMacInstaller", true));
 
