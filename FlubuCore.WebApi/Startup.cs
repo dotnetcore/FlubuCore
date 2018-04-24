@@ -129,7 +129,7 @@ namespace FlubuCore.WebApi
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             Logger log = new LoggerConfiguration()
-                .WriteTo.LiteDB(@"Logs/logs.db")
+                .WriteTo.LiteDB($"Logs/log_{DateTime.Now.Date:yyyy-dd-M}.db")
                 .CreateLogger();
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
