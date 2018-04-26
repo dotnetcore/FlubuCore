@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.WebApi.Controllers.Exceptions;
 using FlubuCore.WebApi.Model;
+using FlubuCore.WebApi.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
@@ -17,9 +19,12 @@ namespace FlubuCore.WebApi.Controllers.Attributes
     {
         private readonly ILogger<ApiExceptionFilter> _logger;
 
-        public ApiExceptionFilter(ILogger<ApiExceptionFilter> logger)
+        private readonly IRepositoryFactory _repositoryFactory;
+
+        public ApiExceptionFilter(ILogger<ApiExceptionFilter> logger, IRepositoryFactory repositoryFactory)
         {
-           _logger = logger;
+            _logger = logger;
+            _repositoryFactory = repositoryFactory;
         }
 
         public override void OnException(ExceptionContext context)
@@ -40,6 +45,7 @@ namespace FlubuCore.WebApi.Controllers.Attributes
         {
             _logger.LogError("Exception occured: {0}", context.Exception);
             context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
             string errorMessage;
             if (context.Exception is TaskExecutionException)
             {
@@ -50,10 +56,14 @@ namespace FlubuCore.WebApi.Controllers.Attributes
                 errorMessage = ErrorMessages.InternalServerError;
             }
 
+            Thread.Sleep(2000);
+            var logs = _repositoryFactory.CreateSerilogRepository().GetExecuteScriptLogs(context.HttpContext.TraceIdentifier);
+
             var error = new ErrorModel
             {
                 ErrorCode = "InternalServerError",
-                ErrorMessage = errorMessage
+                ErrorMessage = errorMessage,
+                Logs = logs,
             };
 
             context.Result = new JsonResult(error);
@@ -73,6 +83,11 @@ namespace FlubuCore.WebApi.Controllers.Attributes
                 };
 
                 context.Result = new JsonResult(error);
+            }
+            else if (httpError.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                Thread.Sleep(2000);
+                var logs = _repositoryFactory.CreateSerilogRepository().GetExecuteScriptLogs(context.HttpContext.TraceIdentifier);
             }
             else
             {
