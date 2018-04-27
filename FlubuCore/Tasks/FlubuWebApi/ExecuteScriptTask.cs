@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.WebApi.Client;
@@ -58,12 +59,23 @@ namespace FlubuCore.Tasks.FlubuWebApi
         protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
         {
             var client = WebApiClientFactory.Create(context.Properties.Get<string>(BuildProps.LastWebApiBaseUrl));
-            await client.ExecuteScriptAsync(new ExecuteScriptRequest
+            try
             {
-                ScriptFileName = _scriptFilePath,
-                TargetToExecute = _mainCommand,
-                ScriptArguments = _scriptArguments,
-            });
+                var response = await client.ExecuteScriptAsync(new ExecuteScriptRequest
+                {
+                    ScriptFileName = _scriptFilePath,
+                    TargetToExecute = _mainCommand,
+                    ScriptArguments = _scriptArguments,
+                });
+
+                WriteLogs(response.Logs);
+            }
+            catch (WebApiException e)
+            {
+                WriteLogs(e.Logs);
+                throw;
+            }
+
             return 0;
         }
     }

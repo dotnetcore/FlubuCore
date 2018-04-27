@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using FlubuCore.Context;
 using FlubuCore.WebApi.Client;
 
@@ -13,5 +14,18 @@ namespace FlubuCore.Tasks.FlubuWebApi
         }
 
         protected IWebApiClientFactory WebApiClientFactory { get; set; }
+
+        public void WriteLogs(List<string> logs)
+        {
+            if (logs == null)
+            {
+                return;
+            }
+
+            foreach (var log in logs)
+            {
+                DoLogInfo(log);
+            }
+        }
     }
 }
