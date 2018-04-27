@@ -6,12 +6,14 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using FlubuCore.Context;
+using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Controllers.Exceptions;
 using FlubuCore.WebApi.Model;
 using FlubuCore.WebApi.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace FlubuCore.WebApi.Controllers.Attributes
 {
@@ -21,8 +23,11 @@ namespace FlubuCore.WebApi.Controllers.Attributes
 
         private readonly IRepositoryFactory _repositoryFactory;
 
-        public ApiExceptionFilter(ILogger<ApiExceptionFilter> logger, IRepositoryFactory repositoryFactory)
+        private WebApiSettings _webApiSettings;
+
+        public ApiExceptionFilter(ILogger<ApiExceptionFilter> logger, IRepositoryFactory repositoryFactory,  IOptions<WebApiSettings> webApiOptions)
         {
+            _webApiSettings = webApiOptions.Value;
             _logger = logger;
             _repositoryFactory = repositoryFactory;
         }
@@ -64,6 +69,7 @@ namespace FlubuCore.WebApi.Controllers.Attributes
                 ErrorCode = "InternalServerError",
                 ErrorMessage = errorMessage,
                 Logs = logs,
+                StackTrace = _webApiSettings.IncludeStackTrace ? context.Exception.StackTrace : null
             };
 
             context.Result = new JsonResult(error);

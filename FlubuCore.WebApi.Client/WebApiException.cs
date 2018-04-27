@@ -18,6 +18,8 @@ namespace FlubuCore.WebApi.Client
 
         public string ErrorMessage { get; set; }
 
+        public string WebApiStackTrace { get; set; }
+
         public List<string> Logs { get; set; }
     }
 }

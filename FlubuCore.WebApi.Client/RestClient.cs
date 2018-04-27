@@ -144,6 +144,7 @@ namespace FlubuCore.WebApi.Client
                 {
                     ErrorCode = errorModel.ErrorCode,
                     ErrorMessage = errorModel.ErrorMessage,
+                    WebApiStackTrace = errorModel.StackTrace,
                     Logs = errorModel.Logs,
                 };
             }

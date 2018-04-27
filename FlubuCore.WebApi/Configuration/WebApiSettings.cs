@@ -19,6 +19,8 @@ namespace FlubuCore.WebApi.Configuration
 
         public List<NotificationFilter> NotificationFilters { get; set; }
 
+        public bool IncludeStackTrace { get; set; }
+
         public bool AddFlubuLogsToResponse { get; set; }
     }
 }
