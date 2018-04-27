@@ -18,5 +18,7 @@ namespace FlubuCore.WebApi.Configuration
         public bool SecurityNotificationsEnabled { get; set; }
 
         public List<NotificationFilter> NotificationFilters { get; set; }
+
+        public bool AddFlubuLogsToResponse { get; set; }
     }
 }

@@ -79,6 +79,11 @@ namespace FlubuCore.WebApi.Controllers
 
         private async Task<List<string>> GetLogs()
         {
+            if (_webApiSettings.AddFlubuLogsToResponse)
+            {
+                return null;
+            }
+
             await Task.Delay(2000);
             return _repositoryFactory.CreateSerilogRepository().GetExecuteScriptLogs(HttpContext.TraceIdentifier);
         }
