@@ -56,7 +56,6 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             {
                 ScriptFileName = "simplescript.cs",
                 TargetToExecute = "SuccesfullTarget",
-                RemainingCommands = new List<string>(),
                 ScriptArguments = new Dictionary<string, string>()
             };
             req.ScriptArguments.Add("FileName", "test.txt");
@@ -91,7 +90,6 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             {
                 ScriptFileName = "simplescript.cs",
                 TargetToExecute = "SuccesfullTarget",
-                RemainingCommands = new List<string>(),
                 ScriptArguments = new Dictionary<string, string>()
             };
             req.ScriptArguments.Add("FileName", "test.txt");

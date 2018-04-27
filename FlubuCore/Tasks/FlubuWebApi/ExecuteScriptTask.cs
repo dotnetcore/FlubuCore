@@ -10,13 +10,13 @@ namespace FlubuCore.Tasks.FlubuWebApi
     {
         private readonly string _mainCommand;
         private readonly string _scriptFilePath;
-        private readonly List<string> _commands;
+        private readonly Dictionary<string, string> _scriptArguments;
         private string _description;
 
         public ExecuteFlubuScriptTask(string mainCommand, string scriptFilePath, IWebApiClientFactory webApiClient)
             : base(webApiClient)
         {
-            _commands = new List<string>();
+            _scriptArguments = new Dictionary<string, string>();
             _mainCommand = mainCommand;
             _scriptFilePath = scriptFilePath;
         }
@@ -37,13 +37,14 @@ namespace FlubuCore.Tasks.FlubuWebApi
         }
 
         /// <summary>
-        /// Adds remaining flubu commands.
+        /// Adds argument with specified key.
         /// </summary>
-        /// <param name="command"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
-        public ExecuteFlubuScriptTask AddCommands(params string[] command)
+        public ExecuteFlubuScriptTask AddScriptArgument(string key, string value)
         {
-            _commands.AddRange(command);
+            _scriptArguments.Add(key, value);
             return this;
         }
 
@@ -61,7 +62,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
             {
                 ScriptFileName = _scriptFilePath,
                 TargetToExecute = _mainCommand,
-                RemainingCommands = _commands,
+                ScriptArguments = _scriptArguments,
             });
             return 0;
         }

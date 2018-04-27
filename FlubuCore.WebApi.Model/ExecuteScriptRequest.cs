@@ -5,29 +5,30 @@ namespace FlubuCore.WebApi.Model
 {
     public class ExecuteScriptRequest
     {
+        /// <summary>
+        /// Target to execute.
+        /// </summary>
         public string TargetToExecute { get; set; }
 
-        public List<string> RemainingCommands { get; set; }
-
+        /// <summary>
+        /// Filename of the script to be executed.
+        /// </summary>
         public string ScriptFileName { get; set; }
 
+        /// <summary>
+        /// The script arguments.
+        /// </summary>
         public Dictionary<string, string> ScriptArguments { get; set; }
 
         public override string ToString()
         {
-            string remainingCommans = null;
-            if (RemainingCommands != null)
-            {
-                remainingCommans = $"RemainingCommands: '{string.Join(", ", RemainingCommands)}'";
-            }
-
             string scriptArguments = null;
             if (ScriptArguments != null)
             {
                 scriptArguments = $"ScriptArguments:'{string.Join(";", ScriptArguments)}'";
             }
 
-            return $"TargetToExecute: '{TargetToExecute}' , ScriptFileName '{ScriptFileName}', {scriptArguments} {remainingCommans}.";
+            return $"TargetToExecute: '{TargetToExecute}' , ScriptFileName '{ScriptFileName}', {scriptArguments}.";
         }
     }
 }

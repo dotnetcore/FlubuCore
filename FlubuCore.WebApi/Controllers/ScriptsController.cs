@@ -131,7 +131,6 @@ namespace FlubuCore.WebApi.Controllers
             var scriptFullPath = Path.Combine(_hostingEnvironment.ContentRootPath, "scripts", request.ScriptFileName);
             _commandArguments.MainCommands.Add(request.TargetToExecute);
             _commandArguments.Script = scriptFullPath;
-            _commandArguments.RemainingCommands = request.RemainingCommands;
             if (request.ScriptArguments != null && request.ScriptArguments.Count > 0)
             {
                 _commandArguments.ScriptArguments = new DictionaryWithDefault<string, string>(null);
