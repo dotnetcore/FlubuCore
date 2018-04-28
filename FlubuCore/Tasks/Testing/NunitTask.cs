@@ -23,6 +23,8 @@ namespace FlubuCore.Tasks.Testing
 
         private string _nunitConsoleFileName;
 
+        private string _configuration;
+
         /// <summary>
         /// unit test working directory.
         /// </summary>
@@ -163,6 +165,12 @@ namespace FlubuCore.Tasks.Testing
             return this;
         }
 
+        public NUnitTask Configuration(string configruation)
+        {
+            _configuration = configruation;
+            return this;
+        }
+
         /// <summary>
         ///  Add nunit command line option. Can be used multiple times.
         /// </summary>
@@ -250,8 +258,22 @@ namespace FlubuCore.Tasks.Testing
                     }
                 }
 
-                VSSolution solution = context.Properties.Get<VSSolution>(BuildProps.Solution);
-                string buildConfiguration = context.Properties.Get<string>(BuildProps.BuildConfiguration);
+                VSSolution solution = GetRequiredVSSolution();
+
+                string buildConfiguration;
+                if (string.IsNullOrEmpty(_configuration))
+                {
+                    buildConfiguration = context.Properties.TryGet<string>(BuildProps.BuildConfiguration);
+                    if (buildConfiguration == null)
+                    {
+                        throw new TaskExecutionException("Build configuration must be set. Set it through context property BuildConfiguration or task method Configuration.", 0);
+                    }
+                }
+                else
+                {
+                    buildConfiguration = _configuration;
+                }
+
                 foreach (var projectName in _projectNames)
                 {
                     VSProjectWithFileInfo project = (VSProjectWithFileInfo)solution.FindProjectByName(projectName);

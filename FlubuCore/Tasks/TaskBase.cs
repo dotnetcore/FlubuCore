@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Tasks.Attributes;
+using FlubuCore.Tasks.Solution.VSSolutionBrowsing;
 using Task = System.Threading.Tasks.Task;
 
 namespace FlubuCore.Tasks
@@ -364,6 +365,18 @@ namespace FlubuCore.Tasks
                 return;
 
             Context.LogError(message);
+        }
+
+        protected VSSolution GetRequiredVSSolution()
+        {
+            var solution = Context.Properties.TryGet<VSSolution>(BuildProps.Solution);
+
+            if (solution == null)
+            {
+                throw new KeyNotFoundException($"Task context property VsSolution must be set for task {TaskName}. Execute LoadSolutionTask before this task.");
+            }
+
+            return solution;
         }
 
         private void InvokeForMembers()
