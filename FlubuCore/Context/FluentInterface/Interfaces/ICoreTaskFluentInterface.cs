@@ -50,7 +50,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         DotnetPublishTask Publish(
             string projectName = null,
             string workingFolder = null,
-            string configuration = "Release");
+            string configuration = null);
 
         /// <summary>
         /// Builds a project and all of its dependencies
