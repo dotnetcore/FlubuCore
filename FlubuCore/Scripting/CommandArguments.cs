@@ -14,7 +14,7 @@ namespace FlubuCore.Scripting
         {
             MainCommands = arguments.MainCommands;
             ExecuteTargetsInParallel = arguments.ExecuteTargetsInParallel;
-            NoDependencies = arguments.ExecuteTargetsInParallel;
+            NoDependencies = arguments.NoDependencies;
             RethrowOnException = arguments.RethrowOnException;
             ScriptArguments = arguments.ScriptArguments;
             TargetsToExecute = arguments.TargetsToExecute;
