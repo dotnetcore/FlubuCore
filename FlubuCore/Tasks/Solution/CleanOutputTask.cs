@@ -13,6 +13,8 @@ namespace FlubuCore.Tasks.Solution
         private bool _cleanBuildDir;
         private string _description;
         private bool _cleanOutputDir;
+        private string _configuration;
+
         private List<(string path, bool recreate)> _directoriesToClean = new List<(string path, bool recreate)>();
 
         protected override string Description
@@ -62,12 +64,31 @@ namespace FlubuCore.Tasks.Solution
             return this;
         }
 
+        public CleanOutputTask Configuration(string configruation)
+        {
+            _configuration = configruation;
+            return this;
+        }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
-            string buildConfiguration = context.Properties.Get<string>(BuildProps.BuildConfiguration);
+            string buildConfiguration;
+            if (string.IsNullOrEmpty(_configuration))
+            {
+                buildConfiguration = context.Properties.TryGet<string>(BuildProps.BuildConfiguration);
+                if (buildConfiguration == null)
+                {
+                    throw new TaskExecutionException("Build configuration must be set. Set it through context property BuildConfiguration or task method Configuration.", 0);
+                }
+            }
+            else
+            {
+                buildConfiguration = _configuration;
+            }
+
             string productRootDir = context.Properties.Get(BuildProps.ProductRootDir, ".");
 
-            VSSolution solution = context.Properties.Get<VSSolution>(BuildProps.Solution);
+            VSSolution solution = GetRequiredVSSolution();
 
             solution.ForEachProject(projectInfo =>
                 {
