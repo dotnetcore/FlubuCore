@@ -79,7 +79,7 @@ namespace FlubuCore.WebApi.Controllers
 
         private async Task<List<string>> GetLogs()
         {
-            if (_webApiSettings.AddFlubuLogsToResponse)
+            if (!_webApiSettings.AddFlubuLogsToResponse)
             {
                 return null;
             }
