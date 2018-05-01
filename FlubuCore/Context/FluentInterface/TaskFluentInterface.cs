@@ -10,6 +10,7 @@ using FlubuCore.Tasks.Packaging;
 using FlubuCore.Tasks.Process;
 using FlubuCore.Tasks.Solution;
 using FlubuCore.Tasks.Testing;
+using FlubuCore.Tasks.Testing.Xunit;
 using FlubuCore.Tasks.Text;
 using FlubuCore.Tasks.Utils;
 using FlubuCore.Tasks.Versioning;
@@ -140,6 +141,18 @@ namespace FlubuCore.Context.FluentInterface
         {
             var task = new NUnitTask();
             task.TestAssemblyFileNames.AddRange(testAssemblyFileName);
+            return task;
+        }
+
+        public XunitTask XunitTaskByProjectName(params string[] projectName)
+        {
+            var task = new XunitTask(projectName.ToList());
+            return task;
+        }
+
+        public XunitTask XunitTaskByAsssemblyName(params string[] testAssemblyFileName)
+        {
+            var task = new XunitTask(assemblyNames: testAssemblyFileName.ToList());
             return task;
         }
 

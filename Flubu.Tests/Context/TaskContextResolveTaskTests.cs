@@ -395,5 +395,17 @@ namespace Flubu.Tests.Context
         {
             Context.Tasks().NUnitWithDotCover("test", new string[2]);
         }
+
+        [Fact]
+        public void ResolveXunitTaskByProjectName()
+        {
+            Assert.NotNull(Context.Tasks().XunitTaskByProjectName("test"));
+        }
+
+        [Fact]
+        public void ResolveXunitTaskByAssemblyName()
+        {
+            Assert.NotNull(Context.Tasks().XunitTaskByAsssemblyName("test"));
+        }
     }
 }

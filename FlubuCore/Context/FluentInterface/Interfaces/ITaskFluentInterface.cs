@@ -8,6 +8,7 @@ using FlubuCore.Tasks.Packaging;
 using FlubuCore.Tasks.Process;
 using FlubuCore.Tasks.Solution;
 using FlubuCore.Tasks.Testing;
+using FlubuCore.Tasks.Testing.Xunit;
 using FlubuCore.Tasks.Text;
 using FlubuCore.Tasks.Utils;
 using FlubuCore.Tasks.Versioning;
@@ -123,11 +124,25 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         NUnitTask NUnitTaskByProjectName(params string[] projectName);
 
         /// <summary>
-        /// Task runs nunit tests that are in specified assembly..
+        /// Task runs nunit tests that are in specified assembly.
         /// </summary>
         /// <param name="testAssemblyFileName"></param>
         /// <returns></returns>
         NUnitTask NUnitTaskByAssemblyName(params string[] testAssemblyFileName);
+
+        /// <summary>
+        /// Task runs xunit test that are in specified project
+        /// </summary>
+        /// <param name="projectName"></param>
+        /// <returns></returns>
+        XunitTask XunitTaskByProjectName(params string[] projectName);
+
+        /// <summary>
+        /// Task runs xunit tests that are in specified assembly.
+        /// </summary>
+        /// <param name="testAssemblyFileName"></param>
+        /// <returns></returns>
+        XunitTask XunitTaskByAsssemblyName(params string[] testAssemblyFileName);
 
         /// <summary>
         /// Task will execute tests in the specified <see cref="testAssemblyFileNames"/> list of test assemblies using
