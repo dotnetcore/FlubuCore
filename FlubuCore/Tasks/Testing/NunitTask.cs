@@ -45,7 +45,7 @@ namespace FlubuCore.Tasks.Testing
         /// <summary>
         /// Initializes a new instance of the <see cref="NUnitTask"/> class.
         /// </summary>
-        /// <param name="nunitConsoleFileName">full file path to nunit console</param>
+        /// <param name="nunitConsoleFileName">full file path to nunit console runner</param>
         /// <param name="projectNames">Unit test project name.</param>
         public NUnitTask(List<string> projectNames = null, string nunitConsoleFileName = null)
         {
@@ -102,6 +102,10 @@ namespace FlubuCore.Tasks.Testing
             return task;
         }
 
+        /// <summary>
+        /// Adds verbose options
+        /// </summary>
+        /// <returns></returns>
         public NUnitTask WithVerbose()
         {
             AddNunitCommandLineOption("/verbose");
@@ -159,12 +163,22 @@ namespace FlubuCore.Tasks.Testing
             return this;
         }
 
+        /// <summary>
+        /// Full file Path to the nunit console runner.
+        /// </summary>
+        /// <param name="nunitConsoleFilePath"></param>
+        /// <returns></returns>
         public NUnitTask SetNunitConsoleFilePath(string nunitConsoleFilePath)
         {
             _nunitConsoleFileName = nunitConsoleFilePath;
             return this;
         }
 
+        /// <summary>
+        /// Build configuration the tests fill be run under.
+        /// </summary>
+        /// <param name="configruation"></param>
+        /// <returns></returns>
         public NUnitTask Configuration(string configruation)
         {
             _configuration = configruation;
@@ -182,6 +196,11 @@ namespace FlubuCore.Tasks.Testing
             return this;
         }
 
+        /// <summary>
+        /// Full file path to nunit console runner. If not set task tries to get path from  context build propertie <see cref="BuildProps.NUnitConsolePath"/>
+        /// </summary>
+        /// <param name="fullFilePath"></param>
+        /// <returns></returns>
         public NUnitTask NunitConsolePath(string fullFilePath)
         {
             _nunitConsoleFileName = fullFilePath;
