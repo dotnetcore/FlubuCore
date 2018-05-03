@@ -68,7 +68,7 @@ namespace FlubuCore.Scripting
                 new DotnetTaskFactory(ServiceProvider),
                 new FluentInterfaceFactory(ServiceProvider),
                 ServiceProvider.GetService<IBuildPropertiesSession>(),
-                ServiceProvider.GetService<IBuildServers>());
+                ServiceProvider.GetService<IBuildServer>());
         }
     }
 }

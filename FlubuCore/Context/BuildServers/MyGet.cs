@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace FlubuCore.BuildServers
+namespace FlubuCore.Context.BuildServers
 {
     public class MyGet
     {
-        public static bool IsRunningOnMyGet
+        public static bool RunningOnMyGet
         {
             get
             {
@@ -14,5 +12,10 @@ namespace FlubuCore.BuildServers
                 return !string.IsNullOrEmpty(runner) && string.Equals("MyGet", runner, StringComparison.OrdinalIgnoreCase);
             }
         }
+
+        /// <summary>
+        /// Indicates whether build is running on MyGet
+        /// </summary>
+        public bool IsRunningOnMyGet => RunningOnMyGet;
     }
 }

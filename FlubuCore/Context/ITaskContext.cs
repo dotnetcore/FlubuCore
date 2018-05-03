@@ -27,7 +27,7 @@ namespace FlubuCore.Context
         /// Interaction with various build servers.
         /// </summary>
         /// <returns></returns>
-        IBuildServers BuildServers();
+        IBuildServer BuildServers();
 
         void LogInfo(string message);
 

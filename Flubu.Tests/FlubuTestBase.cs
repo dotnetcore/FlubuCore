@@ -32,7 +32,7 @@ namespace Flubu.Tests
                 new BuildPropertiesSession(),
                 new CommandArguments() { },
                 new TargetTree(ServiceProvider, new CommandArguments()),
-                new BuildServers(),
+                new BuildServer(),
                 Factory,
                 new FluentInterfaceFactory(ServiceProvider));
         }
