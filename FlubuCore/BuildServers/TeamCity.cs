@@ -7,5 +7,7 @@ namespace FlubuCore.BuildServers
     public class TeamCity
     {
         public static bool IsRunningOnTeamCity => !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("TEAMCITY_VERSION"));
+
+        public static string BuildNumber => Environment.GetEnvironmentVariable("BUILD_NUMBER");
     }
 }

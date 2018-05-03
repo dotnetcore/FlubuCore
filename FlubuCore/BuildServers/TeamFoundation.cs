@@ -15,5 +15,7 @@ namespace FlubuCore.BuildServers
                 return !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("TF_BUILD")) && !isHostedAgent;
             }
         }
+
+        public static string BuildNumber => Environment.GetEnvironmentVariable("BUILD_BUILDNUMBER");
     }
 }
