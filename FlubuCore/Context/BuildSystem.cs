@@ -5,70 +5,70 @@ using FlubuCore.Context.BuildServers;
 
 namespace FlubuCore.Context
 {
-    public class BuildServer : IBuildServer
+    public class BuildSystem : IBuildSystem
     {
-        public bool IsLocalBuild => RunningOn == BuildServerType.LocalBuild;
+        public bool IsLocalBuild => RunningOn == BuildSystemType.LocalBuild;
 
-        public BuildServerType RunningOn
+        public BuildSystemType RunningOn
         {
             get
             {
                 if (BuildServers.AppVeyor.RunningOnAppVeyor)
                 {
-                    return BuildServerType.AppVeyor;
+                    return BuildSystemType.AppVeyor;
                 }
 
                 if (BuildServers.Bamboo.RunningOnBamboo)
                 {
-                    return BuildServerType.Bamboo;
+                    return BuildSystemType.Bamboo;
                 }
 
                 if (BuildServers.BitRise.RunningOnBitrise)
                 {
-                    return BuildServerType.Bitrise;
+                    return BuildSystemType.Bitrise;
                 }
 
                 if (BuildServers.ContinuaCl.RunningOnContinuaCl)
                 {
-                    return BuildServerType.ContinousCl;
+                    return BuildSystemType.ContinousCl;
                 }
 
                 if (BuildServers.GitLab.RunningOnGitLabCi)
                 {
-                    return BuildServerType.GitLabCi;
+                    return BuildSystemType.GitLabCi;
                 }
 
                 if (BuildServers.GoCD.RunningOnGoCD)
                 {
-                    return BuildServerType.GoCD;
+                    return BuildSystemType.GoCD;
                 }
 
                 if (BuildServers.Jenkins.RunningOnJenkins)
                 {
-                    return BuildServerType.Jenkins;
+                    return BuildSystemType.Jenkins;
                 }
 
                 if (BuildServers.MyGet.RunningOnMyGet)
                 {
-                    return BuildServerType.MyGet;
+                    return BuildSystemType.MyGet;
                 }
 
                 if (BuildServers.TeamCity.RunningOnTeamCity)
                 {
-                    return BuildServerType.TeamCity;
+                    return BuildSystemType.TeamCity;
                 }
 
                 if (TeamFoundation.RunningOnTFS)
                 {
-                    return BuildServerType.TFS;
+                    return BuildSystemType.TFS;
                 }
 
                 if (BuildServers.Travis.RunningOnTravis)
                 {
-                    return BuildServerType.TravisCI;
+                    return BuildSystemType.TravisCI;
                 }
 
-                return BuildServerType.LocalBuild;
+                return BuildSystemType.LocalBuild;
             }
         }
 

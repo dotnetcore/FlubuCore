@@ -33,7 +33,7 @@ namespace FlubuCore.Infrastructure
                 .AddSingleton<TargetTree>()
                 .AddSingleton<ITaskSession, TaskSession>()
                 .AddSingleton<IFlubuEnviromentService, FlubuEnviromentService>()
-                .AddSingleton<IBuildServer, BuildServer>()
+                .AddSingleton<IBuildSystem, BuildSystem>()
                 .AddSingleton<ICommandFactory, CommandFactory>()
                 .AddSingleton<ITaskFactory, DotnetTaskFactory>()
                 .AddSingleton<IHttpClientFactory, HttpClientFactory>()

@@ -16,7 +16,7 @@ namespace FlubuCore.Context
             IBuildPropertiesSession taskContextProperties,
             CommandArguments args,
             TargetTree targetTree,
-            IBuildServer buildServers,
+            IBuildSystem buildServers,
             ITaskFactory taskFactory,
             IFluentInterfaceFactory fluentFactory)
             : base(log, taskFactory, fluentFactory, targetTree, buildServers, taskContextProperties)

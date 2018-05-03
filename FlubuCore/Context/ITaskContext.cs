@@ -24,10 +24,10 @@ namespace FlubuCore.Context
         ITargetFluentInterface CreateTarget(string name);
 
         /// <summary>
-        /// Interaction with various build servers.
+        /// Interaction with various build systems.
         /// </summary>
         /// <returns></returns>
-        IBuildServer BuildServers();
+        IBuildSystem BuildSystems();
 
         void LogInfo(string message);
 
