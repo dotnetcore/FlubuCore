@@ -6,7 +6,7 @@ namespace FlubuCore.BuildServers
 {
     public class TeamFoundation
     {
-        public bool IsRunningOnTFS
+        public static bool IsRunningOnTFS
         {
             get
             {

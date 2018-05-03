@@ -67,7 +67,8 @@ namespace Flubu.Tests.Scripting
                 new CommandArguments(),
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),
-                new BuildPropertiesSession()));
+                new BuildPropertiesSession(),
+                new BuildServers()));
         }
 
         [Fact]
@@ -105,7 +106,8 @@ namespace Flubu.Tests.Scripting
                 new CommandArguments(),
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),
-                new BuildPropertiesSession()));
+                new BuildPropertiesSession(),
+                new BuildServers()));
         }
 
         [Fact]
@@ -149,7 +151,8 @@ namespace Flubu.Tests.Scripting
                 new CommandArguments(),
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),
-                new BuildPropertiesSession()));
+                new BuildPropertiesSession(),
+                new BuildServers()));
         }
     }
 }

@@ -23,6 +23,12 @@ namespace FlubuCore.Context
         /// <returns></returns>
         ITargetFluentInterface CreateTarget(string name);
 
+        /// <summary>
+        /// Interaction with various build servers.
+        /// </summary>
+        /// <returns></returns>
+        IBuildServers BuildServers();
+
         void LogInfo(string message);
 
         void LogError(string message);
