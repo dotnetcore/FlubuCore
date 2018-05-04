@@ -25,6 +25,8 @@ namespace FlubuCore.Tasks
 
         private string _taskName;
 
+        private Action<ITaskContext> _finallyAction;
+
         private Action<Exception> _doNotFailOnErrorAction;
 
         internal List<(string argumentKey, string help)> ArgumentHelp { get; } = new List<(string argumentKey, string help)>();
@@ -58,7 +60,7 @@ namespace FlubuCore.Tasks
         protected virtual string DescriptionForLog => null;
 
         /// <summary>
-        /// Should we fail the task if an error occurs.
+        ///  Should the task fail if an error occurs.
         /// </summary>
         protected bool DoNotFail { get; private set; }
 
@@ -99,6 +101,12 @@ namespace FlubuCore.Tasks
         {
             DoNotFail = true;
             _doNotFailOnErrorAction = doNotFailOnErrorAction;
+            return this as TTask;
+        }
+
+        public TTask Finally(Action<ITaskContext> finallyAction)
+        {
+            _finallyAction = finallyAction;
             return this as TTask;
         }
 
@@ -237,6 +245,7 @@ namespace FlubuCore.Tasks
             }
             finally
             {
+                _finallyAction?.Invoke(context);
                 TaskStopwatch.Stop();
 
                 if (LogDuration)
@@ -299,6 +308,7 @@ namespace FlubuCore.Tasks
             }
             finally
             {
+                _finallyAction?.Invoke(context);
                 TaskStopwatch.Stop();
 
                 if (LogDuration)

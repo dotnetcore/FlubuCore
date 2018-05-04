@@ -294,6 +294,13 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="action">Define tasks to be added to target.</param>
         /// <returns></returns>
+        ITargetFluentInterface When<T>(Func<ITaskContextInternal, bool> condition, Action<ITargetFluentInterface, T> action, T param);
+
+        /// <summary>
+        /// Adds set of tasks to target if <see cref="condition"/> is meet.
+        /// </summary>
+        /// <param name="action">Define tasks to be added to target.</param>
+        /// <returns></returns>
         ITargetFluentInterface When<T, T2>(Func<ITaskContextInternal, bool> condition, Action<ITargetFluentInterface, T, T2> action, T param, T2 param2);
 
         /// <summary>
