@@ -47,9 +47,35 @@ namespace Flubu.Tests.Context
             _target.Verify(i => i.DependsOn(target1.Object), Times.Once);
         }
 
-        private void Test(ITaskContext context, string test)
+        [Fact]
+        public void When_ConditionNotMeet()
         {
-            var x = test;
+            Mock<ITarget> target1 = new Mock<ITarget>();
+            ITargetFluentInterface t = _fluent.When((c) => { return false; }, x => { x.DependsOn(target1.Object); });
+            Assert.NotNull(t);
+            _target.Verify(i => i.DependsOn(target1.Object), Times.Never);
+        }
+
+        [Fact]
+        public void When_ConditionMeet()
+        {
+            Mock<ITarget> target1 = new Mock<ITarget>();
+            ITargetFluentInterface t = _fluent.When((c) => c.BuildSystems().IsLocalBuild,
+                x =>
+                {
+                    x.DependsOn(target1.Object);
+                });
+            Assert.NotNull(t);
+            _target.Verify(i => i.DependsOn(target1.Object), Times.Once);
+        }
+
+        [Fact]
+        public void When_ConditionNull()
+        {
+            Mock<ITarget> target1 = new Mock<ITarget>();
+            ITargetFluentInterface t = _fluent.When(null, x => { x.DependsOn(target1.Object); });
+            Assert.NotNull(t);
+            _target.Verify(i => i.DependsOn(target1.Object), Times.Once);
         }
     }
 }
