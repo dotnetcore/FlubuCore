@@ -60,7 +60,7 @@ namespace Flubu.Tests.Context
         public void When_ConditionMeet()
         {
             Mock<ITarget> target1 = new Mock<ITarget>();
-            ITargetFluentInterface t = _fluent.When((c) => c.BuildSystems().IsLocalBuild,
+            ITargetFluentInterface t = _fluent.When((c) => { return true; },
                 x =>
                 {
                     x.DependsOn(target1.Object);
