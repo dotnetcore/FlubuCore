@@ -40,7 +40,19 @@ namespace FlubuCore.Tasks
         /// <param name="doNotFailOnErrorAction">Action to be taken if task fails and DoNotFailOnError flag is set.</param>
         TTask DoNotFailOnError(Action<Exception> doNotFailOnErrorAction = null);
 
+        /// <summary>
+        /// Action to be taken when task finisish successfuly or when it fails.
+        /// </summary>
+        /// <param name="finallyAction"></param>
+        /// <returns></returns>
         TTask Finally(Action<ITaskContext> finallyAction);
+
+        /// <summary>
+        /// Action to be taken if task fails.
+        /// </summary>
+        /// <param name="onErrorAction"></param>
+        /// <returns></returns>
+        TTask OnError(Action<ITaskContext, Exception> onErrorAction);
 
         /// <summary>
         /// Passes argument value with specified key in <see cref="argKey"/> to specified method  in <see cref="taskMethod"/>

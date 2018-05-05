@@ -27,6 +27,8 @@ namespace FlubuCore.Tasks
 
         private Action<ITaskContext> _finallyAction;
 
+        private Action<ITaskContext, Exception> _onErrorAction;
+
         private Action<Exception> _doNotFailOnErrorAction;
 
         internal List<(string argumentKey, string help)> ArgumentHelp { get; } = new List<(string argumentKey, string help)>();
@@ -107,6 +109,12 @@ namespace FlubuCore.Tasks
         public TTask Finally(Action<ITaskContext> finallyAction)
         {
             _finallyAction = finallyAction;
+            return this as TTask;
+        }
+
+        public TTask OnError(Action<ITaskContext, Exception> onErrorAction)
+        {
+            _onErrorAction = onErrorAction;
             return this as TTask;
         }
 
@@ -213,6 +221,7 @@ namespace FlubuCore.Tasks
             }
             catch (Exception ex)
             {
+                _onErrorAction?.Invoke(Context, ex);
                 if (!DoRetry)
                 {
                     if (DoNotFail)
@@ -276,6 +285,7 @@ namespace FlubuCore.Tasks
             }
             catch (Exception ex)
             {
+                _onErrorAction?.Invoke(Context, ex);
                 if (!DoRetry)
                 {
                     if (DoNotFail)
