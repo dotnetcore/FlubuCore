@@ -99,6 +99,7 @@ namespace FlubuCore.Tasks
         protected virtual bool LogDuration => false;
 
         /// <inheritdoc />
+        [DisableForMember]
         public TTask DoNotFailOnError(Action<Exception> doNotFailOnErrorAction = null)
         {
             DoNotFail = true;
@@ -106,12 +107,14 @@ namespace FlubuCore.Tasks
             return this as TTask;
         }
 
+        [DisableForMember]
         public TTask Finally(Action<ITaskContext> finallyAction)
         {
             _finallyAction = finallyAction;
             return this as TTask;
         }
 
+        [DisableForMember]
         public TTask OnError(Action<ITaskContext, Exception> onErrorAction)
         {
             _onErrorAction = onErrorAction;
