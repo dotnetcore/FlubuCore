@@ -12,7 +12,7 @@ namespace FlubuCore.Targeting
     {
         private readonly Dictionary<string, TaskExecutionMode> _dependencies = new Dictionary<string, TaskExecutionMode>();
 
-        private readonly List<Tuple<ITask, TaskExecutionMode>> _tasks = new List<Tuple<ITask, TaskExecutionMode>>();
+        private readonly List<TaskGroup> _taskGroups = new List<TaskGroup>();
 
         private readonly CommandArguments _args;
 
@@ -27,7 +27,7 @@ namespace FlubuCore.Targeting
 
         public Dictionary<string, TaskExecutionMode> Dependencies => _dependencies;
 
-        public List<Tuple<ITask, TaskExecutionMode>> Tasks => _tasks;
+        public List<TaskGroup> TasksGroups => _taskGroups;
 
         /// <summary>
         ///     Gets a value indicating whether this target is hidden. Hidden targets will not be
@@ -79,168 +79,169 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget DoAsync(Action<ITaskContextInternal> targetAction, Action<DoTask> taskAction = null)
+        public ITarget DoAsync(Action<ITaskContextInternal> targetAction, Action<DoTask> taskAction = null, string taskGroupId = null)
         {
             var task = new DoTask(targetAction);
             taskAction?.Invoke(task);
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
+            AddTaskToTaskGroup(taskGroupId, task, TaskExecutionMode.Parallel);
+
             return this;
         }
 
-        public ITarget DoAsync<T>(Action<ITaskContextInternal, T> targetAction, T param, Action<DoTask2<T>> taskAction = null)
+        public ITarget DoAsync<T>(Action<ITaskContextInternal, T> targetAction, T param, Action<DoTask2<T>> taskAction = null, string taskGroupId = null)
         {
             var task = new DoTask2<T>(targetAction, param);
             taskAction?.Invoke(task);
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
+            AddTaskToTaskGroup(taskGroupId, task, TaskExecutionMode.Parallel);
             return this;
         }
 
-        public ITarget DoAsync<T, T2>(Action<ITaskContextInternal, T, T2> targetAction, T param, T2 param2, Action<DoTask3<T, T2>> taskAction = null)
+        public ITarget DoAsync<T, T2>(Action<ITaskContextInternal, T, T2> targetAction, T param, T2 param2, Action<DoTask3<T, T2>> taskAction = null, string taskGroupId = null)
         {
             var task = new DoTask3<T, T2>(targetAction, param, param2);
             taskAction?.Invoke(task);
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
+            AddTaskToTaskGroup(taskGroupId, task, TaskExecutionMode.Parallel);
             return this;
         }
 
-        public ITarget DoAsync<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3, Action<DoTask4<T1, T2, T3>> taskAction = null)
+        public ITarget DoAsync<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3, Action<DoTask4<T1, T2, T3>> taskAction = null, string taskGroupId = null)
         {
             var task = new DoTask4<T1, T2, T3>(targetAction, param, param2, param3);
             taskAction?.Invoke(task);
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
+            AddTaskToTaskGroup(taskGroupId, task, TaskExecutionMode.Parallel);
             return this;
         }
 
-        public ITarget DoAsync<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2, T3 param3, T4 param4, Action<DoTask5<T1, T2, T3, T4>> taskAction = null)
+        public ITarget DoAsync<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2, T3 param3, T4 param4, Action<DoTask5<T1, T2, T3, T4>> taskAction = null, string taskGroupId = null)
         {
             var task = new DoTask5<T1, T2, T3, T4>(targetAction, param, param2, param3, param4);
             taskAction?.Invoke(task);
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
+            AddTaskToTaskGroup(taskGroupId, task, TaskExecutionMode.Parallel);
             return this;
         }
 
-        public ITarget DoAsync<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, Action<DoTask6<T1, T2, T3, T4, T5>> taskAction = null)
+        public ITarget DoAsync<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, Action<DoTask6<T1, T2, T3, T4, T5>> taskAction = null, string taskGroupId = null)
         {
             var task = new DoTask6<T1, T2, T3, T4, T5>(targetAction, param, param2, param3, param4, param5);
             taskAction?.Invoke(task);
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
+            AddTaskToTaskGroup(taskGroupId, task, TaskExecutionMode.Parallel);
             return this;
         }
 
-        public ITarget DoAsync(Func<ITaskContextInternal, Task> targetAction, Action<DoTaskAsync> taskAction = null)
+        public ITarget DoAsync(Func<ITaskContextInternal, Task> targetAction, Action<DoTaskAsync> taskAction = null, string taskGroupId = null)
         {
             var task = new DoTaskAsync(targetAction);
             taskAction?.Invoke(task);
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
+            AddTaskToTaskGroup(taskGroupId, task, TaskExecutionMode.Parallel);
             return this;
         }
 
-        public ITarget DoAsync<T>(Func<ITaskContextInternal, T, Task> targetAction, T param, Action<DoTaskAsync2<T>> taskAction = null)
+        public ITarget DoAsync<T>(Func<ITaskContextInternal, T, Task> targetAction, T param, Action<DoTaskAsync2<T>> taskAction = null, string taskGroupId = null)
         {
             var task = new DoTaskAsync2<T>(targetAction, param);
             taskAction?.Invoke(task);
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
+            AddTaskToTaskGroup(taskGroupId, task, TaskExecutionMode.Parallel);
             return this;
         }
 
-        public ITarget DoAsync<T, T2>(Func<ITaskContextInternal, T, T2, Task> targetAction, T param, T2 param2, Action<DoTaskAsync3<T, T2>> taskAction = null)
+        public ITarget DoAsync<T, T2>(Func<ITaskContextInternal, T, T2, Task> targetAction, T param, T2 param2, Action<DoTaskAsync3<T, T2>> taskAction = null, string taskGroupId = null)
         {
             var task = new DoTaskAsync3<T, T2>(targetAction, param, param2);
             taskAction?.Invoke(task);
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
+            AddTaskToTaskGroup(taskGroupId, task, TaskExecutionMode.Parallel);
             return this;
         }
 
-        public ITarget DoAsync<T1, T2, T3>(Func<ITaskContextInternal, T1, T2, T3, Task> targetAction, T1 param, T2 param2, T3 param3, Action<DoTaskAsync4<T1, T2, T3>> taskAction = null)
+        public ITarget DoAsync<T1, T2, T3>(Func<ITaskContextInternal, T1, T2, T3, Task> targetAction, T1 param, T2 param2, T3 param3, Action<DoTaskAsync4<T1, T2, T3>> taskAction = null, string taskGroupId = null)
         {
             var task = new DoTaskAsync4<T1, T2, T3>(targetAction, param, param2, param3);
             taskAction?.Invoke(task);
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
+            AddTaskToTaskGroup(taskGroupId, task, TaskExecutionMode.Parallel);
             return this;
         }
 
-        public ITarget DoAsync<T1, T2, T3, T4>(Func<ITaskContextInternal, T1, T2, T3, T4, Task> targetAction, T1 param, T2 param2, T3 param3, T4 param4, Action<DoTaskAsync5<T1, T2, T3, T4>> taskAction = null)
+        public ITarget DoAsync<T1, T2, T3, T4>(Func<ITaskContextInternal, T1, T2, T3, T4, Task> targetAction, T1 param, T2 param2, T3 param3, T4 param4, Action<DoTaskAsync5<T1, T2, T3, T4>> taskAction = null, string taskGroupId = null)
         {
             var task = new DoTaskAsync5<T1, T2, T3, T4>(targetAction, param, param2, param3, param4);
             taskAction?.Invoke(task);
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
+            AddTaskToTaskGroup(taskGroupId, task, TaskExecutionMode.Parallel);
             return this;
         }
 
-        public ITarget DoAsync<T1, T2, T3, T4, T5>(Func<ITaskContextInternal, T1, T2, T3, T4, T5, Task> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, Action<DoTaskAsync6<T1, T2, T3, T4, T5>> taskAction = null)
+        public ITarget DoAsync<T1, T2, T3, T4, T5>(Func<ITaskContextInternal, T1, T2, T3, T4, T5, Task> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, Action<DoTaskAsync6<T1, T2, T3, T4, T5>> taskAction = null, string taskGroupId = null)
         {
             var task = new DoTaskAsync6<T1, T2, T3, T4, T5>(targetAction, param, param2, param3, param4, param5);
             taskAction?.Invoke(task);
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
+            AddTaskToTaskGroup(taskGroupId, task, TaskExecutionMode.Parallel);
             return this;
         }
 
-        public ITarget Do(Action<ITaskContextInternal> targetAction, Action<DoTask> taskAction = null)
+        public ITarget Do(Action<ITaskContextInternal> targetAction, Action<DoTask> taskAction = null, string taskGroupId = null)
         {
             var task = new DoTask(targetAction);
             taskAction?.Invoke(task);
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
+            AddTaskToTaskGroup(taskGroupId, task, TaskExecutionMode.Synchronous);
             return this;
         }
 
-        public ITarget Do<T>(Action<ITaskContextInternal, T> targetAction, T param, Action<DoTask2<T>> taskAction = null)
+        public ITarget Do<T>(Action<ITaskContextInternal, T> targetAction, T param, Action<DoTask2<T>> taskAction = null, string taskGroupId = null)
         {
             var task = new DoTask2<T>(targetAction, param);
             taskAction?.Invoke(task);
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
+            AddTaskToTaskGroup(taskGroupId, task, TaskExecutionMode.Synchronous);
             return this;
         }
 
-        public ITarget Do<T, T2>(Action<ITaskContextInternal, T, T2> targetAction, T param, T2 param2, Action<DoTask3<T, T2>> taskAction = null)
+        public ITarget Do<T, T2>(Action<ITaskContextInternal, T, T2> targetAction, T param, T2 param2, Action<DoTask3<T, T2>> taskAction = null, string taskGroupId = null)
         {
             var task = new DoTask3<T, T2>(targetAction, param, param2);
             taskAction?.Invoke(task);
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
+            AddTaskToTaskGroup(taskGroupId, task, TaskExecutionMode.Synchronous);
             return this;
         }
 
-        public ITarget Do<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3, Action<DoTask4<T1, T2, T3>> taskAction = null)
+        public ITarget Do<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3, Action<DoTask4<T1, T2, T3>> taskAction = null, string taskGroupId = null)
         {
             var task = new DoTask4<T1, T2, T3>(targetAction, param, param2, param3);
             taskAction?.Invoke(task);
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
+            AddTaskToTaskGroup(taskGroupId, task, TaskExecutionMode.Synchronous);
             return this;
         }
 
-        public ITarget Do<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2, T3 param3, T4 param4, Action<DoTask5<T1, T2, T3, T4>> taskAction = null)
+        public ITarget Do<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2, T3 param3, T4 param4, Action<DoTask5<T1, T2, T3, T4>> taskAction = null, string taskGroupId = null)
         {
             var task = new DoTask5<T1, T2, T3, T4>(targetAction, param, param2, param3, param4);
             taskAction?.Invoke(task);
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
+            AddTaskToTaskGroup(taskGroupId, task, TaskExecutionMode.Synchronous);
             return this;
         }
 
-        public ITarget Do<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, Action<DoTask6<T1, T2, T3, T4, T5>> taskAction = null)
+        public ITarget Do<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, Action<DoTask6<T1, T2, T3, T4, T5>> taskAction = null, string taskGroupId = null)
         {
             var task = new DoTask6<T1, T2, T3, T4, T5>(targetAction, param, param2, param3, param4, param5);
             taskAction?.Invoke(task);
-            Tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
+            AddTaskToTaskGroup(taskGroupId, task, TaskExecutionMode.Synchronous);
             return this;
         }
 
-        public ITarget OverrideDo(Action<ITaskContextInternal> targetAction)
-        {
-            var tasks = Tasks.Select(x => x.Item1);
-            var doTasks = tasks.OfType<DoTask>().ToList();
-            if (doTasks.Count == 0)
-            {
-                return this;
-            }
+        //public ITarget OverrideDo(Action<ITaskContextInternal> targetAction)
+        //{
+        //    var tasks = Tasks.Select(x => x.Item1);
+        //    var doTasks = tasks.OfType<DoTask>().ToList();
+        //    if (doTasks.Count == 0)
+        //    {
+        //        return this;
+        //    }
 
-            if (doTasks.Count > 1)
-            {
-                throw new NotSupportedException("You can not override do when there are specified more than 1 do in target.");
-            }
+        //    if (doTasks.Count > 1)
+        //    {
+        //        throw new NotSupportedException("You can not override do when there are specified more than 1 do in target.");
+        //    }
 
-            doTasks[0] = new DoTask(targetAction);
+        //    doTasks[0] = new DoTask(targetAction);
 
-            return this;
-        }
+        //    return this;
+        //}
 
         /// <summary>
         ///     Sets the target as the default target for the runner.
@@ -303,7 +304,7 @@ namespace FlubuCore.Targeting
         {
             foreach (var task in tasks)
             {
-                _tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Synchronous));
+                AddTaskToTaskGroup(null, task, TaskExecutionMode.Synchronous);
             }
 
             return this;
@@ -313,7 +314,7 @@ namespace FlubuCore.Targeting
         {
             foreach (var task in tasks)
             {
-                _tasks.Add(new Tuple<ITask, TaskExecutionMode>(task, TaskExecutionMode.Parallel));
+                AddTaskToTaskGroup(null, task, TaskExecutionMode.Parallel);
             }
 
             return this;
@@ -325,10 +326,13 @@ namespace FlubuCore.Targeting
             context.LogInfo(" ");
             context.LogInfo($"Target {TargetName} will execute next tasks:");
 
-            for (int i = 0; i < _tasks.Count; i++)
+            for (int i = 0; i < _taskGroups.Count; i++)
             {
-                var task = (TaskHelp)_tasks[i].Item1;
-                task.LogTaskHelp(context);
+                for (int j = 0; j < _taskGroups[i].Tasks.Count; j++)
+                {
+                    var task = (TaskHelp)_taskGroups[i].Tasks[j].task;
+                    task.LogTaskHelp(context);
+                }
             }
         }
 
@@ -352,31 +356,41 @@ namespace FlubuCore.Targeting
                 }
             }
 
-            int n = _tasks.Count;
+            int taskGroupsCount = _taskGroups.Count;
             List<System.Threading.Tasks.Task> tasks = new List<System.Threading.Tasks.Task>();
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < taskGroupsCount; i++)
             {
-                context.LogInfo($"Executing task {_tasks[i].Item1.GetType().Name}");
-                if (_tasks[i].Item2 == TaskExecutionMode.Synchronous)
+                int tasksCount = _taskGroups[i].Tasks.Count;
+                for (int j = 0; j < tasksCount; j++)
                 {
-                    _tasks[i].Item1.ExecuteVoid(context);
-                }
-                else
-                {
-                    var i1 = i;
-                    tasks.Add(_tasks[i1].Item1.ExecuteVoidAsync(context));
-                    if (i + 1 < n)
+                    context.LogInfo($"Executing task {_taskGroups[i].Tasks[j].task.GetType().Name}");
+                    if (_taskGroups[i].Tasks[j].taskExecutionMode == TaskExecutionMode.Synchronous)
                     {
-                        if (_tasks[i + 1].Item2 != TaskExecutionMode.Synchronous) continue;
-                        if (tasks.Count <= 0) continue;
-                        System.Threading.Tasks.Task.WaitAll(tasks.ToArray());
-                        tasks = new List<System.Threading.Tasks.Task>();
+                        _taskGroups[i].Tasks[j].task.ExecuteVoid(context);
                     }
                     else
                     {
-                        if (tasks.Count > 0)
+                        tasks.Add(_taskGroups[i].Tasks[j].task.ExecuteVoidAsync(context));
+                        if (j + 1 < tasksCount)
                         {
-                            System.Threading.Tasks.Task.WaitAll(tasks.ToArray());
+                            if (_taskGroups[i].Tasks[j + 1].taskExecutionMode != TaskExecutionMode.Synchronous) continue;
+                            if (tasks.Count <= 0) continue;
+                            Task.WaitAll(tasks.ToArray());
+                            tasks = new List<Task>();
+                        }
+                        else if (i + 1 < taskGroupsCount)
+                        {
+                            if (_taskGroups[i + 1].Tasks[0].taskExecutionMode != TaskExecutionMode.Synchronous) continue;
+                            if (tasks.Count <= 0) continue;
+                            Task.WaitAll(tasks.ToArray());
+                            tasks = new List<Task>();
+                        }
+                        else
+                        {
+                            if (tasks.Count > 0)
+                            {
+                                System.Threading.Tasks.Task.WaitAll(tasks.ToArray());
+                            }
                         }
                     }
                 }
@@ -384,5 +398,49 @@ namespace FlubuCore.Targeting
 
             return 0;
         }
+
+        private void AddTaskToTaskGroup(string taskGroupId, ITask task, TaskExecutionMode taskExecutionMode)
+        {
+            if (taskGroupId == null)
+            {
+                var taskGroup = new TaskGroup()
+                {
+                    GroupId = Guid.NewGuid().ToString(),
+                };
+
+                taskGroup.Tasks.Add((task, taskExecutionMode));
+                TasksGroups.Add(taskGroup);
+            }
+            else
+            {
+                var taskGroup = TasksGroups.FirstOrDefault(x => x.GroupId == taskGroupId);
+                if (taskGroup == null)
+                {
+                    taskGroup = new TaskGroup()
+                    {
+                        GroupId = taskGroupId,
+                    };
+
+                    taskGroup.Tasks.Add((task, taskExecutionMode));
+                    TasksGroups.Add(taskGroup);
+                }
+                else
+                {
+                    taskGroup.Tasks.Add((task, taskExecutionMode));
+                }
+            }
+        }
+    }
+
+    public class TaskGroup
+    {
+        public TaskGroup()
+        {
+            Tasks = new List<(ITask task, TaskExecutionMode taskExecutionMode)>();
+        }
+
+        public string GroupId { get; set; }
+
+        public List<(ITask task, TaskExecutionMode taskExecutionMode)> Tasks { get; set; }
     }
 }

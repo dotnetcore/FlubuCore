@@ -47,7 +47,7 @@ namespace Flubu.Tests.Integration
 
             Target t = (Target)session.TargetTree.GetTarget("Linux");
 
-            Assert.Equal(2, t.Tasks.Count);
+            Assert.Equal(2, t.TasksGroups.Count);
             Assert.Empty(t.Dependencies);
         }
 
@@ -63,7 +63,7 @@ namespace Flubu.Tests.Integration
 
             Target t = (Target)session.TargetTree.GetTarget("IIS");
 
-            Assert.Equal(2, t.Tasks.Count);
+            Assert.Equal(2, t.TasksGroups.Count);
             Assert.Empty(t.Dependencies);
         }
     }
