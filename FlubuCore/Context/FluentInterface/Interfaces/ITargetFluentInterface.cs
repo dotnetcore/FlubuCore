@@ -122,18 +122,6 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         ITargetFluentInterface Do<T, T2, T3, T4, T5, T6, T7, T8>(Action<ITargetFluentInterface, T, T2, T3, T4, T5, T6, T7, T8> action, T param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8);
 
         /// <summary>
-        /// Task extensions for various .net (core) tasks(Fluent interface).
-        /// </summary>
-        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
-        ITaskExtensionsFluentInterface TaskExtensions();
-
-        /// <summary>
-        /// Task extensions for various .net core tasks(Fluent interface).
-        /// </summary>
-        /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
-        ICoreTaskExtensionsFluentInterface CoreTaskExtensions();
-
-        /// <summary>
         /// Group tasks and perform specific action on tasks.
         /// </summary>
         /// <param name="targetAction">specify tasks in group.</param>

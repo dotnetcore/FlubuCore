@@ -19,10 +19,6 @@ namespace FlubuCore.Context.FluentInterface
 
         internal ICoreTaskFluentInterface CoreTaskFluent { get; set; }
 
-        internal ITaskExtensionsFluentInterface TaskExtensionsFluent { get; set; }
-
-        internal ICoreTaskExtensionsFluentInterface CoreTaskExtensionsFluent { get; set; }
-
         protected TaskGroup TaskGroup { get; set; }
 
         public TTargetFluentInterface AddTask(params ITask[] tasks)

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Context.FluentInterface.TaskExtensions;
-using FlubuCore.Context.FluentInterface.TaskExtensions.Core;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
 
@@ -68,23 +67,6 @@ namespace FlubuCore.Context.FluentInterface
         {
             Target.SetAsHidden();
             return this;
-        }
-
-        public ITaskExtensionsFluentInterface TaskExtensions()
-        {
-            TaskExtensionsFluentInterface taskExtensionFluent = (TaskExtensionsFluentInterface)TaskExtensionsFluent;
-            taskExtensionFluent.Target = this;
-            taskExtensionFluent.Context = Context;
-            return TaskExtensionsFluent;
-        }
-
-        public ICoreTaskExtensionsFluentInterface CoreTaskExtensions()
-        {
-            CoreTaskExtensionsFluentInterface coreTaskExtensionsFluent =
-                (CoreTaskExtensionsFluentInterface)CoreTaskExtensionsFluent;
-            coreTaskExtensionsFluent.Target = this;
-            coreTaskExtensionsFluent.Context = Context;
-            return coreTaskExtensionsFluent;
         }
 
         public ITargetFluentInterface Group(Action<ITargetBaseFluentInterfaceOfT<ITargetFluentInterface>> targetAction,

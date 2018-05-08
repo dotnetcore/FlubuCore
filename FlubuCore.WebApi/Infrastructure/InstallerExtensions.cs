@@ -6,8 +6,6 @@ using FlubuCore.Commanding;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.Context.FluentInterface.Interfaces;
-using FlubuCore.Context.FluentInterface.TaskExtensions;
-using FlubuCore.Context.FluentInterface.TaskExtensions.Core;
 using FlubuCore.Infrastructure;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
@@ -81,8 +79,6 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddTransient<ICoreTaskFluentInterface, CoreTaskFluentInterface>()
                 .AddTransient<ILinuxTaskFluentInterface, LinuxTaskFluentInterface>()
                 .AddTransient<ITargetFluentInterface, TargetFluentInterface>()
-                .AddTransient<ITaskExtensionsFluentInterface, TaskExtensionsFluentInterface>()
-                .AddTransient<ICoreTaskExtensionsFluentInterface, CoreTaskExtensionsFluentInterface>()
                 .AddTransient<GenerateCommonAssemblyInfoTask>()
                 .AddTransient<FetchBuildVersionFromFileTask>()
                 .AddTransient<FetchVersionFromExternalSourceTask>()

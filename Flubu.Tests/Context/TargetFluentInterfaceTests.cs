@@ -26,7 +26,6 @@ namespace Flubu.Tests.Context
             _fluent.Context = _context.Object;
             _fluent.CoreTaskFluent = new CoreTaskFluentInterface(new LinuxTaskFluentInterface());
             _fluent.TaskFluent = new TaskFluentInterface(new IisTaskFluentInterface(), new WebApiFluentInterface(), new HttpClientFactory());
-            _fluent.TaskExtensionsFluent = new TaskExtensionsFluentInterface();
         }
 
         [Fact]
