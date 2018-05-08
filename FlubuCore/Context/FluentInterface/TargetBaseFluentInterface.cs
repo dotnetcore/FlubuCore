@@ -168,5 +168,125 @@ namespace FlubuCore.Context.FluentInterface
             Target.DoAsync(targetAction, param, param2, param3, param4, param5, doOptions, TaskGroup);
             return this as TTargetFluentInterface;
         }
+
+        public TTargetFluentInterface When(Func<ITaskContextInternal, bool> condition, Action<TTargetFluentInterface> action)
+        {
+            var conditionMeet = condition?.Invoke(Context) ?? true;
+
+            if (!conditionMeet)
+            {
+                return this as TTargetFluentInterface;
+            }
+
+            action?.Invoke(this as TTargetFluentInterface);
+            return this as TTargetFluentInterface;
+        }
+
+        public TTargetFluentInterface When<T>(Func<ITaskContextInternal, bool> condition, Action<TTargetFluentInterface, T> action, T param)
+        {
+            var conditionMeet = condition?.Invoke(Context) ?? true;
+
+            if (!conditionMeet)
+            {
+                return this as TTargetFluentInterface;
+            }
+
+            action?.Invoke(this as TTargetFluentInterface, param);
+            return this as TTargetFluentInterface;
+        }
+
+        public TTargetFluentInterface When<T, T2>(Func<ITaskContextInternal, bool> condition, Action<TTargetFluentInterface, T, T2> action, T param, T2 param2)
+        {
+            var conditionMeet = condition?.Invoke(Context) ?? true;
+
+            if (!conditionMeet)
+            {
+                return this as TTargetFluentInterface;
+            }
+
+            action?.Invoke(this as TTargetFluentInterface, param, param2);
+            return this as TTargetFluentInterface;
+        }
+
+        public TTargetFluentInterface When<T, T2, T3>(Func<ITaskContextInternal, bool> condition, Action<TTargetFluentInterface, T, T2, T3> action, T param, T2 param2, T3 param3)
+        {
+            var conditionMeet = condition?.Invoke(Context) ?? true;
+
+            if (!conditionMeet)
+            {
+                return this as TTargetFluentInterface;
+            }
+
+            action?.Invoke(this as TTargetFluentInterface, param, param2, param3);
+            return this as TTargetFluentInterface;
+        }
+
+        public TTargetFluentInterface When<T, T2, T3, T4>(Func<ITaskContextInternal, bool> condition, Action<TTargetFluentInterface, T, T2, T3, T4> action, T param, T2 param2, T3 param3, T4 param4)
+        {
+            var conditionMeet = condition?.Invoke(Context) ?? true;
+
+            if (!conditionMeet)
+            {
+                return this as TTargetFluentInterface;
+            }
+
+            action?.Invoke(this as TTargetFluentInterface, param, param2, param3, param4);
+            return this as TTargetFluentInterface;
+        }
+
+        public TTargetFluentInterface When<T, T2, T3, T4, T5>(Func<ITaskContextInternal, bool> condition, Action<TTargetFluentInterface, T, T2, T3, T4, T5> action, T param, T2 param2, T3 param3, T4 param4, T5 param5)
+        {
+            var conditionMeet = condition?.Invoke(Context) ?? true;
+
+            if (!conditionMeet)
+            {
+                return this as TTargetFluentInterface;
+            }
+
+            action?.Invoke(this as TTargetFluentInterface, param, param2, param3, param4, param5);
+            return this as TTargetFluentInterface;
+        }
+
+        public TTargetFluentInterface When<T, T2, T3, T4, T5, T6>(Func<ITaskContextInternal, bool> condition, Action<TTargetFluentInterface, T, T2, T3, T4, T5, T6> action, T param, T2 param2, T3 param3, T4 param4, T5 param5,
+            T6 param6)
+        {
+            var conditionMeet = condition?.Invoke(Context) ?? true;
+
+            if (!conditionMeet)
+            {
+                return this as TTargetFluentInterface;
+            }
+
+            action?.Invoke(this as TTargetFluentInterface, param, param2, param3, param4, param5, param6);
+            return this as TTargetFluentInterface;
+        }
+
+        public TTargetFluentInterface When<T, T2, T3, T4, T5, T6, T7>(Func<ITaskContextInternal, bool> condition, Action<TTargetFluentInterface, T, T2, T3, T4, T5, T6, T7> action, T param, T2 param2, T3 param3, T4 param4, T5 param5,
+            T6 param6, T7 param7)
+        {
+            var conditionMeet = condition?.Invoke(Context) ?? true;
+
+            if (!conditionMeet)
+            {
+                return this as TTargetFluentInterface;
+            }
+
+            action?.Invoke(this as TTargetFluentInterface, param, param2, param3, param4, param5, param6, param7);
+            return this as TTargetFluentInterface;
+        }
+
+        public TTargetFluentInterface When<T, T2, T3, T4, T5, T6, T7, T8>(Func<ITaskContextInternal, bool> condition, Action<TTargetFluentInterface, T, T2, T3, T4, T5, T6, T7, T8> action, T param, T2 param2, T3 param3, T4 param4, T5 param5,
+            T6 param6, T7 param7, T8 param8)
+        {
+            var conditionMeet = condition?.Invoke(Context) ?? true;
+
+            if (!conditionMeet)
+            {
+                return this as TTargetFluentInterface;
+            }
+
+            action?.Invoke(this as TTargetFluentInterface, param, param2, param3, param4, param5, param6, param7, param8);
+            return this as TTargetFluentInterface;
+        }
     }
 }

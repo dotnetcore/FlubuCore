@@ -122,69 +122,6 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         ITargetFluentInterface Do<T, T2, T3, T4, T5, T6, T7, T8>(Action<ITargetFluentInterface, T, T2, T3, T4, T5, T6, T7, T8> action, T param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8);
 
         /// <summary>
-        /// Adds set of tasks to target if <see cref="condition"/> is meet.
-        /// </summary>
-        /// <param name="action">Define tasks to be added to target.</param>
-        /// <returns></returns>
-        ITargetFluentInterface When(Func<ITaskContextInternal, bool> condition, Action<ITargetFluentInterface> action);
-
-        /// <summary>
-        /// Adds set of tasks to target if <see cref="condition"/> is meet.
-        /// </summary>
-        /// <param name="action">Define tasks to be added to target.</param>
-        /// <returns></returns>
-        ITargetFluentInterface When<T>(Func<ITaskContextInternal, bool> condition, Action<ITargetFluentInterface, T> action, T param);
-
-        /// <summary>
-        /// Adds set of tasks to target if <see cref="condition"/> is meet.
-        /// </summary>
-        /// <param name="action">Define tasks to be added to target.</param>
-        /// <returns></returns>
-        ITargetFluentInterface When<T, T2>(Func<ITaskContextInternal, bool> condition, Action<ITargetFluentInterface, T, T2> action, T param, T2 param2);
-
-        /// <summary>
-        /// Adds set of tasks to target if <see cref="condition"/> is meet.
-        /// </summary>
-        /// <param name="action">Define tasks to be added to target.</param>
-        /// <returns></returns>
-        ITargetFluentInterface When<T, T2, T3>(Func<ITaskContextInternal, bool> condition, Action<ITargetFluentInterface, T, T2, T3> action, T param, T2 param2, T3 param3);
-
-        /// <summary>
-        /// Adds set of tasks to target if <see cref="condition"/> is meet.
-        /// </summary>
-        /// <param name="action">Define tasks to be added to target.</param>
-        /// <returns></returns>
-        ITargetFluentInterface When<T, T2, T3, T4>(Func<ITaskContextInternal, bool> condition, Action<ITargetFluentInterface, T, T2, T3, T4> action, T param, T2 param2, T3 param3, T4 param4);
-
-        /// <summary>
-        /// Adds set of tasks to target if <see cref="condition"/> is meet.
-        /// </summary>
-        /// <param name="action">Define tasks to be added to target.</param>
-        /// <returns></returns>
-        ITargetFluentInterface When<T, T2, T3, T4, T5>(Func<ITaskContextInternal, bool> condition, Action<ITargetFluentInterface, T, T2, T3, T4, T5> action, T param, T2 param2, T3 param3, T4 param4, T5 param5);
-
-        /// <summary>
-        /// Adds set of tasks to target if <see cref="condition"/> is meet.
-        /// </summary>
-        /// <param name="action">Define tasks to be added to target.</param>
-        /// <returns></returns>
-        ITargetFluentInterface When<T, T2, T3, T4, T5, T6>(Func<ITaskContextInternal, bool> condition, Action<ITargetFluentInterface, T, T2, T3, T4, T5, T6> action, T param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6);
-
-        /// <summary>
-        /// Adds set of tasks to target if <see cref="condition"/> is meet.
-        /// </summary>
-        /// <param name="action">Define tasks to be added to target.</param>
-        /// <returns></returns>
-        ITargetFluentInterface When<T, T2, T3, T4, T5, T6, T7>(Func<ITaskContextInternal, bool> condition, Action<ITargetFluentInterface, T, T2, T3, T4, T5, T6, T7> action, T param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7);
-
-        /// <summary>
-        /// Adds set of tasks to target if <see cref="condition"/> is meet.
-        /// </summary>
-        /// <param name="action">Define tasks to be added to target.</param>
-        /// <returns></returns>
-        ITargetFluentInterface When<T, T2, T3, T4, T5, T6, T7, T8>(Func<ITaskContextInternal, bool> condition, Action<ITargetFluentInterface, T, T2, T3, T4, T5, T6, T7, T8> action, T param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8);
-
-        /// <summary>
         /// Task extensions for various .net (core) tasks(Fluent interface).
         /// </summary>
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>

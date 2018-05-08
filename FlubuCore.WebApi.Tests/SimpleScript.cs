@@ -40,7 +40,6 @@ namespace FlubuCore.WebApi.Tests
                     },
                     onError: (c, e) =>
                     {
-                        File.Create("Finally.txt");
                         File.Create("OnError.txt");
                     });
         }
