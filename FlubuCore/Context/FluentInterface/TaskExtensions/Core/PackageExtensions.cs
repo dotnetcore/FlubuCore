@@ -109,7 +109,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
 
             action?.Invoke(task);
 
-            Target.Target.AddTask(task);
+            Target.Target.AddTask(null, task);
         }
     }
 }

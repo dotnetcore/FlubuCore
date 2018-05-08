@@ -86,6 +86,20 @@ namespace FlubuCore.Context.FluentInterface
             return coreTaskExtensionsFluent;
         }
 
+        public ITargetFluentInterface Group(Action<ITargetBaseFluentInterfaceOfT<ITargetFluentInterface>> targetAction,  Action<ITaskContext> onFinally = null, Action<ITaskContext, Exception> onError = null)
+        {
+            TaskGroup = new TaskGroup
+            {
+                GroupId = Guid.NewGuid().ToString(),
+                OnErrorAction = onError,
+                FinallyAction = onFinally,
+            };
+
+            targetAction.Invoke(this);
+            TaskGroup = null;
+            return this;
+        }
+
         public ITargetFluentInterface Do(Action<ITargetFluentInterface> action)
         {
             action?.Invoke(this);

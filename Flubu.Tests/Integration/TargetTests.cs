@@ -51,7 +51,7 @@ namespace Flubu.Tests.Integration
 
             var target1 = targetTree.AddTarget("target 1");
 
-            target1.AddTask(new SimpleTask(new FileWrapper()));
+            target1.AddTask(null, new SimpleTask(new FileWrapper()));
 
             target1.ExecuteVoid(Context);
         }
@@ -63,7 +63,7 @@ namespace Flubu.Tests.Integration
 
             var target1 = targetTree.AddTarget("target 1");
 
-            target1.AddTaskAsync(new SimpleTask(new FileWrapper()));
+            target1.AddTaskAsync(null, new SimpleTask(new FileWrapper()));
 
             await target1.ExecuteVoidAsync(Context);
         }
@@ -76,7 +76,7 @@ namespace Flubu.Tests.Integration
 
             var target1 = targetTree.AddTarget("target 1");
 
-            target1.AddTaskAsync(new SimpleTaskWithDelay(), new SimpleTaskWithDelay());
+            target1.AddTaskAsync(null, new SimpleTaskWithDelay(), new SimpleTaskWithDelay());
             Stopwatch sw = new Stopwatch();
 
             sw.Start();
@@ -96,7 +96,7 @@ namespace Flubu.Tests.Integration
 
             var target1 = targetTree.AddTarget("target 1");
 
-            target1.AddTask(new SimpleTaskWithDelay(500), new SimpleTaskWithDelay(500));
+            target1.AddTask(null, new SimpleTaskWithDelay(500), new SimpleTaskWithDelay(500));
             Stopwatch sw = new Stopwatch();
 
             sw.Start();
@@ -114,8 +114,8 @@ namespace Flubu.Tests.Integration
 
             var target1 = targetTree.AddTarget("target 1");
 
-            target1.AddTaskAsync(new SimpleTaskWithDelay(), new SimpleTaskWithDelay());
-            target1.AddTask(new SimpleTaskWithDelay());
+            target1.AddTaskAsync(null, new SimpleTaskWithDelay(), new SimpleTaskWithDelay());
+            target1.AddTask(null, new SimpleTaskWithDelay());
 
             Stopwatch sw = new Stopwatch();
 
@@ -135,9 +135,9 @@ namespace Flubu.Tests.Integration
 
             var target1 = targetTree.AddTarget("target 1");
 
-            target1.AddTaskAsync(new SimpleTaskWithDelay(), new SimpleTaskWithDelay());
-            target1.AddTask(new SimpleTaskWithDelay());
-            target1.AddTaskAsync(new SimpleTaskWithDelay(), new SimpleTaskWithDelay());
+            target1.AddTaskAsync(null, new SimpleTaskWithDelay(), new SimpleTaskWithDelay());
+            target1.AddTask(null, new SimpleTaskWithDelay());
+            target1.AddTaskAsync(null, new SimpleTaskWithDelay(), new SimpleTaskWithDelay());
             Stopwatch sw = new Stopwatch();
 
             sw.Start();
@@ -154,9 +154,9 @@ namespace Flubu.Tests.Integration
         {
             TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" } });
 
-            var target1 = targetTree.AddTarget("target 1").AddTask(new SimpleTaskWithDelay());
+            var target1 = targetTree.AddTarget("target 1").AddTask(null, new SimpleTaskWithDelay());
 
-            var target2 = targetTree.AddTarget("target 2").AddTask(new SimpleTaskWithDelay());
+            var target2 = targetTree.AddTarget("target 2").AddTask(null, new SimpleTaskWithDelay());
 
             var target3 = targetTree.AddTarget("target 3");
             target3.DependsOnAsync(target1, target2);
@@ -178,9 +178,9 @@ namespace Flubu.Tests.Integration
         public void DependsOnTargetTest()
         {
             TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" } });
-            var target1 = targetTree.AddTarget("target 1").AddTask(new SimpleTaskWithDelay(500));
+            var target1 = targetTree.AddTarget("target 1").AddTask(null, new SimpleTaskWithDelay(500));
 
-            var target2 = targetTree.AddTarget("target 2").AddTask(new SimpleTaskWithDelay(500));
+            var target2 = targetTree.AddTarget("target 2").AddTask(null, new SimpleTaskWithDelay(500));
 
             var target3 = targetTree.AddTarget("target 3");
             target3.DependsOn(target1, target2);

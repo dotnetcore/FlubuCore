@@ -31,7 +31,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
                 .GenerateAssemblyVersion(generateAssemblyVersion);
 
             action?.Invoke(task);
-            Target.Target.AddTask(task);
+            Target.Target.AddTask(null, task);
 
             return this;
         }

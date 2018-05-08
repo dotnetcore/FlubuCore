@@ -54,14 +54,14 @@ namespace FlubuCore.Targeting
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
-        ITarget Do(Action<ITaskContextInternal> targetAction, Action<DoTask> taskAction = null, string taskGroupId = null);
+        ITarget Do(Action<ITaskContextInternal> targetAction, Action<DoTask> taskAction = null, TaskGroup taskGroup = null);
 
         /// <summary>
         /// Execute custom code in script.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
-        ITarget Do<T>(Action<ITaskContextInternal, T> targetAction, T param, Action<DoTask2<T>> taskAction = null, string taskGroupId = null);
+        ITarget Do<T>(Action<ITaskContextInternal, T> targetAction, T param, Action<DoTask2<T>> taskAction = null, TaskGroup taskGroup = null);
 
         /// <summary>
         /// Execute custom code in script.
@@ -69,7 +69,7 @@ namespace FlubuCore.Targeting
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
         ITarget Do<T, T2>(Action<ITaskContextInternal, T, T2> targetAction, T param, T2 param2,
-            Action<DoTask3<T, T2>> taskAction = null, string taskGroupId = null);
+            Action<DoTask3<T, T2>> taskAction = null, TaskGroup taskGroup = null);
 
         /// <summary>
         /// Execute custom code in script.
@@ -77,7 +77,7 @@ namespace FlubuCore.Targeting
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
         ITarget Do<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3,
-            Action<DoTask4<T1, T2, T3>> taskAction = null, string taskGroupId = null);
+            Action<DoTask4<T1, T2, T3>> taskAction = null, TaskGroup taskGroup = null);
 
         /// <summary>
         /// Execute custom code in script.
@@ -85,7 +85,7 @@ namespace FlubuCore.Targeting
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
         ITarget Do<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2,
-            T3 param3, T4 param4, Action<DoTask5<T1, T2, T3, T4>> taskAction = null, string taskGroupId = null);
+            T3 param3, T4 param4, Action<DoTask5<T1, T2, T3, T4>> taskAction = null, TaskGroup taskGroup = null);
 
         /// <summary>
         /// Execute custom code in script.
@@ -93,21 +93,21 @@ namespace FlubuCore.Targeting
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
         ITarget Do<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param,
-            T2 param2, T3 param3, T4 param4, T5 param5, Action<DoTask6<T1, T2, T3, T4, T5>> taskAction = null, string taskGroupId = null);
+            T2 param2, T3 param3, T4 param4, T5 param5, Action<DoTask6<T1, T2, T3, T4, T5>> taskAction = null, TaskGroup taskGroup = null);
 
         /// <summary>
         /// Execute custom code in script asynchronous.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
-        ITarget DoAsync(Action<ITaskContextInternal> targetAction, Action<DoTask> taskAction = null, string taskGroupId = null);
+        ITarget DoAsync(Action<ITaskContextInternal> targetAction, Action<DoTask> taskAction = null, TaskGroup taskGroup = null);
 
         /// <summary>
         /// Execute custom code in script.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
-        ITarget DoAsync<T>(Action<ITaskContextInternal, T> targetAction, T param, Action<DoTask2<T>> taskAction = null, string taskGroupId = null);
+        ITarget DoAsync<T>(Action<ITaskContextInternal, T> targetAction, T param, Action<DoTask2<T>> taskAction = null, TaskGroup taskGroup = null);
 
         /// <summary>
         /// Execute custom code in script.
@@ -115,7 +115,7 @@ namespace FlubuCore.Targeting
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
         ITarget DoAsync<T1, T2>(Action<ITaskContextInternal, T1, T2> targetAction, T1 param, T2 param2,
-            Action<DoTask3<T1, T2>> taskAction = null, string taskGroupId = null);
+            Action<DoTask3<T1, T2>> taskAction = null, TaskGroup taskGroup = null);
 
         /// <summary>
         /// Execute custom code in script.
@@ -123,7 +123,7 @@ namespace FlubuCore.Targeting
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
         ITarget DoAsync<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2,
-            T3 param3, Action<DoTask4<T1, T2, T3>> taskAction = null, string taskGroupId = null);
+            T3 param3, Action<DoTask4<T1, T2, T3>> taskAction = null, TaskGroup taskGroup = null);
 
         /// <summary>
         /// Execute custom code in script.
@@ -131,7 +131,7 @@ namespace FlubuCore.Targeting
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
         ITarget DoAsync<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2,
-            T3 param3, T4 param4, Action<DoTask5<T1, T2, T3, T4>> taskAction = null, string taskGroupId = null);
+            T3 param3, T4 param4, Action<DoTask5<T1, T2, T3, T4>> taskAction = null, TaskGroup taskGroup = null);
 
         /// <summary>
         /// Execute custom code in script.
@@ -139,14 +139,14 @@ namespace FlubuCore.Targeting
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
         ITarget DoAsync<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param,
-            T2 param2, T3 param3, T4 param4, T5 param5, Action<DoTask6<T1, T2, T3, T4, T5>> taskAction = null, string taskGroupId = null);
+            T2 param2, T3 param3, T4 param4, T5 param5, Action<DoTask6<T1, T2, T3, T4, T5>> taskAction = null, TaskGroup taskGroup = null);
 
         /// <summary>
         /// Execute custom code in script asynchronous.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
-        ITarget DoAsync(Func<ITaskContextInternal, Task> targetAction, Action<DoTaskAsync> taskAction = null, string taskGroupId = null);
+        ITarget DoAsync(Func<ITaskContextInternal, Task> targetAction, Action<DoTaskAsync> taskAction = null, TaskGroup taskGroup = null);
 
         /// <summary>
         /// Execute custom code in script.
@@ -154,7 +154,7 @@ namespace FlubuCore.Targeting
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
         ITarget DoAsync<T>(Func<ITaskContextInternal, T, Task> targetAction, T param,
-            Action<DoTaskAsync2<T>> taskAction = null, string taskGroupId = null);
+            Action<DoTaskAsync2<T>> taskAction = null, TaskGroup taskGroup = null);
 
         /// <summary>
         /// Execute custom code in script.
@@ -162,7 +162,7 @@ namespace FlubuCore.Targeting
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
         ITarget DoAsync<T1, T2>(Func<ITaskContextInternal, T1, T2, Task> targetAction, T1 param, T2 param2,
-            Action<DoTaskAsync3<T1, T2>> taskAction = null, string taskGroupId = null);
+            Action<DoTaskAsync3<T1, T2>> taskAction = null, TaskGroup taskGroup = null);
 
         /// <summary>
         /// Execute custom code in script.
@@ -170,7 +170,7 @@ namespace FlubuCore.Targeting
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
         ITarget DoAsync<T1, T2, T3>(Func<ITaskContextInternal, T1, T2, T3, Task> targetAction, T1 param, T2 param2,
-            T3 param3, Action<DoTaskAsync4<T1, T2, T3>> taskAction = null, string taskGroupId = null);
+            T3 param3, Action<DoTaskAsync4<T1, T2, T3>> taskAction = null, TaskGroup taskGroup = null);
 
         /// <summary>
         /// Execute custom code in script.
@@ -178,7 +178,7 @@ namespace FlubuCore.Targeting
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
         ITarget DoAsync<T1, T2, T3, T4>(Func<ITaskContextInternal, T1, T2, T3, T4, Task> targetAction, T1 param,
-            T2 param2, T3 param3, T4 param4, Action<DoTaskAsync5<T1, T2, T3, T4>> taskAction = null, string taskGroupId = null);
+            T2 param2, T3 param3, T4 param4, Action<DoTaskAsync5<T1, T2, T3, T4>> taskAction = null, TaskGroup taskGroup = null);
 
         /// <summary>
         /// Execute custom code in script.
@@ -186,7 +186,7 @@ namespace FlubuCore.Targeting
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This target.</returns>
         ITarget DoAsync<T1, T2, T3, T4, T5>(Func<ITaskContextInternal, T1, T2, T3, T4, T5, Task> targetAction, T1 param,
-            T2 param2, T3 param3, T4 param4, T5 param5, Action<DoTaskAsync6<T1, T2, T3, T4, T5>> taskAction = null, string taskGroupId = null);
+            T2 param2, T3 param3, T4 param4, T5 param5, Action<DoTaskAsync6<T1, T2, T3, T4, T5>> taskAction = null, TaskGroup taskGroup = null);
 
         /// <summary>
         ///     Sets the target as the default target for the runner.
@@ -213,8 +213,8 @@ namespace FlubuCore.Targeting
         /// Add's the task to the target.
         /// </summary>
         /// <param name="task">The task to be added</param>
-        ITarget AddTask(params ITask[] task);
+        ITarget AddTask(TaskGroup taskGroup, params ITask[] task);
 
-        ITarget AddTaskAsync(params ITask[] task);
+        ITarget AddTaskAsync(TaskGroup taskGroup, params ITask[] task);
     }
 }

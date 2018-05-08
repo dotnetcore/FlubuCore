@@ -11,7 +11,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
         {
             foreach (string program in programs)
             {
-                Target.Target.AddTask(CreateRunProgram(program, null));
+                Target.Target.AddTask(null, CreateRunProgram(program, null));
             }
 
             return this;
@@ -19,7 +19,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
 
         public ITaskExtensionsFluentInterface RunProgram(string program, string workingFolder, params string[] args)
         {
-            Target.Target.AddTask(CreateRunProgram(program, workingFolder, args));
+            Target.Target.AddTask(null, CreateRunProgram(program, workingFolder, args));
 
             return this;
         }

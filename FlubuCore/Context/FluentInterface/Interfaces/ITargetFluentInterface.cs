@@ -195,5 +195,14 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         ICoreTaskExtensionsFluentInterface CoreTaskExtensions();
+
+        /// <summary>
+        /// Group tasks and perform specific action on tasks.
+        /// </summary>
+        /// <param name="targetAction">specify tasks in group.</param>
+        /// <param name="onFinally">action that will be taken when all task finish or when error occures.</param>
+        /// <param name="onError">action that will be taken on any task actions</param>
+        /// <returns></returns>
+        ITargetFluentInterface Group(Action<ITargetBaseFluentInterfaceOfT<ITargetFluentInterface>> targetAction, Action<ITaskContext> onFinally = null, Action<ITaskContext, Exception> onError = null);
     }
 }

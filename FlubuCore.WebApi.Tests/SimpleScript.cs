@@ -15,8 +15,34 @@ namespace FlubuCore.WebApi.Tests
 
         protected override void ConfigureTargets(ITaskContext session)
         {
-            session.CreateTarget("SuccesfullTarget").Do(SuccesfullTarget, "f", doOptions: x => x.ForMember(m => m.Param, "FileName"));
+            session.CreateTarget("SuccesfullTarget").Do(SuccesfullTarget, "f",
+                doOptions: x => x.ForMember(m => m.Param, "FileName"));
             session.CreateTarget("FailedTarget").Do(FailedTarget);
+
+            session.CreateTarget("FinallyTarget")
+                .Group(target =>
+                    {
+                        target.AddTask(x => x.DeleteDirectoryTask("fakeDir", false));
+                    },
+                    onFinally: c =>
+                    {
+                        File.Create("Finally.txt");
+                    });
+
+            session.CreateTarget("OnErrorTarget")
+                .Group(target =>
+                    {
+                        target.Do(FailedTarget);
+                    },
+                    onFinally: c =>
+                    {
+                        File.Create("Finally.txt");
+                    },
+                    onError: (c, e) =>
+                    {
+                        File.Create("Finally.txt");
+                        File.Create("OnError.txt");
+                    });
         }
 
         public void SuccesfullTarget(ITaskContext session, string fileName)

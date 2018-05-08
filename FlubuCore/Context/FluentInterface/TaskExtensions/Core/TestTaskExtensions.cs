@@ -11,7 +11,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
         {
             foreach (string project in projects)
             {
-                Target.Target.AddTask(DotnetCoverage(project, null, null, new string[1]));
+                Target.Target.AddTask(null, DotnetCoverage(project, null, null, new string[1]));
             }
 
             return this;
@@ -19,13 +19,13 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions.Core
 
         public ICoreTaskExtensionsFluentInterface DotnetCoverage(string projectPath, string output, params string[] excludeList)
         {
-            Target.Target.AddTask(DotnetCoverage(projectPath, output, null, excludeList));
+            Target.Target.AddTask(null, DotnetCoverage(projectPath, output, null, excludeList));
             return this;
         }
 
         public ICoreTaskExtensionsFluentInterface DotnetCoverage(string projectPath, string[] includeList, string[] excludeList)
         {
-            Target.Target.AddTask(DotnetCoverage(projectPath, null, includeList, excludeList));
+            Target.Target.AddTask(null, DotnetCoverage(projectPath, null, includeList, excludeList));
             return this;
         }
 

@@ -67,6 +67,63 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         }
 
         [Fact]
+        public async void ExecuteScript_OnErrorTest_Sucesfull()
+        {
+            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            Client.Token = token.Token;
+
+            await Client.UploadScriptAsync(new UploadScriptRequest
+            {
+                FilePath = "SimpleScript.cs"
+            });
+
+            if (File.Exists("test.txt"))
+                File.Delete("test.txt");
+
+            if (File.Exists("OnError.txt"))
+                File.Delete("OnError.txt");
+
+            if (File.Exists("Finally.txt"))
+                File.Delete("Finally.txt");
+
+            var req = new ExecuteScriptRequest
+            {
+                ScriptFileName = "simplescript.cs",
+                TargetToExecute = "OnErrorTarget",
+                ScriptArguments = new Dictionary<string, string>()
+            };
+
+            var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(req));
+            Assert.True(File.Exists("Finally.txt"));
+            Assert.True(File.Exists("OnError.txt"));
+        }
+
+        [Fact]
+        public async void ExecuteScript_OnFinallyTest_Sucesfull()
+        {
+            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            Client.Token = token.Token;
+
+            await Client.UploadScriptAsync(new UploadScriptRequest
+            {
+                FilePath = "SimpleScript.cs"
+            });
+
+            if (File.Exists("Finally.txt"))
+                File.Delete("Finally.txt");
+
+            var req = new ExecuteScriptRequest
+            {
+                ScriptFileName = "simplescript.cs",
+                TargetToExecute = "FinallyTarget",
+                ScriptArguments = new Dictionary<string, string>()
+            };
+
+            await Client.ExecuteScriptAsync(req);
+            Assert.True(File.Exists("Finally.txt"));
+        }
+
+        [Fact]
         public async void ExecuteScript_MainCommandEmpty_ThrowsBadRequest()
         {
             var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });

@@ -8,7 +8,7 @@ namespace FlubuCore.Tasks.NetCore
         [Obsolete("User CoreTaskExtension fluent interface")]
         public static ITarget DotnetAddEfMigration(this ITarget target, string workingFolder, string migrationName = "default")
         {
-            target.AddTask(AddEfMigration(workingFolder, migrationName));
+            target.AddTask(null, AddEfMigration(workingFolder, migrationName));
 
             return target;
         }
@@ -16,7 +16,7 @@ namespace FlubuCore.Tasks.NetCore
         [Obsolete("User CoreTaskExtension fluent interface")]
         public static ITarget DotnetRemoveEfMigration(this ITarget target, string workingFolder, bool forceRemove = true)
         {
-            target.AddTask(RemoveEfMigration(workingFolder, forceRemove));
+            target.AddTask(null, RemoveEfMigration(workingFolder, forceRemove));
 
             return target;
         }
@@ -24,7 +24,7 @@ namespace FlubuCore.Tasks.NetCore
         [Obsolete("User CoreTaskExtension fluent interface")]
         public static ITarget DotnetEfUpdateDatabase(this ITarget target, string workingFolder)
         {
-            target.AddTask(EfUpdateDatabase(workingFolder));
+            target.AddTask(null, EfUpdateDatabase(workingFolder));
 
             return target;
         }
@@ -32,7 +32,7 @@ namespace FlubuCore.Tasks.NetCore
         [Obsolete("User CoreTaskExtension fluent interface")]
         public static ITarget DotnetEfDropDatabase(this ITarget target, string workingFolder)
         {
-            target.AddTask(EfDropDatabase(workingFolder));
+            target.AddTask(null, EfDropDatabase(workingFolder));
 
             return target;
         }
