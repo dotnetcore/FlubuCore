@@ -1,3 +1,23 @@
+2.7.0.0
+- Added Xunit task - For running xunit tasks with xunit console runner
+- Added Build system providers - You can acces various build, commit... information for various build systems (such as Jenkins, TeamCity, AppVeyor, Travis...) 
+- Targets: Added conditonal task execution with When clause.
+- Targets: Added option to group tasks.
+- Targets: Added OnError block - Group tasks in target and specify action to be taken on error. 
+- Targets: Added OnFinally block - Group tasks in target and specify action to be taken when all jobs finishes successfully or with error.
+- Added task OnError action.
+- Added task Finally action.
+- (BREAKING CHANGE) Target: Removed TaskExtensions from target fluent interface. Use AddTask task or extension equivalent instead. See 2.6.0 breaking changes
+- (BREAKING CHANGE) Target: Removed CoreTaskExtensions from target fluent interface. Use AddCoreTask task or extension equivalent instead. See 2.6.0 breaking changes
+- WebApi: Option to include logs into ExecuteScript response.
+- WebApi: Option to include StackTrace to error response.
+- WebApi ExecuteTask: Fixed missing option to add script arguments. 
+- Fixed Execute target without dependencies
+- Fixed netcore publish task mismatched default values for build configuration. 
+- CleanupOutputTask: Improve error message when load solution task was not executed before Cleanoutput task execution
+- NunitTask: Improve error message when load solution task was not executed before NunitTask execution
+- Updated varios nuget packages.
+
 2.6.0.0
 - Added option to add multiple tasks, dependencies With (anonimous) method to target with Do method.
 - (BREAKING CHANGE)Migrated CoreTaskExtensions fluent interface to CoreTasks fluent interface. All extensions method have same name so update should be very simple.
