@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
 
@@ -42,6 +39,20 @@ namespace FlubuCore.WebApi.Tests
                     {
                         File.Create("OnError.txt");
                     });
+
+            session.CreateTarget("WhenTarget")
+                .Do(SuccesfullTarget, "file2.txt")
+                .Group(
+                    target =>
+                    {
+                        target.Do(SuccesfullTarget, "file.txt");
+                    },
+                    when: c => { return false; })
+                .Group(target =>
+                    {
+                        target.Do(SuccesfullTarget, "file3.txt");
+                    },
+                    when: c => { return true; });
         }
 
         public void SuccesfullTarget(ITaskContext session, string fileName)

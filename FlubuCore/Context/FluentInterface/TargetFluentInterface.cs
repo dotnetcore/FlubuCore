@@ -85,7 +85,7 @@ namespace FlubuCore.Context.FluentInterface
             return this;
         }
 
-        public ITargetFluentInterface Group(Action<ITargetBaseFluentInterfaceOfT<ITargetFluentInterface>> targetAction, Action<ITaskContext> onFinally = null, Action<ITaskContext, Exception> onError = null)
+        public ITargetFluentInterface Group(Action<ITargetBaseFluentInterfaceOfT<ITargetFluentInterface>> targetAction, Action<ITaskContext> onFinally = null, Action<ITaskContext, Exception> onError = null, Func<ITargetBaseFluentInterface, bool> when = null)
         {
             LastTargetAction = TargetAction.Other;
             ActionCount = 0;
@@ -96,7 +96,12 @@ namespace FlubuCore.Context.FluentInterface
                 FinallyAction = onFinally,
             };
 
-            targetAction.Invoke(this);
+            var conditionMeet = when?.Invoke(this);
+            if (conditionMeet.HasValue == false || conditionMeet.Value)
+            {
+                targetAction.Invoke(this);
+            }
+
             TaskGroup = null;
             return this;
         }

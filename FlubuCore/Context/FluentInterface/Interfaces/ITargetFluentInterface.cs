@@ -128,6 +128,6 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="onFinally">action that will be taken when all task finish or when error occures.</param>
         /// <param name="onError">action that will be taken on any task actions</param>
         /// <returns></returns>
-        ITargetFluentInterface Group(Action<ITargetBaseFluentInterfaceOfT<ITargetFluentInterface>> targetAction, Action<ITaskContext> onFinally = null, Action<ITaskContext, Exception> onError = null);
+        ITargetFluentInterface Group(Action<ITargetBaseFluentInterfaceOfT<ITargetFluentInterface>> targetAction, Action<ITaskContext> onFinally = null, Action<ITaskContext, Exception> onError = null, Func<ITargetBaseFluentInterface, bool> when = null);
     }
 }

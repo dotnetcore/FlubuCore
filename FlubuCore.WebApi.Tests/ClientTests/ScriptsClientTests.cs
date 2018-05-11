@@ -204,6 +204,44 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         }
 
         [Fact]
+        public async void ExecuteScript_WhenTest_Sucesfull()
+        {
+            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            Client.Token = token.Token;
+
+            await Client.UploadScriptAsync(new UploadScriptRequest
+            {
+                FilePath = "SimpleScript.cs"
+            });
+
+            if (File.Exists("file.txt"))
+                File.Delete("file.txt");
+
+            if (File.Exists("file2.txt"))
+                File.Delete("file2.txt");
+
+            if (File.Exists("file3.txt"))
+                File.Delete("file3.txt");
+
+            Assert.False(File.Exists("file.txt"));
+            Assert.False(File.Exists("file2.txt"));
+            Assert.False(File.Exists("file3.txt"));
+
+            var req = new ExecuteScriptRequest
+            {
+                ScriptFileName = "simplescript.cs",
+                TargetToExecute = "WhenTarget",
+                ScriptArguments = new Dictionary<string, string>()
+            };
+            req.ScriptArguments.Add("FileName", "test.txt");
+            var response = await Client.ExecuteScriptAsync(req);
+
+            Assert.False(File.Exists("file.txt"));
+            Assert.True(File.Exists("file2.txt"));
+            Assert.True(File.Exists("file3.txt"));
+        }
+
+        [Fact]
         public async void UploadScript_Succesfull()
         {
             var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
