@@ -1,4 +1,4 @@
-2.7.1.0
+2.7.2.0
 - (BREAKING CHANGE from version 2.7.0.0) When clause interface changed on target. When has no single parameter which applies condition to last target fluent interface action
 - Group task on target has no when parameter to apply conditions to group of tasks.
 
