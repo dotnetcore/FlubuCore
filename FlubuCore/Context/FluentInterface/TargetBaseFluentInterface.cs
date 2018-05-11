@@ -220,7 +220,7 @@ namespace FlubuCore.Context.FluentInterface
             return this as TTargetFluentInterface;
         }
 
-        public TTargetFluentInterface When(Func<ITaskContextInternal, bool> condition)
+        public TTargetFluentInterface When(Func<ITaskContext, bool> condition)
         {
             var conditionMeet = condition?.Invoke(Context) ?? true;
 

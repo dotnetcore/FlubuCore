@@ -96,7 +96,7 @@ namespace FlubuCore.Context.FluentInterface
                 FinallyAction = onFinally,
             };
 
-            var conditionMeet = when?.Invoke(this);
+            var conditionMeet = when?.Invoke(Context);
             if (conditionMeet.HasValue == false || conditionMeet.Value)
             {
                 targetAction.Invoke(this);
