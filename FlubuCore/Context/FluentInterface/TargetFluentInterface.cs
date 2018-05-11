@@ -13,18 +13,24 @@ namespace FlubuCore.Context.FluentInterface
     {
         public ITargetFluentInterface DependsOn(params string[] targetNames)
         {
+            LastTargetAction = TargetAction.AddDependency;
+            ActionCount = targetNames.Length;
             Target.DependsOn(targetNames);
             return this;
         }
 
         public ITargetFluentInterface DependsOn(params ITarget[] targets)
         {
+            LastTargetAction = TargetAction.AddDependency;
+            ActionCount = targets.Length;
             Target.DependsOn(targets);
             return this;
         }
 
         public ITargetFluentInterface DependsOn(params ITargetFluentInterface[] targets)
         {
+            LastTargetAction = TargetAction.AddDependency;
+            ActionCount = targets.Length;
             foreach (var t in targets)
             {
                 var target = (TargetFluentInterface)t;
@@ -36,12 +42,16 @@ namespace FlubuCore.Context.FluentInterface
 
         public ITargetFluentInterface DependsOnAsync(params ITarget[] targets)
         {
+            LastTargetAction = TargetAction.AddDependency;
+            ActionCount = targets.Length;
             Target.DependsOnAsync(targets);
             return this;
         }
 
         public ITargetFluentInterface DependsOnAsync(params ITargetFluentInterface[] targets)
         {
+            LastTargetAction = TargetAction.AddDependency;
+            ActionCount = targets.Length;
             foreach (var t in targets)
             {
                 var target = (TargetFluentInterface)t;
@@ -53,25 +63,32 @@ namespace FlubuCore.Context.FluentInterface
 
         public ITargetFluentInterface SetAsDefault()
         {
+            LastTargetAction = TargetAction.Other;
+            ActionCount = 0;
             Target.SetAsDefault();
             return this;
         }
 
         public ITargetFluentInterface SetDescription(string description)
         {
+            LastTargetAction = TargetAction.Other;
+            ActionCount = 0;
             Target.SetDescription(description);
             return this;
         }
 
         public ITargetFluentInterface SetAsHidden()
         {
+            LastTargetAction = TargetAction.Other;
+            ActionCount = 0;
             Target.SetAsHidden();
             return this;
         }
 
-        public ITargetFluentInterface Group(Action<ITargetBaseFluentInterfaceOfT<ITargetFluentInterface>> targetAction,
-            Action<ITaskContext> onFinally = null, Action<ITaskContext, Exception> onError = null)
+        public ITargetFluentInterface Group(Action<ITargetBaseFluentInterfaceOfT<ITargetFluentInterface>> targetAction, Action<ITaskContext> onFinally = null, Action<ITaskContext, Exception> onError = null)
         {
+            LastTargetAction = TargetAction.Other;
+            ActionCount = 0;
             TaskGroup = new TaskGroup
             {
                 GroupId = Guid.NewGuid().ToString(),
@@ -123,10 +140,7 @@ namespace FlubuCore.Context.FluentInterface
             return this;
         }
 
-        public ITargetFluentInterface Do<T, T2, T3, T4, T5, T6>(
-            Action<ITargetFluentInterface, T, T2, T3, T4, T5, T6> action, T param, T2 param2, T3 param3, T4 param4,
-            T5 param5,
-            T6 param6)
+        public ITargetFluentInterface Do<T, T2, T3, T4, T5, T6>(Action<ITargetFluentInterface, T, T2, T3, T4, T5, T6> action, T param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6)
         {
             action?.Invoke(this, param, param2, param3, param4, param5, param6);
             return this;

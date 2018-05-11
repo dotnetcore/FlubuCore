@@ -169,68 +169,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns>This same instance of <see cref="Targeting.ITarget" />.</returns>
         TTargetFluentInterface DoAsync<T, T1, T2, T3, T4>(Func<ITaskContextInternal, T, T1, T2, T3, T4, Task> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5, Action<DoTaskAsync6<T, T1, T2, T3, T4>> doOptions = null);
 
-           /// <summary>
-        /// Adds set of tasks to target if <see cref="condition"/> is meet.
-        /// </summary>
-        /// <param name="action">Define tasks to be added to target.</param>
-        /// <returns></returns>
-        TTargetFluentInterface When(Func<ITaskContextInternal, bool> condition, Action<TTargetFluentInterface> action);
-
-        /// <summary>
-        /// Adds set of tasks to target if <see cref="condition"/> is meet.
-        /// </summary>
-        /// <param name="action">Define tasks to be added to target.</param>
-        /// <returns></returns>
-        TTargetFluentInterface When<T>(Func<ITaskContextInternal, bool> condition, Action<TTargetFluentInterface, T> action, T param);
-
-        /// <summary>
-        /// Adds set of tasks to target if <see cref="condition"/> is meet.
-        /// </summary>
-        /// <param name="action">Define tasks to be added to target.</param>
-        /// <returns></returns>
-        TTargetFluentInterface When<T, T2>(Func<ITaskContextInternal, bool> condition, Action<TTargetFluentInterface, T, T2> action, T param, T2 param2);
-
-        /// <summary>
-        /// Adds set of tasks to target if <see cref="condition"/> is meet.
-        /// </summary>
-        /// <param name="action">Define tasks to be added to target.</param>
-        /// <returns></returns>
-        TTargetFluentInterface When<T, T2, T3>(Func<ITaskContextInternal, bool> condition, Action<TTargetFluentInterface, T, T2, T3> action, T param, T2 param2, T3 param3);
-
-        /// <summary>
-        /// Adds set of tasks to target if <see cref="condition"/> is meet.
-        /// </summary>
-        /// <param name="action">Define tasks to be added to target.</param>
-        /// <returns></returns>
-        TTargetFluentInterface When<T, T2, T3, T4>(Func<ITaskContextInternal, bool> condition, Action<TTargetFluentInterface, T, T2, T3, T4> action, T param, T2 param2, T3 param3, T4 param4);
-
-        /// <summary>
-        /// Adds set of tasks to target if <see cref="condition"/> is meet.
-        /// </summary>
-        /// <param name="action">Define tasks to be added to target.</param>
-        /// <returns></returns>
-        TTargetFluentInterface When<T, T2, T3, T4, T5>(Func<ITaskContextInternal, bool> condition, Action<TTargetFluentInterface, T, T2, T3, T4, T5> action, T param, T2 param2, T3 param3, T4 param4, T5 param5);
-
-        /// <summary>
-        /// Adds set of tasks to target if <see cref="condition"/> is meet.
-        /// </summary>
-        /// <param name="action">Define tasks to be added to target.</param>
-        /// <returns></returns>
-        TTargetFluentInterface When<T, T2, T3, T4, T5, T6>(Func<ITaskContextInternal, bool> condition, Action<TTargetFluentInterface, T, T2, T3, T4, T5, T6> action, T param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6);
-
-        /// <summary>
-        /// Adds set of tasks to target if <see cref="condition"/> is meet.
-        /// </summary>
-        /// <param name="action">Define tasks to be added to target.</param>
-        /// <returns></returns>
-        TTargetFluentInterface When<T, T2, T3, T4, T5, T6, T7>(Func<ITaskContextInternal, bool> condition, Action<TTargetFluentInterface, T, T2, T3, T4, T5, T6, T7> action, T param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7);
-
-        /// <summary>
-        /// Adds set of tasks to target if <see cref="condition"/> is meet.
-        /// </summary>
-        /// <param name="action">Define tasks to be added to target.</param>
-        /// <returns></returns>
-        TTargetFluentInterface When<T, T2, T3, T4, T5, T6, T7, T8>(Func<ITaskContextInternal, bool> condition, Action<TTargetFluentInterface, T, T2, T3, T4, T5, T6, T7, T8> action, T param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8);
+        TTargetFluentInterface When(Func<ITaskContextInternal, bool> condition);
     }
 
     public interface ITargetBaseFluentInterface

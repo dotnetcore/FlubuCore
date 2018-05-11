@@ -1,0 +1,204 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using FlubuCore.Context;
+using FlubuCore.Context.FluentInterface;
+using FlubuCore.Context.FluentInterface.Interfaces;
+using FlubuCore.Infrastructure;
+using FlubuCore.Targeting;
+using FlubuCore.Tasks;
+using FlubuCore.Tasks.NetCore;
+using FlubuCore.Tasks.Solution;
+using Microsoft.Extensions.Logging.Console;
+using Moq;
+using Xunit;
+
+namespace Flubu.Tests.Context
+{
+     public class TargetFluentInterfaceIntegrationTestsWithTarget
+    {
+        private readonly TargetFluentInterface _fluent;
+        private readonly TaskContextInternal _context;
+        private readonly Mock<ITaskFactory> _taskFactory;
+        private readonly Target _target;
+
+        public TargetFluentInterfaceIntegrationTestsWithTarget()
+        {
+            _taskFactory = new Mock<ITaskFactory>();
+            _context = new TaskContextInternal(null, null, null, new TargetTree(null, null), null, _taskFactory.Object, null);
+            _target = new Target(new TargetTree(null, null), "TestTarget", null);
+
+            _fluent = new TargetFluentInterface();
+
+            _fluent.Target = _target;
+            _fluent.Context = _context;
+            var coreTaskFluentInterface = new CoreTaskFluentInterface(new LinuxTaskFluentInterface());
+            coreTaskFluentInterface.Context = _context;
+            _fluent.CoreTaskFluent = coreTaskFluentInterface;
+            var taskFluentInterface = new TaskFluentInterface(new IisTaskFluentInterface(), new WebApiFluentInterface(), new HttpClientFactory());
+            taskFluentInterface.Context = _context;
+            _fluent.TaskFluent = taskFluentInterface;
+        }
+
+        [Fact]
+        public void When_AddDependencyConditionNotMeet()
+        {
+            Mock<ITarget> target1 = new Mock<ITarget>();
+            target1.Setup(x => x.TargetName).Returns("dep");
+            Mock<ITarget> target2 = new Mock<ITarget>();
+            target2.Setup(x => x.TargetName).Returns("dep2");
+            ITargetFluentInterface t = _fluent.DependsOn(target1.Object, target2.Object).When(c => false);
+            Assert.NotNull(t);
+            Assert.Empty(_target.Dependencies);
+        }
+
+        [Fact]
+        public void When_AddDependencConditionMeet()
+        {
+            Mock<ITarget> target2 = new Mock<ITarget>();
+            target2.Setup(x => x.TargetName).Returns("dep2");
+            Mock<ITarget> target1 = new Mock<ITarget>();
+            target1.Setup(x => x.TargetName).Returns("dep");
+            ITargetFluentInterface t = _fluent.DependsOn(target1.Object, target2.Object).When(c => true);
+            Assert.NotNull(t);
+            Assert.Equal(2, _target.Dependencies.Count);
+        }
+
+        [Fact]
+        public void When_Add2DependenyConditionNotMeet()
+        {
+            Mock<ITarget> target2 = new Mock<ITarget>();
+            target2.Setup(x => x.TargetName).Returns("dep2");
+            Mock<ITarget> target1 = new Mock<ITarget>();
+            target1.Setup(x => x.TargetName).Returns("dep");
+            ITargetFluentInterface t = _fluent.DependsOn(target1.Object).DependsOn(target2.Object).When(c => false);
+            Assert.NotNull(t);
+            Assert.Equal(1, _target.Dependencies.Count);
+            Assert.True(_target.Dependencies.ContainsKey("dep"));
+        }
+
+        [Fact]
+        public void When_AddDependencyConditionNull()
+        {
+            Mock<ITarget> target1 = new Mock<ITarget>();
+            target1.Setup(x => x.TargetName).Returns("dep");
+            ITargetFluentInterface t = _fluent.DependsOn(target1.Object).When(null);
+            Assert.NotNull(t);
+            Assert.Equal(1, _target.Dependencies.Count);
+        }
+
+        [Fact]
+        public void When_AddTaskConditionNotMet()
+        {
+            _taskFactory.Setup(x => x.Create<CleanOutputTask>()).Returns(new CleanOutputTask());
+            _taskFactory.Setup(x => x.Create<CompileSolutionTask>()).Returns(new CompileSolutionTask(null));
+            Mock<ITarget> target1 = new Mock<ITarget>();
+            target1.Setup(x => x.TargetName).Returns("dep");
+            ITargetFluentInterface t = _fluent.AddTask(x => x.CompileSolutionTask()).AddTask(x => x.CleanOutputTask())
+                .When(c => false);
+            Assert.NotNull(t);
+            Assert.Equal(1, _target.TasksGroups.Count);
+            Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);
+        }
+
+        [Fact]
+        public void When_AddTaskConditionMet()
+        {
+            _taskFactory.Setup(x => x.Create<CleanOutputTask>()).Returns(new CleanOutputTask());
+            _taskFactory.Setup(x => x.Create<CompileSolutionTask>()).Returns(new CompileSolutionTask(null));
+            Mock<ITarget> target1 = new Mock<ITarget>();
+            target1.Setup(x => x.TargetName).Returns("dep");
+            ITargetFluentInterface t = _fluent.AddTask(x => x.CompileSolutionTask()).AddTask(x => x.CleanOutputTask())
+                .When(c => true);
+            Assert.NotNull(t);
+            Assert.Equal(2, _target.TasksGroups.Count);
+            Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);
+            Assert.Equal(1, _target.TasksGroups[1].Tasks.Count);
+        }
+
+        [Fact]
+        public void When_AddTaskAsyncConditionNotMet()
+        {
+            _taskFactory.Setup(x => x.Create<CleanOutputTask>()).Returns(new CleanOutputTask());
+            _taskFactory.Setup(x => x.Create<CompileSolutionTask>()).Returns(new CompileSolutionTask(null));
+            Mock<ITarget> target1 = new Mock<ITarget>();
+            target1.Setup(x => x.TargetName).Returns("dep");
+            ITargetFluentInterface t = _fluent.AddTaskAsync(x => x.CompileSolutionTask()).AddTaskAsync(x => x.CleanOutputTask())
+                .When(c => false);
+            Assert.NotNull(t);
+            Assert.Equal(1, _target.TasksGroups.Count);
+            Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);
+        }
+
+        [Fact]
+        public void When_AddTaskAsyncConditionMet()
+        {
+            _taskFactory.Setup(x => x.Create<CleanOutputTask>()).Returns(new CleanOutputTask());
+            _taskFactory.Setup(x => x.Create<CompileSolutionTask>()).Returns(new CompileSolutionTask(null));
+            Mock<ITarget> target1 = new Mock<ITarget>();
+            target1.Setup(x => x.TargetName).Returns("dep");
+            ITargetFluentInterface t = _fluent.AddTaskAsync(x => x.CompileSolutionTask()).AddTaskAsync(x => x.CleanOutputTask())
+                .When(c => true);
+            Assert.NotNull(t);
+            Assert.Equal(2, _target.TasksGroups.Count);
+            Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);
+            Assert.Equal(1, _target.TasksGroups[1].Tasks.Count);
+        }
+
+        [Fact]
+        public void When_AddCoreTaskConditionNotMet()
+        {
+            _taskFactory.Setup(x => x.Create<DotnetBuildTask>()).Returns(new DotnetBuildTask());
+            _taskFactory.Setup(x => x.Create<DotnetCleanTask>()).Returns(new DotnetCleanTask());
+            Mock<ITarget> target1 = new Mock<ITarget>();
+            target1.Setup(x => x.TargetName).Returns("dep");
+            ITargetFluentInterface t = _fluent.AddCoreTask(x => x.Build()).AddCoreTask(x => x.Clean())
+                .When(c => false);
+            Assert.NotNull(t);
+            Assert.Equal(1, _target.TasksGroups.Count);
+            Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);
+        }
+
+        [Fact]
+        public void When_AddCoreTaskConditionMet()
+        {
+            _taskFactory.Setup(x => x.Create<DotnetBuildTask>()).Returns(new DotnetBuildTask());
+            _taskFactory.Setup(x => x.Create<DotnetCleanTask>()).Returns(new DotnetCleanTask());
+            Mock<ITarget> target1 = new Mock<ITarget>();
+            target1.Setup(x => x.TargetName).Returns("dep");
+            ITargetFluentInterface t = _fluent.AddCoreTask(x => x.Build()).AddCoreTask(x => x.Clean()).When(c => true);
+            Assert.NotNull(t);
+            Assert.Equal(2, _target.TasksGroups.Count);
+            Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);
+            Assert.Equal(1, _target.TasksGroups[1].Tasks.Count);
+        }
+
+        [Fact]
+        public void When_AddCoreTaskAsyncConditionNotMet()
+        {
+            _taskFactory.Setup(x => x.Create<DotnetBuildTask>()).Returns(new DotnetBuildTask());
+            _taskFactory.Setup(x => x.Create<DotnetCleanTask>()).Returns(new DotnetCleanTask());
+            Mock<ITarget> target1 = new Mock<ITarget>();
+            target1.Setup(x => x.TargetName).Returns("dep");
+            ITargetFluentInterface t = _fluent.AddCoreTaskAsync(x => x.Build()).AddCoreTaskAsync(x => x.Clean())
+                .When(c => false);
+            Assert.NotNull(t);
+            Assert.Equal(1, _target.TasksGroups.Count);
+            Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);
+        }
+
+        [Fact]
+        public void When_AddCoreTaskAsyncConditionMet()
+        {
+            _taskFactory.Setup(x => x.Create<DotnetBuildTask>()).Returns(new DotnetBuildTask());
+            _taskFactory.Setup(x => x.Create<DotnetCleanTask>()).Returns(new DotnetCleanTask());
+            Mock<ITarget> target1 = new Mock<ITarget>();
+            target1.Setup(x => x.TargetName).Returns("dep");
+            ITargetFluentInterface t = _fluent.AddCoreTaskAsync(x => x.Build()).AddCoreTaskAsync(x => x.Clean()).When(c => true);
+            Assert.NotNull(t);
+            Assert.Equal(2, _target.TasksGroups.Count);
+            Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);
+            Assert.Equal(1, _target.TasksGroups[1].Tasks.Count);
+        }
+    }
+}

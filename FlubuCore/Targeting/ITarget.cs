@@ -21,6 +21,8 @@ namespace FlubuCore.Targeting
         /// <value><c>true</c> if this target is hidden; otherwise, <c>false</c>.</value>
         bool IsHidden { get; }
 
+        void RemoveLastAddedActionsFromTarget(TargetAction targetAction, int actionCount);
+
         /// <summary>
         ///     Specifies targets on which this target depends on and execute then Synchronus.
         /// </summary>

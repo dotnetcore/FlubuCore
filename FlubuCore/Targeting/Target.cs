@@ -317,6 +317,40 @@ namespace FlubuCore.Targeting
             }
         }
 
+        public void RemoveLastAddedActionsFromTarget(TargetAction targetAction, int actionCount)
+        {
+            switch (targetAction)
+            {
+                case TargetAction.Other:
+                    return;
+                case TargetAction.AddTask:
+                {
+                    var lastGroup = TasksGroups.Last();
+                    for (int i = 0; i < actionCount; i++)
+                    {
+                        var lastTask = lastGroup.Tasks.Last();
+                        lastGroup.Tasks.Remove(lastTask);
+                        if (lastGroup.Tasks.Count == 0)
+                        {
+                            TasksGroups.Remove(lastGroup);
+                        }
+                    }
+
+                    return;
+                }
+
+                case TargetAction.AddDependency:
+                {
+                    for (int i = 0; i < actionCount; i++)
+                    {
+                        _dependencies.Remove(_dependencies.Keys.Last());
+                    }
+
+                    return;
+                }
+            }
+        }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             if (_targetTree == null)
