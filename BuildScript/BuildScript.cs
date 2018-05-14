@@ -1,8 +1,8 @@
 ﻿using System;
+using System.IO;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
-using FlubuCore.Tasks.Nuget;
-using System.IO;
+using FlubuCore.Context.FluentInterface.Interfaces;
 
 public class BuildScript : DefaultBuildScript
 {
@@ -23,7 +23,7 @@ public class BuildScript : DefaultBuildScript
             .SetAsHidden()
             .SetDescription("Fetches flubu version from FlubuCore.ProjectVersion.txt file.")
             .AddTask(x => x.FetchBuildVersionFromFileTask());
-        
+
         var compile = context
             .CreateTarget("compile")
             .SetDescription("Compiles the VS solution")
@@ -55,81 +55,18 @@ public class BuildScript : DefaultBuildScript
             .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("net462"));
 
         var packageWebApi = context.CreateTarget("Package.WebApi")
-            .SetDescription("Prepares flubu web api deployment package.")
-                .AddTask(x => x.PackageTask("output\\WebApiPackages")
-                    .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\net462\win7-x64\publish", "FlubuCore.WebApi", true)
-                    .AddFileToPackage("BuildScript\\DeployScript.cs", "")
-                    .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
-                    .AddFileToPackage("output\\build.exe", "")
-                    .AddFileToPackage("output\\build.exe.config", "")
-                    .AddFileToPackage("output\\FlubuCore.dll", "")
-                    .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
-                    .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard2.0\LiteDB.dll", "lib")
-                    .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
-                    .AddFileToPackage(@"packages\netstandard.dll", "lib")
-                    .DisableLogging()
-                    .ZipPackage("FlubuCore.WebApi-Net462", true))
-            .AddTask(x => x.PackageTask("output\\WebApiPackages")
-                .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp2.0\publish", "FlubuCore.WebApi", true)
-                .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
-                .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
-                .AddFileToPackage("output\\build.exe", "")
-                .AddFileToPackage("output\\build.exe.config", "")
-                .AddFileToPackage("output\\FlubuCore.dll", "")
-                .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
-                .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard2.0\LiteDB.dll", "lib")
-                .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
-                .AddFileToPackage(@"packages\netstandard.dll", "lib")
-                .DisableLogging()
-                .ZipPackage("FlubuCore.WebApi-NetCoreApp2.0-WindowsInstaller", true))
-                .AddTask(x => x.PackageTask("output\\WebApiPackages")
-                    .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp2.0\publish", "FlubuCore.WebApi", true)
-                    .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
-                    .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
-                    .AddFileToPackage("BuildScript\\NetCore2.0\\Deploy.csproj", "")
-                    .AddFileToPackage("BuildScript\\Deploy.bat", "")
-                    .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
-                    .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard2.0\LiteDB.dll", "lib")
-                    .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
-                .AddFileToPackage(@"packages\netstandard.dll", "lib")
-                    .DisableLogging()
-                    .ZipPackage("FlubuCore.WebApi-NetCoreApp2.0-LinuxMacInstaller", true))
-            .AddTask(x => x.PackageTask("output\\WebApiPackages")
-                .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp1.1\publish", "FlubuCore.WebApi", true)
-                .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
-                .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
-                .AddFileToPackage("output\\build.exe", "")
-                .AddFileToPackage("output\\build.exe.config", "")
-                .AddFileToPackage("output\\FlubuCore.dll", "")
-                .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
-                .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard1.3\LiteDB.dll", "lib")
-                .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
-                .AddFileToPackage(@"packages\netstandard.dll", "lib")
-                .DisableLogging()
-                .ZipPackage("FlubuCore.WebApi-NetCoreApp1.1-WindowsInstaller", true))
-            .AddTask(x => x.PackageTask("output\\WebApiPackages")
-                .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp1.1\publish", "FlubuCore.WebApi", true)
-                .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
-                .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
-                .AddFileToPackage("BuildScript\\NetCore1.1\\Deploy.csproj", "")
-                .AddFileToPackage("BuildScript\\Deploy.bat", "")
-                .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
-                .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard1.3\LiteDB.dll", "lib")
-                .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
-                .AddFileToPackage(@"packages\netstandard.dll", "lib")
-                .DisableLogging()
-                .ZipPackage("FlubuCore.WebApi-NetCoreApp1.1-LinuxMacInstaller", true));
+                .Do(PackageWebApi);
 
         var flubuRunnerMerge = context.CreateTarget("merge")
             .SetDescription("Merge's all assemblyes into .net flubu console application")
             .Do(TargetMerge);
 
-	    var flubuTests = context.CreateTarget("test")
-		    .SetDescription("Runs all tests in solution.")
-		    .AddCoreTask(x => x.Test().Project("Flubu.Tests\\Flubu.Tests.csproj"))
-		    .AddCoreTask(x => x.Test().Project("FlubuCore.WebApi.Tests\\FlubuCore.WebApi.Tests.csproj"));
+        var flubuTests = context.CreateTarget("test")
+            .SetDescription("Runs all tests in solution.")
+            .AddCoreTask(x => x.Test().Project("Flubu.Tests\\Flubu.Tests.csproj"))
+            .AddCoreTask(x => x.Test().Project("FlubuCore.WebApi.Tests\\FlubuCore.WebApi.Tests.csproj"));
 
-		var nugetPublish = context.CreateTarget("nuget.publish")
+        var nugetPublish = context.CreateTarget("nuget.publish")
             .Do(PublishNuGetPackage).
             DependsOn(buildVersion);
 
@@ -167,7 +104,7 @@ public class BuildScript : DefaultBuildScript
             .SetDescription("Runs all tests in solution.")
             .AddCoreTask(x => x.Test().Project("Flubu.Tests\\Flubu.Tests.csproj").WithArguments("--filter", "Category!=OnlyWindows"));
             ////.AddCoreTask(x => x.Test().Project("FlubuCore.WebApi.Tests\\FlubuCore.WebApi.Tests.csproj"));
-            
+
         context.CreateTarget("rebuild.linux")
             .SetDescription("Rebuilds the solution and publishes nuget packages.")
             .DependsOn(compileLinux, flubuTestsLinux, packageDotnetFlubu);
@@ -202,7 +139,7 @@ public class BuildScript : DefaultBuildScript
         var version = context.Properties.GetBuildVersion();
         var nugetVersion = version.ToString(3);
 
-       var key = context.ScriptArgs["nugetKey"];
+        var key = context.ScriptArgs["nugetKey"];
 
         context.CoreTasks().ExecuteDotnetTask("nuget")
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.WebApi.Model. exception: {e.Message}"); })
@@ -288,5 +225,74 @@ public class BuildScript : DefaultBuildScript
         context.Tasks()
             .CopyFileTask(@"dotnet-flubu\bin\Release\net462\win7-x64\FlubuCore.pdb", @"output\FlubuCore.pdb", true)
             .Execute(context);
+    }
+
+    public static void PackageWebApi(ITargetFluentInterface target)
+    {
+        target.SetDescription("Prepares flubu web api deployment package.")
+            .AddTask(x => x.PackageTask("output\\WebApiPackages")
+                .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\net462\win7-x64\publish", "FlubuCore.WebApi",
+                    true)
+                .AddFileToPackage("BuildScript\\DeployScript.cs", "")
+                .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
+                .AddFileToPackage("output\\build.exe", "")
+                .AddFileToPackage("output\\build.exe.config", "")
+                .AddFileToPackage("output\\FlubuCore.dll", "")
+                .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
+                .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard2.0\LiteDB.dll", "lib")
+                .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
+                .AddFileToPackage(@"packages\netstandard.dll", "lib")
+                .DisableLogging()
+                .ZipPackage("FlubuCore.WebApi-Net462", true))
+            .AddTask(x => x.PackageTask("output\\WebApiPackages")
+                .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp2.0\publish", "FlubuCore.WebApi", true)
+                .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
+                .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
+                .AddFileToPackage("output\\build.exe", "")
+                .AddFileToPackage("output\\build.exe.config", "")
+                .AddFileToPackage("output\\FlubuCore.dll", "")
+                .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
+                .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard2.0\LiteDB.dll", "lib")
+                .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
+                .AddFileToPackage(@"packages\netstandard.dll", "lib")
+                .DisableLogging()
+                .ZipPackage("FlubuCore.WebApi-NetCoreApp2.0-WindowsInstaller", true))
+            .AddTask(x => x.PackageTask("output\\WebApiPackages")
+                .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp2.0\publish", "FlubuCore.WebApi", true)
+                .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
+                .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
+                .AddFileToPackage("BuildScript\\NetCore2.0\\Deploy.csproj", "")
+                .AddFileToPackage("BuildScript\\Deploy.bat", "")
+                .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
+                .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard2.0\LiteDB.dll", "lib")
+                .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
+                .AddFileToPackage(@"packages\netstandard.dll", "lib")
+                .DisableLogging()
+                .ZipPackage("FlubuCore.WebApi-NetCoreApp2.0-LinuxMacInstaller", true))
+            .AddTask(x => x.PackageTask("output\\WebApiPackages")
+                .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp1.1\publish", "FlubuCore.WebApi", true)
+                .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
+                .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
+                .AddFileToPackage("output\\build.exe", "")
+                .AddFileToPackage("output\\build.exe.config", "")
+                .AddFileToPackage("output\\FlubuCore.dll", "")
+                .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
+                .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard1.3\LiteDB.dll", "lib")
+                .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
+                .AddFileToPackage(@"packages\netstandard.dll", "lib")
+                .DisableLogging()
+                .ZipPackage("FlubuCore.WebApi-NetCoreApp1.1-WindowsInstaller", true))
+            .AddTask(x => x.PackageTask("output\\WebApiPackages")
+                .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp1.1\publish", "FlubuCore.WebApi", true)
+                .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
+                .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
+                .AddFileToPackage("BuildScript\\NetCore1.1\\Deploy.csproj", "")
+                .AddFileToPackage("BuildScript\\Deploy.bat", "")
+                .AddFileToPackage(@"packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
+                .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard1.3\LiteDB.dll", "lib")
+                .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
+                .AddFileToPackage(@"packages\netstandard.dll", "lib")
+                .DisableLogging()
+                .ZipPackage("FlubuCore.WebApi-NetCoreApp1.1-LinuxMacInstaller", true));
     }
 }
