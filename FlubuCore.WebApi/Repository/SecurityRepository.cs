@@ -27,7 +27,7 @@ namespace FlubuCore.WebApi.Repository
             _webApiSettings = webApiSettings.Value;
         }
 
-        public Security GetSecurityAsync()
+        public Security GetSecurity()
         {
             var security = _repository.FirstOrDefault<Security>();
 
