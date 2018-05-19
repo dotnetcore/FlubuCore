@@ -11,7 +11,7 @@ You can find FlubuCore on nuget. See wiki getting started section for more detai
 
 ### Flubu main features / advantages ###
 
-* Net Core support (works also on linux and macOS).
+* Net Core support.
 * Easy to learn and to use because you write build script entirely in C#.
 * Quite a lot of built in tasks (compile, running tests, managing iis, creating deploy package, publishing nuget packages, executing powershell scripts...)
 * Write your own custom c# code in script and execute it. 
@@ -52,6 +52,7 @@ You can find FlubuCore on nuget. See wiki getting started section for more detai
 | Flubu runner System tests - tests on .net 461 mvc project | Windows| [![Build Status](http://lucidlynx.comtrade.com:8080/buildStatus/icon?job=FlubuCore.Runner.SystemTests)](http://lucidlynx.comtrade.com:8080/job/FlubuCore.Runner.SystemTests) | &nbsp;
 | Flubu cli tool System tests - tests on .net core 1.1 csproj project  | Windows| [![Build Status](http://lucidlynx.comtrade.com:8080/buildStatus/icon?job=FlubuCore_SystemTests_Net_Core_csproj)](http://lucidlynx.comtrade.com:8080/job/FlubuCore_SystemTests_Net_Core_csproj) | &nbsp;
 | Flubu cli tool System tests - tests on .net core 1.1  xproj project  | Windows| [![Build Status](http://lucidlynx.comtrade.com:8080/buildStatus/icon?job=FlubuCore_SystemTests_.Net_Core_xproj)](http://lucidlynx.comtrade.com:8080/job/FlubuCore_SystemTests_.Net_Core_xproj) | &nbsp;
+| Flubu web api deployment tests  | Windows| [![Build Status](http://lucidlynx.comtrade.com:8080/buildStatus/icon?job=FlubuCore_WebApi_DeploymentTests)](http://lucidlynx.comtrade.com:8080/job/FlubuCore_WebApi_DeploymentTests) | &nbsp;
 
 FlubuCore main build and FlubuCore system tests are also runned on linux machine but status can not be displayed because build server is hosted on private server.
 
