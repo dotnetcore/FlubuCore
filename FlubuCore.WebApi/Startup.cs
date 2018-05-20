@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -20,8 +21,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using Swashbuckle.AspNetCore.Swagger;
 using Logger = Serilog.Core.Logger;
 
 namespace FlubuCore.WebApi
@@ -122,7 +125,31 @@ namespace FlubuCore.WebApi
                 o.TokenValidationParameters = tokenValidationParameters;
             });
 #endif
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "A1 API",
+                    Description = "A1 API",
+                    TermsOfService = "None",
+                });
 
+                options.CustomSchemaIds(x => x.FullName);
+                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                var webApifilePath = Path.Combine(basePath, "FlubuCore.WebApi.xml");
+                options.IncludeXmlComments(webApifilePath);
+                options.DescribeAllEnumsAsStrings();
+                options.AddSecurityDefinition("Bearer",
+                    new ApiKeyScheme()
+                    {
+                        In = "header",
+                        Description = "Please insert JWT with Bearer into field. Example value(Enter token without braces.): Bearer {JwtToken} ",
+                        Name = "Authorization",
+                        Type = "apiKey"
+                    });
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -167,6 +194,16 @@ namespace FlubuCore.WebApi
 #endif
 
             app.UseMvc();
+
+            app.UseSwagger(c =>
+            {
+                c.PreSerializeFilters.Add((swagger, httpReq) => swagger.Host = httpReq.Host.Value);
+            });
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
+            });
+
         }
     }
 }
