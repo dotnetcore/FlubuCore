@@ -20,14 +20,19 @@ using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Solution;
 using FlubuCore.Tasks.Testing;
 using FlubuCore.Tasks.Versioning;
+using FlubuCore.WebApi.Controllers.Attributes;
+using FlubuCore.WebApi.Repository;
+using FlubuCore.WebApi.Services;
+using LiteDB;
 using Microsoft.DotNet.Cli.Utils;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FlubuCore.WebApi.Infrastructure
 {
     public static class InstallerExtensions
     {
-        public static IServiceCollection AddCoreComponentsForWebApi(this IServiceCollection services)
+        public static IServiceCollection AddCoreComponentsForWebApi(this IServiceCollection services,  IConfigurationRoot configuration)
         {
             services
                 .AddLogging()
@@ -45,6 +50,23 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddScoped<ITaskSession, TaskSession>()
                 .AddScoped<ICommandFactory, CommandFactory>()
                 .AddScoped<CommandArguments, CommandArguments>();
+
+            var connectionStrings = configuration.GetSection("FlubuConnectionStrings");
+            var liteDbConnectionString = connectionStrings["LiteDbConnectionString"];
+
+            var db = new LiteRepository(liteDbConnectionString);
+            ILiteRepositoryFactory liteRepositoryFactory = new LiteRepositoryFactory();
+            services.AddSingleton(liteRepositoryFactory);
+            services.AddSingleton<IRepositoryFactory>(new RepositoryFactory(liteRepositoryFactory, new TimeProvider()));
+            services.AddSingleton(db);
+            services.AddScoped<ApiExceptionFilter>();
+            services.AddScoped<ValidateRequestModelAttribute>();
+            services.AddScoped<EmailNotificationFilter>();
+            services.AddScoped<RestrictApiAccessFilter>();
+            services.AddTransient<IHashService, HashService>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ISecurityRepository, SecurityRepository>();
+            services.AddTransient<INotificationService, NotificationService>();
 
             return services;
         }

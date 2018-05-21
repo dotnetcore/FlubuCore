@@ -21,7 +21,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
@@ -58,98 +57,13 @@ namespace FlubuCore.WebApi
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
             services
-                .AddCoreComponentsForWebApi()
+                .AddCoreComponentsForWebApi(Configuration)
                 .AddCommandComponentsForWebApi()
                 .AddScriptAnalyserForWebApi()
                 .AddTasksForWebApi();
 
-            var connectionStrings = Configuration.GetSection("FlubuConnectionStrings");
-            var liteDbConnectionString = connectionStrings["LiteDbConnectionString"];
-
-            var db = new LiteRepository(liteDbConnectionString);
-            ILiteRepositoryFactory liteRepositoryFactory = new LiteRepositoryFactory();
-            services.AddSingleton(liteRepositoryFactory);
-            services.AddSingleton<IRepositoryFactory>(new RepositoryFactory(liteRepositoryFactory, new TimeProvider()));
-            services.AddSingleton(db);
-            services.AddScoped<ApiExceptionFilter>();
-            services.AddScoped<ValidateRequestModelAttribute>();
-            services.AddScoped<EmailNotificationFilter>();
-            services.AddScoped<RestrictApiAccessFilter>();
-            services.AddTransient<IHashService, HashService>();
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<ISecurityRepository, SecurityRepository>();
-            services.AddTransient<INotificationService, NotificationService>();
-            var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtOptions));
-            _secretKey = jwtAppSettingOptions["secretKey"];
-            double validFor = double.Parse(jwtAppSettingOptions[nameof(JwtOptions.ValidFor)]);
-            _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secretKey));
-
-            services.Configure<JwtOptions>(options =>
-            {
-                options.Issuer = jwtAppSettingOptions[nameof(JwtOptions.Issuer)];
-                options.Audience = jwtAppSettingOptions[nameof(JwtOptions.Audience)];
-                options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
-                options.ValidFor = TimeSpan.FromMinutes(validFor);
-            });
-
-            services.Configure<WebApiSettings>(settings =>
-                Configuration.GetSection(nameof(WebApiSettings)).Bind(settings));
-            services.Configure<NotificationSettings>(settings =>
-                Configuration.GetSection(nameof(NotificationSettings)).Bind(settings));
-
-#if NETCOREAPP2_0 || NET462
-
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidIssuer = jwtAppSettingOptions[nameof(JwtOptions.Issuer)],
-
-                ValidateAudience = true,
-                ValidAudience = jwtAppSettingOptions[nameof(JwtOptions.Audience)],
-
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = _signingKey,
-
-                RequireExpirationTime = true,
-                ValidateLifetime = true,
-
-                ClockSkew = TimeSpan.Zero
-            };
-
-            services.AddAuthentication(o =>
-            {
-                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(o =>
-            {
-                o.TokenValidationParameters = tokenValidationParameters;
-            });
-#endif
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1", new Info
-                {
-                    Version = "v1",
-                    Title = "A1 API",
-                    Description = "A1 API",
-                    TermsOfService = "None",
-                });
-
-                options.CustomSchemaIds(x => x.FullName);
-                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
-                var webApifilePath = Path.Combine(basePath, "FlubuCore.WebApi.xml");
-                options.IncludeXmlComments(webApifilePath);
-                options.DescribeAllEnumsAsStrings();
-                options.AddSecurityDefinition("Bearer",
-                    new ApiKeyScheme()
-                    {
-                        In = "header",
-                        Description = "Please insert JWT with Bearer into field. Example value(Enter token without braces.): Bearer {JwtToken} ",
-                        Name = "Authorization",
-                        Type = "apiKey"
-                    });
-
-            });
+            ConfigureAuthenticationServices(services);
+            ConfigureSwagger(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -162,6 +76,51 @@ namespace FlubuCore.WebApi
             loggerFactory.AddDebug();
             loggerFactory.AddSerilog(log, true);
             loggerFactory.AddFile("Logs/Flubu-{Date}.txt");
+            ConfigureAuthentication(app);
+
+            app.UseMvc();
+
+            app.UseSwagger(c =>
+            {
+                c.PreSerializeFilters.Add((swagger, httpReq) => swagger.Host = httpReq.Host.Value);
+            });
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
+            });
+        }
+
+        private static void ConfigureSwagger(IServiceCollection services)
+        {
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "A1 API",
+                    Description = "A1 API",
+                    TermsOfService = "None",
+                });
+
+                options.CustomSchemaIds(x => x.FullName);
+                var basePath = AppContext.BaseDirectory;
+                var webApifilePath = Path.Combine(basePath, "FlubuCore.WebApi.xml");
+                options.IncludeXmlComments(webApifilePath);
+                options.DescribeAllEnumsAsStrings();
+                options.AddSecurityDefinition("Bearer",
+                    new ApiKeyScheme()
+                    {
+                        In = "header",
+                        Description =
+                            "Please insert JWT with Bearer into field. Example value(Enter token without braces.): Bearer {JwtToken} ",
+                        Name = "Authorization",
+                        Type = "apiKey"
+                    });
+            });
+        }
+
+        private void ConfigureAuthentication(IApplicationBuilder app)
+        {
 #if NETCOREAPP1_1
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtOptions));
             var tokenValidationParameters = new TokenValidationParameters
@@ -189,21 +148,58 @@ namespace FlubuCore.WebApi
             });
 #endif
 
-#if NETCOREAPP2_0  || NET462
+#if NETCOREAPP2_0 || NET462
             app.UseAuthentication();
 #endif
+        }
 
-            app.UseMvc();
+        private void ConfigureAuthenticationServices(IServiceCollection services)
+        {
+            var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtOptions));
+            _secretKey = jwtAppSettingOptions["secretKey"];
+            double validFor = double.Parse(jwtAppSettingOptions[nameof(JwtOptions.ValidFor)]);
+            _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secretKey));
 
-            app.UseSwagger(c =>
+            services.Configure<JwtOptions>(options =>
             {
-                c.PreSerializeFilters.Add((swagger, httpReq) => swagger.Host = httpReq.Host.Value);
-            });
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
+                options.Issuer = jwtAppSettingOptions[nameof(JwtOptions.Issuer)];
+                options.Audience = jwtAppSettingOptions[nameof(JwtOptions.Audience)];
+                options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
+                options.ValidFor = TimeSpan.FromMinutes(validFor);
             });
 
+            services.Configure<WebApiSettings>(settings =>
+                Configuration.GetSection(nameof(WebApiSettings)).Bind(settings));
+            services.Configure<NotificationSettings>(settings =>
+                Configuration.GetSection(nameof(NotificationSettings)).Bind(settings));
+
+#if NETCOREAPP2_0 || NET462
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidIssuer = jwtAppSettingOptions[nameof(JwtOptions.Issuer)],
+
+                ValidateAudience = true,
+                ValidAudience = jwtAppSettingOptions[nameof(JwtOptions.Audience)],
+
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = _signingKey,
+
+                RequireExpirationTime = true,
+                ValidateLifetime = true,
+
+                ClockSkew = TimeSpan.Zero
+            };
+
+            services.AddAuthentication(o =>
+            {
+                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(o =>
+            {
+                o.TokenValidationParameters = tokenValidationParameters;
+            });
+#endif
         }
     }
 }
