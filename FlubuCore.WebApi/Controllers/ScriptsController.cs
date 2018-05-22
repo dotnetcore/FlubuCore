@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using FileMode = System.IO.FileMode;
 
 namespace FlubuCore.WebApi.Controllers
@@ -49,7 +50,16 @@ namespace FlubuCore.WebApi.Controllers
             _webApiSettings = webApiOptions.Value;
         }
 
+        /// <summary>
+        /// Executes specified flubu script.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost("Execute")]
+        [SwaggerResponse(200, typeof(ExecuteScriptResponse))]
+        [SwaggerResponse(400, typeof(ErrorModel), Description = "Error codes: ScriptNotFount, TargetNotFound")]
+        [SwaggerResponse(401)]
+        [SwaggerResponse(500, typeof(ErrorModel), Description = "Internal Server error occured.")]
         [EmailNotificationFilter(NotificationFilter.ExecuteScript)]
         public async Task<IActionResult> Execute([FromBody] ExecuteScriptRequest request)
         {
@@ -77,17 +87,15 @@ namespace FlubuCore.WebApi.Controllers
             }
         }
 
-        private async Task<List<string>> GetLogs()
-        {
-            if (!_webApiSettings.AddFlubuLogsToResponse)
-            {
-                return null;
-            }
-
-            await Task.Delay(2000);
-            return _repositoryFactory.CreateSerilogRepository().GetExecuteScriptLogs(HttpContext.TraceIdentifier);
-        }
-
+        /// <summary>
+        /// Uploads specified flubu script to flubu server.
+        /// </summary>
+        /// <returns></returns>
+        [SwaggerResponse(200)]
+        [SwaggerResponse(400, typeof(ErrorModel), Description = "Error codes: FormHasNoContentType, NoFiles")]
+        [SwaggerResponse(401)]
+        [SwaggerResponse(403, typeof(ErrorModel), Description = "Error codes: FileExtensionNotAllowed")]
+        [SwaggerResponse(500, typeof(ErrorModel), Description = "Internal Server error occured.")]
         [HttpPost("Upload")]
         public async Task<IActionResult> UploadScript()
         {
@@ -128,6 +136,17 @@ namespace FlubuCore.WebApi.Controllers
             }
 
             return Ok();
+        }
+
+        private async Task<List<string>> GetLogs()
+        {
+            if (!_webApiSettings.AddFlubuLogsToResponse)
+            {
+                return null;
+            }
+
+            await Task.Delay(2000);
+            return _repositoryFactory.CreateSerilogRepository().GetExecuteScriptLogs(HttpContext.TraceIdentifier);
         }
 
         private void PrepareCommandArguments(ExecuteScriptRequest request)

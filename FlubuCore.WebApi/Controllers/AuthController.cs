@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace FlubuCore.WebApi.Controllers
 {
@@ -59,6 +60,15 @@ namespace FlubuCore.WebApi.Controllers
             };
         }
 
+        /// <summary>
+        /// Issues flubu web api access token for specified username.
+        /// </summary>
+        /// <param name="applicationUser"></param>
+        /// <returns></returns>
+        [SwaggerResponse(200, typeof(GetTokenResponse))]
+        [SwaggerResponse(400, Description = "ErrorCodes: WrondUsernameOrPasswrd")]
+        [SwaggerResponse(403, typeof(ErrorModel))]
+        [SwaggerResponse(500, typeof(ErrorModel), Description = "Internal Server error occured.")]
         [HttpPost]
         [AllowAnonymous]
         [EmailNotificationFilter(NotificationFilter.GetToken)]

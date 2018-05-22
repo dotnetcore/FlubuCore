@@ -105,7 +105,9 @@ namespace FlubuCore.WebApi
                 options.CustomSchemaIds(x => x.FullName);
                 var basePath = AppContext.BaseDirectory;
                 var webApifilePath = Path.Combine(basePath, "FlubuCore.WebApi.xml");
+                var modelfilePath = Path.Combine(basePath, "FlubuCore.WebApi.Model.xml");
                 options.IncludeXmlComments(webApifilePath);
+                options.IncludeXmlComments(modelfilePath);
                 options.DescribeAllEnumsAsStrings();
                 options.AddSecurityDefinition("Bearer",
                     new ApiKeyScheme()

@@ -17,6 +17,10 @@ namespace FlubuCore.WebApi.Controllers
             _securityRepository = securityRepository;
         }
 
+        /// <summary>
+        /// Flubu web api healthcheck
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult HealthCheck()
         {

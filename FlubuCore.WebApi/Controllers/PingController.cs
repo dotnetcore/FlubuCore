@@ -9,6 +9,10 @@ namespace FlubuCore.WebApi.Controllers
     [Route("api/[controller]")]
     public class PingController : Controller
     {
+        /// <summary>
+        /// Web api ping.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Ping()
         {
