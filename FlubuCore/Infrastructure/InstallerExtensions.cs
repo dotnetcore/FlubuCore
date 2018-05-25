@@ -30,6 +30,7 @@ namespace FlubuCore.Infrastructure
                 .AddSingleton<IBuildPropertiesSession, BuildPropertiesSession>()
                 .AddSingleton<TargetTree>()
                 .AddSingleton<ITaskSession, TaskSession>()
+                .AddSingleton<ITargetCreator, TargetCreator>()
                 .AddSingleton<IFlubuEnviromentService, FlubuEnviromentService>()
                 .AddSingleton<IBuildSystem, BuildSystem>()
                 .AddSingleton<ICommandFactory, CommandFactory>()

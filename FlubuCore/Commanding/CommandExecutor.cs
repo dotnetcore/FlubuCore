@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
+using FlubuCore.Targeting;
 using Microsoft.Extensions.Logging;
 
 namespace FlubuCore.Commanding
@@ -16,16 +17,19 @@ namespace FlubuCore.Commanding
 
         private readonly ILogger<CommandExecutor> _log;
         private readonly ITaskSession _taskSession;
+        private readonly ITargetCreator _targetCreator;
 
         public CommandExecutor(
             CommandArguments args,
             IScriptLoader scriptLoader,
             ITaskSession taskSession,
+            ITargetCreator targetCreator,
             ILogger<CommandExecutor> log)
         {
             _args = args;
             _scriptLoader = scriptLoader;
             _taskSession = taskSession;
+            _targetCreator = targetCreator;
             _log = log;
         }
 
@@ -41,8 +45,7 @@ namespace FlubuCore.Commanding
             {
                 var script = await _scriptLoader.FindAndCreateBuildScriptInstanceAsync(_args);
                 _taskSession.ScriptArgs = _args.ScriptArguments;
-                var result = script.Run(_taskSession);
-
+                var result = script.Run(_taskSession, _targetCreator);
                 return result;
             }
             catch (FlubuException e)

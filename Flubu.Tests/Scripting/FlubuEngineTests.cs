@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using Flubu.Tests.Integration;
 using FlubuCore.Scripting;
+using FlubuCore.Targeting;
 using Xunit;
 
 namespace Flubu.Tests.Scripting

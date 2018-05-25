@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using FlubuCore.Context;
+using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.IO;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks.NetCore;
@@ -15,11 +16,11 @@ namespace FlubuCore.Scripting
 {
     public abstract class DefaultBuildScript : IBuildScript
     {
-        public int Run(ITaskSession taskSession)
+        public int Run(ITaskSession taskSession, ITargetCreator targetCreator = null)
         {
             try
             {
-                RunBuild(taskSession);
+                RunBuild(taskSession, targetCreator);
                 return 0;
             }
             catch (TargetNotFoundException e)
@@ -62,13 +63,13 @@ namespace FlubuCore.Scripting
             return (new List<string> { "help" }, true,  notFoundTargets);
         }
 
-        private void RunBuild(ITaskSession taskSession)
+        private void RunBuild(ITaskSession taskSession, ITargetCreator targetCreator)
         {
             ConfigureBuildProperties(taskSession);
 
             ConfigureDefaultTargets(taskSession);
 
-            ConfigureTargetsFromTargetAttriibutes(taskSession);
+            targetCreator?.CreateTargetFromMethodAttributes(GetType(), taskSession);
 
             ConfigureTargets(taskSession);
 
@@ -141,47 +142,6 @@ namespace FlubuCore.Scripting
             }
 
             AssertAllTargetDependenciesWereExecuted(taskSession);
-        }
-
-        private void ConfigureTargetsFromTargetAttriibutes(ITaskSession taskSession)
-        {
-#if !NETSTANDARD1_6
-            var buildscriptType = GetType();
-            var methods = buildscriptType.GetMethods().Where(x => x.DeclaringType == buildscriptType).ToList();
-            foreach (var methodInfo in methods)
-            {
-                var attributes = methodInfo.GetCustomAttributes<TargetAttribute>(false).ToList();
-
-                if (attributes.Count == 0)
-                {
-                    continue;
-                }
-
-                foreach (var attribute in attributes)
-                {
-                    var target = taskSession.CreateTarget(attribute.TargetName);
-                    var attributeParamaters = new List<object>() { target };
-                    attributeParamaters.AddRange(attribute.MethodParameters);
-                    var methodParameters = methodInfo.GetParameters().ToList();
-                    if (methodParameters.Count != attributeParamaters.Count)
-                    {
-                        throw new ScriptException(
-                            $"Method parameters {methodInfo.Name} do not match count of attribute parametrs. Target Name: {attribute.TargetName}");
-                    }
-
-                    for (int i = 0; i < methodParameters.Count; i++)
-                    {
-                        if (methodParameters[i].ParameterType != attributeParamaters[i].GetType())
-                        {
-                            throw new ScriptException(
-                                $"Attribute parameter {i.ToString()} does not match method parameter. Expected {methodParameters[i].ParameterType} Actual: {attributeParamaters[i].GetType()}");
-                        }
-                    }
-
-                    methodInfo.Invoke(this, attributeParamaters.ToArray());
-                }
-            }
-#endif
         }
 
         private void ConfigureDefaultProps(ITaskSession taskSession)
