@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.IO;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks.NetCore;
+using NuGet.Packaging;
 
 namespace FlubuCore.Scripting
 {
@@ -60,11 +64,11 @@ namespace FlubuCore.Scripting
 
         private void RunBuild(ITaskSession taskSession)
         {
-            ConfigureDefaultProps(taskSession);
-
             ConfigureBuildProperties(taskSession);
 
             ConfigureDefaultTargets(taskSession);
+
+            ConfigureTargetsFromTargetAttriibutes(taskSession);
 
             ConfigureTargets(taskSession);
 
@@ -137,6 +141,47 @@ namespace FlubuCore.Scripting
             }
 
             AssertAllTargetDependenciesWereExecuted(taskSession);
+        }
+
+        private void ConfigureTargetsFromTargetAttriibutes(ITaskSession taskSession)
+        {
+#if !NETSTANDARD1_6
+            var buildscriptType = GetType();
+            var methods = buildscriptType.GetMethods().Where(x => x.DeclaringType == buildscriptType).ToList();
+            foreach (var methodInfo in methods)
+            {
+                var attributes = methodInfo.GetCustomAttributes<TargetAttribute>(false).ToList();
+
+                if (attributes.Count == 0)
+                {
+                    continue;
+                }
+
+                foreach (var attribute in attributes)
+                {
+                    var target = taskSession.CreateTarget(attribute.TargetName);
+                    var attributeParamaters = new List<object>() { target };
+                    attributeParamaters.AddRange(attribute.MethodParameters);
+                    var methodParameters = methodInfo.GetParameters().ToList();
+                    if (methodParameters.Count != attributeParamaters.Count)
+                    {
+                        throw new ScriptException(
+                            $"Method parameters {methodInfo.Name} do not match count of attribute parametrs. Target Name: {attribute.TargetName}");
+                    }
+
+                    for (int i = 0; i < methodParameters.Count; i++)
+                    {
+                        if (methodParameters[i].ParameterType != attributeParamaters[i].GetType())
+                        {
+                            throw new ScriptException(
+                                $"Attribute parameter {i.ToString()} does not match method parameter. Expected {methodParameters[i].ParameterType} Actual: {attributeParamaters[i].GetType()}");
+                        }
+                    }
+
+                    methodInfo.Invoke(this, attributeParamaters.ToArray());
+                }
+            }
+#endif
         }
 
         private void ConfigureDefaultProps(ITaskSession taskSession)
