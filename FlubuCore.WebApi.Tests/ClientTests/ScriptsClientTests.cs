@@ -55,7 +55,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             var req = new ExecuteScriptRequest
             {
                 ScriptFileName = "simplescript.cs",
-                TargetToExecute = "SuccesfullTarget",
+                TargetToExecute = "testTarget",
                 ScriptArguments = new Dictionary<string, string>()
             };
             req.ScriptArguments.Add("FileName", "test.txt");

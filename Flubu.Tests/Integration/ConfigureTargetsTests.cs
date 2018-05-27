@@ -22,10 +22,9 @@ namespace Flubu.Tests.Integration
         public void ConfigureSimpleTarget()
         {
             ITaskSession session = _sp.GetRequiredService<ITaskSession>();
-            var targetCreator = _sp.GetRequiredService<ITargetCreator>();
 
             SimpleBuildScript bs = new SimpleBuildScript();
-            bs.Run(session, targetCreator);
+            bs.Run(session);
 
             Assert.True(session.TargetTree.HasAllTargets(new List<string>() { "test" }, out _));
             Assert.True(session.TargetTree.HasAllTargets(new List<string>() { "test1" }, out _));
@@ -40,10 +39,9 @@ namespace Flubu.Tests.Integration
         public void ConfigureTargetWithLinuxTasks()
         {
             ITaskSession session = _sp.GetRequiredService<ITaskSession>();
-            var targetCreator = _sp.GetRequiredService<ITargetCreator>();
 
             SimpleBuildScript bs = new SimpleBuildScript();
-            bs.Run(session, targetCreator);
+            bs.Run(session);
 
             Assert.True(session.TargetTree.HasAllTargets(new List<string>() { "Linux" }, out _));
 
@@ -57,10 +55,9 @@ namespace Flubu.Tests.Integration
         public void ConfigureTargetWithIisTasks()
         {
             ITaskSession session = _sp.GetRequiredService<ITaskSession>();
-            var targetCreator = _sp.GetRequiredService<ITargetCreator>();
 
             SimpleBuildScript bs = new SimpleBuildScript();
-            bs.Run(session, targetCreator);
+            bs.Run(session);
 
             Assert.True(session.TargetTree.HasAllTargets(new List<string>() { "IIS" }, out _));
 

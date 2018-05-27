@@ -1,6 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using FlubuCore.Context;
+using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Scripting;
+using FlubuCore.Targeting;
 
 namespace FlubuCore.WebApi.Tests
 {
@@ -63,6 +66,12 @@ namespace FlubuCore.WebApi.Tests
         public void FailedTarget(ITaskContext session)
         {
             throw new TaskExecutionException("Error message", 5);
+        }
+
+        [Target("testTarget", "string")]
+        public void Example(ITargetFluentInterface target, int param)
+        {
+            target.Do(SuccesfullTarget, "test");
         }
     }
 }

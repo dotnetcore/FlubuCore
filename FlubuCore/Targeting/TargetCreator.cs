@@ -9,16 +9,17 @@ using FlubuCore.Scripting;
 
 namespace FlubuCore.Targeting
 {
-    public class TargetCreator : ITargetCreator
+    public static class TargetCreator
     {
         /// <summary>
         /// Searches methods with Target attribute in specified type and creates targets.
         /// </summary>
         /// <param name="buildScriptType"></param>
         /// <param name="taskSession"></param>
-        public void CreateTargetFromMethodAttributes(Type buildScriptType, ITaskSession taskSession)
+        public static void CreateTargetFromMethodAttributes(IBuildScript buildScript, ITaskSession taskSession)
         {
             #if !NETSTANDARD1_6
+            var buildScriptType = buildScript.GetType();
            var methods = buildScriptType.GetMethods().Where(x => x.DeclaringType == buildScriptType).ToList();
             foreach (var methodInfo in methods)
             {
@@ -60,7 +61,7 @@ namespace FlubuCore.Targeting
                         }
                     }
 
-                    methodInfo.Invoke(this, attributeParamaters.ToArray());
+                    methodInfo.Invoke(buildScript, attributeParamaters.ToArray());
                 }
             }
 #endif

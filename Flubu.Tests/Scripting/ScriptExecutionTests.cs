@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.IO.Wrappers;
@@ -68,11 +69,11 @@ namespace Flubu.Tests.Scripting
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),
                 new BuildPropertiesSession(),
-                new BuildSystem()), new TargetCreator());
+                new BuildSystem()));
         }
 
         [Fact]
-        public async System.Threading.Tasks.Task LoadSimpleScript()
+        public async Task LoadSimpleScript()
         {
             CommandArguments args = new CommandArguments();
             _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns("e.cs");
@@ -90,7 +91,7 @@ namespace Flubu.Tests.Scripting
                     "        Console.WriteLine(\"11\");",
                     "        return 0;",
                     "    }",
-                    "}"
+                    "}",
                 });
 
             _analyser.Setup(i => i.Analyze(It.IsAny<List<string>>()))
@@ -107,7 +108,7 @@ namespace Flubu.Tests.Scripting
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),
                 new BuildPropertiesSession(),
-                new BuildSystem()), new TargetCreator());
+                new BuildSystem()));
         }
 
         [Fact]
@@ -152,7 +153,7 @@ namespace Flubu.Tests.Scripting
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),
                 new BuildPropertiesSession(),
-                new BuildSystem()), new TargetCreator());
+                new BuildSystem()));
         }
     }
 }

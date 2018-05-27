@@ -1,26 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using FlubuCore.Context;
-using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.IO;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks.NetCore;
-using NuGet.Packaging;
 
 namespace FlubuCore.Scripting
 {
     public abstract class DefaultBuildScript : IBuildScript
     {
-        public int Run(ITaskSession taskSession, ITargetCreator targetCreator = null)
+        public int Run(ITaskSession taskSession)
         {
             try
             {
-                RunBuild(taskSession, targetCreator);
+                RunBuild(taskSession);
                 return 0;
             }
             catch (TargetNotFoundException e)
@@ -63,13 +58,13 @@ namespace FlubuCore.Scripting
             return (new List<string> { "help" }, true,  notFoundTargets);
         }
 
-        private void RunBuild(ITaskSession taskSession, ITargetCreator targetCreator)
+        private void RunBuild(ITaskSession taskSession)
         {
             ConfigureBuildProperties(taskSession);
 
             ConfigureDefaultTargets(taskSession);
 
-            targetCreator?.CreateTargetFromMethodAttributes(GetType(), taskSession);
+            TargetCreator.CreateTargetFromMethodAttributes(this, taskSession);
 
             ConfigureTargets(taskSession);
 
