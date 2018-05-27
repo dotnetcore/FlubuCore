@@ -67,11 +67,5 @@ namespace FlubuCore.WebApi.Tests
         {
             throw new TaskExecutionException("Error message", 5);
         }
-
-        [Target("testTarget", "string")]
-        public void Example(ITargetFluentInterface target, int param)
-        {
-            target.Do(SuccesfullTarget, "test");
-        }
     }
 }
