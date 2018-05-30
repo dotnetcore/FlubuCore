@@ -41,6 +41,8 @@ namespace FlubuCore.Targeting
         /// <value>The default target.</value>
         public List<ITarget> DefaultTargets { get; private set; } = new List<ITarget>();
 
+        public int TargetCount => _targets.Count;
+
         internal int DependenciesExecutedCount { get; private set; }
 
         public ITarget AddTarget(string targetName)
