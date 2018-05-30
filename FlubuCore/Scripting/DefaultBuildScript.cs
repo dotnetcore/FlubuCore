@@ -64,6 +64,8 @@ namespace FlubuCore.Scripting
 
             ConfigureDefaultTargets(taskSession);
 
+            ScriptPropertiesSetter.SetPropertiesFromArg(this,  taskSession);
+
             TargetCreator.CreateTargetFromMethodAttributes(this, taskSession);
 
             ConfigureTargets(taskSession);

@@ -20,7 +20,7 @@ namespace FlubuCore.Targeting
         {
             #if !NETSTANDARD1_6
             var buildScriptType = buildScript.GetType();
-           var methods = buildScriptType.GetMethods().Where(x => x.DeclaringType == buildScriptType).ToList();
+            var methods = buildScriptType.GetMethods().Where(x => x.DeclaringType == buildScriptType).ToList();
             foreach (var methodInfo in methods)
             {
                 var attributes = methodInfo.GetCustomAttributes<TargetAttribute>(false).ToList();

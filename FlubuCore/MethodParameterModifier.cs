@@ -58,6 +58,21 @@ namespace FlubuCore
                     return long.Parse(value);
                 }
 
+                case TypeCode.Decimal:
+                {
+                    return decimal.Parse(value);
+                }
+
+                case TypeCode.Double:
+                {
+                    return double.Parse(value);
+                }
+
+                case TypeCode.DateTime:
+                {
+                    return DateTime.Parse(value);
+                }
+
                 default:
                 {
                     throw new NotSupportedException("Type not supported for parsing.");
