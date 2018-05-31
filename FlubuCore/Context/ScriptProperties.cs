@@ -7,9 +7,9 @@ using FlubuCore.Scripting;
 
 namespace FlubuCore.Context
 {
-    public static class ScriptPropertiesSetter
+    public static class ScriptProperties
     {
-        public static void SetPropertiesFromArg(IBuildScript buildScript, ITaskSession taskSession)
+        public static void SetPropertiesFromScriptArg(IBuildScript buildScript, ITaskSession taskSession)
         {
             var buildScriptType = buildScript.GetType();
             IList<PropertyInfo> props = new List<PropertyInfo>(buildScriptType.GetProperties());
@@ -32,6 +32,26 @@ namespace FlubuCore.Context
                     property.SetValue(buildScript,  MethodParameterModifier.ParseValueByType(taskSession.ScriptArgs[property.Name], property.PropertyType));
                 }
             }
+        }
+
+        public static List<string> GetPropertiesHelp(IBuildScript buildScript)
+        {
+            var buildScriptType = buildScript.GetType();
+            IList<PropertyInfo> props = new List<PropertyInfo>(buildScriptType.GetProperties());
+            List<string> help = new List<string>();
+            foreach (var property in props)
+            {
+                var attributes = property.GetCustomAttributes<FromArgAttribute>(false).ToList();
+                foreach (var fromArgAttribute in attributes)
+                {
+                    if (!string.IsNullOrEmpty(fromArgAttribute.Help))
+                    {
+                        help.Add($"-{fromArgAttribute.ArgKey} | {fromArgAttribute.Help}");
+                    }
+                }
+            }
+
+            return help;
         }
     }
 }

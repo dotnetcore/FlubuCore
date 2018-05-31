@@ -41,7 +41,7 @@ namespace Flubu.Tests
             _taskSession.ScriptArgs["l"] = "23";
             _taskSession.ScriptArgs["sog"] = "true";
             _taskSession.ScriptArgs["NoAttribute"] = "Noo";
-            ScriptPropertiesSetter.SetPropertiesFromArg(buildScript,  _taskSession);
+            ScriptProperties.SetPropertiesFromScriptArg(buildScript,  _taskSession);
             Assert.Equal("beda", buildScript.SolutionFileName);
             Assert.Equal(23, buildScript.Level);
             Assert.True(buildScript.StayOrGo);

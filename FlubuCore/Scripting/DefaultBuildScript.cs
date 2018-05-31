@@ -64,7 +64,7 @@ namespace FlubuCore.Scripting
 
             ConfigureDefaultTargets(taskSession);
 
-            ScriptPropertiesSetter.SetPropertiesFromArg(this,  taskSession);
+            ScriptProperties.SetPropertiesFromScriptArg(this,  taskSession);
 
             TargetCreator.CreateTargetFromMethodAttributes(this, taskSession);
 
@@ -85,6 +85,7 @@ namespace FlubuCore.Scripting
                 }
                 else
                 {
+                    taskSession.TargetTree.ScriptArgsHelp = ScriptProperties.GetPropertiesHelp(this);
                     targetsInfo.targetsToRun.Add("help");
                 }
             }

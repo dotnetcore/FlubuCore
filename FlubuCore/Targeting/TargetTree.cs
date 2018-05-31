@@ -14,7 +14,6 @@ namespace FlubuCore.Targeting
         private readonly IServiceProvider _provider;
         private readonly CommandArguments _args;
         private readonly HashSet<string> _executedTargets = new HashSet<string>();
-
         private readonly Dictionary<string, ITarget> _targets = new Dictionary<string, ITarget>(StringComparer.OrdinalIgnoreCase);
 
         public TargetTree(IServiceProvider provider, CommandArguments args)
@@ -42,6 +41,8 @@ namespace FlubuCore.Targeting
         public List<ITarget> DefaultTargets { get; private set; } = new List<ITarget>();
 
         public int TargetCount => _targets.Count;
+
+        public List<string> ScriptArgsHelp { get; set; }
 
         internal int DependenciesExecutedCount { get; private set; }
 
@@ -243,6 +244,16 @@ namespace FlubuCore.Targeting
                 if (target.IsHidden == false)
                 {
                     context.LogInfo($"  {target.TargetName} : {target.Description}");
+                }
+            }
+
+            if (ScriptArgsHelp?.Count > 0)
+            {
+                context.LogInfo(string.Empty);
+                context.LogInfo("Arguments:");
+                foreach (var argHelp in ScriptArgsHelp)
+                {
+                    context.LogInfo(argHelp);
                 }
             }
         }
