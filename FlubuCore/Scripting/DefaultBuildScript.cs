@@ -46,7 +46,7 @@ namespace FlubuCore.Scripting
 
         protected abstract void ConfigureBuildProperties(IBuildPropertiesContext context);
 
-        protected abstract void ConfigureTargets(ITaskContext session);
+        protected abstract void ConfigureTargets(ITaskContext context);
 
         private static (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) ParseCmdLineArgs(ITaskContextInternal context, TargetTree targetTree)
         {
