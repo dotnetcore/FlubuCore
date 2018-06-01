@@ -56,7 +56,7 @@ namespace Flubu.Tests
         public void CreateTargetFromMethodAttributes_MethodHasNoParameters_ThrowsScriptException()
         {
            var ex = Assert.Throws<ScriptException>(() => TargetCreator.CreateTargetFromMethodAttributes(new BuildScriptMethodHasNoParameters(), _taskSession));
-           Assert.Equal("Failed to create target 'Test'. Method 'TestTarget' must have atleast one parameter which must be of type 'ITargetFluentInterface'", ex.Message);
+           Assert.Equal("Failed to create target 'Test'. Method 'TestTarget' must have atleast one parameter which must be of type 'ITarget'", ex.Message);
         }
 
         [Fact]
