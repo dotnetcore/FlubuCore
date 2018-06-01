@@ -61,6 +61,9 @@
     <None Remove="tools\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="BuildScript\BuildScript.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove=".gitignore" />
     <None Remove="appveyor.yml" />
     <None Remove="flubu.sln.DotSettings" />
