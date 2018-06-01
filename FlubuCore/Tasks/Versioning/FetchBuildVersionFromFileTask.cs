@@ -54,7 +54,7 @@ namespace FlubuCore.Tasks.Versioning
 
         protected override Version DoExecute(ITaskContextInternal context)
         {
-            _productRootDir = context.Properties.Get<string>(BuildProps.ProductRootDir);
+            _productRootDir = context.Properties.Get<string>(BuildProps.ProductRootDir, ".");
 
             if (string.IsNullOrEmpty(_productRootDir))
                 _productRootDir = ".";
