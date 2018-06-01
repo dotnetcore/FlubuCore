@@ -60,6 +60,8 @@ namespace FlubuCore.Scripting
 
         private void RunBuild(ITaskSession taskSession)
         {
+            ConfigureDefaultProps(taskSession);
+
             ConfigureBuildProperties(taskSession);
 
             ConfigureDefaultTargets(taskSession);
