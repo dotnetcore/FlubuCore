@@ -29,8 +29,8 @@ namespace Flubu.Tests.Integration
             Assert.True(session.TargetTree.HasAllTargets(new List<string>() { "test" }, out _));
             Assert.True(session.TargetTree.HasAllTargets(new List<string>() { "test1" }, out _));
 
-            ITarget t = session.TargetTree.GetTarget("test");
-            ITarget t1 = session.TargetTree.GetTarget("test1");
+            ITargetInternal t = session.TargetTree.GetTarget("test");
+            ITargetInternal t1 = session.TargetTree.GetTarget("test1");
 
             Assert.Equal(t.TargetName, t1.Dependencies.FirstOrDefault().Key);
         }

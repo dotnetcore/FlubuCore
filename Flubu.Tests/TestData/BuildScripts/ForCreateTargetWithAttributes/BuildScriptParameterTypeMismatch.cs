@@ -19,7 +19,7 @@ namespace Flubu.Tests.TestData.BuildScripts.ForCreateTargetWithAttributes
         }
 
         [Target("Test", "value", 1)]
-        public void TestTarget(ITargetFluentInterface target, string param, string param2)
+        public void TestTarget(ITarget target, string param, string param2)
         {
         }
     }

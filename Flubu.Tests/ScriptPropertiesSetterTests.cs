@@ -22,7 +22,7 @@ namespace Flubu.Tests
 
         public ScriptPropertiesSetterTests()
         {
-            var sp = new ServiceCollection().AddTransient<ITargetFluentInterface, TargetFluentInterface>()
+            var sp = new ServiceCollection().AddTransient<ITarget, TargetFluentInterface>()
                 .AddTransient<ICoreTaskFluentInterface, CoreTaskFluentInterface>()
                 .AddTransient<ITaskFluentInterface, TaskFluentInterface>()
                 .AddTransient<ILinuxTaskFluentInterface, LinuxTaskFluentInterface>()

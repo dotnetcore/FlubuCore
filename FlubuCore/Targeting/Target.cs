@@ -8,7 +8,7 @@ using FlubuCore.Tasks;
 
 namespace FlubuCore.Targeting
 {
-    public class Target : TaskBase<int, Target>, ITarget
+    public class Target : TaskBase<int, Target>, ITargetInternal
     {
         private readonly Dictionary<string, TaskExecutionMode> _dependencies = new Dictionary<string, TaskExecutionMode>();
 
@@ -42,7 +42,7 @@ namespace FlubuCore.Targeting
 
         protected override string Description { get; set; }
 
-        string ITarget.Description
+        string ITargetInternal.Description
         {
             get { return Description; }
         }
@@ -53,8 +53,8 @@ namespace FlubuCore.Targeting
         ///     Specifies targets on which this target depends on.
         /// </summary>
         /// <param name="targetNames">The dependency target names.</param>
-        /// <returns>This same instance of <see cref="ITarget" />.</returns>
-        public ITarget DependsOn(params string[] targetNames)
+        /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
+        public ITargetInternal DependsOn(params string[] targetNames)
         {
             foreach (string dependentTargetName in targetNames)
             {
@@ -68,8 +68,8 @@ namespace FlubuCore.Targeting
         ///     Specifies targets on which this target depends on.
         /// </summary>
         /// <param name="targetNames">The dependency target names.</param>
-        /// <returns>This same instance of <see cref="ITarget" />.</returns>
-        public ITarget DependsOnAsync(params string[] targetNames)
+        /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
+        public ITargetInternal DependsOnAsync(params string[] targetNames)
         {
             foreach (string dependentTargetName in targetNames)
             {
@@ -79,7 +79,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget DoAsync(Action<ITaskContextInternal> targetAction, Action<DoTask> taskAction = null, TaskGroup taskGroup = null)
+        public ITargetInternal DoAsync(Action<ITaskContextInternal> targetAction, Action<DoTask> taskAction = null, TaskGroup taskGroup = null)
         {
             var task = new DoTask(targetAction);
             taskAction?.Invoke(task);
@@ -88,7 +88,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget DoAsync<T>(Action<ITaskContextInternal, T> targetAction, T param, Action<DoTask2<T>> taskAction = null, TaskGroup taskGroup = null)
+        public ITargetInternal DoAsync<T>(Action<ITaskContextInternal, T> targetAction, T param, Action<DoTask2<T>> taskAction = null, TaskGroup taskGroup = null)
         {
             var task = new DoTask2<T>(targetAction, param);
             taskAction?.Invoke(task);
@@ -96,7 +96,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget DoAsync<T, T2>(Action<ITaskContextInternal, T, T2> targetAction, T param, T2 param2, Action<DoTask3<T, T2>> taskAction = null, TaskGroup taskGroup = null)
+        public ITargetInternal DoAsync<T, T2>(Action<ITaskContextInternal, T, T2> targetAction, T param, T2 param2, Action<DoTask3<T, T2>> taskAction = null, TaskGroup taskGroup = null)
         {
             var task = new DoTask3<T, T2>(targetAction, param, param2);
             taskAction?.Invoke(task);
@@ -104,7 +104,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget DoAsync<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3, Action<DoTask4<T1, T2, T3>> taskAction = null, TaskGroup taskGroup = null)
+        public ITargetInternal DoAsync<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3, Action<DoTask4<T1, T2, T3>> taskAction = null, TaskGroup taskGroup = null)
         {
             var task = new DoTask4<T1, T2, T3>(targetAction, param, param2, param3);
             taskAction?.Invoke(task);
@@ -112,7 +112,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget DoAsync<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2, T3 param3, T4 param4, Action<DoTask5<T1, T2, T3, T4>> taskAction = null, TaskGroup taskGroup = null)
+        public ITargetInternal DoAsync<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2, T3 param3, T4 param4, Action<DoTask5<T1, T2, T3, T4>> taskAction = null, TaskGroup taskGroup = null)
         {
             var task = new DoTask5<T1, T2, T3, T4>(targetAction, param, param2, param3, param4);
             taskAction?.Invoke(task);
@@ -120,7 +120,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget DoAsync<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, Action<DoTask6<T1, T2, T3, T4, T5>> taskAction = null, TaskGroup taskGroup = null)
+        public ITargetInternal DoAsync<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, Action<DoTask6<T1, T2, T3, T4, T5>> taskAction = null, TaskGroup taskGroup = null)
         {
             var task = new DoTask6<T1, T2, T3, T4, T5>(targetAction, param, param2, param3, param4, param5);
             taskAction?.Invoke(task);
@@ -128,7 +128,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget DoAsync(Func<ITaskContextInternal, Task> targetAction, Action<DoTaskAsync> taskAction = null, TaskGroup taskGroup = null)
+        public ITargetInternal DoAsync(Func<ITaskContextInternal, Task> targetAction, Action<DoTaskAsync> taskAction = null, TaskGroup taskGroup = null)
         {
             var task = new DoTaskAsync(targetAction);
             taskAction?.Invoke(task);
@@ -136,7 +136,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget DoAsync<T>(Func<ITaskContextInternal, T, Task> targetAction, T param, Action<DoTaskAsync2<T>> taskAction = null, TaskGroup taskGroup = null)
+        public ITargetInternal DoAsync<T>(Func<ITaskContextInternal, T, Task> targetAction, T param, Action<DoTaskAsync2<T>> taskAction = null, TaskGroup taskGroup = null)
         {
             var task = new DoTaskAsync2<T>(targetAction, param);
             taskAction?.Invoke(task);
@@ -144,7 +144,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget DoAsync<T, T2>(Func<ITaskContextInternal, T, T2, Task> targetAction, T param, T2 param2, Action<DoTaskAsync3<T, T2>> taskAction = null, TaskGroup taskGroup = null)
+        public ITargetInternal DoAsync<T, T2>(Func<ITaskContextInternal, T, T2, Task> targetAction, T param, T2 param2, Action<DoTaskAsync3<T, T2>> taskAction = null, TaskGroup taskGroup = null)
         {
             var task = new DoTaskAsync3<T, T2>(targetAction, param, param2);
             taskAction?.Invoke(task);
@@ -152,7 +152,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget DoAsync<T1, T2, T3>(Func<ITaskContextInternal, T1, T2, T3, Task> targetAction, T1 param, T2 param2, T3 param3, Action<DoTaskAsync4<T1, T2, T3>> taskAction = null, TaskGroup taskGroup = null)
+        public ITargetInternal DoAsync<T1, T2, T3>(Func<ITaskContextInternal, T1, T2, T3, Task> targetAction, T1 param, T2 param2, T3 param3, Action<DoTaskAsync4<T1, T2, T3>> taskAction = null, TaskGroup taskGroup = null)
         {
             var task = new DoTaskAsync4<T1, T2, T3>(targetAction, param, param2, param3);
             taskAction?.Invoke(task);
@@ -160,7 +160,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget DoAsync<T1, T2, T3, T4>(Func<ITaskContextInternal, T1, T2, T3, T4, Task> targetAction, T1 param, T2 param2, T3 param3, T4 param4, Action<DoTaskAsync5<T1, T2, T3, T4>> taskAction = null, TaskGroup taskGroup = null)
+        public ITargetInternal DoAsync<T1, T2, T3, T4>(Func<ITaskContextInternal, T1, T2, T3, T4, Task> targetAction, T1 param, T2 param2, T3 param3, T4 param4, Action<DoTaskAsync5<T1, T2, T3, T4>> taskAction = null, TaskGroup taskGroup = null)
         {
             var task = new DoTaskAsync5<T1, T2, T3, T4>(targetAction, param, param2, param3, param4);
             taskAction?.Invoke(task);
@@ -168,7 +168,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget DoAsync<T1, T2, T3, T4, T5>(Func<ITaskContextInternal, T1, T2, T3, T4, T5, Task> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, Action<DoTaskAsync6<T1, T2, T3, T4, T5>> taskAction = null, TaskGroup taskGroup = null)
+        public ITargetInternal DoAsync<T1, T2, T3, T4, T5>(Func<ITaskContextInternal, T1, T2, T3, T4, T5, Task> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, Action<DoTaskAsync6<T1, T2, T3, T4, T5>> taskAction = null, TaskGroup taskGroup = null)
         {
             var task = new DoTaskAsync6<T1, T2, T3, T4, T5>(targetAction, param, param2, param3, param4, param5);
             taskAction?.Invoke(task);
@@ -176,7 +176,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget Do(Action<ITaskContextInternal> targetAction, Action<DoTask> taskAction = null, TaskGroup taskGroup = null)
+        public ITargetInternal Do(Action<ITaskContextInternal> targetAction, Action<DoTask> taskAction = null, TaskGroup taskGroup = null)
         {
             var task = new DoTask(targetAction);
             taskAction?.Invoke(task);
@@ -184,7 +184,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget Do<T>(Action<ITaskContextInternal, T> targetAction, T param, Action<DoTask2<T>> taskAction = null, TaskGroup taskGroup = null)
+        public ITargetInternal Do<T>(Action<ITaskContextInternal, T> targetAction, T param, Action<DoTask2<T>> taskAction = null, TaskGroup taskGroup = null)
         {
             var task = new DoTask2<T>(targetAction, param);
             taskAction?.Invoke(task);
@@ -192,7 +192,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget Do<T, T2>(Action<ITaskContextInternal, T, T2> targetAction, T param, T2 param2, Action<DoTask3<T, T2>> taskAction = null, TaskGroup taskGroup = null)
+        public ITargetInternal Do<T, T2>(Action<ITaskContextInternal, T, T2> targetAction, T param, T2 param2, Action<DoTask3<T, T2>> taskAction = null, TaskGroup taskGroup = null)
         {
             var task = new DoTask3<T, T2>(targetAction, param, param2);
             taskAction?.Invoke(task);
@@ -200,7 +200,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget Do<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3, Action<DoTask4<T1, T2, T3>> taskAction = null, TaskGroup taskGroup = null)
+        public ITargetInternal Do<T1, T2, T3>(Action<ITaskContextInternal, T1, T2, T3> targetAction, T1 param, T2 param2, T3 param3, Action<DoTask4<T1, T2, T3>> taskAction = null, TaskGroup taskGroup = null)
         {
             var task = new DoTask4<T1, T2, T3>(targetAction, param, param2, param3);
             taskAction?.Invoke(task);
@@ -208,7 +208,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget Do<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2, T3 param3, T4 param4, Action<DoTask5<T1, T2, T3, T4>> taskAction = null, TaskGroup taskGroup = null)
+        public ITargetInternal Do<T1, T2, T3, T4>(Action<ITaskContextInternal, T1, T2, T3, T4> targetAction, T1 param, T2 param2, T3 param3, T4 param4, Action<DoTask5<T1, T2, T3, T4>> taskAction = null, TaskGroup taskGroup = null)
         {
             var task = new DoTask5<T1, T2, T3, T4>(targetAction, param, param2, param3, param4);
             taskAction?.Invoke(task);
@@ -216,7 +216,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget Do<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, Action<DoTask6<T1, T2, T3, T4, T5>> taskAction = null, TaskGroup taskGroup = null)
+        public ITargetInternal Do<T1, T2, T3, T4, T5>(Action<ITaskContextInternal, T1, T2, T3, T4, T5> targetAction, T1 param, T2 param2, T3 param3, T4 param4, T5 param5, Action<DoTask6<T1, T2, T3, T4, T5>> taskAction = null, TaskGroup taskGroup = null)
         {
             var task = new DoTask6<T1, T2, T3, T4, T5>(targetAction, param, param2, param3, param4, param5);
             taskAction?.Invoke(task);
@@ -227,8 +227,8 @@ namespace FlubuCore.Targeting
         /// <summary>
         ///     Sets the target as the default target for the runner.
         /// </summary>
-        /// <returns>This same instance of <see cref="ITarget" />.</returns>
-        public ITarget SetAsDefault()
+        /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
+        public ITargetInternal SetAsDefault()
         {
             _targetTree.SetDefaultTarget(this);
             return this;
@@ -239,7 +239,7 @@ namespace FlubuCore.Targeting
         /// </summary>
         /// <param name="description">The description</param>
         /// <returns>this target</returns>
-        public new ITarget SetDescription(string description)
+        public new ITargetInternal SetDescription(string description)
         {
             Description = description;
             return this;
@@ -249,8 +249,8 @@ namespace FlubuCore.Targeting
         ///     Sets the target as hidden. Hidden targets will not be
         ///     visible in the list of targets displayed to the user as help.
         /// </summary>
-        /// <returns>This same instance of <see cref="ITarget" />.</returns>
-        public ITarget SetAsHidden()
+        /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
+        public ITargetInternal SetAsHidden()
         {
             IsHidden = true;
             return this;
@@ -260,10 +260,10 @@ namespace FlubuCore.Targeting
         ///     Specifies targets on which this target depends on.
         /// </summary>
         /// <param name="targets">The dependency targets</param>
-        /// <returns>This same instance of <see cref="ITarget" /></returns>
-        public ITarget DependsOn(params ITarget[] targets)
+        /// <returns>This same instance of <see cref="ITargetInternal" /></returns>
+        public ITargetInternal DependsOn(params ITargetInternal[] targets)
         {
-            foreach (ITarget target in targets)
+            foreach (ITargetInternal target in targets)
             {
                 _dependencies.Add(target.TargetName, TaskExecutionMode.Synchronous);
             }
@@ -271,9 +271,9 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget DependsOnAsync(params ITarget[] targets)
+        public ITargetInternal DependsOnAsync(params ITargetInternal[] targets)
         {
-            foreach (ITarget target in targets)
+            foreach (ITargetInternal target in targets)
             {
                 _dependencies.Add(target.TargetName, TaskExecutionMode.Parallel);
             }
@@ -281,7 +281,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget AddTask(TaskGroup taskGroup, params ITask[] tasks)
+        public ITargetInternal AddTask(TaskGroup taskGroup, params ITask[] tasks)
         {
             foreach (var task in tasks)
             {
@@ -291,7 +291,7 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITarget AddTaskAsync(TaskGroup taskGroup, params ITask[] tasks)
+        public ITargetInternal AddTaskAsync(TaskGroup taskGroup, params ITask[] tasks)
         {
             foreach (var task in tasks)
             {

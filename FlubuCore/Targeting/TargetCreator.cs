@@ -36,12 +36,12 @@ namespace FlubuCore.Targeting
 
                     if (methodParameters.Count == 0)
                     {
-                        throw new ScriptException($"Failed to create target '{attribute.TargetName}'. Method '{methodInfo.Name}' must have atleast one parameter which must be of type '{nameof(ITargetFluentInterface)}'");
+                        throw new ScriptException($"Failed to create target '{attribute.TargetName}'. Method '{methodInfo.Name}' must have atleast one parameter which must be of type '{nameof(ITarget)}'");
                     }
 
-                    if (methodParameters[0].ParameterType != typeof(ITargetFluentInterface))
+                    if (methodParameters[0].ParameterType != typeof(ITarget))
                     {
-                        throw new ScriptException($"Failed to create target '{attribute.TargetName}' first parameter in method '{methodInfo.Name}' must be of type '{nameof(ITargetFluentInterface)}'");
+                        throw new ScriptException($"Failed to create target '{attribute.TargetName}' first parameter in method '{methodInfo.Name}' must be of type '{nameof(ITarget)}'");
                     }
 
                     var target = taskSession.CreateTarget(attribute.TargetName);

@@ -21,7 +21,7 @@ namespace FlubuCore.Context
         /// </summary>
         /// <param name="name">The target name.</param>
         /// <returns></returns>
-        ITargetFluentInterface CreateTarget(string name);
+        ITarget CreateTarget(string name);
 
         /// <summary>
         /// Interaction with various build systems.

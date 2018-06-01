@@ -36,9 +36,9 @@ namespace FlubuCore.Context
             return _fluentFactory.GetTaskFluentInterface((ITaskContextInternal)this);
         }
 
-        public ITargetFluentInterface CreateTarget(string name)
+        public ITarget CreateTarget(string name)
         {
-            ITarget target = TargetTree.AddTarget(name);
+            ITargetInternal target = TargetTree.AddTarget(name);
             return _fluentFactory.GetTargetFluentInterface(target, (ITaskContextInternal)this);
         }
 

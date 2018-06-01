@@ -35,9 +35,9 @@ namespace FlubuCore.Context.FluentInterface
             return taskFluent;
         }
 
-        public ITargetFluentInterface GetTargetFluentInterface(ITarget target, ITaskContextInternal taskContext)
+        public ITarget GetTargetFluentInterface(ITargetInternal target, ITaskContextInternal taskContext)
         {
-            ITargetFluentInterface t = _sp.GetRequiredService<ITargetFluentInterface>();
+            ITarget t = _sp.GetRequiredService<ITarget>();
             TargetFluentInterface targetFluent = (TargetFluentInterface)t;
             targetFluent.Target = target;
             targetFluent.Context = taskContext;

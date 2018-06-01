@@ -92,7 +92,7 @@ namespace FlubuCore.Scripting
 
             taskSession.Start(s =>
             {
-                var sortedTargets = new SortedList<string, ITarget>();
+                var sortedTargets = new SortedList<string, ITargetInternal>();
 
                 foreach (var target in s.TargetTree.EnumerateExecutedTargets())
                     sortedTargets.Add(target.TargetName, target);

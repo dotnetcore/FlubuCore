@@ -14,7 +14,7 @@ namespace FlubuCore.Targeting
         private readonly IServiceProvider _provider;
         private readonly CommandArguments _args;
         private readonly HashSet<string> _executedTargets = new HashSet<string>();
-        private readonly Dictionary<string, ITarget> _targets = new Dictionary<string, ITarget>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, ITargetInternal> _targets = new Dictionary<string, ITargetInternal>(StringComparer.OrdinalIgnoreCase);
 
         public TargetTree(IServiceProvider provider, CommandArguments args)
         {
@@ -38,7 +38,7 @@ namespace FlubuCore.Targeting
         ///     the target is not specified in the command line.
         /// </remarks>
         /// <value>The default target.</value>
-        public List<ITarget> DefaultTargets { get; private set; } = new List<ITarget>();
+        public List<ITargetInternal> DefaultTargets { get; private set; } = new List<ITargetInternal>();
 
         public int TargetCount => _targets.Count;
 
@@ -46,14 +46,14 @@ namespace FlubuCore.Targeting
 
         internal int DependenciesExecutedCount { get; private set; }
 
-        public ITarget AddTarget(string targetName)
+        public ITargetInternal AddTarget(string targetName)
         {
-            ITarget target = new Target(this, targetName, _args);
+            ITargetInternal target = new Target(this, targetName, _args);
             _targets.Add(target.TargetName, target);
             return target;
         }
 
-        public ITarget AddTarget(ITarget target)
+        public ITargetInternal AddTarget(ITargetInternal target)
         {
             _targets.Add(target.TargetName, target);
             return target;
@@ -67,7 +67,7 @@ namespace FlubuCore.Targeting
                 return;
             }
 
-            ITarget target = _targets[targetName];
+            ITargetInternal target = _targets[targetName];
             int n = target.Dependencies.Count;
             List<Task> tasks = new List<Task>();
             for (int i = 0; i < n; i++)
@@ -115,7 +115,7 @@ namespace FlubuCore.Targeting
             }
         }
 
-        public IEnumerable<ITarget> EnumerateExecutedTargets()
+        public IEnumerable<ITargetInternal> EnumerateExecutedTargets()
         {
             foreach (var targetId in _executedTargets)
             {
@@ -123,7 +123,7 @@ namespace FlubuCore.Targeting
             }
         }
 
-        public ITarget GetTarget(string targetName)
+        public ITargetInternal GetTarget(string targetName)
         {
             return _targets[targetName];
         }
@@ -161,7 +161,7 @@ namespace FlubuCore.Targeting
             return _targets.ContainsKey(targetName);
         }
 
-        public void MarkTargetAsExecuted(ITarget target)
+        public void MarkTargetAsExecuted(ITargetInternal target)
         {
             _executedTargets.Add(target.TargetName);
         }
@@ -178,7 +178,7 @@ namespace FlubuCore.Targeting
                 throw new ArgumentException($"The target '{targetName}' does not exist");
             }
 
-            ITarget target = _targets[targetName];
+            ITargetInternal target = _targets[targetName];
             target.ExecuteVoid(taskContext);
         }
 
@@ -189,7 +189,7 @@ namespace FlubuCore.Targeting
                 throw new ArgumentException($"The target '{targetName}' does not exist");
             }
 
-            ITarget target = _targets[targetName];
+            ITargetInternal target = _targets[targetName];
             await target.ExecuteVoidAsync(taskContext);
         }
 
@@ -217,7 +217,7 @@ namespace FlubuCore.Targeting
             }
         }
 
-        public void SetDefaultTarget(ITarget target)
+        public void SetDefaultTarget(ITargetInternal target)
         {
             DefaultTargets.Add(target);
         }
@@ -231,7 +231,7 @@ namespace FlubuCore.Targeting
             context.LogInfo("Targets:");
 
             // first sort the targets
-            var sortedTargets = new SortedList<string, ITarget>();
+            var sortedTargets = new SortedList<string, ITargetInternal>();
 
             foreach (var target in _targets.Values)
             {
@@ -239,7 +239,7 @@ namespace FlubuCore.Targeting
             }
 
             // now display them in sorted order
-            foreach (ITarget target in sortedTargets.Values)
+            foreach (ITargetInternal target in sortedTargets.Values)
             {
                 if (target.IsHidden == false)
                 {

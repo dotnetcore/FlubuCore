@@ -43,11 +43,11 @@ namespace Flubu.Tests.Context
         [Fact]
         public void When_AddDependencyConditionNotMeet()
         {
-            Mock<ITarget> target1 = new Mock<ITarget>();
+            Mock<ITargetInternal> target1 = new Mock<ITargetInternal>();
             target1.Setup(x => x.TargetName).Returns("dep");
-            Mock<ITarget> target2 = new Mock<ITarget>();
+            Mock<ITargetInternal> target2 = new Mock<ITargetInternal>();
             target2.Setup(x => x.TargetName).Returns("dep2");
-            ITargetFluentInterface t = _fluent.DependsOn(target1.Object, target2.Object).When(c => false);
+            ITarget t = _fluent.DependsOn(target1.Object, target2.Object).When(c => false);
             Assert.NotNull(t);
             Assert.Empty(_target.Dependencies);
         }
@@ -55,11 +55,11 @@ namespace Flubu.Tests.Context
         [Fact]
         public void When_AddDependencConditionMeet()
         {
-            Mock<ITarget> target2 = new Mock<ITarget>();
+            Mock<ITargetInternal> target2 = new Mock<ITargetInternal>();
             target2.Setup(x => x.TargetName).Returns("dep2");
-            Mock<ITarget> target1 = new Mock<ITarget>();
+            Mock<ITargetInternal> target1 = new Mock<ITargetInternal>();
             target1.Setup(x => x.TargetName).Returns("dep");
-            ITargetFluentInterface t = _fluent.DependsOn(target1.Object, target2.Object).When(c => true);
+            ITarget t = _fluent.DependsOn(target1.Object, target2.Object).When(c => true);
             Assert.NotNull(t);
             Assert.Equal(2, _target.Dependencies.Count);
         }
@@ -67,11 +67,11 @@ namespace Flubu.Tests.Context
         [Fact]
         public void When_Add2DependenyConditionNotMeet()
         {
-            Mock<ITarget> target2 = new Mock<ITarget>();
+            Mock<ITargetInternal> target2 = new Mock<ITargetInternal>();
             target2.Setup(x => x.TargetName).Returns("dep2");
-            Mock<ITarget> target1 = new Mock<ITarget>();
+            Mock<ITargetInternal> target1 = new Mock<ITargetInternal>();
             target1.Setup(x => x.TargetName).Returns("dep");
-            ITargetFluentInterface t = _fluent.DependsOn(target1.Object).DependsOn(target2.Object).When(c => false);
+            ITarget t = _fluent.DependsOn(target1.Object).DependsOn(target2.Object).When(c => false);
             Assert.NotNull(t);
             Assert.Equal(1, _target.Dependencies.Count);
             Assert.True(_target.Dependencies.ContainsKey("dep"));
@@ -80,9 +80,9 @@ namespace Flubu.Tests.Context
         [Fact]
         public void When_AddDependencyConditionNull()
         {
-            Mock<ITarget> target1 = new Mock<ITarget>();
+            Mock<ITargetInternal> target1 = new Mock<ITargetInternal>();
             target1.Setup(x => x.TargetName).Returns("dep");
-            ITargetFluentInterface t = _fluent.DependsOn(target1.Object).When(null);
+            ITarget t = _fluent.DependsOn(target1.Object).When(null);
             Assert.NotNull(t);
             Assert.Equal(1, _target.Dependencies.Count);
         }
@@ -92,9 +92,9 @@ namespace Flubu.Tests.Context
         {
             _taskFactory.Setup(x => x.Create<CleanOutputTask>()).Returns(new CleanOutputTask());
             _taskFactory.Setup(x => x.Create<CompileSolutionTask>()).Returns(new CompileSolutionTask(null));
-            Mock<ITarget> target1 = new Mock<ITarget>();
+            Mock<ITargetInternal> target1 = new Mock<ITargetInternal>();
             target1.Setup(x => x.TargetName).Returns("dep");
-            ITargetFluentInterface t = _fluent.AddTask(x => x.CompileSolutionTask()).AddTask(x => x.CleanOutputTask())
+            ITarget t = _fluent.AddTask(x => x.CompileSolutionTask()).AddTask(x => x.CleanOutputTask())
                 .When(c => false);
             Assert.NotNull(t);
             Assert.Equal(1, _target.TasksGroups.Count);
@@ -106,9 +106,9 @@ namespace Flubu.Tests.Context
         {
             _taskFactory.Setup(x => x.Create<CleanOutputTask>()).Returns(new CleanOutputTask());
             _taskFactory.Setup(x => x.Create<CompileSolutionTask>()).Returns(new CompileSolutionTask(null));
-            Mock<ITarget> target1 = new Mock<ITarget>();
+            Mock<ITargetInternal> target1 = new Mock<ITargetInternal>();
             target1.Setup(x => x.TargetName).Returns("dep");
-            ITargetFluentInterface t = _fluent.AddTask(x => x.CompileSolutionTask()).AddTask(x => x.CleanOutputTask())
+            ITarget t = _fluent.AddTask(x => x.CompileSolutionTask()).AddTask(x => x.CleanOutputTask())
                 .When(c => true);
             Assert.NotNull(t);
             Assert.Equal(2, _target.TasksGroups.Count);
@@ -121,9 +121,9 @@ namespace Flubu.Tests.Context
         {
             _taskFactory.Setup(x => x.Create<CleanOutputTask>()).Returns(new CleanOutputTask());
             _taskFactory.Setup(x => x.Create<CompileSolutionTask>()).Returns(new CompileSolutionTask(null));
-            Mock<ITarget> target1 = new Mock<ITarget>();
+            Mock<ITargetInternal> target1 = new Mock<ITargetInternal>();
             target1.Setup(x => x.TargetName).Returns("dep");
-            ITargetFluentInterface t = _fluent.AddTaskAsync(x => x.CompileSolutionTask()).AddTaskAsync(x => x.CleanOutputTask())
+            ITarget t = _fluent.AddTaskAsync(x => x.CompileSolutionTask()).AddTaskAsync(x => x.CleanOutputTask())
                 .When(c => false);
             Assert.NotNull(t);
             Assert.Equal(1, _target.TasksGroups.Count);
@@ -135,9 +135,9 @@ namespace Flubu.Tests.Context
         {
             _taskFactory.Setup(x => x.Create<CleanOutputTask>()).Returns(new CleanOutputTask());
             _taskFactory.Setup(x => x.Create<CompileSolutionTask>()).Returns(new CompileSolutionTask(null));
-            Mock<ITarget> target1 = new Mock<ITarget>();
+            Mock<ITargetInternal> target1 = new Mock<ITargetInternal>();
             target1.Setup(x => x.TargetName).Returns("dep");
-            ITargetFluentInterface t = _fluent.AddTaskAsync(x => x.CompileSolutionTask()).AddTaskAsync(x => x.CleanOutputTask())
+            ITarget t = _fluent.AddTaskAsync(x => x.CompileSolutionTask()).AddTaskAsync(x => x.CleanOutputTask())
                 .When(c => true);
             Assert.NotNull(t);
             Assert.Equal(2, _target.TasksGroups.Count);
@@ -150,9 +150,9 @@ namespace Flubu.Tests.Context
         {
             _taskFactory.Setup(x => x.Create<DotnetBuildTask>()).Returns(new DotnetBuildTask());
             _taskFactory.Setup(x => x.Create<DotnetCleanTask>()).Returns(new DotnetCleanTask());
-            Mock<ITarget> target1 = new Mock<ITarget>();
+            Mock<ITargetInternal> target1 = new Mock<ITargetInternal>();
             target1.Setup(x => x.TargetName).Returns("dep");
-            ITargetFluentInterface t = _fluent.AddCoreTask(x => x.Build()).AddCoreTask(x => x.Clean())
+            ITarget t = _fluent.AddCoreTask(x => x.Build()).AddCoreTask(x => x.Clean())
                 .When(c => false);
             Assert.NotNull(t);
             Assert.Equal(1, _target.TasksGroups.Count);
@@ -164,9 +164,9 @@ namespace Flubu.Tests.Context
         {
             _taskFactory.Setup(x => x.Create<DotnetBuildTask>()).Returns(new DotnetBuildTask());
             _taskFactory.Setup(x => x.Create<DotnetCleanTask>()).Returns(new DotnetCleanTask());
-            Mock<ITarget> target1 = new Mock<ITarget>();
+            Mock<ITargetInternal> target1 = new Mock<ITargetInternal>();
             target1.Setup(x => x.TargetName).Returns("dep");
-            ITargetFluentInterface t = _fluent.AddCoreTask(x => x.Build()).AddCoreTask(x => x.Clean()).When(c => true);
+            ITarget t = _fluent.AddCoreTask(x => x.Build()).AddCoreTask(x => x.Clean()).When(c => true);
             Assert.NotNull(t);
             Assert.Equal(2, _target.TasksGroups.Count);
             Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);
@@ -178,9 +178,9 @@ namespace Flubu.Tests.Context
         {
             _taskFactory.Setup(x => x.Create<DotnetBuildTask>()).Returns(new DotnetBuildTask());
             _taskFactory.Setup(x => x.Create<DotnetCleanTask>()).Returns(new DotnetCleanTask());
-            Mock<ITarget> target1 = new Mock<ITarget>();
+            Mock<ITargetInternal> target1 = new Mock<ITargetInternal>();
             target1.Setup(x => x.TargetName).Returns("dep");
-            ITargetFluentInterface t = _fluent.AddCoreTaskAsync(x => x.Build()).AddCoreTaskAsync(x => x.Clean())
+            ITarget t = _fluent.AddCoreTaskAsync(x => x.Build()).AddCoreTaskAsync(x => x.Clean())
                 .When(c => false);
             Assert.NotNull(t);
             Assert.Equal(1, _target.TasksGroups.Count);
@@ -192,9 +192,9 @@ namespace Flubu.Tests.Context
         {
             _taskFactory.Setup(x => x.Create<DotnetBuildTask>()).Returns(new DotnetBuildTask());
             _taskFactory.Setup(x => x.Create<DotnetCleanTask>()).Returns(new DotnetCleanTask());
-            Mock<ITarget> target1 = new Mock<ITarget>();
+            Mock<ITargetInternal> target1 = new Mock<ITargetInternal>();
             target1.Setup(x => x.TargetName).Returns("dep");
-            ITargetFluentInterface t = _fluent.AddCoreTaskAsync(x => x.Build()).AddCoreTaskAsync(x => x.Clean()).When(c => true);
+            ITarget t = _fluent.AddCoreTaskAsync(x => x.Build()).AddCoreTaskAsync(x => x.Clean()).When(c => true);
             Assert.NotNull(t);
             Assert.Equal(2, _target.TasksGroups.Count);
             Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);

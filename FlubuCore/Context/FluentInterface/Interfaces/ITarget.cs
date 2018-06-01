@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 using FlubuCore.Targeting;
+using FlubuCore.Tasks;
 
 namespace FlubuCore.Context.FluentInterface.Interfaces
 {
-    [Obsolete("ITargetFluentInterface was renamed to ITarget.", true)]
-    public interface ITargetFluentInterface : ITargetBaseFluentInterfaceOfT<ITargetFluentInterface>
+    public interface ITarget : ITargetBaseFluentInterfaceOfT<ITarget>
     {
-          /// <summary>
+        /// <summary>
         ///     Specifies targets on which this target depends on.
         /// </summary>
         /// <param name="targetNames">The dependency target names.</param>

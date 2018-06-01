@@ -16,7 +16,7 @@ namespace FlubuCore.Context.FluentInterface
             LastTargetAction = TargetAction.Other;
         }
 
-        public ITarget Target { get; set; }
+        public ITargetInternal Target { get; set; }
 
         public ITaskContextInternal Context { protected get; set; }
 

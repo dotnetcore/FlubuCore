@@ -24,7 +24,7 @@ namespace Flubu.Tests
 
         public TargetCreatorTests()
         {
-            var sp = new ServiceCollection().AddTransient<ITargetFluentInterface, TargetFluentInterface>()
+            var sp = new ServiceCollection().AddTransient<ITarget, TargetFluentInterface>()
                 .AddTransient<ICoreTaskFluentInterface, CoreTaskFluentInterface>()
                 .AddTransient<ITaskFluentInterface, TaskFluentInterface>()
                 .AddTransient<ILinuxTaskFluentInterface, LinuxTaskFluentInterface>()

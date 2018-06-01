@@ -13,12 +13,12 @@ namespace Flubu.Tests.Context
     {
         private readonly TargetFluentInterface _fluent;
         private readonly Mock<ITaskContextInternal> _context;
-        private readonly Mock<ITarget> _target;
+        private readonly Mock<ITargetInternal> _target;
 
         public TargetFluentInterfaceTests()
         {
             _context = new Mock<ITaskContextInternal>();
-            _target = new Mock<ITarget>();
+            _target = new Mock<ITargetInternal>();
 
             _fluent = new TargetFluentInterface();
 
@@ -31,7 +31,7 @@ namespace Flubu.Tests.Context
         [Fact]
         public void DependsOnStringTest()
         {
-            ITargetFluentInterface t = _fluent.DependsOn("target1");
+            ITarget t = _fluent.DependsOn("target1");
             Assert.NotNull(t);
 
             _target.Verify(i => i.DependsOn("target1"), Times.Once);
@@ -40,8 +40,8 @@ namespace Flubu.Tests.Context
         [Fact]
         public void DependsOnTargetTest()
         {
-            Mock<ITarget> target1 = new Mock<ITarget>();
-            ITargetFluentInterface t = _fluent.DependsOn(target1.Object);
+            Mock<ITargetInternal> target1 = new Mock<ITargetInternal>();
+            ITarget t = _fluent.DependsOn(target1.Object);
             Assert.NotNull(t);
             _target.Verify(i => i.DependsOn(target1.Object), Times.Once);
         }

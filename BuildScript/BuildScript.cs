@@ -227,7 +227,7 @@ public class BuildScript : DefaultBuildScript
             .Execute(context);
     }
 
-    public static void PackageWebApi(ITargetFluentInterface target)
+    public static void PackageWebApi(ITarget target)
     {
         target.SetDescription("Prepares flubu web api deployment package.")
             .AddTask(x => x.PackageTask("output\\WebApiPackages")

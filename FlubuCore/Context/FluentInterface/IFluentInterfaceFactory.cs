@@ -5,7 +5,7 @@ namespace FlubuCore.Context.FluentInterface
 {
     public interface IFluentInterfaceFactory
     {
-        ITargetFluentInterface GetTargetFluentInterface(ITarget target, ITaskContextInternal taskContext);
+        ITarget GetTargetFluentInterface(ITargetInternal target, ITaskContextInternal taskContext);
 
         ITaskFluentInterface GetTaskFluentInterface(ITaskContextInternal taskContext);
 
