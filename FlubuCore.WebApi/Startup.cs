@@ -150,7 +150,7 @@ namespace FlubuCore.WebApi
             });
 #endif
 
-#if NETCOREAPP2_0 || NET462
+#if NETCOREAPP2_0 || NETCOREAPP2_1 || NET462
             app.UseAuthentication();
 #endif
         }
@@ -175,7 +175,7 @@ namespace FlubuCore.WebApi
             services.Configure<NotificationSettings>(settings =>
                 Configuration.GetSection(nameof(NotificationSettings)).Bind(settings));
 
-#if NETCOREAPP2_0 || NET462
+#if NETCOREAPP2_0 || NETCOREAPP2_1 || NET462
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,
