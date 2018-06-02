@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard1.6;net462</TargetFrameworks>
     <WarningsAsErrors>true</WarningsAsErrors>
@@ -59,16 +59,16 @@
     <Content Include="flubureadme.txt" Pack="true" PackageCopyToOutput="true" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="2.8.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.8.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="2.8.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="2.8.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.8.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="2.8.2" />
     <PackageReference Include="Microsoft.DotNet.Cli.Utils" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.4.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="SSH.NET" Version="2016.1.0" />
     <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
     <PackageReference Include="Microsoft.Web.Administration" Version="11.1.0" />
-    <PackageReference Include="System.ServiceProcess.ServiceController" Version="4.4.1" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="4.5.0" />
    
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004">
       <PrivateAssets>All</PrivateAssets>
@@ -84,22 +84,22 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.2" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlubuCore.WebApi.Client\FlubuCore.WebApi.Client.csproj" />
