@@ -9,7 +9,6 @@ using FlubuCore.Targeting;
 using FlubuCore.Tasks;
 using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Solution;
-using Microsoft.Extensions.Logging.Console;
 using Moq;
 using Xunit;
 

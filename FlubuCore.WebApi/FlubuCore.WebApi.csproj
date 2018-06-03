@@ -28,6 +28,9 @@
   </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.0|AnyCPU'">
     <DocumentationFile>bin\Release\netcoreapp2.0\FlubuCore.WebApi.xml</DocumentationFile>
+  </PropertyGroup>   
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.1|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp2.1\FlubuCore.WebApi.xml</DocumentationFile>
   </PropertyGroup>  
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net462|AnyCPU'">
     <DocumentationFile>bin\Release\net462\win7-x64\FlubuCore.WebApi.xml</DocumentationFile>
@@ -38,10 +41,6 @@
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.0|AnyCPU'">
     <DocumentationFile>bin\Debug\netcoreapp2.0\FlubuCore.WebApi.xml</DocumentationFile>
   </PropertyGroup>  
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.1|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp2.1\FlubuCore.WebApi.xml</DocumentationFile>
-  </PropertyGroup> 
-
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.1|AnyCPU'">
     <DocumentationFile>bin\Debug\netcoreapp2.1\FlubuCore.WebApi.xml</DocumentationFile>
   </PropertyGroup> 
