@@ -29,33 +29,21 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         /// Gets a read-only collection of project configurations.
         /// </summary>
         /// <value>A read-only collection of project configurations.</value>
-        public IList<VSProjectConfiguration> Configurations
-        {
-            get { return _configurations; }
-        }
+        public IList<VSProjectConfiguration> Configurations => _configurations;
 
         /// <summary>
         /// Gets a read-only collection of all .cs files in the solution.
         /// </summary>
         /// <value>A read-only collection of all the .cs files in the solution.</value>
-        public IList<VSProjectItem> Items
-        {
-            get { return _items; }
-        }
+        public IList<VSProjectItem> Items => _items;
 
-        public string ProjectFileName
-        {
-            get { return _projectFileName; }
-        }
+        public string ProjectFileName => _projectFileName;
 
         /// <summary>
         /// Gets a read-only collection of project properties.
         /// </summary>
         /// <value>A read-only collection of project properties.</value>
-        public IDictionary<string, string> Properties
-        {
-            get { return _properties; }
-        }
+        public IDictionary<string, string> Properties => _properties;
 
         /// <summary>
         /// Loads the specified project file name.
@@ -88,7 +76,7 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
 
                             case XmlNodeType.Element:
                                 if (xmlReader.Name == "Project")
-                                    data.ReadProject(xmlReader);
+                                    data.ReadProject(projectFileName, xmlReader);
 
                                 xmlReader.Read();
                                 break;
@@ -114,7 +102,7 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         {
             foreach (VSProjectConfiguration configuration in _configurations)
             {
-                if (configuration == null || configuration.Condition == null)
+                if (configuration?.Condition == null)
                     continue;
                 if (configuration.Condition.IndexOf(condition, StringComparison.OrdinalIgnoreCase) >= 0)
                     return configuration;
@@ -140,7 +128,7 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
             return returnList;
         }
 
-        private static VSProjectItem ReadItem(XmlReader xmlReader, string itemType)
+        private static VSProjectItem ReadItem(string projectName, XmlReader xmlReader, string itemType)
         {
             VSProjectItem item = new VSProjectItem(itemType) { Item = xmlReader["Include"] };
 
@@ -153,7 +141,7 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
                     if (xmlReader.NodeType == XmlNodeType.EndElement)
                         break;
 
-                    ReadItemProperty(item, xmlReader);
+                    ReadItemProperty(projectName, item, xmlReader);
                 }
             }
 
@@ -162,14 +150,19 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
             return item;
         }
 
-        private static void ReadItemProperty(VSProjectItem item, XmlReader xmlReader)
+        private static void ReadItemProperty(string projectName, VSProjectItem item, XmlReader xmlReader)
         {
             string propertyName = xmlReader.Name;
             string propertyValue = xmlReader.ReadElementContentAsString();
+            if (item.ItemProperties.ContainsKey(propertyName))
+            {
+                throw new ArgumentException($"Item {propertyName}:{propertyValue} already exists in project {projectName}");
+            }
+
             item.ItemProperties.Add(propertyName, propertyValue);
         }
 
-        private void ReadProject(XmlReader xmlReader)
+        private void ReadProject(string projectName, XmlReader xmlReader)
         {
             xmlReader.Read();
 
@@ -191,7 +184,7 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
                         xmlReader.Read();
                         break;
                     case "ItemGroup":
-                        ReadItemGroup(xmlReader);
+                        ReadItemGroup(projectName, xmlReader);
                         xmlReader.Read();
                         break;
                     default:
@@ -233,7 +226,7 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
             return configuration;
         }
 
-        private void ReadItemGroup(XmlReader xmlReader)
+        private void ReadItemGroup(string projectName, XmlReader xmlReader)
         {
             xmlReader.Read();
 
@@ -242,27 +235,27 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
                 switch (xmlReader.Name)
                 {
                     case "Content":
-                        VSProjectItem contentItem = ReadItem(xmlReader, VSProjectItem.Content);
+                        VSProjectItem contentItem = ReadItem(projectName, xmlReader, VSProjectItem.Content);
                         _items.Add(contentItem);
                         break;
 
                     case "Compile":
-                        VSProjectItem compileItems = ReadItem(xmlReader, VSProjectItem.CompileItem);
+                        VSProjectItem compileItems = ReadItem(projectName, xmlReader, VSProjectItem.CompileItem);
                         _items.Add(compileItems);
                         break;
 
                     case "None":
-                        VSProjectItem noneItem = ReadItem(xmlReader, VSProjectItem.NoneItem);
+                        VSProjectItem noneItem = ReadItem(projectName, xmlReader, VSProjectItem.NoneItem);
                         _items.Add(noneItem);
                         break;
 
                     case "ProjectReference":
-                        VSProjectItem projectReference = ReadItem(xmlReader, VSProjectItem.ProjectReference);
+                        VSProjectItem projectReference = ReadItem(projectName, xmlReader, VSProjectItem.ProjectReference);
                         _items.Add(projectReference);
                         break;
 
                     case "Reference":
-                        VSProjectItem reference = ReadItem(xmlReader, VSProjectItem.Reference);
+                        VSProjectItem reference = ReadItem(projectName, xmlReader, VSProjectItem.Reference);
                         _items.Add(reference);
                         break;
 
