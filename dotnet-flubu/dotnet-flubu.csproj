@@ -1,10 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netcoreapp1.0;netcoreapp1.1;netcoreapp2.0;netcoreapp2.1;net462</TargetFrameworks>
     <WarningsAsErrors>true</WarningsAsErrors>
     <AssemblyName>dotnet-flubu</AssemblyName>
     <OutputType>Exe</OutputType>
-    <PackAsTool>true</PackAsTool>
     <PackageId>dotnet-flubu</PackageId>
     <PackageTags>dotnet;flubu;build;builder;script;buildscript;automation;VisualStudio</PackageTags>
     <PackageLicenseUrl>http://www.opensource.org/licenses/bsd-license.php</PackageLicenseUrl>
@@ -43,6 +42,7 @@
   </PropertyGroup>
     <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
     <ReferringTargetFrameworkForProjectReferences>.NETStandard,Version=v2.0</ReferringTargetFrameworkForProjectReferences>
+    <PackAsTool>true</PackAsTool>
     <DefineConstants>NETCOREAPP2_1;</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net462'">
