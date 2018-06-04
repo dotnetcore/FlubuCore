@@ -1,3 +1,11 @@
+2.8.0.0
+- FlubuCore is now available as .net core global tool.
+- Console arguments, configuration properties, enviroment variables can now be passed to script properties.
+- Target's can now be defined with attribute on method.
+- Flubu dotnet cli tool is now available for .net core 2.1.
+- (BreakingChange) Renamed(obsoleted) ITargetFluentInterface to ITarget.
+- LoadSolutionTask: display detailed info in case project loading fails.
+
 2.7.2.0
 - (BREAKING CHANGE from version 2.7.0.0) When clause interface changed on target. When has no single parameter which applies condition to last target fluent interface action
 - Group task on target has no when parameter to apply conditions to group of tasks.
