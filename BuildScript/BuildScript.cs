@@ -46,6 +46,9 @@ public class BuildScript : DefaultBuildScript
             .AddCoreTask(x => x.Pack()
                 .Project("dotnet-flubu").IncludeSymbols()
                 .OutputDirectory("..\\output"))
+            .AddCoreTask(x => x.Pack()
+                .Project("FlubuCore-Tool").IncludeSymbols()
+                .OutputDirectory("..\\output"))
             .DependsOn(buildVersion);
 
         var publishWebApi = context.CreateTarget("Publish.WebApi")
@@ -169,6 +172,7 @@ public class BuildScript : DefaultBuildScript
             .WithArguments("-s", "https://www.nuget.org/api/v2/package")
             .WithArguments("-k", key).Execute(context);
 
+
         var task = context.Tasks().PublishNuGetPackageTask("FlubuCore.Runner", @"Nuget\FlubuCoreRunner.nuspec");
         task.NugetServerUrl("https://www.nuget.org/api/v2/package")
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish flubu.ruuner. exception: {e}"); })
@@ -227,7 +231,7 @@ public class BuildScript : DefaultBuildScript
             .Execute(context);
     }
 
-    public static void PackageWebApi(ITarget target)
+    public static void PackageWebApi(ITargetFluentInterface target)
     {
         target.SetDescription("Prepares flubu web api deployment package.")
             .AddTask(x => x.PackageTask("output\\WebApiPackages")

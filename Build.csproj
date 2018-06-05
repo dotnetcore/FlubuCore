@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>Build</AssemblyName>
     <PackageId>Build</PackageId>
   </PropertyGroup>
@@ -64,6 +64,9 @@
     <None Remove="tools\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="BuildScript\BuildScript.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove=".gitignore" />
     <None Remove="appveyor.yml" />
     <None Remove="flubu.sln.DotSettings" />
@@ -75,7 +78,7 @@
     <Compile Include="BuildScript.cs" Exclude="**;bin\**;obj\**;**\*.xproj;packages\**" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-flubu" Version="2.8.0" />
+    <DotNetCliToolReference Include="dotnet-flubu" Version="2.7.2" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BuildScript\NetCore1.1\Deploy.csproj" />
