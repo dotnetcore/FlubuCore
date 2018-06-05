@@ -44,7 +44,7 @@ public class BuildScript : DefaultBuildScript
                 .Project("FlubuCore")
                 .OutputDirectory("..\\output"))
             .AddCoreTask(x => x.Pack()
-                .Project("dotnet-flubu").IncludeSymbols());
+                .Project("dotnet-flubu").IncludeSymbols();            ;
 
         var publishWebApi = context.CreateTarget("Publish.WebApi")
             .SetDescription("Publishes flubu web api for deployment")
