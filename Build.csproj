@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>Build</AssemblyName>
     <PackageId>Build</PackageId>
   </PropertyGroup>
@@ -14,7 +14,6 @@
     <Compile Remove="Flubu.SystemTests\**" />
     <Compile Remove="Flubu.Tests\**" />
     <Compile Remove="Flubu.VisualStudio\**" />
-    <Compile Remove="FlubuCore-Tool\**" />
     <Compile Remove="FlubuCore.Runner\**" />
     <Compile Remove="FlubuCore.WebApi.Client\**" />
     <Compile Remove="FlubuCore.WebApi.Model\**" />
@@ -33,7 +32,6 @@
     <EmbeddedResource Remove="Flubu.SystemTests\**" />
     <EmbeddedResource Remove="Flubu.Tests\**" />
     <EmbeddedResource Remove="Flubu.VisualStudio\**" />
-    <EmbeddedResource Remove="FlubuCore-Tool\**" />
     <EmbeddedResource Remove="FlubuCore.Runner\**" />
     <EmbeddedResource Remove="FlubuCore.WebApi.Client\**" />
     <EmbeddedResource Remove="FlubuCore.WebApi.Model\**" />
@@ -52,7 +50,6 @@
     <None Remove="Flubu.SystemTests\**" />
     <None Remove="Flubu.Tests\**" />
     <None Remove="Flubu.VisualStudio\**" />
-    <None Remove="FlubuCore-Tool\**" />
     <None Remove="FlubuCore.Runner\**" />
     <None Remove="FlubuCore.WebApi.Client\**" />
     <None Remove="FlubuCore.WebApi.Model\**" />
@@ -62,6 +59,9 @@
     <None Remove="Nuget\**" />
     <None Remove="output\**" />
     <None Remove="tools\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="BuildScript\BuildScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Remove=".gitignore" />
@@ -75,7 +75,7 @@
     <Compile Include="BuildScript.cs" Exclude="**;bin\**;obj\**;**\*.xproj;packages\**" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-flubu" Version="2.8.0" />
+    <DotNetCliToolReference Include="dotnet-flubu" Version="2.7.2" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BuildScript\NetCore1.1\Deploy.csproj" />
