@@ -1,3 +1,6 @@
+2.8.1.0
+Fixed reference issues.
+
 2.8.0.0
 - FlubuCore is now available as .net core global tool.
 - Console arguments, configuration properties, enviroment variables can now be passed to script properties.
