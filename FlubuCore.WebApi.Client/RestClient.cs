@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -119,6 +120,61 @@ namespace FlubuCore.WebApi.Client
             requestMessage.RequestUri = uri;
             var responseMessage = await Client.SendAsync(requestMessage);
             return await GetResponse<TResponse>(responseMessage);
+        }
+
+         internal async Task<Stream> GetStreamAsync(object request, [CallerMemberName]string memberName = "")
+        {
+            var method = _methods[memberName];
+            var attribute = method.GetCustomAttribute<HttpAttribute>();
+            var relativePath = UrlHelpers.ReplaceParameterTemplatesInRelativePathWithValues(attribute.Path, request);
+
+            string queryString = null;
+
+            HttpRequestMessage requestMessage = new HttpRequestMessage();
+            requestMessage.Method = attribute.Method;
+
+            if (attribute.Method == HttpMethod.Post || attribute.Method == HttpMethod.Put)
+            {
+                if (request != null)
+                {
+                    var jsonObject = JsonConvert.SerializeObject(request);
+                    StringContent content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
+                    requestMessage.Content = content;
+                }
+
+                Client.DefaultRequestHeaders.Accept.Clear();
+                Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            }
+            else
+            {
+                if (request != null)
+                {
+                    queryString = string.Format("?{0}", request.ToQueryString());
+                }
+            }
+
+            if (!string.IsNullOrEmpty(Token))
+            {
+                Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+            }
+
+            var uri = new Uri(string.Format("{0}{1}{2}", Client.BaseAddress, relativePath, queryString));
+            requestMessage.RequestUri = uri;
+            var response = await Client.SendAsync(requestMessage);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return await response.Content.ReadAsStreamAsync();
+            }
+
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var error = JsonConvert.DeserializeObject<ErrorModel>(jsonString);
+
+            throw new WebApiException(response.StatusCode, error.ErrorMessage)
+            {
+                ErrorCode = error != null ? error.ErrorCode : response.StatusCode.ToString(),
+                ErrorMessage = error != null ? error.ErrorMessage : response.ReasonPhrase,
+                WebApiStackTrace = error != null ? error.StackTrace : null,
+            };
         }
 
         protected async Task<T> GetResponse<T>(HttpResponseMessage response)

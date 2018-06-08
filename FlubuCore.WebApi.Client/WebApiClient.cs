@@ -106,5 +106,11 @@ namespace FlubuCore.WebApi.Client
         {
             await SendAsync();
         }
+
+        [Post("api/reports/download")]
+        public async Task<Stream> DownloadReports(DownloadReportsRequest request)
+        {
+           return await GetStreamAsync(request);
+        }
     }
 }
