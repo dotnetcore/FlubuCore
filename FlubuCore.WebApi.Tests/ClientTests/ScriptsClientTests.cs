@@ -24,15 +24,12 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         public ScriptsClientTests(ClientFixture clientFixture)
             : base(clientFixture)
         {
-            if (!Directory.Exists("Scripts"))
-            {
-                Directory.CreateDirectory("Scripts");
-            }
-            else
+            if (Directory.Exists("Scripts"))
             {
                 Directory.Delete("Scripts", true);
-                Directory.CreateDirectory("Scripts");
             }
+
+            Directory.CreateDirectory("Scripts");
         }
 
         [Fact]

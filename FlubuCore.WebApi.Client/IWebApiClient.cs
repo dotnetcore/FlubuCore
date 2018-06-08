@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using FlubuCore.WebApi.Model;
@@ -42,5 +43,9 @@ namespace FlubuCore.WebApi.Client
         /// <param name="request"></param>
         /// <returns>The access token</returns>
         Task<GetTokenResponse> GetToken(GetTokenRequest request);
+
+        Task HealthCheck();
+
+        Task<Stream> DownloadReports(DownloadReportsRequest request);
     }
 }

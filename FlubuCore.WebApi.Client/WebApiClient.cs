@@ -100,5 +100,17 @@ namespace FlubuCore.WebApi.Client
         {
             return await SendAsync<GetTokenResponse>(request);
         }
+
+        [Get("api/HealthCheck")]
+        public async Task HealthCheck()
+        {
+            await SendAsync();
+        }
+
+        [Post("api/reports/download")]
+        public async Task<Stream> DownloadReports(DownloadReportsRequest request)
+        {
+           return await GetStreamAsync(request);
+        }
     }
 }
