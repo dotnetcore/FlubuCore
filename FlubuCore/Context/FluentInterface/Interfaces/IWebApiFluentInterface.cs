@@ -32,7 +32,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         GetTokenTask GetTokenTask(string username, string password);
 
         /// <summary>
-        /// Deletes all packages(cleans directory on flubu web api server.
+        /// Deletes all packages(cleans directory on flubu web api server).
         /// </summary>
         /// <returns></returns>
         DeletePackagesTask DeletePackagesTask();
@@ -43,5 +43,11 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="scriptFilePath"> The relative or absolute path to the flubu script to be uploaded to web api server.</param>
         /// <returns></returns>
         UploadScriptTask UploadScriptTask(string scriptFilePath);
+
+        /// <summary>
+        /// Deletes all reports(cleans directory on flubu web api server).
+        /// </summary>
+        /// <returns></returns>
+        DeleteReportsTask DeleteReportsTask();
     }
 }

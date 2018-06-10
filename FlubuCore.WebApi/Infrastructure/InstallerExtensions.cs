@@ -94,7 +94,8 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddTask<DotnetPublishTask>()
                 .AddTask<DotnetPackTask>()
                 .AddTask<DotnetCleanTask>()
-                .AddTask<DeletePackagesTask>();
+                .AddTask<DeletePackagesTask>()
+                .AddTask<DeleteReportsTask>();
         }
     }
 }

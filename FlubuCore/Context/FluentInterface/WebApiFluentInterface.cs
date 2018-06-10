@@ -34,5 +34,10 @@ namespace FlubuCore.Context.FluentInterface
         {
             return Context.CreateTask<UploadScriptTask>(scriptFilePath);
         }
+
+        public DeleteReportsTask DeleteReportsTask()
+        {
+            return Context.CreateTask<DeleteReportsTask>();
+        }
     }
 }

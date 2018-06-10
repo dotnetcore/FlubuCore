@@ -64,7 +64,8 @@ namespace FlubuCore.Infrastructure
                 .AddTask<DotnetPublishTask>()
                 .AddTask<DotnetPackTask>()
                 .AddTask<DotnetCleanTask>()
-                .AddTask<DeletePackagesTask>();
+                .AddTask<DeletePackagesTask>()
+                .AddTask<DeleteReportsTask>();
         }
     }
 }
