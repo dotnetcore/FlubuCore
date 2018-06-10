@@ -8,12 +8,14 @@ using FlubuCore.Context;
 using FlubuCore.Tasks;
 using FlubuCore.Tasks.Packaging;
 using FlubuCore.WebApi.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlubuCore.WebApi.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     public class ReportsController : Controller
     {
         private readonly IHostingEnvironment _hostingEnvironment;

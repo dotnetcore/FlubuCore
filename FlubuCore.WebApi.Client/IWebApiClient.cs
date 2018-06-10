@@ -44,8 +44,10 @@ namespace FlubuCore.WebApi.Client
         /// <returns>The access token</returns>
         Task<GetTokenResponse> GetToken(GetTokenRequest request);
 
-        Task HealthCheck();
+        Task HealthCheckAsync();
 
-        Task<Stream> DownloadReports(DownloadReportsRequest request);
+        Task<Stream> DownloadReportsAsync(DownloadReportsRequest request);
+
+        Task CleanReportsDirectoryAsync(CleanReportsDirectoryRequest request);
     }
 }
