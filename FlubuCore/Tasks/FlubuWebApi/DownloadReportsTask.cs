@@ -58,9 +58,9 @@ namespace FlubuCore.Tasks.FlubuWebApi
 
             var extension = Path.GetExtension(_saveAs);
 
-            if (string.IsNullOrEmpty(extension) || !extension.Equals("zip", StringComparison.OrdinalIgnoreCase))
+            if (string.IsNullOrEmpty(extension) || !extension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
             {
-                throw new TaskExecutionException("SaveAs file extension must be .zip", 5);
+                throw new TaskExecutionException("SaveAs file extension must be .zip", 99);
             }
 
             var client = WebApiClientFactory.Create(context.Properties.Get<string>(BuildProps.LastWebApiBaseUrl));
