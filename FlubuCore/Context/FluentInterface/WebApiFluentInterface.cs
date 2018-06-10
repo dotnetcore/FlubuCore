@@ -39,5 +39,10 @@ namespace FlubuCore.Context.FluentInterface
         {
             return Context.CreateTask<DeleteReportsTask>();
         }
+
+        public DownloadReportsTask DownloadReportsTask(string saveAs)
+        {
+            return Context.CreateTask<DownloadReportsTask>(saveAs);
+        }
     }
 }

@@ -60,9 +60,12 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             var report = await Client.DownloadReportsAsync(new DownloadReportsRequest
             {
                 DownloadFromSubDirectory = "Diffs"
-            }) as FileStream;
+            }) as MemoryStream;
 
             Assert.True(report.Length > 100);
+
+            FileStream file = new FileStream("k:\\test.zip", FileMode.Create, FileAccess.Write);
+            report.WriteTo(file);
         }
 
         [Fact]

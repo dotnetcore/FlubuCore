@@ -31,6 +31,11 @@ namespace FlubuCore.WebApi.Controllers
             _taskSession = taskSession;
         }
 
+        /// <summary>
+        /// Sends reports(compressed in zip file) that are on the flubu web api server.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost("download")]
         public IActionResult DownloadReports([FromBody]DownloadReportsRequest request)
         {
@@ -63,6 +68,11 @@ namespace FlubuCore.WebApi.Controllers
             return File(fs, "application/zip", zipFilename);
         }
 
+        /// <summary>
+        /// Deletes all reports(cleans directory on flubu web api server).
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpDelete("download")]
         public IActionResult CleanPackagesDirectory([FromBody]CleanPackagesDirectoryRequest request)
         {

@@ -46,8 +46,16 @@ namespace FlubuCore.WebApi.Client
 
         Task HealthCheckAsync();
 
+        /// <summary>
+        /// Download reports(compressed in zip file) from flubu web api server.
+        /// </summary>
+        /// <returns></returns>
         Task<Stream> DownloadReportsAsync(DownloadReportsRequest request);
 
+        /// <summary>
+        /// Deletes all reports(cleans directory on flubu web api server).
+        /// </summary>
+        /// <returns></returns>
         Task CleanReportsDirectoryAsync(CleanReportsDirectoryRequest request);
     }
 }

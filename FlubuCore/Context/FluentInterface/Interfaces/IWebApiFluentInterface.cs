@@ -49,5 +49,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <returns></returns>
         DeleteReportsTask DeleteReportsTask();
+
+        /// <summary>
+        /// Download reports(compressed in zip file) from flubu web api server.
+        /// </summary>
+        /// <param name="saveAs">name of the file (path) that the reports will be saved to.</param>
+        /// <returns></returns>
+        DownloadReportsTask DownloadReportsTask(string saveAs);
     }
 }
