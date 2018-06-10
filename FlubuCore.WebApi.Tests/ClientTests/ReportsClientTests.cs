@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using FlubuCore.WebApi.Client;
+using FlubuCore.WebApi.Controllers.Exceptions;
 using FlubuCore.WebApi.Model;
 using Xunit;
 
@@ -115,6 +118,17 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             Assert.False(File.Exists("Reports/subdir/test.txt"));
             Assert.True(File.Exists("Reports//ttt.txt"));
             Assert.True(Directory.Exists("Reports/subdir"));
+        }
+
+        [Fact]
+        public async Task DownloadReports_FromRootNoReports_Succesfull()
+        {
+            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            Client.Token = token.Token;
+            var ex = await Assert.ThrowsAsync<WebApiException>(async () => await Client.DownloadReportsAsync(new DownloadReportsRequest()));
+
+            Assert.Equal(HttpStatusCode.NotFound, ex.StatusCode);
+            Assert.Equal("NoReportsFound", ex.ErrorCode);
         }
     }
 }

@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
 using FlubuCore.Tasks.Packaging;
+using FlubuCore.WebApi.Controllers.Exceptions;
 using FlubuCore.WebApi.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -16,7 +18,7 @@ namespace FlubuCore.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [Authorize]
-    public class ReportsController : Controller
+    public class ReportsController : ControllerBase
     {
         private readonly IHostingEnvironment _hostingEnvironment;
 
@@ -62,9 +64,15 @@ namespace FlubuCore.WebApi.Controllers
                 ? "Reports.zip"
                 : $"{request.DownloadFromSubDirectory}.zip";
 
-            task.AddDirectoryToPackage(downloadDirectory, dirName, true).ZipPackage(zipFilename, false).Execute(_taskSession);
+            if (Directory.GetFiles(downloadDirectory).Length == 0)
+            {
+                throw new HttpError(HttpStatusCode.NotFound, "NoReportsFound");
+            }
 
-            Stream fs = System.IO.File.OpenRead(Path.Combine(zipDirectory, zipFilename));
+            task.AddDirectoryToPackage(downloadDirectory, dirName, true).ZipPackage(zipFilename, false).Execute(_taskSession);
+            string zipPath = Path.Combine(zipDirectory, zipFilename);
+
+            Stream fs = System.IO.File.OpenRead(zipPath);
             return File(fs, "application/zip", zipFilename);
         }
 

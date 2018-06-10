@@ -12,6 +12,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
     public class DownloadReportsTask : WebApiBaseTask<DownloadReportsTask, int>
     {
         private readonly string _saveAs;
+        private bool _failWhenNoReportsFound;
         private string _subDirectory = null;
         private string _description;
 
@@ -42,6 +43,12 @@ namespace FlubuCore.Tasks.FlubuWebApi
             return this;
         }
 
+        public DownloadReportsTask FailWhenNoReportsFound()
+        {
+            _failWhenNoReportsFound = true;
+            return this;
+        }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             Task<int> task = DoExecuteAsync(context);
@@ -64,19 +71,34 @@ namespace FlubuCore.Tasks.FlubuWebApi
             }
 
             var client = WebApiClientFactory.Create(context.Properties.Get<string>(BuildProps.LastWebApiBaseUrl));
-            var reports = await client.DownloadReportsAsync(new DownloadReportsRequest()
+
+            try
             {
-                DownloadFromSubDirectory = _subDirectory
-            }) as MemoryStream;
+                var reports = await client.DownloadReportsAsync(new DownloadReportsRequest()
+                {
+                    DownloadFromSubDirectory = _subDirectory
+                }) as MemoryStream;
 
-            FileStream file = new FileStream(_saveAs, FileMode.Create, FileAccess.Write);
-            reports.WriteTo(file);
+                FileStream file = new FileStream(_saveAs, FileMode.Create, FileAccess.Write);
+                reports.WriteTo(file);
 
-            #if !NETSTANDARD1_6
+#if !NETSTANDARD1_6
 
-            reports.Close();
-            file.Close();
-            #endif
+                reports.Close();
+                file.Close();
+#endif
+            }
+            catch (WebApiException e)
+            {
+                if (e.ErrorCode == "NoReportsFound" && !_failWhenNoReportsFound)
+                {
+                    context.LogInfo("No reports found on server.");
+                    return 0;
+                }
+
+                throw;
+            }
+
             return 0;
         }
     }
