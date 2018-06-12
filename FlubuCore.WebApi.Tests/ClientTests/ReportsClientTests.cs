@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using FlubuCore.WebApi.Client;
+using FlubuCore.WebApi.Controllers.Exceptions;
 using FlubuCore.WebApi.Model;
 using Xunit;
 
@@ -34,7 +37,9 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             {
             }
 
-            var report = await Client.DownloadReports(new DownloadReportsRequest
+            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            Client.Token = token.Token;
+            var report = await Client.DownloadReportsAsync(new DownloadReportsRequest
             {
             });
 
@@ -53,12 +58,77 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             {
             }
 
-            var report = await Client.DownloadReports(new DownloadReportsRequest
+            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            Client.Token = token.Token;
+            var report = await Client.DownloadReportsAsync(new DownloadReportsRequest
             {
                 DownloadFromSubDirectory = "Diffs"
-            }) as FileStream;
+            }) as MemoryStream;
 
             Assert.True(report.Length > 100);
+
+            FileStream file = new FileStream("k:\\test.zip", FileMode.Create, FileAccess.Write);
+            report.WriteTo(file);
+        }
+
+        [Fact]
+        public async Task DeleteReports_Succesfull()
+        {
+            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            Client.Token = token.Token;
+            if (Directory.Exists("reports"))
+            {
+                Directory.Delete("reports", true);
+            }
+
+            Directory.CreateDirectory("Reports");
+            using (File.Create("Reports/test.txt"))
+            {
+            }
+
+            await Client.CleanReportsDirectoryAsync(new CleanReportsDirectoryRequest());
+            Assert.False(File.Exists("Reports/test.txt"));
+            Assert.True(Directory.Exists("Reports"));
+        }
+
+        [Fact]
+        public async Task DeleteReports_SubFolder_Succesfull()
+        {
+            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            Client.Token = token.Token;
+            if (Directory.Exists("Reports"))
+            {
+                Directory.Delete("Reports", true);
+            }
+
+            Directory.CreateDirectory("Reports");
+            Directory.CreateDirectory("Reports/subdir");
+            using (File.Create("Reports/subdir/test.txt"))
+            {
+            }
+
+            using (File.Create("Reports/ttt.txt"))
+            {
+            }
+
+            await Client.CleanReportsDirectoryAsync(new CleanReportsDirectoryRequest()
+            {
+                SubDirectoryToDelete = "subdir"
+            });
+            Assert.False(File.Exists("Reports/subdir/test.txt"));
+            Assert.True(File.Exists("Reports//ttt.txt"));
+            Assert.True(Directory.Exists("Reports/subdir"));
+        }
+
+        [Fact]
+        public async Task DownloadReports_FromRootNoReports_Succesfull()
+        {
+            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            Client.Token = token.Token;
+            var ex = await Assert.ThrowsAsync<WebApiException>(async () => await Client.DownloadReportsAsync(new DownloadReportsRequest()));
+
+            Assert.Equal(HttpStatusCode.NotFound, ex.StatusCode);
+            Assert.Equal("NoReportsFound", ex.ErrorCode);
         }
     }
 }

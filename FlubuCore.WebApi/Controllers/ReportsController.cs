@@ -2,18 +2,23 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
 using FlubuCore.Tasks.Packaging;
+using FlubuCore.WebApi.Controllers.Exceptions;
 using FlubuCore.WebApi.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlubuCore.WebApi.Controllers
 {
     [Route("api/[controller]")]
-    public class ReportsController : Controller
+    [Authorize]
+    public class ReportsController : ControllerBase
     {
         private readonly IHostingEnvironment _hostingEnvironment;
 
@@ -28,6 +33,11 @@ namespace FlubuCore.WebApi.Controllers
             _taskSession = taskSession;
         }
 
+        /// <summary>
+        /// Sends reports(compressed in zip file) that are on the flubu web api server.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost("download")]
         public IActionResult DownloadReports([FromBody]DownloadReportsRequest request)
         {
@@ -54,10 +64,49 @@ namespace FlubuCore.WebApi.Controllers
                 ? "Reports.zip"
                 : $"{request.DownloadFromSubDirectory}.zip";
 
-            task.AddDirectoryToPackage(downloadDirectory, dirName, true).ZipPackage(zipFilename, false).Execute(_taskSession);
+            if (Directory.GetFiles(downloadDirectory).Length == 0)
+            {
+                throw new HttpError(HttpStatusCode.NotFound, "NoReportsFound");
+            }
 
-            Stream fs = System.IO.File.OpenRead(Path.Combine(zipDirectory, zipFilename));
+            task.AddDirectoryToPackage(downloadDirectory, dirName, true).ZipPackage(zipFilename, false).Execute(_taskSession);
+            string zipPath = Path.Combine(zipDirectory, zipFilename);
+
+            Stream fs = System.IO.File.OpenRead(zipPath);
             return File(fs, "application/zip", zipFilename);
+        }
+
+        /// <summary>
+        /// Deletes all reports(cleans directory on flubu web api server).
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpDelete("download")]
+        public IActionResult CleanPackagesDirectory([FromBody]CleanPackagesDirectoryRequest request)
+        {
+            var downloadDirectory = Path.Combine(_hostingEnvironment.ContentRootPath, "reports");
+
+            if (!string.IsNullOrWhiteSpace(request.SubDirectoryToDelete))
+            {
+                downloadDirectory = Path.Combine(downloadDirectory, request.SubDirectoryToDelete);
+            }
+
+            try
+            {
+                if (Directory.Exists(downloadDirectory))
+                {
+                    Directory.Delete(downloadDirectory, true);
+                }
+            }
+            catch (IOException)
+            {
+                Thread.Sleep(1000);
+                Directory.Delete(downloadDirectory, true);
+            }
+
+            Directory.CreateDirectory(downloadDirectory);
+
+            return Ok();
         }
     }
 }

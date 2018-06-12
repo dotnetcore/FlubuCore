@@ -17,7 +17,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task GetHealthCheckReport()
         {
-            await Client.HealthCheck();
+            await Client.HealthCheckAsync();
         }
     }
 }

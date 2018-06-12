@@ -44,8 +44,18 @@ namespace FlubuCore.WebApi.Client
         /// <returns>The access token</returns>
         Task<GetTokenResponse> GetToken(GetTokenRequest request);
 
-        Task HealthCheck();
+        Task HealthCheckAsync();
 
-        Task<Stream> DownloadReports(DownloadReportsRequest request);
+        /// <summary>
+        /// Download reports(compressed in zip file) from flubu web api server.
+        /// </summary>
+        /// <returns></returns>
+        Task<Stream> DownloadReportsAsync(DownloadReportsRequest request);
+
+        /// <summary>
+        /// Deletes all reports(cleans directory on flubu web api server).
+        /// </summary>
+        /// <returns></returns>
+        Task CleanReportsDirectoryAsync(CleanReportsDirectoryRequest request);
     }
 }

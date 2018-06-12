@@ -102,15 +102,21 @@ namespace FlubuCore.WebApi.Client
         }
 
         [Get("api/HealthCheck")]
-        public async Task HealthCheck()
+        public async Task HealthCheckAsync()
         {
             await SendAsync();
         }
 
         [Post("api/reports/download")]
-        public async Task<Stream> DownloadReports(DownloadReportsRequest request)
+        public async Task<Stream> DownloadReportsAsync(DownloadReportsRequest request)
         {
            return await GetStreamAsync(request);
+        }
+
+        [Delete("api/reports/download")]
+        public async Task CleanReportsDirectoryAsync(CleanReportsDirectoryRequest request)
+        {
+            await SendAsync(request);
         }
     }
 }

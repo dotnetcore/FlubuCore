@@ -407,5 +407,17 @@ namespace Flubu.Tests.Context
         {
             Assert.NotNull(Context.Tasks().XunitTaskByAsssemblyName("test"));
         }
+
+        [Fact]
+        public void ResolveDownloadReportTasks()
+        {
+            Assert.NotNull(Context.Tasks().FlubuWebApiTasks().DownloadReportsTask("test.zip"));
+        }
+
+        [Fact]
+        public void ResolveDeleteReportTasks()
+        {
+            Assert.NotNull(Context.Tasks().FlubuWebApiTasks().DeleteReportsTask());
+        }
     }
 }
