@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading.Tasks;
 using FlubuCore.WebApi.Client;
-using FlubuCore.WebApi.Controllers.Exceptions;
 using FlubuCore.WebApi.Model;
 using Xunit;
 
@@ -66,9 +63,6 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             }) as MemoryStream;
 
             Assert.True(report.Length > 100);
-
-            FileStream file = new FileStream("k:\\test.zip", FileMode.Create, FileAccess.Write);
-            report.WriteTo(file);
         }
 
         [Fact]
