@@ -37,7 +37,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
             set { _description = value; }
         }
 
-        public DownloadReportsTask DownloadromSubDirectory(string subDirectory)
+        public DownloadReportsTask DownloadFromSubDirectory(string subDirectory)
         {
             _subDirectory = subDirectory;
             return this;
