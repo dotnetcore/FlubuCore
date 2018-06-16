@@ -1,9 +1,10 @@
 language: csharp
-os:
-  - osx
+os: 
   - linux
 
 sudo: required
+mono: none
+dotnet: 2.0.0
 dist: trusty
 
 addons:
