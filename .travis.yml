@@ -21,4 +21,4 @@ git:
 
 script:
 - dotnet restore Build.csproj
-- dotnet flubu rebuild.linux
+- dotnet flubu rebuild.linux -s=BuildScript/BuildScript.cs
