@@ -20,4 +20,5 @@ git:
   depth: false
 
 script:
-  - ./build.sh
+- dotnet restore buildscript.csproj
+- dotnet flubu rebuild.linux
