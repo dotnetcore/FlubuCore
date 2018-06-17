@@ -13,7 +13,7 @@ namespace Flubu.Tests
         [Fact]
         public void LoadSolution_OldCsprojAndNewCsproj_Succesfull()
         {
-            var solution = VSSolution.Load(@"TestData\Test.sln");
+            var solution = VSSolution.Load(@"TestData/Test.sln");
             Assert.Equal(11, solution.Projects.Count);
             Assert.Equal(12, solution.SolutionVersion);
             Assert.Equal("Hsl.Simobil.SelfCare.WebApi", solution.Projects[0].ProjectName);
