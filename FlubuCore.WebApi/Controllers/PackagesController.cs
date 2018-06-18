@@ -96,7 +96,7 @@ namespace FlubuCore.WebApi.Controllers
         [HttpDelete]
         public IActionResult CleanPackagesDirectory([FromBody]CleanPackagesDirectoryRequest request)
         {
-            var uploadDirectory = Path.Combine(_hostingEnvironment.ContentRootPath, "packages");
+            var uploadDirectory = Path.Combine(_hostingEnvironment.ContentRootPath, "Packages");
 
             if (!string.IsNullOrWhiteSpace(request.SubDirectoryToDelete))
             {

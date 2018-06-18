@@ -111,7 +111,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
 
             var req = new ExecuteScriptRequest
             {
-                ScriptFileName = "simplescript.cs",
+                ScriptFileName = "SimpleScript.cs",
                 TargetToExecute = "FinallyTarget",
                 ScriptArguments = new Dictionary<string, string>()
             };
@@ -188,7 +188,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(
                 new ExecuteScriptRequest
                 {
-                    ScriptFileName = "SimplesSript.cs",
+                    ScriptFileName = "SimpleScript.cs",
                     TargetToExecute = "FailedTarget"
                 }));
 

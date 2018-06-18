@@ -26,11 +26,11 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task DownloadReports_FromRoot_Succesfull()
         {
-            using (File.Create("Reports\\test.txt"))
+            using (File.Create("Reports/test.txt"))
             {
             }
 
-            using (File.Create("Reports\\test2.txt"))
+            using (File.Create("Reports/test2.txt"))
             {
             }
 
@@ -46,12 +46,12 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task DownloadReports_FromSubfolder_Succesfull()
         {
-            Directory.CreateDirectory("Reports\\Diffs");
-            using (File.Create("Reports\\Diffs\\test.txt"))
+            Directory.CreateDirectory("Reports/Diffs");
+            using (File.Create("Reports/Diffs/test.txt"))
             {
             }
 
-            using (File.Create("Reports\\Diffs\\test2.txt"))
+            using (File.Create("Reports/Diffs/test2.txt"))
             {
             }
 
