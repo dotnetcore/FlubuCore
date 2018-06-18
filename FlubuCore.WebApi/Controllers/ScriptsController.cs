@@ -116,7 +116,7 @@ namespace FlubuCore.WebApi.Controllers
                 throw new HttpError(HttpStatusCode.BadRequest, "NoFiles");
             }
 
-            var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "scripts");
+            var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "Scripts");
 
             var script = form.Files[0];
 
@@ -152,7 +152,7 @@ namespace FlubuCore.WebApi.Controllers
         private void PrepareCommandArguments(ExecuteScriptRequest request)
         {
             _commandArguments.MainCommands = new List<string>();
-            var scriptFullPath = Path.Combine(_hostingEnvironment.ContentRootPath, "scripts", request.ScriptFileName);
+            var scriptFullPath = Path.Combine(_hostingEnvironment.ContentRootPath, "Scripts", request.ScriptFileName);
             _commandArguments.MainCommands.Add(request.TargetToExecute);
             _commandArguments.Script = scriptFullPath;
             if (request.ScriptArguments != null && request.ScriptArguments.Count > 0)

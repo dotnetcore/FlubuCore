@@ -48,7 +48,7 @@ namespace FlubuCore.WebApi.Controllers
                 Directory.CreateDirectory(downloadDirectory);
             }
 
-            string dirName = "reports";
+            string dirName = "Reports";
 
             if (!string.IsNullOrEmpty(request.DownloadFromSubDirectory))
             {
@@ -84,7 +84,7 @@ namespace FlubuCore.WebApi.Controllers
         [HttpDelete("download")]
         public IActionResult CleanPackagesDirectory([FromBody]CleanPackagesDirectoryRequest request)
         {
-            var downloadDirectory = Path.Combine(_hostingEnvironment.ContentRootPath, "reports");
+            var downloadDirectory = Path.Combine(_hostingEnvironment.ContentRootPath, "Reports");
 
             if (!string.IsNullOrWhiteSpace(request.SubDirectoryToDelete))
             {

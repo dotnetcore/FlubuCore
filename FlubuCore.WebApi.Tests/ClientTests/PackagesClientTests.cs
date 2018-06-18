@@ -104,18 +104,18 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         {
             var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
-            if (Directory.Exists("packages"))
+            if (Directory.Exists("Packages"))
             {
                 Directory.Delete("Packages", true);
             }
 
             Directory.CreateDirectory("Packages");
-            using (File.Create("packages/test.txt"))
+            using (File.Create("Packages/test.txt"))
             {
             }
 
             await Client.DeletePackagesAsync(new CleanPackagesDirectoryRequest());
-            Assert.False(File.Exists("packages/test.txt"));
+            Assert.False(File.Exists("Packages/test.txt"));
             Assert.True(Directory.Exists("Packages"));
         }
 
@@ -124,18 +124,18 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         {
             var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
-            if (Directory.Exists("packages"))
+            if (Directory.Exists("Packages"))
             {
                 Directory.Delete("Packages", true);
             }
 
             Directory.CreateDirectory("Packages");
             Directory.CreateDirectory("Packages/subdir");
-            using (File.Create("packages/subdir/test.txt"))
+            using (File.Create("Packages/subdir/test.txt"))
             {
             }
 
-            using (File.Create("packages/ttt.txt"))
+            using (File.Create("Packages/ttt.txt"))
             {
             }
 
@@ -143,8 +143,8 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             {
                 SubDirectoryToDelete = "subdir"
             });
-            Assert.False(File.Exists("packages/subdir/test.txt"));
-            Assert.True(File.Exists("packages//ttt.txt"));
+            Assert.False(File.Exists("Packages/subdir/test.txt"));
+            Assert.True(File.Exists("Packages//ttt.txt"));
             Assert.True(Directory.Exists("Packages/subdir"));
         }
     }

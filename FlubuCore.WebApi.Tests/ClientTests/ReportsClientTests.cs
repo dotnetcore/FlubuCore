@@ -70,9 +70,9 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         {
             var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
-            if (Directory.Exists("reports"))
+            if (Directory.Exists("Reports"))
             {
-                Directory.Delete("reports", true);
+                Directory.Delete("Reports", true);
             }
 
             Directory.CreateDirectory("Reports");

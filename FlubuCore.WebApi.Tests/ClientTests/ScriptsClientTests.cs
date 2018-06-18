@@ -51,7 +51,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             Assert.False(File.Exists("test.txt"));
             var req = new ExecuteScriptRequest
             {
-                ScriptFileName = "simplescript.cs",
+                ScriptFileName = "SimpleScript.cs",
                 TargetToExecute = "SuccesfullTarget",
                 ScriptArguments = new Dictionary<string, string>()
             };
@@ -85,7 +85,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
 
             var req = new ExecuteScriptRequest
             {
-                ScriptFileName = "simplescript.cs",
+                ScriptFileName = "SimpleScript.cs",
                 TargetToExecute = "OnErrorTarget",
                 ScriptArguments = new Dictionary<string, string>()
             };
@@ -142,7 +142,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             Client.Token = token.Token;
             var req = new ExecuteScriptRequest
             {
-                ScriptFileName = "simplescript.cs",
+                ScriptFileName = "SimpleScript.cs",
                 TargetToExecute = "SuccesfullTarget",
                 ScriptArguments = new Dictionary<string, string>()
             };
@@ -166,7 +166,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(
                 new ExecuteScriptRequest
                 {
-                    ScriptFileName = "simplescript.cs",
+                    ScriptFileName = "SimpleScript.cs",
                     TargetToExecute = "nonexist"
                 }));
 
@@ -188,7 +188,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(
                 new ExecuteScriptRequest
                 {
-                    ScriptFileName = "simplescript.cs",
+                    ScriptFileName = "SimplesSript.cs",
                     TargetToExecute = "FailedTarget"
                 }));
 
@@ -226,7 +226,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
 
             var req = new ExecuteScriptRequest
             {
-                ScriptFileName = "simplescript.cs",
+                ScriptFileName = "SimpleScript.cs",
                 TargetToExecute = "WhenTarget",
                 ScriptArguments = new Dictionary<string, string>()
             };

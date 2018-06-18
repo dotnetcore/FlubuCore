@@ -124,7 +124,7 @@ namespace FlubuCore.WebApi.Controllers
         private string GetUploadDirectory()
         {
             var form = Request.Form;
-            string uploadDirectory = "packages";
+            string uploadDirectory = "Packages";
             if (form.ContainsKey("request"))
             {
                 StringValues request = form["request"];
