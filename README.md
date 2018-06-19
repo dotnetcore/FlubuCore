@@ -7,7 +7,7 @@ FlubuCore is A C# library for building projects and executing deployment scripts
 You can find FlubuCore on nuget. See wiki getting started section for more details.
 * .NET - [**FlubuCore.Runner**](https://www.nuget.org/packages/FlubuCore.Runner/)
 * .NET Core CLI tool - [**dotnet-flubu**](https://www.nuget.org/packages/dotnet-flubu/)
-* .Net Core global tool - dotnet tool install --global FlubuCore.GlobalTool 
+* .NET Core global tool - ```dotnet tool install --global FlubuCore.GlobalTool```
 
 ### FlubuCore main features / advantages ###
 
