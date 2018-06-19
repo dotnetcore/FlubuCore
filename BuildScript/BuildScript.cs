@@ -46,6 +46,9 @@ public class BuildScript : DefaultBuildScript
             .AddCoreTask(x => x.Pack()
                 .Project("dotnet-flubu").IncludeSymbols()
                 .OutputDirectory("..\\output"))
+            .AddCoreTask(x => x.Pack()
+                .Project("FlubuCore.GlobalTool").IncludeSymbols()
+                .OutputDirectory("..\\output"))
             .DependsOn(buildVersion);
 
         var publishWebApi = context.CreateTarget("Publish.WebApi")
@@ -96,7 +99,7 @@ public class BuildScript : DefaultBuildScript
         var compileLinux = context
             .CreateTarget("compile.linux")
             .SetDescription("Compiles the VS solution")
-            .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj", "Flubu.Tests/Flubu.Tests.csproj"))
+            .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj", "Flubu.Tests/Flubu.Tests.csproj", "FlubuCore.GlobalTool/FlubuCore.GlobalTool.csproj"))
             .AddCoreTask(x => x.Restore())
             .DependsOn(buildVersion);
 
@@ -166,6 +169,13 @@ public class BuildScript : DefaultBuildScript
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish dotnet-flubu. exception: {e.Message}"); })
             .WithArguments("push")
             .WithArguments($"output\\dotnet-flubu.{nugetVersion}.nupkg")
+            .WithArguments("-s", "https://www.nuget.org/api/v2/package")
+            .WithArguments("-k", key).Execute(context);
+
+        context.CoreTasks().ExecuteDotnetTask("nuget")
+            .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.GlobalTool. exception: {e.Message}"); })
+            .WithArguments("push")
+            .WithArguments($"output\\FlubuCore.GlobalTool.{nugetVersion}.nupkg")
             .WithArguments("-s", "https://www.nuget.org/api/v2/package")
             .WithArguments("-k", key).Execute(context);
 

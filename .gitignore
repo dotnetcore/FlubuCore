@@ -59,3 +59,5 @@ FlubuCore.WebApi/Logs/
 dotnet-flubu/dotnet-flubu.csproj.user
 Build.csproj.user
 /.gitattributes
+FlubuCore.GlobalTool/bin/
+FlubuCore.GlobalTool/obj/
