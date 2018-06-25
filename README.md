@@ -4,10 +4,11 @@
 
 FlubuCore is A C# library for building projects and executing deployment scripts using C# code.
 
-You can find FlubuCore on nuget. See wiki getting started section for more details.
-* .NET Core CLI tool - [**dotnet-flubu**](https://www.nuget.org/packages/dotnet-flubu/)
-* .NET - [**FlubuCore.Runner**](https://www.nuget.org/packages/FlubuCore.Runner/)
+You can find FlubuCore on nuget. See [**getting started**](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started) section to get you started. [**build script fundamentals**](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals) - list of features that FlubuCore has to offer and describes how to use them. Alternatively You can take a look at examples below.
 
+* .NET - [**FlubuCore.Runner**](https://www.nuget.org/packages/FlubuCore.Runner/)
+* .NET Core CLI tool - [**dotnet-flubu**](https://www.nuget.org/packages/dotnet-flubu/)
+* .NET Core global tool - ```dotnet tool install --global FlubuCore.GlobalTool```
 
 ### FlubuCore main features / advantages ###
 
@@ -22,10 +23,6 @@ You can find FlubuCore on nuget. See wiki getting started section for more detai
 * Use flubu tasks in any  other application.
 * Web api is available for flubu. Useful for automated deployments remotely.
 * Write your own flubu tasks and extend flubu fluent interface with them.
-
-### Documentation ###
-
-* See wiki on github
 
 ### Have a question? ###
 
