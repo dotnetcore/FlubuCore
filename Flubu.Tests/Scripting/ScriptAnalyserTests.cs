@@ -17,7 +17,8 @@ namespace Flubu.Tests.Scripting
                 new ClassDirectiveProcessor(),
                 new AssemblyDirectiveProcessor(),
                 new NamespaceDirectiveProcessor(),
-                new CsDirectiveProcessor()
+                new CsDirectiveProcessor(),
+                new NugetReferenceDirectirveProcessor()
             };
 
             _analyser = new ScriptAnalyser(processors);
@@ -50,6 +51,17 @@ namespace Flubu.Tests.Scripting
         }
 
         [Theory]
+        [InlineData("//#nuget FlubuCore", "FlubuCore")]
+        [InlineData("//#nuget RockStar    \r\n", "RockStar")]
+        public void NugetRefrence(string line, string expected)
+        {
+            NugetReferenceDirectirveProcessor pr = new NugetReferenceDirectirveProcessor();
+            AnalyserResult res = new AnalyserResult();
+            pr.Process(res, line, 1);
+            Assert.Equal(expected, res.NugetPackage.First());
+        }
+
+        [Theory]
         [InlineData("//#imp c:\\test.cs", "c:\\test.cs")]
         [InlineData("//#imp c:\\test.cs    \r\n", "c:\\test.cs")]
         [Trait("Category", "OnlyWindows")]
@@ -69,6 +81,7 @@ namespace Flubu.Tests.Scripting
                 "//#ass",
                 "//",
                 "//#ass hello.dll",
+                "//#nuget Package",
                 "//#imp test.cs",
                 "public class MyScript"
             };
@@ -77,6 +90,7 @@ namespace Flubu.Tests.Scripting
 
             Assert.Equal("MyScript", res.ClassName);
             Assert.Single(res.References);
+            Assert.Single(res.NugetPackage);
             Assert.Single(res.CsFiles);
             Assert.Equal(2, lines.Count);
         }
