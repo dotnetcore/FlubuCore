@@ -37,16 +37,25 @@ namespace FlubuCore.Scripting
             var document = XDocument.Load("./obj/FlubuGen.csproj.nuget.g.props");
             var packageFolders = document.Descendants().Single(d => d.Name.LocalName == "NuGetPackageFolders").Value.Split(';');
 
-            DependencyContext dependencyContext = null;
-            dependencyContext = ReadDependencyContext();
+            var dependencyContext = ReadDependencyContext();
 
             List<string> pathToReferences = new List<string>();
             var compileLibraries = dependencyContext.CompileLibraries.ToList();
             foreach (var packageReference in packageReferences)
             {
-                var compileLibrary = compileLibraries.First(x => x.Name.Equals(packageReference.Id, StringComparison.OrdinalIgnoreCase));
-                bool packageFound = false;
-                packageFound = GetPackageFullPath(packageFolders, compileLibrary, pathToReferences);
+                var compileLibrary = compileLibraries.FirstOrDefault(x => x.Name.Equals(packageReference.Id, StringComparison.OrdinalIgnoreCase));
+
+                if (compileLibrary == null)
+                {
+                    throw new ScriptException($"Nuget package '{packageReference.Id}' not found in project.assets.json. Please report a bug to FlubuCore team.");
+                }
+
+                if (compileLibrary.Assemblies.Count == 0)
+                {
+                    throw new ScriptException($"Nuget package '{packageReference.Id}' Version '{packageReference.Version}' not found for framework {targetFramework} ");
+                }
+
+                bool packageFound = GetPackageFullPath(packageFolders, compileLibrary, pathToReferences);
 
                 if (!packageFound)
                 {
