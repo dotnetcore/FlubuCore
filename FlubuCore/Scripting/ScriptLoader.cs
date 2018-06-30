@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting.Analysis;
@@ -117,6 +118,9 @@ namespace FlubuCore.Scripting
             assemblyReferenceLocations = assemblyReferenceLocations.Distinct().ToList();
             references.AddRange(assemblyReferenceLocations.Select(i => MetadataReference.CreateFromFile(i)));
             var opts = ScriptOptions.Default
+                .WithEmitDebugInformation(true)
+                .WithFilePath(fileName)
+                .WithFileEncoding(Encoding.UTF8)
                 .WithReferences(references);
 
             Script script = CSharpScript
