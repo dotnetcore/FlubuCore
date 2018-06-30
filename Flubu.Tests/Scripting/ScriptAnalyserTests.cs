@@ -82,7 +82,7 @@ namespace Flubu.Tests.Scripting
                 "//#ass",
                 "//",
                 "//#ass hello.dll",
-                "//#nuget Package",
+                "//#nuget Package, 2.0.0",
                 "//#imp test.cs",
                 "public class MyScript"
             };
