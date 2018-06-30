@@ -30,7 +30,8 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddSingleton<IDirectiveProcessor, ClassDirectiveProcessor>()
                 .AddSingleton<IDirectiveProcessor, AssemblyDirectiveProcessor>()
                 .AddSingleton<IDirectiveProcessor, ReferenceDirectiveProcessor>()
-                .AddSingleton<IDirectiveProcessor, NamespaceDirectiveProcessor>();
+                .AddSingleton<IDirectiveProcessor, NamespaceDirectiveProcessor>()
+                .AddSingleton<IDirectiveProcessor, NugetPackageDirectirveProcessor>();
         }
 
         public static IServiceCollection AddArguments(this IServiceCollection services, string[] args)

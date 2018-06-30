@@ -67,6 +67,7 @@ namespace FlubuCore.WebApi.Infrastructure
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ISecurityRepository, SecurityRepository>();
             services.AddTransient<INotificationService, NotificationService>();
+            services.AddTransient<INugetPackageResolver, NugetPackageResolver>();
 
             return services;
         }
@@ -89,7 +90,8 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddScoped<IDirectiveProcessor, ClassDirectiveProcessor>()
                 .AddScoped<IDirectiveProcessor, AssemblyDirectiveProcessor>()
                 .AddScoped<IDirectiveProcessor, ReferenceDirectiveProcessor>()
-                .AddScoped<IDirectiveProcessor, NamespaceDirectiveProcessor>();
+                .AddScoped<IDirectiveProcessor, NamespaceDirectiveProcessor>()
+                .AddScoped<IDirectiveProcessor, NugetPackageDirectirveProcessor>();
         }
 
         public static IServiceCollection AddTasksForWebApi(this IServiceCollection services)

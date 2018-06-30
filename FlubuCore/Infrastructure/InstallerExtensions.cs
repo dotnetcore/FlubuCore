@@ -3,6 +3,7 @@ using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.IO.Wrappers;
+using FlubuCore.Scripting;
 using FlubuCore.Services;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
@@ -32,6 +33,7 @@ namespace FlubuCore.Infrastructure
                 .AddSingleton<ITaskSession, TaskSession>()
                 .AddSingleton<IFlubuEnviromentService, FlubuEnviromentService>()
                 .AddSingleton<IBuildSystem, BuildSystem>()
+                .AddSingleton<INugetPackageResolver, NugetPackageResolver>()
                 .AddSingleton<ICommandFactory, CommandFactory>()
                 .AddSingleton<ITaskFactory, DotnetTaskFactory>()
                 .AddSingleton<IHttpClientFactory, HttpClientFactory>()

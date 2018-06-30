@@ -27,16 +27,24 @@ namespace FlubuCore.Scripting
         private readonly IDirectoryWrapper _directory;
         private readonly IScriptAnalyser _analyser;
         private readonly IBuildScriptLocator _buildScriptLocator;
+        private readonly INugetPackageResolver _nugetPackageResolver;
 
         private readonly ILogger<ScriptLoader> _log;
 
-        public ScriptLoader(IFileWrapper file, IDirectoryWrapper directory, IScriptAnalyser analyser, IBuildScriptLocator buildScriptLocator, ILogger<ScriptLoader> log)
+        public ScriptLoader(
+            IFileWrapper file,
+            IDirectoryWrapper directory,
+            IScriptAnalyser analyser,
+            IBuildScriptLocator buildScriptLocator,
+            INugetPackageResolver nugetPackageResolver,
+            ILogger<ScriptLoader> log)
         {
             _file = file;
             _directory = directory;
             _analyser = analyser;
             _log = log;
             _buildScriptLocator = buildScriptLocator;
+            _nugetPackageResolver = nugetPackageResolver;
         }
 
         public async Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(CommandArguments args)
@@ -78,7 +86,7 @@ namespace FlubuCore.Scripting
 
             AnalyserResult analyserResult = _analyser.Analyze(code);
             assemblyReferenceLocations.AddRange(analyserResult.References);
-
+            assemblyReferenceLocations.AddRange(_nugetPackageResolver.ResolveNugetPackages(analyserResult.NugetPackages));
             foreach (var file in analyserResult.CsFiles)
             {
                 if (_file.Exists(file))

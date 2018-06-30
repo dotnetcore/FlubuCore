@@ -22,11 +22,13 @@ namespace Flubu.Tests.Scripting
         private readonly Mock<IScriptAnalyser> _analyser = new Mock<IScriptAnalyser>();
         private readonly Mock<IBuildScriptLocator> _scriptLocator = new Mock<IBuildScriptLocator>();
         private readonly Mock<ILogger<ScriptLoader>> _logger = new Mock<ILogger<ScriptLoader>>();
+        private readonly Mock<INugetPackageResolver> _nugetPackageResolver = new Mock<INugetPackageResolver>();
         private readonly ScriptLoader _loader;
 
         public ScriptExecutionTests()
         {
-            _loader = new ScriptLoader(_fileLoader.Object, _directory.Object, _analyser.Object, _scriptLocator.Object, _logger.Object);
+            _nugetPackageResolver.Setup(x => x.ResolveNugetPackages(It.IsAny<List<NugetPackageReference>>())).Returns(new List<string>());
+            _loader = new ScriptLoader(_fileLoader.Object, _directory.Object, _analyser.Object, _scriptLocator.Object, _nugetPackageResolver.Object, _logger.Object);
         }
 
         [Fact]

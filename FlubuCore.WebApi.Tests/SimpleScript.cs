@@ -1,10 +1,13 @@
 ﻿using System;
 using System.IO;
 using FlubuCore.Context;
+using FlubuCore.Context.FluentInterface;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
+using Moq;
 
+//#nuget: Moq, 4.8.2
 namespace FlubuCore.WebApi.Tests
 {
     public class SimpleScript : DefaultBuildScript
@@ -56,6 +59,10 @@ namespace FlubuCore.WebApi.Tests
                         target.Do(SuccesfullTarget, "file3.txt");
                     },
                     when: c => { return true; });
+
+            Mock<ITaskContext> context = new Mock<ITaskContext>();
+            Mock<ITaskFluentInterface> tf = new Mock<ITaskFluentInterface>();
+            context.Setup(x => x.Tasks()).Returns(tf.Object);
         }
 
         public void SuccesfullTarget(ITaskContext session, string fileName)
