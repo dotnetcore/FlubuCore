@@ -17,9 +17,11 @@ namespace FlubuCore.Scripting.Processors
             if (nugetIndex < 0)
                 return true;
 
-            string nugetPackageName = line.Substring(nugetIndex);
+            string nugetPackage = line.Substring(nugetIndex);
 
-            analyserResult.NugetPackage.Add(nugetPackageName.Trim());
+           var nugetInfos = nugetPackage.Split(',');
+
+            analyserResult.NugetPackages.Add(new NugetPackageReference { Id = nugetInfos[0].Trim(), Version = nugetInfos[1].Trim() });
             return true;
         }
     }

@@ -12,6 +12,6 @@ namespace FlubuCore.Scripting.Analysis
 
         public List<string> CsFiles { get; } = new List<string>();
 
-        public List<string> NugetPackage { get; } = new List<string>();
+        public List<NugetPackageReference> NugetPackages { get; } = new List<NugetPackageReference>();
     }
 }
