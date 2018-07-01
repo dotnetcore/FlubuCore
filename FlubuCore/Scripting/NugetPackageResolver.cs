@@ -47,7 +47,7 @@ namespace FlubuCore.Scripting
 
                 if (compileLibrary == null)
                 {
-                    throw new ScriptException($"Nuget package '{packageReference.Id}' not found in project.assets.json. Please report a bug to FlubuCore team.");
+                    throw new ScriptException($"Nuget package '{packageReference.Id}' not found.");
                 }
 
                 if (compileLibrary.Assemblies.Count == 0)
