@@ -1,5 +1,9 @@
+2.9.0.0
+- Added support for referencing a nuget package.
+- Added support for debugging the script by attaching to the debuget.
+
 2.8.2.0
-- Fixed issue with global tool breaking dotnet cli tool
+- Fixed issue with global tool breaking dotnet cli tool.
 
 2.8.1.0
 - Fixed reference issues.
