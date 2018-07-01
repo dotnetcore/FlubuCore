@@ -47,12 +47,12 @@ namespace FlubuCore.Scripting
 
                 if (compileLibrary == null)
                 {
-                    throw new ScriptException($"Nuget package '{packageReference.Id}' not found.");
+                    throw new ScriptException($"Nuget package '{packageReference.Id}' '{packageReference.Version}' not found.");
                 }
 
                 if (compileLibrary.Assemblies.Count == 0)
                 {
-                    throw new ScriptException($"Nuget package '{packageReference.Id}' Version '{packageReference.Version}' not found for framework {targetFramework} ");
+                    throw new ScriptException($"Nuget package '{packageReference.Id}' '{packageReference.Version}' not found for framework {targetFramework} ");
                 }
 
                 bool packageFound = GetPackageFullPath(packageFolders, compileLibrary, pathToReferences);
