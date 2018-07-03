@@ -19,7 +19,7 @@ You can find FlubuCore on nuget:
 * Easy to learn and to use because you write build script entirely in C#.
 * Quite a lot of built in tasks (compile, running tests, managing iis, creating deploy package, publishing nuget packages, executing powershell scripts...)
 * Write your own custom c# code in script and execute it. 
-* Run any external program in script.
+* Run any external program in script with RunProgramTask.
 * Reference any .net library or c# source code file in buildscript. Now also available option to reference nuget package in build script.
 * Fluent interface and intelisense.
 * Write tests, debug your build script.
