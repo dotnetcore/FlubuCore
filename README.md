@@ -4,8 +4,11 @@
 
 FlubuCore is A C# library for building projects and executing deployment scripts using C# code.
 
-You can find FlubuCore on nuget. See [**getting started**](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started) section to get you started. [**build script fundamentals**](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals) - list of features that FlubuCore has to offer and describes how to use them. Alternatively You can take a look at examples below.
+See [**getting started**](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started) on wiki to get you started with FlubuCore. We know you don't belive it but it really is very simple :)
 
+List of features that FlubuCore has to offer with description can be found at [**build script fundamentals**](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals). Alternatively You can take a look at examples below.
+
+You can find FlubuCore on nuget:
 * .NET - [**FlubuCore.Runner**](https://www.nuget.org/packages/FlubuCore.Runner/)
 * .NET Core CLI tool - [**dotnet-flubu**](https://www.nuget.org/packages/dotnet-flubu/)
 * .NET Core global tool - ```dotnet tool install --global FlubuCore.GlobalTool```
@@ -16,8 +19,8 @@ You can find FlubuCore on nuget. See [**getting started**](https://github.com/fl
 * Easy to learn and to use because you write build script entirely in C#.
 * Quite a lot of built in tasks (compile, running tests, managing iis, creating deploy package, publishing nuget packages, executing powershell scripts...)
 * Write your own custom c# code in script and execute it. 
-* Run any external program in script.
-* Reference any .net library or c# source code file in buildscript.
+* Run any external program in script with RunProgramTask.
+* Reference any .net library or c# source code file in buildscript. Now also available option to reference nuget package in build script.
 * Fluent interface and intelisense.
 * Write tests, debug your build script.
 * Use flubu tasks in any  other application.
