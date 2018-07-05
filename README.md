@@ -8,24 +8,23 @@ See [**getting started**](https://github.com/flubu-core/flubu.core/wiki/1-Gettin
 
 List of features that FlubuCore has to offer with description can be found at [**build script fundamentals**](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals). Alternatively You can take a look at examples below.
 
-You can find FlubuCore on nuget:
-* .NET - [**FlubuCore.Runner**](https://www.nuget.org/packages/FlubuCore.Runner/)
-* .NET Core CLI tool - [**dotnet-flubu**](https://www.nuget.org/packages/dotnet-flubu/)
-* .NET Core global tool - ```dotnet tool install --global FlubuCore.GlobalTool```
+* For.NET projects use [**FlubuCore.Runner**](https://www.nuget.org/packages/FlubuCore.Runner/)
+* For .NET Core projects use CLI tool - [**dotnet-flubu**](https://www.nuget.org/packages/dotnet-flubu/)
+* For .NET Core projects use global tool - ```dotnet tool install --global FlubuCore.GlobalTool```
 
 ### FlubuCore main features / advantages ###
 
 * Net Core support.
 * Easy to learn and to use because you write build script entirely in C#.
-* Quite a lot of built in tasks (compile, running tests, managing iis, creating deploy package, publishing nuget packages, executing powershell scripts...)
-* Write your own custom c# code in script and execute it. 
-* Run any external program in script with RunProgramTask.
-* Reference any .net library or c# source code file in buildscript. Now also available option to reference nuget package in build script.
+* [Quite a lot of built in tasks](https://github.com/flubu-core/flubu.core/wiki/4-Tasks) (compile, running tests, managing iis, creating deploy package, publishing nuget packages, executing powershell scripts...)
+* [Write your own custom c# code in script and execute it](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Custom-code). 
+* [Run any external program in script with RunProgramTask](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Run-any-program).
+* [Reference any .net library or c# source code file in buildscript](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script). Now also available option to reference nuget package in build script.
 * Fluent interface and intelisense.
-* Write tests, debug your build script.
-* Use flubu tasks in any  other application.
-* Web api is available for flubu. Useful for automated deployments remotely.
-* Write your own flubu tasks and extend flubu fluent interface with them.
+* [Write tests, debug your build script](https://github.com/flubu-core/flubu.core/wiki/6-Writing-build-script-tests,-debuging-and-running-flubu-tasks-in-other-applications).
+* [Use flubu tasks in any  other .net application](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs).
+* [Web api is available for flubu](https://github.com/flubu-core/flubu.core/wiki/7-Web-Api:-Getting-started). Useful for automated deployments remotely.
+* [Write your own flubu tasks and extend flubu fluent interface with them](https://github.com/flubu-core/flubu.core/wiki/5-Flubu-Task-Plugins).
 
 ### Have a question? ###
 
