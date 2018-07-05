@@ -14,7 +14,7 @@ List of features that FlubuCore has to offer with description can be found at [*
 
 ### FlubuCore main features / advantages ###
 
-* Net Core support.
+* .Net Core support.
 * Easy to learn and to use because you write build script entirely in C#.
 * Fluent interface and intelisense.
 * [Quite a lot of built in tasks (compile, running tests, managing iis, creating deploy package, publishing nuget packages, executing powershell scripts...)](https://github.com/flubu-core/flubu.core/wiki/4-Tasks) 
