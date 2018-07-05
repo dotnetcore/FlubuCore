@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using FlubuCore.Tasks.FileSystem;
 using FlubuCore.Tasks.FlubuWebApi;
+using FlubuCore.Tasks.MsSql;
 using FlubuCore.Tasks.Nuget;
 using FlubuCore.Tasks.Packaging;
 using FlubuCore.Tasks.Process;
@@ -340,5 +341,11 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="pathToPowerShellScript">Path to the power shell script file. Use .\ for relative path.</param>
         /// <returns></returns>
         ExecutePowerShellScriptTask ExecutePowerShellScript(string pathToPowerShellScript);
+
+        /// <summary>
+        /// Execute SQL script file with sqlcmd.exe
+        /// </summary>
+        /// <returns></returns>
+        SqlCmdTask SqlCmdTask(params string[] sqlFiles);
     }
 }

@@ -19,13 +19,7 @@ namespace FlubuCore.Tasks.MsSql
         private string _errorOutput;
         private string _description;
 
-        public SqlCmdTask(string sqlFileName)
-        {
-            _sqlFiles.Add(sqlFileName);
-            _sqlCmdExePaths.Add(DefaultSqlCmdExe);
-        }
-
-        public SqlCmdTask(params string[] sqlFiles)
+        public SqlCmdTask(List<string> sqlFiles)
         {
             _sqlFiles.AddRange(sqlFiles);
             _sqlCmdExePaths.Add(DefaultSqlCmdExe);

@@ -237,7 +237,7 @@ namespace Flubu.Tests.Context
         [Fact]
         public void ResolveNunitTaskForNunitV2Test()
         {
-            Context.Tasks().NUnitTaskForNunitV2("test");
+            Context.Tasks().NUnitTaskForNunitV2("test", "abc");
         }
 
         [Fact]
@@ -418,6 +418,12 @@ namespace Flubu.Tests.Context
         public void ResolveDeleteReportTasks()
         {
             Assert.NotNull(Context.Tasks().FlubuWebApiTasks().DeleteReportsTask());
+        }
+
+        [Fact]
+        public void ResolveSqlCmdTask()
+        {
+            Assert.NotNull(Context.Tasks().SqlCmdTask("test.sql", "Test2.sql"));
         }
     }
 }

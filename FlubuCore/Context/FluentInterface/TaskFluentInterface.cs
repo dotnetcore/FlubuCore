@@ -327,5 +327,10 @@ namespace FlubuCore.Context.FluentInterface
         {
             return Context.CreateTask<ExecutePowerShellScriptTask>(pathToPowerShellScript);
         }
+
+        public SqlCmdTask SqlCmdTask(params string[] sqlFiles)
+        {
+            return Context.CreateTask<SqlCmdTask>(sqlFiles.ToList());
+        }
     }
 }
