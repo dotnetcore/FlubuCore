@@ -18,14 +18,14 @@ List of features that FlubuCore has to offer with description can be found at [*
 * Easy to learn and to use because you write build script entirely in C#.
 * Fluent interface and intelisense.
 * [Quite a lot of built in tasks (compile, running tests, managing iis, creating deploy package, publishing nuget packages, executing powershell scripts...)](https://github.com/flubu-core/flubu.core/wiki/4-Tasks) 
-* [Write your own custom c# code in script and execute it.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Custom-code). 
-* [Run any external program or command in script with RunProgramTask.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Run-any-program).
+* [Write your own custom c# code in script and execute it.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Custom-code)
+* [Run any external program or command in script with RunProgramTask.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Run-any-program)
 * [Reference any .net library or c# source code file in buildscript. Now also available option to reference nuget package in build script.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script). .
 
-* [Write tests, debug your build script.](https://github.com/flubu-core/flubu.core/wiki/6-Writing-build-script-tests,-debuging-and-running-flubu-tasks-in-other-applications).
-* [Use flubu tasks in any  other .net application](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs).
-* [Web api is available for flubu. Useful for automated deployments remotely.](https://github.com/flubu-core/flubu.core/wiki/7-Web-Api:-Getting-started). 
-* [Write your own flubu tasks and extend flubu fluent interface with them.](https://github.com/flubu-core/flubu.core/wiki/5-Flubu-Task-Plugins).
+* [Write tests, debug your build script.](https://github.com/flubu-core/flubu.core/wiki/6-Writing-build-script-tests,-debuging-and-running-flubu-tasks-in-other-applications)
+* [Use flubu tasks in any  other .net application.](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs)
+* [Web api is available for flubu. Useful for automated deployments remotely.](https://github.com/flubu-core/flubu.core/wiki/7-Web-Api:-Getting-started)
+* [Write your own flubu tasks and extend flubu fluent interface with them.](https://github.com/flubu-core/flubu.core/wiki/5-Flubu-Task-Plugins)
 
 ### Have a question? ###
 
