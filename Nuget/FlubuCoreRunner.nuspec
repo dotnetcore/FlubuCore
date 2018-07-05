@@ -6,7 +6,7 @@
     <version>$version$</version>
     <authors>Marko Zorec, Zoro Zorec</authors>
     <owners>Marko Zorec, Zoro Zorec</owners>
-    <projectUrl>https://bitbucket.org/zoroz/flubu.core</projectUrl>
+    <projectUrl>https://github.com/flubu-core/flubu.core</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>http://www.opensource.org/licenses/bsd-license.php</licenseUrl>
 	<releaseNotes>https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt</releaseNotes>
