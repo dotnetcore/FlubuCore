@@ -5,7 +5,7 @@
     <AssemblyName>dotnet-flubu</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>dotnet-flubu</PackageId>
-    <PackageTags>dotnet;flubu;build;builder;script;buildscript;automation;VisualStudio</PackageTags>
+    <PackageTags>dotnet;flubu;flubucore;build;builder;script;buildscript;automation;VisualStudio</PackageTags>
     <PackageLicenseUrl>http://www.opensource.org/licenses/bsd-license.php</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/flubu-core/flubu.core</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt</PackageReleaseNotes>
