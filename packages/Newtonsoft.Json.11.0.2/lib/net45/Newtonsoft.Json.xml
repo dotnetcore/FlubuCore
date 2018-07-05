@@ -449,6 +449,70 @@
             	<c>true</c> if this <see cref="T:Newtonsoft.Json.JsonConverter"/> can write JSON; otherwise, <c>false</c>.
             </value>
         </member>
+        <member name="T:Newtonsoft.Json.Converters.DataSetConverter">
+            <summary>
+            Converts a <see cref="T:System.Data.DataSet"/> to and from JSON.
+            </summary>
+        </member>
+        <member name="M:Newtonsoft.Json.Converters.DataSetConverter.WriteJson(Newtonsoft.Json.JsonWriter,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <summary>
+            Writes the JSON representation of the object.
+            </summary>
+            <param name="writer">The <see cref="T:Newtonsoft.Json.JsonWriter"/> to write to.</param>
+            <param name="value">The value.</param>
+            <param name="serializer">The calling serializer.</param>
+        </member>
+        <member name="M:Newtonsoft.Json.Converters.DataSetConverter.ReadJson(Newtonsoft.Json.JsonReader,System.Type,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <summary>
+            Reads the JSON representation of the object.
+            </summary>
+            <param name="reader">The <see cref="T:Newtonsoft.Json.JsonReader"/> to read from.</param>
+            <param name="objectType">Type of the object.</param>
+            <param name="existingValue">The existing value of object being read.</param>
+            <param name="serializer">The calling serializer.</param>
+            <returns>The object value.</returns>
+        </member>
+        <member name="M:Newtonsoft.Json.Converters.DataSetConverter.CanConvert(System.Type)">
+            <summary>
+            Determines whether this instance can convert the specified value type.
+            </summary>
+            <param name="valueType">Type of the value.</param>
+            <returns>
+            	<c>true</c> if this instance can convert the specified value type; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="T:Newtonsoft.Json.Converters.DataTableConverter">
+            <summary>
+            Converts a <see cref="T:System.Data.DataTable"/> to and from JSON.
+            </summary>
+        </member>
+        <member name="M:Newtonsoft.Json.Converters.DataTableConverter.WriteJson(Newtonsoft.Json.JsonWriter,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <summary>
+            Writes the JSON representation of the object.
+            </summary>
+            <param name="writer">The <see cref="T:Newtonsoft.Json.JsonWriter"/> to write to.</param>
+            <param name="value">The value.</param>
+            <param name="serializer">The calling serializer.</param>
+        </member>
+        <member name="M:Newtonsoft.Json.Converters.DataTableConverter.ReadJson(Newtonsoft.Json.JsonReader,System.Type,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <summary>
+            Reads the JSON representation of the object.
+            </summary>
+            <param name="reader">The <see cref="T:Newtonsoft.Json.JsonReader"/> to read from.</param>
+            <param name="objectType">Type of the object.</param>
+            <param name="existingValue">The existing value of object being read.</param>
+            <param name="serializer">The calling serializer.</param>
+            <returns>The object value.</returns>
+        </member>
+        <member name="M:Newtonsoft.Json.Converters.DataTableConverter.CanConvert(System.Type)">
+            <summary>
+            Determines whether this instance can convert the specified value type.
+            </summary>
+            <param name="valueType">Type of the value.</param>
+            <returns>
+            	<c>true</c> if this instance can convert the specified value type; otherwise, <c>false</c>.
+            </returns>
+        </member>
         <member name="T:Newtonsoft.Json.Converters.DateTimeConverterBase">
             <summary>
             Provides a base class for converting a <see cref="T:System.DateTime"/> to and from JSON.
@@ -487,6 +551,38 @@
             <returns>The object value.</returns>
         </member>
         <member name="M:Newtonsoft.Json.Converters.DiscriminatedUnionConverter.CanConvert(System.Type)">
+            <summary>
+            Determines whether this instance can convert the specified object type.
+            </summary>
+            <param name="objectType">Type of the object.</param>
+            <returns>
+            	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="T:Newtonsoft.Json.Converters.EntityKeyMemberConverter">
+            <summary>
+            Converts an Entity Framework <see cref="T:System.Data.EntityKeyMember"/> to and from JSON.
+            </summary>
+        </member>
+        <member name="M:Newtonsoft.Json.Converters.EntityKeyMemberConverter.WriteJson(Newtonsoft.Json.JsonWriter,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <summary>
+            Writes the JSON representation of the object.
+            </summary>
+            <param name="writer">The <see cref="T:Newtonsoft.Json.JsonWriter"/> to write to.</param>
+            <param name="value">The value.</param>
+            <param name="serializer">The calling serializer.</param>
+        </member>
+        <member name="M:Newtonsoft.Json.Converters.EntityKeyMemberConverter.ReadJson(Newtonsoft.Json.JsonReader,System.Type,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <summary>
+            Reads the JSON representation of the object.
+            </summary>
+            <param name="reader">The <see cref="T:Newtonsoft.Json.JsonReader"/> to read from.</param>
+            <param name="objectType">Type of the object.</param>
+            <param name="existingValue">The existing value of object being read.</param>
+            <param name="serializer">The calling serializer.</param>
+            <returns>The object value.</returns>
+        </member>
+        <member name="M:Newtonsoft.Json.Converters.EntityKeyMemberConverter.CanConvert(System.Type)">
             <summary>
             Determines whether this instance can convert the specified object type.
             </summary>
@@ -671,12 +767,14 @@
         <member name="P:Newtonsoft.Json.Converters.StringEnumConverter.CamelCaseText">
             <summary>
             Gets or sets a value indicating whether the written enum text should be camel case.
+            The default value is <c>false</c>.
             </summary>
             <value><c>true</c> if the written enum text will be camel case; otherwise, <c>false</c>.</value>
         </member>
         <member name="P:Newtonsoft.Json.Converters.StringEnumConverter.AllowIntegerValues">
             <summary>
             Gets or sets a value indicating whether integer values are allowed when deserializing.
+            The default value is <c>true</c>.
             </summary>
             <value><c>true</c> if integers are allowed when deserializing; otherwise, <c>false</c>.</value>
         </member>
@@ -717,6 +815,29 @@
             <returns>
             <c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
             </returns>
+        </member>
+        <member name="T:Newtonsoft.Json.Converters.UnixDateTimeConverter">
+            <summary>
+            Converts a <see cref="T:System.DateTime"/> to and from Unix epoch time
+            </summary>
+        </member>
+        <member name="M:Newtonsoft.Json.Converters.UnixDateTimeConverter.WriteJson(Newtonsoft.Json.JsonWriter,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <summary>
+            Writes the JSON representation of the object.
+            </summary>
+            <param name="writer">The <see cref="T:Newtonsoft.Json.JsonWriter"/> to write to.</param>
+            <param name="value">The value.</param>
+            <param name="serializer">The calling serializer.</param>
+        </member>
+        <member name="M:Newtonsoft.Json.Converters.UnixDateTimeConverter.ReadJson(Newtonsoft.Json.JsonReader,System.Type,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <summary>
+            Reads the JSON representation of the object.
+            </summary>
+            <param name="reader">The <see cref="T:Newtonsoft.Json.JsonReader"/> to read from.</param>
+            <param name="objectType">Type of the object.</param>
+            <param name="existingValue">The existing property value of the JSON that is being converted.</param>
+            <param name="serializer">The calling serializer.</param>
+            <returns>The object value.</returns>
         </member>
         <member name="T:Newtonsoft.Json.Converters.VersionConverter">
             <summary>
@@ -1581,6 +1702,58 @@
             If this is <c>null</c>, default serialization settings will be used.
             </param>
         </member>
+        <member name="M:Newtonsoft.Json.JsonConvert.SerializeXmlNode(System.Xml.XmlNode)">
+            <summary>
+            Serializes the <see cref="T:System.Xml.XmlNode"/> to a JSON string.
+            </summary>
+            <param name="node">The node to serialize.</param>
+            <returns>A JSON string of the <see cref="T:System.Xml.XmlNode"/>.</returns>
+        </member>
+        <member name="M:Newtonsoft.Json.JsonConvert.SerializeXmlNode(System.Xml.XmlNode,Newtonsoft.Json.Formatting)">
+            <summary>
+            Serializes the <see cref="T:System.Xml.XmlNode"/> to a JSON string using formatting.
+            </summary>
+            <param name="node">The node to serialize.</param>
+            <param name="formatting">Indicates how the output should be formatted.</param>
+            <returns>A JSON string of the <see cref="T:System.Xml.XmlNode"/>.</returns>
+        </member>
+        <member name="M:Newtonsoft.Json.JsonConvert.SerializeXmlNode(System.Xml.XmlNode,Newtonsoft.Json.Formatting,System.Boolean)">
+            <summary>
+            Serializes the <see cref="T:System.Xml.XmlNode"/> to a JSON string using formatting and omits the root object if <paramref name="omitRootObject"/> is <c>true</c>.
+            </summary>
+            <param name="node">The node to serialize.</param>
+            <param name="formatting">Indicates how the output should be formatted.</param>
+            <param name="omitRootObject">Omits writing the root object.</param>
+            <returns>A JSON string of the <see cref="T:System.Xml.XmlNode"/>.</returns>
+        </member>
+        <member name="M:Newtonsoft.Json.JsonConvert.DeserializeXmlNode(System.String)">
+            <summary>
+            Deserializes the <see cref="T:System.Xml.XmlNode"/> from a JSON string.
+            </summary>
+            <param name="value">The JSON string.</param>
+            <returns>The deserialized <see cref="T:System.Xml.XmlNode"/>.</returns>
+        </member>
+        <member name="M:Newtonsoft.Json.JsonConvert.DeserializeXmlNode(System.String,System.String)">
+            <summary>
+            Deserializes the <see cref="T:System.Xml.XmlNode"/> from a JSON string nested in a root element specified by <paramref name="deserializeRootElementName"/>.
+            </summary>
+            <param name="value">The JSON string.</param>
+            <param name="deserializeRootElementName">The name of the root element to append when deserializing.</param>
+            <returns>The deserialized <see cref="T:System.Xml.XmlNode"/>.</returns>
+        </member>
+        <member name="M:Newtonsoft.Json.JsonConvert.DeserializeXmlNode(System.String,System.String,System.Boolean)">
+            <summary>
+            Deserializes the <see cref="T:System.Xml.XmlNode"/> from a JSON string nested in a root element specified by <paramref name="deserializeRootElementName"/>
+            and writes a Json.NET array attribute for collections.
+            </summary>
+            <param name="value">The JSON string.</param>
+            <param name="deserializeRootElementName">The name of the root element to append when deserializing.</param>
+            <param name="writeArrayAttribute">
+            A flag to indicate whether to write the Json.NET array attribute.
+            This attribute helps preserve arrays when converting the written XML back to JSON.
+            </param>
+            <returns>The deserialized <see cref="T:System.Xml.XmlNode"/>.</returns>
+        </member>
         <member name="M:Newtonsoft.Json.JsonConvert.SerializeXNode(System.Xml.Linq.XObject)">
             <summary>
             Serializes the <see cref="T:System.Xml.Linq.XNode"/> to a JSON string.
@@ -1677,6 +1850,58 @@
             </summary>
             <value><c>true</c> if this <see cref="T:Newtonsoft.Json.JsonConverter"/> can write JSON; otherwise, <c>false</c>.</value>
         </member>
+        <member name="T:Newtonsoft.Json.JsonConverter`1">
+            <summary>
+            Converts an object to and from JSON.
+            </summary>
+            <typeparam name="T">The object type to convert.</typeparam>
+        </member>
+        <member name="M:Newtonsoft.Json.JsonConverter`1.WriteJson(Newtonsoft.Json.JsonWriter,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <summary>
+            Writes the JSON representation of the object.
+            </summary>
+            <param name="writer">The <see cref="T:Newtonsoft.Json.JsonWriter"/> to write to.</param>
+            <param name="value">The value.</param>
+            <param name="serializer">The calling serializer.</param>
+        </member>
+        <member name="M:Newtonsoft.Json.JsonConverter`1.WriteJson(Newtonsoft.Json.JsonWriter,`0,Newtonsoft.Json.JsonSerializer)">
+            <summary>
+            Writes the JSON representation of the object.
+            </summary>
+            <param name="writer">The <see cref="T:Newtonsoft.Json.JsonWriter"/> to write to.</param>
+            <param name="value">The value.</param>
+            <param name="serializer">The calling serializer.</param>
+        </member>
+        <member name="M:Newtonsoft.Json.JsonConverter`1.ReadJson(Newtonsoft.Json.JsonReader,System.Type,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <summary>
+            Reads the JSON representation of the object.
+            </summary>
+            <param name="reader">The <see cref="T:Newtonsoft.Json.JsonReader"/> to read from.</param>
+            <param name="objectType">Type of the object.</param>
+            <param name="existingValue">The existing value of object being read.</param>
+            <param name="serializer">The calling serializer.</param>
+            <returns>The object value.</returns>
+        </member>
+        <member name="M:Newtonsoft.Json.JsonConverter`1.ReadJson(Newtonsoft.Json.JsonReader,System.Type,`0,System.Boolean,Newtonsoft.Json.JsonSerializer)">
+            <summary>
+            Reads the JSON representation of the object.
+            </summary>
+            <param name="reader">The <see cref="T:Newtonsoft.Json.JsonReader"/> to read from.</param>
+            <param name="objectType">Type of the object.</param>
+            <param name="existingValue">The existing value of object being read. If there is no existing value then <c>null</c> will be used.</param>
+            <param name="hasExistingValue">The existing value has a value.</param>
+            <param name="serializer">The calling serializer.</param>
+            <returns>The object value.</returns>
+        </member>
+        <member name="M:Newtonsoft.Json.JsonConverter`1.CanConvert(System.Type)">
+            <summary>
+            Determines whether this instance can convert the specified object type.
+            </summary>
+            <param name="objectType">Type of the object.</param>
+            <returns>
+            	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
+            </returns>
+        </member>
         <member name="T:Newtonsoft.Json.JsonConverterAttribute">
             <summary>
             Instructs the <see cref="T:Newtonsoft.Json.JsonSerializer"/> to use the specified <see cref="T:Newtonsoft.Json.JsonConverter"/> when serializing the member or class.
@@ -1753,6 +1978,15 @@
             <param name="message">The error message that explains the reason for the exception.</param>
             <param name="innerException">The exception that is the cause of the current exception, or <c>null</c> if no inner exception is specified.</param>
         </member>
+        <member name="M:Newtonsoft.Json.JsonException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Newtonsoft.Json.JsonException"/> class.
+            </summary>
+            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data about the exception being thrown.</param>
+            <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.</param>
+            <exception cref="T:System.ArgumentNullException">The <paramref name="info"/> parameter is <c>null</c>.</exception>
+            <exception cref="T:System.Runtime.Serialization.SerializationException">The class name is <c>null</c> or <see cref="P:System.Exception.HResult"/> is zero (0).</exception>
+        </member>
         <member name="T:Newtonsoft.Json.JsonExtensionDataAttribute">
             <summary>
             Instructs the <see cref="T:Newtonsoft.Json.JsonSerializer"/> to deserialize properties with no matching class member into the specified collection
@@ -1795,6 +2029,12 @@
             Gets or sets the member serialization.
             </summary>
             <value>The member serialization.</value>
+        </member>
+        <member name="P:Newtonsoft.Json.JsonObjectAttribute.ItemNullValueHandling">
+            <summary>
+            Gets or sets how the object's properties with null values are handled during serialization and deserialization.
+            </summary>
+            <value>How the object's properties with null values are handled during serialization and deserialization.</value>
         </member>
         <member name="P:Newtonsoft.Json.JsonObjectAttribute.ItemRequired">
             <summary>
@@ -1962,7 +2202,7 @@
             <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> that represents the asynchronous read. The <see cref="P:System.Threading.Tasks.Task`1.Result"/>
             property returns <c>true</c> if the next token was read successfully; <c>false</c> if there are no more tokens to read.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonReader.SkipAsync(System.Threading.CancellationToken)">
             <summary>
@@ -1971,7 +2211,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonReader.ReadAsBooleanAsync(System.Threading.CancellationToken)">
             <summary>
@@ -1981,7 +2221,7 @@
             <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> that represents the asynchronous read. The <see cref="P:System.Threading.Tasks.Task`1.Result"/>
             property returns the <see cref="T:System.Nullable`1"/> of <see cref="T:System.Boolean"/>. This result will be <c>null</c> at the end of an array.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonReader.ReadAsBytesAsync(System.Threading.CancellationToken)">
             <summary>
@@ -1991,7 +2231,7 @@
             <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> that represents the asynchronous read. The <see cref="P:System.Threading.Tasks.Task`1.Result"/>
             property returns the <see cref="T:System.Byte"/>[]. This result will be <c>null</c> at the end of an array.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonReader.ReadAsDateTimeAsync(System.Threading.CancellationToken)">
             <summary>
@@ -2001,7 +2241,7 @@
             <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> that represents the asynchronous read. The <see cref="P:System.Threading.Tasks.Task`1.Result"/>
             property returns the <see cref="T:System.Nullable`1"/> of <see cref="T:System.DateTime"/>. This result will be <c>null</c> at the end of an array.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonReader.ReadAsDateTimeOffsetAsync(System.Threading.CancellationToken)">
             <summary>
@@ -2011,7 +2251,7 @@
             <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> that represents the asynchronous read. The <see cref="P:System.Threading.Tasks.Task`1.Result"/>
             property returns the <see cref="T:System.Nullable`1"/> of <see cref="T:System.DateTimeOffset"/>. This result will be <c>null</c> at the end of an array.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonReader.ReadAsDecimalAsync(System.Threading.CancellationToken)">
             <summary>
@@ -2021,7 +2261,7 @@
             <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> that represents the asynchronous read. The <see cref="P:System.Threading.Tasks.Task`1.Result"/>
             property returns the <see cref="T:System.Nullable`1"/> of <see cref="T:System.Decimal"/>. This result will be <c>null</c> at the end of an array.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonReader.ReadAsDoubleAsync(System.Threading.CancellationToken)">
             <summary>
@@ -2031,7 +2271,7 @@
             <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> that represents the asynchronous read. The <see cref="P:System.Threading.Tasks.Task`1.Result"/>
             property returns the <see cref="T:System.Nullable`1"/> of <see cref="T:System.Double"/>. This result will be <c>null</c> at the end of an array.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonReader.ReadAsInt32Async(System.Threading.CancellationToken)">
             <summary>
@@ -2041,7 +2281,7 @@
             <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> that represents the asynchronous read. The <see cref="P:System.Threading.Tasks.Task`1.Result"/>
             property returns the <see cref="T:System.Nullable`1"/> of <see cref="T:System.Int32"/>. This result will be <c>null</c> at the end of an array.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonReader.ReadAsStringAsync(System.Threading.CancellationToken)">
             <summary>
@@ -2051,7 +2291,7 @@
             <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> that represents the asynchronous read. The <see cref="P:System.Threading.Tasks.Task`1.Result"/>
             property returns the <see cref="T:System.String"/>. This result will be <c>null</c> at the end of an array.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="T:Newtonsoft.Json.JsonReader.State">
             <summary>
@@ -2353,6 +2593,15 @@
             <param name="message">The error message that explains the reason for the exception.</param>
             <param name="innerException">The exception that is the cause of the current exception, or <c>null</c> if no inner exception is specified.</param>
         </member>
+        <member name="M:Newtonsoft.Json.JsonReaderException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Newtonsoft.Json.JsonReaderException"/> class.
+            </summary>
+            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data about the exception being thrown.</param>
+            <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.</param>
+            <exception cref="T:System.ArgumentNullException">The <paramref name="info"/> parameter is <c>null</c>.</exception>
+            <exception cref="T:System.Runtime.Serialization.SerializationException">The class name is <c>null</c> or <see cref="P:System.Exception.HResult"/> is zero (0).</exception>
+        </member>
         <member name="M:Newtonsoft.Json.JsonReaderException.#ctor(System.String,System.String,System.Int32,System.Int32,System.Exception)">
             <summary>
             Initializes a new instance of the <see cref="T:Newtonsoft.Json.JsonReaderException"/> class
@@ -2393,6 +2642,15 @@
             </summary>
             <param name="message">The error message that explains the reason for the exception.</param>
             <param name="innerException">The exception that is the cause of the current exception, or <c>null</c> if no inner exception is specified.</param>
+        </member>
+        <member name="M:Newtonsoft.Json.JsonSerializationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Newtonsoft.Json.JsonSerializationException"/> class.
+            </summary>
+            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data about the exception being thrown.</param>
+            <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.</param>
+            <exception cref="T:System.ArgumentNullException">The <paramref name="info"/> parameter is <c>null</c>.</exception>
+            <exception cref="T:System.Runtime.Serialization.SerializationException">The class name is <c>null</c> or <see cref="P:System.Exception.HResult"/> is zero (0).</exception>
         </member>
         <member name="T:Newtonsoft.Json.JsonSerializer">
             <summary>
@@ -2435,6 +2693,7 @@
         <member name="P:Newtonsoft.Json.JsonSerializer.TypeNameHandling">
             <summary>
             Gets or sets how type name writing and reading is handled by the serializer.
+            The default value is <see cref="F:Newtonsoft.Json.TypeNameHandling.None" />.
             </summary>
             <remarks>
             <see cref="P:Newtonsoft.Json.JsonSerializer.TypeNameHandling"/> should be used with caution when your application deserializes JSON from an external source.
@@ -2445,55 +2704,65 @@
         <member name="P:Newtonsoft.Json.JsonSerializer.TypeNameAssemblyFormat">
             <summary>
             Gets or sets how a type name assembly is written and resolved by the serializer.
+            The default value is <see cref="F:System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple" />.
             </summary>
             <value>The type name assembly format.</value>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializer.TypeNameAssemblyFormatHandling">
             <summary>
             Gets or sets how a type name assembly is written and resolved by the serializer.
+            The default value is <see cref="F:Newtonsoft.Json.TypeNameAssemblyFormatHandling.Simple" />.
             </summary>
             <value>The type name assembly format.</value>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializer.PreserveReferencesHandling">
             <summary>
             Gets or sets how object references are preserved by the serializer.
+            The default value is <see cref="F:Newtonsoft.Json.PreserveReferencesHandling.None" />.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializer.ReferenceLoopHandling">
             <summary>
             Gets or sets how reference loops (e.g. a class referencing itself) is handled.
+            The default value is <see cref="F:Newtonsoft.Json.ReferenceLoopHandling.Error" />.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializer.MissingMemberHandling">
             <summary>
             Gets or sets how missing members (e.g. JSON contains a property that isn't a member on the object) are handled during deserialization.
+            The default value is <see cref="F:Newtonsoft.Json.MissingMemberHandling.Ignore" />.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializer.NullValueHandling">
             <summary>
             Gets or sets how null values are handled during serialization and deserialization.
+            The default value is <see cref="F:Newtonsoft.Json.NullValueHandling.Include" />.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializer.DefaultValueHandling">
             <summary>
             Gets or sets how default values are handled during serialization and deserialization.
+            The default value is <see cref="F:Newtonsoft.Json.DefaultValueHandling.Include" />.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializer.ObjectCreationHandling">
             <summary>
             Gets or sets how objects are created during deserialization.
+            The default value is <see cref="F:Newtonsoft.Json.ObjectCreationHandling.Auto" />.
             </summary>
             <value>The object creation handling.</value>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializer.ConstructorHandling">
             <summary>
             Gets or sets how constructors are used during deserialization.
+            The default value is <see cref="F:Newtonsoft.Json.ConstructorHandling.Default" />.
             </summary>
             <value>The constructor handling.</value>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializer.MetadataPropertyHandling">
             <summary>
             Gets or sets how metadata properties are used during deserialization.
+            The default value is <see cref="F:Newtonsoft.Json.MetadataPropertyHandling.Default" />.
             </summary>
             <value>The metadata properties handling.</value>
         </member>
@@ -2518,26 +2787,31 @@
         <member name="P:Newtonsoft.Json.JsonSerializer.Formatting">
             <summary>
             Indicates how JSON text output is formatted.
+            The default value is <see cref="F:Newtonsoft.Json.Formatting.None" />.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializer.DateFormatHandling">
             <summary>
             Gets or sets how dates are written to JSON text.
+            The default value is <see cref="F:Newtonsoft.Json.DateFormatHandling.IsoDateFormat" />.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializer.DateTimeZoneHandling">
             <summary>
             Gets or sets how <see cref="T:System.DateTime"/> time zones are handled during serialization and deserialization.
+            The default value is <see cref="F:Newtonsoft.Json.DateTimeZoneHandling.RoundtripKind" />.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializer.DateParseHandling">
             <summary>
             Gets or sets how date formatted strings, e.g. <c>"\/Date(1198908717056)\/"</c> and <c>"2012-03-21T05:40Z"</c>, are parsed when reading JSON.
+            The default value is <see cref="F:Newtonsoft.Json.DateParseHandling.DateTime" />.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializer.FloatParseHandling">
             <summary>
             Gets or sets how floating point numbers, e.g. 1.0 and 9.9, are parsed when reading JSON text.
+            The default value is <see cref="F:Newtonsoft.Json.FloatParseHandling.Double" />.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializer.FloatFormatHandling">
@@ -2545,32 +2819,39 @@
             Gets or sets how special floating point numbers, e.g. <see cref="F:System.Double.NaN"/>,
             <see cref="F:System.Double.PositiveInfinity"/> and <see cref="F:System.Double.NegativeInfinity"/>,
             are written as JSON text.
+            The default value is <see cref="F:Newtonsoft.Json.FloatFormatHandling.String" />.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializer.StringEscapeHandling">
             <summary>
             Gets or sets how strings are escaped when writing JSON text.
+            The default value is <see cref="F:Newtonsoft.Json.StringEscapeHandling.Default" />.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializer.DateFormatString">
             <summary>
             Gets or sets how <see cref="T:System.DateTime"/> and <see cref="T:System.DateTimeOffset"/> values are formatted when writing JSON text,
             and the expected date format when reading JSON text.
+            The default value is <c>"yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK"</c>.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializer.Culture">
             <summary>
-            Gets or sets the culture used when reading JSON. Defaults to <see cref="P:System.Globalization.CultureInfo.InvariantCulture"/>.
+            Gets or sets the culture used when reading JSON.
+            The default value is <see cref="P:System.Globalization.CultureInfo.InvariantCulture"/>.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializer.MaxDepth">
             <summary>
             Gets or sets the maximum depth allowed when reading JSON. Reading past this depth will throw a <see cref="T:Newtonsoft.Json.JsonReaderException"/>.
+            A null value means there is no maximum.
+            The default value is <c>null</c>.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializer.CheckAdditionalContent">
             <summary>
             Gets a value indicating whether there will be a check for additional JSON content after deserializing an object.
+            The default value is <c>false</c>.
             </summary>
             <value>
             	<c>true</c> if there will be a check for additional JSON content after deserializing an object; otherwise, <c>false</c>.
@@ -2729,30 +3010,35 @@
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.ReferenceLoopHandling">
             <summary>
             Gets or sets how reference loops (e.g. a class referencing itself) are handled.
+            The default value is <see cref="F:Newtonsoft.Json.ReferenceLoopHandling.Error" />.
             </summary>
             <value>Reference loop handling.</value>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.MissingMemberHandling">
             <summary>
             Gets or sets how missing members (e.g. JSON contains a property that isn't a member on the object) are handled during deserialization.
+            The default value is <see cref="F:Newtonsoft.Json.MissingMemberHandling.Ignore" />.
             </summary>
             <value>Missing member handling.</value>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.ObjectCreationHandling">
             <summary>
             Gets or sets how objects are created during deserialization.
+            The default value is <see cref="F:Newtonsoft.Json.ObjectCreationHandling.Auto" />.
             </summary>
             <value>The object creation handling.</value>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.NullValueHandling">
             <summary>
             Gets or sets how null values are handled during serialization and deserialization.
+            The default value is <see cref="F:Newtonsoft.Json.NullValueHandling.Include" />.
             </summary>
             <value>Null value handling.</value>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.DefaultValueHandling">
             <summary>
             Gets or sets how default values are handled during serialization and deserialization.
+            The default value is <see cref="F:Newtonsoft.Json.DefaultValueHandling.Include" />.
             </summary>
             <value>The default value handling.</value>
         </member>
@@ -2765,12 +3051,14 @@
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.PreserveReferencesHandling">
             <summary>
             Gets or sets how object references are preserved by the serializer.
+            The default value is <see cref="F:Newtonsoft.Json.PreserveReferencesHandling.None" />.
             </summary>
             <value>The preserve references handling.</value>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.TypeNameHandling">
             <summary>
             Gets or sets how type name writing and reading is handled by the serializer.
+            The default value is <see cref="F:Newtonsoft.Json.TypeNameHandling.None" />.
             </summary>
             <remarks>
             <see cref="P:Newtonsoft.Json.JsonSerializerSettings.TypeNameHandling"/> should be used with caution when your application deserializes JSON from an external source.
@@ -2782,24 +3070,28 @@
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.MetadataPropertyHandling">
             <summary>
             Gets or sets how metadata properties are used during deserialization.
+            The default value is <see cref="F:Newtonsoft.Json.MetadataPropertyHandling.Default" />.
             </summary>
             <value>The metadata properties handling.</value>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.TypeNameAssemblyFormat">
             <summary>
             Gets or sets how a type name assembly is written and resolved by the serializer.
+            The default value is <see cref="F:System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple" />.
             </summary>
             <value>The type name assembly format.</value>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.TypeNameAssemblyFormatHandling">
             <summary>
             Gets or sets how a type name assembly is written and resolved by the serializer.
+            The default value is <see cref="F:Newtonsoft.Json.TypeNameAssemblyFormatHandling.Simple" />.
             </summary>
             <value>The type name assembly format.</value>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.ConstructorHandling">
             <summary>
             Gets or sets how constructors are used during deserialization.
+            The default value is <see cref="F:Newtonsoft.Json.ConstructorHandling.Default" />.
             </summary>
             <value>The constructor handling.</value>
         </member>
@@ -2862,31 +3154,38 @@
             <summary>
             Gets or sets how <see cref="T:System.DateTime"/> and <see cref="T:System.DateTimeOffset"/> values are formatted when writing JSON text,
             and the expected date format when reading JSON text.
+            The default value is <c>"yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK"</c>.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.MaxDepth">
             <summary>
             Gets or sets the maximum depth allowed when reading JSON. Reading past this depth will throw a <see cref="T:Newtonsoft.Json.JsonReaderException"/>.
+            A null value means there is no maximum.
+            The default value is <c>null</c>.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.Formatting">
             <summary>
             Indicates how JSON text output is formatted.
+            The default value is <see cref="F:Newtonsoft.Json.Formatting.None" />.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.DateFormatHandling">
             <summary>
             Gets or sets how dates are written to JSON text.
+            The default value is <see cref="F:Newtonsoft.Json.DateFormatHandling.IsoDateFormat" />.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.DateTimeZoneHandling">
             <summary>
             Gets or sets how <see cref="T:System.DateTime"/> time zones are handled during serialization and deserialization.
+            The default value is <see cref="F:Newtonsoft.Json.DateTimeZoneHandling.RoundtripKind" />.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.DateParseHandling">
             <summary>
-            Gets or sets how date formatted strings, e.g. "\/Date(1198908717056)\/" and "2012-03-21T05:40Z", are parsed when reading JSON.
+            Gets or sets how date formatted strings, e.g. <c>"\/Date(1198908717056)\/"</c> and <c>"2012-03-21T05:40Z"</c>, are parsed when reading JSON.
+            The default value is <see cref="F:Newtonsoft.Json.DateParseHandling.DateTime" />.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.FloatFormatHandling">
@@ -2894,26 +3193,31 @@
             Gets or sets how special floating point numbers, e.g. <see cref="F:System.Double.NaN"/>,
             <see cref="F:System.Double.PositiveInfinity"/> and <see cref="F:System.Double.NegativeInfinity"/>,
             are written as JSON.
+            The default value is <see cref="F:Newtonsoft.Json.FloatFormatHandling.String" />.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.FloatParseHandling">
             <summary>
             Gets or sets how floating point numbers, e.g. 1.0 and 9.9, are parsed when reading JSON text.
+            The default value is <see cref="F:Newtonsoft.Json.FloatParseHandling.Double" />.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.StringEscapeHandling">
             <summary>
             Gets or sets how strings are escaped when writing JSON text.
+            The default value is <see cref="F:Newtonsoft.Json.StringEscapeHandling.Default" />.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.Culture">
             <summary>
-            Gets or sets the culture used when reading JSON. Defaults to <see cref="P:System.Globalization.CultureInfo.InvariantCulture"/>.
+            Gets or sets the culture used when reading JSON.
+            The default value is <see cref="P:System.Globalization.CultureInfo.InvariantCulture"/>.
             </summary>
         </member>
         <member name="P:Newtonsoft.Json.JsonSerializerSettings.CheckAdditionalContent">
             <summary>
             Gets a value indicating whether there will be a check for additional content after deserializing an object.
+            The default value is <c>false</c>.
             </summary>
             <value>
             	<c>true</c> if there will be a check for additional content after deserializing an object; otherwise, <c>false</c>.
@@ -4201,7 +4505,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.FlushAsync(System.Threading.CancellationToken)">
             <summary>
@@ -4210,7 +4514,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteEndAsync(Newtonsoft.Json.JsonToken,System.Threading.CancellationToken)">
             <summary>
@@ -4220,7 +4524,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteIndentAsync(System.Threading.CancellationToken)">
             <summary>
@@ -4229,7 +4533,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueDelimiterAsync(System.Threading.CancellationToken)">
             <summary>
@@ -4238,7 +4542,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteIndentSpaceAsync(System.Threading.CancellationToken)">
             <summary>
@@ -4247,7 +4551,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteRawAsync(System.String,System.Threading.CancellationToken)">
             <summary>
@@ -4257,7 +4561,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteEndAsync(System.Threading.CancellationToken)">
             <summary>
@@ -4266,7 +4570,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteEndArrayAsync(System.Threading.CancellationToken)">
             <summary>
@@ -4275,7 +4579,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteEndConstructorAsync(System.Threading.CancellationToken)">
             <summary>
@@ -4284,7 +4588,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteEndObjectAsync(System.Threading.CancellationToken)">
             <summary>
@@ -4293,7 +4597,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteNullAsync(System.Threading.CancellationToken)">
             <summary>
@@ -4302,7 +4606,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WritePropertyNameAsync(System.String,System.Threading.CancellationToken)">
             <summary>
@@ -4312,7 +4616,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WritePropertyNameAsync(System.String,System.Boolean,System.Threading.CancellationToken)">
             <summary>
@@ -4323,7 +4627,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteStartArrayAsync(System.Threading.CancellationToken)">
             <summary>
@@ -4332,7 +4636,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteCommentAsync(System.String,System.Threading.CancellationToken)">
             <summary>
@@ -4342,7 +4646,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteRawValueAsync(System.String,System.Threading.CancellationToken)">
             <summary>
@@ -4352,7 +4656,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteStartConstructorAsync(System.String,System.Threading.CancellationToken)">
             <summary>
@@ -4362,7 +4666,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteStartObjectAsync(System.Threading.CancellationToken)">
             <summary>
@@ -4371,7 +4675,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteTokenAsync(Newtonsoft.Json.JsonReader,System.Threading.CancellationToken)">
             <summary>
@@ -4381,7 +4685,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteTokenAsync(Newtonsoft.Json.JsonReader,System.Boolean,System.Threading.CancellationToken)">
             <summary>
@@ -4392,7 +4696,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteTokenAsync(Newtonsoft.Json.JsonToken,System.Threading.CancellationToken)">
             <summary>
@@ -4402,7 +4706,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteTokenAsync(Newtonsoft.Json.JsonToken,System.Object,System.Threading.CancellationToken)">
             <summary>
@@ -4417,7 +4721,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Boolean,System.Threading.CancellationToken)">
             <summary>
@@ -4427,7 +4731,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <summary>
@@ -4437,7 +4741,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Byte,System.Threading.CancellationToken)">
             <summary>
@@ -4447,7 +4751,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Nullable{System.Byte},System.Threading.CancellationToken)">
             <summary>
@@ -4457,7 +4761,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Byte[],System.Threading.CancellationToken)">
             <summary>
@@ -4467,7 +4771,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Char,System.Threading.CancellationToken)">
             <summary>
@@ -4477,7 +4781,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Nullable{System.Char},System.Threading.CancellationToken)">
             <summary>
@@ -4487,7 +4791,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.DateTime,System.Threading.CancellationToken)">
             <summary>
@@ -4497,7 +4801,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Nullable{System.DateTime},System.Threading.CancellationToken)">
             <summary>
@@ -4507,7 +4811,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.DateTimeOffset,System.Threading.CancellationToken)">
             <summary>
@@ -4517,7 +4821,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Nullable{System.DateTimeOffset},System.Threading.CancellationToken)">
             <summary>
@@ -4527,7 +4831,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Decimal,System.Threading.CancellationToken)">
             <summary>
@@ -4537,7 +4841,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Nullable{System.Decimal},System.Threading.CancellationToken)">
             <summary>
@@ -4547,7 +4851,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Double,System.Threading.CancellationToken)">
             <summary>
@@ -4557,7 +4861,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Nullable{System.Double},System.Threading.CancellationToken)">
             <summary>
@@ -4567,7 +4871,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Single,System.Threading.CancellationToken)">
             <summary>
@@ -4577,7 +4881,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Nullable{System.Single},System.Threading.CancellationToken)">
             <summary>
@@ -4587,7 +4891,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Guid,System.Threading.CancellationToken)">
             <summary>
@@ -4597,7 +4901,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Nullable{System.Guid},System.Threading.CancellationToken)">
             <summary>
@@ -4607,7 +4911,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Int32,System.Threading.CancellationToken)">
             <summary>
@@ -4617,7 +4921,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <summary>
@@ -4627,7 +4931,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Int64,System.Threading.CancellationToken)">
             <summary>
@@ -4637,7 +4941,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Nullable{System.Int64},System.Threading.CancellationToken)">
             <summary>
@@ -4647,7 +4951,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Object,System.Threading.CancellationToken)">
             <summary>
@@ -4657,7 +4961,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.SByte,System.Threading.CancellationToken)">
             <summary>
@@ -4667,7 +4971,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Nullable{System.SByte},System.Threading.CancellationToken)">
             <summary>
@@ -4677,7 +4981,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Int16,System.Threading.CancellationToken)">
             <summary>
@@ -4687,7 +4991,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Nullable{System.Int16},System.Threading.CancellationToken)">
             <summary>
@@ -4697,7 +5001,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.String,System.Threading.CancellationToken)">
             <summary>
@@ -4707,7 +5011,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.TimeSpan,System.Threading.CancellationToken)">
             <summary>
@@ -4717,7 +5021,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Nullable{System.TimeSpan},System.Threading.CancellationToken)">
             <summary>
@@ -4727,7 +5031,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.UInt32,System.Threading.CancellationToken)">
             <summary>
@@ -4737,7 +5041,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Nullable{System.UInt32},System.Threading.CancellationToken)">
             <summary>
@@ -4747,7 +5051,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.UInt64,System.Threading.CancellationToken)">
             <summary>
@@ -4757,7 +5061,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Nullable{System.UInt64},System.Threading.CancellationToken)">
             <summary>
@@ -4767,7 +5071,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Uri,System.Threading.CancellationToken)">
             <summary>
@@ -4777,7 +5081,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.UInt16,System.Threading.CancellationToken)">
             <summary>
@@ -4787,7 +5091,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteValueAsync(System.Nullable{System.UInt16},System.Threading.CancellationToken)">
             <summary>
@@ -4797,7 +5101,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteUndefinedAsync(System.Threading.CancellationToken)">
             <summary>
@@ -4806,7 +5110,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.WriteWhitespaceAsync(System.String,System.Threading.CancellationToken)">
             <summary>
@@ -4816,7 +5120,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="M:Newtonsoft.Json.JsonWriter.SetWriteStateAsync(Newtonsoft.Json.JsonToken,System.Object,System.Threading.CancellationToken)">
             <summary>
@@ -4827,7 +5131,7 @@
             <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="P:System.Threading.CancellationToken.None"/>.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous operation.</returns>
             <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-            classes can override this behaviour for true asychronousity.</remarks>
+            classes can override this behaviour for true asynchronicity.</remarks>
         </member>
         <member name="P:Newtonsoft.Json.JsonWriter.CloseOutput">
             <summary>
@@ -5322,6 +5626,15 @@
             <param name="message">The error message that explains the reason for the exception.</param>
             <param name="innerException">The exception that is the cause of the current exception, or <c>null</c> if no inner exception is specified.</param>
         </member>
+        <member name="M:Newtonsoft.Json.JsonWriterException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Newtonsoft.Json.JsonWriterException"/> class.
+            </summary>
+            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data about the exception being thrown.</param>
+            <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.</param>
+            <exception cref="T:System.ArgumentNullException">The <paramref name="info"/> parameter is <c>null</c>.</exception>
+            <exception cref="T:System.Runtime.Serialization.SerializationException">The class name is <c>null</c> or <see cref="P:System.Exception.HResult"/> is zero (0).</exception>
+        </member>
         <member name="M:Newtonsoft.Json.JsonWriterException.#ctor(System.String,System.String,System.Exception)">
             <summary>
             Initializes a new instance of the <see cref="T:Newtonsoft.Json.JsonWriterException"/> class
@@ -5344,21 +5657,6 @@
         <member name="F:Newtonsoft.Json.Linq.CommentHandling.Load">
             <summary>
             Load comments as a <see cref="T:Newtonsoft.Json.Linq.JValue"/> with type <see cref="F:Newtonsoft.Json.Linq.JTokenType.Comment"/>.
-            </summary>
-        </member>
-        <member name="T:Newtonsoft.Json.Linq.LineInfoHandling">
-            <summary>
-            Specifies how line information is handled when loading JSON.
-            </summary>
-        </member>
-        <member name="F:Newtonsoft.Json.Linq.LineInfoHandling.Ignore">
-            <summary>
-            Ignore line information.
-            </summary>
-        </member>
-        <member name="F:Newtonsoft.Json.Linq.LineInfoHandling.Load">
-            <summary>
-            Load line information.
             </summary>
         </member>
         <member name="T:Newtonsoft.Json.Linq.Extensions">
@@ -5838,6 +6136,16 @@
             Represents a token that can contain other tokens.
             </summary>
         </member>
+        <member name="E:Newtonsoft.Json.Linq.JContainer.ListChanged">
+            <summary>
+            Occurs when the list changes or an item in the list changes.
+            </summary>
+        </member>
+        <member name="E:Newtonsoft.Json.Linq.JContainer.AddingNew">
+            <summary>
+            Occurs before an item is added to the collection.
+            </summary>
+        </member>
         <member name="E:Newtonsoft.Json.Linq.JContainer.CollectionChanged">
             <summary>
             Occurs when the items list of the collection has changed, or the collection is reset.
@@ -5848,6 +6156,18 @@
             Gets the container's children tokens.
             </summary>
             <value>The container's children tokens.</value>
+        </member>
+        <member name="M:Newtonsoft.Json.Linq.JContainer.OnAddingNew(System.ComponentModel.AddingNewEventArgs)">
+            <summary>
+            Raises the <see cref="E:Newtonsoft.Json.Linq.JContainer.AddingNew"/> event.
+            </summary>
+            <param name="e">The <see cref="T:System.ComponentModel.AddingNewEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:Newtonsoft.Json.Linq.JContainer.OnListChanged(System.ComponentModel.ListChangedEventArgs)">
+            <summary>
+            Raises the <see cref="E:Newtonsoft.Json.Linq.JContainer.ListChanged"/> event.
+            </summary>
+            <param name="e">The <see cref="T:System.ComponentModel.ListChangedEventArgs"/> instance containing the event data.</param>
         </member>
         <member name="M:Newtonsoft.Json.Linq.JContainer.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
             <summary>
@@ -6063,6 +6383,11 @@
             Occurs when a property value changes.
             </summary>
         </member>
+        <member name="E:Newtonsoft.Json.Linq.JObject.PropertyChanging">
+            <summary>
+            Occurs when a property value is changing.
+            </summary>
+        </member>
         <member name="M:Newtonsoft.Json.Linq.JObject.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Newtonsoft.Json.Linq.JObject"/> class.
@@ -6230,6 +6555,13 @@
             <param name="propertyName">Name of the property.</param>
             <param name="value">The value.</param>
         </member>
+        <member name="M:Newtonsoft.Json.Linq.JObject.ContainsKey(System.String)">
+            <summary>
+            Determines whether the JSON object has the specified property name.
+            </summary>
+            <param name="propertyName">Name of the property.</param>
+            <returns><c>true</c> if the JSON object has the specified property name; otherwise, <c>false</c>.</returns>
+        </member>
         <member name="M:Newtonsoft.Json.Linq.JObject.Remove(System.String)">
             <summary>
             Removes the property with the specified name.
@@ -6256,6 +6588,12 @@
         <member name="M:Newtonsoft.Json.Linq.JObject.OnPropertyChanged(System.String)">
             <summary>
             Raises the <see cref="E:Newtonsoft.Json.Linq.JObject.PropertyChanged"/> event with the provided arguments.
+            </summary>
+            <param name="propertyName">Name of the property.</param>
+        </member>
+        <member name="M:Newtonsoft.Json.Linq.JObject.OnPropertyChanging(System.String)">
+            <summary>
+            Raises the <see cref="E:Newtonsoft.Json.Linq.JObject.PropertyChanging"/> event with the provided arguments.
             </summary>
             <param name="propertyName">Name of the property.</param>
         </member>
@@ -6368,6 +6706,93 @@
             <param name="settings">The <see cref="T:Newtonsoft.Json.Linq.JsonLoadSettings"/> used to load the JSON.
             If this is <c>null</c>, default load settings will be used.</param>
             <returns>A <see cref="T:Newtonsoft.Json.Linq.JProperty"/> that contains the JSON that was read from the specified <see cref="T:Newtonsoft.Json.JsonReader"/>.</returns>
+        </member>
+        <member name="T:Newtonsoft.Json.Linq.JPropertyDescriptor">
+            <summary>
+            Represents a view of a <see cref="T:Newtonsoft.Json.Linq.JProperty"/>.
+            </summary>
+        </member>
+        <member name="M:Newtonsoft.Json.Linq.JPropertyDescriptor.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Newtonsoft.Json.Linq.JPropertyDescriptor"/> class.
+            </summary>
+            <param name="name">The name.</param>
+        </member>
+        <member name="M:Newtonsoft.Json.Linq.JPropertyDescriptor.CanResetValue(System.Object)">
+            <summary>
+            When overridden in a derived class, returns whether resetting an object changes its value.
+            </summary>
+            <returns>
+            <c>true</c> if resetting the component changes its value; otherwise, <c>false</c>.
+            </returns>
+            <param name="component">The component to test for reset capability.</param>
+        </member>
+        <member name="M:Newtonsoft.Json.Linq.JPropertyDescriptor.GetValue(System.Object)">
+            <summary>
+            When overridden in a derived class, gets the current value of the property on a component.
+            </summary>
+            <returns>
+            The value of a property for a given component.
+            </returns>
+            <param name="component">The component with the property for which to retrieve the value.</param>
+        </member>
+        <member name="M:Newtonsoft.Json.Linq.JPropertyDescriptor.ResetValue(System.Object)">
+            <summary>
+            When overridden in a derived class, resets the value for this property of the component to the default value.
+            </summary>
+            <param name="component">The component with the property value that is to be reset to the default value.</param>
+        </member>
+        <member name="M:Newtonsoft.Json.Linq.JPropertyDescriptor.SetValue(System.Object,System.Object)">
+            <summary>
+            When overridden in a derived class, sets the value of the component to a different value.
+            </summary>
+            <param name="component">The component with the property value that is to be set.</param>
+            <param name="value">The new value.</param>
+        </member>
+        <member name="M:Newtonsoft.Json.Linq.JPropertyDescriptor.ShouldSerializeValue(System.Object)">
+            <summary>
+            When overridden in a derived class, determines a value indicating whether the value of this property needs to be persisted.
+            </summary>
+            <returns>
+            <c>true</c> if the property should be persisted; otherwise, <c>false</c>.
+            </returns>
+            <param name="component">The component with the property to be examined for persistence.</param>
+        </member>
+        <member name="P:Newtonsoft.Json.Linq.JPropertyDescriptor.ComponentType">
+            <summary>
+            When overridden in a derived class, gets the type of the component this property is bound to.
+            </summary>
+            <returns>
+            A <see cref="T:System.Type"/> that represents the type of component this property is bound to.
+            When the <see cref="M:System.ComponentModel.PropertyDescriptor.GetValue(System.Object)"/> or
+            <see cref="M:System.ComponentModel.PropertyDescriptor.SetValue(System.Object,System.Object)"/>
+            methods are invoked, the object specified might be an instance of this type.
+            </returns>
+        </member>
+        <member name="P:Newtonsoft.Json.Linq.JPropertyDescriptor.IsReadOnly">
+            <summary>
+            When overridden in a derived class, gets a value indicating whether this property is read-only.
+            </summary>
+            <returns>
+            <c>true</c> if the property is read-only; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="P:Newtonsoft.Json.Linq.JPropertyDescriptor.PropertyType">
+            <summary>
+            When overridden in a derived class, gets the type of the property.
+            </summary>
+            <returns>
+            A <see cref="T:System.Type"/> that represents the type of the property.
+            </returns>
+        </member>
+        <member name="P:Newtonsoft.Json.Linq.JPropertyDescriptor.NameHashCode">
+            <summary>
+            Gets the hash code for the name of the member.
+            </summary>
+            <value></value>
+            <returns>
+            The hash code for the name of the member.
+            </returns>
         </member>
         <member name="T:Newtonsoft.Json.Linq.JRaw">
             <summary>
@@ -8034,6 +8459,21 @@
             	<paramref name="obj"/> is not of the same type as this instance.
             </exception>
         </member>
+        <member name="T:Newtonsoft.Json.Linq.LineInfoHandling">
+            <summary>
+            Specifies how line information is handled when loading JSON.
+            </summary>
+        </member>
+        <member name="F:Newtonsoft.Json.Linq.LineInfoHandling.Ignore">
+            <summary>
+            Ignore line information.
+            </summary>
+        </member>
+        <member name="F:Newtonsoft.Json.Linq.LineInfoHandling.Load">
+            <summary>
+            Load line information.
+            </summary>
+        </member>
         <member name="T:Newtonsoft.Json.Linq.MergeArrayHandling">
             <summary>
             Specifies how JSON arrays are merged together.
@@ -8073,7 +8513,7 @@
         </member>
         <member name="F:Newtonsoft.Json.MemberSerialization.OptOut">
             <summary>
-            All public members are serialized by default. Members can be excluded using <see cref="T:Newtonsoft.Json.JsonIgnoreAttribute"/> or <see cref="!:NonSerializedAttribute"/>.
+            All public members are serialized by default. Members can be excluded using <see cref="T:Newtonsoft.Json.JsonIgnoreAttribute"/> or <see cref="T:System.NonSerializedAttribute"/>.
             This is the default member serialization mode.
             </summary>
         </member>
@@ -8085,8 +8525,8 @@
         </member>
         <member name="F:Newtonsoft.Json.MemberSerialization.Fields">
             <summary>
-            All public and private fields are serialized. Members can be excluded using <see cref="T:Newtonsoft.Json.JsonIgnoreAttribute"/> or <see cref="!:NonSerializedAttribute"/>.
-            This member serialization mode can also be set by marking the class with <see cref="!:SerializableAttribute"/>
+            All public and private fields are serialized. Members can be excluded using <see cref="T:Newtonsoft.Json.JsonIgnoreAttribute"/> or <see cref="T:System.NonSerializedAttribute"/>.
+            This member serialization mode can also be set by marking the class with <see cref="T:System.SerializableAttribute"/>
             and setting IgnoreSerializableAttribute on <see cref="T:Newtonsoft.Json.Serialization.DefaultContractResolver"/> to <c>false</c>.
             </summary>
         </member>
@@ -8614,6 +9054,15 @@
             <param name="message">The error message that explains the reason for the exception.</param>
             <param name="innerException">The exception that is the cause of the current exception, or <c>null</c> if no inner exception is specified.</param>
         </member>
+        <member name="M:Newtonsoft.Json.Schema.JsonSchemaException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Newtonsoft.Json.Schema.JsonSchemaException"/> class.
+            </summary>
+            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data about the exception being thrown.</param>
+            <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.</param>
+            <exception cref="T:System.ArgumentNullException">The <paramref name="info"/> parameter is <c>null</c>.</exception>
+            <exception cref="T:System.Runtime.Serialization.SerializationException">The class name is <c>null</c> or <see cref="P:System.Exception.HResult"/> is zero (0).</exception>
+        </member>
         <member name="T:Newtonsoft.Json.Schema.JsonSchemaGenerator">
             <summary>
             <para>
@@ -8813,27 +9262,6 @@
             </note>
             </summary>
         </member>
-        <member name="T:Newtonsoft.Json.SerializationBinder">
-            <summary>
-            Allows users to control class loading and mandate what class to load.
-            </summary>
-        </member>
-        <member name="M:Newtonsoft.Json.SerializationBinder.BindToType(System.String,System.String)">
-            <summary>
-            When overridden in a derived class, controls the binding of a serialized object to a type.
-            </summary>
-            <param name="assemblyName">Specifies the <see cref="T:System.Reflection.Assembly"/> name of the serialized object.</param>
-            <param name="typeName">Specifies the <see cref="T:System.Type"/> name of the serialized object</param>
-            <returns>The type of the object the formatter creates a new instance of.</returns>
-        </member>
-        <member name="M:Newtonsoft.Json.SerializationBinder.BindToName(System.Type,System.String@,System.String@)">
-            <summary>
-            When overridden in a derived class, controls the binding of a serialized object to a type.
-            </summary>
-            <param name="serializedType">The type of the object the formatter creates a new instance of.</param>
-            <param name="assemblyName">Specifies the <see cref="T:System.Reflection.Assembly"/> name of the serialized object.</param>
-            <param name="typeName">Specifies the <see cref="T:System.Type"/> name of the serialized object.</param>
-        </member>
         <member name="T:Newtonsoft.Json.Serialization.CamelCaseNamingStrategy">
             <summary>
             A camel case naming strategy.
@@ -8909,12 +9337,50 @@
             	<c>true</c> if using dynamic code generation; otherwise, <c>false</c>.
             </value>
         </member>
+        <member name="P:Newtonsoft.Json.Serialization.DefaultContractResolver.DefaultMembersSearchFlags">
+            <summary>
+            Gets or sets the default members search flags.
+            </summary>
+            <value>The default members search flags.</value>
+        </member>
         <member name="P:Newtonsoft.Json.Serialization.DefaultContractResolver.SerializeCompilerGeneratedMembers">
             <summary>
             Gets or sets a value indicating whether compiler generated members should be serialized.
             </summary>
             <value>
             	<c>true</c> if serialized compiler generated members; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Newtonsoft.Json.Serialization.DefaultContractResolver.IgnoreSerializableInterface">
+            <summary>
+            Gets or sets a value indicating whether to ignore the <see cref="T:System.Runtime.Serialization.ISerializable"/> interface when serializing and deserializing types.
+            </summary>
+            <value>
+            	<c>true</c> if the <see cref="T:System.Runtime.Serialization.ISerializable"/> interface will be ignored when serializing and deserializing types; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Newtonsoft.Json.Serialization.DefaultContractResolver.IgnoreSerializableAttribute">
+            <summary>
+            Gets or sets a value indicating whether to ignore the <see cref="T:System.SerializableAttribute"/> attribute when serializing and deserializing types.
+            </summary>
+            <value>
+            	<c>true</c> if the <see cref="T:System.SerializableAttribute"/> attribute will be ignored when serializing and deserializing types; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Newtonsoft.Json.Serialization.DefaultContractResolver.IgnoreIsSpecifiedMembers">
+            <summary>
+            Gets or sets a value indicating whether to ignore IsSpecified members when serializing and deserializing types.
+            </summary>
+            <value>
+                <c>true</c> if the IsSpecified members will be ignored when serializing and deserializing types; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Newtonsoft.Json.Serialization.DefaultContractResolver.IgnoreShouldSerializeMembers">
+            <summary>
+            Gets or sets a value indicating whether to ignore ShouldSerialize members when serializing and deserializing types.
+            </summary>
+            <value>
+                <c>true</c> if the ShouldSerialize members will be ignored when serializing and deserializing types; otherwise, <c>false</c>.
             </value>
         </member>
         <member name="P:Newtonsoft.Json.Serialization.DefaultContractResolver.NamingStrategy">
@@ -8999,6 +9465,13 @@
             </summary>
             <param name="objectType">Type of the object.</param>
             <returns>A <see cref="T:Newtonsoft.Json.Serialization.JsonLinqContract"/> for the given type.</returns>
+        </member>
+        <member name="M:Newtonsoft.Json.Serialization.DefaultContractResolver.CreateISerializableContract(System.Type)">
+            <summary>
+            Creates a <see cref="T:Newtonsoft.Json.Serialization.JsonISerializableContract"/> for the given type.
+            </summary>
+            <param name="objectType">Type of the object.</param>
+            <returns>A <see cref="T:Newtonsoft.Json.Serialization.JsonISerializableContract"/> for the given type.</returns>
         </member>
         <member name="M:Newtonsoft.Json.Serialization.DefaultContractResolver.CreateDynamicContract(System.Type)">
             <summary>
@@ -9111,6 +9584,54 @@
             <param name="serializedType">The type of the object the formatter creates a new instance of.</param>
             <param name="assemblyName">Specifies the <see cref="T:System.Reflection.Assembly"/> name of the serialized object.</param>
             <param name="typeName">Specifies the <see cref="T:System.Type"/> name of the serialized object.</param>
+        </member>
+        <member name="T:Newtonsoft.Json.Serialization.DiagnosticsTraceWriter">
+            <summary>
+            Represents a trace writer that writes to the application's <see cref="T:System.Diagnostics.TraceListener"/> instances.
+            </summary>
+        </member>
+        <member name="P:Newtonsoft.Json.Serialization.DiagnosticsTraceWriter.LevelFilter">
+            <summary>
+            Gets the <see cref="T:System.Diagnostics.TraceLevel"/> that will be used to filter the trace messages passed to the writer.
+            For example a filter level of <see cref="F:System.Diagnostics.TraceLevel.Info"/> will exclude <see cref="F:System.Diagnostics.TraceLevel.Verbose"/> messages and include <see cref="F:System.Diagnostics.TraceLevel.Info"/>,
+            <see cref="F:System.Diagnostics.TraceLevel.Warning"/> and <see cref="F:System.Diagnostics.TraceLevel.Error"/> messages.
+            </summary>
+            <value>
+            The <see cref="T:System.Diagnostics.TraceLevel"/> that will be used to filter the trace messages passed to the writer.
+            </value>
+        </member>
+        <member name="M:Newtonsoft.Json.Serialization.DiagnosticsTraceWriter.Trace(System.Diagnostics.TraceLevel,System.String,System.Exception)">
+            <summary>
+            Writes the specified trace level, message and optional exception.
+            </summary>
+            <param name="level">The <see cref="T:System.Diagnostics.TraceLevel"/> at which to write this trace.</param>
+            <param name="message">The trace message.</param>
+            <param name="ex">The trace exception. This parameter is optional.</param>
+        </member>
+        <member name="T:Newtonsoft.Json.Serialization.DynamicValueProvider">
+            <summary>
+            Get and set values for a <see cref="T:System.Reflection.MemberInfo"/> using dynamic methods.
+            </summary>
+        </member>
+        <member name="M:Newtonsoft.Json.Serialization.DynamicValueProvider.#ctor(System.Reflection.MemberInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Newtonsoft.Json.Serialization.DynamicValueProvider"/> class.
+            </summary>
+            <param name="memberInfo">The member info.</param>
+        </member>
+        <member name="M:Newtonsoft.Json.Serialization.DynamicValueProvider.SetValue(System.Object,System.Object)">
+            <summary>
+            Sets the value.
+            </summary>
+            <param name="target">The target to set the value on.</param>
+            <param name="value">The value to set on the target.</param>
+        </member>
+        <member name="M:Newtonsoft.Json.Serialization.DynamicValueProvider.GetValue(System.Object)">
+            <summary>
+            Gets the value.
+            </summary>
+            <param name="target">The target to get the value from.</param>
+            <returns>The value.</returns>
         </member>
         <member name="T:Newtonsoft.Json.Serialization.ErrorContext">
             <summary>
@@ -9299,17 +9820,17 @@
         </member>
         <member name="P:Newtonsoft.Json.Serialization.ITraceWriter.LevelFilter">
             <summary>
-            Gets the <see cref="T:Newtonsoft.Json.TraceLevel"/> that will be used to filter the trace messages passed to the writer.
-            For example a filter level of <see cref="F:Newtonsoft.Json.TraceLevel.Info"/> will exclude <see cref="F:Newtonsoft.Json.TraceLevel.Verbose"/> messages and include <see cref="F:Newtonsoft.Json.TraceLevel.Info"/>,
-            <see cref="F:Newtonsoft.Json.TraceLevel.Warning"/> and <see cref="F:Newtonsoft.Json.TraceLevel.Error"/> messages.
+            Gets the <see cref="T:System.Diagnostics.TraceLevel"/> that will be used to filter the trace messages passed to the writer.
+            For example a filter level of <see cref="F:System.Diagnostics.TraceLevel.Info"/> will exclude <see cref="F:System.Diagnostics.TraceLevel.Verbose"/> messages and include <see cref="F:System.Diagnostics.TraceLevel.Info"/>,
+            <see cref="F:System.Diagnostics.TraceLevel.Warning"/> and <see cref="F:System.Diagnostics.TraceLevel.Error"/> messages.
             </summary>
-            <value>The <see cref="T:Newtonsoft.Json.TraceLevel"/> that will be used to filter the trace messages passed to the writer.</value>
+            <value>The <see cref="T:System.Diagnostics.TraceLevel"/> that will be used to filter the trace messages passed to the writer.</value>
         </member>
-        <member name="M:Newtonsoft.Json.Serialization.ITraceWriter.Trace(Newtonsoft.Json.TraceLevel,System.String,System.Exception)">
+        <member name="M:Newtonsoft.Json.Serialization.ITraceWriter.Trace(System.Diagnostics.TraceLevel,System.String,System.Exception)">
             <summary>
             Writes the specified trace level, message and optional exception.
             </summary>
-            <param name="level">The <see cref="T:Newtonsoft.Json.TraceLevel"/> at which to write this trace.</param>
+            <param name="level">The <see cref="T:System.Diagnostics.TraceLevel"/> at which to write this trace.</param>
             <param name="message">The trace message.</param>
             <param name="ex">The trace exception. This parameter is optional.</param>
         </member>
@@ -9566,6 +10087,23 @@
             </summary>
             <param name="underlyingType">The underlying type for the contract.</param>
         </member>
+        <member name="T:Newtonsoft.Json.Serialization.JsonISerializableContract">
+            <summary>
+            Contract details for a <see cref="T:System.Type"/> used by the <see cref="T:Newtonsoft.Json.JsonSerializer"/>.
+            </summary>
+        </member>
+        <member name="P:Newtonsoft.Json.Serialization.JsonISerializableContract.ISerializableCreator">
+            <summary>
+            Gets or sets the <see cref="T:System.Runtime.Serialization.ISerializable"/> object constructor.
+            </summary>
+            <value>The <see cref="T:System.Runtime.Serialization.ISerializable"/> object constructor.</value>
+        </member>
+        <member name="M:Newtonsoft.Json.Serialization.JsonISerializableContract.#ctor(System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Newtonsoft.Json.Serialization.JsonISerializableContract"/> class.
+            </summary>
+            <param name="underlyingType">The underlying type for the contract.</param>
+        </member>
         <member name="T:Newtonsoft.Json.Serialization.JsonLinqContract">
             <summary>
             Contract details for a <see cref="T:System.Type"/> used by the <see cref="T:Newtonsoft.Json.JsonSerializer"/>.
@@ -9595,6 +10133,12 @@
             <value>
             	A value indicating whether the object's properties are required.
             </value>
+        </member>
+        <member name="P:Newtonsoft.Json.Serialization.JsonObjectContract.ItemNullValueHandling">
+            <summary>
+            Gets or sets how the object's properties with null values are handled during serialization and deserialization.
+            </summary>
+            <value>How the object's properties with null values are handled during serialization and deserialization.</value>
         </member>
         <member name="P:Newtonsoft.Json.Serialization.JsonObjectContract.Properties">
             <summary>
@@ -9910,12 +10454,12 @@
         </member>
         <member name="P:Newtonsoft.Json.Serialization.MemoryTraceWriter.LevelFilter">
             <summary>
-            Gets the <see cref="T:Newtonsoft.Json.TraceLevel"/> that will be used to filter the trace messages passed to the writer.
-            For example a filter level of <see cref="F:Newtonsoft.Json.TraceLevel.Info"/> will exclude <see cref="F:Newtonsoft.Json.TraceLevel.Verbose"/> messages and include <see cref="F:Newtonsoft.Json.TraceLevel.Info"/>,
-            <see cref="F:Newtonsoft.Json.TraceLevel.Warning"/> and <see cref="F:Newtonsoft.Json.TraceLevel.Error"/> messages.
+            Gets the <see cref="T:System.Diagnostics.TraceLevel"/> that will be used to filter the trace messages passed to the writer.
+            For example a filter level of <see cref="F:System.Diagnostics.TraceLevel.Info"/> will exclude <see cref="F:System.Diagnostics.TraceLevel.Verbose"/> messages and include <see cref="F:System.Diagnostics.TraceLevel.Info"/>,
+            <see cref="F:System.Diagnostics.TraceLevel.Warning"/> and <see cref="F:System.Diagnostics.TraceLevel.Error"/> messages.
             </summary>
             <value>
-            The <see cref="T:Newtonsoft.Json.TraceLevel"/> that will be used to filter the trace messages passed to the writer.
+            The <see cref="T:System.Diagnostics.TraceLevel"/> that will be used to filter the trace messages passed to the writer.
             </value>
         </member>
         <member name="M:Newtonsoft.Json.Serialization.MemoryTraceWriter.#ctor">
@@ -9923,11 +10467,11 @@
             Initializes a new instance of the <see cref="T:Newtonsoft.Json.Serialization.MemoryTraceWriter"/> class.
             </summary>
         </member>
-        <member name="M:Newtonsoft.Json.Serialization.MemoryTraceWriter.Trace(Newtonsoft.Json.TraceLevel,System.String,System.Exception)">
+        <member name="M:Newtonsoft.Json.Serialization.MemoryTraceWriter.Trace(System.Diagnostics.TraceLevel,System.String,System.Exception)">
             <summary>
             Writes the specified trace level, message and optional exception.
             </summary>
-            <param name="level">The <see cref="T:Newtonsoft.Json.TraceLevel"/> at which to write this trace.</param>
+            <param name="level">The <see cref="T:System.Diagnostics.TraceLevel"/> at which to write this trace.</param>
             <param name="message">The trace message.</param>
             <param name="ex">The trace exception. This parameter is optional.</param>
         </member>
@@ -10124,36 +10668,6 @@
             HTML (&lt;, &gt;, &amp;, &apos;, &quot;) and control characters (e.g. newline) are escaped.
             </summary>
         </member>
-        <member name="T:Newtonsoft.Json.TraceLevel">
-            <summary>
-            Specifies what messages to output for the <see cref="T:Newtonsoft.Json.Serialization.ITraceWriter"/> class.
-            </summary>
-        </member>
-        <member name="F:Newtonsoft.Json.TraceLevel.Off">
-            <summary>
-            Output no tracing and debugging messages.
-            </summary>
-        </member>
-        <member name="F:Newtonsoft.Json.TraceLevel.Error">
-            <summary>
-            Output error-handling messages.
-            </summary>
-        </member>
-        <member name="F:Newtonsoft.Json.TraceLevel.Warning">
-            <summary>
-            Output warnings and error-handling messages.
-            </summary>
-        </member>
-        <member name="F:Newtonsoft.Json.TraceLevel.Info">
-            <summary>
-            Output informational messages, warnings, and error-handling messages.
-            </summary>
-        </member>
-        <member name="F:Newtonsoft.Json.TraceLevel.Verbose">
-            <summary>
-            Output all debugging and tracing messages.
-            </summary>
-        </member>
         <member name="T:Newtonsoft.Json.TypeNameAssemblyFormatHandling">
             <summary>
             Indicates the method that will be used during deserialization for locating and loading assemblies.
@@ -10262,66 +10776,12 @@
             with a restriction limiting our type
             </summary>
         </member>
-        <member name="M:Newtonsoft.Json.Utilities.EnumUtils.GetNamesAndValues``1">
+        <member name="T:Newtonsoft.Json.Utilities.ImmutableCollectionsUtils">
             <summary>
-            Gets a dictionary of the names and values of an <see cref="T:System.Enum"/> type.
+            Helper class for serializing immutable collections.
+            Note that this is used by all builds, even those that don't support immutable collections, in case the DLL is GACed
+            https://github.com/JamesNK/Newtonsoft.Json/issues/652
             </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Newtonsoft.Json.Utilities.EnumUtils.GetNamesAndValues``1(System.Type)">
-            <summary>
-            Gets a dictionary of the names and values of an Enum type.
-            </summary>
-            <param name="enumType">The enum type to get names and values for.</param>
-            <returns></returns>
-        </member>
-        <member name="F:Newtonsoft.Json.Utilities.MethodBinder.PrimitiveTypes">
-            <summary>
-            List of primitive types which can be widened.
-            </summary>
-        </member>
-        <member name="F:Newtonsoft.Json.Utilities.MethodBinder.WideningMasks">
-            <summary>
-            Widening masks for primitive types above.
-            Index of the value in this array defines a type we're widening,
-            while the bits in mask define types it can be widened to (including itself).
-            
-            For example, value at index 0 defines a bool type, and it only has bit 0 set, 
-            i.e. bool values can be assigned only to bool.
-            </summary>
-        </member>
-        <member name="M:Newtonsoft.Json.Utilities.MethodBinder.CanConvertPrimitive(System.Type,System.Type)">
-            <summary>
-            Checks if value of primitive type <paramref name="from"/> can be  
-            assigned to parameter of primitive type <paramref name="to"/>.
-            </summary>
-            <param name="from">Source primitive type.</param>
-            <param name="to">Target primitive type.</param>
-            <returns><c>true</c> if source type can be widened to target type, <c>false</c> otherwise.</returns>
-        </member>
-        <member name="M:Newtonsoft.Json.Utilities.MethodBinder.FilterParameters(System.Reflection.ParameterInfo[],System.Collections.Generic.IList{System.Type},System.Boolean)">
-            <summary>
-            Checks if a set of values with given <paramref name="types"/> can be used
-            to invoke a method with specified <paramref name="parameters"/>. 
-            </summary>
-            <param name="parameters">Method parameters.</param>
-            <param name="types">Argument types.</param>
-            <param name="enableParamArray">Try to pack extra arguments into the last parameter when it is marked up with <see cref="T:System.ParamArrayAttribute"/>.</param>
-            <returns><c>true</c> if method can be called with given arguments, <c>false</c> otherwise.</returns>
-        </member>
-        <member name="T:Newtonsoft.Json.Utilities.MethodBinder.ParametersMatchComparer">
-            <summary>
-            Compares two sets of parameters to determine 
-            which one suits better for given argument types.
-            </summary>
-        </member>
-        <member name="M:Newtonsoft.Json.Utilities.MethodBinder.SelectMethod``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IList{System.Type})">
-            <summary>
-            Returns a best method overload for given argument <paramref name="types"/>.
-            </summary>
-            <param name="candidates">List of method candidates.</param>
-            <param name="types">Argument types.</param>
-            <returns>Best method overload, or <c>null</c> if none matched.</returns>
         </member>
         <member name="M:Newtonsoft.Json.Utilities.ReflectionUtils.GetCollectionItemType(System.Type)">
             <summary>
@@ -10446,21 +10906,6 @@
         <member name="F:Newtonsoft.Json.WriteState.Start">
             <summary>
             A <see cref="T:Newtonsoft.Json.JsonWriter"/> write method has not been called.
-            </summary>
-        </member>
-        <member name="T:System.Runtime.Serialization.Formatters.FormatterAssemblyStyle">
-            <summary>
-            Indicates the method that will be used during deserialization for locating and loading assemblies.
-            </summary>
-        </member>
-        <member name="F:System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple">
-            <summary>
-            In simple mode, the assembly used during deserialization need not match exactly the assembly used during serialization. Specifically, the version numbers need not match as the <see cref="M:System.Reflection.Assembly.LoadWithPartialName(String)"/> method is used to load the assembly.
-            </summary>
-        </member>
-        <member name="F:System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Full">
-            <summary>
-            In full mode, the assembly used during deserialization must match exactly the assembly used during serialization. The <see cref="M:System.Reflection.Assembly.Load(System.Reflection.AssemblyName)"/> is used to load the assembly.
             </summary>
         </member>
     </members>
