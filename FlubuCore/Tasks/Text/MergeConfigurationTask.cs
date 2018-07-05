@@ -12,7 +12,7 @@ namespace FlubuCore.Tasks.Text
         private readonly string _fileName;
         private readonly List<string> _sourceFiles = new List<string>();
 
-        public MergeConfigurationTask(string outFile, params string[] sourceFiles)
+        public MergeConfigurationTask(string outFile, List<string> sourceFiles)
         {
             _fileName = outFile;
             _sourceFiles.AddRange(sourceFiles);

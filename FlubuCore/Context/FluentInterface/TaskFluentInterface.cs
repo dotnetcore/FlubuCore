@@ -5,6 +5,7 @@ using System.Net.Http;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Infrastructure;
 using FlubuCore.Tasks.FileSystem;
+using FlubuCore.Tasks.MsSql;
 using FlubuCore.Tasks.Nuget;
 using FlubuCore.Tasks.Packaging;
 using FlubuCore.Tasks.Process;
@@ -269,7 +270,7 @@ namespace FlubuCore.Context.FluentInterface
         /// <inheritdoc />
         public MergeConfigurationTask MergeConfigurationTask(string outFile, params string[] sourceFiles)
         {
-            return Context.CreateTask<MergeConfigurationTask>(outFile, sourceFiles);
+            return Context.CreateTask<MergeConfigurationTask>(outFile, sourceFiles.ToList());
         }
 
         /// <inheritdoc />

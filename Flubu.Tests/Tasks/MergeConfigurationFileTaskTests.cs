@@ -1,4 +1,5 @@
-﻿using FlubuCore.Context;
+﻿using System.Collections.Generic;
+using FlubuCore.Context;
 using FlubuCore.Tasks.Text;
 using Xunit;
 
@@ -20,8 +21,11 @@ namespace Flubu.Tests.Tasks
         {
             MergeConfigurationTask task = new MergeConfigurationTask(
                 "merged.json".ExpandToExecutingPath(),
-                "TestData/amazon.json".ExpandToExecutingPath(),
-                "TestData/database.json".ExpandToExecutingPath());
+                new List<string>
+                {
+                    "TestData/amazon.json".ExpandToExecutingPath(),
+                    "TestData/database.json".ExpandToExecutingPath()
+                });
 
             int res = task
                 .Execute(Context);

@@ -425,5 +425,11 @@ namespace Flubu.Tests.Context
         {
             Assert.NotNull(Context.Tasks().SqlCmdTask("test.sql", "Test2.sql"));
         }
+
+        [Fact]
+        public void ResolveMergeConfigurationTask()
+        {
+            Assert.NotNull(Context.Tasks().MergeConfigurationTask("abc.json", "a.json", "b.json"));
+        }
     }
 }
