@@ -8,7 +8,7 @@ namespace FlubuCore.Scripting.Processors
     {
         public bool Process(AnalyserResult analyserResult, string line, int lineIndex)
         {
-            if (!line.StartsWith("//#ass"))
+            if (!line.TrimStart().StartsWith("//#ass", StringComparison.OrdinalIgnoreCase))
                 return false;
 
             int dllIndex = line.IndexOf(" ", StringComparison.Ordinal);

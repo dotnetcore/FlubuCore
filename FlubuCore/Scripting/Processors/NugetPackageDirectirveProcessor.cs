@@ -9,7 +9,7 @@ namespace FlubuCore.Scripting.Processors
     {
         public bool Process(AnalyserResult analyserResult, string line, int lineIndex)
         {
-            if (!line.StartsWith("//#nuget"))
+            if (!line.TrimStart().StartsWith("//#nuget", StringComparison.OrdinalIgnoreCase))
                 return false;
 
             int nugetIndex = line.IndexOf(" ", StringComparison.Ordinal);
