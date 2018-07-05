@@ -8,7 +8,7 @@ See [**getting started**](https://github.com/flubu-core/flubu.core/wiki/1-Gettin
 
 List of features that FlubuCore has to offer with description can be found at [**build script fundamentals**](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals). Alternatively You can take a look at examples below.
 
-* For.NET projects use [**FlubuCore.Runner**](https://www.nuget.org/packages/FlubuCore.Runner/)
+* For .NET projects use [**FlubuCore.Runner**](https://www.nuget.org/packages/FlubuCore.Runner/)
 * For .NET Core projects use CLI tool - [**dotnet-flubu**](https://www.nuget.org/packages/dotnet-flubu/)
 * For .NET Core projects use global tool - ```dotnet tool install --global FlubuCore.GlobalTool```
 
