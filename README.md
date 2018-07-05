@@ -16,11 +16,12 @@ List of features that FlubuCore has to offer with description can be found at [*
 
 * Net Core support.
 * Easy to learn and to use because you write build script entirely in C#.
+* Fluent interface and intelisense.
 * [Quite a lot of built in tasks](https://github.com/flubu-core/flubu.core/wiki/4-Tasks) (compile, running tests, managing iis, creating deploy package, publishing nuget packages, executing powershell scripts...)
 * [Write your own custom c# code in script and execute it](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Custom-code). 
 * [Run any external program in script with RunProgramTask](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Run-any-program).
 * [Reference any .net library or c# source code file in buildscript](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script). Now also available option to reference nuget package in build script.
-* Fluent interface and intelisense.
+
 * [Write tests, debug your build script](https://github.com/flubu-core/flubu.core/wiki/6-Writing-build-script-tests,-debuging-and-running-flubu-tasks-in-other-applications).
 * [Use flubu tasks in any  other .net application](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs).
 * [Web api is available for flubu](https://github.com/flubu-core/flubu.core/wiki/7-Web-Api:-Getting-started). Useful for automated deployments remotely.
