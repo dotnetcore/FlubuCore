@@ -393,7 +393,7 @@ namespace Flubu.Tests.Context
         [Fact]
         public void ResolveNunitWithDotCoverTask2()
         {
-            Context.Tasks().NUnitWithDotCover("test", new string[2]);
+            Context.Tasks().NUnitWithDotCover("test", "abc", "bac");
         }
 
         [Fact]
