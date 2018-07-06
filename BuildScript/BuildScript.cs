@@ -267,7 +267,7 @@ public class BuildScript : DefaultBuildScript
                 .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
                 .AddFileToPackage(@"packages\netstandard.dll", "lib")
                 .DisableLogging()
-                .ZipPackage("FlubuCore.WebApi-NetCoreApp2.1-WindowsInstaller", true))
+                .ZipPackage("FlubuCore.WebApi-NetCoreApp2.0-WindowsInstaller", true))
             .AddTask(x => x.PackageTask("output\\WebApiPackages")
                 .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp2.1\publish", "FlubuCore.WebApi", true)
                 .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
