@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using FlubuCore;
 using FlubuCore.Commanding;
+using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 
 namespace DotNet.Cli.Flubu.Commanding
@@ -26,6 +27,10 @@ namespace DotNet.Cli.Flubu.Commanding
                     jsonSettingsEnvFile = $"{jsonSettingsEnvFile}.{environment}.json";
                     builder.AddJsonFile(jsonSettingsEnvFile, optional: true);
                 }
+
+                var jsonSettingsByMachineNameFile = Path.GetFileNameWithoutExtension(jsonSettingsFile);
+                jsonSettingsByMachineNameFile = $"{jsonSettingsByMachineNameFile}.{Environment.MachineName}.json";
+                builder.AddJsonFile(jsonSettingsByMachineNameFile, optional: true);
 
                 var config = builder.Build();
 
