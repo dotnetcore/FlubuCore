@@ -23,10 +23,10 @@ List of features that FlubuCore has to offer with description can be found at [*
 * [Run any external program or command in script with RunProgramTask.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Run-any-program)
 * [Reference any .net library or c# source code file in buildscript. Now also available option to reference nuget package in build script.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script)
 
-* [Write tests, debug your build script.](https://github.com/flubu-core/flubu.core/wiki/6-Writing-build-script-tests,-debuging-and-running-flubu-tasks-in-other-applications)
+* [Write tests, debug your build script.](https://github.com/flubu-core/flubu.core/wiki/6-Writing-build-script-tests,-debuging-and-running-flubu-tasks-in-other--.net-applications)
 * [Use flubu tasks in any  other .net application.](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs)
 * [Web api is available for flubu. Useful for automated deployments remotely.](https://github.com/flubu-core/flubu.core/wiki/7-Web-Api:-Getting-started)
-* [Write your own flubu tasks and extend flubu fluent interface with them.](https://github.com/flubu-core/flubu.core/wiki/5-Flubu-Task-Plugins)
+* [Write your own flubu tasks and extend flubu fluent interface with them.](https://github.com/flubu-core/flubu.core/wiki/5-How-to-write-and-use-FlubuCore-task-plugins)
 
 ### Have a question? ###
 
