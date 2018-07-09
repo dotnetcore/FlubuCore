@@ -19,7 +19,7 @@ List of features that FlubuCore has to offer with description can be found at [*
 * Fluent interface and intelisense.
 * [Quite a lot of built in tasks (compile, running tests, managing iis, creating deploy package, publishing nuget packages, executing powershell scripts...)](https://github.com/flubu-core/flubu.core/wiki/4-Tasks) 
 * [Write your own custom c# code in script and execute it.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Custom-code)
-* [Async execution of tasks, target dependencies and custom code](#https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Async-execution)
+* [Async execution of tasks, target dependencies and custom code](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Async-execution)
 * [Run any external program or command in script with RunProgramTask.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Run-any-program)
 * [Reference any .net library or c# source code file in buildscript. Now also available option to reference nuget package in build script.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script)
 
