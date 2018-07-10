@@ -60,7 +60,7 @@ FlubuCore main build and FlubuCore system tests are also runned on linux machine
 ### Contribution guidelines ###
 * If u find a bug please report it :) 
 * If u have any improvement or feature proposal's we would be glad to hear from you. Add new issue as proposal and we will discuss it with you.
-* If u want to fix a bug yourself, improve or add new feature to flubu.. Fork, Pull request but first add new issue so we discuss it.
+* If u want to fix a bug yourself, improve or add new feature to flubu.. Fork, Pull request but first add new issue so we discuss it. You can also search the issues by label Help wanted, Good first issue or any other if u know how to fix/implement it. 
 
 
 [**Release notes**](https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt
