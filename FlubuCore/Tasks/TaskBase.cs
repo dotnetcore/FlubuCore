@@ -40,7 +40,7 @@ namespace FlubuCore.Tasks
 
         protected abstract string Description { get; set; }
 
-        protected string TaskName
+        protected virtual string TaskName
         {
             get
             {

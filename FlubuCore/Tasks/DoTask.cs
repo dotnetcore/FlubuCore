@@ -13,6 +13,23 @@ namespace FlubuCore.Tasks
             _taskAction = taskAction;
         }
 
+        protected override string TaskName
+        {
+            get
+            {
+                if (_taskAction == null)
+                {
+                    return base.TaskName;
+                }
+#if !NETSTANDARD1_6
+                return _taskAction?.Method.Name;
+#endif
+                return base.TaskName;
+            }
+
+            set => base.TaskName = value;
+        }
+
         protected override string Description { get; set; }
 
         protected override int DoExecute(ITaskContextInternal context)
@@ -40,6 +57,23 @@ namespace FlubuCore.Tasks
         public T Param { get; set; }
 
         protected override string Description { get; set; }
+
+        protected override string TaskName
+        {
+            get
+            {
+                if (_taskAction == null)
+                {
+                    return base.TaskName;
+                }
+#if !NETSTANDARD1_6
+                return _taskAction?.Method.Name;
+#endif
+                return base.TaskName;
+            }
+
+            set => base.TaskName = value;
+        }
 
         protected override int DoExecute(ITaskContextInternal context)
         {
@@ -69,6 +103,23 @@ namespace FlubuCore.Tasks
         public T2 Param2 { get; set; }
 
         protected override string Description { get; set; }
+
+        protected override string TaskName
+        {
+            get
+            {
+                if (_taskAction == null)
+                {
+                    return base.TaskName;
+                }
+#if !NETSTANDARD1_6
+                return _taskAction?.Method.Name;
+#endif
+                return base.TaskName;
+            }
+
+            set => base.TaskName = value;
+        }
 
         protected override int DoExecute(ITaskContextInternal context)
         {
@@ -101,6 +152,23 @@ namespace FlubuCore.Tasks
         public T3 Param3 { get; set; }
 
         protected override string Description { get; set; }
+
+        protected override string TaskName
+        {
+            get
+            {
+                if (_taskAction == null)
+                {
+                    return base.TaskName;
+                }
+#if !NETSTANDARD1_6
+                return _taskAction?.Method.Name;
+#endif
+                return base.TaskName;
+            }
+
+            set => base.TaskName = value;
+        }
 
         protected override int DoExecute(ITaskContextInternal context)
         {
@@ -136,6 +204,23 @@ namespace FlubuCore.Tasks
         public T4 Param4 { get; set; }
 
         protected override string Description { get; set; }
+
+        protected override string TaskName
+        {
+            get
+            {
+                if (_taskAction == null)
+                {
+                    return base.TaskName;
+                }
+#if !NETSTANDARD1_6
+                return _taskAction?.Method.Name;
+#endif
+                return base.TaskName;
+            }
+
+            set => base.TaskName = value;
+        }
 
         protected override int DoExecute(ITaskContextInternal context)
         {
@@ -174,6 +259,23 @@ namespace FlubuCore.Tasks
         public T5 Param5 { get; set; }
 
         protected override string Description { get; set; }
+
+        protected override string TaskName
+        {
+            get
+            {
+                if (_taskAction == null)
+                {
+                    return base.TaskName;
+                }
+#if !NETSTANDARD1_6
+                return _taskAction?.Method.Name;
+#endif
+                return base.TaskName;
+            }
+
+            set => base.TaskName = value;
+        }
 
         protected override int DoExecute(ITaskContextInternal context)
         {
