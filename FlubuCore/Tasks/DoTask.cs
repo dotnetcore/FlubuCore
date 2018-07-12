@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using FlubuCore.Context;
 
 namespace FlubuCore.Tasks
@@ -18,6 +19,11 @@ namespace FlubuCore.Tasks
         {
             _taskAction.Invoke(context);
             return 0;
+        }
+
+        protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
+        {
+            throw new NotSupportedException("Asynchronus method not supported in DoTask. Use DoTaskAsync instead.");
         }
     }
 
@@ -39,6 +45,11 @@ namespace FlubuCore.Tasks
         {
             _taskAction.Invoke(context, Param);
             return 0;
+        }
+
+        protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
+        {
+            throw new NotSupportedException("Asynchronus method not supported in DoTask. Use DoTaskAsync instead.");
         }
     }
 
@@ -63,6 +74,11 @@ namespace FlubuCore.Tasks
         {
             _taskAction.Invoke(context, Param, Param2);
             return 0;
+        }
+
+        protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
+        {
+            throw new NotSupportedException("Asynchronus method not supported in DoTask. Use DoTaskAsync instead.");
         }
     }
 
@@ -90,6 +106,11 @@ namespace FlubuCore.Tasks
         {
             _taskAction.Invoke(context, Param, Param2, Param3);
             return 0;
+        }
+
+        protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
+        {
+            throw new NotSupportedException("Asynchronus method not supported in DoTask. Use DoTaskAsync instead.");
         }
     }
 
@@ -120,6 +141,11 @@ namespace FlubuCore.Tasks
         {
             _taskAction.Invoke(context, Param, Param2, Param3, Param4);
             return 0;
+        }
+
+        protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
+        {
+            throw new NotSupportedException("Asynchronus method not supported in DoTask. Use DoTaskAsync instead.");
         }
     }
 
@@ -153,6 +179,11 @@ namespace FlubuCore.Tasks
         {
             _taskAction.Invoke(context, Param, Param2, Param3, Param4, Param5);
             return 0;
+        }
+
+        protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
+        {
+            throw new NotSupportedException("Asynchronus method not supported in DoTask. Use DoTaskAsync instead.");
         }
     }
 }

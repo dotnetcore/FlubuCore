@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            throw new NotSupportedException("Synchronus method not supported in DoTaskAsync");
+            throw new NotSupportedException("Synchronus method not supported in DoTaskAsync. Use DoTask instead.");
         }
 
         protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
@@ -45,7 +45,7 @@ namespace FlubuCore.Tasks
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            throw new NotSupportedException("Synchronus method not supported in DoTaskAsync");
+            throw new NotSupportedException("Synchronus method not supported in DoTaskAsync. Use DoTask instead.");
         }
 
         protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
@@ -74,7 +74,7 @@ namespace FlubuCore.Tasks
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            throw new NotSupportedException("Synchronus method not supported in DoTaskAsync");
+            throw new NotSupportedException("Synchronus method not supported in DoTaskAsync. Use DoTask instead.");
         }
 
         protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
@@ -106,7 +106,7 @@ namespace FlubuCore.Tasks
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            throw new NotSupportedException("Synchronus method not supported in DoTaskAsync");
+            throw new NotSupportedException("Synchronus method not supported in DoTaskAsync. Use DoTask instead.");
         }
 
         protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
@@ -141,7 +141,7 @@ namespace FlubuCore.Tasks
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            throw new NotSupportedException("Synchronus method not supported in DoTaskAsync");
+            throw new NotSupportedException("Synchronus method not supported in DoTaskAsync. Use DoTask instead.");
         }
 
         protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
@@ -179,7 +179,7 @@ namespace FlubuCore.Tasks
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            throw new NotSupportedException("Synchronus method not supported in DoTaskAsync");
+            throw new NotSupportedException("Synchronus method not supported in DoTaskAsync. Use DoTask instead.");
         }
 
         protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
