@@ -2,12 +2,44 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context.FluentInterface.Interfaces;
+using FlubuCore.Tasks;
 using FlubuCore.Tasks.Process;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace FlubuCore.Context.FluentInterface.TaskExtensions
 {
     public static class TaskFluentInterfaceExtensions
     {
+        public static DoTask Do(this ITaskFluentInterface taskF, Action<ITaskContext> taskAction)
+        {
+            return new DoTask(taskAction);
+        }
+
+        public static DoTask2<T> Do<T>(this ITaskFluentInterface taskF, Action<ITaskContextInternal, T> taskAction, T param)
+        {
+            return new DoTask2<T>(taskAction, param);
+        }
+
+        public static DoTask3<T, T2> Do<T, T2>(this ITaskFluentInterface taskF, Action<ITaskContextInternal, T, T2> taskAction, T param, T2 param2)
+        {
+            return new DoTask3<T, T2>(taskAction, param, param2);
+        }
+
+        public static DoTask4<T, T2, T3> Do<T, T2, T3>(this ITaskFluentInterface taskF, Action<ITaskContextInternal, T, T2, T3> taskAction, T param, T2 param2, T3 param3)
+        {
+            return new DoTask4<T, T2, T3>(taskAction, param, param2, param3);
+        }
+
+        public static DoTask5<T, T2, T3, T4> Do<T, T2, T3, T4>(this ITaskFluentInterface taskF, Action<ITaskContextInternal, T, T2, T3, T4> taskAction, T param, T2 param2, T3 param3, T4 param4)
+        {
+            return new DoTask5<T, T2, T3, T4>(taskAction, param, param2, param3, param4);
+        }
+
+        public static DoTask6<T, T2, T3, T4, T5> Do<T, T2, T3, T4, T5>(this ITaskFluentInterface taskF, Action<ITaskContextInternal, T, T2, T3, T4, T5> taskAction, T param, T2 param2, T3 param3, T4 param4, T5 param5)
+        {
+            return new DoTask6<T, T2, T3, T4, T5>(taskAction, param, param2, param3, param4, param5);
+        }
+
         /// <summary>
         /// Run's multiple programs
         /// </summary>
