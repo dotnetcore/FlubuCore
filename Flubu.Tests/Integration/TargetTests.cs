@@ -226,7 +226,7 @@ namespace Flubu.Tests.Integration
         {
             TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" } });
 
-            var target1 = targetTree.AddTarget("target 1").DoAsync(DoWithDelay).DoAsync((Action<ITaskContextInternal>)DoWithDelay2);
+            var target1 = targetTree.AddTarget("target 1").DoAsync(DoWithDelay).DoAsync(DoWithDelay2);
 
             Stopwatch sw = new Stopwatch();
 
@@ -258,9 +258,9 @@ namespace Flubu.Tests.Integration
            await Task.Delay(3000);
         }
 
-        private void DoWithDelay2(ITaskContext context)
+        private async Task DoWithDelay2(ITaskContext context)
         {
-            Task.Delay(3000).Wait();
+           await Task.Delay(3000);
         }
     }
 }
