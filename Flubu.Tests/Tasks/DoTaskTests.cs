@@ -22,7 +22,7 @@ namespace Flubu.Tests.Tasks
         {
             var task = new DoTaskForTests((c) => { return; });
 
-            Assert.Equal("SomeMethodName", task.GetTaskName());
+            Assert.Equal("<NewDoTask_DefaultTaskNameAnonymousMethod_IsMethodName>b__1_0", task.GetTaskName());
         }
 
         private void SomeMethodName(ITaskContext context)
