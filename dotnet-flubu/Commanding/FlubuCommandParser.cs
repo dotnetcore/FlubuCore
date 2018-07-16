@@ -57,7 +57,7 @@ namespace DotNet.Cli.Flubu.Commanding
             _isDebug = _commandApp.Option("-d|--debug", "Enable debug logging.", CommandOptionType.NoValue);
             _configurationFile = _commandApp.Option("-cf|--configurationFile", "Path to the flubu json configuration file. If not specified configuration is readed from flubusettings.json ", CommandOptionType.SingleValue);
             _assemblyDirectories = _commandApp.Option("-ass", "Directory to search assemblies to include automatically in script (Assemblies in subdirectories are also loaded). If not specified assemblies are loaded by default from FlubuLib directory.", CommandOptionType.MultipleValue);
-            _noDependencies = _commandApp.Option("-nd||--nodeps||--noDependencies", "If applied no target dependencies are executed.", CommandOptionType.NoValue);
+            _noDependencies = _commandApp.Option("-nd||--nodeps", "If applied no target dependencies are executed.", CommandOptionType.NoValue);
             _commandApp.OnExecute(() => PrepareDefaultArguments());
 
             if (args == null)
