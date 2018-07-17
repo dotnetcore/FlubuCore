@@ -15,6 +15,7 @@ namespace FlubuCore.Tasks.Iis
 
         private bool _failIfNotExist;
         private string _description;
+        private string _serverName;
 
         public ControlAppPoolTask(string applicationPoolName, ControlApplicationPoolAction action)
         {
@@ -43,9 +44,19 @@ namespace FlubuCore.Tasks.Iis
             return this;
         }
 
+        public IControlAppPoolTask ForServer(string serverName)
+        {
+            _serverName = serverName;
+            return this;
+        }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
-            using (ServerManager serverManager = new ServerManager())
+            ServerManager serverManager = string.IsNullOrEmpty(_serverName)
+                ? new ServerManager()
+                : ServerManager.OpenRemote(_serverName);
+
+            using (serverManager)
             {
                 ApplicationPoolCollection applicationPoolCollection = serverManager.ApplicationPools;
                 const string message = "Application pool '{0}' has been {1}ed.";

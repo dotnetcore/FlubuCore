@@ -1,3 +1,6 @@
+2.9.1.0
+- Added support to control IIS application pool on remote computer
+
 2.9.0.0
 - Added support for referencing a nuget package.
 - Added support for debugging the script by attaching to the debuget.
