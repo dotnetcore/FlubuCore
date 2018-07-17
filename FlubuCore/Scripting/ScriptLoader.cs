@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting.Analysis;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.Extensions.Logging;
@@ -50,6 +53,31 @@ namespace FlubuCore.Scripting
 
         public async Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(CommandArguments args)
         {
+            Stopwatch sw = new Stopwatch();
+
+            sw.Start();
+#if !NETSTANDARD1_6
+            if (File.Exists("File.dll"))
+            {
+                using (FileStream file = new FileStream("File.dll", FileMode.Open, FileAccess.Read))
+                {
+                    MemoryStream ms = new MemoryStream();
+                    byte[] bytes = new byte[file.Length];
+                    file.Read(bytes, 0, (int)file.Length);
+                    ms.Write(bytes, 0, (int)file.Length);
+                    var assembly = Assembly.Load(ms.GetBuffer());
+                    var type = assembly.GetType("Script");
+                    var factory = type.GetMethod("<Factory>");
+                    var submissionArray = new object[3];
+                    Task<object> task = (Task<object>)factory.Invoke(null, new object[] { submissionArray });
+                    var instance = (IBuildScript)await task;
+                    sw.Stop();
+
+                    Console.WriteLine($"Miliseconds: {sw.ElapsedMilliseconds}");
+                    return instance;
+                }
+            }
+            #endif
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuPath = typeof(DefaultBuildScript).GetTypeInfo().Assembly.Location;
             List<string> assemblyReferenceLocations = new List<string>
@@ -130,9 +158,18 @@ namespace FlubuCore.Scripting
             try
             {
                 ScriptState result = await script.RunAsync();
+                CSharpCompilationOptions scriptCompilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, metadataImportOptions: MetadataImportOptions.All)
+                    .WithScriptClassName("Test");
 
+                var compilation = script.GetCompilation().WithOptions(scriptCompilationOptions);
+                var entryPoint = compilation.GetEntryPoint(CancellationToken.None);
+                Console.WriteLine(entryPoint.ContainingType.MetadataName);
+                compilation.Emit("file.dll", "file.pdb");
                 var buildScript = result.Variables[0].Value as IBuildScript;
 
+                sw.Stop();
+
+                Console.WriteLine($"Miliseconds: {sw.ElapsedMilliseconds}");
                 if (buildScript == null)
                 {
                     throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
