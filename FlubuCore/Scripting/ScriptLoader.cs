@@ -59,6 +59,20 @@ namespace FlubuCore.Scripting
         public async Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(CommandArguments args)
         {
             Stopwatch sw = Stopwatch.StartNew();
+            string buildScriptFilePath = _buildScriptLocator.FindBuildScript(args);
+            var buildScriptAssemblyPath = Path.Combine("Bin", Path.GetFileName(buildScriptFilePath));
+            buildScriptAssemblyPath = Path.ChangeExtension(buildScriptAssemblyPath, "dll");
+            var assembly = TryLoadBuildScriptFromAssembly(buildScriptAssemblyPath);
+
+            if (assembly != null)
+            {
+                var bs = CreateBuildScriptInstance(assembly, buildScriptFilePath);
+                sw.Stop();
+                Debug.WriteLine($"Script loaded in Miliseconds: {sw.ElapsedMilliseconds}");
+                Console.WriteLine($"Script loaded in Miliseconds: {sw.ElapsedMilliseconds}");
+                return bs;
+            }
+
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuPath = typeof(DefaultBuildScript).GetTypeInfo().Assembly.Location;
 
@@ -94,9 +108,7 @@ namespace FlubuCore.Scripting
                 assemblyReferenceLocations.Add(loadedAssembly.Location);
             }
 
-            string fileName = _buildScriptLocator.FindBuildScript(args);
-
-            List<string> code = _file.ReadAllLines(fileName);
+            List<string> code = _file.ReadAllLines(buildScriptFilePath);
 
             AnalyserResult analyserResult = _analyser.Analyze(code);
             assemblyReferenceLocations.AddRange(analyserResult.References);
@@ -134,54 +146,63 @@ namespace FlubuCore.Scripting
 
             try
             {
-                Assembly assembly = TryLoadBuildScriptFromAssembly() ?? CompileBuildScriptToAssembly(fileName, references, string.Join("\r\n", code));
+                assembly = CompileBuildScriptToAssembly(buildScriptAssemblyPath, references, string.Join("\r\n", code));
 
-                TypeInfo type = assembly.DefinedTypes.FirstOrDefault(i => i.BaseType == typeof(DefaultBuildScript));
-
-                object obj = Activator.CreateInstance(type.AsType());
-                if (!(obj is IBuildScript))
-                {
-                    throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
-                }
-
+                var buildScript = CreateBuildScriptInstance(assembly, buildScriptFilePath);
+                sw.Stop();
                 Debug.WriteLine($"Script loaded in Miliseconds: {sw.ElapsedMilliseconds}");
                 Console.WriteLine($"Script loaded in Miliseconds: {sw.ElapsedMilliseconds}");
 
-                return obj as IBuildScript;
+                return buildScript;
 
-                throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
+                throw new ScriptLoaderExcetpion($"Class in file: {buildScriptFilePath} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
             }
             catch (CompilationErrorException e)
             {
                 Console.WriteLine(e);
                 if (e.Message.Contains("CS0234"))
                 {
-                    throw new ScriptLoaderExcetpion($"Csharp source code file: {fileName} has some compilation errors. {e.Message}. If u are using flubu script correctly you have to add assembly reference with #ref directive in build script. See build script fundamentals section 'Referencing other assemblies in build script' in https://github.com/flubu-core/flubu.core/wiki for more details.Otherwise if u think u are not using flubu correctly see Getting started section in wiki.", e);
+                    throw new ScriptLoaderExcetpion($"Csharp source code file: {buildScriptFilePath} has some compilation errors. {e.Message}. If u are using flubu script correctly you have to add assembly reference with #ref directive in build script. See build script fundamentals section 'Referencing other assemblies in build script' in https://github.com/flubu-core/flubu.core/wiki for more details.Otherwise if u think u are not using flubu correctly see Getting started section in wiki.", e);
                 }
 
-                throw new ScriptLoaderExcetpion($"Csharp source code file: {fileName} has some compilation errors. {e.Message}. See getting started and build script fundamentals in https://github.com/flubu-core/flubu.core/wiki", e);
+                throw new ScriptLoaderExcetpion($"Csharp source code file: {buildScriptFilePath} has some compilation errors. {e.Message}. See getting started and build script fundamentals in https://github.com/flubu-core/flubu.core/wiki", e);
             }
         }
 
-        private Assembly TryLoadBuildScriptFromAssembly()
+        private static IBuildScript CreateBuildScriptInstance(Assembly assembly, string fileName)
         {
-            if (!File.Exists("file.dll"))
+            TypeInfo type = assembly.DefinedTypes.FirstOrDefault(i => i.BaseType == typeof(DefaultBuildScript));
+
+            if (type == null)
+            {
+                throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
+            }
+
+            var obj = Activator.CreateInstance(type.AsType());
+
+            var buildScript = obj as IBuildScript ?? throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
+            return buildScript;
+        }
+
+        private Assembly TryLoadBuildScriptFromAssembly(string buildScriptAssemblyPath)
+        {
+            if (!File.Exists(buildScriptAssemblyPath))
                 return null;
 #if NETSTANDARD1_6
-            return AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.GetFullPath("file.dll"));
+            return AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.GetFullPath(buildScriptAssemblyPath));
 #else
-            return Assembly.Load(File.ReadAllBytes("file.dll"));
+            return Assembly.Load(File.ReadAllBytes(buildScriptAssemblyPath));
 #endif
         }
 
-        private Assembly CompileBuildScriptToAssembly(string fileName, List<MetadataReference> references, string code)
+        private Assembly CompileBuildScriptToAssembly(string buildScriptAssemblyPath, List<MetadataReference> references, string code)
         {
             SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(SourceText.From(string.Join("\r\n", code), Encoding.UTF8));
             CSharpCompilation compilation = CSharpCompilation.Create(
-                "file.dll",
+                Path.GetFileName(buildScriptAssemblyPath),
                 syntaxTrees: new[] { syntaxTree },
                 references: references,
-                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary).WithOptimizationLevel(OptimizationLevel.Debug));
 
             using (var ms = new MemoryStream())
             {
@@ -204,7 +225,9 @@ namespace FlubuCore.Scripting
 
                 ms.Seek(0, SeekOrigin.Begin);
                 var data = ms.ToArray();
-                File.WriteAllBytes("file.dll", data);
+
+                Directory.CreateDirectory(Path.GetDirectoryName(buildScriptAssemblyPath));
+                File.WriteAllBytes(buildScriptAssemblyPath, data);
 
 #if  NETSTANDARD1_6
                 ms.Seek(0, SeekOrigin.Begin);
