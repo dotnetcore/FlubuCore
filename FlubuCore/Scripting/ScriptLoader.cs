@@ -55,26 +55,7 @@ namespace FlubuCore.Scripting
 
         public async Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(CommandArguments args)
         {
-            Stopwatch sw = new Stopwatch();
-
-            sw.Start();
-
-//#if !NETSTANDARD1_6
-//            if (File.Exists("File.dll"))
-//            {
-//                var data = File.ReadAllBytes("File.dll");
-//                var assembly = Assembly.Load(data);
-//                var type = assembly.GetType("Script");
-//                var factory = type.GetMethod("<Factory>");
-//                var submissionArray = new object[3];
-//                Task<object> task = (Task<object>)factory.Invoke(null, new object[] { submissionArray });
-//                var instance = (IBuildScript)await task;
-//                sw.Stop();
-
-//                Console.WriteLine($"Miliseconds: {sw.ElapsedMilliseconds}");
-//                return instance;
-//            }
-//#endif
+            Stopwatch sw = Stopwatch.StartNew();
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuPath = typeof(DefaultBuildScript).GetTypeInfo().Assembly.Location;
             List<string> assemblyReferenceLocations = new List<string>
@@ -145,50 +126,22 @@ namespace FlubuCore.Scripting
 
             try
             {
-                //ScriptState result = await script.RunAsync();
-                SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(SourceText.From(string.Join("\r\n", code), Encoding.UTF8));
-                CSharpCompilation compilation = CSharpCompilation.Create(
-                    "file.dll",
-                    syntaxTrees: new[] { syntaxTree },
-                    references: references,
-                    options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+                Assembly assembly = TryLoadAssembly() ?? CompileToAssembly(fileName, references, string.Join("\r\n", code));
 
-                using (var ms = new MemoryStream())
-                {
-                    EmitResult result = compilation.Emit(ms);
-
-                    if (!result.Success)
-                    {
-                        IEnumerable<Diagnostic> failures = result.Diagnostics.Where(diagnostic =>
-                            diagnostic.IsWarningAsError ||
-                            diagnostic.Severity == DiagnosticSeverity.Error);
-
-                        foreach (Diagnostic diagnostic in failures)
-                        {
-                            Debug.WriteLine("ScriptError:{0}: {1}", diagnostic.Id, diagnostic.GetMessage());
-                        }
-
-                        throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
-                    }
-
-                    ms.Seek(0, SeekOrigin.Begin);
+                var type = assembly.DefinedTypes.FirstOrDefault(i => i.BaseType == typeof(DefaultBuildScript));
 #if !NETSTANDARD1_6
-                        Assembly assembly = Assembly.Load(ms.ToArray());
-                        var type = assembly.DefinedTypes.FirstOrDefault(i => i.BaseType == typeof(DefaultBuildScript));
 
-                        object obj = Activator.CreateInstance(type);
-                if (obj as IBuildScript == null)
+                object obj = Activator.CreateInstance(type);
+                if (!(obj is IBuildScript))
                 {
-                   throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
+                    throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
                 }
 
-    return obj as IBuildScript;
+                Debug.WriteLine($"Script loaded in Miliseconds: {sw.ElapsedMilliseconds}");
+                Console.WriteLine($"Script loaded in Miliseconds: {sw.ElapsedMilliseconds}");
+
+                return obj as IBuildScript;
 #endif
-                }
-
-                sw.Stop();
-
-                Console.WriteLine($"Miliseconds: {sw.ElapsedMilliseconds}");
 
                 throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
             }
@@ -201,6 +154,57 @@ namespace FlubuCore.Scripting
 
                 throw new ScriptLoaderExcetpion($"Csharp source code file: {fileName} has some compilation errors. {e.Message}. See getting started and build script fundamentals in https://github.com/flubu-core/flubu.core/wiki", e);
             }
+        }
+
+        private Assembly TryLoadAssembly()
+        {
+            if (!File.Exists("file.dll"))
+                return null;
+
+#if !NETSTANDARD1_6
+            return Assembly.Load(File.ReadAllBytes("file.dll"));
+#endif
+
+            return null;
+        }
+
+        private Assembly CompileToAssembly(string fileName, List<MetadataReference> references, string code)
+        {
+            SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(SourceText.From(string.Join("\r\n", code), Encoding.UTF8));
+            CSharpCompilation compilation = CSharpCompilation.Create(
+                "file.dll",
+                syntaxTrees: new[] { syntaxTree },
+                references: references,
+                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+
+            using (var ms = new MemoryStream())
+            {
+                EmitResult result = compilation.Emit(ms);
+
+                if (!result.Success)
+                {
+                    IEnumerable<Diagnostic> failures = result.Diagnostics.Where(diagnostic =>
+                        diagnostic.IsWarningAsError ||
+                        diagnostic.Severity == DiagnosticSeverity.Error);
+
+                    foreach (Diagnostic diagnostic in failures)
+                    {
+                        Debug.WriteLine("ScriptError:{0}: {1}", diagnostic.Id, diagnostic.GetMessage());
+                    }
+
+                    throw new ScriptLoaderExcetpion(
+                        $"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
+                }
+
+                ms.Seek(0, SeekOrigin.Begin);
+                var data = ms.ToArray();
+                File.WriteAllBytes("file.dll", data);
+#if !NETSTANDARD1_6
+                        return Assembly.Load(data);
+#endif
+            }
+
+            throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
         }
 
         private List<string> FindAssemblyReferencesInDirectories(List<string> directories)
