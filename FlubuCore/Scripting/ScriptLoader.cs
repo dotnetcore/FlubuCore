@@ -5,6 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+#if NETSTANDARD1_6
+using System.Runtime.Loader;
+#endif
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,11 +15,11 @@ using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting.Analysis;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.Extensions.Logging;
+using TypeInfo = System.Reflection.TypeInfo;
 
 namespace FlubuCore.Scripting
 {
@@ -58,6 +61,7 @@ namespace FlubuCore.Scripting
             Stopwatch sw = Stopwatch.StartNew();
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuPath = typeof(DefaultBuildScript).GetTypeInfo().Assembly.Location;
+
             List<string> assemblyReferenceLocations = new List<string>
             {
                 Path.Combine(coreDir, "mscorlib.dll"),
@@ -66,12 +70,15 @@ namespace FlubuCore.Scripting
                 typeof(File).GetTypeInfo().Assembly.Location,
                 typeof(ILookup<string, string>).GetTypeInfo().Assembly.Location,
                 typeof(Expression).GetTypeInfo().Assembly.Location,
+                typeof(MethodInfo).GetTypeInfo().Assembly.Location
         };
 
-            List<MetadataReference> references = new List<MetadataReference>();
-
+#if NETSTANDARD1_6
+           assemblyReferenceLocations.Add(Assembly.Load(new AssemblyName("System.Reflection, Version=4.0.10.0")).Location);
+#endif
 #if NETSTANDARD2_0
             assemblyReferenceLocations.Add(typeof(Console).GetTypeInfo().Assembly.Location);
+            assemblyReferenceLocations.Add(Assembly.Load(new AssemblyName("netstandard, Version=2.0.0.0")).Location);
 #endif
 
             // Enumerate all assemblies referenced by this executing assembly
@@ -120,18 +127,18 @@ namespace FlubuCore.Scripting
             }
 
             assemblyReferenceLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
-
             assemblyReferenceLocations = assemblyReferenceLocations.Distinct().ToList();
+
+            List<MetadataReference> references = new List<MetadataReference>();
             references.AddRange(assemblyReferenceLocations.Select(i => MetadataReference.CreateFromFile(i)));
 
             try
             {
-                Assembly assembly = TryLoadAssembly() ?? CompileToAssembly(fileName, references, string.Join("\r\n", code));
+                Assembly assembly = TryLoadBuildScriptFromAssembly() ?? CompileBuildScriptToAssembly(fileName, references, string.Join("\r\n", code));
 
-                var type = assembly.DefinedTypes.FirstOrDefault(i => i.BaseType == typeof(DefaultBuildScript));
-#if !NETSTANDARD1_6
+                TypeInfo type = assembly.DefinedTypes.FirstOrDefault(i => i.BaseType == typeof(DefaultBuildScript));
 
-                object obj = Activator.CreateInstance(type);
+                object obj = Activator.CreateInstance(type.AsType());
                 if (!(obj is IBuildScript))
                 {
                     throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
@@ -141,7 +148,6 @@ namespace FlubuCore.Scripting
                 Console.WriteLine($"Script loaded in Miliseconds: {sw.ElapsedMilliseconds}");
 
                 return obj as IBuildScript;
-#endif
 
                 throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
             }
@@ -157,19 +163,18 @@ namespace FlubuCore.Scripting
             }
         }
 
-        private Assembly TryLoadAssembly()
+        private Assembly TryLoadBuildScriptFromAssembly()
         {
             if (!File.Exists("file.dll"))
                 return null;
-
-#if !NETSTANDARD1_6
+#if NETSTANDARD1_6
+            return AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.GetFullPath("file.dll"));
+#else
             return Assembly.Load(File.ReadAllBytes("file.dll"));
 #endif
-
-            return null;
         }
 
-        private Assembly CompileToAssembly(string fileName, List<MetadataReference> references, string code)
+        private Assembly CompileBuildScriptToAssembly(string fileName, List<MetadataReference> references, string code)
         {
             SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(SourceText.From(string.Join("\r\n", code), Encoding.UTF8));
             CSharpCompilation compilation = CSharpCompilation.Create(
@@ -200,12 +205,14 @@ namespace FlubuCore.Scripting
                 ms.Seek(0, SeekOrigin.Begin);
                 var data = ms.ToArray();
                 File.WriteAllBytes("file.dll", data);
-#if !NETSTANDARD1_6
-                        return Assembly.Load(data);
+
+#if  NETSTANDARD1_6
+                ms.Seek(0, SeekOrigin.Begin);
+                return AssemblyLoadContext.Default.LoadFromStream(ms);
+#else
+                return Assembly.Load(data);
 #endif
             }
-
-            throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
         }
 
         private List<string> FindAssemblyReferencesInDirectories(List<string> directories)
