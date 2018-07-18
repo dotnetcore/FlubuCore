@@ -62,7 +62,7 @@ namespace FlubuCore.Scripting
             string buildScriptFilePath = _buildScriptLocator.FindBuildScript(args);
             var buildScriptAssemblyPath = Path.Combine("Bin", Path.GetFileName(buildScriptFilePath));
             buildScriptAssemblyPath = Path.ChangeExtension(buildScriptAssemblyPath, "dll");
-            var assembly = TryLoadBuildScriptFromAssembly(buildScriptAssemblyPath);
+            var assembly = TryLoadBuildScriptFromAssembly(buildScriptAssemblyPath, buildScriptFilePath);
 
             if (assembly != null)
             {
@@ -184,10 +184,21 @@ namespace FlubuCore.Scripting
             return buildScript;
         }
 
-        private Assembly TryLoadBuildScriptFromAssembly(string buildScriptAssemblyPath)
+        private Assembly TryLoadBuildScriptFromAssembly(string buildScriptAssemblyPath, string buildScriptFilePath)
         {
             if (!File.Exists(buildScriptAssemblyPath))
+            {
                 return null;
+            }
+
+            var buildScriptAssemblyModified = File.GetLastWriteTime(buildScriptAssemblyPath);
+            var buildScriptFileModified = File.GetLastWriteTime(buildScriptFilePath);
+
+            if (buildScriptFileModified > buildScriptAssemblyModified)
+            {
+                return null;
+            }
+
 #if NETSTANDARD1_6
             return AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.GetFullPath(buildScriptAssemblyPath));
 #else
