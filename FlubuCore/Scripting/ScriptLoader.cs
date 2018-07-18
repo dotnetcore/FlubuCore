@@ -147,6 +147,7 @@ namespace FlubuCore.Scripting
             }
             catch (CompilationErrorException e)
             {
+                Console.WriteLine(e);
                 if (e.Message.Contains("CS0234"))
                 {
                     throw new ScriptLoaderExcetpion($"Csharp source code file: {fileName} has some compilation errors. {e.Message}. If u are using flubu script correctly you have to add assembly reference with #ref directive in build script. See build script fundamentals section 'Referencing other assemblies in build script' in https://github.com/flubu-core/flubu.core/wiki for more details.Otherwise if u think u are not using flubu correctly see Getting started section in wiki.", e);
@@ -189,11 +190,11 @@ namespace FlubuCore.Scripting
 
                     foreach (Diagnostic diagnostic in failures)
                     {
+                        Console.WriteLine("ScriptError:{0}: {1}", diagnostic.Id, diagnostic.GetMessage());
                         Debug.WriteLine("ScriptError:{0}: {1}", diagnostic.Id, diagnostic.GetMessage());
                     }
 
-                    throw new ScriptLoaderExcetpion(
-                        $"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
+                    throw new ScriptLoaderExcetpion("Script has errors!");
                 }
 
                 ms.Seek(0, SeekOrigin.Begin);
