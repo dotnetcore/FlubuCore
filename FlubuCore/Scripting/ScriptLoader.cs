@@ -77,7 +77,7 @@ namespace FlubuCore.Scripting
                     return instance;
                 }
             }
-            #endif
+#endif
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuPath = typeof(DefaultBuildScript).GetTypeInfo().Assembly.Location;
             List<string> assemblyReferenceLocations = new List<string>
@@ -158,8 +158,7 @@ namespace FlubuCore.Scripting
             try
             {
                 ScriptState result = await script.RunAsync();
-                CSharpCompilationOptions scriptCompilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, metadataImportOptions: MetadataImportOptions.All)
-                    .WithScriptClassName("Test");
+                CSharpCompilationOptions scriptCompilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, metadataImportOptions: MetadataImportOptions.All);
 
                 var compilation = script.GetCompilation().WithOptions(scriptCompilationOptions);
                 var entryPoint = compilation.GetEntryPoint(CancellationToken.None);
