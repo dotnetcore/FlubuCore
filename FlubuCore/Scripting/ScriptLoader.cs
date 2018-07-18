@@ -165,32 +165,32 @@ namespace FlubuCore.Scripting
 
                         foreach (Diagnostic diagnostic in failures)
                         {
-                            Console.Error.WriteLine("{0}: {1}", diagnostic.Id, diagnostic.GetMessage());
+                            Debug.WriteLine("ScriptError:{0}: {1}", diagnostic.Id, diagnostic.GetMessage());
                         }
+
+                        throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
                     }
-                    else
-                    {
-                        ms.Seek(0, SeekOrigin.Begin);
+
+                    ms.Seek(0, SeekOrigin.Begin);
 #if !NETSTANDARD1_6
                         Assembly assembly = Assembly.Load(ms.ToArray());
                         var type = assembly.DefinedTypes.FirstOrDefault(i => i.BaseType == typeof(DefaultBuildScript));
 
                         object obj = Activator.CreateInstance(type);
+                if (obj as IBuildScript == null)
+                {
+                   throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
+                }
 
     return obj as IBuildScript;
 #endif
-                    }
                 }
 
                 sw.Stop();
 
                 Console.WriteLine($"Miliseconds: {sw.ElapsedMilliseconds}");
 
-                // if (buildScript == null)
-                // {
-                //    throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
-                // }
-                return null;
+                throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
             }
             catch (CompilationErrorException e)
             {
