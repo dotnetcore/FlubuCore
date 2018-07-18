@@ -47,6 +47,9 @@
   <PropertyGroup Condition="'$(TargetFramework)' == 'net462'">
     <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net462|AnyCPU'">
+    <DefineConstants>TRACE;NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Content Include="flubureadme.txt">
       <PackageCopyToOutput>true</PackageCopyToOutput>
