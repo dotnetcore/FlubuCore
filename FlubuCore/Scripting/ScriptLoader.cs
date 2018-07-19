@@ -116,7 +116,13 @@ namespace FlubuCore.Scripting
             }
 
 #if NETSTANDARD1_6
-            return AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.GetFullPath(buildScriptAssemblyPath));
+             using (FileStream dllStream = new FileStream(buildScriptAssemblyPath, FileMode.Open, FileAccess.Read))
+             {
+                using (FileStream pdbStream = new FileStream(Path.ChangeExtension(buildScriptAssemblyPath, "pdb"), FileMode.Open, FileAccess.Read))
+                {
+                   return AssemblyLoadContext.Default.LoadFromStream(dllStream, pdbStream);
+                }
+             }
 #else
             return Assembly.Load(File.ReadAllBytes(buildScriptAssemblyPath), File.ReadAllBytes(Path.ChangeExtension(buildScriptAssemblyPath, "pdb")));
 #endif
@@ -185,7 +191,7 @@ namespace FlubuCore.Scripting
             }
         }
 
-          private List<MetadataReference> GetBuildScriptReferences(CommandArguments args, AnalyserResult analyserResult, List<string> code, out bool fallbackToOldBuildScriptCreation)
+        private List<MetadataReference> GetBuildScriptReferences(CommandArguments args, AnalyserResult analyserResult, List<string> code, out bool fallbackToOldBuildScriptCreation)
         {
             fallbackToOldBuildScriptCreation = false;
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
