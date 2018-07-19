@@ -195,7 +195,8 @@ namespace FlubuCore.Scripting
         {
             fallbackToOldBuildScriptCreation = false;
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
-            var flubuPath = typeof(DefaultBuildScript).GetTypeInfo().Assembly.Location;
+            var flubuCoreAssembly = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
+            var flubuPath = flubuCoreAssembly.Location;
 
             List<string> assemblyReferenceLocations = new List<string>
             {
@@ -208,7 +209,7 @@ namespace FlubuCore.Scripting
                 typeof(File).GetTypeInfo().Assembly.Location,
                 typeof(ILookup<string, string>).GetTypeInfo().Assembly.Location,
                 typeof(Expression).GetTypeInfo().Assembly.Location,
-                typeof(MethodInfo).GetTypeInfo().Assembly.Location
+                typeof(MethodInfo).GetTypeInfo().Assembly.Location,
             };
 
             try
@@ -231,7 +232,7 @@ namespace FlubuCore.Scripting
             // Enumerate all assemblies referenced by this executing assembly
             // and provide them as references to the build script we're about to
             // compile.
-            AssemblyName[] referencedAssemblies = Assembly.GetEntryAssembly().GetReferencedAssemblies();
+            AssemblyName[] referencedAssemblies = flubuCoreAssembly.GetReferencedAssemblies();
             foreach (var referencedAssembly in referencedAssemblies)
             {
                 Assembly loadedAssembly = Assembly.Load(referencedAssembly);
