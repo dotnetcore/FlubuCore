@@ -15,6 +15,7 @@ using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting.Analysis;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.CodeAnalysis.Text;
@@ -58,7 +59,6 @@ namespace FlubuCore.Scripting
 
         public async Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(CommandArguments args)
         {
-            Stopwatch sw = Stopwatch.StartNew();
             string buildScriptFilePath = _buildScriptLocator.FindBuildScript(args);
             var buildScriptAssemblyPath = Path.Combine("Bin", Path.GetFileName(buildScriptFilePath));
             buildScriptAssemblyPath = Path.ChangeExtension(buildScriptAssemblyPath, "dll");
@@ -66,105 +66,23 @@ namespace FlubuCore.Scripting
 
             if (assembly != null)
             {
-                var bs = CreateBuildScriptInstance(assembly, buildScriptFilePath);
-                sw.Stop();
-                Debug.WriteLine($"Script loaded in Miliseconds: {sw.ElapsedMilliseconds}");
-                Console.WriteLine($"Script loaded in Miliseconds: {sw.ElapsedMilliseconds}");
-                return bs;
-            }
-
-            var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
-            var flubuPath = typeof(DefaultBuildScript).GetTypeInfo().Assembly.Location;
-
-            List<string> assemblyReferenceLocations = new List<string>
-            {
-                Path.Combine(coreDir, "mscorlib.dll"),
-                typeof(object).GetTypeInfo().Assembly.Location,
-                flubuPath,
-                typeof(File).GetTypeInfo().Assembly.Location,
-                typeof(ILookup<string, string>).GetTypeInfo().Assembly.Location,
-                typeof(Expression).GetTypeInfo().Assembly.Location,
-                typeof(MethodInfo).GetTypeInfo().Assembly.Location
-        };
-
-#if NETSTANDARD1_6
-           assemblyReferenceLocations.Add(Assembly.Load(new AssemblyName("System.Reflection, Version=4.0.10.0")).Location);
-#endif
-#if NETSTANDARD2_0
-            assemblyReferenceLocations.Add(typeof(Console).GetTypeInfo().Assembly.Location);
-            assemblyReferenceLocations.Add(Assembly.Load(new AssemblyName("netstandard, Version=2.0.0.0")).Location);
-#endif
-
-            // Enumerate all assemblies referenced by this executing assembly
-            // and provide them as references to the build script we're about to
-            // compile.
-            AssemblyName[] referencedAssemblies = Assembly.GetEntryAssembly().GetReferencedAssemblies();
-            foreach (var referencedAssembly in referencedAssemblies)
-            {
-                Assembly loadedAssembly = Assembly.Load(referencedAssembly);
-                if (string.IsNullOrEmpty(loadedAssembly.Location))
-                    continue;
-
-                assemblyReferenceLocations.Add(loadedAssembly.Location);
+                return CreateBuildScriptInstance(assembly, buildScriptFilePath);
             }
 
             List<string> code = _file.ReadAllLines(buildScriptFilePath);
-            code.Insert(0, $"#line 1 \"{buildScriptFilePath}\"");
             AnalyserResult analyserResult = _analyser.Analyze(code);
-            assemblyReferenceLocations.AddRange(analyserResult.References);
-            assemblyReferenceLocations.AddRange(_nugetPackageResolver.ResolveNugetPackages(analyserResult.NugetPackages));
-            foreach (var file in analyserResult.CsFiles)
+
+            var references = GetBuildScriptReferences(args, analyserResult, code, out var fallbackToOldBuildScriptCreation);
+
+            if (fallbackToOldBuildScriptCreation)
             {
-                if (_file.Exists(file))
-                {
-                    _log.LogInformation($"File found: {file}");
-                    List<string> additionalCode = _file.ReadAllLines(file);
-
-                    AnalyserResult additionalCodeAnalyserResult = _analyser.Analyze(additionalCode);
-                    if (additionalCodeAnalyserResult.CsFiles.Count > 0)
-                    {
-                        throw new NotSupportedException("//#imp is only supported in main buildscript .cs file.");
-                    }
-
-                    var usings = additionalCode.Where(x => x.StartsWith("using"));
-
-                    assemblyReferenceLocations.AddRange(additionalCodeAnalyserResult.References);
-                    code.InsertRange(0, usings);
-                    code.AddRange(additionalCode.Where(x => !x.StartsWith("using")));
-                }
-                else
-                {
-                    _log.LogInformation($"File was not found: {file}");
-                }
+                return await CreateBuildScriptInstanceOldWay(buildScriptFilePath, references, code, analyserResult);
             }
 
-            assemblyReferenceLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
-            assemblyReferenceLocations = assemblyReferenceLocations.Distinct().ToList();
+            code.Insert(0, $"#line 1 \"{buildScriptFilePath}\"");
+            assembly = CompileBuildScriptToAssembly(buildScriptAssemblyPath, buildScriptFilePath, references, string.Join("\r\n", code));
 
-            List<MetadataReference> references = new List<MetadataReference>();
-            references.AddRange(assemblyReferenceLocations.Select(i => MetadataReference.CreateFromFile(i)));
-
-            try
-            {
-                assembly = CompileBuildScriptToAssembly(buildScriptAssemblyPath, buildScriptFilePath, references, string.Join("\r\n", code));
-
-                var buildScript = CreateBuildScriptInstance(assembly, buildScriptFilePath);
-                sw.Stop();
-                Debug.WriteLine($"Script loaded in Miliseconds: {sw.ElapsedMilliseconds}");
-                Console.WriteLine($"Script loaded in Miliseconds: {sw.ElapsedMilliseconds}");
-
-                return buildScript;
-            }
-            catch (CompilationErrorException e)
-            {
-                Console.WriteLine(e);
-                if (e.Message.Contains("CS0234"))
-                {
-                    throw new ScriptLoaderExcetpion($"Csharp source code file: {buildScriptFilePath} has some compilation errors. {e.Message}. If u are using flubu script correctly you have to add assembly reference with #ref directive in build script. See build script fundamentals section 'Referencing other assemblies in build script' in https://github.com/flubu-core/flubu.core/wiki for more details.Otherwise if u think u are not using flubu correctly see Getting started section in wiki.", e);
-                }
-
-                throw new ScriptLoaderExcetpion($"Csharp source code file: {buildScriptFilePath} has some compilation errors. {e.Message}. See getting started and build script fundamentals in https://github.com/flubu-core/flubu.core/wiki", e);
-            }
+            return CreateBuildScriptInstance(assembly, buildScriptFilePath);
         }
 
         private static IBuildScript CreateBuildScriptInstance(Assembly assembly, string fileName)
@@ -204,7 +122,7 @@ namespace FlubuCore.Scripting
 #endif
         }
 
-        private Assembly CompileBuildScriptToAssembly(string buildScriptAssemblyPath, string buildScriptFIlePath,
+        private Assembly CompileBuildScriptToAssembly(string buildScriptAssemblyPath, string buildScriptFilePath,
             List<MetadataReference> references, string code)
         {
             SyntaxTree syntaxTree =
@@ -238,7 +156,7 @@ namespace FlubuCore.Scripting
                             }
                         }
 
-                        var errorMsg = $"Csharp source code file: {buildScriptFIlePath} has some compilation errors!";
+                        var errorMsg = $"Csharp source code file: {buildScriptFilePath} has some compilation errors!";
                         if (possiblyMissingAssemblyRefDirective)
                         {
                             errorMsg =
@@ -267,6 +185,93 @@ namespace FlubuCore.Scripting
             }
         }
 
+          private List<MetadataReference> GetBuildScriptReferences(CommandArguments args, AnalyserResult analyserResult, List<string> code, out bool fallbackToOldBuildScriptCreation)
+        {
+            fallbackToOldBuildScriptCreation = false;
+            var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
+            var flubuPath = typeof(DefaultBuildScript).GetTypeInfo().Assembly.Location;
+
+            List<string> assemblyReferenceLocations = new List<string>
+            {
+                Path.Combine(coreDir, "mscorlib.dll"),
+                typeof(object).GetTypeInfo().Assembly.Location,
+                flubuPath,
+                typeof(File).GetTypeInfo().Assembly.Location,
+                typeof(ILookup<string, string>).GetTypeInfo().Assembly.Location,
+                typeof(Expression).GetTypeInfo().Assembly.Location,
+                typeof(MethodInfo).GetTypeInfo().Assembly.Location
+            };
+
+            try
+            {
+#if NETSTANDARD1_6
+                assemblyReferenceLocations.Add(Assembly.Load(new AssemblyName("System.Reflection, Version=4.0.10.0")).Location);
+#endif
+#if NETSTANDARD2_0
+                assemblyReferenceLocations.Add(typeof(Console).GetTypeInfo().Assembly.Location);
+                assemblyReferenceLocations.Add(Assembly.Load(new AssemblyName("netstandard, Version=2.0.0.0"))
+                    .Location);
+#endif
+            }
+            catch (Exception ex)
+            {
+                _log.LogWarning($"Failed to load Assembly. Falling back to old way build script creation. Ex: {ex}");
+                fallbackToOldBuildScriptCreation = true;
+            }
+
+            // Enumerate all assemblies referenced by this executing assembly
+            // and provide them as references to the build script we're about to
+            // compile.
+            AssemblyName[] referencedAssemblies = Assembly.GetEntryAssembly().GetReferencedAssemblies();
+            foreach (var referencedAssembly in referencedAssemblies)
+            {
+                Assembly loadedAssembly = Assembly.Load(referencedAssembly);
+                if (string.IsNullOrEmpty(loadedAssembly.Location))
+                    continue;
+
+                assemblyReferenceLocations.Add(loadedAssembly.Location);
+            }
+
+            assemblyReferenceLocations.AddRange(analyserResult.References);
+            assemblyReferenceLocations.AddRange(_nugetPackageResolver.ResolveNugetPackages(analyserResult.NugetPackages));
+            AddOtherCsFilesToBuildScriptCode(analyserResult, assemblyReferenceLocations, code);
+
+            assemblyReferenceLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
+            assemblyReferenceLocations = assemblyReferenceLocations.Distinct().ToList();
+
+            var references = new List<MetadataReference>();
+            references.AddRange(assemblyReferenceLocations.Select(i => MetadataReference.CreateFromFile(i)));
+            return references;
+        }
+
+        private void AddOtherCsFilesToBuildScriptCode(AnalyserResult analyserResult, List<string> assemblyReferenceLocations, List<string> code)
+        {
+            foreach (var file in analyserResult.CsFiles)
+            {
+                if (_file.Exists(file))
+                {
+                    _log.LogInformation($"File found: {file}");
+                    List<string> additionalCode = _file.ReadAllLines(file);
+
+                    AnalyserResult additionalCodeAnalyserResult = _analyser.Analyze(additionalCode);
+                    if (additionalCodeAnalyserResult.CsFiles.Count > 0)
+                    {
+                        throw new NotSupportedException("//#imp is only supported in main buildscript .cs file.");
+                    }
+
+                    var usings = additionalCode.Where(x => x.StartsWith("using"));
+
+                    assemblyReferenceLocations.AddRange(additionalCodeAnalyserResult.References);
+                    code.InsertRange(1, usings);
+                    code.AddRange(additionalCode.Where(x => !x.StartsWith("using")));
+                }
+                else
+                {
+                    _log.LogInformation($"File was not found: {file}");
+                }
+            }
+        }
+
         private List<string> FindAssemblyReferencesInDirectories(List<string> directories)
         {
             List<string> assemblyLocations = new List<string>();
@@ -282,6 +287,42 @@ namespace FlubuCore.Scripting
             }
 
             return assemblyLocations;
+        }
+
+        private async Task<IBuildScript> CreateBuildScriptInstanceOldWay(string buildScriptFIlePath, List<MetadataReference> references, List<string> code,  AnalyserResult analyserResult)
+        {
+            var opts = ScriptOptions.Default
+                .WithEmitDebugInformation(true)
+                .WithFilePath(buildScriptFIlePath)
+                .WithFileEncoding(Encoding.UTF8)
+                .WithReferences(references);
+
+            Script script = CSharpScript
+                .Create(string.Join("\r\n", code), opts)
+                .ContinueWith(string.Format("var sc = new {0}();", analyserResult.ClassName));
+
+            try
+            {
+                ScriptState result = await script.RunAsync();
+
+                var buildScript = result.Variables[0].Value as IBuildScript;
+
+                if (buildScript == null)
+                {
+                    throw new ScriptLoaderExcetpion($"Class in file: {buildScriptFIlePath} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
+                }
+
+                return buildScript;
+            }
+            catch (CompilationErrorException e)
+            {
+                if (e.Message.Contains("CS0234"))
+                {
+                    throw new ScriptLoaderExcetpion($"Csharp source code file: {buildScriptFIlePath} has some compilation errors. {e.Message}. If u are using flubu script correctly you have to add assembly reference with #ref directive in build script. See build script fundamentals section 'Referencing other assemblies in build script' in https://github.com/flubu-core/flubu.core/wiki for more details.Otherwise if u think u are not using flubu correctly see Getting started section in wiki.", e);
+                }
+
+                throw new ScriptLoaderExcetpion($"Csharp source code file: {buildScriptFIlePath} has some compilation errors. {e.Message}. See getting started and build script fundamentals in https://github.com/flubu-core/flubu.core/wiki", e);
+            }
         }
     }
 }
