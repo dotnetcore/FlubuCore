@@ -200,59 +200,69 @@ namespace FlubuCore.Scripting
 #if NETSTANDARD1_6
             return AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.GetFullPath(buildScriptAssemblyPath));
 #else
-            return Assembly.Load(File.ReadAllBytes(buildScriptAssemblyPath));
+            return Assembly.Load(File.ReadAllBytes(buildScriptAssemblyPath), File.ReadAllBytes(Path.ChangeExtension(buildScriptAssemblyPath, "pdb")));
 #endif
         }
 
-        private Assembly CompileBuildScriptToAssembly(string buildScriptAssemblyPath, string buildScriptFIlePath, List<MetadataReference> references, string code)
+        private Assembly CompileBuildScriptToAssembly(string buildScriptAssemblyPath, string buildScriptFIlePath,
+            List<MetadataReference> references, string code)
         {
-            SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(SourceText.From(string.Join("\r\n", code), Encoding.UTF8));
+            SyntaxTree syntaxTree =
+                CSharpSyntaxTree.ParseText(SourceText.From(string.Join("\r\n", code), Encoding.UTF8));
             CSharpCompilation compilation = CSharpCompilation.Create(
                 Path.GetFileName(buildScriptAssemblyPath),
                 syntaxTrees: new[] { syntaxTree },
                 references: references,
-                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary).WithOptimizationLevel(OptimizationLevel.Debug));
+                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary).WithOptimizationLevel(
+                    OptimizationLevel.Debug));
 
             using (var dllStream = new MemoryStream())
             {
-                EmitResult result = compilation.Emit(dllStream);
-
-                if (!result.Success)
+                using (var pdbStream = new MemoryStream())
                 {
-                    IEnumerable<Diagnostic> failures = result.Diagnostics.Where(diagnostic =>
-                        diagnostic.IsWarningAsError ||
-                        diagnostic.Severity == DiagnosticSeverity.Error);
-                    bool possiblyMissingAssemblyRefDirective = false;
-                    foreach (Diagnostic diagnostic in failures)
+                    EmitResult result = compilation.Emit(dllStream);
+
+                    if (!result.Success)
                     {
-                        _log.LogWarning($"ScriptError:{diagnostic.Id}: {diagnostic.GetMessage()}");
-                        if (diagnostic.Id == "CS0246")
+                        IEnumerable<Diagnostic> failures = result.Diagnostics.Where(diagnostic =>
+                            diagnostic.IsWarningAsError ||
+                            diagnostic.Severity == DiagnosticSeverity.Error);
+                        bool possiblyMissingAssemblyRefDirective = false;
+                        foreach (Diagnostic diagnostic in failures)
                         {
-                            possiblyMissingAssemblyRefDirective = true;
+                            _log.LogWarning($"ScriptError:{diagnostic.Id}: {diagnostic.GetMessage()}");
+                            if (diagnostic.Id == "CS0246")
+                            {
+                                possiblyMissingAssemblyRefDirective = true;
+                            }
                         }
+
+                        var errorMsg = $"Csharp source code file: {buildScriptFIlePath} has some compilation errors!";
+                        if (possiblyMissingAssemblyRefDirective)
+                        {
+                            errorMsg =
+                                $"{errorMsg} If u are using flubu script correctly you have to add assembly reference with #ref or #nuget directive in build script. See build script fundamentals section 'Referencing other assemblies in build script' in https://github.com/flubu-core/flubu.core/wiki for more details.Otherwise if u think u are not using flubu correctly see Getting started section in wiki.";
+                        }
+
+                        throw new ScriptLoaderExcetpion(errorMsg);
                     }
 
-                    var errorMsg = $"Csharp source code file: {buildScriptFIlePath} has some compilation errors!";
-                    if (possiblyMissingAssemblyRefDirective)
-                    {
-                        errorMsg = $"{errorMsg} If u are using flubu script correctly you have to add assembly reference with #ref or #nuget directive in build script. See build script fundamentals section 'Referencing other assemblies in build script' in https://github.com/flubu-core/flubu.core/wiki for more details.Otherwise if u think u are not using flubu correctly see Getting started section in wiki.";
-                    }
+                    dllStream.Seek(0, SeekOrigin.Begin);
+                    pdbStream.Seek(0, SeekOrigin.Begin);
+                    Directory.CreateDirectory(Path.GetDirectoryName(buildScriptAssemblyPath));
+                    var dllData = dllStream.ToArray();
+                    var pdbData = pdbStream.ToArray();
+                    File.WriteAllBytes(buildScriptAssemblyPath, dllData);
+                    File.WriteAllBytes(Path.ChangeExtension(buildScriptAssemblyPath, "pdb"), pdbData);
 
-                    throw new ScriptLoaderExcetpion(errorMsg);
-                }
-
-                dllStream.Seek(0, SeekOrigin.Begin);
-                var data = dllStream.ToArray();
-
-                Directory.CreateDirectory(Path.GetDirectoryName(buildScriptAssemblyPath));
-                File.WriteAllBytes(buildScriptAssemblyPath, data);
-
-#if  NETSTANDARD1_6
-                dllStream.Seek(0, SeekOrigin.Begin);
-                return AssemblyLoadContext.Default.LoadFromStream(dllStream);
+#if NETSTANDARD1_6
+                    dllStream.Seek(0, SeekOrigin.Begin);
+                    pdbStream.Seek(0, SeekOrigin.Begin);
+                    return AssemblyLoadContext.Default.LoadFromStream(dllStream, pdbStream);
 #else
-                return Assembly.Load(data);
+                    return Assembly.Load(dllData, pdbData);
 #endif
+                }
             }
         }
 
