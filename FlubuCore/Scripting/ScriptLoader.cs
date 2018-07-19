@@ -109,7 +109,7 @@ namespace FlubuCore.Scripting
             }
 
             List<string> code = _file.ReadAllLines(buildScriptFilePath);
-
+            code.Insert(0, $"#line 1 \"{buildScriptFilePath}\"");
             AnalyserResult analyserResult = _analyser.Analyze(code);
             assemblyReferenceLocations.AddRange(analyserResult.References);
             assemblyReferenceLocations.AddRange(_nugetPackageResolver.ResolveNugetPackages(analyserResult.NugetPackages));
@@ -220,7 +220,8 @@ namespace FlubuCore.Scripting
             {
                 using (var pdbStream = new MemoryStream())
                 {
-                    EmitResult result = compilation.Emit(dllStream);
+                    var emitOptions = new EmitOptions(false, DebugInformationFormat.PortablePdb);
+                    EmitResult result = compilation.Emit(dllStream, pdbStream, options: emitOptions);
 
                     if (!result.Success)
                     {
