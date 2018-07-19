@@ -169,7 +169,7 @@ namespace FlubuCore.Scripting
 
         private static IBuildScript CreateBuildScriptInstance(Assembly assembly, string fileName)
         {
-            TypeInfo type = assembly.DefinedTypes.FirstOrDefault(i => i.BaseType == typeof(DefaultBuildScript));
+            TypeInfo type = assembly.DefinedTypes.FirstOrDefault(i => i.ImplementedInterfaces.Any(x => x == typeof(IBuildScript)));
 
             if (type == null)
             {

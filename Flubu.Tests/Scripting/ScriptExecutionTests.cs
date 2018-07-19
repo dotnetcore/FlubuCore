@@ -78,8 +78,8 @@ namespace Flubu.Tests.Scripting
         public async Task LoadSimpleScript()
         {
             CommandArguments args = new CommandArguments();
-            _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns("e.cs");
-            _fileLoader.Setup(i => i.ReadAllLines("e.cs"))
+            _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns("e3.cs");
+            _fileLoader.Setup(i => i.ReadAllLines("e3.cs"))
                 .Returns(new List<string>
                 {
                     "using FlubuCore.Scripting;",
@@ -117,8 +117,8 @@ namespace Flubu.Tests.Scripting
         public async System.Threading.Tasks.Task LoadDefaultScriptWithAnotherClass()
         {
             CommandArguments args = new CommandArguments();
-            _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns("e.cs");
-            _fileLoader.Setup(i => i.ReadAllLines("e.cs"))
+            _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns("e2.cs");
+            _fileLoader.Setup(i => i.ReadAllLines("e2.cs"))
                 .Returns(new List<string>
                 {
                     "using System;",
