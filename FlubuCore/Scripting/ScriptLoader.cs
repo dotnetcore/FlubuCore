@@ -138,7 +138,7 @@ namespace FlubuCore.Scripting
                 syntaxTrees: new[] { syntaxTree },
                 references: references,
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary).WithOptimizationLevel(
-                    OptimizationLevel.Debug));
+                    OptimizationLevel.Debug).WithAssemblyIdentityComparer(DesktopAssemblyIdentityComparer.Default));
 
             using (var dllStream = new MemoryStream())
             {
