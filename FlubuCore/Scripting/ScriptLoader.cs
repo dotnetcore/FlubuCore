@@ -146,7 +146,7 @@ namespace FlubuCore.Scripting
 
             try
             {
-                assembly = CompileBuildScriptToAssembly(buildScriptAssemblyPath, references, string.Join("\r\n", code));
+                assembly = CompileBuildScriptToAssembly(buildScriptAssemblyPath, buildScriptFilePath, references, string.Join("\r\n", code));
 
                 var buildScript = CreateBuildScriptInstance(assembly, buildScriptFilePath);
                 sw.Stop();
@@ -154,8 +154,6 @@ namespace FlubuCore.Scripting
                 Console.WriteLine($"Script loaded in Miliseconds: {sw.ElapsedMilliseconds}");
 
                 return buildScript;
-
-                throw new ScriptLoaderExcetpion($"Class in file: {buildScriptFilePath} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
             }
             catch (CompilationErrorException e)
             {
@@ -206,7 +204,7 @@ namespace FlubuCore.Scripting
 #endif
         }
 
-        private Assembly CompileBuildScriptToAssembly(string buildScriptAssemblyPath, List<MetadataReference> references, string code)
+        private Assembly CompileBuildScriptToAssembly(string buildScriptAssemblyPath, string buildScriptFIlePath, List<MetadataReference> references, string code)
         {
             SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(SourceText.From(string.Join("\r\n", code), Encoding.UTF8));
             CSharpCompilation compilation = CSharpCompilation.Create(
@@ -215,34 +213,43 @@ namespace FlubuCore.Scripting
                 references: references,
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary).WithOptimizationLevel(OptimizationLevel.Debug));
 
-            using (var ms = new MemoryStream())
+            using (var dllStream = new MemoryStream())
             {
-                EmitResult result = compilation.Emit(ms);
+                EmitResult result = compilation.Emit(dllStream);
 
                 if (!result.Success)
                 {
                     IEnumerable<Diagnostic> failures = result.Diagnostics.Where(diagnostic =>
                         diagnostic.IsWarningAsError ||
                         diagnostic.Severity == DiagnosticSeverity.Error);
-
+                    bool possiblyMissingAssemblyRefDirective = false;
                     foreach (Diagnostic diagnostic in failures)
                     {
-                        Console.WriteLine("ScriptError:{0}: {1}", diagnostic.Id, diagnostic.GetMessage());
-                        Debug.WriteLine("ScriptError:{0}: {1}", diagnostic.Id, diagnostic.GetMessage());
+                        _log.LogWarning($"ScriptError:{diagnostic.Id}: {diagnostic.GetMessage()}");
+                        if (diagnostic.Id == "CS0246")
+                        {
+                            possiblyMissingAssemblyRefDirective = true;
+                        }
                     }
 
-                    throw new ScriptLoaderExcetpion("Script has errors!");
+                    var errorMsg = $"Csharp source code file: {buildScriptFIlePath} has some compilation errors!";
+                    if (possiblyMissingAssemblyRefDirective)
+                    {
+                        errorMsg = $"{errorMsg} If u are using flubu script correctly you have to add assembly reference with #ref or #nuget directive in build script. See build script fundamentals section 'Referencing other assemblies in build script' in https://github.com/flubu-core/flubu.core/wiki for more details.Otherwise if u think u are not using flubu correctly see Getting started section in wiki.";
+                    }
+
+                    throw new ScriptLoaderExcetpion(errorMsg);
                 }
 
-                ms.Seek(0, SeekOrigin.Begin);
-                var data = ms.ToArray();
+                dllStream.Seek(0, SeekOrigin.Begin);
+                var data = dllStream.ToArray();
 
                 Directory.CreateDirectory(Path.GetDirectoryName(buildScriptAssemblyPath));
                 File.WriteAllBytes(buildScriptAssemblyPath, data);
 
 #if  NETSTANDARD1_6
-                ms.Seek(0, SeekOrigin.Begin);
-                return AssemblyLoadContext.Default.LoadFromStream(ms);
+                dllStream.Seek(0, SeekOrigin.Begin);
+                return AssemblyLoadContext.Default.LoadFromStream(dllStream);
 #else
                 return Assembly.Load(data);
 #endif
