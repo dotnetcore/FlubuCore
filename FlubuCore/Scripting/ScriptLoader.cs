@@ -200,6 +200,9 @@ namespace FlubuCore.Scripting
             List<string> assemblyReferenceLocations = new List<string>
             {
                 Path.Combine(coreDir, "mscorlib.dll"),
+                Path.Combine(coreDir, "System.dll"),
+                Path.Combine(coreDir, "System.Core.dll"),
+                Path.Combine(coreDir, "System.Runtime.dll"),
                 typeof(object).GetTypeInfo().Assembly.Location,
                 flubuPath,
                 typeof(File).GetTypeInfo().Assembly.Location,
