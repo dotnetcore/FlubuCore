@@ -55,5 +55,12 @@ namespace FlubuCore.Tasks.Utils
 
             return 0;
         }
+
+        protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
+        {
+            await Task.Delay(_delay);
+
+            return 0;
+        }
     }
 }
