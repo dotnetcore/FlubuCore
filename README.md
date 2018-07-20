@@ -4,6 +4,14 @@
 
 FlubuCore is A C# library for building projects and executing deployment scripts using C# code.
 
+See [**getting started**](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started) on wiki to get you started with FlubuCore. We know you don't belive it but it really is very simple :)
+
+List of features that FlubuCore has to offer with description can be found at [**build script fundamentals**](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals). Alternatively You can take a look at examples below.
+
+* [For .NET projects use **FlubuCore.Runner**](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started#Installation.net)
+* [For .NET Core projects use CLI tool **dotnet-flubu**](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started#Installation-.net-core)
+* [Most elegant way for .NET Core projects is to use global tool](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started#Run-build-script-core-with-global-tool) - ```dotnet tool install --global FlubuCore.GlobalTool```
+
 ### FlubuCore main features / advantages ###
 
 * .Net Core support.
@@ -19,14 +27,6 @@ FlubuCore is A C# library for building projects and executing deployment scripts
 * [Use FlubuCore tasks in any  other .net application.](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs)
 * [Web api is available for FlubuCore. It has never been so easy to automate deployments remotely.](https://github.com/flubu-core/flubu.core/wiki/7-Web-Api:-Getting-started)
 * [Write your own FlubuCore tasks and extend FlubuCore fluent interface with them.](https://github.com/flubu-core/flubu.core/wiki/5-How-to-write-and-use-FlubuCore-task-plugins)
-
-See [**getting started**](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started) on wiki to get you started with FlubuCore. We know you don't belive it but it really is very simple :)
-
-List of features that FlubuCore has to offer with description can be found at [**build script fundamentals**](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals). Alternatively You can take a look at examples below.
-
-* [For .NET projects use **FlubuCore.Runner**](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started#Installation.net)
-* [For .NET Core projects use CLI tool **dotnet-flubu**](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started#Installation-.net-core)
-* [Most elegant way for .NET Core projects is to use global tool](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started#Run-build-script-core-with-global-tool) - ```dotnet tool install --global FlubuCore.GlobalTool```
 
 ### Examples ###
 
