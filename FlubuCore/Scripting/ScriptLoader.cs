@@ -205,6 +205,7 @@ namespace FlubuCore.Scripting
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Data");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Runtime");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Runtime.Extensions");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Runtime.InteropServices");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Collections");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.IO.FileSystem");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.IO.FileSystem.Primitives");
@@ -239,7 +240,6 @@ namespace FlubuCore.Scripting
             assemblyReferenceLocations.AddRange(analyserResult.References);
             assemblyReferenceLocations.AddRange(_nugetPackageResolver.ResolveNugetPackages(analyserResult.NugetPackages));
             AddOtherCsFilesToBuildScriptCode(analyserResult, assemblyReferenceLocations, code);
-
             assemblyReferenceLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
             assemblyReferenceLocations = assemblyReferenceLocations.Distinct().Where(x => !string.IsNullOrEmpty(x)).ToList();
             var references = assemblyReferenceLocations.Select(i => MetadataReference.CreateFromFile(i));
