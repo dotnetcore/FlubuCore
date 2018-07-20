@@ -190,7 +190,34 @@ namespace FlubuCore.Scripting
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuCoreAssembly = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
             var flubuPath = flubuCoreAssembly.Location;
+
             //// Default assemblies that should be referenced.
+            var assemblyReferenceLocations = GetDefaultReferences(coreDir, flubuPath);
+
+            // Enumerate all assemblies referenced by FlubuCore
+            // and provide them as references to the build script we're about to
+            // compile.
+            AssemblyName[] referencedAssemblies = flubuCoreAssembly.GetReferencedAssemblies();
+            foreach (var referencedAssembly in referencedAssemblies)
+            {
+                Assembly loadedAssembly = Assembly.Load(referencedAssembly);
+                if (string.IsNullOrEmpty(loadedAssembly.Location))
+                    continue;
+
+                assemblyReferenceLocations.Add(loadedAssembly.Location);
+            }
+
+            assemblyReferenceLocations.AddRange(analyserResult.References);
+            assemblyReferenceLocations.AddRange(_nugetPackageResolver.ResolveNugetPackages(analyserResult.NugetPackages));
+            AddOtherCsFilesToBuildScriptCode(analyserResult, assemblyReferenceLocations, code);
+            assemblyReferenceLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
+            assemblyReferenceLocations = assemblyReferenceLocations.Distinct().Where(x => !string.IsNullOrEmpty(x)).ToList();
+            var references = assemblyReferenceLocations.Select(i => MetadataReference.CreateFromFile(i));
+            return references;
+        }
+
+        private List<string> GetDefaultReferences(string coreDir, string flubuPath)
+        {
             List<string> assemblyReferenceLocations = new List<string>
             {
                 Path.Combine(coreDir, "mscorlib.dll"),
@@ -224,28 +251,8 @@ namespace FlubuCore.Scripting
 
 #if NETSTANDARD2_0
             assemblyReferenceLocations.Add(typeof(Console).GetTypeInfo().Assembly.Location);
- #endif
-
-            // Enumerate all assemblies referenced by FlubuCore
-            // and provide them as references to the build script we're about to
-            // compile.
-            AssemblyName[] referencedAssemblies = flubuCoreAssembly.GetReferencedAssemblies();
-            foreach (var referencedAssembly in referencedAssemblies)
-            {
-                Assembly loadedAssembly = Assembly.Load(referencedAssembly);
-                if (string.IsNullOrEmpty(loadedAssembly.Location))
-                    continue;
-
-                assemblyReferenceLocations.Add(loadedAssembly.Location);
-            }
-
-            assemblyReferenceLocations.AddRange(analyserResult.References);
-            assemblyReferenceLocations.AddRange(_nugetPackageResolver.ResolveNugetPackages(analyserResult.NugetPackages));
-            AddOtherCsFilesToBuildScriptCode(analyserResult, assemblyReferenceLocations, code);
-            assemblyReferenceLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
-            assemblyReferenceLocations = assemblyReferenceLocations.Distinct().Where(x => !string.IsNullOrEmpty(x)).ToList();
-            var references = assemblyReferenceLocations.Select(i => MetadataReference.CreateFromFile(i));
-            return references;
+#endif
+            return assemblyReferenceLocations;
         }
 
         private void AddOtherCsFilesToBuildScriptCode(AnalyserResult analyserResult, List<string> assemblyReferenceLocations, List<string> code)
