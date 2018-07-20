@@ -9,7 +9,6 @@ using System.Reflection;
 using System.Runtime.Loader;
 #endif
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting.Analysis;
@@ -28,9 +27,9 @@ namespace FlubuCore.Scripting
     {
         public static readonly string[] DefaultScriptReferencesLocations =
         {
-            "flubulib",
-            "buildscript\\flubulib",
-            "buildscripts\\flubulib",
+            "FlubuLib",
+            "BuildScript/FlubuLib",
+            "BuildScripts/FlubuLib",
         };
 
         private readonly IFileWrapper _file;
@@ -60,7 +59,7 @@ namespace FlubuCore.Scripting
         public async Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(CommandArguments args)
         {
             string buildScriptFilePath = _buildScriptLocator.FindBuildScript(args);
-            var buildScriptAssemblyPath = Path.Combine("Bin", Path.GetFileName(buildScriptFilePath));
+            var buildScriptAssemblyPath = Path.Combine("bin", Path.GetFileName(buildScriptFilePath));
             buildScriptAssemblyPath = Path.ChangeExtension(buildScriptAssemblyPath, "dll");
             var assembly = TryLoadBuildScriptFromAssembly(buildScriptAssemblyPath, buildScriptFilePath);
 
@@ -81,7 +80,6 @@ namespace FlubuCore.Scripting
 
             code.Insert(0, $"#line 1 \"{buildScriptFilePath}\"");
             assembly = CompileBuildScriptToAssembly(buildScriptAssemblyPath, buildScriptFilePath, references, string.Join("\r\n", code));
-
             return CreateBuildScriptInstance(assembly, buildScriptFilePath);
         }
 
@@ -128,8 +126,7 @@ namespace FlubuCore.Scripting
 #endif
         }
 
-        private Assembly CompileBuildScriptToAssembly(string buildScriptAssemblyPath, string buildScriptFilePath,
-            List<MetadataReference> references, string code)
+        private Assembly CompileBuildScriptToAssembly(string buildScriptAssemblyPath, string buildScriptFilePath, IEnumerable<MetadataReference> references, string code)
         {
             SyntaxTree syntaxTree =
                 CSharpSyntaxTree.ParseText(SourceText.From(string.Join("\r\n", code), Encoding.UTF8));
@@ -137,8 +134,9 @@ namespace FlubuCore.Scripting
                 Path.GetFileName(buildScriptAssemblyPath),
                 syntaxTrees: new[] { syntaxTree },
                 references: references,
-                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary).WithOptimizationLevel(
-                    OptimizationLevel.Debug).WithAssemblyIdentityComparer(DesktopAssemblyIdentityComparer.Default));
+                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
+                    .WithOptimizationLevel(OptimizationLevel.Debug)
+                    .WithAssemblyIdentityComparer(DesktopAssemblyIdentityComparer.Default));
 
             using (var dllStream = new MemoryStream())
             {
@@ -191,7 +189,7 @@ namespace FlubuCore.Scripting
             }
         }
 
-        private List<MetadataReference> GetBuildScriptReferences(CommandArguments args, AnalyserResult analyserResult, List<string> code, out bool fallbackToOldBuildScriptCreation)
+        private IEnumerable<MetadataReference> GetBuildScriptReferences(CommandArguments args, AnalyserResult analyserResult, List<string> code, out bool fallbackToOldBuildScriptCreation)
         {
             fallbackToOldBuildScriptCreation = false;
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
@@ -201,26 +199,36 @@ namespace FlubuCore.Scripting
             List<string> assemblyReferenceLocations = new List<string>
             {
                 Path.Combine(coreDir, "mscorlib.dll"),
-                Path.Combine(coreDir, "System.dll"),
-                Path.Combine(coreDir, "System.Core.dll"),
-                Path.Combine(coreDir, "System.Runtime.dll"),
                 typeof(object).GetTypeInfo().Assembly.Location,
                 flubuPath,
-                typeof(File).GetTypeInfo().Assembly.Location,
                 typeof(ILookup<string, string>).GetTypeInfo().Assembly.Location,
                 typeof(Expression).GetTypeInfo().Assembly.Location,
                 typeof(MethodInfo).GetTypeInfo().Assembly.Location,
             };
 
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Core");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Data");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Runtime");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Runtime.Extensions");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Collections");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.IO.FileSystem");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.IO.FileSystem.Primitives");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Reflection");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Reflection.Extensions");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Reflection.Primitives");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Text.Encoding");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Text.RegularExpressions");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Threading");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Threading.Tasks");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Threading.Tasks.Parallel");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Threading.Thread");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Globalization");
+
             try
             {
-#if NETSTANDARD1_6
-                assemblyReferenceLocations.Add(Assembly.Load(new AssemblyName("System.Reflection, Version=4.0.10.0")).Location);
-#endif
 #if NETSTANDARD2_0
                 assemblyReferenceLocations.Add(typeof(Console).GetTypeInfo().Assembly.Location);
-                assemblyReferenceLocations.Add(Assembly.Load(new AssemblyName("netstandard, Version=2.0.0.0"))
-                    .Location);
 #endif
             }
             catch (Exception ex)
@@ -248,9 +256,7 @@ namespace FlubuCore.Scripting
 
             assemblyReferenceLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
             assemblyReferenceLocations = assemblyReferenceLocations.Distinct().ToList();
-
-            var references = new List<MetadataReference>();
-            references.AddRange(assemblyReferenceLocations.Select(i => MetadataReference.CreateFromFile(i)));
+            var references = assemblyReferenceLocations.Select(i => MetadataReference.CreateFromFile(i));
             return references;
         }
 
@@ -299,9 +305,9 @@ namespace FlubuCore.Scripting
             return assemblyLocations;
         }
 
-        private async Task<IBuildScript> CreateBuildScriptInstanceOldWay(string buildScriptFIlePath, List<MetadataReference> references, List<string> code,  AnalyserResult analyserResult)
+        private async Task<IBuildScript> CreateBuildScriptInstanceOldWay(string buildScriptFIlePath, IEnumerable<MetadataReference> references, List<string> code,  AnalyserResult analyserResult)
         {
-            var opts = ScriptOptions.Default
+            ScriptOptions opts = ScriptOptions.Default
                 .WithEmitDebugInformation(true)
                 .WithFilePath(buildScriptFIlePath)
                 .WithFileEncoding(Encoding.UTF8)
