@@ -28,10 +28,6 @@ List of features that FlubuCore has to offer with description can be found at [*
 * [Web api is available for FlubuCore. It has never been so easy to automate deployments remotely.](https://github.com/flubu-core/flubu.core/wiki/7-Web-Api:-Getting-started)
 * [Write your own FlubuCore tasks and extend FlubuCore fluent interface with them.](https://github.com/flubu-core/flubu.core/wiki/5-How-to-write-and-use-FlubuCore-task-plugins)
 
-### Have a question? ###
-
- [![Join the chat at https://gitter.im/FlubuCore/Lobby](https://badges.gitter.im/mbdavid/LiteDB.svg)](https://gitter.im/FlubuCore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 ### Examples ###
 
 * [**.net example**](https://github.com/flubu-core/examples/blob/master/MVC_NET4.61/BuildScripts/BuildScript.cs
@@ -54,6 +50,10 @@ List of features that FlubuCore has to offer with description can be found at [*
 | FlubuCore.WebApi deployment tests  | Windows| [![Build Status](http://lucidlynx.comtrade.com:8080/buildStatus/icon?job=FlubuCore_WebApi_DeploymentTests)](http://lucidlynx.comtrade.com:8080/job/FlubuCore_WebApi_DeploymentTests) | &nbsp;
 
 FlubuCore main build and FlubuCore system tests are also runned on linux machine but status can not be displayed because build server is hosted on private server.
+
+### Have a question? ###
+
+ [![Join the chat at https://gitter.im/FlubuCore/Lobby](https://badges.gitter.im/mbdavid/LiteDB.svg)](https://gitter.im/FlubuCore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ### Contribution guidelines ###
 * If u find a bug please report it :) 
