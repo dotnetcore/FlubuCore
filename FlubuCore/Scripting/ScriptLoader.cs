@@ -241,7 +241,7 @@ namespace FlubuCore.Scripting
             AddOtherCsFilesToBuildScriptCode(analyserResult, assemblyReferenceLocations, code);
 
             assemblyReferenceLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
-            assemblyReferenceLocations = assemblyReferenceLocations.Distinct().ToList();
+            assemblyReferenceLocations = assemblyReferenceLocations.Distinct().Where(x => !string.IsNullOrEmpty(x)).ToList();
             var references = assemblyReferenceLocations.Select(i => MetadataReference.CreateFromFile(i));
             return references;
         }

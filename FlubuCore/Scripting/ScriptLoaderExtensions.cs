@@ -17,7 +17,10 @@ namespace FlubuCore.Scripting
                     return;
                 }
 
-                references.Add(assembly.Location);
+                if (!string.IsNullOrEmpty(assembly.Location))
+                {
+                    references.Add(assembly.Location);
+                }
             }
             catch
             {
