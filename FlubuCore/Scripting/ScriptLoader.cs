@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.InteropServices;
 #if NETSTANDARD1_6
 using System.Runtime.Loader;
 #endif
@@ -198,6 +199,7 @@ namespace FlubuCore.Scripting
                 typeof(ILookup<string, string>).GetTypeInfo().Assembly.Location,
                 typeof(Expression).GetTypeInfo().Assembly.Location,
                 typeof(MethodInfo).GetTypeInfo().Assembly.Location,
+                typeof(OSPlatform).GetTypeInfo().Assembly.Location,
             };
 
             assemblyReferenceLocations.AddReferenceByAssemblyName("System");
