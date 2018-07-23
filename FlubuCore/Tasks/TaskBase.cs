@@ -31,6 +31,8 @@ namespace FlubuCore.Tasks
 
         private Func<ITaskContext, Exception, bool> _retryCondition;
 
+        private Func<ITaskContext, Exception, bool> _doNotFailCondition;
+
         private Action<Exception> _doNotFailOnErrorAction;
 
         internal List<(string argumentKey, string help)> ArgumentHelp { get; } = new List<(string argumentKey, string help)>();
@@ -102,10 +104,11 @@ namespace FlubuCore.Tasks
 
         /// <inheritdoc />
         [DisableForMember]
-        public TTask DoNotFailOnError(Action<Exception> doNotFailOnErrorAction = null)
+        public TTask DoNotFailOnError(Action<Exception> doNotFailOnErrorAction = null, Func<ITaskContext, Exception, bool> condition = null)
         {
             DoNotFail = true;
             _doNotFailOnErrorAction = doNotFailOnErrorAction;
+            _doNotFailCondition = condition;
             return this as TTask;
         }
 
@@ -233,6 +236,12 @@ namespace FlubuCore.Tasks
 
                 if (!shouldRetry && DoNotFail)
                 {
+                    var shouldFail = _doNotFailCondition != null && !_doNotFailCondition.Invoke(Context, ex);
+                    if (shouldFail)
+                    {
+                        throw;
+                    }
+
                     contextInternal.LogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                     _doNotFailOnErrorAction?.Invoke(ex);
                     return default(TResult);
@@ -242,6 +251,12 @@ namespace FlubuCore.Tasks
                 {
                     if (DoNotFail)
                     {
+                        var shouldFail = _doNotFailCondition != null && !_doNotFailCondition.Invoke(Context, ex);
+                        if (shouldFail)
+                        {
+                            throw;
+                        }
+
                         contextInternal.LogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                         _doNotFailOnErrorAction?.Invoke(ex);
                         return default(TResult);
@@ -268,6 +283,12 @@ namespace FlubuCore.Tasks
 
                 if (DoNotFail)
                 {
+                    var shouldFail = _doNotFailCondition != null && !_doNotFailCondition.Invoke(Context, ex);
+                    if (shouldFail)
+                    {
+                        throw;
+                    }
+
                     contextInternal.LogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                     _doNotFailOnErrorAction?.Invoke(ex);
                     return default(TResult);
@@ -313,6 +334,12 @@ namespace FlubuCore.Tasks
 
                 if (!shouldRetry && DoNotFail)
                 {
+                    var shouldFail = _doNotFailCondition != null && !_doNotFailCondition.Invoke(Context, ex);
+                    if (shouldFail)
+                    {
+                        throw;
+                    }
+
                     contextInternal.LogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                     _doNotFailOnErrorAction?.Invoke(ex);
                     return default(TResult);
@@ -322,6 +349,12 @@ namespace FlubuCore.Tasks
                 {
                     if (DoNotFail)
                     {
+                        var shouldFail = _doNotFailCondition != null && !_doNotFailCondition.Invoke(Context, ex);
+                        if (shouldFail)
+                        {
+                            throw;
+                        }
+
                         contextInternal.LogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                         _doNotFailOnErrorAction?.Invoke(ex);
                         return default(TResult);
@@ -348,6 +381,12 @@ namespace FlubuCore.Tasks
 
                 if (DoNotFail)
                 {
+                    var shouldFail = _doNotFailCondition != null && !_doNotFailCondition.Invoke(Context, ex);
+                    if (shouldFail)
+                    {
+                        throw;
+                    }
+
                     contextInternal.LogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                     _doNotFailOnErrorAction?.Invoke(ex);
                     return default(TResult);

@@ -39,7 +39,8 @@ namespace FlubuCore.Tasks
         /// </summary>
         /// <returns></returns>
         /// <param name="doNotFailOnErrorAction">Action to be taken if task fails and DoNotFailOnError flag is set.</param>
-        TTask DoNotFailOnError(Action<Exception> doNotFailOnErrorAction = null);
+        /// <param name="condition">Condition when task will not fail. If condition is null task will never fail. </param>
+        TTask DoNotFailOnError(Action<Exception> doNotFailOnErrorAction = null, Func<ITaskContext, Exception, bool> condition = null);
 
         /// <summary>
         /// Action to be taken when task finisish successfuly or when it fails.
