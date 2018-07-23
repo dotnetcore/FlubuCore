@@ -225,6 +225,7 @@ namespace FlubuCore.Scripting
                 typeof(object).GetTypeInfo().Assembly.Location,
                 flubuPath,
                 typeof(ILookup<string, string>).GetTypeInfo().Assembly.Location,
+                typeof(Stream).GetTypeInfo().Assembly.Location,
                 typeof(Expression).GetTypeInfo().Assembly.Location,
                 typeof(MethodInfo).GetTypeInfo().Assembly.Location,
                 typeof(OSPlatform).GetTypeInfo().Assembly.Location,
