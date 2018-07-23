@@ -24,8 +24,9 @@ namespace FlubuCore.Tasks
         /// </summary>
         /// <param name="numberOfRetries">Number of retries before task fails.</param>
         /// <param name="delay">Delay time in miliseconds between retries.</param>
+        /// <param name="condition">Condition when retry will occur. If condition is null task is always retried. </param>
         /// <returns></returns>
-        TTask Retry(int numberOfRetries, int delay);
+        TTask Retry(int numberOfRetries, int delay = 500, Func<ITaskContext, Exception, bool> condition = null);
 
         /// <summary>
         /// Do not log messages.

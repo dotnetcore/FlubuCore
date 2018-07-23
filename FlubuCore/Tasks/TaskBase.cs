@@ -29,6 +29,8 @@ namespace FlubuCore.Tasks
 
         private Action<ITaskContext, Exception> _onErrorAction;
 
+        private Func<ITaskContext, Exception, bool> _retryCondition;
+
         private Action<Exception> _doNotFailOnErrorAction;
 
         internal List<(string argumentKey, string help)> ArgumentHelp { get; } = new List<(string argumentKey, string help)>();
@@ -162,12 +164,14 @@ namespace FlubuCore.Tasks
         /// </summary>
         /// <param name="numberOfRetries">Number of retries before task fails.</param>
         /// <param name="delay">Delay time in miliseconds between retries.</param>
+        /// <param name="condition">Condition when retry will occur. If condition is null task is always retried. </param>
         /// <returns></returns>
-        public TTask Retry(int numberOfRetries, int delay = 500)
+        public TTask Retry(int numberOfRetries, int delay = 500, Func<ITaskContext, Exception, bool> condition = null)
         {
             DoRetry = true;
             NumberOfRetries = numberOfRetries;
             RetryDelay = delay;
+            _retryCondition = condition;
             return this as TTask;
         }
 
@@ -225,6 +229,15 @@ namespace FlubuCore.Tasks
             catch (Exception ex)
             {
                 _onErrorAction?.Invoke(Context, ex);
+                var shouldRetry = _retryCondition == null || _retryCondition.Invoke(Context, ex);
+
+                if (!shouldRetry && DoNotFail)
+                {
+                    contextInternal.LogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
+                    _doNotFailOnErrorAction?.Invoke(ex);
+                    return default(TResult);
+                }
+
                 if (!DoRetry)
                 {
                     if (DoNotFail)
@@ -235,6 +248,13 @@ namespace FlubuCore.Tasks
                     }
 
                     throw;
+                }
+                else
+                {
+                    if (!shouldRetry && !DoNotFail)
+                    {
+                        throw;
+                    }
                 }
 
                 while (_retriedTimes < NumberOfRetries)
@@ -289,6 +309,15 @@ namespace FlubuCore.Tasks
             catch (Exception ex)
             {
                 _onErrorAction?.Invoke(Context, ex);
+                var shouldRetry = _retryCondition == null || _retryCondition.Invoke(Context, ex);
+
+                if (!shouldRetry && DoNotFail)
+                {
+                    contextInternal.LogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
+                    _doNotFailOnErrorAction?.Invoke(ex);
+                    return default(TResult);
+                }
+
                 if (!DoRetry)
                 {
                     if (DoNotFail)
@@ -299,6 +328,13 @@ namespace FlubuCore.Tasks
                     }
 
                     throw;
+                }
+                else
+                {
+                    if (!shouldRetry && !DoNotFail)
+                    {
+                        throw;
+                    }
                 }
 
                 while (_retriedTimes < NumberOfRetries)
@@ -312,7 +348,7 @@ namespace FlubuCore.Tasks
 
                 if (DoNotFail)
                 {
-                     contextInternal.LogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
+                    contextInternal.LogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                     _doNotFailOnErrorAction?.Invoke(ex);
                     return default(TResult);
                 }

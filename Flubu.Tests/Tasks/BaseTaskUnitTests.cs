@@ -1,4 +1,6 @@
-﻿using FlubuCore;
+﻿using System;
+using System.Threading.Tasks;
+using FlubuCore;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
 using FlubuCore.IO.Wrappers;
@@ -369,6 +371,110 @@ namespace Flubu.Tests.Tasks
             _task.Execute(Context.Object);
             Assert.Equal("test", _task.Path);
             Assert.Equal("test2", _task.Path3);
+        }
+
+        [Fact]
+        public void Retry_ConditionMeet_FailsAfter3Times()
+        {
+            var failTask = new FailTask();
+            Assert.Throws<Exception>(() => failTask.Retry(3, condition: (c, e) => true).Execute(Context.Object));
+            Assert.Equal(4, failTask.ExecutedTimes);
+        }
+
+        [Fact]
+        public void Retry_NoCondition_Succesds()
+        {
+            var failTask = new FailTask();
+            Assert.Throws<Exception>(() => failTask.Retry(3).Execute(Context.Object));
+            Assert.Equal(4, failTask.ExecutedTimes);
+        }
+
+        [Fact]
+        public void RetryWithDoNotFail_ConditionMeet_Succesds()
+        {
+            var failTask = new FailTask();
+            failTask.Retry(3, condition: (c, e) => true).DoNotFailOnError().Execute(Context.Object);
+            Assert.Equal(4, failTask.ExecutedTimes);
+        }
+
+        [Fact]
+        public void RetryWithDoNotFail_NoCondition_Succesds()
+        {
+            var failTask = new FailTask();
+            failTask.Retry(3).DoNotFailOnError().Execute(Context.Object);
+            Assert.Equal(4, failTask.ExecutedTimes);
+        }
+
+        [Fact]
+        public void Retry_ConditionNotMeet_Fails()
+        {
+            var failTask = new FailTask();
+            Assert.Throws<Exception>(() => failTask.Retry(3, condition: (c, e) => false).Execute(Context.Object));
+            Assert.Equal(1, failTask.ExecutedTimes);
+        }
+
+        [Fact]
+        public void RetryWithDoNotFail_ConditionNotMeet_Fails()
+        {
+            var failTask = new FailTask();
+            failTask.Retry(3, condition: (c, e) => false).DoNotFailOnError().Execute(Context.Object);
+            Assert.Equal(1, failTask.ExecutedTimes);
+        }
+
+        [Fact]
+        public async Task RetryAsync_ConditionMeet_Succesds()
+        {
+            var failTask = new FailTask();
+            await Assert.ThrowsAsync<Exception>(async () => await failTask.Retry(3, condition: (c, e) => true).ExecuteAsync(Context.Object));
+            Assert.Equal(4, failTask.ExecutedTimes);
+        }
+
+        [Fact]
+        public async Task RetryWithDoNotFailAsync_ConditionMeet_Succesds()
+        {
+            var failTask = new FailTask();
+            await failTask.Retry(3, condition: (c, e) => true).DoNotFailOnError().ExecuteAsync(Context.Object);
+            Assert.Equal(4, failTask.ExecutedTimes);
+        }
+
+        [Fact]
+        public async Task RetryAsync_ConditionNotMeet_Fails()
+        {
+            var failTask = new FailTask();
+            await Assert.ThrowsAsync<Exception>(async () => await failTask.Retry(3, condition: (c, e) => false).ExecuteAsync(Context.Object));
+            Assert.Equal(1, failTask.ExecutedTimes);
+        }
+
+        [Fact]
+        public async Task RetryWithDoNotFailAsync_ConditionNotMeet_Fails()
+        {
+            var failTask = new FailTask();
+            await failTask.Retry(3, condition: (c, e) => false).DoNotFailOnError().ExecuteAsync(Context.Object);
+            Assert.Equal(1, failTask.ExecutedTimes);
+        }
+
+        [Fact]
+        public async Task RetryAsync_NoCondition_Fails()
+        {
+            var failTask = new FailTask();
+            await Assert.ThrowsAsync<Exception>(async () => await failTask.Retry(3).ExecuteAsync(Context.Object));
+            Assert.Equal(4, failTask.ExecutedTimes);
+        }
+
+        [Fact]
+        public async Task RetryWithDoNotFailAsync_NoCondition_Succeds()
+        {
+            var failTask = new FailTask();
+            await failTask.Retry(3).DoNotFailOnError().ExecuteAsync(Context.Object);
+            Assert.Equal(4, failTask.ExecutedTimes);
+        }
+
+        [Fact]
+        public void DoNotFail_Succesds()
+        {
+            var failTask = new FailTask();
+            failTask.DoNotFailOnError().Execute(Context.Object);
+            Assert.Equal(1, failTask.ExecutedTimes);
         }
     }
 }
