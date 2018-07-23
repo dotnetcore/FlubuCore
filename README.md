@@ -21,7 +21,7 @@ List of features that FlubuCore has to offer with description can be found at [*
 * [Write your own custom c# code in script and execute it.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Custom-code)
 * [Async execution of tasks, target dependencies and custom code](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Async-execution)
 * [Run any external program or console command in script with RunProgramTask.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Run-any-program)
-* [Reference any .net library or c# source code file in buildscript. Now also available option to reference nuget package in build script.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script)
+* [Reference any .net library or c# source code file in buildscript. Now also available option to reference nuget packages in build script.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script)
 
 * [Write tests, debug your build script.](https://github.com/flubu-core/flubu.core/wiki/6-Writing-build-script-tests,-debuging-and-running-flubu-tasks-in-other--.net-applications)
 * [Use FlubuCore tasks in any  other .net application.](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs)
