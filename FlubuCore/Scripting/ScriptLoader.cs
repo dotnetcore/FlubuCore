@@ -221,6 +221,7 @@ namespace FlubuCore.Scripting
             List<string> assemblyReferenceLocations = new List<string>
             {
                 Path.Combine(coreDir, "mscorlib.dll"),
+                Path.Combine(coreDir, "System.Runtime.dll"),
                 typeof(object).GetTypeInfo().Assembly.Location,
                 flubuPath,
                 typeof(ILookup<string, string>).GetTypeInfo().Assembly.Location,
@@ -232,7 +233,6 @@ namespace FlubuCore.Scripting
             assemblyReferenceLocations.AddReferenceByAssemblyName("System");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Core");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Data");
-            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Runtime");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Runtime.Extensions");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Runtime.InteropServices");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Collections");
