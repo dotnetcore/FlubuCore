@@ -226,6 +226,11 @@ namespace FlubuCore.Tasks
 
             try
             {
+                if (contextInternal.Args.DryRun)
+                {
+                    return default(TResult);
+                }
+
                 InvokeForMembers();
                 return DoExecute(contextInternal);
             }
@@ -242,7 +247,8 @@ namespace FlubuCore.Tasks
                         throw;
                     }
 
-                    contextInternal.LogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
+                    contextInternal.LogInfo(
+                        $"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                     _doNotFailOnErrorAction?.Invoke(ex);
                     return default(TResult);
                 }
@@ -257,7 +263,8 @@ namespace FlubuCore.Tasks
                             throw;
                         }
 
-                        contextInternal.LogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
+                        contextInternal.LogInfo(
+                            $"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                         _doNotFailOnErrorAction?.Invoke(ex);
                         return default(TResult);
                     }
@@ -289,7 +296,8 @@ namespace FlubuCore.Tasks
                         throw;
                     }
 
-                    contextInternal.LogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
+                    contextInternal.LogInfo(
+                        $"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                     _doNotFailOnErrorAction?.Invoke(ex);
                     return default(TResult);
                 }
@@ -324,6 +332,11 @@ namespace FlubuCore.Tasks
 
             try
             {
+                if (contextInternal.Args.DryRun)
+                {
+                    return default(TResult);
+                }
+
                 InvokeForMembers();
                 return await DoExecuteAsync(contextInternal);
             }
@@ -340,7 +353,8 @@ namespace FlubuCore.Tasks
                         throw;
                     }
 
-                    contextInternal.LogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
+                    contextInternal.LogInfo(
+                        $"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                     _doNotFailOnErrorAction?.Invoke(ex);
                     return default(TResult);
                 }
@@ -355,7 +369,8 @@ namespace FlubuCore.Tasks
                             throw;
                         }
 
-                        contextInternal.LogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
+                        contextInternal.LogInfo(
+                            $"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                         _doNotFailOnErrorAction?.Invoke(ex);
                         return default(TResult);
                     }

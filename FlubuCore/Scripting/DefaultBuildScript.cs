@@ -109,7 +109,11 @@ namespace FlubuCore.Scripting
                     }
                 }
 
-                if (!targetsInfo.unknownTarget)
+                if (taskSession.Args.DryRun)
+                {
+                    s.LogInfo("DRY RUN PERFORMED");
+                }
+                else if (!targetsInfo.unknownTarget)
                 {
                     s.LogInfo(s.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
                 }

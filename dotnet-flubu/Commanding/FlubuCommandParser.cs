@@ -35,6 +35,8 @@ namespace DotNet.Cli.Flubu.Commanding
 
         private CommandOption _noDependencies;
 
+        private CommandOption _dryRun;
+
         public FlubuCommandParser(
             CommandLineApplication commandApp,
             IFlubuConfigurationProvider flubuConfigurationProvider)
@@ -58,6 +60,7 @@ namespace DotNet.Cli.Flubu.Commanding
             _configurationFile = _commandApp.Option("-cf|--configurationFile", "Path to the flubu json configuration file. If not specified configuration is readed from flubusettings.json ", CommandOptionType.SingleValue);
             _assemblyDirectories = _commandApp.Option("-ass", "Directory to search assemblies to include automatically in script (Assemblies in subdirectories are also loaded). If not specified assemblies are loaded by default from FlubuLib directory.", CommandOptionType.MultipleValue);
             _noDependencies = _commandApp.Option("-nd||--nodeps", "If applied no target dependencies are executed.", CommandOptionType.NoValue);
+            _dryRun = _commandApp.Option("--dryRun", "Performs a dry run.", CommandOptionType.NoValue);
             _commandApp.OnExecute(() => PrepareDefaultArguments());
 
             if (args == null)
@@ -93,6 +96,11 @@ namespace DotNet.Cli.Flubu.Commanding
             if (_noDependencies.HasValue())
             {
                 _parsed.NoDependencies = true;
+            }
+
+            if (_dryRun.HasValue())
+            {
+                _parsed.DryRun = true;
             }
 
             if (_isDebug.HasValue())

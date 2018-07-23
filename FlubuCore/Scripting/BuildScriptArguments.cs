@@ -37,5 +37,10 @@ namespace FlubuCore.Scripting
         /// If <c>true</c> flubu rethrows exception when occures. Otherwise status code is returned.
         /// </summary>
         public bool RethrowOnException { get; set; }
+
+        /// <summary>
+        /// Performs dry run.
+        /// </summary>
+        public bool DryRun { get; set; }
     }
 }
