@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.Loader;
 #if NETSTANDARD1_6
 using System.Runtime.Loader;
 #endif
@@ -62,17 +63,17 @@ namespace FlubuCore.Scripting
             string buildScriptFilePath = _buildScriptLocator.FindBuildScript(args);
             var buildScriptAssemblyPath = Path.Combine("bin", Path.GetFileName(buildScriptFilePath));
             buildScriptAssemblyPath = Path.ChangeExtension(buildScriptAssemblyPath, "dll");
+
+            List<string> code = _file.ReadAllLines(buildScriptFilePath);
+            AnalyserResult analyserResult = _analyser.Analyze(code);
+            var references = GetBuildScriptReferences(args, analyserResult, code);
+
             var assembly = TryLoadBuildScriptFromAssembly(buildScriptAssemblyPath, buildScriptFilePath);
 
             if (assembly != null)
             {
                 return CreateBuildScriptInstance(assembly, buildScriptFilePath);
             }
-
-            List<string> code = _file.ReadAllLines(buildScriptFilePath);
-            AnalyserResult analyserResult = _analyser.Analyze(code);
-
-            var references = GetBuildScriptReferences(args, analyserResult, code);
 
             code.Insert(0, $"#line 1 \"{buildScriptFilePath}\"");
             assembly = CompileBuildScriptToAssembly(buildScriptAssemblyPath, buildScriptFilePath, references, string.Join("\r\n", code));
@@ -132,7 +133,7 @@ namespace FlubuCore.Scripting
                 references: references,
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
                     .WithOptimizationLevel(OptimizationLevel.Debug)
-                    .WithAssemblyIdentityComparer(DesktopAssemblyIdentityComparer.Default));
+                    .WithAssemblyIdentityComparer(AssemblyIdentityComparer.Default));
 
             using (var dllStream = new MemoryStream())
             {
@@ -185,35 +186,59 @@ namespace FlubuCore.Scripting
             }
         }
 
-        private IEnumerable<MetadataReference> GetBuildScriptReferences(CommandArguments args, AnalyserResult analyserResult, List<string> code)
+        private IEnumerable<MetadataReference> GetBuildScriptReferences(CommandArguments args,
+            AnalyserResult analyserResult, List<string> code)
         {
-            var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
-            var flubuCoreAssembly = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
-            var flubuPath = flubuCoreAssembly.Location;
-
-            //// Default assemblies that should be referenced.
-            var assemblyReferenceLocations = GetDefaultReferences(coreDir, flubuPath);
-
-            // Enumerate all assemblies referenced by FlubuCore
-            // and provide them as references to the build script we're about to
-            // compile.
-            AssemblyName[] referencedAssemblies = flubuCoreAssembly.GetReferencedAssemblies();
-            foreach (var referencedAssembly in referencedAssemblies)
+            try
             {
-                Assembly loadedAssembly = Assembly.Load(referencedAssembly);
-                if (string.IsNullOrEmpty(loadedAssembly.Location))
-                    continue;
+                var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
+                var flubuCoreAssembly = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
+                var flubuPath = flubuCoreAssembly.Location;
 
-                assemblyReferenceLocations.Add(loadedAssembly.Location);
+                //// Default assemblies that should be referenced.
+                var assemblyReferenceLocations = GetDefaultReferences(coreDir, flubuPath);
+
+                // Enumerate all assemblies referenced by FlubuCore
+                // and provide them as references to the build script we're about to
+                // compile.
+                AssemblyName[] referencedAssemblies = flubuCoreAssembly.GetReferencedAssemblies();
+                foreach (var referencedAssembly in referencedAssemblies)
+                {
+                    Assembly loadedAssembly = Assembly.Load(referencedAssembly);
+                    if (string.IsNullOrEmpty(loadedAssembly.Location))
+                        continue;
+
+                    assemblyReferenceLocations.Add(loadedAssembly.Location);
+                }
+
+                assemblyReferenceLocations.AddRange(analyserResult.References);
+                assemblyReferenceLocations.AddRange(
+                    _nugetPackageResolver.ResolveNugetPackages(analyserResult.NugetPackages));
+                AddOtherCsFilesToBuildScriptCode(analyserResult, assemblyReferenceLocations, code);
+                assemblyReferenceLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
+                assemblyReferenceLocations =
+                    assemblyReferenceLocations.Distinct().Where(x => !string.IsNullOrEmpty(x)).ToList();
+                IEnumerable<PortableExecutableReference> references = null;
+                references = assemblyReferenceLocations.Select(i => MetadataReference.CreateFromFile(i));
+
+                ////foreach (var assemblyReferenceLocation in assemblyReferenceLocations)
+                ////{
+                ////    try
+                ////    {
+                ////        AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyReferenceLocation);
+                ////    }
+                ////    catch (Exception ex)
+                ////    {
+                ////        Console.WriteLine($"failed: {assemblyReferenceLocation}");
+                ////    }
+                ////}
+
+                return references;
             }
-
-            assemblyReferenceLocations.AddRange(analyserResult.References);
-            assemblyReferenceLocations.AddRange(_nugetPackageResolver.ResolveNugetPackages(analyserResult.NugetPackages));
-            AddOtherCsFilesToBuildScriptCode(analyserResult, assemblyReferenceLocations, code);
-            assemblyReferenceLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
-            assemblyReferenceLocations = assemblyReferenceLocations.Distinct().Where(x => !string.IsNullOrEmpty(x)).ToList();
-            var references = assemblyReferenceLocations.Select(i => MetadataReference.CreateFromFile(i));
-            return references;
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         private List<string> GetDefaultReferences(string coreDir, string flubuPath)
