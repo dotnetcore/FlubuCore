@@ -10,21 +10,16 @@ using Xunit;
 
 namespace Flubu.Tests.Tasks
 {
-    public class CompileSolutionTaskUnitTests
+    public class CompileSolutionTaskUnitTests : TaskUnitTestBase
     {
         private readonly Mock<IFlubuEnviromentService> _flubuEnviroment;
         private readonly Mock<IRunProgramTask> _runProgramTask;
-        private readonly Mock<ITaskContextInternal> _context;
-        private readonly Mock<ITaskFluentInterface> _taskFluentInterface;
         private CompileSolutionTask _task;
 
         public CompileSolutionTaskUnitTests()
         {
             _flubuEnviroment = new Mock<IFlubuEnviromentService>();
             _runProgramTask = new Mock<IRunProgramTask>(MockBehavior.Loose);
-            _context = new Mock<ITaskContextInternal>();
-            _taskFluentInterface = new Mock<ITaskFluentInterface>();
-            _context.Setup(x => x.Tasks()).Returns(_taskFluentInterface.Object);
         }
 
         [Fact]
@@ -34,7 +29,7 @@ namespace Flubu.Tests.Tasks
             SetupRunProgramTask();
 
             _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
-            _task.ExecuteVoid(_context.Object);
+            _task.ExecuteVoid(Context.Object);
         }
 
         [Fact]
@@ -45,7 +40,7 @@ namespace Flubu.Tests.Tasks
 
             _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
             _task.SetToolsVersion(new Version("4.0"));
-            _task.ExecuteVoid(_context.Object);
+            _task.ExecuteVoid(Context.Object);
         }
 
         [Fact]
@@ -56,7 +51,7 @@ namespace Flubu.Tests.Tasks
 
             _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
             _task.SetToolsVersion(new Version("4.0"));
-            _task.ExecuteVoid(_context.Object);
+            _task.ExecuteVoid(Context.Object);
         }
 
         [Fact]
@@ -66,7 +61,7 @@ namespace Flubu.Tests.Tasks
 
             _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
             _task.SetToolsVersion(new Version("4.0"));
-            TaskExecutionException ex = Assert.Throws<TaskExecutionException>(() => _task.ExecuteVoid(_context.Object));
+            TaskExecutionException ex = Assert.Throws<TaskExecutionException>(() => _task.ExecuteVoid(Context.Object));
             Assert.Equal("Requested MSBuild tools version 4.0 not found and there are no higher versions", ex.Message);
         }
 
@@ -85,10 +80,10 @@ namespace Flubu.Tests.Tasks
             SetupMsBuildVersions(include40: false, include120: false);
             SetupRunProgramTask();
 
-            _taskFluentInterface.Setup(x => x.RunProgramTask(It.IsAny<string>())).Returns(_runProgramTask.Object);
+            Tasks.Setup(x => x.RunProgramTask(It.IsAny<string>())).Returns(_runProgramTask.Object);
             _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
             _task.WithArguments("aaa");
-            _task.Execute(_context.Object);
+            _task.Execute(Context.Object);
             Assert.Equal(4, _task.GetArguments().Count);
         }
 
@@ -106,7 +101,7 @@ namespace Flubu.Tests.Tasks
 
         private void SetupRunProgramTask()
         {
-            _taskFluentInterface.Setup(x => x.RunProgramTask(It.IsAny<string>())).Returns(_runProgramTask.Object);
+             Tasks.Setup(x => x.RunProgramTask(It.IsAny<string>())).Returns(_runProgramTask.Object);
             _runProgramTask.Setup(x => x.WorkingFolder(".")).Returns(_runProgramTask.Object);
             _runProgramTask.Setup(x => x.WithArguments(It.IsAny<string>())).Returns(_runProgramTask.Object);
             _runProgramTask.Setup(x => x.WithArguments(It.IsAny<string[]>())).Returns(_runProgramTask.Object);
