@@ -16,17 +16,17 @@ namespace FlubuCore.Commanding
         private readonly IScriptLoader _scriptLoader;
 
         private readonly ILogger<CommandExecutor> _log;
-        private readonly ITaskSession _taskSession;
+        private readonly ITaskSessionFactory _taskSessionFactory;
 
         public CommandExecutor(
             CommandArguments args,
             IScriptLoader scriptLoader,
-            ITaskSession taskSession,
+            ITaskSessionFactory taskSessionFactory,
             ILogger<CommandExecutor> log)
         {
             _args = args;
             _scriptLoader = scriptLoader;
-            _taskSession = taskSession;
+            _taskSessionFactory = taskSessionFactory;
             _log = log;
         }
 
@@ -41,9 +41,13 @@ namespace FlubuCore.Commanding
             try
             {
                 var script = await _scriptLoader.FindAndCreateBuildScriptInstanceAsync(_args);
-                _taskSession.ScriptArgs = _args.ScriptArguments;
-                var result = script.Run(_taskSession);
-                return result;
+                using (ITaskSession taskSession = _taskSessionFactory.OpenTaskSession())
+                {
+                    taskSession.ScriptArgs = _args.ScriptArguments;
+                    var result = script.Run(taskSession);
+                    taskSession.Complete();
+                    return result;
+                }
             }
             catch (FlubuException e)
             {
