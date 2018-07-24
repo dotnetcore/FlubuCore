@@ -1,5 +1,6 @@
 ﻿using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface.Interfaces;
+using FlubuCore.Scripting;
 using FlubuCore.Tasks.Process;
 using Moq;
 
@@ -12,10 +13,12 @@ namespace Flubu.Tests.Tasks
             Tasks = new Mock<ITaskFluentInterface>();
             CoreTasks = new Mock<ICoreTaskFluentInterface>();
             Context = new Mock<ITaskContextInternal>();
+            CommandArguments = new Mock<CommandArguments>();
             Properties = new Mock<IBuildPropertiesSession>(propertiesMockBehavior);
             Context.Setup(x => x.Properties).Returns(Properties.Object);
             Context.Setup(x => x.Tasks()).Returns(Tasks.Object);
             Context.Setup(x => x.CoreTasks()).Returns(CoreTasks.Object);
+            Context.Setup(x => x.Args).Returns(CommandArguments.Object);
 
             RunProgramTask = new Mock<IRunProgramTask>();
             RunProgramTask.Setup(x => x.WithArguments(It.IsAny<string>())).Returns(RunProgramTask.Object);
@@ -26,6 +29,8 @@ namespace Flubu.Tests.Tasks
         }
 
         protected Mock<ITaskContextInternal> Context { get; set; }
+
+        protected Mock<CommandArguments> CommandArguments { get; set; }
 
         protected Mock<IBuildPropertiesSession> Properties { get; set; }
 
