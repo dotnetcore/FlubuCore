@@ -1,6 +1,6 @@
 # FlubuCore
 
-[![AppVeyor](https://img.shields.io/appveyor/ci/flubu-core/flubu.core.svg?label=Windows%20build)](https://ci.appveyor.com/project/flubu-core/flubu.core)
+![Windows Build](http://lucidlynx.comtrade.com:8080/buildStatus/icon?job=FlubuCore)
 [![Travis](https://img.shields.io/travis/USER/REPO.svg?label=Linux%20build)](https://TODO)
 [![NuGet](https://img.shields.io/nuget/v/FlubuCore.svg)](https://www.nuget.org/packages/FlubuCore/)
 [![Gitter](https://img.shields.io/gitter/room/FlubuCore/Lobby.svg)](https://gitter.im/FlubuCore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
