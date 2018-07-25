@@ -101,23 +101,28 @@
 
 * [Possibility to use FlubuCore tasks in any other .NET application.](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs)
 
-See [**getting started**](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started) on wiki to get you started with FlubuCore. We know you don't belive it but it really is very simple :)
+## Getting Started
+Using FlubuCore is straightforward and very simple :-) It is also fully and throughly documented.
 
-List of features that FlubuCore has to offer with description can be found at [**build script fundamentals**](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals). Alternatively You can take a look at examples below.
+The [Getting Started](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started) chapter on [FlubuCore Wiki](https://github.com/flubu-core/flubu.core/wiki/) will help you set up your first FlubuCore build in no time.
 
-* [For .NET projects use **FlubuCore.Runner**](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started#Installation.net)
-* [For .NET Core projects use CLI tool **dotnet-flubu**](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started#Installation-.net-core)
-* [Most elegant way for .NET Core projects is to use global tool](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started#Run-build-script-core-with-global-tool) - ```dotnet tool install --global FlubuCore.GlobalTool```
+A comprehensive list of features that FlubuCore has to offer with descriptions can be found in the [Build Script Fundamentals](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals) chapter.
+
+Once you have your build and deployment scripts defined, the following Wiki chapters will explain how to run them:
+* For .NET Framework projects use [FlubuCore.Runner](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started#Installation.net)
+* For .NET Core projects use [FlubuCore CLI global tool](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started#Installation-.net-core)
 
 ## Examples
+Aside from the detailed Wiki FlubuCore comes with example projects that reflect real-life situations. The examples can be found in the separate [Examples repository](https://github.com/flubu-core/examples/).
 
-* [**.net example**](https://github.com/flubu-core/examples/blob/master/MVC_NET4.61/BuildScripts/BuildScript.cs
+These examples will help you to get quickly start with FlubuCore:
+* [.NET Framework build example](https://github.com/flubu-core/examples/blob/master/MVC_NET4.61/BuildScripts/BuildScript.cs
 )
 
-* [**.net core example**](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScript.cs
+* [.NET Core build example](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScript.cs
 )
 
-* [**.deploy script example**](https://github.com/flubu-core/examples/blob/master/DeployScriptExample/BuildScript/DeployScript.cs
+* [Deployment script example](https://github.com/flubu-core/examples/blob/master/DeployScriptExample/BuildScript/DeployScript.cs
 )
 
 ## Have a question?
