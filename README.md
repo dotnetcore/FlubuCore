@@ -36,16 +36,18 @@
 
     ```
     context.CreateTarget("MyCustomBuildTarget")
-         .Do(MyCustomMethod);
+         .Do(MyCustomMethod)
+         .Do(NuGetPackageReferencingExample);
     ```
 
 * [Reference any .NET library, NuGet package or C# source code in your scripts.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script)
 
     ```
-    //#nuget Newtonsoftjson, 11.0.2
+    //#ass .\Lib\EntityFramework.dll
+    //#nuget Newtonsoft.json, 11.0.2
     public class BuildScript : DefaultBuildScript
     {
-       public void NuGetPackageReferencingExample()
+       public void NuGetPackageReferencingExample(ITaskContext context)
         {
             JsonConvert.SerializeObject("Example");
         }
@@ -61,7 +63,27 @@
             .WithArguments("add")
             .WithArguments("--libz", "Assemblies.libz"));
     ```
+* [Pass command line arguments, json configuration file or enviroment variables to your script.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Script-arguments)
 
+ ```
+ public class SimpleScript : DefaultBuildScript
+ {
+    [FromArg("-sn", "If true app is deployed on second node. Otherwise not.")]
+    public bool deployOnSecondNode { get; set; }
+
+ 
+     protected override void ConfigureTargets(ITaskContext context)
+     {
+         context.CreateTarget("compile")
+            .AddTask(x => x.CompileSolutionTask()
+                .ForMember(y => y.SolutionFileName("someSolution.sln"), "solution", "The solution to build.")); 
+     }
+  }
+ ```
+ 
+ ```
+  build.exe compile -solution=someOtherSolution.sln -sn=true
+ ```
 * [Extending FlubuCore fluent interface by writing your own FlubuCore tasks.](https://github.com/flubu-core/flubu.core/wiki/5-How-to-write-and-use-FlubuCore-task-plugins)
 
     ```
