@@ -35,7 +35,7 @@
 * [Execute your own custom C# code.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Custom-code)
 
     ```
-    context.CreateTarget("My custom build target")
+    context.CreateTarget("MyCustomBuildTarget")
          .Do(MyCustomMethod);
     ```
 
@@ -55,7 +55,7 @@
 * [Easily run any external program or console command in your script.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Run-any-program)
 
     ```
-    session.CreateTarget("Run Libz")
+    session.CreateTarget("Run.Libz")
         .AddTask(x => x.RunProgramTask(@"packages\LibZ.Tool\1.2.0\tools\libz.exe")
             .WorkingFolder(@".\src")
             .WithArguments("add")
@@ -78,7 +78,7 @@
 * [Asynchronous execution of tasks, target dependencies and custom code.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Async-execution)
 
     ```
-    session.CreateTarget("Run Tests")
+    session.CreateTarget("Run.Tests")
         .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName1"))
         .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName1"))
         .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName3"));
