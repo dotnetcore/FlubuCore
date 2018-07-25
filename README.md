@@ -68,7 +68,7 @@
  ```
  public class SimpleScript : DefaultBuildScript
  {
-    [FromArg("-sn", "If true app is deployed on second node. Otherwise not.")]
+    [FromArg("sn", "If true app is deployed on second node. Otherwise not.")]
     public bool deployOnSecondNode { get; set; }
 
  
