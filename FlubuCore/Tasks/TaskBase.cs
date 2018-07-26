@@ -61,11 +61,6 @@ namespace FlubuCore.Tasks
         }
 
         /// <summary>
-        /// Message that will be displayed when executing task.
-        /// </summary>
-        protected virtual string DescriptionForLog => null;
-
-        /// <summary>
         ///  Should the task fail if an error occurs.
         /// </summary>
         protected bool DoNotFail { get; private set; }
@@ -219,11 +214,6 @@ namespace FlubuCore.Tasks
             Context = context ?? throw new ArgumentNullException(nameof(context));
             TaskStopwatch.Start();
 
-            if (!string.IsNullOrEmpty(DescriptionForLog))
-            {
-                DoLogInfo(DescriptionForLog);
-            }
-
             try
             {
                 if (contextInternal.Args.DryRun)
@@ -311,7 +301,7 @@ namespace FlubuCore.Tasks
 
                 if (LogDuration)
                 {
-                    DoLogInfo($"{DescriptionForLog} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
+                    DoLogInfo($"{TaskName} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
                 }
             }
         }
@@ -324,11 +314,6 @@ namespace FlubuCore.Tasks
             Context = context ?? throw new ArgumentNullException(nameof(context));
 
             TaskStopwatch.Start();
-
-            if (!string.IsNullOrEmpty(DescriptionForLog))
-            {
-                DoLogInfo(DescriptionForLog);
-            }
 
             try
             {
@@ -416,7 +401,7 @@ namespace FlubuCore.Tasks
 
                 if (LogDuration)
                 {
-                    DoLogInfo($"{DescriptionForLog} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
+                    DoLogInfo($"{TaskName} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
                 }
             }
         }

@@ -47,8 +47,6 @@ namespace FlubuCore.Targeting
             get { return Description; }
         }
 
-        protected override string DescriptionForLog => TargetName;
-
         /// <summary>
         ///     Specifies targets on which this target depends on.
         /// </summary>
