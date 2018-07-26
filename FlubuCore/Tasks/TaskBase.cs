@@ -94,7 +94,7 @@ namespace FlubuCore.Tasks
         ///     has finished.
         /// </summary>
         /// <value><c>true</c> if duration should be logged; otherwise, <c>false</c>.</value>
-        protected virtual bool LogDuration => false;
+        protected virtual bool LogDuration { get; set; } = false;
 
         /// <inheritdoc />
         [DisableForMember]
@@ -176,6 +176,12 @@ namespace FlubuCore.Tasks
         public TTask SetDescription(string description)
         {
             Description = description;
+            return this as TTask;
+        }
+
+        public TTask LogTaskDuration()
+        {
+            LogDuration = true;
             return this as TTask;
         }
 

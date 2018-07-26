@@ -72,5 +72,11 @@ namespace FlubuCore.Tasks
         /// <param name="description"></param>
         /// <returns></returns>
         TTask SetDescription(string description);
+
+        /// <summary>
+        /// When applied task duration is logged.
+        /// </summary>
+        /// <returns></returns>
+        TTask LogTaskDuration();
     }
 }
