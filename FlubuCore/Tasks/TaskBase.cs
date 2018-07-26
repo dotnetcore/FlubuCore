@@ -37,14 +37,7 @@ namespace FlubuCore.Tasks
 
         internal List<(string argumentKey, string help)> ArgumentHelp { get; } = new List<(string argumentKey, string help)>();
 
-        /// <summary>
-        /// Stopwatch for timings.
-        /// </summary>
-        internal Stopwatch TaskStopwatch { get; } = new Stopwatch();
-
-        protected abstract string Description { get; set; }
-
-        protected virtual string TaskName
+        internal override string TaskName
         {
             get
             {
@@ -56,9 +49,15 @@ namespace FlubuCore.Tasks
                 var type = typeof(TTask);
                 return type.Name;
             }
-
             set => _taskName = value;
         }
+
+        /// <summary>
+        /// Stopwatch for timings.
+        /// </summary>
+        internal Stopwatch TaskStopwatch { get; } = new Stopwatch();
+
+        protected abstract string Description { get; set; }
 
         /// <summary>
         ///  Should the task fail if an error occurs.
@@ -614,6 +613,8 @@ namespace FlubuCore.Tasks
 
     public abstract class TaskHelp
     {
+        internal virtual string TaskName { get; set; }
+
         internal abstract void LogTaskHelp(ITaskContext context);
     }
 }

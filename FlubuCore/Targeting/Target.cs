@@ -378,7 +378,8 @@ namespace FlubuCore.Targeting
                 {
                     for (int j = 0; j < tasksCount; j++)
                     {
-                        context.LogInfo($"Executing task {_taskGroups[i].Tasks[j].task.GetType().Name}");
+                        var task = (TaskHelp)_taskGroups[i].Tasks[j].task;
+                        context.LogInfo($"Executing task {task.TaskName}");
                         if (_taskGroups[i].Tasks[j].taskExecutionMode == TaskExecutionMode.Synchronous)
                         {
                             _taskGroups[i].Tasks[j].task.ExecuteVoid(context);
