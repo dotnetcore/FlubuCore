@@ -10,5 +10,7 @@ namespace FlubuCore.Context
         void Start(Action<ITaskSession> onFinishDo);
 
         void Complete();
+
+        void OnFinish();
     }
 }

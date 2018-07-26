@@ -16,10 +16,12 @@ namespace FlubuCore.Scripting
             try
             {
                 RunBuild(taskSession);
+                taskSession.Complete();
                 return 0;
             }
             catch (TargetNotFoundException e)
             {
+                taskSession.OnFinish();
                 if (taskSession.Args.RethrowOnException)
                     throw;
 
@@ -28,6 +30,7 @@ namespace FlubuCore.Scripting
             }
             catch (FlubuException e)
             {
+                taskSession.OnFinish();
                 if (taskSession.Args.RethrowOnException)
                     throw;
 
@@ -36,6 +39,7 @@ namespace FlubuCore.Scripting
             }
             catch (Exception ex)
             {
+                taskSession.OnFinish();
                 if (taskSession.Args.RethrowOnException)
                     throw;
 
