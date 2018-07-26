@@ -29,10 +29,13 @@ namespace FlubuCore.Scripting.Processors
 
             string dll = line.Substring(dllIndex);
             string pathToDll = Path.GetFullPath(dll.Trim());
-
-            if (!_pathWrapper.GetExtension(pathToDll).Equals(".dll", StringComparison.OrdinalIgnoreCase))
+            string extension = _pathWrapper.GetExtension(pathToDll);
+            if (!extension.Equals(".dll", StringComparison.OrdinalIgnoreCase))
             {
-                throw new ScriptException($"File doesn't have dll extension. {pathToDll}");
+                if (!extension.Equals(".exe", StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new ScriptException($"File doesn't have dll extension. {pathToDll}");
+                }
             }
 
             if (!_file.Exists(pathToDll))
