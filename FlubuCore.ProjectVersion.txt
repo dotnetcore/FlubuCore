@@ -1,3 +1,22 @@
+2.10.0.0
+- Json configuration file can now be specified by machine name. FlubuSettings.{MachineName}.Json
+- Option to retry a task only when specified condition is meet.
+- Do tasks have method name by default.
+- Tasks: DoNotFail only when specified condition is meet.
+- Added WaitingForDebugger task context extension.
+- FlubuRunner: Option to perform a dry run.
+- FlubuRunner: Added end execution report.
+- FlubuRunner: Fixed -nodeps option.
+- FlubuRunner: Fixed build script global arguments help.
+- improved assembly directive error handling.
+- Added target name validation.
+- Improved target help by adding Flubu options to help.
+- Improved Task name logging for DoTasks in start of task execution task.
+- Added DoTasks as task extensions to task fluent interface.
+- Added option to log duration of tasks.
+- Fixed MergeConfigurationTask when multiple source files were applied.
+- Fixed async SleepTask.
+
 2.9.1.0
 - Added support to control IIS application pool on remote computer
 
