@@ -298,6 +298,7 @@ namespace FlubuCore.Scripting
                 typeof(File).GetTypeInfo().Assembly.Location,
                 typeof(ILookup<string, string>).GetTypeInfo().Assembly.Location,
                 typeof(Expression).GetTypeInfo().Assembly.Location,
+                typeof(OSPlatform).GetTypeInfo().Assembly.Location,
             };
 
 #if NETSTANDARD2_0
