@@ -145,7 +145,7 @@ namespace FlubuCore.WebApi.Controllers
                 return null;
             }
 
-            await Task.Delay(3000);
+            await Task.Delay(3500);
             return _repositoryFactory.CreateSerilogRepository().GetExecuteScriptLogs(HttpContext.TraceIdentifier);
         }
 
