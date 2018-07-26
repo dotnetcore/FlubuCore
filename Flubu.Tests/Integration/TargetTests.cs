@@ -39,9 +39,9 @@ namespace Flubu.Tests.Integration
         {
             TargetTree targetTree = _provider.GetService<TargetTree>();
 
-            targetTree.AddTarget("test target");
+            targetTree.AddTarget("test.target");
 
-            Assert.True(targetTree.HasAllTargets(new List<string>() { "test target" }, out _));
+            Assert.True(targetTree.HasAllTargets(new List<string>() { "test.target" }, out _));
         }
 
         [Fact]
@@ -49,7 +49,7 @@ namespace Flubu.Tests.Integration
         {
             TargetTree targetTree = _provider.GetService<TargetTree>();
 
-            var target1 = targetTree.AddTarget("target 1");
+            var target1 = targetTree.AddTarget("target1");
 
             target1.AddTask(null, new SimpleTask(new FileWrapper()));
 
@@ -61,7 +61,7 @@ namespace Flubu.Tests.Integration
         {
             TargetTree targetTree = _provider.GetService<TargetTree>();
 
-            var target1 = targetTree.AddTarget("target 1");
+            var target1 = targetTree.AddTarget("target1");
 
             target1.AddTaskAsync(null, new SimpleTask(new FileWrapper()));
 
@@ -74,7 +74,7 @@ namespace Flubu.Tests.Integration
         {
             TargetTree targetTree = _provider.GetService<TargetTree>();
 
-            var target1 = targetTree.AddTarget("target 1");
+            var target1 = targetTree.AddTarget("target1");
 
             target1.AddTaskAsync(null, new SimpleTaskWithDelay(), new SimpleTaskWithDelay());
             Stopwatch sw = new Stopwatch();
@@ -94,7 +94,7 @@ namespace Flubu.Tests.Integration
         {
             TargetTree targetTree = _provider.GetService<TargetTree>();
 
-            var target1 = targetTree.AddTarget("target 1");
+            var target1 = targetTree.AddTarget("target1");
 
             target1.AddTask(null, new SimpleTaskWithDelay(500), new SimpleTaskWithDelay(500));
             Stopwatch sw = new Stopwatch();
@@ -112,7 +112,7 @@ namespace Flubu.Tests.Integration
         {
             TargetTree targetTree = _provider.GetService<TargetTree>();
 
-            var target1 = targetTree.AddTarget("target 1");
+            var target1 = targetTree.AddTarget("target1");
 
             target1.AddTaskAsync(null, new SimpleTaskWithDelay(), new SimpleTaskWithDelay());
             target1.AddTask(null, new SimpleTaskWithDelay());
@@ -133,7 +133,7 @@ namespace Flubu.Tests.Integration
         {
             TargetTree targetTree = _provider.GetService<TargetTree>();
 
-            var target1 = targetTree.AddTarget("target 1");
+            var target1 = targetTree.AddTarget("target1");
 
             target1.AddTaskAsync(null, new SimpleTaskWithDelay(), new SimpleTaskWithDelay());
             target1.AddTask(null, new SimpleTaskWithDelay());
@@ -152,13 +152,13 @@ namespace Flubu.Tests.Integration
         [Trait("Category", "OnlyWindows")]
         public async Task DependsOnAsyncTargetTest()
         {
-            TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" } });
+            TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target3", "target1", "target2" } });
 
-            var target1 = targetTree.AddTarget("target 1").AddTask(null, new SimpleTaskWithDelay());
+            var target1 = targetTree.AddTarget("target1").AddTask(null, new SimpleTaskWithDelay());
 
-            var target2 = targetTree.AddTarget("target 2").AddTask(null, new SimpleTaskWithDelay());
+            var target2 = targetTree.AddTarget("target2").AddTask(null, new SimpleTaskWithDelay());
 
-            var target3 = targetTree.AddTarget("target 3");
+            var target3 = targetTree.AddTarget("target3");
             target3.DependsOnAsync(target1, target2);
             Stopwatch sw = new Stopwatch();
 
@@ -177,17 +177,17 @@ namespace Flubu.Tests.Integration
         [Trait("Category", "OnlyWindows")]
         public void DependsOnTargetTest()
         {
-            TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" } });
-            var target1 = targetTree.AddTarget("target 1").AddTask(null, new SimpleTaskWithDelay(500));
+            TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target3", "target1", "target2" } });
+            var target1 = targetTree.AddTarget("target1").AddTask(null, new SimpleTaskWithDelay(500));
 
-            var target2 = targetTree.AddTarget("target 2").AddTask(null, new SimpleTaskWithDelay(500));
+            var target2 = targetTree.AddTarget("target2").AddTask(null, new SimpleTaskWithDelay(500));
 
-            var target3 = targetTree.AddTarget("target 3");
+            var target3 = targetTree.AddTarget("target3");
             target3.DependsOn(target1, target2);
             var dependencies = target3.Dependencies.ToList();
             Assert.Equal(2, dependencies.Count);
-            Assert.Equal("target 1", dependencies[0].Key);
-            Assert.Equal("target 2", dependencies[1].Key);
+            Assert.Equal("target1", dependencies[0].Key);
+            Assert.Equal("target2", dependencies[1].Key);
 
             Stopwatch sw = new Stopwatch();
 
@@ -205,9 +205,9 @@ namespace Flubu.Tests.Integration
         [Trait("Category", "OnlyWindows")]
         public async Task DoAsyncTargetTest()
         {
-            TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" } });
+            TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target3", "target1", "target2" } });
 
-            var target1 = targetTree.AddTarget("target 1").DoAsync(DoWithDelay).DoAsync(DoWithDelay);
+            var target1 = targetTree.AddTarget("target1").DoAsync(DoWithDelay).DoAsync(DoWithDelay);
 
             Stopwatch sw = new Stopwatch();
 
@@ -224,9 +224,9 @@ namespace Flubu.Tests.Integration
         [Trait("Category", "OnlyWindows")]
         public async Task DoAsyncTargetTest2()
         {
-            TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target 3", "target 1", "target 2" } });
+            TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target3", "target1", "target2" } });
 
-            var target1 = targetTree.AddTarget("target 1").DoAsync(DoWithDelay).DoAsync(DoWithDelay2);
+            var target1 = targetTree.AddTarget("target1").DoAsync(DoWithDelay).DoAsync(DoWithDelay2);
 
             Stopwatch sw = new Stopwatch();
 
