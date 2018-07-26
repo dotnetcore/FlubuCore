@@ -48,7 +48,7 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddSingleton<IBuildSystem, BuildSystem>()
                 .AddScoped<IBuildPropertiesSession, BuildPropertiesSession>()
                 .AddScoped<TargetTree>()
-                .AddTransient<ITaskSession, TaskSession>()
+                .AddScoped<ITaskSession, TaskSession>()
                 .AddScoped<ICommandFactory, CommandFactory>()
                 .AddScoped<CommandArguments, CommandArguments>();
 

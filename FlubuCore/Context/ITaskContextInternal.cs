@@ -13,6 +13,8 @@ namespace FlubuCore.Context
 
         CommandArguments Args { get; }
 
+        string FlubuHelpText { get; set; }
+
         bool IsInteractive { get; }
 
         void Fail(string message, int errorCode);

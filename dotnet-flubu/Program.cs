@@ -3,6 +3,7 @@ using DotNet.Cli.Flubu.Commanding;
 using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Commanding;
 using FlubuCore.Infrastructure;
+using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -31,9 +32,11 @@ namespace DotNet.Cli.Flubu
             _provider = Services.BuildServiceProvider();
             ILoggerFactory factory = _provider.GetRequiredService<ILoggerFactory>();
             factory.AddProvider(new FlubuLoggerProvider());
-
+            var cmdApp = _provider.GetRequiredService<CommandLineApplication>();
             ICommandExecutor executor = _provider.GetRequiredService<ICommandExecutor>();
-            return executor.ExecuteAsync().Result;
+            executor.FlubuHelpText = cmdApp.GetHelpText();
+            var result = executor.ExecuteAsync().Result;
+            return result;
         }
     }
 }

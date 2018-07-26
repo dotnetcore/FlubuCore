@@ -51,7 +51,7 @@ namespace DotNet.Cli.Flubu.Commanding
 
             _commandApp.HelpOption("-?|-h|--help");
 
-            _command = _commandApp.Argument("<COMMAND> [arguments]", "The command to execute", true);
+            _command = _commandApp.Argument("<Target> [arguments]", "The target to execute.", true);
 
             _scriptPath = _commandApp.Option("-s|--script <SCRIPT>", "Build script file to use.", CommandOptionType.SingleValue);
             _parallelTargetExecution = _commandApp.Option("--parallel", "If applied target's are executed in parallel", CommandOptionType.NoValue);

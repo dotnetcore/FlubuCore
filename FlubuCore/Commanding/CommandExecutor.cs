@@ -30,6 +30,8 @@ namespace FlubuCore.Commanding
             _log = log;
         }
 
+        public string FlubuHelpText { get; set; }
+
         public async Task<int> ExecuteAsync()
         {
             var version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
@@ -43,6 +45,7 @@ namespace FlubuCore.Commanding
                 var script = await _scriptLoader.FindAndCreateBuildScriptInstanceAsync(_args);
                 using (ITaskSession taskSession = _taskSessionFactory.OpenTaskSession())
                 {
+                    taskSession.FlubuHelpText = FlubuHelpText;
                     taskSession.ScriptArgs = _args.ScriptArguments;
                     var result = script.Run(taskSession);
                     taskSession.Complete();

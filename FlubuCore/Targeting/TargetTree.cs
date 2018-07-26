@@ -228,6 +228,11 @@ namespace FlubuCore.Targeting
         /// <param name="context">The task context.</param>
         public void TargetsHelp(ITaskContextInternal context)
         {
+            if (context != null && !string.IsNullOrEmpty(context.FlubuHelpText))
+            {
+                context.LogInfo(context.FlubuHelpText);
+            }
+
             context.LogInfo("Targets:");
 
             // first sort the targets
