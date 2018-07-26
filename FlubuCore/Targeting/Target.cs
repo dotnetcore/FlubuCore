@@ -20,6 +20,11 @@ namespace FlubuCore.Targeting
 
         internal Target(TargetTree targetTree, string targetName, CommandArguments args)
         {
+            if (targetName.Any(x => char.IsWhiteSpace(x)))
+            {
+                throw new ScriptException("Target name must not contain whitespaces.");
+            }
+
             _targetTree = targetTree;
             TargetName = targetName;
             _args = args;
