@@ -36,6 +36,7 @@
 
     ```
     context.CreateTarget("MyCustomBuildTarget")
+         .AddTask(x => x.CompileSolutionTask())
          .Do(MyCustomMethod)
          .Do(NuGetPackageReferencingExample);
     ```
