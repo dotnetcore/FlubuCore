@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting.Analysis;
 using FlubuCore.Scripting.Processors;
+using Moq;
 using Xunit;
 
 namespace Flubu.Tests.Scripting
@@ -10,12 +12,20 @@ namespace Flubu.Tests.Scripting
     {
         private readonly IScriptAnalyser _analyser;
 
+        private Mock<IFileWrapper> _fileWrapper;
+
+        private Mock<IPathWrapper> _pathWrapper;
+
         public ScriptAnalyserTests()
         {
+            _fileWrapper = new Mock<IFileWrapper>();
+
+            _pathWrapper = new Mock<IPathWrapper>();
+
             List<IDirectiveProcessor> processors = new List<IDirectiveProcessor>()
             {
                 new ClassDirectiveProcessor(),
-                new AssemblyDirectiveProcessor(),
+                new AssemblyDirectiveProcessor(_fileWrapper.Object, _pathWrapper.Object),
                 new NamespaceDirectiveProcessor(),
                 new CsDirectiveProcessor(),
                 new NugetPackageDirectirveProcessor()
@@ -44,7 +54,9 @@ namespace Flubu.Tests.Scripting
         [Trait("Category", "OnlyWindows")]
         public void ParseDll(string line, string expected)
         {
-            AssemblyDirectiveProcessor pr = new AssemblyDirectiveProcessor();
+            AssemblyDirectiveProcessor pr = new AssemblyDirectiveProcessor(_fileWrapper.Object, _pathWrapper.Object);
+            _pathWrapper.Setup(x => x.GetExtension(expected)).Returns(".dll");
+            _fileWrapper.Setup(x => x.Exists(expected)).Returns(true);
             AnalyserResult res = new AnalyserResult();
             pr.Process(res, line, 1);
             Assert.Equal(expected, res.References.First());
@@ -86,6 +98,9 @@ namespace Flubu.Tests.Scripting
                 "//#imp test.cs",
                 "public class MyScript"
             };
+
+            _pathWrapper.Setup(x => x.GetExtension(It.IsAny<string>())).Returns(".dll");
+            _fileWrapper.Setup(x => x.Exists(It.IsAny<string>())).Returns(true);
 
             var res = _analyser.Analyze(lines);
 
