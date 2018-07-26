@@ -254,12 +254,14 @@ namespace FlubuCore.Targeting
 
             if (ScriptArgsHelp?.Count > 0)
             {
-                context.LogInfo(string.Empty);
-                context.LogInfo("Arguments:");
+                context.LogInfo(" ");
+                context.LogInfo("Global build script arguments:");
                 foreach (var argHelp in ScriptArgsHelp)
                 {
-                    context.LogInfo(argHelp);
+                    context.LogInfo($"  {argHelp}");
                 }
+
+                context.LogInfo(" ");
             }
         }
 

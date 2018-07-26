@@ -39,7 +39,7 @@ namespace FlubuCore.Scripting
             }
             catch (Exception ex)
             {
-                taskSession.OnFinish();
+                  taskSession.OnFinish();
                 if (taskSession.Args.RethrowOnException)
                     throw;
 
@@ -91,7 +91,6 @@ namespace FlubuCore.Scripting
                 }
                 else
                 {
-                    taskSession.TargetTree.ScriptArgsHelp = ScriptProperties.GetPropertiesHelp(this);
                     targetsInfo.targetsToRun.Add("help");
                 }
             }
@@ -132,6 +131,11 @@ namespace FlubuCore.Scripting
 
             if (targetsInfo.targetsToRun.Count == 1 || !taskSession.Args.ExecuteTargetsInParallel)
             {
+                if (targetsInfo.targetsToRun[0].Equals("help", StringComparison.OrdinalIgnoreCase))
+                {
+                    taskSession.TargetTree.ScriptArgsHelp = ScriptProperties.GetPropertiesHelp(this);
+                }
+
                 foreach (var targetToRun in targetsInfo.targetsToRun) taskSession.TargetTree.RunTarget(taskSession, targetToRun);
             }
             else
