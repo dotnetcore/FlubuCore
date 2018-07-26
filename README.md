@@ -64,7 +64,7 @@
             .WithArguments("add")
             .WithArguments("--libz", "Assemblies.libz"));
     ```
-* [Pass command line arguments, json configuration file or enviroment variables to your script.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Script-arguments)
+* [Pass command line arguments, settings from json configuration file or enviroment variables to your script.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Script-arguments)
 
  ```
  public class SimpleScript : DefaultBuildScript
