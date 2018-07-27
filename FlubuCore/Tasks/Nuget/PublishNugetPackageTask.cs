@@ -18,7 +18,7 @@ namespace FlubuCore.Tasks.Nuget
 
         private readonly string _nuspecFileName;
 
-        private bool _skipPublishOnLocalBuild = false;
+        private bool _skipPushOnLocalBuild = false;
 
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]
         private string _nuGetServerUrl;
@@ -65,9 +65,9 @@ namespace FlubuCore.Tasks.Nuget
         /// If applied pushing packages to nuget repository is disabled on local build.
         /// </summary>
         /// <returns></returns>
-        public PublishNuGetPackageTask SkipPushhOnLocalBuild()
+        public PublishNuGetPackageTask SkipPushOnLocalBuild()
         {
-            _skipPublishOnLocalBuild = true;
+            _skipPushOnLocalBuild = true;
             return this;
         }
 
@@ -139,7 +139,7 @@ namespace FlubuCore.Tasks.Nuget
             DoLogInfo($"NuGet package file {nupkgFileName} created");
 
             // do not push new packages from a local build
-            if (context.BuildSystems().IsLocalBuild && _skipPublishOnLocalBuild)
+            if (context.BuildSystems().IsLocalBuild && _skipPushOnLocalBuild)
             {
                 context.LogInfo("pushing package on local build is disabled in build script...Skiping.");
                 return 1;
