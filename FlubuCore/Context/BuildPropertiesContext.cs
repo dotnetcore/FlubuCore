@@ -1,4 +1,5 @@
-﻿using FlubuCore.Infrastructure;
+﻿using System;
+using FlubuCore.Infrastructure;
 
 namespace FlubuCore.Context
 {
@@ -7,7 +8,7 @@ namespace FlubuCore.Context
         public BuildPropertiesContext(IBuildPropertiesSession properties)
         {
             Properties = properties;
-            ScriptArgs = new DictionaryWithDefault<string, string>(null);
+            ScriptArgs = new DictionaryWithDefault<string, string>(null, StringComparer.OrdinalIgnoreCase);
         }
 
         public IBuildPropertiesSession Properties { get; }

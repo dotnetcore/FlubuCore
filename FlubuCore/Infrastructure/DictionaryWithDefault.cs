@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace FlubuCore.Infrastructure
 {
@@ -8,7 +9,18 @@ namespace FlubuCore.Infrastructure
         {
         }
 
+        public DictionaryWithDefault(IEqualityComparer<TKey> equalityComparer)
+            : base(equalityComparer)
+        {
+        }
+
         public DictionaryWithDefault(TValue defaultValue)
+        {
+            DefaultValue = defaultValue;
+        }
+
+        public DictionaryWithDefault(TValue defaultValue, IEqualityComparer<TKey> equalityComparer)
+            : base(equalityComparer)
         {
             DefaultValue = defaultValue;
         }

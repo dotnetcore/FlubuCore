@@ -31,7 +31,7 @@ namespace FlubuCore.Scripting
         /// <summary>
         /// Script Argument that can be accessed in build script through <see cref="IBuildPropertiesContext.ScriptArgs"/>
         /// </summary>
-        public DictionaryWithDefault<string, string> ScriptArguments { get; set; } = new DictionaryWithDefault<string, string>();
+        public DictionaryWithDefault<string, string> ScriptArguments { get; set; } = new DictionaryWithDefault<string, string>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// If <c>true</c> flubu rethrows exception when occures. Otherwise status code is returned.
