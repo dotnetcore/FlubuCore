@@ -184,7 +184,6 @@ public class BuildScript : DefaultBuildScript
         task.NugetServerUrl("https://www.nuget.org/api/v2/package")
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish flubu.ruuner. exception: {e}"); })
             .ForApiKeyUse(key)
-            .PushOnInteractiveBuild()
             .Execute(context);
     }
 

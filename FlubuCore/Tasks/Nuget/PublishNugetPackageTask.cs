@@ -18,7 +18,7 @@ namespace FlubuCore.Tasks.Nuget
 
         private readonly string _nuspecFileName;
 
-        private bool _allowPushOnInteractiveBuild;
+        private bool _skipPublishOnLocalBuild = false;
 
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]
         private string _nuGetServerUrl;
@@ -61,9 +61,13 @@ namespace FlubuCore.Tasks.Nuget
             return this;
         }
 
-        public PublishNuGetPackageTask PushOnInteractiveBuild()
+        /// <summary>
+        /// If applied pushing packages to nuget repository is disabled on local build.
+        /// </summary>
+        /// <returns></returns>
+        public PublishNuGetPackageTask SkipPushhOnLocalBuild()
         {
-            _allowPushOnInteractiveBuild = true;
+            _skipPublishOnLocalBuild = true;
             return this;
         }
 
@@ -135,8 +139,11 @@ namespace FlubuCore.Tasks.Nuget
             DoLogInfo($"NuGet package file {nupkgFileName} created");
 
             // do not push new packages from a local build
-            if (context.IsInteractive && !_allowPushOnInteractiveBuild)
+            if (context.BuildSystems().IsLocalBuild && _skipPublishOnLocalBuild)
+            {
+                context.LogInfo("pushing package on local build is disabled in build script...Skiping.");
                 return 1;
+            }
 
             if (_apiKeyFunc == null)
                 throw new InvalidOperationException("NuGet API key was not provided");

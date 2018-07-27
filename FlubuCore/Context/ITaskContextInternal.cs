@@ -15,8 +15,6 @@ namespace FlubuCore.Context
 
         string FlubuHelpText { get; set; }
 
-        bool IsInteractive { get; }
-
         void Fail(string message, int errorCode);
     }
 }

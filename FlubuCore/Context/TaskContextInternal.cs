@@ -28,8 +28,6 @@ namespace FlubuCore.Context
 
         public string FlubuHelpText { get; set; }
 
-        public bool IsInteractive { get; set; } = true;
-
         public void Fail(string message, int errorCode = 0)
         {
             LogError(message);
