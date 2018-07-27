@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.NetCore
 {
     public class DotnetNugetPushTask : ExecuteDotnetTaskBase<DotnetNugetPushTask>
     {
         private string _description;
+        private bool _skipPushOnLocalBuild;
 
         /// <summary>
         /// Pushes the nuget package to nuget server.
@@ -57,6 +59,16 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
+        /// If applied pushing packages to nuget repository is disabled on local build.
+        /// </summary>
+        /// <returns></returns>
+        public DotnetNugetPushTask SkipPushOnLocalBuild()
+        {
+            _skipPushOnLocalBuild = true;
+            return this;
+        }
+
+        /// <summary>
         /// The API key for the server.
         /// </summary>
         /// <param name="apiKey"></param>
@@ -87,6 +99,18 @@ namespace FlubuCore.Tasks.NetCore
         {
             WithArguments("-t", timeoutInSeconds.ToString());
             return this;
+        }
+
+        protected override int DoExecute(ITaskContextInternal context)
+        {
+            // do not push new packages from a local build
+            if (context.BuildSystems().IsLocalBuild && _skipPushOnLocalBuild)
+            {
+                context.LogInfo("pushing package on local build is disabled in build script...Skiping.");
+                return 1;
+            }
+
+            return base.DoExecute(context);
         }
     }
 }
