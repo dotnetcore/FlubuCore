@@ -31,7 +31,7 @@ namespace FlubuCore.Infrastructure
                 .AddSingleton<IDirectoryWrapper, DirectoryWrapper>()
                 .AddSingleton<IBuildPropertiesSession, BuildPropertiesSession>()
                 .AddSingleton<TargetTree>()
-                .AddTransient<ITaskSession, TaskSession>()
+                .AddSingleton<ITaskSession, TaskSession>()
                 .AddSingleton<IFlubuEnviromentService, FlubuEnviromentService>()
                 .AddSingleton<IBuildSystem, BuildSystem>()
                 .AddSingleton<INugetPackageResolver, NugetPackageResolver>()
