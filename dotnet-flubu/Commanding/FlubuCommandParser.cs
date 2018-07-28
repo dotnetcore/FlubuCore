@@ -50,8 +50,12 @@ namespace DotNet.Cli.Flubu.Commanding
             _parsed = new CommandArguments();
 
             _commandApp.HelpOption("-?|-h|--help");
-
-            _command = _commandApp.Argument("<Target> [arguments]", "The target to execute.", true);
+#if NET462
+            _commandApp.Name = "build.exe";
+#else
+            _commandApp.Name = "dotnet flubu";
+#endif
+            _command = _commandApp.Argument("<Target> [flubu options] [build script arguments]", "The target to execute.", true);
 
             _scriptPath = _commandApp.Option("-s|--script <SCRIPT>", "Build script file to use.", CommandOptionType.SingleValue);
             _parallelTargetExecution = _commandApp.Option("--parallel", "If applied target's are executed in parallel", CommandOptionType.NoValue);
@@ -61,6 +65,8 @@ namespace DotNet.Cli.Flubu.Commanding
             _assemblyDirectories = _commandApp.Option("-ass", "Directory to search assemblies to include automatically in script (Assemblies in subdirectories are also loaded). If not specified assemblies are loaded by default from FlubuLib directory.", CommandOptionType.MultipleValue);
             _noDependencies = _commandApp.Option("-nd||--nodeps", "If applied no target dependencies are executed.", CommandOptionType.NoValue);
             _dryRun = _commandApp.Option("--dryRun", "Performs a dry run.", CommandOptionType.NoValue);
+            _commandApp.ExtendedHelpText = "  <Target> help                                 Shows detailed help for specifed target.";
+
             _commandApp.OnExecute(() => PrepareDefaultArguments());
 
             if (args == null)
