@@ -129,7 +129,7 @@ namespace FlubuCore.Tasks.Testing
             switch (_provider)
             {
                 case UnitTestProvider.DotnetCore:
-                    return Dotnet.FindDotnetExecutable();
+                    return ExecuteDotnetTask.FindDotnetExecutable();
                 default:
                     throw new NotSupportedException($"Provider {_provider} not supported yet. Set test executable manually.");
             }

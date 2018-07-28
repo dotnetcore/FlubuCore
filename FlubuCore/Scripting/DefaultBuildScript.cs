@@ -159,7 +159,7 @@ namespace FlubuCore.Scripting
         private void ConfigureDefaultProps(ITaskSession taskSession)
         {
             taskSession.SetBuildVersion(new Version(1, 0, 0, 0));
-            taskSession.SetDotnetExecutable(Dotnet.FindDotnetExecutable());
+            taskSession.SetDotnetExecutable(ExecuteDotnetTask.FindDotnetExecutable());
 
             var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
             OSPlatform platform;

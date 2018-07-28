@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
+using FlubuCore.IO;
 
 namespace FlubuCore.Tasks.NetCore
 {
@@ -31,6 +34,17 @@ namespace FlubuCore.Tasks.NetCore
             }
 
             set { _description = value; }
+        }
+
+        public static string FindDotnetExecutable()
+        {
+            bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
+            string dotnetExecutable = isWindows
+                ? (File.Exists("C:/Program Files/dotnet/dotnet.exe") ? "C:/Program Files/dotnet/dotnet.exe" : null)
+                : "/usr/bin/dotnet";
+
+            return string.IsNullOrEmpty(dotnetExecutable) ? null : IOExtensions.GetFullPath(dotnetExecutable);
         }
     }
 }
