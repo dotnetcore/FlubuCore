@@ -167,7 +167,7 @@ namespace FlubuCore.Scripting
                         if (possiblyMissingAssemblyRefDirective)
                         {
                             errorMsg =
-                                $"{errorMsg} If u are using flubu script correctly you have to add assembly reference with #ref or #nuget directive in build script. See build script fundamentals section 'Referencing other assemblies in build script' in https://github.com/flubu-core/flubu.core/wiki for more details.Otherwise if u think u are not using flubu correctly see Getting started section in wiki.";
+                                $"{errorMsg} If your script doesnt have compilation errors in VS or VSCode you are probably missing assembly directive in build script. You have to add reference to all assemblies that flubu doesn't add by default with #ass or #nuget directive in build script. See build script fundamentals section 'Referencing other assemblies in build script' in https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script for more details.";
                         }
 
                         throw new ScriptLoaderExcetpion(errorMsg);
@@ -382,10 +382,10 @@ namespace FlubuCore.Scripting
             {
                 if (e.Message.Contains("CS0234"))
                 {
-                    throw new ScriptLoaderExcetpion($"Csharp source code file: {buildScriptFIlePath} has some compilation errors. {e.Message}. If u are using flubu script correctly you have to add assembly reference with #ref directive in build script. See build script fundamentals section 'Referencing other assemblies in build script' in https://github.com/flubu-core/flubu.core/wiki for more details.Otherwise if u think u are not using flubu correctly see Getting started section in wiki.", e);
+                    throw new ScriptLoaderExcetpion($"Csharp source code file: {buildScriptFIlePath} has some compilation errors. {e.Message}. If your script doesnt have compilation errors in VS or VSCode you are probably missing assembly directive in build script. You have to add reference to all assemblies that flubu doesn't add by default with #ass or #nuget directive in build script. See build script fundamentals section 'Referencing other assemblies in build script' in https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script for more details.", e);
                 }
 
-                throw new ScriptLoaderExcetpion($"Csharp source code file: {buildScriptFIlePath} has some compilation errors. {e.Message}. See getting started and build script fundamentals in https://github.com/flubu-core/flubu.core/wiki", e);
+                throw new ScriptLoaderExcetpion($"Csharp source code file: {buildScriptFIlePath} has some compilation errors. {e.Message}.", e);
             }
         }
     }
