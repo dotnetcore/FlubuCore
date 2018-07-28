@@ -6,7 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.InteropServices;
-#if NETSTANDARD1_6
+#if !NET462
 using System.Runtime.Loader;
 #endif
 using System.Text;
@@ -65,8 +65,10 @@ namespace FlubuCore.Scripting
 
             List<string> code = _file.ReadAllLines(buildScriptFilePath);
             AnalyserResult analyserResult = _analyser.Analyze(code);
-            const bool oldWay = true;
-
+            bool oldWay = false;
+#if NET462
+          oldWay = true;
+#endif
             var references = GetBuildScriptReferences(args, analyserResult, code, oldWay);
 
             if (oldWay)
@@ -226,19 +228,18 @@ namespace FlubuCore.Scripting
                 assemblyReferenceLocations.Distinct().Where(x => !string.IsNullOrEmpty(x)).ToList();
             IEnumerable<PortableExecutableReference> references = null;
             references = assemblyReferenceLocations.Select(i => MetadataReference.CreateFromFile(i));
-
-            ////foreach (var assemblyReferenceLocation in assemblyReferenceLocations)
-            ////{
-            ////    try
-            ////    {
-            ////        AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyReferenceLocation);
-            ////    }
-            ////    catch (Exception ex)
-            ////    {
-            ////        Console.WriteLine($"failed: {assemblyReferenceLocation}");
-            ////    }
-            ////}
-
+#if !NET462
+            foreach (var assemblyReferenceLocation in assemblyReferenceLocations)
+            {
+                try
+                {
+                    AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyReferenceLocation);
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+#endif
             return references;
         }
 
