@@ -117,8 +117,8 @@ public class BuildScript : DefaultBuildScript
     private static void TargetPackageFlubuRunner(ITaskContext context)
     {
          context.Tasks().PackageTask("output")
-            .AddFileToPackage(@"output\build.exe", "flubu.runner")
-            .AddFileToPackage(@"output\build.exe.config", "flubu.runner")
+            .AddFileToPackage(@"output\flubu.exe", "flubu.runner")
+            .AddFileToPackage(@"output\flubu.exe.config", "flubu.runner")
             .AddFileToPackage(@"output\flubucore.dll", "flubu.runner")
             .ZipPackage("Flubu runner", true)
             .Execute(context);
@@ -220,10 +220,10 @@ public class BuildScript : DefaultBuildScript
             .Execute(context);
 
         context.Tasks()
-            .CopyFileTask(@"dotnet-flubu\bin\Release\net462\win7-x64\dotnet-flubu.exe", @"output\build.exe", true)
+            .CopyFileTask(@"dotnet-flubu\bin\Release\net462\win7-x64\dotnet-flubu.exe", @"output\flubu.exe", true)
             .Execute(context);
         context.Tasks()
-            .CopyFileTask(@"dotnet-flubu\bin\Release\net462\win7-x64\dotnet-flubu.exe.config", @"output\build.exe.config", true)
+            .CopyFileTask(@"dotnet-flubu\bin\Release\net462\win7-x64\dotnet-flubu.exe.config", @"output\flubu.exe.config", true)
             .Execute(context);
 
         context.Tasks()
