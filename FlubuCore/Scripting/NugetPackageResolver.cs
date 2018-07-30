@@ -23,16 +23,38 @@ namespace FlubuCore.Scripting
             _commandFactory = commandFactory;
         }
 
-        public List<string> ResolveNugetPackages(List<NugetPackageReference> packageReferences)
+        public List<string> ResolveNugetPackages(List<NugetPackageReference> packageReferences, string pathToBuildScript)
         {
             if (packageReferences == null || packageReferences.Count == 0)
             {
                 return new List<string>();
             }
 
+            bool nugetPropsFileExists = File.Exists("./obj/FlubuGen.csproj.nuget.g.props");
+            bool mustRestoreNugetPackages = true;
+
+            if (!string.IsNullOrEmpty(pathToBuildScript) && nugetPropsFileExists)
+            {
+                var buildScriptModifiedTime = File.GetLastWriteTime(pathToBuildScript);
+                var nugetProsModifiedTime = File.GetLastWriteTime("./obj/FlubuGen.csproj.nuget.g.props");
+                if (nugetProsModifiedTime > buildScriptModifiedTime)
+                {
+                    mustRestoreNugetPackages = false;
+                }
+            }
+
             var targetFramework = GetTargetFramework();
-            CreateNugetProjectFile(targetFramework, packageReferences);
-            RestoreNugetPackages();
+
+            if (mustRestoreNugetPackages)
+            {
+                if (nugetPropsFileExists)
+                {
+                    File.Delete("./obj/FlubuGen.csproj.nuget.g.props");
+                }
+
+                CreateNugetProjectFile(targetFramework, packageReferences);
+                RestoreNugetPackages();
+            }
 
             var document = XDocument.Load("./obj/FlubuGen.csproj.nuget.g.props");
             var packageFolders = document.Descendants().Single(d => d.Name.LocalName == "NuGetPackageFolders").Value.Split(';');

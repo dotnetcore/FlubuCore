@@ -69,7 +69,7 @@ namespace FlubuCore.Scripting
 #if NET462
           oldWay = true;
 #endif
-            var references = GetBuildScriptReferences(args, analyserResult, code, oldWay);
+            var references = GetBuildScriptReferences(args, analyserResult, code, oldWay, buildScriptFilePath);
 
             if (oldWay)
             {
@@ -195,7 +195,7 @@ namespace FlubuCore.Scripting
         }
 
         private IEnumerable<MetadataReference> GetBuildScriptReferences(CommandArguments args,
-            AnalyserResult analyserResult, List<string> code, bool oldWay)
+            AnalyserResult analyserResult, List<string> code, bool oldWay, string pathToBuildScript)
         {
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuCoreAssembly = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
@@ -221,7 +221,7 @@ namespace FlubuCore.Scripting
 
             assemblyReferenceLocations.AddRange(analyserResult.References);
             assemblyReferenceLocations.AddRange(
-                _nugetPackageResolver.ResolveNugetPackages(analyserResult.NugetPackages));
+                _nugetPackageResolver.ResolveNugetPackages(analyserResult.NugetPackages, pathToBuildScript));
             AddOtherCsFilesToBuildScriptCode(analyserResult, assemblyReferenceLocations, code);
             assemblyReferenceLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
             assemblyReferenceLocations =

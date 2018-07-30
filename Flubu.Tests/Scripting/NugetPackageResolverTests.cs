@@ -23,7 +23,7 @@ namespace Flubu.Tests.Scripting
                     Id = "FlubuCore",
                     Version = "2.8.0",
                 }
-            });
+            }, null);
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
         }
