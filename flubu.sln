@@ -27,8 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.Analyser", "Flubu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.Analyser.Test", "FlubuCore.Analyser.Test\FlubuCore.Analyser.Test.csproj", "{AF432A66-DC1D-48FE-ABE3-7B5AE06D5541}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlubuCore.Analyser.Vsix", "FlubuCore.Analyser.Vsix\FlubuCore.Analyser.Vsix.csproj", "{6A6394F3-E81F-41BC-B811-1C4230F18D97}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -171,18 +169,6 @@ Global
 		{AF432A66-DC1D-48FE-ABE3-7B5AE06D5541}.Release|x64.Build.0 = Release|Any CPU
 		{AF432A66-DC1D-48FE-ABE3-7B5AE06D5541}.Release|x86.ActiveCfg = Release|Any CPU
 		{AF432A66-DC1D-48FE-ABE3-7B5AE06D5541}.Release|x86.Build.0 = Release|Any CPU
-		{6A6394F3-E81F-41BC-B811-1C4230F18D97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A6394F3-E81F-41BC-B811-1C4230F18D97}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A6394F3-E81F-41BC-B811-1C4230F18D97}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{6A6394F3-E81F-41BC-B811-1C4230F18D97}.Debug|x64.Build.0 = Debug|Any CPU
-		{6A6394F3-E81F-41BC-B811-1C4230F18D97}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6A6394F3-E81F-41BC-B811-1C4230F18D97}.Debug|x86.Build.0 = Debug|Any CPU
-		{6A6394F3-E81F-41BC-B811-1C4230F18D97}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A6394F3-E81F-41BC-B811-1C4230F18D97}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A6394F3-E81F-41BC-B811-1C4230F18D97}.Release|x64.ActiveCfg = Release|Any CPU
-		{6A6394F3-E81F-41BC-B811-1C4230F18D97}.Release|x64.Build.0 = Release|Any CPU
-		{6A6394F3-E81F-41BC-B811-1C4230F18D97}.Release|x86.ActiveCfg = Release|Any CPU
-		{6A6394F3-E81F-41BC-B811-1C4230F18D97}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -190,7 +176,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{5289D388-0915-425C-B191-B6D94737E11B} = {A995EB83-A953-43F1-B986-23AF162ACEC9}
 		{AF432A66-DC1D-48FE-ABE3-7B5AE06D5541} = {A995EB83-A953-43F1-B986-23AF162ACEC9}
-		{6A6394F3-E81F-41BC-B811-1C4230F18D97} = {A995EB83-A953-43F1-B986-23AF162ACEC9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {584401B4-7092-4FBB-9B98-B8516DCF9523}
