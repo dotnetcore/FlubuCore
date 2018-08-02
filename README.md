@@ -8,7 +8,7 @@
 
 "FlubuCore - Fluent Builder Core" is a cross platform build and deployment automation system. You can define your build and deployment scripts in C# using an intuitive fluent interface. This gives you code completion, IntelliSense, debugging, and native access to the whole .NET ecosystem inside of your scripts.
 
-![FlubuCore in action](https://raw.githubusercontent.com/ironcev/flubu.core/master/demo.gif)
+![FlubuCore in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/demo.gif)
 
 ## Features and Advantages
 
