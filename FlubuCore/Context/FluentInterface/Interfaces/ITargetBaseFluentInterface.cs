@@ -48,126 +48,126 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        TTargetFluentInterface Do(Action<ITaskContextInternal> targetAction, Action<DoTask> doOptions = null);
+        TTargetFluentInterface Do(Action<ITaskContext> targetAction, Action<DoTask> doOptions = null);
 
         /// <summary>
         /// Execute custom code in script. . U can invoke base task actions through optional parameter.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        TTargetFluentInterface Do<T>(Action<ITaskContextInternal, T> targetAction, T param, Action<DoTask2<T>> doOptions = null);
+        TTargetFluentInterface Do<T>(Action<ITaskContext, T> targetAction, T param, Action<DoTask2<T>> doOptions = null);
 
         /// <summary>
         /// Execute custom code in script. U can invoke base task actions through optional parameter.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        TTargetFluentInterface Do<T, T1>(Action<ITaskContextInternal, T, T1> targetAction, T param, T1 param2, Action<DoTask3<T, T1>> doOptions = null);
+        TTargetFluentInterface Do<T, T1>(Action<ITaskContext, T, T1> targetAction, T param, T1 param2, Action<DoTask3<T, T1>> doOptions = null);
 
         /// <summary>
         /// Execute custom code in script. U can invoke base task actions through optional parameters.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        TTargetFluentInterface Do<T, T1, T2>(Action<ITaskContextInternal, T, T1, T2> targetAction, T param, T1 param2, T2 param3, Action<DoTask4<T, T1, T2>> doOptions = null);
+        TTargetFluentInterface Do<T, T1, T2>(Action<ITaskContext, T, T1, T2> targetAction, T param, T1 param2, T2 param3, Action<DoTask4<T, T1, T2>> doOptions = null);
 
         /// <summary>
         /// Execute custom code in script. U can invoke base task actions through optional parameters.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        TTargetFluentInterface Do<T, T1, T2, T3>(Action<ITaskContextInternal, T, T1, T2, T3> targetAction, T param, T1 param2, T2 param3, T3 param4, Action<DoTask5<T, T1, T2, T3>> doOptions = null);
+        TTargetFluentInterface Do<T, T1, T2, T3>(Action<ITaskContext, T, T1, T2, T3> targetAction, T param, T1 param2, T2 param3, T3 param4, Action<DoTask5<T, T1, T2, T3>> doOptions = null);
 
         /// <summary>
         /// Execute custom code in script. U can invoke base task actions through optional parameters.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        TTargetFluentInterface Do<T, T1, T2, T3, T4>(Action<ITaskContextInternal, T, T1, T2, T3, T4> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5, Action<DoTask6<T, T1, T2, T3, T4>> doOptions = null);
+        TTargetFluentInterface Do<T, T1, T2, T3, T4>(Action<ITaskContext, T, T1, T2, T3, T4> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5, Action<DoTask6<T, T1, T2, T3, T4>> doOptions = null);
 
         /// <summary>
         /// Execute custom code in script asynchronous. U can invoke base task actions through optional parameters.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        TTargetFluentInterface DoAsync(Action<ITaskContextInternal> targetAction, Action<DoTask> doOptions = null);
+        TTargetFluentInterface DoAsync(Action<ITaskContext> targetAction, Action<DoTask> doOptions = null);
 
         /// <summary>
         /// Execute custom code in script asynchronous. U can invoke base task actions through optional parameters.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        TTargetFluentInterface DoAsync(Func<ITaskContextInternal, Task> targetAction, Action<DoTaskAsync> doOptions = null);
+        TTargetFluentInterface DoAsync(Func<ITaskContext, Task> targetAction, Action<DoTaskAsync> doOptions = null);
 
         /// <summary>
         /// Execute custom code in script asynchronous. U can invoke base task actions through optional parameters.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        TTargetFluentInterface DoAsync<T>(Action<ITaskContextInternal, T> targetAction, T param, Action<DoTask2<T>> doOptions = null);
+        TTargetFluentInterface DoAsync<T>(Action<ITaskContext, T> targetAction, T param, Action<DoTask2<T>> doOptions = null);
 
         /// <summary>
         /// Execute custom code in script asynchronous. U can invoke base task actions through optional parameters.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        TTargetFluentInterface DoAsync<T>(Func<ITaskContextInternal, T, Task> targetAction, T param, Action<DoTaskAsync2<T>> doOptions = null);
+        TTargetFluentInterface DoAsync<T>(Func<ITaskContext, T, Task> targetAction, T param, Action<DoTaskAsync2<T>> doOptions = null);
 
         /// <summary>
         /// Execute custom code in script asynchronous. U can invoke base task actions through optional parameters.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        TTargetFluentInterface DoAsync<T, T1>(Action<ITaskContextInternal, T, T1> targetAction, T param, T1 param2, Action<DoTask3<T, T1>> doOptions = null);
+        TTargetFluentInterface DoAsync<T, T1>(Action<ITaskContext, T, T1> targetAction, T param, T1 param2, Action<DoTask3<T, T1>> doOptions = null);
 
         /// <summary>
         /// Execute custom code in script asynchronous. U can invoke base task actions through optional parameters.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        TTargetFluentInterface DoAsync<T, T1>(Func<ITaskContextInternal, T, T1, Task> targetAction, T param, T1 param2, Action<DoTaskAsync3<T, T1>> doOptions = null);
+        TTargetFluentInterface DoAsync<T, T1>(Func<ITaskContext, T, T1, Task> targetAction, T param, T1 param2, Action<DoTaskAsync3<T, T1>> doOptions = null);
 
         /// <summary>
         /// Execute custom code in script asynchronous. U can invoke base task actions through optional parameters.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        TTargetFluentInterface DoAsync<T, T1, T2>(Action<ITaskContextInternal, T, T1, T2> targetAction, T param, T1 param2, T2 param3, Action<DoTask4<T, T1, T2>> doOptions = null);
+        TTargetFluentInterface DoAsync<T, T1, T2>(Action<ITaskContext, T, T1, T2> targetAction, T param, T1 param2, T2 param3, Action<DoTask4<T, T1, T2>> doOptions = null);
 
         /// <summary>
         /// Execute custom code in script asynchronous. U can invoke base task actions through optional parameters.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        TTargetFluentInterface DoAsync<T, T1, T2>(Func<ITaskContextInternal, T, T1, T2, Task> targetAction, T param, T1 param2, T2 param3, Action<DoTaskAsync4<T, T1, T2>> doOptions = null);
+        TTargetFluentInterface DoAsync<T, T1, T2>(Func<ITaskContext, T, T1, T2, Task> targetAction, T param, T1 param2, T2 param3, Action<DoTaskAsync4<T, T1, T2>> doOptions = null);
 
         /// <summary>
         /// Execute custom code in script asynchronous. U can invoke base task actions through optional parameters.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        TTargetFluentInterface DoAsync<T, T1, T2, T3>(Action<ITaskContextInternal, T, T1, T2, T3> targetAction, T param, T1 param2, T2 param3, T3 param4, Action<DoTask5<T, T1, T2, T3>> doOptions = null);
+        TTargetFluentInterface DoAsync<T, T1, T2, T3>(Action<ITaskContext, T, T1, T2, T3> targetAction, T param, T1 param2, T2 param3, T3 param4, Action<DoTask5<T, T1, T2, T3>> doOptions = null);
 
         /// <summary>
         /// Execute custom code in script asynchronous. U can invoke base task actions through optional parameters.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        TTargetFluentInterface DoAsync<T, T1, T2, T3>(Func<ITaskContextInternal, T, T1, T2, T3, Task> targetAction, T param, T1 param2, T2 param3, T3 param4, Action<DoTaskAsync5<T, T1, T2, T3>> doOptions = null);
+        TTargetFluentInterface DoAsync<T, T1, T2, T3>(Func<ITaskContext, T, T1, T2, T3, Task> targetAction, T param, T1 param2, T2 param3, T3 param4, Action<DoTaskAsync5<T, T1, T2, T3>> doOptions = null);
 
         /// <summary>
         /// Execute custom code in script asynchronous. U can invoke base task actions through optional parameters.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        TTargetFluentInterface DoAsync<T, T1, T2, T3, T4>(Action<ITaskContextInternal, T, T1, T2, T3, T4> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5, Action<DoTask6<T, T1, T2, T3, T4>> doOptions = null);
+        TTargetFluentInterface DoAsync<T, T1, T2, T3, T4>(Action<ITaskContext, T, T1, T2, T3, T4> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5, Action<DoTask6<T, T1, T2, T3, T4>> doOptions = null);
 
         /// <summary>
         /// Execute custom code in script asynchronous. U can invoke base task actions through optional parameters.
         /// </summary>
         /// <param name="targetAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        TTargetFluentInterface DoAsync<T, T1, T2, T3, T4>(Func<ITaskContextInternal, T, T1, T2, T3, T4, Task> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5, Action<DoTaskAsync6<T, T1, T2, T3, T4>> doOptions = null);
+        TTargetFluentInterface DoAsync<T, T1, T2, T3, T4>(Func<ITaskContext, T, T1, T2, T3, T4, Task> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5, Action<DoTaskAsync6<T, T1, T2, T3, T4>> doOptions = null);
 
         TTargetFluentInterface When(Func<ITaskContext, bool> condition);
     }
