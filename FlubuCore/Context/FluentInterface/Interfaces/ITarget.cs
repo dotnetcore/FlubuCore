@@ -122,11 +122,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         ITarget Do<T, T2, T3, T4, T5, T6, T7, T8>(Action<ITarget, T, T2, T3, T4, T5, T6, T7, T8> action, T param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8);
 
         /// <summary>
-        /// Group tasks and perform specific action on tasks.
+        /// Group tasks and perform various actions(onFinally, onError, when) on tasks.
         /// </summary>
-        /// <param name="targetAction">specify tasks in group.</param>
+        /// <param name="targetAction">specify tasks to add in target action.</param>
         /// <param name="onFinally">action that will be taken when all task finish or when error occures.</param>
         /// <param name="onError">action that will be taken on any task actions</param>
+        /// <param name="when">Tasks will be added only if specified condition is meet.</param>
         /// <returns></returns>
         ITarget Group(Action<ITargetBaseFluentInterfaceOfT<ITarget>> targetAction, Action<ITaskContext> onFinally = null, Action<ITaskContext, Exception> onError = null, Func<ITaskContext, bool> when = null);
     }
