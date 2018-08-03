@@ -10,13 +10,13 @@
     <PackageProjectUrl>https://github.com/flubu-core/flubu.core</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt</PackageReleaseNotes>
     <Description>
-      This package includes the flubu dotnet cli tool for executing FlubuCore scripts.
+      This package includes the FlubuCore dotnet cli tool for executing FlubuCore scripts.
 
-      Flubu is a C# library for building projects and executing deployment scripts using C# code.
+      FlubuCore is a cross platform build and deployment automation system for building projects and executing deployment scripts using C# code.
 
-      Wiki can be found at: https://github.com/flubu-core/flubu.core/wiki
+      Documentation can be found at: https://github.com/flubu-core/flubu.core
 
-      A detailed example of how Flubu is used to build example project: https://github.com/flubu-core/examples
+      Detailed examples can be found at: https://github.com/flubu-core/examples
     </Description>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>

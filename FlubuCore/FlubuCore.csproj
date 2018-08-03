@@ -6,14 +6,14 @@
     <PackageId>FlubuCore</PackageId>
     <PackageTags>dotnet;flubu;flubucore;build;builder;script;buildscript;automation;VisualStudio</PackageTags>
     <PackageLicenseUrl>http://www.opensource.org/licenses/bsd-license.php</PackageLicenseUrl>
-    <PackageProjectUrl>https://bitbucket.org/zoroz/flubu.core</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/flubu-core/flubu.core</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt</PackageReleaseNotes>
     <Description>
-      A C# library for building projects and executing deployment scripts using C# code.
+     A cross platform build and deployment automation system for building projects and executing deployment scripts using C# code.
 
-      Wiki can be found at: https://github.com/flubu-core/flubu.core/wiki
+     Documentation can be found at: https://github.com/flubu-core/flubu.core
 
-      A detailed example of how Flubu is used to build example project: https://bitbucket.org/zoroz/flubu.core.examples
+     Detailed examples can be found at: https://github.com/flubu-core/examples
     </Description>
     <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.6' ">$(PackageTargetFallback);dotnet5.6</PackageTargetFallback>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
