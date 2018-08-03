@@ -63,6 +63,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="action">Define tasks to be added to target.</param>
         /// <returns></returns>
+        [Obsolete("Do method for adding set of tasks was renamed to AddTasks.")]
         ITarget Do(Action<ITarget> action);
 
         /// <summary>
@@ -70,6 +71,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="action">Define tasks to be added to target.</param>
         /// <returns></returns>
+        [Obsolete("Do method for adding set of tasks was renamed to AddTasks.")]
         ITarget Do<T>(Action<ITarget, T> action, T param);
 
         /// <summary>
@@ -77,6 +79,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="action">Define tasks to be added to target.</param>
         /// <returns></returns>
+        [Obsolete("Do method for adding set of tasks was renamed to AddTasks.")]
         ITarget Do<T, T2>(Action<ITarget, T, T2> action, T param, T2 param2);
 
         /// <summary>
@@ -84,6 +87,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="action">Define tasks to be added to target.</param>
         /// <returns></returns>
+        [Obsolete("Do method for adding set of tasks was renamed to AddTasks.")]
         ITarget Do<T, T2, T3>(Action<ITarget, T, T2, T3> action, T param, T2 param2, T3 param3);
 
         /// <summary>
@@ -91,6 +95,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="action">Define tasks to be added to target.</param>
         /// <returns></returns>
+        [Obsolete("Do method for adding set of tasks was renamed to AddTasks.")]
         ITarget Do<T, T2, T3, T4>(Action<ITarget, T, T2, T3, T4> action, T param, T2 param2, T3 param3, T4 param4);
 
         /// <summary>
@@ -98,6 +103,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="action">Define tasks to be added to target.</param>
         /// <returns></returns>
+        [Obsolete("Do method for adding set of tasks was renamed to AddTasks.")]
         ITarget Do<T, T2, T3, T4, T5>(Action<ITarget, T, T2, T3, T4, T5> action, T param, T2 param2, T3 param3, T4 param4, T5 param5);
 
         /// <summary>
@@ -105,6 +111,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="action">Define tasks to be added to target.</param>
         /// <returns></returns>
+        [Obsolete("Do method for adding set of tasks was renamed to AddTasks.")]
         ITarget Do<T, T2, T3, T4, T5, T6>(Action<ITarget, T, T2, T3, T4, T5, T6> action, T param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6);
 
         /// <summary>
@@ -112,6 +119,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="action">Define tasks to be added to target.</param>
         /// <returns></returns>
+        [Obsolete("Do method for adding set of tasks was renamed to AddTasks.")]
         ITarget Do<T, T2, T3, T4, T5, T6, T7>(Action<ITarget, T, T2, T3, T4, T5, T6, T7> action, T param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7);
 
         /// <summary>
@@ -119,7 +127,71 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="action">Define tasks to be added to target.</param>
         /// <returns></returns>
+        [Obsolete("Do method for adding set of tasks was renamed to AddTasks.")]
         ITarget Do<T, T2, T3, T4, T5, T6, T7, T8>(Action<ITarget, T, T2, T3, T4, T5, T6, T7, T8> action, T param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8);
+
+         /// <summary>
+        /// Adds set of tasks to target.
+        /// </summary>
+        /// <param name="action">Define tasks to be added to target.</param>
+        /// <returns></returns>
+        ITarget AddTasks(Action<ITarget> action);
+
+        /// <summary>
+        /// Adds set of tasks to target.
+        /// </summary>
+        /// <param name="action">Define tasks to be added to target.</param>
+        /// <returns></returns>
+        ITarget AddTasks<T>(Action<ITarget, T> action, T param);
+
+        /// <summary>
+        /// Adds set of tasks to target.
+        /// </summary>
+        /// <param name="action">Define tasks to be added to target.</param>
+        /// <returns></returns>
+        ITarget AddTasks<T, T2>(Action<ITarget, T, T2> action, T param, T2 param2);
+
+        /// <summary>
+        /// Adds set of tasks to target.
+        /// </summary>
+        /// <param name="action">Define tasks to be added to target.</param>
+        /// <returns></returns>
+        ITarget AddTasks<T, T2, T3>(Action<ITarget, T, T2, T3> action, T param, T2 param2, T3 param3);
+
+        /// <summary>
+        /// Adds set of tasks to target.
+        /// </summary>
+        /// <param name="action">Define tasks to be added to target.</param>
+        /// <returns></returns>
+        ITarget AddTasks<T, T2, T3, T4>(Action<ITarget, T, T2, T3, T4> action, T param, T2 param2, T3 param3, T4 param4);
+
+        /// <summary>
+        /// Adds set of tasks to target.
+        /// </summary>
+        /// <param name="action">Define tasks to be added to target.</param>
+        /// <returns></returns>
+        ITarget AddTasks<T, T2, T3, T4, T5>(Action<ITarget, T, T2, T3, T4, T5> action, T param, T2 param2, T3 param3, T4 param4, T5 param5);
+
+        /// <summary>
+        /// Adds set of tasks to target.
+        /// </summary>
+        /// <param name="action">Define tasks to be added to target.</param>
+        /// <returns></returns>
+        ITarget AddTasks<T, T2, T3, T4, T5, T6>(Action<ITarget, T, T2, T3, T4, T5, T6> action, T param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6);
+
+        /// <summary>
+        /// Adds set of tasks to target.
+        /// </summary>
+        /// <param name="action">Define tasks to be added to target.</param>
+        /// <returns></returns>
+        ITarget AddTasks<T, T2, T3, T4, T5, T6, T7>(Action<ITarget, T, T2, T3, T4, T5, T6, T7> action, T param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7);
+
+        /// <summary>
+        /// Adds set of tasks to target.
+        /// </summary>
+        /// <param name="action">Define tasks to be added to target.</param>
+        /// <returns></returns>
+        ITarget AddTasks<T, T2, T3, T4, T5, T6, T7, T8>(Action<ITarget, T, T2, T3, T4, T5, T6, T7, T8> action, T param, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8);
 
         /// <summary>
         /// Group tasks and perform various actions(onFinally, onError, when) on tasks.
