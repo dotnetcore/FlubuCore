@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace FlubuCore.Context
 {
@@ -20,8 +21,9 @@ namespace FlubuCore.Context
         /// </summary>
         /// <typeparam name="T">Type of returned property</typeparam>
         /// <param name="propertyName">The property name</param>
+        /// <param name="memberName">Leave it empty! Property is auto assigned by FlubuCore.</param>
         /// <returns>The property</returns>
-        T Get<T>(string propertyName);
+        T Get<T>(string propertyName, [CallerMemberName]string memberName = "");
 
         /// <summary>
         /// Get's the property that predefined by flubu by property name. All properties can also be overriden
@@ -36,8 +38,9 @@ namespace FlubuCore.Context
         /// </summary>
         /// <typeparam name="T">Type of returned property</typeparam>
         /// <param name="propertyName">The property name</param>
+        /// <param name="memberName">Leave it empty! Property is auto assigned by FlubuCore.</param>
         /// <returns>The property</returns>
-        T TryGet<T>(string propertyName);
+        T TryGet<T>(string propertyName, [CallerMemberName] string memberName = "");
 
         /// <summary>
         /// Get's the property by property name.
@@ -45,8 +48,9 @@ namespace FlubuCore.Context
         /// <typeparam name="T">Type of returned property</typeparam>
         /// <param name="propertyName">The property name</param>
         /// <param name="defaultValue">Returned value if property is not set in session.</param>
+        /// <param name="memberName">Leave it empty! Property is auto assigned by FlubuCore.</param>
         /// <returns>The property</returns>
-        T Get<T>(string propertyName, T defaultValue);
+        T Get<T>(string propertyName, T defaultValue, [CallerMemberName] string memberName = "");
 
         /// <summary>
         /// Checks by property name if property is stored in session.

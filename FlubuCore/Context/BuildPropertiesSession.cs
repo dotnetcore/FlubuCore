@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using FlubuCore.Context;
+using FlubuCore.Scripting;
 
 namespace FlubuCore.Context
 {
@@ -31,13 +33,19 @@ namespace FlubuCore.Context
         /// </summary>
         /// <typeparam name="T">Type of returned property</typeparam>
         /// <param name="propertyName">The property name</param>
+        /// <param name="memberName"></param>
         /// <returns>The property</returns>
-        public T Get<T>(string propertyName)
+        public T Get<T>(string propertyName, [CallerMemberName] string memberName = "")
         {
             propertyName = propertyName.ToLowerInvariant();
 
             if (!_properties.ContainsKey(propertyName))
             {
+                if (memberName.Equals("ConfigureTargets"))
+                {
+                    throw new KeyNotFoundException($"Task context property '{propertyName}' is missing. ConfigureTarget method is executed before all 'Do' and tasks are executed.");
+                }
+
                 throw new KeyNotFoundException($"Task context property '{propertyName}' is missing.");
             }
 
@@ -74,12 +82,17 @@ namespace FlubuCore.Context
             return Get<T>(propName);
         }
 
-        public T TryGet<T>(string propertyName)
+        public T TryGet<T>(string propertyName, [CallerMemberName] string memberName = "")
         {
             propertyName = propertyName.ToLowerInvariant();
 
             if (!_properties.ContainsKey(propertyName))
             {
+                if (memberName.Equals("ConfigureTargets"))
+                {
+                    throw new KeyNotFoundException($"Task context property '{propertyName}' is missing. ConfigureTarget method is executed before all 'Do' and tasks are executed.");
+                }
+
                 return default(T);
             }
 
@@ -93,12 +106,17 @@ namespace FlubuCore.Context
         /// <param name="propertyName">The property name</param>
         /// <param name="defaultValue">Returned value if property is not set in session.</param>
         /// <returns>The property</returns>
-        public T Get<T>(string propertyName, T defaultValue)
+        public T Get<T>(string propertyName, T defaultValue, [CallerMemberName] string memberName = "")
         {
             propertyName = propertyName.ToLowerInvariant();
 
             if (!_properties.ContainsKey(propertyName))
             {
+                if (memberName.Equals("ConfigureTargets"))
+                {
+                    throw new KeyNotFoundException($"Task context property '{propertyName}' is missing. ConfigureTarget method is executed before all 'Do' and tasks are executed.");
+                }
+
                 return defaultValue;
             }
 
