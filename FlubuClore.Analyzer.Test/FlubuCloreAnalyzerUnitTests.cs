@@ -4,9 +4,9 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestHelper;
-using FlubuCore.Analyser;
+using FlubuClore.Analyzer;
 
-namespace FlubuCore.Analyser.Test
+namespace FlubuClore.Analyzer.Test
 {
     [TestClass]
     public class UnitTest : CodeFixVerifier
@@ -41,7 +41,7 @@ namespace FlubuCore.Analyser.Test
     }";
             var expected = new DiagnosticResult
             {
-                Id = "FlubuCoreAnalyser",
+                Id = "FlubuCloreAnalyzer",
                 Message = String.Format("Type name '{0}' contains lowercase letters", "TypeName"),
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
@@ -71,12 +71,12 @@ namespace FlubuCore.Analyser.Test
 
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {
-            return new FlubuCoreAnalyserCodeFixProvider();
+            return new FlubuCloreAnalyzerCodeFixProvider();
         }
 
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
         {
-            return new FlubuCoreAnalyserAnalyzer();
+            return new FlubuCloreAnalyzerAnalyzer();
         }
     }
 }
