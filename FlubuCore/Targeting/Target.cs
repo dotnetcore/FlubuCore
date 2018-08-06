@@ -433,6 +433,7 @@ namespace FlubuCore.Targeting
 
         private void AddTaskToTaskGroup(TaskGroup taskGroup, ITask task, TaskExecutionMode taskExecutionMode)
         {
+            CheckThatTaskWasNotExecutedAlready(task);
             if (taskGroup == null)
             {
                 taskGroup = new TaskGroup()
@@ -454,6 +455,18 @@ namespace FlubuCore.Targeting
                 else
                 {
                     taskGroup.Tasks.Add((task, taskExecutionMode));
+                }
+            }
+        }
+
+        private void CheckThatTaskWasNotExecutedAlready(ITask result)
+        {
+            if (result is TaskHelp taskBase)
+            {
+                if (taskBase.TaskExecuted)
+                {
+                    throw new ScriptException(
+                        $"Calling Execute method on task in AddTask is not valid becasuse FlubuCore calls execute on AddTask implicitly and task would be executed every time build script is runned regardles which target is executed. Remove Execute method on task ${taskBase.TaskName}.");
                 }
             }
         }
