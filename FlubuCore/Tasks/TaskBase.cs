@@ -214,6 +214,7 @@ namespace FlubuCore.Tasks
         [DisableForMember]
         public TResult Execute(ITaskContext context)
         {
+            TaskExecuted = true;
             ITaskContextInternal contextInternal = (ITaskContextInternal)context;
 
             Context = context ?? throw new ArgumentNullException(nameof(context));
@@ -315,6 +316,7 @@ namespace FlubuCore.Tasks
         [DisableForMember]
         public async Task<TResult> ExecuteAsync(ITaskContext context)
         {
+            TaskExecuted = true;
             ITaskContextInternal contextInternal = (ITaskContextInternal)context;
             Context = context ?? throw new ArgumentNullException(nameof(context));
 
@@ -620,6 +622,8 @@ namespace FlubuCore.Tasks
     public abstract class TaskHelp
     {
         internal virtual string TaskName { get; set; }
+
+        internal bool TaskExecuted { get;  set; }
 
         internal abstract void LogTaskHelp(ITaskContext context);
     }
