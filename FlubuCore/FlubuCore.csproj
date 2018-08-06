@@ -68,7 +68,6 @@
     <PackageReference Include="SSH.NET" Version="2016.1.0" />
     <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
     <PackageReference Include="Microsoft.Web.Administration" Version="11.1.0" />
-    <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
     <PackageReference Include="System.ServiceProcess.ServiceController" Version="4.5.0" />
    
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004">
