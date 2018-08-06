@@ -41,7 +41,7 @@ namespace FlubuCore.Context
 
             if (!_properties.ContainsKey(propertyName))
             {
-                if (memberName.Equals("ConfigureTargets"))
+                if (memberName == "ConfigureTargets")
                 {
                     throw new KeyNotFoundException($"Task context property '{propertyName}' is missing. ConfigureTarget method is executed before all 'Do' and tasks are executed.");
                 }
@@ -88,7 +88,7 @@ namespace FlubuCore.Context
 
             if (!_properties.ContainsKey(propertyName))
             {
-                if (memberName.Equals("ConfigureTargets"))
+                if (memberName == "ConfigureTargets")
                 {
                     throw new KeyNotFoundException($"Task context property '{propertyName}' is missing. ConfigureTarget method is executed before all 'Do' and tasks are executed.");
                 }
