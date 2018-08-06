@@ -73,9 +73,11 @@ namespace FlubuCore.Scripting
 
             if (oldWay)
             {
-             return await CreateBuildScriptInstanceOldWay(buildScriptFilePath, references, code, analyserResult);
+                Console.WriteLine("Doing the old way!");
+                return await CreateBuildScriptInstanceOldWay(buildScriptFilePath, references, code, analyserResult);
             }
 
+            Console.WriteLine("Doing it the new way!");
             var assembly = TryLoadBuildScriptFromAssembly(buildScriptAssemblyPath, buildScriptFilePath);
 
             if (assembly != null)
@@ -227,7 +229,12 @@ namespace FlubuCore.Scripting
             assemblyReferenceLocations =
                 assemblyReferenceLocations.Distinct().Where(x => !string.IsNullOrEmpty(x)).ToList();
             IEnumerable<PortableExecutableReference> references = null;
-            references = assemblyReferenceLocations.Select(i => MetadataReference.CreateFromFile(i));
+
+            references = assemblyReferenceLocations.Select(i =>
+            {
+                Console.WriteLine($"Creating: {i}");
+                return MetadataReference.CreateFromFile(i);
+            });
 #if !NET462
             foreach (var assemblyReferenceLocation in assemblyReferenceLocations)
             {
