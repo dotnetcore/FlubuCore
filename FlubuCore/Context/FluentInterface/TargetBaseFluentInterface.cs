@@ -74,149 +74,149 @@ namespace FlubuCore.Context.FluentInterface
             return this as TTargetFluentInterface;
         }
 
-        public TTargetFluentInterface Do(Action<ITaskContext> targetAction, Action<DoTask> doOptions = null)
+        public TTargetFluentInterface Do(Action<ITaskContext> doAction, Action<DoTask> doOptions = null)
         {
             ActionCount = 1;
             LastTargetAction = TargetAction.AddTask;
-            Target.Do(targetAction, doOptions, TaskGroup);
+            Target.Do(doAction, doOptions, TaskGroup);
             return this as TTargetFluentInterface;
         }
 
-        public TTargetFluentInterface Do<T>(Action<ITaskContext, T> targetAction, T param, Action<DoTask2<T>> doOptions = null)
+        public TTargetFluentInterface Do<T>(Action<ITaskContext, T> doAction, T param, Action<DoTask2<T>> doOptions = null)
         {
             ActionCount = 1;
             LastTargetAction = TargetAction.AddTask;
-            Target.Do(targetAction, param, doOptions, TaskGroup);
+            Target.Do(doAction, param, doOptions, TaskGroup);
             return this as TTargetFluentInterface;
         }
 
-        public TTargetFluentInterface Do<T, T1>(Action<ITaskContext, T, T1> targetAction, T param, T1 param2, Action<DoTask3<T, T1>> doOptions = null)
+        public TTargetFluentInterface Do<T, T1>(Action<ITaskContext, T, T1> doAction, T param, T1 param2, Action<DoTask3<T, T1>> doOptions = null)
         {
             ActionCount = 1;
             LastTargetAction = TargetAction.AddTask;
-            Target.Do(targetAction, param, param2, doOptions, TaskGroup);
+            Target.Do(doAction, param, param2, doOptions, TaskGroup);
             return this as TTargetFluentInterface;
         }
 
-        public TTargetFluentInterface Do<T, T1, T2>(Action<ITaskContext, T, T1, T2> targetAction, T param, T1 param2, T2 param3, Action<DoTask4<T, T1, T2>> doOptions = null)
+        public TTargetFluentInterface Do<T, T1, T2>(Action<ITaskContext, T, T1, T2> doAction, T param, T1 param2, T2 param3, Action<DoTask4<T, T1, T2>> doOptions = null)
         {
             ActionCount = 1;
             LastTargetAction = TargetAction.AddTask;
-            Target.Do(targetAction, param, param2, param3, doOptions, TaskGroup);
+            Target.Do(doAction, param, param2, param3, doOptions, TaskGroup);
             return this as TTargetFluentInterface;
         }
 
-        public TTargetFluentInterface Do<T, T1, T2, T3>(Action<ITaskContext, T, T1, T2, T3> targetAction, T param, T1 param2, T2 param3, T3 param4, Action<DoTask5<T, T1, T2, T3>> doOptions = null)
+        public TTargetFluentInterface Do<T, T1, T2, T3>(Action<ITaskContext, T, T1, T2, T3> doAction, T param, T1 param2, T2 param3, T3 param4, Action<DoTask5<T, T1, T2, T3>> doOptions = null)
         {
             ActionCount = 1;
             LastTargetAction = TargetAction.AddTask;
-            Target.Do(targetAction, param, param2, param3, param4, doOptions, TaskGroup);
+            Target.Do(doAction, param, param2, param3, param4, doOptions, TaskGroup);
             return this as TTargetFluentInterface;
         }
 
-        public TTargetFluentInterface Do<T, T1, T2, T3, T4>(Action<ITaskContext, T, T1, T2, T3, T4> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5, Action<DoTask6<T, T1, T2, T3, T4>> doOptions = null)
+        public TTargetFluentInterface Do<T, T1, T2, T3, T4>(Action<ITaskContext, T, T1, T2, T3, T4> doAction, T param, T1 param2, T2 param3, T3 param4, T4 param5, Action<DoTask6<T, T1, T2, T3, T4>> doOptions = null)
         {
             ActionCount = 1;
             LastTargetAction = TargetAction.AddTask;
-            Target.Do(targetAction, param, param2, param3, param4, param5, doOptions, TaskGroup);
+            Target.Do(doAction, param, param2, param3, param4, param5, doOptions, TaskGroup);
             return this as TTargetFluentInterface;
         }
 
-        public TTargetFluentInterface DoAsync(Action<ITaskContext> targetAction, Action<DoTask> doOptions = null)
+        public TTargetFluentInterface DoAsync(Action<ITaskContext> doAction, Action<DoTask> doOptions = null)
         {
             ActionCount = 1;
             LastTargetAction = TargetAction.AddTask;
-            Target.DoAsync(targetAction, doOptions, TaskGroup);
+            Target.DoAsync(doAction, doOptions, TaskGroup);
             return this as TTargetFluentInterface;
         }
 
-        public TTargetFluentInterface DoAsync(Func<ITaskContext, Task> targetAction, Action<DoTaskAsync> doOptions = null)
+        public TTargetFluentInterface DoAsync(Func<ITaskContext, Task> doAction, Action<DoTaskAsync> doOptions = null)
         {
             ActionCount = 1;
             LastTargetAction = TargetAction.AddTask;
-            Target.DoAsync(targetAction, doOptions, TaskGroup);
+            Target.DoAsync(doAction, doOptions, TaskGroup);
             return this as TTargetFluentInterface;
         }
 
-        public TTargetFluentInterface DoAsync<T>(Action<ITaskContext, T> targetAction, T param, Action<DoTask2<T>> doOptions = null)
+        public TTargetFluentInterface DoAsync<T>(Action<ITaskContext, T> doAction, T param, Action<DoTask2<T>> doOptions = null)
         {
             ActionCount = 1;
             LastTargetAction = TargetAction.AddTask;
-            Target.DoAsync(targetAction, param, doOptions, TaskGroup);
+            Target.DoAsync(doAction, param, doOptions, TaskGroup);
             return this as TTargetFluentInterface;
         }
 
-        public TTargetFluentInterface DoAsync<T>(Func<ITaskContext, T, Task> targetAction, T param, Action<DoTaskAsync2<T>> doOptions = null)
+        public TTargetFluentInterface DoAsync<T>(Func<ITaskContext, T, Task> doAction, T param, Action<DoTaskAsync2<T>> doOptions = null)
         {
             ActionCount = 1;
             LastTargetAction = TargetAction.AddTask;
-            Target.DoAsync(targetAction, param, doOptions, TaskGroup);
+            Target.DoAsync(doAction, param, doOptions, TaskGroup);
             return this as TTargetFluentInterface;
         }
 
-        public TTargetFluentInterface DoAsync<T, T1>(Action<ITaskContext, T, T1> targetAction, T param, T1 param2, Action<DoTask3<T, T1>> doOptions = null)
+        public TTargetFluentInterface DoAsync<T, T1>(Action<ITaskContext, T, T1> doAction, T param, T1 param2, Action<DoTask3<T, T1>> doOptions = null)
         {
             ActionCount = 1;
             LastTargetAction = TargetAction.AddTask;
-            Target.DoAsync(targetAction, param, param2, doOptions, TaskGroup);
+            Target.DoAsync(doAction, param, param2, doOptions, TaskGroup);
             return this as TTargetFluentInterface;
         }
 
-        public TTargetFluentInterface DoAsync<T, T1>(Func<ITaskContext, T, T1, Task> targetAction, T param, T1 param2, Action<DoTaskAsync3<T, T1>> doOptions = null)
+        public TTargetFluentInterface DoAsync<T, T1>(Func<ITaskContext, T, T1, Task> doAction, T param, T1 param2, Action<DoTaskAsync3<T, T1>> doOptions = null)
         {
             ActionCount = 1;
             LastTargetAction = TargetAction.AddTask;
-            Target.DoAsync(targetAction, param, param2, doOptions, TaskGroup);
+            Target.DoAsync(doAction, param, param2, doOptions, TaskGroup);
             return this as TTargetFluentInterface;
         }
 
-        public TTargetFluentInterface DoAsync<T, T1, T2>(Action<ITaskContext, T, T1, T2> targetAction, T param, T1 param2, T2 param3, Action<DoTask4<T, T1, T2>> doOptions = null)
+        public TTargetFluentInterface DoAsync<T, T1, T2>(Action<ITaskContext, T, T1, T2> doAction, T param, T1 param2, T2 param3, Action<DoTask4<T, T1, T2>> doOptions = null)
         {
             ActionCount = 1;
             LastTargetAction = TargetAction.AddTask;
-            Target.DoAsync(targetAction, param, param2, param3, doOptions, TaskGroup);
+            Target.DoAsync(doAction, param, param2, param3, doOptions, TaskGroup);
             return this as TTargetFluentInterface;
         }
 
-        public TTargetFluentInterface DoAsync<T, T1, T2>(Func<ITaskContext, T, T1, T2, Task> targetAction, T param, T1 param2, T2 param3, Action<DoTaskAsync4<T, T1, T2>> doOptions = null)
+        public TTargetFluentInterface DoAsync<T, T1, T2>(Func<ITaskContext, T, T1, T2, Task> doAction, T param, T1 param2, T2 param3, Action<DoTaskAsync4<T, T1, T2>> doOptions = null)
         {
             ActionCount = 1;
             LastTargetAction = TargetAction.AddTask;
-            Target.DoAsync(targetAction, param, param2, param3, doOptions, TaskGroup);
+            Target.DoAsync(doAction, param, param2, param3, doOptions, TaskGroup);
             return this as TTargetFluentInterface;
         }
 
-        public TTargetFluentInterface DoAsync<T, T1, T2, T3>(Action<ITaskContext, T, T1, T2, T3> targetAction, T param, T1 param2, T2 param3, T3 param4, Action<DoTask5<T, T1, T2, T3>> doOptions = null)
+        public TTargetFluentInterface DoAsync<T, T1, T2, T3>(Action<ITaskContext, T, T1, T2, T3> doAction, T param, T1 param2, T2 param3, T3 param4, Action<DoTask5<T, T1, T2, T3>> doOptions = null)
         {
             ActionCount = 1;
             LastTargetAction = TargetAction.AddTask;
-            Target.DoAsync(targetAction, param, param2, param3, param4, doOptions, TaskGroup);
+            Target.DoAsync(doAction, param, param2, param3, param4, doOptions, TaskGroup);
             return this as TTargetFluentInterface;
         }
 
-        public TTargetFluentInterface DoAsync<T, T1, T2, T3>(Func<ITaskContext, T, T1, T2, T3, Task> targetAction, T param, T1 param2, T2 param3, T3 param4,
+        public TTargetFluentInterface DoAsync<T, T1, T2, T3>(Func<ITaskContext, T, T1, T2, T3, Task> doAction, T param, T1 param2, T2 param3, T3 param4,
             Action<DoTaskAsync5<T, T1, T2, T3>> doOptions = null)
         {
             ActionCount = 1;
             LastTargetAction = TargetAction.AddTask;
-            Target.DoAsync(targetAction, param, param2, param3, param4, doOptions, TaskGroup);
+            Target.DoAsync(doAction, param, param2, param3, param4, doOptions, TaskGroup);
             return this as TTargetFluentInterface;
         }
 
-        public TTargetFluentInterface DoAsync<T, T1, T2, T3, T4>(Action<ITaskContext, T, T1, T2, T3, T4> targetAction, T param, T1 param2, T2 param3, T3 param4, T4 param5, Action<DoTask6<T, T1, T2, T3, T4>> doOptions = null)
+        public TTargetFluentInterface DoAsync<T, T1, T2, T3, T4>(Action<ITaskContext, T, T1, T2, T3, T4> doAction, T param, T1 param2, T2 param3, T3 param4, T4 param5, Action<DoTask6<T, T1, T2, T3, T4>> doOptions = null)
         {
             ActionCount = 1;
             LastTargetAction = TargetAction.AddTask;
-            Target.DoAsync(targetAction, param, param2, param3, param4, param5, doOptions, TaskGroup);
+            Target.DoAsync(doAction, param, param2, param3, param4, param5, doOptions, TaskGroup);
             return this as TTargetFluentInterface;
         }
 
-        public TTargetFluentInterface DoAsync<T, T1, T2, T3, T4>(Func<ITaskContext, T, T1, T2, T3, T4, Task> targetAction, T param, T1 param2, T2 param3, T3 param4,
+        public TTargetFluentInterface DoAsync<T, T1, T2, T3, T4>(Func<ITaskContext, T, T1, T2, T3, T4, Task> doAction, T param, T1 param2, T2 param3, T3 param4,
             T4 param5, Action<DoTaskAsync6<T, T1, T2, T3, T4>> doOptions = null)
         {
             ActionCount = 1;
             LastTargetAction = TargetAction.AddTask;
-            Target.DoAsync(targetAction, param, param2, param3, param4, param5, doOptions, TaskGroup);
+            Target.DoAsync(doAction, param, param2, param3, param4, param5, doOptions, TaskGroup);
             return this as TTargetFluentInterface;
         }
 
