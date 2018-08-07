@@ -324,12 +324,12 @@ namespace FlubuCore.Tasks.Solution
         {
             if (string.IsNullOrEmpty(_solutionFileName))
             {
-                throw new TaskExecutionException("Solution file name is not set. Set it through constructor or build properties.", 0);
+                throw new TaskExecutionException($"Solution file name is not set. Set it through constructor  or build property 'BuildProps.{nameof(BuildProps.SolutionFileName)}'.", 0);
             }
 
             if (string.IsNullOrEmpty(_buildConfiguration) && !_doNotSetConfiguration)
             {
-                throw new TaskExecutionException("Build configuraiton is not set. Set it through constructor or build properties.", 0);
+                throw new TaskExecutionException($"Build configuraiton is not set. Set it through constructor or build property 'BuildProps.{nameof(BuildProps.BuildConfiguration)}'", 0);
             }
         }
     }
