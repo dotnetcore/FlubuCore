@@ -2,12 +2,19 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Tasks.FileSystem;
 
 namespace FlubuCore.Tasks.NetCore
 {
     public class DotnetCleanTask : ExecuteDotnetTaskBase<DotnetCleanTask>
     {
         private string _description;
+
+        private bool _cleanBuildDir;
+
+        private bool _cleanOutputDir;
+
+        private List<(string path, bool recreate)> _directoriesToClean = new List<(string path, bool recreate)>();
 
         public DotnetCleanTask()
             : base(StandardDotnetCommands.Clean)
@@ -73,6 +80,38 @@ namespace FlubuCore.Tasks.NetCore
             return this;
         }
 
+        /// <summary>
+        /// Task deletes added directory
+        /// </summary>
+        /// <param name="directory">The directory do delete</param>
+        /// <param name="recreate">If <c>true</c> directory is recreated. Otherwise deleted.</param>
+        /// <returns></returns>
+        public DotnetCleanTask AddDirectoryToClean(string directory, bool recreate)
+        {
+            _directoriesToClean.Add((directory, recreate));
+            return this;
+        }
+
+        /// <summary>
+        /// If set OutputDir specified in <see cref="BuildProps.OutputDir"/> deleted and recreated.
+        /// </summary>
+        /// <returns></returns>
+        public DotnetCleanTask CleanOutputDir()
+        {
+            _cleanOutputDir = true;
+            return this;
+        }
+
+        /// <summary>
+        /// If set BuildDir specified in <see cref="BuildProps.BuildDir"/> deleted and recreated.
+        /// </summary>
+        /// <returns></returns>
+        public DotnetCleanTask CleanBuildDir()
+        {
+            _cleanBuildDir = true;
+            return this;
+        }
+
         protected override void BeforeExecute(ITaskContextInternal context)
         {
             if (Arguments.Count == 0 || Arguments[0].StartsWith("-"))
@@ -90,6 +129,34 @@ namespace FlubuCore.Tasks.NetCore
                 if (configuration != null)
                 {
                     Configuration(configuration);
+                }
+            }
+
+            string buildDir = context.Properties.Get<string>(BuildProps.BuildDir, null);
+            if (!string.IsNullOrEmpty(buildDir) && _cleanBuildDir)
+            {
+                CreateDirectoryTask createDirectoryTask = new CreateDirectoryTask(buildDir, true);
+                createDirectoryTask.Execute(context);
+            }
+
+            string outputDir = context.Properties.Get<string>(BuildProps.OutputDir, null);
+            if (!string.IsNullOrEmpty(outputDir) && _cleanOutputDir)
+            {
+                CreateDirectoryTask createDirectoryTask = new CreateDirectoryTask(outputDir, true);
+                createDirectoryTask.Execute(context);
+            }
+
+            foreach (var dir in _directoriesToClean)
+            {
+                if (dir.recreate)
+                {
+                    CreateDirectoryTask createDirectoryTask = new CreateDirectoryTask(dir.path, true);
+                    createDirectoryTask.Execute(context);
+                }
+                else
+                {
+                    DeleteDirectoryTask task = new DeleteDirectoryTask(dir.path, false);
+                    task.Execute(context);
                 }
             }
         }
