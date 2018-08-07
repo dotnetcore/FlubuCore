@@ -1,5 +1,6 @@
 ﻿using FlubuCore.Context;
 using FlubuCore.Tasks.NetCore;
+using Moq;
 using Xunit;
 
 namespace Flubu.Tests.Tasks
@@ -41,8 +42,8 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void ConfigurationAndProjectFromBuildPropertiesTest()
         {
-            Properties.Setup(x => x.Get<string>(BuildProps.SolutionFileName, true, null)).Returns("project2");
-            Properties.Setup(x => x.Get<string>(BuildProps.BuildConfiguration, true, null)).Returns("Release");
+            Properties.Setup(x => x.Get<string>(BuildProps.SolutionFileName, null, It.IsAny<string>())).Returns("project2");
+            Properties.Setup(x => x.Get<string>(BuildProps.BuildConfiguration, null, "BeforeExecute")).Returns("Release");
             _task.ExecuteVoid(Context.Object);
             Assert.Equal("project2", _task.Arguments[0]);
             Assert.Equal("-c", _task.Arguments[1]);
