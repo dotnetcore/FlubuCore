@@ -35,7 +35,7 @@ namespace Flubu.Tests.Tasks
         [Fact]
         public void ConfigurationAndProjectFromBuildPropertiesTest()
         {
-            Properties.Setup(x => x.Get<string>(BuildProps.SolutionFileName, null)).Returns("project2");
+            Properties.Setup(x => x.Get<string>(BuildProps.SolutionFileName, true, null)).Returns("project2");
             _task.ExecuteVoid(Context.Object);
             Assert.Single(_task.Arguments);
             Assert.Equal("project2", _task.Arguments[0]);

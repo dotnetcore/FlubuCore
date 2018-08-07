@@ -33,11 +33,15 @@ namespace FlubuCore.Context
         /// </summary>
         /// <typeparam name="T">Type of returned property</typeparam>
         /// <param name="propertyName">The property name</param>
+        /// <param name="ignoreCase">if true key is not case sensitive. Otherwise it is.</param>
         /// <param name="memberName"></param>
         /// <returns>The property</returns>
-        public T Get<T>(string propertyName, [CallerMemberName] string memberName = "")
+        public T Get<T>(string propertyName, bool ignoreCase = true, [CallerMemberName] string memberName = "")
         {
-            propertyName = propertyName.ToLowerInvariant();
+            if (ignoreCase)
+            {
+                propertyName = propertyName.ToLowerInvariant();
+            }
 
             if (!_properties.ContainsKey(propertyName))
             {
@@ -82,7 +86,7 @@ namespace FlubuCore.Context
             return Get<T>(propName);
         }
 
-        public T TryGet<T>(string propertyName, [CallerMemberName] string memberName = "")
+        public T TryGet<T>(string propertyName, [CallerMemberName] string memberName = null)
         {
             propertyName = propertyName.ToLowerInvariant();
 

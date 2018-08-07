@@ -23,7 +23,7 @@ namespace FlubuCore.Context
         /// <param name="propertyName">The property name</param>
         /// <param name="memberName">Leave it empty! Property is auto assigned by FlubuCore.</param>
         /// <returns>The property</returns>
-        T Get<T>(string propertyName, [CallerMemberName]string memberName = "");
+        T Get<T>(string propertyName, bool ignoreCase = true, [CallerMemberName] string memberName = "");
 
         /// <summary>
         /// Get's the property that predefined by flubu by property name. All properties can also be overriden
