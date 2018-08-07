@@ -38,16 +38,16 @@ namespace FlubuCore.Tasks.Solution
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            DoLogInfo($"Load solution {SolutionFile} properties");
-
             if (string.IsNullOrEmpty(SolutionFile))
             {
-                SolutionFile = context.Properties.Get<string>(BuildProps.SolutionFileName);
+                SolutionFile = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
                 if (string.IsNullOrEmpty(SolutionFile))
                 {
-                    throw new TaskExecutionException("Solution file name not set", 0);
+                    throw new TaskExecutionException($"Solution file name not set. Set it through fluent interface or build property 'BuildProps.{nameof(BuildProps.SolutionFileName)}'" , 0);
                 }
             }
+
+            DoLogInfo($"Load solution {SolutionFile} properties");
 
             VSSolution solution = VSSolution.Load(SolutionFile);
             context.Properties.Set(BuildProps.Solution, solution);
