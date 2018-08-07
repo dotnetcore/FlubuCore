@@ -43,7 +43,7 @@ namespace FlubuCore.Tasks.Solution
                 SolutionFile = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
                 if (string.IsNullOrEmpty(SolutionFile))
                 {
-                    throw new TaskExecutionException($"Solution file name not set. Set it through fluent interface or build property 'BuildProps.{nameof(BuildProps.SolutionFileName)}'" , 0);
+                    throw new TaskExecutionException($"Solution file name not set. Set it through fluent interface or build property 'BuildProps.{nameof(BuildProps.SolutionFileName)}'", 0);
                 }
             }
 
