@@ -220,6 +220,12 @@ namespace FlubuCore.Tasks.Testing
                 _nunitConsoleFileName = context.Properties.Get<string>(BuildProps.NUnitConsolePath, null);
             }
 
+            if (string.IsNullOrEmpty(_nunitConsoleFileName))
+            {
+                throw new TaskExecutionException($"Path to nunit console is not set. Set it through task fluent method  or build property 'BuildProps.{nameof(BuildProps.NUnitConsolePath)}'.",
+                    0);
+            }
+
             RunProgramTask task = new RunProgramTask(new CommandFactory(), _nunitConsoleFileName);
 
             SetAssemblyFileNameAndWorkingDirFromProjectName(context);
