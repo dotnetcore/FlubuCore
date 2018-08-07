@@ -177,7 +177,7 @@ namespace FlubuCore.Tasks.Testing.Xunit
                 if (_xunitConsoleFileName == null)
                 {
                     throw new TaskExecutionException(
-                        "Build configuration must be set. Set it through context property BuildConfiguration or task method Configuration.",
+                        $"Build configuration must be set. Set it through context property {nameof(BuildProps.XUnitConsolePath)} or task method Configuration.",
                         0);
                 }
             }
