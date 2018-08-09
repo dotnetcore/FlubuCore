@@ -45,7 +45,7 @@ namespace FlubuCore.Tasks.Solution
         }
 
         /// <summary>
-        /// If set OutputDir specified in <see cref="BuildProps.OutputDir"/> deleted and recreated.
+        /// If set output directory specified in <see cref="BuildProps.OutputDir"/> is deleted and recreated.
         /// </summary>
         /// <returns></returns>
         public CleanOutputTask CleanOutputDir()
@@ -55,7 +55,7 @@ namespace FlubuCore.Tasks.Solution
         }
 
         /// <summary>
-        /// If set BuildDir specified in <see cref="BuildProps.BuildDir"/> deleted and recreated.
+        /// If set Build directory specified in <see cref="BuildProps.BuildDir"/> is deleted and recreated.
         /// </summary>
         /// <returns></returns>
         public CleanOutputTask CleanBuildDir()

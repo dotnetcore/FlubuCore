@@ -81,7 +81,7 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
-        /// Task deletes added directory
+        /// Task deletes added directory.
         /// </summary>
         /// <param name="directory">The directory do delete</param>
         /// <param name="recreate">If <c>true</c> directory is recreated. Otherwise deleted.</param>
@@ -93,7 +93,7 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
-        /// If set OutputDir specified in <see cref="BuildProps.OutputDir"/> deleted and recreated.
+        /// If set output directory specified in <see cref="BuildProps.OutputDir"/> is deleted and recreated.
         /// </summary>
         /// <returns></returns>
         public DotnetCleanTask CleanOutputDir()
@@ -103,7 +103,7 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
-        /// If set BuildDir specified in <see cref="BuildProps.BuildDir"/> deleted and recreated.
+        /// If set Build directory specified in <see cref="BuildProps.BuildDir"/> is deleted and recreated.
         /// </summary>
         /// <returns></returns>
         public DotnetCleanTask CleanBuildDir()
