@@ -23,11 +23,18 @@ namespace FlubuClore.Analyzer
         private static readonly LocalizableString ParameterCountTitle = new LocalizableResourceString(nameof(Resources.TargetParameterCountTitle), Resources.ResourceManager, typeof(Resources));
         private static readonly LocalizableString ParameteCountMessageFormat = new LocalizableResourceString(nameof(Resources.TargetParameterCountMessageFormat), Resources.ResourceManager, typeof(Resources));
         private static readonly LocalizableString ParameterCountDescription = new LocalizableResourceString(nameof(Resources.TargetParameterCountDescription), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString ParameterNotSameTitle = new LocalizableResourceString(nameof(Resources.TargetParameterTypeNotSameTitle), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString ParameteNotSameFormat = new LocalizableResourceString(nameof(Resources.TargetParameterTypeNotSameMessageFormat), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString ParameterNotSameDescription = new LocalizableResourceString(nameof(Resources.TargetParameterTypeNotSameDescritpion), Resources.ResourceManager, typeof(Resources));
+       
+        
         private const string Category = "TargetDefinition";
 
         private static DiagnosticDescriptor FirstParameterMustBeOfTypeITarget = new DiagnosticDescriptor(DiagnosticId, FirstTargetParameterTitle, FirstTargetParameterMessageFormat, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: FirstTargetParameterDescription);
 
         private static DiagnosticDescriptor AttributeAndMethodParameterCountMustBeTheSame = new DiagnosticDescriptor(DiagnosticId, ParameterCountTitle, ParameteCountMessageFormat, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: ParameterCountDescription);
+
+        private static DiagnosticDescriptor AttributeAndMethodParameterTypeMustBeTheSame = new DiagnosticDescriptor(DiagnosticId, ParameterNotSameTitle, ParameteNotSameFormat, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: ParameterNotSameDescription);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return ImmutableArray.Create(FirstParameterMustBeOfTypeITarget, AttributeAndMethodParameterCountMustBeTheSame); } }
 
@@ -69,6 +76,25 @@ namespace FlubuClore.Analyzer
                         var attributeSyntax = (AttributeSyntax)attribute.ApplicationSyntaxReference.GetSyntax(context.CancellationToken);
                         var diagnostic = Diagnostic.Create(AttributeAndMethodParameterCountMustBeTheSame, attributeSyntax.GetLocation(), methodSymbol.Name);
                         context.ReportDiagnostic(diagnostic);
+                    }
+                    else
+                    {
+                        if (!hasAttributeParameters)
+                        {
+                            continue;
+                        }
+
+                        for (int i = 0; i < attributeParameters.Length; i++)
+                        {
+                            if (attributeParameters[i].Type.Name != methodSymbol.Parameters[i + 1].Type.Name)
+                            {
+                                var attributeSyntax = (AttributeSyntax)attribute.ApplicationSyntaxReference.GetSyntax(context.CancellationToken);
+                                var argument = attributeSyntax.ArgumentList.Arguments[i + 1];
+                                var diagnostic = Diagnostic.Create(AttributeAndMethodParameterTypeMustBeTheSame, argument.GetLocation(), methodSymbol.Name, methodSymbol.Parameters[i + 1].Name);
+                                context.ReportDiagnostic(diagnostic);
+                            }
+                        }
+
                     }
                 }
             }

@@ -114,5 +114,32 @@ namespace FlubuClore.Analyzer {
                 return ResourceManager.GetString("TargetParameterCountTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target parameter must be of same type as method parameter..
+        /// </summary>
+        internal static string TargetParameterTypeNotSameDescritpion {
+            get {
+                return ResourceManager.GetString("TargetParameterTypeNotSameDescritpion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameter must be of same type as &apos;{0}&apos; method parameter &apos;{1}&apos;..
+        /// </summary>
+        internal static string TargetParameterTypeNotSameMessageFormat {
+            get {
+                return ResourceManager.GetString("TargetParameterTypeNotSameMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong parameter type.
+        /// </summary>
+        internal static string TargetParameterTypeNotSameTitle {
+            get {
+                return ResourceManager.GetString("TargetParameterTypeNotSameTitle", resourceCulture);
+            }
+        }
     }
 }

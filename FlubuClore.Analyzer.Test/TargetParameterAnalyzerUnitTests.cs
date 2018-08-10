@@ -25,6 +25,19 @@ using Moq;
 
 namespace FlubuCore.WebApi.Tests
 {
+   public class Target : System.Attribute
+    {
+        public TargetAttribute(string targetName, params object[] methodParameters)
+        {
+            TargetName = targetName;
+            MethodParameters = methodParameters;
+        }
+
+        public string TargetName { get; private set; }
+
+        public object[] MethodParameters { get; set; }
+    }
+
     public class SimpleScript : DefaultBuildScript
     {
         protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
@@ -35,7 +48,7 @@ namespace FlubuCore.WebApi.Tests
         {
         }
 
-        [Target(\""Test\"")]
+        [Target(""Test"", ""SomeFile"")]
         public void SuccesfullTarget(ITarget target, string fileName)
         {
         }
@@ -308,6 +321,65 @@ namespace FlubuCore.WebApi.Tests
 
             VerifyCSharpDiagnostic(test);
         }
+
+        [TestMethod]
+        public void WrongParameterTypeTest()
+        {
+            var test = @"
+using System;
+using System.IO;
+using FlubuCore.Context;
+using FlubuCore.Context.FluentInterface;
+using FlubuCore.Context.FluentInterface.Interfaces;
+using FlubuCore.Scripting;
+using FlubuCore.Targeting;
+using Moq;
+
+namespace FlubuCore.WebApi.Tests
+{
+    public class Target : System.Attribute
+    {
+        public TargetAttribute(string targetName, params object[] methodParameters)
+        {
+            TargetName = targetName;
+            MethodParameters = methodParameters;
+        }
+
+        public string TargetName { get; private set; }
+
+        public object[] MethodParameters { get; set; }
+    }
+
+    public class SimpleScript : DefaultBuildScript
+    {
+        protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
+        {
+        }
+
+        protected override void ConfigureTargets(ITaskContext session)
+        {
+        }
+
+        [Target(""Test"", ""param1"", 1)]
+        public void SuccesfullTarget(ITarget target, string fileName, string path)
+        {
+        }
+     }
+}";
+            var expected = new DiagnosticResult
+            {
+                Id = "FlubuCore_TargetParameterAnalyzer",
+                Message = String.Format("Parameter must be of same type as '{0}' method parameter '{1}'.", "SuccesfullTarget",  "path"),
+                Severity = DiagnosticSeverity.Warning,
+                Locations =
+                    new[] {
+                        new DiagnosticResultLocation("Test0.cs", 36, 35)
+                    }
+            };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
+
 
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {

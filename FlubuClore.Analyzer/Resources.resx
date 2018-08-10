@@ -140,4 +140,13 @@
     <value>Wrong parameter count</value>
     <comment>The title of the diagnostic</comment>
   </data>
+  <data name="TargetParameterTypeNotSameDescritpion" xml:space="preserve">
+    <value>Target parameter must be of same type as method parameter.</value>
+  </data>
+  <data name="TargetParameterTypeNotSameMessageFormat" xml:space="preserve">
+    <value>Parameter must be of same type as '{0}' method parameter '{1}'.</value>
+  </data>
+  <data name="TargetParameterTypeNotSameTitle" xml:space="preserve">
+    <value>Wrong parameter type</value>
+  </data>
 </root>
