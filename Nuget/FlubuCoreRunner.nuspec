@@ -26,8 +26,8 @@
     <file src="..\output\FlubuCore.pdb" target="lib" />
     <file src="..\output\FlubuCore.xml" target="lib" />
     <file src="..\output\FlubuCore.dll" target="content\temp" /> 
-    <file src="..\output\Build.exe" target="content\temp" />
-    <file src="..\output\Build.exe.config" target="content\temp" />
+    <file src="..\output\Flubu.exe" target="content\temp" />
+    <file src="..\output\Flubu.exe.config" target="content\temp" />
     <file src="..\FlubuCore\BuildScript.cs" target="content\temp" /> 
     <file src="..\nuget\tools\Install.ps1" target="tools\Install.ps1" />
     <file src="..\Nuget\readme.txt" target="" /> 
