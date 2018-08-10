@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FlubuCore.Analyzer\FlubuCore.Analyzer.csproj" />
     <ProjectReference Include="..\FlubuCore\FlubuCore.csproj" />
   </ItemGroup>
 
