@@ -36,7 +36,7 @@ namespace FlubuClore.Analyzer
 
         private static DiagnosticDescriptor AttributeAndMethodParameterTypeMustBeTheSame = new DiagnosticDescriptor(DiagnosticId, ParameterNotSameTitle, ParameteNotSameFormat, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: ParameterNotSameDescription);
 
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return ImmutableArray.Create(FirstParameterMustBeOfTypeITarget, AttributeAndMethodParameterCountMustBeTheSame); } }
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return ImmutableArray.Create(FirstParameterMustBeOfTypeITarget, AttributeAndMethodParameterCountMustBeTheSame, AttributeAndMethodParameterTypeMustBeTheSame); } }
 
         public override void Initialize(AnalysisContext context)
         {
@@ -47,7 +47,7 @@ namespace FlubuClore.Analyzer
         {
             var methodSymbol = (IMethodSymbol)context.Symbol;
             var attributes = methodSymbol.GetAttributes();
-
+            
             foreach (var attribute in attributes)
             {
                 ImmutableArray<TypedConstant> attributeParameters;
