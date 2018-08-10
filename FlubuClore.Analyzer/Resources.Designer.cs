@@ -62,29 +62,56 @@ namespace FlubuClore.Analyzer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to First parameter in method &apos;{0}&apos; must be of type ITarget..
+        ///   Looks up a localized string similar to First paramter in method must be of type ITarget..
         /// </summary>
-        internal static string AnalyzerMessageFormat {
+        internal static string FirstTargetParameterDescription {
             get {
-                return ResourceManager.GetString("AnalyzerMessageFormat", resourceCulture);
+                return ResourceManager.GetString("FirstTargetParameterDescription", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to First paramter in method must be of type ITarget..
+        ///   Looks up a localized string similar to First parameter in method &apos;{0}&apos; must be of type ITarget..
         /// </summary>
-        internal static string TargetParameterDescription {
+        internal static string FirstTargetParameterMessageFormat {
             get {
-                return ResourceManager.GetString("TargetParameterDescription", resourceCulture);
+                return ResourceManager.GetString("FirstTargetParameterMessageFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Wrong first parameter.
         /// </summary>
-        internal static string TargetParameterTitle {
+        internal static string FirstTargetParameterTitle {
             get {
-                return ResourceManager.GetString("TargetParameterTitle", resourceCulture);
+                return ResourceManager.GetString("FirstTargetParameterTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parametrs count in method and attribute must be the same..
+        /// </summary>
+        internal static string TargetParameterCountDescription {
+            get {
+                return ResourceManager.GetString("TargetParameterCountDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameters count in attribute and  method &apos;{0}&apos; must be the same..
+        /// </summary>
+        internal static string TargetParameterCountMessageFormat {
+            get {
+                return ResourceManager.GetString("TargetParameterCountMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong parameter count.
+        /// </summary>
+        internal static string TargetParameterCountTitle {
+            get {
+                return ResourceManager.GetString("TargetParameterCountTitle", resourceCulture);
             }
         }
     }

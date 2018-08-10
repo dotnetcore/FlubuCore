@@ -117,16 +117,27 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AnalyzerMessageFormat" xml:space="preserve">
+  <data name="FirstTargetParameterMessageFormat" xml:space="preserve">
     <value>First parameter in method '{0}' must be of type ITarget.</value>
     <comment>The format-able message the diagnostic displays.</comment>
   </data>
-  <data name="TargetParameterDescription" xml:space="preserve">
+  <data name="FirstTargetParameterDescription" xml:space="preserve">
     <value>First paramter in method must be of type ITarget.</value>
     <comment>An optional longer localizable description of the diagnostic.</comment>
   </data>
-  <data name="TargetParameterTitle" xml:space="preserve">
+  <data name="FirstTargetParameterTitle" xml:space="preserve">
     <value>Wrong first parameter</value>
     <comment>The title of the diagnostic.</comment>
+  </data>
+  <data name="TargetParameterCountDescription" xml:space="preserve">
+    <value>Parametrs count in method and attribute must be the same.</value>
+    <comment>An optional longer localizable description of the diagnostic.</comment>
+  </data>
+  <data name="TargetParameterCountMessageFormat" xml:space="preserve">
+    <value>Parameters count in attribute and  method '{0}' must be the same.</value>
+  </data>
+  <data name="TargetParameterCountTitle" xml:space="preserve">
+    <value>Wrong parameter count</value>
+    <comment>The title of the diagnostic</comment>
   </data>
 </root>

@@ -17,14 +17,19 @@ namespace FlubuClore.Analyzer
 
         // You can change these strings in the Resources.resx file. If you do not want your analyzer to be localize-able, you can use regular strings for Title and MessageFormat.
         // See https://github.com/dotnet/roslyn/blob/master/docs/analyzers/Localizing%20Analyzers.md for more on localization
-        private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.TargetParameterTitle), Resources.ResourceManager, typeof(Resources));
-        private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.AnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
-        private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.TargetParameterDescription), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString FirstTargetParameterTitle = new LocalizableResourceString(nameof(Resources.FirstTargetParameterTitle), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString FirstTargetParameterMessageFormat = new LocalizableResourceString(nameof(Resources.FirstTargetParameterMessageFormat), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString FirstTargetParameterDescription = new LocalizableResourceString(nameof(Resources.FirstTargetParameterDescription), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString ParameterCountTitle = new LocalizableResourceString(nameof(Resources.TargetParameterCountTitle), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString ParameteCountMessageFormat = new LocalizableResourceString(nameof(Resources.TargetParameterCountMessageFormat), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString ParameterCountDescription = new LocalizableResourceString(nameof(Resources.TargetParameterCountDescription), Resources.ResourceManager, typeof(Resources));
         private const string Category = "TargetDefinition";
 
-        private static DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
+        private static DiagnosticDescriptor FirstParameterMustBeOfTypeITarget = new DiagnosticDescriptor(DiagnosticId, FirstTargetParameterTitle, FirstTargetParameterMessageFormat, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: FirstTargetParameterDescription);
 
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return ImmutableArray.Create(Rule); } }
+        private static DiagnosticDescriptor AttributeAndMethodParameterCountMustBeTheSame = new DiagnosticDescriptor(DiagnosticId, ParameterCountTitle, ParameteCountMessageFormat, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: ParameterCountDescription);
+
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return ImmutableArray.Create(FirstParameterMustBeOfTypeITarget, AttributeAndMethodParameterCountMustBeTheSame); } }
 
         public override void Initialize(AnalysisContext context)
         {
@@ -38,18 +43,31 @@ namespace FlubuClore.Analyzer
 
             foreach (var attribute in attributes)
             {
+                ImmutableArray<TypedConstant> attributeParameters;
+                bool hasAttributeParameters = false;
+                if (attribute.ConstructorArguments.Length > 1)
+                {
+                    hasAttributeParameters = true;
+                    attributeParameters = attribute.ConstructorArguments[1].Values;
+                }
+
                 if (attribute.AttributeClass.Name == "Target") 
                 {
                     if (methodSymbol.Parameters.Length == 0)
                     {
-                        var diagnostic = Diagnostic.Create(Rule, methodSymbol.Locations[0], methodSymbol.Name);
+                        var diagnostic = Diagnostic.Create(FirstParameterMustBeOfTypeITarget, methodSymbol.Locations[0], methodSymbol.Name);
                         context.ReportDiagnostic(diagnostic);
-                        return;
                     }
-
-                    if (methodSymbol.Parameters[0].Type.Name != "ITarget")
+                    else if (methodSymbol.Parameters[0].Type.Name != "ITarget")
                     {
-                        var diagnostic = Diagnostic.Create(Rule, methodSymbol.Locations[0], methodSymbol.Name);
+                        var diagnostic = Diagnostic.Create(FirstParameterMustBeOfTypeITarget, methodSymbol.Locations[0], methodSymbol.Name);
+                        context.ReportDiagnostic(diagnostic);
+                    }
+                    
+                    else if (hasAttributeParameters && methodSymbol.Parameters.Length != attributeParameters.Length +1)
+                    {
+                        var attributeSyntax = (AttributeSyntax)attribute.ApplicationSyntaxReference.GetSyntax(context.CancellationToken);
+                        var diagnostic = Diagnostic.Create(AttributeAndMethodParameterCountMustBeTheSame, attributeSyntax.GetLocation(), methodSymbol.Name);
                         context.ReportDiagnostic(diagnostic);
                     }
                 }
