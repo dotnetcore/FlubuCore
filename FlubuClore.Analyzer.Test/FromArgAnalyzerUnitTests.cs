@@ -114,6 +114,62 @@ namespace FlubuCore.WebApi.Tests
             VerifyCSharpDiagnostic(test, expected);
         }
 
+        [TestMethod]
+        public void FromArgKeyValueShouldNotStartWithDashTest()
+        {
+            var test = @"
+using System;
+using System.IO;
+using FlubuCore.Context;
+using FlubuCore.Context.FluentInterface;
+using FlubuCore.Context.FluentInterface.Interfaces;
+using FlubuCore.Scripting;
+using FlubuCore.Targeting;
+using Moq;
+
+namespace FlubuCore.WebApi.Tests
+{
+   public class FromArgAttribute : Attribute
+    {
+        public FromArgAttribute(string argKey, string help = null)
+        {
+            ArgKey = argKey;
+            Help = help;
+        }
+
+        public string ArgKey { get; }
+
+        public string Help { get; }
+    }
+
+    public class SimpleScript : DefaultBuildScript
+    {
+
+        [FromArg(""-t"")]
+        public bool Test { get; set; }
+
+        protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
+        {
+        }
+
+        protected override void ConfigureTargets(ITaskContext session)
+        {
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+            {
+                Id = "FlubuCore_FromArgKeyShoudNotStartWithDash",
+                Message = "Key should not start with dash.",
+                Severity = DiagnosticSeverity.Warning,
+                Locations =
+                    new[] {
+                        new DiagnosticResultLocation("Test0.cs", 29, 10)
+                    }
+            };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
         
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
         {

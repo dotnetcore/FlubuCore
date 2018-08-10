@@ -116,6 +116,33 @@ namespace FlubuClore.Analyzer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Key should not start with dash..
+        /// </summary>
+        internal static string KeyShouldNotStartWithDashDescription {
+            get {
+                return ResourceManager.GetString("KeyShouldNotStartWithDashDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Key should not start with dash..
+        /// </summary>
+        internal static string KeyShouldNotStartWithDashMessageFormat {
+            get {
+                return ResourceManager.GetString("KeyShouldNotStartWithDashMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong key value.
+        /// </summary>
+        internal static string KeyShouldNotStartWithDashTitle {
+            get {
+                return ResourceManager.GetString("KeyShouldNotStartWithDashTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parametrs count in method and attribute must be the same..
         /// </summary>
         internal static string TargetParameterCountDescription {

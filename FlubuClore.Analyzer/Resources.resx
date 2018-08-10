@@ -158,4 +158,13 @@
   <data name="FromArgUnsuportedPropertyTypeTitle" xml:space="preserve">
     <value>Unsuported property</value>
   </data>
+  <data name="KeyShouldNotStartWithDashDescription" xml:space="preserve">
+    <value>Key should not start with dash.</value>
+  </data>
+  <data name="KeyShouldNotStartWithDashMessageFormat" xml:space="preserve">
+    <value>Key should not start with dash.</value>
+  </data>
+  <data name="KeyShouldNotStartWithDashTitle" xml:space="preserve">
+    <value>Wrong key value</value>
+  </data>
 </root>

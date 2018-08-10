@@ -15,9 +15,7 @@ namespace FlubuClore.Analyzer
         public const string DiagnosticId = "FlubuCore_FromArgUnsuportedPropertyType";
 
         public const string DianogsticId2 = "FlubuCore_FromArgKeyShoudNotStartWithDash";
-
-        // You can change these strings in the Resources.resx file. If you do not want your analyzer to be localize-able, you can use regular strings for Title and MessageFormat.
-        // See https://github.com/dotnet/roslyn/blob/master/docs/analyzers/Localizing%20Analyzers.md for more on localization
+    
         private static readonly LocalizableString UnsuportedPropertyTypeTitle =
             new LocalizableResourceString(nameof(Resources.FromArgUnsuportedPropertyTypeTitle), Resources.ResourceManager,
                 typeof(Resources));
@@ -30,18 +28,34 @@ namespace FlubuClore.Analyzer
             new LocalizableResourceString(nameof(Resources.FirstTargetParameterDescription), Resources.ResourceManager,
                 typeof(Resources));
 
+        private static readonly LocalizableString KeyShouldNotStartWithDashTitle =
+            new LocalizableResourceString(nameof(Resources.KeyShouldNotStartWithDashTitle), Resources.ResourceManager,
+                typeof(Resources));
+
+        private static readonly LocalizableString KeyShouldNotStartWithDashMessageFormat =
+            new LocalizableResourceString(nameof(Resources.KeyShouldNotStartWithDashMessageFormat),
+                Resources.ResourceManager, typeof(Resources));
+
+        private static readonly LocalizableString KeyShouldNotStartWithDashDescription =
+            new LocalizableResourceString(nameof(Resources.KeyShouldNotStartWithDashDescription), Resources.ResourceManager,
+                typeof(Resources));
+
         private const string Category = "FromArg";
 
         private static string[] SupportedTypes = new string[]
             { "string", "short", "int", "int16", "int32", "int64", "double", "bool", "boolean", "DateTime", "uint", "ulong", "ushort"};
 
-        private static DiagnosticDescriptor FirstParameterMustBeOfTypeITarget = new DiagnosticDescriptor(DiagnosticId,
+        private static DiagnosticDescriptor PropertyTypeMustBeSupported = new DiagnosticDescriptor(DiagnosticId,
             UnsuportedPropertyTypeTitle, UnsuportedPropertyTypeMessageFormat, Category, DiagnosticSeverity.Warning,
             isEnabledByDefault: true, description: UnsuportedPropertyTypeDescription);
 
+        private static DiagnosticDescriptor WrongKeyValue = new DiagnosticDescriptor(DianogsticId2,
+            KeyShouldNotStartWithDashTitle, KeyShouldNotStartWithDashMessageFormat, Category, DiagnosticSeverity.Warning,
+            isEnabledByDefault: true, description: KeyShouldNotStartWithDashDescription);
+
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
         {
-            get { return ImmutableArray.Create(FirstParameterMustBeOfTypeITarget); }
+            get { return ImmutableArray.Create(PropertyTypeMustBeSupported, WrongKeyValue); }
         }
         
         public override void Initialize(AnalysisContext context)
@@ -69,10 +83,17 @@ namespace FlubuClore.Analyzer
 
                 if (!SupportedTypes.Contains(propertySymbol.Type.Name, StringComparer.OrdinalIgnoreCase))
                 {
-                    var attributeSyntax =
-                        (AttributeSyntax) attribute.ApplicationSyntaxReference.GetSyntax(
-                            context.CancellationToken);
-                    var diagnostic = Diagnostic.Create(FirstParameterMustBeOfTypeITarget, attributeSyntax.GetLocation(), propertySymbol.Type.Name);
+                    var attributeSyntax = (AttributeSyntax) attribute.ApplicationSyntaxReference.GetSyntax(context.CancellationToken);
+                    var diagnostic = Diagnostic.Create(PropertyTypeMustBeSupported, attributeSyntax.GetLocation(), propertySymbol.Type.Name);
+                    context.ReportDiagnostic(diagnostic);
+                }
+
+                var keyValue = attribute.ConstructorArguments[0].Value as string;
+
+                if (keyValue != null && keyValue.StartsWith("-"))
+                {
+                    var attributeSyntax = (AttributeSyntax) attribute.ApplicationSyntaxReference.GetSyntax(context.CancellationToken);
+                    var diagnostic = Diagnostic.Create(WrongKeyValue, attributeSyntax.GetLocation());
                     context.ReportDiagnostic(diagnostic);
                 }
             }
