@@ -22,7 +22,7 @@ namespace FlubuClore.Analyzer
 
         public sealed override ImmutableArray<string> FixableDiagnosticIds
         {
-            get { return ImmutableArray.Create(FlubuCloreAnalyzerAnalyzer.DiagnosticId); }
+            get { return ImmutableArray.Create(TargetParameterAnalyzer.DiagnosticId); }
         }
 
         public sealed override FixAllProvider GetFixAllProvider()
@@ -65,7 +65,7 @@ namespace FlubuClore.Analyzer
             var originalSolution = document.Project.Solution;
             var optionSet = originalSolution.Workspace.Options;
             var newSolution = await Renamer.RenameSymbolAsync(document.Project.Solution, typeSymbol, newName, optionSet, cancellationToken).ConfigureAwait(false);
-
+            
             // Return the new solution with the now-uppercase type name.
             return newSolution;
         }

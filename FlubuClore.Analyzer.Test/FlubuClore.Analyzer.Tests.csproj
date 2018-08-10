@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FlubuClore.Analyzer\FlubuClore.Analyzer.csproj" />
+    <ProjectReference Include="..\FlubuCore\FlubuCore.csproj" />
   </ItemGroup>
 
 </Project>
