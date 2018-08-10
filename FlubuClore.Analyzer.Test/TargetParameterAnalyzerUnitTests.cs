@@ -14,7 +14,7 @@ namespace FlubuClore.Analyzer.Tests
         public void CorrectTargetDefinititionTest()
         {
             var test = @"
-  using System;
+using System;
 using System.IO;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
@@ -378,12 +378,6 @@ namespace FlubuCore.WebApi.Tests
             };
 
             VerifyCSharpDiagnostic(test, expected);
-        }
-
-
-        protected override CodeFixProvider GetCSharpCodeFixProvider()
-        {
-            return new FlubuCloreAnalyzerCodeFixProvider();
         }
 
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()

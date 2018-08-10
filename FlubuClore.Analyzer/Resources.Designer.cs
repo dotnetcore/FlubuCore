@@ -89,6 +89,33 @@ namespace FlubuClore.Analyzer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to FromArg does not support specificied type on property. .
+        /// </summary>
+        internal static string FromArgUnsuportedPropertyTypeMessageDescription {
+            get {
+                return ResourceManager.GetString("FromArgUnsuportedPropertyTypeMessageDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FromArg does not support type &apos;{0}&apos; on property..
+        /// </summary>
+        internal static string FromArgUnsuportedPropertyTypeMessageFormat {
+            get {
+                return ResourceManager.GetString("FromArgUnsuportedPropertyTypeMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unsuported property.
+        /// </summary>
+        internal static string FromArgUnsuportedPropertyTypeTitle {
+            get {
+                return ResourceManager.GetString("FromArgUnsuportedPropertyTypeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parametrs count in method and attribute must be the same..
         /// </summary>
         internal static string TargetParameterCountDescription {

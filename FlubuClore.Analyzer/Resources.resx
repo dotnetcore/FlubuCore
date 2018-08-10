@@ -149,4 +149,13 @@
   <data name="TargetParameterTypeNotSameTitle" xml:space="preserve">
     <value>Wrong parameter type</value>
   </data>
+  <data name="FromArgUnsuportedPropertyTypeMessageDescription" xml:space="preserve">
+    <value>FromArg does not support specificied type on property. </value>
+  </data>
+  <data name="FromArgUnsuportedPropertyTypeMessageFormat" xml:space="preserve">
+    <value>FromArg does not support type '{0}' on property.</value>
+  </data>
+  <data name="FromArgUnsuportedPropertyTypeTitle" xml:space="preserve">
+    <value>Unsuported property</value>
+  </data>
 </root>
