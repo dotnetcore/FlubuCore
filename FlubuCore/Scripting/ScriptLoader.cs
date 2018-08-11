@@ -75,7 +75,7 @@ namespace FlubuCore.Scripting
             {
                 return await CreateBuildScriptInstanceOldWay(buildScriptFilePath, references, code, analyserResult);
             }
-            
+
             var assembly = TryLoadBuildScriptFromAssembly(buildScriptAssemblyPath, buildScriptFilePath);
 
             if (assembly != null)
