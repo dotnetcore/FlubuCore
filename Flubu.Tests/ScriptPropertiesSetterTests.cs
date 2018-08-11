@@ -41,11 +41,13 @@ namespace Flubu.Tests
             _taskSession.ScriptArgs["l"] = "23";
             _taskSession.ScriptArgs["sog"] = "true";
             _taskSession.ScriptArgs["NoAttribute"] = "Noo";
+            _taskSession.ScriptArgs["list"] = "a,b,c";
             ScriptProperties.SetPropertiesFromScriptArg(buildScript,  _taskSession);
             Assert.Equal("beda", buildScript.SolutionFileName);
             Assert.Equal(23, buildScript.Level);
             Assert.True(buildScript.StayOrGo);
             Assert.Equal("Noo", buildScript.NoAttribute);
+            Assert.Equal(3, buildScript.SomeList.Count);
         }
     }
 }

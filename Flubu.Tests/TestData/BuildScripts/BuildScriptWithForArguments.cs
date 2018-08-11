@@ -17,6 +17,9 @@ namespace Flubu.Tests.TestData.BuildScripts
         [FromArg("sog")]
         public bool StayOrGo { get; set; }
 
+        [FromArg("list")]
+        public List<string> SomeList { get; set; }
+
         public string NoAttribute { get; set; }
 
         protected override void ConfigureBuildProperties(IBuildPropertiesContext context)

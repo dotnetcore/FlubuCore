@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -24,12 +25,40 @@ namespace FlubuCore.Context
                         continue;
                     }
 
-                    property.SetValue(buildScript, MethodParameterModifier.ParseValueByType(taskSession.ScriptArgs[fromArgAttribute.ArgKey], property.PropertyType));
+                    if (property.PropertyType.GetTypeInfo().IsGenericType)
+                    {
+                        var propertyGenericTypeDefinition = property.PropertyType.GetGenericTypeDefinition();
+                        if (propertyGenericTypeDefinition == typeof(IList<>) ||
+                            propertyGenericTypeDefinition == typeof(List<>) ||
+                            propertyGenericTypeDefinition == typeof(IEnumerable<>))
+                        {
+                            var list = taskSession.ScriptArgs[fromArgAttribute.ArgKey].Split(fromArgAttribute.Seperator)
+                                .ToList();
+                            property.SetValue(buildScript, list);
+                        }
+                    }
+                    else
+                    {
+                        property.SetValue(buildScript, MethodParameterModifier.ParseValueByType(taskSession.ScriptArgs[fromArgAttribute.ArgKey], property.PropertyType));
+                    }
                 }
 
                 if (taskSession.ScriptArgs.ContainsKey(property.Name))
                 {
-                    property.SetValue(buildScript,  MethodParameterModifier.ParseValueByType(taskSession.ScriptArgs[property.Name], property.PropertyType));
+                    if (property.PropertyType.GetTypeInfo().IsGenericType)
+                    {
+                        var propertyGenericTypeDefinition = property.PropertyType.GetGenericTypeDefinition();
+                        if (propertyGenericTypeDefinition == typeof(IList<>) ||
+                            propertyGenericTypeDefinition == typeof(List<>) ||
+                            propertyGenericTypeDefinition == typeof(IEnumerable<>))
+                        {
+                            property.SetValue(buildScript, taskSession.ScriptArgs[property.Name].Split(',').ToList());
+                        }
+                    }
+                    else
+                    {
+                        property.SetValue(buildScript, MethodParameterModifier.ParseValueByType(taskSession.ScriptArgs[property.Name], property.PropertyType));
+                    }
                 }
             }
         }
