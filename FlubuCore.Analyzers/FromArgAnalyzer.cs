@@ -37,7 +37,7 @@ namespace FlubuClore.Analyzer
         private const string Category = "FromArg";
 
         private static string[] SupportedTypes = new string[]
-            { "string", "short", "int", "int16", "int32", "int64", "double", "bool", "boolean", "DateTime", "uint", "ulong", "ushort"};
+            { "string", "short", "int", "int16", "int32", "int64", "double", "bool", "boolean", "DateTime", "uint", "ulong", "ushort", "List", "IList", "IEnumerable"};
 
         private static DiagnosticDescriptor PropertyTypeMustBeSupported = new DiagnosticDescriptor(DiagnosticId,
             UnsuportedPropertyTypeTitle, UnsuportedPropertyTypeMessageFormat, Category, DiagnosticSeverity.Warning,
@@ -77,7 +77,7 @@ namespace FlubuClore.Analyzer
 
                 if (!SupportedTypes.Contains(propertySymbol.Type.Name, StringComparer.OrdinalIgnoreCase))
                 {
-                    var attributeSyntax = (AttributeSyntax) attribute.ApplicationSyntaxReference.GetSyntax(context.CancellationToken);
+                    var attributeSyntax = (AttributeSyntax)attribute.ApplicationSyntaxReference.GetSyntax(context.CancellationToken);
                     var diagnostic = Diagnostic.Create(PropertyTypeMustBeSupported, attributeSyntax.GetLocation(), propertySymbol.Type.Name);
                     context.ReportDiagnostic(diagnostic);
                 }
@@ -86,7 +86,7 @@ namespace FlubuClore.Analyzer
 
                 if (keyValue != null && keyValue.StartsWith("-"))
                 {
-                    var attributeSyntax = (AttributeSyntax) attribute.ApplicationSyntaxReference.GetSyntax(context.CancellationToken);
+                    var attributeSyntax = (AttributeSyntax)attribute.ApplicationSyntaxReference.GetSyntax(context.CancellationToken);
                     var diagnostic = Diagnostic.Create(WrongKeyValue, attributeSyntax.GetLocation());
                     context.ReportDiagnostic(diagnostic);
                 }

@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using FlubuClore.Analyzer;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestHelper;
 
-namespace FlubuClore.Analyzer.Tests
+namespace FlubuCore.Analyzers.Tests
 {
     [TestClass]
     public class FromArgAnalyzerUnitTests : CodeFixVerifier
@@ -43,7 +42,7 @@ namespace FlubuCore.WebApi.Tests
     {
 
         [FromArg(""t"")]
-        public Int64 Test { get; set; }
+        public List<string> Test { get; set; }
 
         protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
         {
