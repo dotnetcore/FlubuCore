@@ -13,7 +13,11 @@ namespace FlubuClore.Analyzer
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class TargetParameterAnalyzer : DiagnosticAnalyzer
     {
-        public const string DiagnosticId = "FlubuCore_TargetParameterAnalyzer";
+        public const string FirstParameterMustBeOfTypeITargetDiagnosticId = "FlubuCore_TargetParameter_001";
+
+        public const string AttributeAndMethodParameterCountMustBeTheSameDiagnosticId = "FlubuCore_TargetParameter_002";
+
+        public const string AttributeAndMethodParameterTypeMustBeTheSameDiagnosticId = "FlubuCore_TargetParameter_003";
 
         // You can change these strings in the Resources.resx file. If you do not want your analyzer to be localize-able, you can use regular strings for Title and MessageFormat.
         // See https://github.com/dotnet/roslyn/blob/master/docs/analyzers/Localizing%20Analyzers.md for more on localization
@@ -56,16 +60,16 @@ namespace FlubuClore.Analyzer
 
         private const string Category = "TargetDefinition";
 
-        private static DiagnosticDescriptor FirstParameterMustBeOfTypeITarget = new DiagnosticDescriptor(DiagnosticId,
+        private static DiagnosticDescriptor FirstParameterMustBeOfTypeITarget = new DiagnosticDescriptor(FirstParameterMustBeOfTypeITargetDiagnosticId,
             FirstTargetParameterTitle, FirstTargetParameterMessageFormat, Category, DiagnosticSeverity.Warning,
             isEnabledByDefault: true, description: FirstTargetParameterDescription);
 
         private static DiagnosticDescriptor AttributeAndMethodParameterCountMustBeTheSame =
-            new DiagnosticDescriptor(DiagnosticId, ParameterCountTitle, ParameteCountMessageFormat, Category,
+            new DiagnosticDescriptor(AttributeAndMethodParameterCountMustBeTheSameDiagnosticId, ParameterCountTitle, ParameteCountMessageFormat, Category,
                 DiagnosticSeverity.Warning, isEnabledByDefault: true, description: ParameterCountDescription);
 
         private static DiagnosticDescriptor AttributeAndMethodParameterTypeMustBeTheSame =
-            new DiagnosticDescriptor(DiagnosticId, ParameterNotSameTitle, ParameteNotSameFormat, Category,
+            new DiagnosticDescriptor(AttributeAndMethodParameterCountMustBeTheSameDiagnosticId, ParameterNotSameTitle, ParameteNotSameFormat, Category,
                 DiagnosticSeverity.Warning, isEnabledByDefault: true, description: ParameterNotSameDescription);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics

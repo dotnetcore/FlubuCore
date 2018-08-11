@@ -12,9 +12,9 @@ namespace FlubuClore.Analyzer
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class FromArgAnalyzer : DiagnosticAnalyzer
     {
-        public const string DiagnosticId = "FlubuCore_FromArgUnsuportedPropertyType";
+        public const string DiagnosticId = "FlubuCore_FromArg_001";
 
-        public const string DianogsticId2 = "FlubuCore_FromArgKeyShoudNotStartWithDash";
+        public const string DianogsticId2 = "FlubuCore_FromArg_002";
     
         private static readonly LocalizableString UnsuportedPropertyTypeTitle =
             new LocalizableResourceString(nameof(Resources.FromArgUnsuportedPropertyTypeTitle), Resources.ResourceManager,
