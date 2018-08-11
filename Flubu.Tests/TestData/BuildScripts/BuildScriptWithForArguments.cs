@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Scripting;
+using FlubuCore.Targeting;
 
 namespace Flubu.Tests.TestData.BuildScripts
 {
@@ -17,10 +19,15 @@ namespace Flubu.Tests.TestData.BuildScripts
         [FromArg("sog")]
         public bool StayOrGo { get; set; }
 
-        [FromArg("list")]
-        public List<string> SomeList { get; set; }
+        [FromArg("-list")]
+        public List<object> SomeList { get; set; }
 
         public string NoAttribute { get; set; }
+
+        [Target("Test", "atgfwegew", "Fsad")]
+        protected void Test(ITarget target, int a, string b)
+        {
+        }
 
         protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
         {

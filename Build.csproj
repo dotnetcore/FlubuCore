@@ -20,6 +20,8 @@
     <Compile Remove="FlubuCore.Analyser.Vsix\**" />
     <Compile Remove="FlubuCore.Analyser\**" />
     <Compile Remove="FlubuCore.Analyzer.Test\**" />
+    <Compile Remove="FlubuCore.Analyzers.Tests\**" />
+    <Compile Remove="FlubuCore.Analyzers\**" />
     <Compile Remove="FlubuCore.Analyzer\**" />
     <Compile Remove="FlubuCore.GlobalTool\**" />
     <Compile Remove="FlubuCore.Runner\**" />
@@ -46,6 +48,8 @@
     <EmbeddedResource Remove="FlubuCore.Analyser.Vsix\**" />
     <EmbeddedResource Remove="FlubuCore.Analyser\**" />
     <EmbeddedResource Remove="FlubuCore.Analyzer.Test\**" />
+    <EmbeddedResource Remove="FlubuCore.Analyzers.Tests\**" />
+    <EmbeddedResource Remove="FlubuCore.Analyzers\**" />
     <EmbeddedResource Remove="FlubuCore.Analyzer\**" />
     <EmbeddedResource Remove="FlubuCore.GlobalTool\**" />
     <EmbeddedResource Remove="FlubuCore.Runner\**" />
@@ -72,6 +76,8 @@
     <None Remove="FlubuCore.Analyser.Vsix\**" />
     <None Remove="FlubuCore.Analyser\**" />
     <None Remove="FlubuCore.Analyzer.Test\**" />
+    <None Remove="FlubuCore.Analyzers.Tests\**" />
+    <None Remove="FlubuCore.Analyzers\**" />
     <None Remove="FlubuCore.Analyzer\**" />
     <None Remove="FlubuCore.GlobalTool\**" />
     <None Remove="FlubuCore.Runner\**" />
