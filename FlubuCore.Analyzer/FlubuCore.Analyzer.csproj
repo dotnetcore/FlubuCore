@@ -7,17 +7,18 @@
   </PropertyGroup>
   
   <PropertyGroup>
-    <PackageId>FlubuClore.Analyzer</PackageId>
+    <PackageId>FlubuCore.Analyzer</PackageId>
     <PackageVersion>1.0.0.0</PackageVersion>
     <Authors>markoz</Authors>
     <PackageLicenseUrl>http://www.opensource.org/licenses/bsd-license.php</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/flubu-core/flubu.core</PackageProjectUrl>
     <RepositoryUrl>https://github.com/flubu-core/flubu.core</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>FlubuClore.Analyzer</Description>
+    <Description>Roslyn Analyzer for FlubuCore. A cross platform build and deployment automation system for building projects and executing deployment scripts using C# code.
+      </Description>
     <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
     <Copyright>Copyright</Copyright>
-    <PackageTags>FlubuClore.Analyzer, analyzers</PackageTags>
+    <PackageTags>FlubuCore.Analyzer, analyzers</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
    
