@@ -50,7 +50,7 @@ namespace FlubuCore.Analyzers
 
         private static DiagnosticDescriptor AttributeAndMethodParameterTypeMustBeTheSame =
             new DiagnosticDescriptor(AttributeAndMethodParameterTypeMustBeTheSameDiagnosticId, ParameterTypeNotSameTitle, ParameterTypeNotSameMessageFormat, Category,
-                DiagnosticSeverity.Error isEnabledByDefault: true, description: ParameterTypeNotSameDescription);
+                DiagnosticSeverity.Error, isEnabledByDefault: true, description: ParameterTypeNotSameDescription);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
         {

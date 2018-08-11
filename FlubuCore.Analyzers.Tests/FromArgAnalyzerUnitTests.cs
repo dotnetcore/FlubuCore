@@ -103,7 +103,7 @@ namespace FlubuCore.WebApi.Tests
             {
                 Id = "FlubuCore_FromArg_001",
                 Message = String.Format("FromArg does not support type '{0}' on property.",  "Object"),
-                Severity = DiagnosticSeverity.Warning,
+                Severity = DiagnosticSeverity.Error,
                 Locations =
                     new[] {
                         new DiagnosticResultLocation("Test0.cs", 30, 23)
@@ -160,7 +160,7 @@ namespace FlubuCore.WebApi.Tests
             {
                 Id = "FlubuCore_FromArg_002",
                 Message = "Key should not start with dash.",
-                Severity = DiagnosticSeverity.Warning,
+                Severity = DiagnosticSeverity.Error,
                 Locations =
                     new[] {
                         new DiagnosticResultLocation("Test0.cs", 29, 10)

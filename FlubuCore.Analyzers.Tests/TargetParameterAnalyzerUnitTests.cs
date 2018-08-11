@@ -91,7 +91,7 @@ namespace FlubuCore.WebApi.Tests
             {
                 Id = "FlubuCore_TargetParameter_001",
                 Message = String.Format("First parameter in method '{0}' must be of type ITarget.", "SuccesfullTarget"),
-                Severity = DiagnosticSeverity.Warning,
+                Severity = DiagnosticSeverity.Error,
                 Locations =
                     new[] {
                         new DiagnosticResultLocation("Test0.cs", 24, 21)
@@ -136,7 +136,7 @@ namespace FlubuCore.WebApi.Tests
             {
                 Id = "FlubuCore_TargetParameter_001",
                 Message = String.Format("First parameter in method '{0}' must be of type ITarget.", "SuccesfullTarget"),
-                Severity = DiagnosticSeverity.Warning,
+                Severity = DiagnosticSeverity.Error,
                 Locations =
                     new[] {
                         new DiagnosticResultLocation("Test0.cs", 24, 21)
@@ -194,7 +194,7 @@ namespace FlubuCore.WebApi.Tests
             {
                 Id = "FlubuCore_TargetParameter_002",
                 Message = String.Format("Parameters count in attribute and  method '{0}' must be the same.", "SuccesfullTarget"),
-                Severity = DiagnosticSeverity.Warning,
+                Severity = DiagnosticSeverity.Error,
                 Locations =
                     new[] {
                         new DiagnosticResultLocation("Test0.cs", 36, 10)
@@ -253,7 +253,7 @@ namespace FlubuCore.WebApi.Tests
             {
                 Id = "FlubuCore_TargetParameter_002",
                 Message = String.Format("Parameters count in attribute and  method '{0}' must be the same.", "SuccesfullTarget"),
-                Severity = DiagnosticSeverity.Warning,
+                Severity = DiagnosticSeverity.Error,
                 Locations =
                     new[] {
                         new DiagnosticResultLocation("Test0.cs", 36, 10)
@@ -311,7 +311,7 @@ namespace FlubuCore.WebApi.Tests
             {
                 Id = "FlubuCore_TargetParameterAnalyzer",
                 Message = String.Format("Parameters count in attribute and  method '{0}' must be the same.", "SuccesfullTarget"),
-                Severity = DiagnosticSeverity.Warning,
+                Severity = DiagnosticSeverity.Error,
                 Locations =
                     new[] {
                         new DiagnosticResultLocation("Test0.cs", 36, 10)
@@ -369,7 +369,7 @@ namespace FlubuCore.WebApi.Tests
             {
                 Id = "FlubuCore_TargetParameter_003",
                 Message = String.Format("Parameter must be of same type as '{0}' method parameter '{1}'.", "SuccesfullTarget",  "path"),
-                Severity = DiagnosticSeverity.Warning,
+                Severity = DiagnosticSeverity.Error,
                 Locations =
                     new[] {
                         new DiagnosticResultLocation("Test0.cs", 36, 35)
