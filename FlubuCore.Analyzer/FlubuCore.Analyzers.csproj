@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFramework>netstandard1.6</TargetFramework>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
   
   <PropertyGroup>
-    <PackageId>FlubuCore.Analyzer</PackageId>
+    <PackageId>FlubuCore.Analyzers</PackageId>
     <PackageVersion>1.0.1.0</PackageVersion>
     <Authors>markoz</Authors>
     <PackageLicenseUrl>http://www.opensource.org/licenses/bsd-license.php</PackageLicenseUrl>
@@ -18,7 +18,7 @@
       </Description>
     <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
     <Copyright>Copyright</Copyright>
-    <PackageTags>FlubuCore.Analyzer, analyzers</PackageTags>
+    <PackageTags>FlubuCore.Analyzers, analyzers</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
    

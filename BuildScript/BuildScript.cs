@@ -50,7 +50,7 @@ public class BuildScript : DefaultBuildScript
                 .Project("FlubuCore.GlobalTool").IncludeSymbols()
                 .OutputDirectory("..\\output"))
             .AddCoreTask(x => x.Pack()
-                .Project("FlubuCore.Analyzer").IncludeSymbols()
+                .Project("FlubuCore.Analyzers").IncludeSymbols()
                 .OutputDirectory("..\\output"))
             .DependsOn(buildVersion);
 
@@ -186,7 +186,7 @@ public class BuildScript : DefaultBuildScript
         context.CoreTasks().ExecuteDotnetTask("nuget")
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.Analyzer. exception: {e.Message}"); })
             .WithArguments("push")
-            .WithArguments($"output\\FlubuCore.Analyzer.1.0.1.nupkg")
+            .WithArguments($"output\\FlubuCore.Analyzers.1.0.1.nupkg")
             .WithArguments("-s", "https://www.nuget.org/api/v2/package")
             .WithArguments("-k", key).Execute(context);
 

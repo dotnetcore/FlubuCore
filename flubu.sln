@@ -23,9 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.GlobalTool", "Flu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analyzers And Extensions", "Analyzers And Extensions", "{A995EB83-A953-43F1-B986-23AF162ACEC9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.Analyzer", "FlubuCore.Analyzer\FlubuCore.Analyzer.csproj", "{915CF6FE-65DA-4953-9581-E36C2C4B5AA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.Analyzers", "FlubuCore.Analyzer\FlubuCore.Analyzers.csproj", "{915CF6FE-65DA-4953-9581-E36C2C4B5AA7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.Analyzer.Tests", "FlubuCore.Analyzer.Test\FlubuCore.Analyzer.Tests.csproj", "{EB607CCD-E485-4C78-A066-EFBB25567F1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.Analyzers.Tests", "FlubuCore.Analyzer.Test\FlubuCore.Analyzers.Tests.csproj", "{EB607CCD-E485-4C78-A066-EFBB25567F1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
