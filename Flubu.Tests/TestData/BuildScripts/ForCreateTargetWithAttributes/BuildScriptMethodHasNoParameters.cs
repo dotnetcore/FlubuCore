@@ -18,7 +18,9 @@ namespace Flubu.Tests.TestData.BuildScripts.ForCreateTargetWithAttributes
         }
 
         [Target("Test")]
+#pragma warning disable FlubuCore_TargetParameter_001 // Wrong first parameter
         public void TestTarget()
+#pragma warning restore FlubuCore_TargetParameter_001 // Wrong first parameter
         {
         }
     }

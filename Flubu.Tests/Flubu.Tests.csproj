@@ -26,6 +26,10 @@
   </ItemGroup>
  
   <ItemGroup>
+    <Compile Remove="TestData\BuildScripts\ForCreateTargetWithAttributes\BuildScriptParameterTypeMismatch.cs" />
+  </ItemGroup>
+ 
+  <ItemGroup>
     <None Remove="appsettings.json" />
     <None Remove="appsettings2.json" />
   </ItemGroup>

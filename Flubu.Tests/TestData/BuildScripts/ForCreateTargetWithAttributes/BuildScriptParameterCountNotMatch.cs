@@ -18,8 +18,10 @@ namespace Flubu.Tests.TestData.BuildScripts
         {
         }
 
+#pragma warning disable FlubuCore_TargetParameter_002 // Wrong parameter count
         [Target("Test", "value", 1)]
         public void TestTarget(ITarget target, string param)
+#pragma warning restore FlubuCore_TargetParameter_002 // Wrong parameter count
         {
         }
     }

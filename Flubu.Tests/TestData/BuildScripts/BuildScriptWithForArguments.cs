@@ -24,7 +24,7 @@ namespace Flubu.Tests.TestData.BuildScripts
 
         public string NoAttribute { get; set; }
 
-        [Target("Test", "atgfwegew", "Fsad")]
+        [Target("Test", 1, "Fsad")]
         protected void Test(ITarget target, int a, string b)
         {
         }

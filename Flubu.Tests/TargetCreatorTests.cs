@@ -66,11 +66,11 @@ namespace Flubu.Tests
             Assert.Equal("Failed to create target 'Test'. Method parameters TestTarget do not match count of attribute parametrs.", ex.Message);
         }
 
-        [Fact]
-        public void CreateTargetFromMethodAttributes_MethodAndAttributeParameterTypeMismatch_ThrowsScriptException()
-        {
-            var ex = Assert.Throws<ScriptException>(() => TargetCreator.CreateTargetFromMethodAttributes(new BuildScriptParameterTypeMismatch(), _taskSession));
-            Assert.Equal("Failed to create target 'Test'. Attribute parameter 21 does not match 'TestTarget' method parameter 21. Expected System.String Actual: System.Int32", ex.Message);
-        }
+        ////[Fact]
+        ////public void CreateTargetFromMethodAttributes_MethodAndAttributeParameterTypeMismatch_ThrowsScriptException()
+        ////{
+        ////    var ex = Assert.Throws<ScriptException>(() => TargetCreator.CreateTargetFromMethodAttributes(new BuildScriptParameterTypeMismatch(), _taskSession));
+        ////    Assert.Equal("Failed to create target 'Test'. Attribute parameter 21 does not match 'TestTarget' method parameter 21. Expected System.String Actual: System.Int32", ex.Message);
+        ////}
     }
 }
