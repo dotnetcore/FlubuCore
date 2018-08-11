@@ -15,30 +15,24 @@ namespace FlubuClore.Analyzer
         public const string DiagnosticId = "FlubuCore_FromArg_001";
 
         public const string DianogsticId2 = "FlubuCore_FromArg_002";
-    
-        private static readonly LocalizableString UnsuportedPropertyTypeTitle =
-            new LocalizableResourceString(nameof(Resources.FromArgUnsuportedPropertyTypeTitle), Resources.ResourceManager,
-                typeof(Resources));
+
+        private static readonly LocalizableString UnsuportedPropertyTypeTitle = "Unsuported property type";
+
 
         private static readonly LocalizableString UnsuportedPropertyTypeMessageFormat =
-            new LocalizableResourceString(nameof(Resources.FromArgUnsuportedPropertyTypeMessageFormat),
-                Resources.ResourceManager, typeof(Resources));
+            "FromArg does not support type '{0}' on property.";
 
         private static readonly LocalizableString UnsuportedPropertyTypeDescription =
-            new LocalizableResourceString(nameof(Resources.FirstTargetParameterDescription), Resources.ResourceManager,
-                typeof(Resources));
+            "FromArg does not support specificied type on property. ";
 
         private static readonly LocalizableString KeyShouldNotStartWithDashTitle =
-            new LocalizableResourceString(nameof(Resources.KeyShouldNotStartWithDashTitle), Resources.ResourceManager,
-                typeof(Resources));
+            "Wrong key value";
 
         private static readonly LocalizableString KeyShouldNotStartWithDashMessageFormat =
-            new LocalizableResourceString(nameof(Resources.KeyShouldNotStartWithDashMessageFormat),
-                Resources.ResourceManager, typeof(Resources));
+            "Key should not start with dash.";
 
         private static readonly LocalizableString KeyShouldNotStartWithDashDescription =
-            new LocalizableResourceString(nameof(Resources.KeyShouldNotStartWithDashDescription), Resources.ResourceManager,
-                typeof(Resources));
+            "Key should not start with dash.";
 
         private const string Category = "FromArg";
 

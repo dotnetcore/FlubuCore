@@ -19,44 +19,29 @@ namespace FlubuClore.Analyzer
 
         public const string AttributeAndMethodParameterTypeMustBeTheSameDiagnosticId = "FlubuCore_TargetParameter_003";
 
-        // You can change these strings in the Resources.resx file. If you do not want your analyzer to be localize-able, you can use regular strings for Title and MessageFormat.
-        // See https://github.com/dotnet/roslyn/blob/master/docs/analyzers/Localizing%20Analyzers.md for more on localization
-        private static readonly LocalizableString FirstTargetParameterTitle =
-            new LocalizableResourceString(nameof(Resources.FirstTargetParameterTitle), Resources.ResourceManager,
-                typeof(Resources));
+        private static readonly LocalizableString FirstTargetParameterTitle  ="Wrong first parameter";
 
-        private static readonly LocalizableString FirstTargetParameterMessageFormat =
-            new LocalizableResourceString(nameof(Resources.FirstTargetParameterMessageFormat),
-                Resources.ResourceManager, typeof(Resources));
+        private static readonly string FirstTargetParameterMessageFormat =
+            "First parameter in method '{0}' must be of type ITarget.";
 
-        private static readonly LocalizableString FirstTargetParameterDescription =
-            new LocalizableResourceString(nameof(Resources.FirstTargetParameterDescription), Resources.ResourceManager,
-                typeof(Resources));
+        private static readonly string FirstTargetParameterDescription =
+            "First paramter in method must be of type ITarget.";
 
-        private static readonly LocalizableString ParameterCountTitle =
-            new LocalizableResourceString(nameof(Resources.TargetParameterCountTitle), Resources.ResourceManager,
-                typeof(Resources));
-
+        private static readonly string ParameterCountTitle = "Wrong parameter count";
+      
         private static readonly LocalizableString ParameteCountMessageFormat =
-            new LocalizableResourceString(nameof(Resources.TargetParameterCountMessageFormat),
-                Resources.ResourceManager, typeof(Resources));
+            "Parameters count in attribute and  method '{0}' must be the same.";
 
         private static readonly LocalizableString ParameterCountDescription =
-            new LocalizableResourceString(nameof(Resources.TargetParameterCountDescription), Resources.ResourceManager,
-                typeof(Resources));
+            "Parametrs count in method and attribute must be the same.";
 
-        private static readonly LocalizableString ParameterNotSameTitle =
-            new LocalizableResourceString(nameof(Resources.TargetParameterTypeNotSameTitle), Resources.ResourceManager,
-                typeof(Resources));
+        private static readonly LocalizableString ParameterTypeNotSameTitle = "Wrong parameter type";
 
-        private static readonly LocalizableString ParameteNotSameFormat =
-            new LocalizableResourceString(nameof(Resources.TargetParameterTypeNotSameMessageFormat),
-                Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString ParameterTypeNotSameMessageFormat =
+            "Parameter must be of same type as '{0}' method parameter '{1}'.";
 
-        private static readonly LocalizableString ParameterNotSameDescription =
-            new LocalizableResourceString(nameof(Resources.TargetParameterTypeNotSameDescritpion),
-                Resources.ResourceManager, typeof(Resources));
-
+        private static readonly LocalizableString ParameterTypeNotSameDescription =
+            "Target parameter must be of same type as method parameter.";
 
         private const string Category = "TargetDefinition";
 
@@ -69,8 +54,8 @@ namespace FlubuClore.Analyzer
                 DiagnosticSeverity.Warning, isEnabledByDefault: true, description: ParameterCountDescription);
 
         private static DiagnosticDescriptor AttributeAndMethodParameterTypeMustBeTheSame =
-            new DiagnosticDescriptor(AttributeAndMethodParameterCountMustBeTheSameDiagnosticId, ParameterNotSameTitle, ParameteNotSameFormat, Category,
-                DiagnosticSeverity.Warning, isEnabledByDefault: true, description: ParameterNotSameDescription);
+            new DiagnosticDescriptor(AttributeAndMethodParameterCountMustBeTheSameDiagnosticId, ParameterTypeNotSameTitle, ParameterTypeNotSameMessageFormat, Category,
+                DiagnosticSeverity.Warning, isEnabledByDefault: true, description: ParameterTypeNotSameDescription);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
         {
