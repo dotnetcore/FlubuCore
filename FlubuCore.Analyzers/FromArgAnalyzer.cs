@@ -40,11 +40,11 @@ namespace FlubuClore.Analyzer
             { "string", "short", "int", "int16", "int32", "int64", "double", "bool", "boolean", "DateTime", "uint", "ulong", "ushort", "List", "IList", "IEnumerable"};
 
         private static DiagnosticDescriptor PropertyTypeMustBeSupported = new DiagnosticDescriptor(DiagnosticId,
-            UnsuportedPropertyTypeTitle, UnsuportedPropertyTypeMessageFormat, Category, DiagnosticSeverity.Warning,
+            UnsuportedPropertyTypeTitle, UnsuportedPropertyTypeMessageFormat, Category, DiagnosticSeverity.Error,
             isEnabledByDefault: true, description: UnsuportedPropertyTypeDescription);
 
         private static DiagnosticDescriptor WrongKeyValue = new DiagnosticDescriptor(DianogsticId2,
-            KeyShouldNotStartWithDashTitle, KeyShouldNotStartWithDashMessageFormat, Category, DiagnosticSeverity.Warning,
+            KeyShouldNotStartWithDashTitle, KeyShouldNotStartWithDashMessageFormat, Category, DiagnosticSeverity.Error,
             isEnabledByDefault: true, description: KeyShouldNotStartWithDashDescription);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics

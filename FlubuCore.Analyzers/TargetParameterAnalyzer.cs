@@ -41,16 +41,16 @@ namespace FlubuCore.Analyzers
         private const string Category = "TargetDefinition";
 
         private static DiagnosticDescriptor FirstParameterMustBeOfTypeITarget = new DiagnosticDescriptor(FirstParameterMustBeOfTypeITargetDiagnosticId,
-            FirstTargetParameterTitle, FirstTargetParameterMessageFormat, Category, DiagnosticSeverity.Warning,
+            FirstTargetParameterTitle, FirstTargetParameterMessageFormat, Category, DiagnosticSeverity.Error,
             isEnabledByDefault: true, description: FirstTargetParameterDescription);
 
         private static DiagnosticDescriptor AttributeAndMethodParameterCountMustBeTheSame =
             new DiagnosticDescriptor(AttributeAndMethodParameterCountMustBeTheSameDiagnosticId, ParameterCountTitle, ParameteCountMessageFormat, Category,
-                DiagnosticSeverity.Warning, isEnabledByDefault: true, description: ParameterCountDescription);
+                DiagnosticSeverity.Error, isEnabledByDefault: true, description: ParameterCountDescription);
 
         private static DiagnosticDescriptor AttributeAndMethodParameterTypeMustBeTheSame =
             new DiagnosticDescriptor(AttributeAndMethodParameterTypeMustBeTheSameDiagnosticId, ParameterTypeNotSameTitle, ParameterTypeNotSameMessageFormat, Category,
-                DiagnosticSeverity.Warning, isEnabledByDefault: true, description: ParameterTypeNotSameDescription);
+                DiagnosticSeverity.Error isEnabledByDefault: true, description: ParameterTypeNotSameDescription);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
         {
