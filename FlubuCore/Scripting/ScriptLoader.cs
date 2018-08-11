@@ -73,11 +73,9 @@ namespace FlubuCore.Scripting
 
             if (oldWay)
             {
-                Console.WriteLine("Doing the old way!");
                 return await CreateBuildScriptInstanceOldWay(buildScriptFilePath, references, code, analyserResult);
             }
-
-            Console.WriteLine("Doing it the new way!");
+            
             var assembly = TryLoadBuildScriptFromAssembly(buildScriptAssemblyPath, buildScriptFilePath);
 
             if (assembly != null)
@@ -232,7 +230,6 @@ namespace FlubuCore.Scripting
 
             references = assemblyReferenceLocations.Select(i =>
             {
-                Console.WriteLine($"Creating: {i}");
                 return MetadataReference.CreateFromFile(i);
             });
 #if !NET462
