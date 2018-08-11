@@ -1,3 +1,6 @@
+2.11.0.0
+- relase notes comming soon.
+
 2.10.0.0
 - Json configuration file can now be specified by machine name. FlubuSettings.{MachineName}.Json
 - Option to retry a task only when specified condition is meet.
