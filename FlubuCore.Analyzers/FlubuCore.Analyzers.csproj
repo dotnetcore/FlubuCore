@@ -8,7 +8,7 @@
   
   <PropertyGroup>
     <PackageId>FlubuCore.Analyzers</PackageId>
-    <PackageVersion>1.0.1.0</PackageVersion>
+    <PackageVersion>1.0.2.0</PackageVersion>
     <Authors>markoz</Authors>
     <PackageLicenseUrl>http://www.opensource.org/licenses/bsd-license.php</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/flubu-core/flubu.core</PackageProjectUrl>
