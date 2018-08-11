@@ -49,7 +49,7 @@ namespace FlubuCore.Analyzers
                 DiagnosticSeverity.Warning, isEnabledByDefault: true, description: ParameterCountDescription);
 
         private static DiagnosticDescriptor AttributeAndMethodParameterTypeMustBeTheSame =
-            new DiagnosticDescriptor(AttributeAndMethodParameterCountMustBeTheSameDiagnosticId, ParameterTypeNotSameTitle, ParameterTypeNotSameMessageFormat, Category,
+            new DiagnosticDescriptor(AttributeAndMethodParameterTypeMustBeTheSameDiagnosticId, ParameterTypeNotSameTitle, ParameterTypeNotSameMessageFormat, Category,
                 DiagnosticSeverity.Warning, isEnabledByDefault: true, description: ParameterTypeNotSameDescription);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
@@ -101,7 +101,11 @@ namespace FlubuCore.Analyzers
 
                 else if (hasAttributeParameters && methodSymbol.Parameters.Length != attributeParameters.Length + 1)
                 {
-                    var diagnostic = Diagnostic.Create(AttributeAndMethodParameterCountMustBeTheSame, methodSymbol.Locations[0], methodSymbol.Name);
+                    var attributeSyntax =
+                        (AttributeSyntax) attribute.ApplicationSyntaxReference.GetSyntax(
+                            context.CancellationToken);
+                  
+                    var diagnostic = Diagnostic.Create(AttributeAndMethodParameterCountMustBeTheSame, attributeSyntax.GetLocation(), methodSymbol.Name);
                     context.ReportDiagnostic(diagnostic);
                 }
                 else

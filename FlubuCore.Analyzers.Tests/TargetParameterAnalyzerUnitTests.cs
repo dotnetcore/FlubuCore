@@ -1,12 +1,10 @@
 using System;
-using FlubuCore.Analyzers;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestHelper;
 
-namespace FlubuClore.Analyzer.Tests
+namespace FlubuCore.Analyzers.Tests
 {
     [TestClass]
     public class TargetParameterAnalyzerUnitTests : CodeFixVerifier
@@ -91,7 +89,7 @@ namespace FlubuCore.WebApi.Tests
 }";
             var expected = new DiagnosticResult
             {
-                Id = "FlubuCore_TargetParameterAnalyzer",
+                Id = "FlubuCore_TargetParameter_001",
                 Message = String.Format("First parameter in method '{0}' must be of type ITarget.", "SuccesfullTarget"),
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
@@ -136,7 +134,7 @@ namespace FlubuCore.WebApi.Tests
 }";
             var expected = new DiagnosticResult
             {
-                Id = "FlubuCore_TargetParameterAnalyzer",
+                Id = "FlubuCore_TargetParameter_001",
                 Message = String.Format("First parameter in method '{0}' must be of type ITarget.", "SuccesfullTarget"),
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
@@ -194,7 +192,7 @@ namespace FlubuCore.WebApi.Tests
 }";
             var expected = new DiagnosticResult
             {
-                Id = "FlubuCore_TargetParameterAnalyzer",
+                Id = "FlubuCore_TargetParameter_002",
                 Message = String.Format("Parameters count in attribute and  method '{0}' must be the same.", "SuccesfullTarget"),
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
@@ -253,7 +251,7 @@ namespace FlubuCore.WebApi.Tests
 }";
             var expected = new DiagnosticResult
             {
-                Id = "FlubuCore_TargetParameterAnalyzer",
+                Id = "FlubuCore_TargetParameter_002",
                 Message = String.Format("Parameters count in attribute and  method '{0}' must be the same.", "SuccesfullTarget"),
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
@@ -369,7 +367,7 @@ namespace FlubuCore.WebApi.Tests
 }";
             var expected = new DiagnosticResult
             {
-                Id = "FlubuCore_TargetParameterAnalyzer",
+                Id = "FlubuCore_TargetParameter_003",
                 Message = String.Format("Parameter must be of same type as '{0}' method parameter '{1}'.", "SuccesfullTarget",  "path"),
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
