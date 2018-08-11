@@ -78,7 +78,7 @@ namespace FlubuClore.Analyzer
                 if (!SupportedTypes.Contains(propertySymbol.Type.Name, StringComparer.OrdinalIgnoreCase))
                 {
                     var attributeSyntax = (AttributeSyntax)attribute.ApplicationSyntaxReference.GetSyntax(context.CancellationToken);
-                    var diagnostic = Diagnostic.Create(PropertyTypeMustBeSupported, attributeSyntax.GetLocation(), propertySymbol.Type.Name);
+                    var diagnostic = Diagnostic.Create(PropertyTypeMustBeSupported, propertySymbol.Locations[0], propertySymbol.Type.Name);
                     context.ReportDiagnostic(diagnostic);
                 }
 

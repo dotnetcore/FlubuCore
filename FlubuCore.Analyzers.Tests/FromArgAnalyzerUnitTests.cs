@@ -101,12 +101,12 @@ namespace FlubuCore.WebApi.Tests
 }";
             var expected = new DiagnosticResult
             {
-                Id = "FlubuCore_FromArgUnsuportedPropertyType",
+                Id = "FlubuCore_FromArg_001",
                 Message = String.Format("FromArg does not support type '{0}' on property.",  "Object"),
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
                     new[] {
-                        new DiagnosticResultLocation("Test0.cs", 29, 10)
+                        new DiagnosticResultLocation("Test0.cs", 30, 23)
                     }
             };
 
@@ -158,7 +158,7 @@ namespace FlubuCore.WebApi.Tests
 }";
             var expected = new DiagnosticResult
             {
-                Id = "FlubuCore_FromArgKeyShoudNotStartWithDash",
+                Id = "FlubuCore_FromArg_002",
                 Message = "Key should not start with dash.",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
