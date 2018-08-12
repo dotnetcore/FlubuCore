@@ -6,7 +6,7 @@
 [![Gitter](https://img.shields.io/gitter/room/FlubuCore/Lobby.svg)](https://gitter.im/FlubuCore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![License](https://img.shields.io/github/license/flubu-core/flubu.core.svg)](https://github.com/flubu-core/flubu.core/blob/master/LICENSE)
 
-"FlubuCore - Fluent Builder Core" is a cross platform build and deployment automation system. You can define your build and deployment scripts in C# using an intuitive fluent interface. This gives you code completion, IntelliSense, debugging, and native access to the whole .NET ecosystem inside of your scripts.
+"FlubuCore - Fluent Builder Core" is a cross platform build and deployment automation system. You can define your build and deployment scripts in C# using an intuitive fluent interface. This gives you code completion, IntelliSense, debugging, FlubuCore custom analyzers, and native access to the whole .NET ecosystem inside of your scripts.
 
 ![FlubuCore in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/demo.gif)
 
@@ -123,6 +123,10 @@
 * [Easily automate deployments remotely via the FlubuCore Web API.](https://github.com/flubu-core/flubu.core/wiki/7-Web-Api:-Getting-started)
 
 * [Possibility to use FlubuCore tasks in any other .NET application.](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs)
+
+* Improved developer experience with FlubuCore custom analyzers.
+
+![FlubuCore analyzers in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/FlubuCoreCustomAnalyzerDemo.png)
 
 ## Getting Started
 Using FlubuCore is straightforward and very simple :-) It is also fully and throughly documented.
