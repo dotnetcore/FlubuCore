@@ -62,7 +62,7 @@ public class BuildScript : DefaultBuildScript
             .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("net462"));
 
         var packageWebApi = context.CreateTarget("Package.WebApi")
-                .Do(PackageWebApi);
+                .AddTasks(PackageWebApi);
 
         var flubuRunnerMerge = context.CreateTarget("merge")
             .SetDescription("Merge's all assemblyes into .net flubu console application")
