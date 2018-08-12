@@ -280,6 +280,7 @@ namespace FlubuCore.Scripting
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Threading.Tasks.Parallel");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Threading.Thread");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Globalization");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Private.Uri");
 
 #if NETSTANDARD2_0
             assemblyReferenceLocations.Add(typeof(Console).GetTypeInfo().Assembly.Location);
