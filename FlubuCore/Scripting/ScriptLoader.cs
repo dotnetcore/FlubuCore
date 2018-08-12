@@ -159,9 +159,12 @@ namespace FlubuCore.Scripting
                         foreach (Diagnostic diagnostic in failures)
                         {
                             _log.LogWarning($"ScriptError:{diagnostic.Id}: {diagnostic.GetMessage()}");
-                            if (diagnostic.Id == "CS0246")
+                            switch (diagnostic.Id)
                             {
-                                possiblyMissingAssemblyRefDirective = true;
+                                case "CS0246":
+                                case "CS0012":
+                                    possiblyMissingAssemblyRefDirective = true;
+                                    break;
                             }
                         }
 
