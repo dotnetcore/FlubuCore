@@ -16,6 +16,7 @@
 
     ```
     context.CreateTarget("Example")
+      .DependsOn(fetchBuildVersion)
       .AddTask(x => x.CompileSolutionTask())
       .AddTask(x => x.PublishNuGetPackageTask("packageId", "pathToNuspec"))
           .When(c => c.BuildSystems().Jenkins().IsRunningOnJenkins);
