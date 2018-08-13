@@ -19,6 +19,17 @@ if(test-path $sourceDirectory -pathtype container)
     {
         Write-Host "Removing old build.exe"
         remove-item $destinationDirectory\Build.exe -recurse
+        
+        if (test-path $sourceDirectory\Flubu.exe)
+        {
+            Write-Host "WARNING: build.exe was renamed to Flubu.exe"
+        }
+    }
+
+    if (test-Path $destinationDirectory\Flubu.exe)
+    {
+        Write-Host "Removing old Flubu.exe"
+        remove-item $destinationDirectory\Flubu.exe -recurse
     }
 
     Write-Host "Copying files from $sourceDirectory to $destinationDirectory"
