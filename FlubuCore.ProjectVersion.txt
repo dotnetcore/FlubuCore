@@ -1,3 +1,6 @@
+2.11.2.0
+- Fixed fix install.ps1 as build.exe was renamed to flubu.exe
+
 2.11.1.0
 - release notes coming soon.
 2.11.0.0
