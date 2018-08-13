@@ -83,7 +83,7 @@
  ```
  
  ```
-  build.exe compile -solution=someOtherSolution.sln -sn=true
+  flubu.exe compile -solution=someOtherSolution.sln -sn=true
  ```
 * [Extending FlubuCore fluent interface by writing your own FlubuCore tasks.](https://github.com/flubu-core/flubu.core/wiki/5-How-to-write-and-use-FlubuCore-task-plugins)
 
