@@ -23,7 +23,7 @@ public class BuildScript : DefaultBuildScript
             .SetAsHidden()
             .SetDescription("Fetches flubu version from FlubuCore.ProjectVersion.txt file.")
             .AddTask(x => x.FetchBuildVersionFromFileTask());
-
+        
         var compile = context
             .CreateTarget("compile")
             .SetDescription("Compiles the VS solution")

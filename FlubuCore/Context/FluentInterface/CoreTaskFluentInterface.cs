@@ -6,10 +6,12 @@ namespace FlubuCore.Context.FluentInterface
 {
     public class CoreTaskFluentInterface : ICoreTaskFluentInterface
     {
+        private readonly ToolsFluentInterface _toolsFluent;
         private readonly LinuxTaskFluentInterface _linuxFluent;
 
-        public CoreTaskFluentInterface(ILinuxTaskFluentInterface linuxFluent)
+        public CoreTaskFluentInterface(ILinuxTaskFluentInterface linuxFluent, IToolsFluentInterface toolsFluent)
         {
+            _toolsFluent = (ToolsFluentInterface)toolsFluent;
             _linuxFluent = (LinuxTaskFluentInterface)linuxFluent;
         }
 
@@ -112,6 +114,12 @@ namespace FlubuCore.Context.FluentInterface
         public DotnetNugetPushTask NugetPush(string packagePath)
         {
             return Context.CreateTask<DotnetNugetPushTask>(packagePath);
+        }
+
+        public IToolsFluentInterface Tool()
+        {
+            _toolsFluent.Context = Context;
+            return _toolsFluent;
         }
     }
 }

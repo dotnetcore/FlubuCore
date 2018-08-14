@@ -431,5 +431,11 @@ namespace Flubu.Tests.Context
         {
             Assert.NotNull(Context.Tasks().MergeConfigurationTask("abc.json", "a.json", "b.json"));
         }
+
+        [Fact]
+        public void ResolveDotnetToolInstallTask()
+        {
+            Assert.NotNull(Context.CoreTasks().Tool().Install("Test"));
+        }
     }
 }

@@ -84,5 +84,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="packagePath">Path to .nupkg file</param>
         /// <returns></returns>
         DotnetNugetPushTask NugetPush(string packagePath);
+
+        IToolsFluentInterface Tool();
     }
 }
