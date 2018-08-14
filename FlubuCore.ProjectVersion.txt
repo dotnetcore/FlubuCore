@@ -1,10 +1,31 @@
 2.11.2.0
-- Fixed fix install.ps1 as build.exe was renamed to flubu.exe
+- Fixed install.ps1 as build.exe was renamed to flubu.exe
 
 2.11.1.0
-- release notes coming soon.
+- When specifing target's with Target attribute methods don't need to be public anymore.
+- Fixed error handling for .net core when missing assembly directive in build script.
+- Added System.Private.Uri assembly to default loaded assemblies.
+- Fixed some analyzer issues.
+- Improved some analyzers. 
+
 2.11.0.0
-- relase notes coming soon.
+- Added FlubuCore specific code analyzers. Added target parameter analyzers when specifing target's with Target attribute. Added FromArg attribute analyzer.
+- Greatly improved performance for .net core.
+- Improved nuget package resolving performance.
+- Build script arguments keys are now case insensitive.
+- (Possible breaking change) Renamed (obsoleted) method for reusing set of tasks in target. Do -> AddTasks.
+- (Possible breaking change) Renamed Flubu runner Build.exe -> Flubu.exe
+- (Possible breaking change) action parameter in Do method is now of type ITaskContext insted of ITaskContextInternal 
+- Added addition clean options to DotnetCleanTask. You can now clean specified directory, output dir, build dir.
+- FromArg for passing arguments to build script properties now support list of string.
+- Validation for when build property getter is called in ConfigureTargets
+- Validation that task was not executed already when adding it to the target.
+- Added TaskExecuted property on tasks.
+- Improved session build properties validation in tasks:LoadSolutionTask, CompileSolutionTask, NunitTask, XunitTask
+- DotnetNugetTask: Added SkipPushOnLocalBuild.
+- PublishNugetTask: Fixed SkipPushOnLocalBuild.
+- Fixed order of target's end execution report.
+- Improved error message when missing assembly directive in build script.
 
 2.10.0.0
 - Json configuration file can now be specified by machine name. FlubuSettings.{MachineName}.Json
