@@ -10,5 +10,6 @@
         Test,
         Pack,
         Clean,
+        Tool,
     }
 }
