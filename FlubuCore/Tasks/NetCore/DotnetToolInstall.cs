@@ -9,6 +9,10 @@ namespace FlubuCore.Tasks.NetCore
     {
         private string _description;
 
+        /// <summary>
+        /// Installs a tool for use on the command line.
+        /// </summary>
+        /// <param name="nugetPackageId">NuGet Package Id of the tool to install.</param>
         public DotnetToolInstall(string nugetPackageId)
             : base(StandardDotnetCommands.Tool)
         {
@@ -52,30 +56,55 @@ namespace FlubuCore.Tasks.NetCore
             return this;
         }
 
+        /// <summary>
+        /// Location where the tool will be installed.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public DotnetToolInstall ToolInstallationPath(string path)
         {
             WithArguments("--tool-path", path);
             return this;
         }
 
+        /// <summary>
+        /// The NuGet configuration file to use.
+        /// </summary>
+        /// <param name="pathToFile"></param>
+        /// <returns></returns>
         public DotnetToolInstall NugetConfigFile(string pathToFile)
         {
             WithArguments("--configfile", pathToFile);
             return this;
         }
 
+        /// <summary>
+        /// Adds an additional NuGet package source to use during installation.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public DotnetToolInstall AddNugetSource(string source)
         {
             WithArguments("--add-source", source);
             return this;
         }
 
+        /// <summary>
+        /// The target framework to install the tool for.
+        /// </summary>
+        /// <param name="framework"></param>
+        /// <returns></returns>
         public DotnetToolInstall Framework(string framework)
         {
             WithArguments("--framework", framework);
             return this;
         }
 
+        /// <summary>
+        /// Set the verbosity level of the command.
+        /// </summary>
+        /// <param name="verbosity"></param>
+        /// <returns></returns>
         public DotnetToolInstall Verbosity(VerbosityOptions verbosity)
         {
             WithArguments("--verbosity", verbosity.ToString().ToLower());
