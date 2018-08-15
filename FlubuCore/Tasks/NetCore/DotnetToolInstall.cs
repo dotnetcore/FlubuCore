@@ -22,17 +22,9 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override string Description
         {
-            get
-            {
-                if (string.IsNullOrEmpty(_description))
-                {
-                    return "Executes command 'dotnet tool install' with specified arguments..";
-                }
+            get => string.IsNullOrEmpty(_description) ? "Executes command 'dotnet tool install' with specified arguments." : _description;
 
-                return _description;
-            }
-
-            set { _description = value; }
+            set => _description = value;
         }
 
         /// <summary>

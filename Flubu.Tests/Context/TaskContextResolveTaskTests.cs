@@ -443,5 +443,11 @@ namespace Flubu.Tests.Context
         {
             Assert.NotNull(Context.CoreTasks().Tool().Update("Test"));
         }
+
+        [Fact]
+        public void ResolveDotnetToolUninstallTask()
+        {
+            Assert.NotNull(Context.CoreTasks().Tool().Uninstall("Test"));
+        }
     }
 }

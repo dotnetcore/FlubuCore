@@ -21,21 +21,13 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override string Description
         {
-            get
-            {
-                if (string.IsNullOrEmpty(_description))
-                {
-                    return "Executes command 'dotnet tool update' with specified arguments..";
-                }
+            get => string.IsNullOrEmpty(_description) ? "Executes command 'dotnet tool update' with specified arguments." : _description;
 
-                return _description;
-            }
-
-            set { _description = value; }
+            set => _description = value;
         }
 
         /// <summary>
-        ///  Install user wide as global tool.
+        /// Update user wide as global tool.
         /// </summary>
         /// <returns></returns>
         public DotnetToolUpdate Global()

@@ -19,5 +19,10 @@ namespace FlubuCore.Context.FluentInterface
         {
             return Context.CreateTask<DotnetToolUpdate>(nugetPackageId);
         }
+
+        public DotnetToolUninstall Uninstall(string nugetPackageId)
+        {
+            return Context.CreateTask<DotnetToolUninstall>(nugetPackageId);
+        }
     }
 }
