@@ -1,15 +1,14 @@
 using System;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestHelper;
+using Xunit;
 
 namespace FlubuCore.Analyzers.Tests
 {
-    [TestClass]
     public class TargetParameterAnalyzerUnitTests : CodeFixVerifier
     {
-        [TestMethod]
+        [Fact]
         public void CorrectTargetDefinititionTest()
         {
             var test = @"
@@ -56,7 +55,7 @@ namespace FlubuCore.WebApi.Tests
             VerifyCSharpDiagnostic(test);
         }
 
-        [TestMethod]
+        [Fact]
         public void WrongFirstParameterTest()
         {
             var test = @"
@@ -101,7 +100,7 @@ namespace FlubuCore.WebApi.Tests
             VerifyCSharpDiagnostic(test, expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void NoFirstParameterTest()
         {
             var test = @"
@@ -146,7 +145,7 @@ namespace FlubuCore.WebApi.Tests
             VerifyCSharpDiagnostic(test, expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void WrongParameterCountTest()
         {
             var test = @"
@@ -205,7 +204,7 @@ namespace FlubuCore.WebApi.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void AttributeDoesntHaveParametersMethodDoesTest()
         {
             var test = @"
@@ -263,7 +262,7 @@ namespace FlubuCore.WebApi.Tests
             VerifyCSharpDiagnostic(test, expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void AttributeAndMethodParameterCountAreTheSameTest()
         {
             var test = @"
@@ -321,7 +320,7 @@ namespace FlubuCore.WebApi.Tests
             VerifyCSharpDiagnostic(test);
         }
 
-        [TestMethod]
+        [Fact]
         public void WrongParameterTypeTest()
         {
             var test = @"

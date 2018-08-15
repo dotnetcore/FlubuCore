@@ -2,15 +2,14 @@
 using FlubuClore.Analyzer;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestHelper;
+using Xunit;
 
 namespace FlubuCore.Analyzers.Tests
 {
-    [TestClass]
     public class FromArgAnalyzerUnitTests : CodeFixVerifier
     {
-        [TestMethod]
+        [Fact]
         public void FromArgSupportedPropertyTypeTest()
         {
             var test = @"
@@ -56,7 +55,7 @@ namespace FlubuCore.WebApi.Tests
             VerifyCSharpDiagnostic(test);
         }
 
-        [TestMethod]
+        [Fact]
         public void FromArgNotSupportedPropertyTypeTest()
         {
             var test = @"
@@ -113,7 +112,7 @@ namespace FlubuCore.WebApi.Tests
             VerifyCSharpDiagnostic(test, expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void FromArgKeyValueShouldNotStartWithDashTest()
         {
             var test = @"
