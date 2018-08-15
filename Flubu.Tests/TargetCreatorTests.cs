@@ -30,6 +30,7 @@ namespace Flubu.Tests
                 .AddTransient<ILinuxTaskFluentInterface, LinuxTaskFluentInterface>()
                 .AddTransient<IIisTaskFluentInterface, IisTaskFluentInterface>()
                 .AddTransient<IWebApiFluentInterface, WebApiFluentInterface>()
+                .AddTransient<IToolsFluentInterface, ToolsFluentInterface>()
                 .AddSingleton<IHttpClientFactory, HttpClientFactory>()
                 .BuildServiceProvider();
             _taskSession = new TaskSession(new Mock<ILogger<TaskSession>>().Object, new TargetTree(null, null), new CommandArguments(), new Mock<ITaskFactory>().Object, new FluentInterfaceFactory(sp), null, null);
