@@ -1,4 +1,5 @@
 using System;
+using FlubuCore.Analyzers.Tests.Scripts;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using TestHelper;
@@ -11,81 +12,12 @@ namespace FlubuCore.Analyzers.Tests
         [Fact]
         public void CorrectTargetDefinititionTest()
         {
-            var test = @"
-using System;
-using System.IO;
-using FlubuCore.Context;
-using FlubuCore.Context.FluentInterface;
-using FlubuCore.Context.FluentInterface.Interfaces;
-using FlubuCore.Scripting;
-using FlubuCore.Targeting;
-using Moq;
-
-namespace FlubuCore.WebApi.Tests
-{
-   public class Target : System.Attribute
-    {
-        public TargetAttribute(string targetName, params object[] methodParameters)
-        {
-            TargetName = targetName;
-            MethodParameters = methodParameters;
-        }
-
-        public string TargetName { get; private set; }
-
-        public object[] MethodParameters { get; set; }
-    }
-
-    public class SimpleScript : DefaultBuildScript
-    {
-        protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-        {
-        }
-
-        protected override void ConfigureTargets(ITaskContext session)
-        {
-        }
-
-        [Target(""Test"", ""SomeFile"")]
-        public void SuccesfullTarget(ITarget target, string fileName)
-        {
-        }
-     }
-}";
-            VerifyCSharpDiagnostic(test);
+            VerifyCSharpDiagnostic(TargetParameterAnalyzerUnitTestsScripts.CorrectTargetDefinititionScript);
         }
 
         [Fact]
         public void WrongFirstParameterTest()
         {
-            var test = @"
-  using System;
-using System.IO;
-using FlubuCore.Context;
-using FlubuCore.Context.FluentInterface;
-using FlubuCore.Context.FluentInterface.Interfaces;
-using FlubuCore.Scripting;
-using FlubuCore.Targeting;
-using Moq;
-
-namespace FlubuCore.WebApi.Tests
-{
-    public class SimpleScript : DefaultBuildScript
-    {
-        protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-        {
-        }
-
-        protected override void ConfigureTargets(ITaskContext session)
-        {
-        }
-
-        [Target(\""Test\"")]
-        public void SuccesfullTarget(string fileName)
-        {
-        }
-     }
-}";
             var expected = new DiagnosticResult
             {
                 Id = "FlubuCore_TargetParameter_001",
@@ -97,40 +29,12 @@ namespace FlubuCore.WebApi.Tests
                     }
             };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic(TargetParameterAnalyzerUnitTestsScripts.WrongFirstParameterScript, expected);
         }
 
         [Fact]
         public void NoFirstParameterTest()
         {
-            var test = @"
-  using System;
-using System.IO;
-using FlubuCore.Context;
-using FlubuCore.Context.FluentInterface;
-using FlubuCore.Context.FluentInterface.Interfaces;
-using FlubuCore.Scripting;
-using FlubuCore.Targeting;
-using Moq;
-
-namespace FlubuCore.WebApi.Tests
-{
-    public class SimpleScript : DefaultBuildScript
-    {
-        protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-        {
-        }
-
-        protected override void ConfigureTargets(ITaskContext session)
-        {
-        }
-
-        [Target((""Test"")]
-        public void SuccesfullTarget()
-        {
-        }
-     }
-}";
             var expected = new DiagnosticResult
             {
                 Id = "FlubuCore_TargetParameter_001",
@@ -142,53 +46,12 @@ namespace FlubuCore.WebApi.Tests
                     }
             };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic(TargetParameterAnalyzerUnitTestsScripts.NoFirstParameterScript, expected);
         }
 
         [Fact]
         public void WrongParameterCountTest()
         {
-            var test = @"
-using System;
-using System.IO;
-using FlubuCore.Context;
-using FlubuCore.Context.FluentInterface;
-using FlubuCore.Context.FluentInterface.Interfaces;
-using FlubuCore.Scripting;
-using FlubuCore.Targeting;
-using Moq;
-
-namespace FlubuCore.WebApi.Tests
-{
-    public class Target : System.Attribute
-    {
-        public TargetAttribute(string targetName, params object[] methodParameters)
-        {
-            TargetName = targetName;
-            MethodParameters = methodParameters;
-        }
-
-        public string TargetName { get; private set; }
-
-        public object[] MethodParameters { get; set; }
-    }
-
-    public class SimpleScript : DefaultBuildScript
-    {
-        protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-        {
-        }
-
-        protected override void ConfigureTargets(ITaskContext session)
-        {
-        }
-
-        [Target(""Test"", ""param1"", ""param2"", ""param3"")]
-        public void SuccesfullTarget(ITarget target, string fileName, string path)
-        {
-        }
-     }
-}";
             var expected = new DiagnosticResult
             {
                 Id = "FlubuCore_TargetParameter_002",
@@ -196,58 +59,17 @@ namespace FlubuCore.WebApi.Tests
                 Severity = DiagnosticSeverity.Error,
                 Locations =
                     new[] {
-                        new DiagnosticResultLocation("Test0.cs", 36, 10)
+                        new DiagnosticResultLocation("Test0.cs", 35, 14)
                     }
             };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic(TargetParameterAnalyzerUnitTestsScripts.WrongParameterCountScript, expected);
         }
 
 
         [Fact]
         public void AttributeDoesntHaveParametersMethodDoesTest()
         {
-            var test = @"
-using System;
-using System.IO;
-using FlubuCore.Context;
-using FlubuCore.Context.FluentInterface;
-using FlubuCore.Context.FluentInterface.Interfaces;
-using FlubuCore.Scripting;
-using FlubuCore.Targeting;
-using Moq;
-
-namespace FlubuCore.WebApi.Tests
-{
-    public class Target : System.Attribute
-    {
-        public TargetAttribute(string targetName, params object[] methodParameters)
-        {
-            TargetName = targetName;
-            MethodParameters = methodParameters;
-        }
-
-        public string TargetName { get; private set; }
-
-        public object[] MethodParameters { get; set; }
-    }
-
-    public class SimpleScript : DefaultBuildScript
-    {
-        protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-        {
-        }
-
-        protected override void ConfigureTargets(ITaskContext session)
-        {
-        }
-
-        [Target(""Test"")]
-        public void SuccesfullTarget(ITarget target, string fileName)
-        {
-        }
-     }
-}";
             var expected = new DiagnosticResult
             {
                 Id = "FlubuCore_TargetParameter_002",
@@ -255,57 +77,16 @@ namespace FlubuCore.WebApi.Tests
                 Severity = DiagnosticSeverity.Error,
                 Locations =
                     new[] {
-                        new DiagnosticResultLocation("Test0.cs", 36, 10)
+                        new DiagnosticResultLocation("Test0.cs", 35, 10)
                     }
             };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic(TargetParameterAnalyzerUnitTestsScripts.AttributeDoesntHaveParametersMethodDoesScript, expected);
         }
 
         [Fact]
         public void AttributeAndMethodParameterCountAreTheSameTest()
         {
-            var test = @"
-using System;
-using System.IO;
-using FlubuCore.Context;
-using FlubuCore.Context.FluentInterface;
-using FlubuCore.Context.FluentInterface.Interfaces;
-using FlubuCore.Scripting;
-using FlubuCore.Targeting;
-using Moq;
-
-namespace FlubuCore.WebApi.Tests
-{
-    public class Target : System.Attribute
-    {
-        public TargetAttribute(string targetName, params object[] methodParameters)
-        {
-            TargetName = targetName;
-            MethodParameters = methodParameters;
-        }
-
-        public string TargetName { get; private set; }
-
-        public object[] MethodParameters { get; set; }
-    }
-
-    public class SimpleScript : DefaultBuildScript
-    {
-        protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-        {
-        }
-
-        protected override void ConfigureTargets(ITaskContext session)
-        {
-        }
-
-        [Target(""Test"" , ""someFilename"")]
-        public void SuccesfullTarget(ITarget target, string fileName)
-        {
-        }
-     }
-}";
             var expected = new DiagnosticResult
             {
                 Id = "FlubuCore_TargetParameterAnalyzer",
@@ -317,53 +98,12 @@ namespace FlubuCore.WebApi.Tests
                     }
             };
 
-            VerifyCSharpDiagnostic(test);
+            VerifyCSharpDiagnostic(TargetParameterAnalyzerUnitTestsScripts.AttributeAndMethodParameterCountAreTheSameScript);
         }
 
         [Fact]
         public void WrongParameterTypeTest()
         {
-            var test = @"
-using System;
-using System.IO;
-using FlubuCore.Context;
-using FlubuCore.Context.FluentInterface;
-using FlubuCore.Context.FluentInterface.Interfaces;
-using FlubuCore.Scripting;
-using FlubuCore.Targeting;
-using Moq;
-
-namespace FlubuCore.WebApi.Tests
-{
-    public class Target : System.Attribute
-    {
-        public TargetAttribute(string targetName, params object[] methodParameters)
-        {
-            TargetName = targetName;
-            MethodParameters = methodParameters;
-        }
-
-        public string TargetName { get; private set; }
-
-        public object[] MethodParameters { get; set; }
-    }
-
-    public class SimpleScript : DefaultBuildScript
-    {
-        protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-        {
-        }
-
-        protected override void ConfigureTargets(ITaskContext session)
-        {
-        }
-
-        [Target(""Test"", ""param1"", 1)]
-        public void SuccesfullTarget(ITarget target, string fileName, string path)
-        {
-        }
-     }
-}";
             var expected = new DiagnosticResult
             {
                 Id = "FlubuCore_TargetParameter_003",
@@ -371,11 +111,11 @@ namespace FlubuCore.WebApi.Tests
                 Severity = DiagnosticSeverity.Error,
                 Locations =
                     new[] {
-                        new DiagnosticResultLocation("Test0.cs", 36, 35)
+                        new DiagnosticResultLocation("Test0.cs", 35, 35)
                     }
             };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic(TargetParameterAnalyzerUnitTestsScripts.WrongParameterType, expected);
         }
 
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()

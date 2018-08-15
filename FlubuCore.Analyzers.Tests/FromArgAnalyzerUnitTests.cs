@@ -1,5 +1,6 @@
 ﻿using System;
 using FlubuClore.Analyzer;
+using FlubuCore.Analyzers.Tests.Scripts;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using TestHelper;
@@ -12,92 +13,12 @@ namespace FlubuCore.Analyzers.Tests
         [Fact]
         public void FromArgSupportedPropertyTypeTest()
         {
-            var test = @"
-using System;
-using System.IO;
-using FlubuCore.Context;
-using FlubuCore.Context.FluentInterface;
-using FlubuCore.Context.FluentInterface.Interfaces;
-using FlubuCore.Scripting;
-using FlubuCore.Targeting;
-using Moq;
-
-namespace FlubuCore.WebApi.Tests
-{
-   public class FromArgAttribute : Attribute
-    {
-        public FromArgAttribute(string argKey, string help = null)
-        {
-            ArgKey = argKey;
-            Help = help;
-        }
-
-        public string ArgKey { get; }
-
-        public string Help { get; }
-    }
-
-    public class SimpleScript : DefaultBuildScript
-    {
-
-        [FromArg(""t"")]
-        public List<string> Test { get; set; }
-
-        protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-        {
-        }
-
-        protected override void ConfigureTargets(ITaskContext session)
-        {
-        }
-    }
-}";
-            VerifyCSharpDiagnostic(test);
+            VerifyCSharpDiagnostic(FromArgAnalyzerUnitTestsScripts.FromArgSupportedPropertyTypeScript);
         }
 
         [Fact]
         public void FromArgNotSupportedPropertyTypeTest()
         {
-            var test = @"
-using System;
-using System.IO;
-using FlubuCore.Context;
-using FlubuCore.Context.FluentInterface;
-using FlubuCore.Context.FluentInterface.Interfaces;
-using FlubuCore.Scripting;
-using FlubuCore.Targeting;
-using Moq;
-
-namespace FlubuCore.WebApi.Tests
-{
-   public class FromArgAttribute : Attribute
-    {
-        public FromArgAttribute(string argKey, string help = null)
-        {
-            ArgKey = argKey;
-            Help = help;
-        }
-
-        public string ArgKey { get; }
-
-        public string Help { get; }
-    }
-
-    public class SimpleScript : DefaultBuildScript
-    {
-
-        [FromArg(""t"")]
-        public object Test { get; set; }
-
-        protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-        {
-        }
-
-        protected override void ConfigureTargets(ITaskContext session)
-        {
-        }
-    }
-}";
             var expected = new DiagnosticResult
             {
                 Id = "FlubuCore_FromArg_001",
@@ -109,52 +30,12 @@ namespace FlubuCore.WebApi.Tests
                     }
             };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic(FromArgAnalyzerUnitTestsScripts.FromArgNotSupportedPropertyTypeScript, expected);
         }
 
         [Fact]
         public void FromArgKeyValueShouldNotStartWithDashTest()
         {
-            var test = @"
-using System;
-using System.IO;
-using FlubuCore.Context;
-using FlubuCore.Context.FluentInterface;
-using FlubuCore.Context.FluentInterface.Interfaces;
-using FlubuCore.Scripting;
-using FlubuCore.Targeting;
-using Moq;
-
-namespace FlubuCore.WebApi.Tests
-{
-   public class FromArgAttribute : Attribute
-    {
-        public FromArgAttribute(string argKey, string help = null)
-        {
-            ArgKey = argKey;
-            Help = help;
-        }
-
-        public string ArgKey { get; }
-
-        public string Help { get; }
-    }
-
-    public class SimpleScript : DefaultBuildScript
-    {
-
-        [FromArg(""-t"")]
-        public bool Test { get; set; }
-
-        protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-        {
-        }
-
-        protected override void ConfigureTargets(ITaskContext session)
-        {
-        }
-    }
-}";
             var expected = new DiagnosticResult
             {
                 Id = "FlubuCore_FromArg_002",
@@ -166,7 +47,7 @@ namespace FlubuCore.WebApi.Tests
                     }
             };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic(FromArgAnalyzerUnitTestsScripts.FromArgKeyValueShouldNotStartWithDashScript, expected);
         }
         
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
