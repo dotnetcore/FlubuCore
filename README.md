@@ -161,7 +161,7 @@ These examples will help you to get quickly start with FlubuCore:
 
 Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
-## Ways to Contribute
+### Ways to Contribute
 
 * Spread the word about the project.
 * Improve documentation.
