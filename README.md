@@ -153,15 +153,15 @@ These examples will help you to get quickly start with FlubuCore:
 * [Deployment script example](https://github.com/flubu-core/examples/blob/master/DeployScriptExample/BuildScript/DeployScript.cs
 )
 
-## 🛎 Have a question?
+## Have a question?
 
  [![Join the chat at https://gitter.im/FlubuCore/Lobby](https://badges.gitter.im/mbdavid/LiteDB.svg)](https://gitter.im/FlubuCore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-## 🎁 Contributing
+## Contributing
 
 Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
-## ❤️ Ways to Contribute
+## Ways to Contribute
 
 * Spread the word about the project.
 * Improve documentation.
