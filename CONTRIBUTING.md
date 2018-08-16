@@ -27,7 +27,7 @@ In case you've encountered a bug, please make sure:
 
 ## 🎁 I Want to contribute to the code
 
-Pull requests are welcome! We are also looking for new team member's.
+Pull requests are welcome! We are also looking for new team member's [![Gitter](https://img.shields.io/gitter/room/FlubuCore/Lobby.svg)](https://gitter.im/FlubuCore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Please keep the following in mind:
 
