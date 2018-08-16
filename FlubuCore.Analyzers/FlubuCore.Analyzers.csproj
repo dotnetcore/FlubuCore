@@ -4,6 +4,9 @@
     <TargetFramework>netstandard1.3</TargetFramework>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <WarningsAsErrors>true</WarningsAsErrors>
+    <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>1701;1702;1705;1591;1573;1572;1574</NoWarn>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -25,6 +28,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="2.8.2" PrivateAssets="all" />
     <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

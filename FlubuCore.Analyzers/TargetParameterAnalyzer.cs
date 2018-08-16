@@ -14,7 +14,9 @@ namespace FlubuCore.Analyzers
 
         public const string AttributeAndMethodParameterTypeMustBeTheSameDiagnosticId = "FlubuCore_TargetParameter_003";
 
-        private static readonly LocalizableString FirstTargetParameterTitle  ="Wrong first parameter";
+        private const string Category = "TargetDefinition";
+
+        private static readonly LocalizableString FirstTargetParameterTitle = "Wrong first parameter";
 
         private static readonly string FirstTargetParameterMessageFormat =
             "First parameter in method '{0}' must be of type ITarget.";
@@ -23,7 +25,7 @@ namespace FlubuCore.Analyzers
             "First paramter in method must be of type ITarget.";
 
         private static readonly string ParameterCountTitle = "Wrong parameter count";
-      
+
         private static readonly LocalizableString ParameteCountMessageFormat =
             "Parameters count in attribute and  method '{0}' must be the same.";
 
@@ -38,17 +40,15 @@ namespace FlubuCore.Analyzers
         private static readonly LocalizableString ParameterTypeNotSameDescription =
             "Target parameter must be of same type as method parameter.";
 
-        private const string Category = "TargetDefinition";
-
-        private static DiagnosticDescriptor FirstParameterMustBeOfTypeITarget = new DiagnosticDescriptor(FirstParameterMustBeOfTypeITargetDiagnosticId,
+        private static DiagnosticDescriptor _firstParameterMustBeOfTypeITarget = new DiagnosticDescriptor(FirstParameterMustBeOfTypeITargetDiagnosticId,
             FirstTargetParameterTitle, FirstTargetParameterMessageFormat, Category, DiagnosticSeverity.Error,
             isEnabledByDefault: true, description: FirstTargetParameterDescription);
 
-        private static DiagnosticDescriptor AttributeAndMethodParameterCountMustBeTheSame =
+        private static DiagnosticDescriptor _attributeAndMethodParameterCountMustBeTheSame =
             new DiagnosticDescriptor(AttributeAndMethodParameterCountMustBeTheSameDiagnosticId, ParameterCountTitle, ParameteCountMessageFormat, Category,
                 DiagnosticSeverity.Error, isEnabledByDefault: true, description: ParameterCountDescription);
 
-        private static DiagnosticDescriptor AttributeAndMethodParameterTypeMustBeTheSame =
+        private static DiagnosticDescriptor _attributeAndMethodParameterTypeMustBeTheSame =
             new DiagnosticDescriptor(AttributeAndMethodParameterTypeMustBeTheSameDiagnosticId, ParameterTypeNotSameTitle, ParameterTypeNotSameMessageFormat, Category,
                 DiagnosticSeverity.Error, isEnabledByDefault: true, description: ParameterTypeNotSameDescription);
 
@@ -56,8 +56,8 @@ namespace FlubuCore.Analyzers
         {
             get
             {
-                return ImmutableArray.Create(FirstParameterMustBeOfTypeITarget,
-                    AttributeAndMethodParameterCountMustBeTheSame, AttributeAndMethodParameterTypeMustBeTheSame);
+                return ImmutableArray.Create(_firstParameterMustBeOfTypeITarget,
+                    _attributeAndMethodParameterCountMustBeTheSame, _attributeAndMethodParameterTypeMustBeTheSame);
             }
         }
 
@@ -88,24 +88,23 @@ namespace FlubuCore.Analyzers
 
                 if (methodSymbol.Parameters.Length == 0)
                 {
-                    var diagnostic = Diagnostic.Create(FirstParameterMustBeOfTypeITarget, methodSymbol.Locations[0],
+                    var diagnostic = Diagnostic.Create(_firstParameterMustBeOfTypeITarget, methodSymbol.Locations[0],
                         methodSymbol.Name);
                     context.ReportDiagnostic(diagnostic);
                 }
                 else if (methodSymbol.Parameters[0].Type.Name != "ITarget")
                 {
-                    var diagnostic = Diagnostic.Create(FirstParameterMustBeOfTypeITarget, methodSymbol.Locations[0],
+                    var diagnostic = Diagnostic.Create(_firstParameterMustBeOfTypeITarget, methodSymbol.Locations[0],
                         methodSymbol.Name);
                     context.ReportDiagnostic(diagnostic);
                 }
-
                 else if (hasAttributeParameters && methodSymbol.Parameters.Length != attributeParameters.Length + 1)
                 {
                     var attributeSyntax =
-                        (AttributeSyntax) attribute.ApplicationSyntaxReference.GetSyntax(
+                        (AttributeSyntax)attribute.ApplicationSyntaxReference.GetSyntax(
                             context.CancellationToken);
-                  
-                    var diagnostic = Diagnostic.Create(AttributeAndMethodParameterCountMustBeTheSame, attributeSyntax.GetLocation(), methodSymbol.Name);
+
+                    var diagnostic = Diagnostic.Create(_attributeAndMethodParameterCountMustBeTheSame, attributeSyntax.GetLocation(), methodSymbol.Name);
                     context.ReportDiagnostic(diagnostic);
                 }
                 else
@@ -120,15 +119,14 @@ namespace FlubuCore.Analyzers
                         if (attributeParameters[i].Type.Name != methodSymbol.Parameters[i + 1].Type.Name)
                         {
                             var attributeSyntax =
-                                (AttributeSyntax) attribute.ApplicationSyntaxReference.GetSyntax(
+                                (AttributeSyntax)attribute.ApplicationSyntaxReference.GetSyntax(
                                     context.CancellationToken);
                             var argument = attributeSyntax.ArgumentList.Arguments[i + 1];
-                            var diagnostic = Diagnostic.Create(AttributeAndMethodParameterTypeMustBeTheSame,
+                            var diagnostic = Diagnostic.Create(_attributeAndMethodParameterTypeMustBeTheSame,
                                 argument.GetLocation(), methodSymbol.Name, methodSymbol.Parameters[i + 1].Name);
                             context.ReportDiagnostic(diagnostic);
                         }
                     }
-
                 }
             }
         }

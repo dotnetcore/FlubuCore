@@ -16,8 +16,9 @@ namespace FlubuClore.Analyzer
 
         public const string DianogsticId2 = "FlubuCore_FromArg_002";
 
-        private static readonly LocalizableString UnsuportedPropertyTypeTitle = "Unsuported property type";
+        private const string Category = "FromArg";
 
+        private static readonly LocalizableString UnsuportedPropertyTypeTitle = "Unsuported property type";
 
         private static readonly LocalizableString UnsuportedPropertyTypeMessageFormat =
             "FromArg does not support type '{0}' on property.";
@@ -34,27 +35,24 @@ namespace FlubuClore.Analyzer
         private static readonly LocalizableString KeyShouldNotStartWithDashDescription =
             "Key should not start with dash.";
 
-        private const string Category = "FromArg";
+        private static string[] _supportedTypes = new string[]
+            { "string", "short", "int", "int16", "int32", "int64", "double", "bool", "boolean", "DateTime", "uint", "ulong", "ushort", "List", "IList", "IEnumerable" };
 
-        private static string[] SupportedTypes = new string[]
-            { "string", "short", "int", "int16", "int32", "int64", "double", "bool", "boolean", "DateTime", "uint", "ulong", "ushort", "List", "IList", "IEnumerable"};
-
-        private static DiagnosticDescriptor PropertyTypeMustBeSupported = new DiagnosticDescriptor(DiagnosticId,
+        private static DiagnosticDescriptor _propertyTypeMustBeSupported = new DiagnosticDescriptor(DiagnosticId,
             UnsuportedPropertyTypeTitle, UnsuportedPropertyTypeMessageFormat, Category, DiagnosticSeverity.Error,
             isEnabledByDefault: true, description: UnsuportedPropertyTypeDescription);
 
-        private static DiagnosticDescriptor WrongKeyValue = new DiagnosticDescriptor(DianogsticId2,
+        private static DiagnosticDescriptor _wrongKeyValue = new DiagnosticDescriptor(DianogsticId2,
             KeyShouldNotStartWithDashTitle, KeyShouldNotStartWithDashMessageFormat, Category, DiagnosticSeverity.Error,
             isEnabledByDefault: true, description: KeyShouldNotStartWithDashDescription);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
         {
-            get { return ImmutableArray.Create(PropertyTypeMustBeSupported, WrongKeyValue); }
+            get { return ImmutableArray.Create(_propertyTypeMustBeSupported, _wrongKeyValue); }
         }
-        
+
         public override void Initialize(AnalysisContext context)
         {
-           
             context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.Property);
         }
 
@@ -62,7 +60,6 @@ namespace FlubuClore.Analyzer
         {
             var propertySymbol = (IPropertySymbol)context.Symbol;
             var attributes = propertySymbol.GetAttributes();
-           ;
             if (attributes.Length == 0)
             {
                 return;
@@ -75,10 +72,10 @@ namespace FlubuClore.Analyzer
                     continue;
                 }
 
-                if (!SupportedTypes.Contains(propertySymbol.Type.Name, StringComparer.OrdinalIgnoreCase))
+                if (!_supportedTypes.Contains(propertySymbol.Type.Name, StringComparer.OrdinalIgnoreCase))
                 {
                     var attributeSyntax = (AttributeSyntax)attribute.ApplicationSyntaxReference.GetSyntax(context.CancellationToken);
-                    var diagnostic = Diagnostic.Create(PropertyTypeMustBeSupported, propertySymbol.Locations[0], propertySymbol.Type.Name);
+                    var diagnostic = Diagnostic.Create(_propertyTypeMustBeSupported, propertySymbol.Locations[0], propertySymbol.Type.Name);
                     context.ReportDiagnostic(diagnostic);
                 }
 
@@ -87,7 +84,7 @@ namespace FlubuClore.Analyzer
                 if (keyValue != null && keyValue.StartsWith("-"))
                 {
                     var attributeSyntax = (AttributeSyntax)attribute.ApplicationSyntaxReference.GetSyntax(context.CancellationToken);
-                    var diagnostic = Diagnostic.Create(WrongKeyValue, attributeSyntax.GetLocation());
+                    var diagnostic = Diagnostic.Create(_wrongKeyValue, attributeSyntax.GetLocation());
                     context.ReportDiagnostic(diagnostic);
                 }
             }

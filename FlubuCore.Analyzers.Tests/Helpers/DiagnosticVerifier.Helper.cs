@@ -1,11 +1,11 @@
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Diagnostics;
-using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.CodeAnalysis.Text;
 
 namespace TestHelper
 {
@@ -20,12 +20,10 @@ namespace TestHelper
         private static readonly MetadataReference CSharpSymbolsReference = MetadataReference.CreateFromFile(typeof(CSharpCompilation).Assembly.Location);
         private static readonly MetadataReference CodeAnalysisReference = MetadataReference.CreateFromFile(typeof(Compilation).Assembly.Location);
 
-        internal static string DefaultFilePathPrefix = "Test";
-        internal static string CSharpDefaultFileExt = "cs";
-        internal static string VisualBasicDefaultExt = "vb";
-        internal static string TestProjectName = "TestProject";
-
-        #region  Get Diagnostics
+        private static string _defaultFilePathPrefix = "Test";
+        private static string _cSharpDefaultFileExt = "cs";
+        private static string _visualBasicDefaultExt = "vb";
+        private static string _testProjectName = "TestProject";
 
         /// <summary>
         /// Given classes in the form of strings, their language, and an IDiagnosticAnalyzer to apply to it, return the diagnostics found in the string after converting it to a document.
@@ -95,9 +93,6 @@ namespace TestHelper
             return diagnostics.OrderBy(d => d.Location.SourceSpan.Start).ToArray();
         }
 
-        #endregion
-
-        #region Set up compilation and documents
         /// <summary>
         /// Given an array of strings as sources and a language, turn them into a project and return the documents and spans of it.
         /// </summary>
@@ -141,14 +136,14 @@ namespace TestHelper
         /// <returns>A Project created out of the Documents created from the source strings</returns>
         private static Project CreateProject(string[] sources, string language = LanguageNames.CSharp)
         {
-            string fileNamePrefix = DefaultFilePathPrefix;
-            string fileExt = language == LanguageNames.CSharp ? CSharpDefaultFileExt : VisualBasicDefaultExt;
+            string fileNamePrefix = _defaultFilePathPrefix;
+            string fileExt = language == LanguageNames.CSharp ? _cSharpDefaultFileExt : _visualBasicDefaultExt;
 
-            var projectId = ProjectId.CreateNewId(debugName: TestProjectName);
+            var projectId = ProjectId.CreateNewId(debugName: _testProjectName);
 
             var solution = new AdhocWorkspace()
                 .CurrentSolution
-                .AddProject(projectId, TestProjectName, TestProjectName, language)
+                .AddProject(projectId, _testProjectName, _testProjectName, language)
                 .AddMetadataReference(projectId, CorlibReference)
                 .AddMetadataReference(projectId, SystemCoreReference)
                 .AddMetadataReference(projectId, CSharpSymbolsReference)
@@ -162,9 +157,8 @@ namespace TestHelper
                 solution = solution.AddDocument(documentId, newFileName, SourceText.From(source));
                 count++;
             }
+
             return solution.GetProject(projectId);
         }
-        #endregion
     }
 }
-

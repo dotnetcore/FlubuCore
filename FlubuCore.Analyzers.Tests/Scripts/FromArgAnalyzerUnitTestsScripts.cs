@@ -47,7 +47,7 @@ namespace FlubuCore.WebApi.Tests
     }
 }";
 
-        public const string FromArgNotSupportedPropertyTypeScript =  @"
+        public const string FromArgNotSupportedPropertyTypeScript = @"
 using System;
 using System.IO;
 using FlubuCore.Context;

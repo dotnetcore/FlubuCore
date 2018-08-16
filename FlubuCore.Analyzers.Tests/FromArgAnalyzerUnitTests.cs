@@ -22,10 +22,11 @@ namespace FlubuCore.Analyzers.Tests
             var expected = new DiagnosticResult
             {
                 Id = "FlubuCore_FromArg_001",
-                Message = String.Format("FromArg does not support type '{0}' on property.",  "Object"),
+                Message = string.Format("FromArg does not support type '{0}' on property.",  "Object"),
                 Severity = DiagnosticSeverity.Error,
                 Locations =
-                    new[] {
+                    new[]
+                    {
                         new DiagnosticResultLocation("Test0.cs", 30, 23)
                     }
             };
@@ -42,14 +43,15 @@ namespace FlubuCore.Analyzers.Tests
                 Message = "Key should not start with dash.",
                 Severity = DiagnosticSeverity.Error,
                 Locations =
-                    new[] {
+                    new[]
+                    {
                         new DiagnosticResultLocation("Test0.cs", 29, 10)
                     }
             };
 
             VerifyCSharpDiagnostic(FromArgAnalyzerUnitTestsScripts.FromArgKeyValueShouldNotStartWithDashScript, expected);
         }
-        
+
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
         {
             return new FromArgAnalyzer();

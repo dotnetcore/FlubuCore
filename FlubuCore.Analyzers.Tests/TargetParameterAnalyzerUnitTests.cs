@@ -21,10 +21,11 @@ namespace FlubuCore.Analyzers.Tests
             var expected = new DiagnosticResult
             {
                 Id = "FlubuCore_TargetParameter_001",
-                Message = String.Format("First parameter in method '{0}' must be of type ITarget.", "SuccesfullTarget"),
+                Message = string.Format("First parameter in method '{0}' must be of type ITarget.", "SuccesfullTarget"),
                 Severity = DiagnosticSeverity.Error,
                 Locations =
-                    new[] {
+                    new[]
+                    {
                         new DiagnosticResultLocation("Test0.cs", 24, 21)
                     }
             };
@@ -38,10 +39,11 @@ namespace FlubuCore.Analyzers.Tests
             var expected = new DiagnosticResult
             {
                 Id = "FlubuCore_TargetParameter_001",
-                Message = String.Format("First parameter in method '{0}' must be of type ITarget.", "SuccesfullTarget"),
+                Message = string.Format("First parameter in method '{0}' must be of type ITarget.", "SuccesfullTarget"),
                 Severity = DiagnosticSeverity.Error,
                 Locations =
-                    new[] {
+                    new[]
+                    {
                         new DiagnosticResultLocation("Test0.cs", 24, 21)
                     }
             };
@@ -55,10 +57,11 @@ namespace FlubuCore.Analyzers.Tests
             var expected = new DiagnosticResult
             {
                 Id = "FlubuCore_TargetParameter_002",
-                Message = String.Format("Parameters count in attribute and  method '{0}' must be the same.", "SuccesfullTarget"),
+                Message = string.Format("Parameters count in attribute and  method '{0}' must be the same.", "SuccesfullTarget"),
                 Severity = DiagnosticSeverity.Error,
                 Locations =
-                    new[] {
+                    new[]
+                    {
                         new DiagnosticResultLocation("Test0.cs", 35, 14)
                     }
             };
@@ -66,17 +69,17 @@ namespace FlubuCore.Analyzers.Tests
             VerifyCSharpDiagnostic(TargetParameterAnalyzerUnitTestsScripts.WrongParameterCountScript, expected);
         }
 
-
         [Fact]
         public void AttributeDoesntHaveParametersMethodDoesTest()
         {
             var expected = new DiagnosticResult
             {
                 Id = "FlubuCore_TargetParameter_002",
-                Message = String.Format("Parameters count in attribute and  method '{0}' must be the same.", "SuccesfullTarget"),
+                Message = string.Format("Parameters count in attribute and  method '{0}' must be the same.", "SuccesfullTarget"),
                 Severity = DiagnosticSeverity.Error,
                 Locations =
-                    new[] {
+                    new[]
+                    {
                         new DiagnosticResultLocation("Test0.cs", 35, 10)
                     }
             };
@@ -90,10 +93,11 @@ namespace FlubuCore.Analyzers.Tests
             var expected = new DiagnosticResult
             {
                 Id = "FlubuCore_TargetParameterAnalyzer",
-                Message = String.Format("Parameters count in attribute and  method '{0}' must be the same.", "SuccesfullTarget"),
+                Message = string.Format("Parameters count in attribute and  method '{0}' must be the same.", "SuccesfullTarget"),
                 Severity = DiagnosticSeverity.Error,
                 Locations =
-                    new[] {
+                    new[]
+                    {
                         new DiagnosticResultLocation("Test0.cs", 36, 10)
                     }
             };
@@ -107,10 +111,11 @@ namespace FlubuCore.Analyzers.Tests
             var expected = new DiagnosticResult
             {
                 Id = "FlubuCore_TargetParameter_003",
-                Message = String.Format("Parameter must be of same type as '{0}' method parameter '{1}'.", "SuccesfullTarget",  "path"),
+                Message = string.Format("Parameter must be of same type as '{0}' method parameter '{1}'.", "SuccesfullTarget",  "path"),
                 Severity = DiagnosticSeverity.Error,
                 Locations =
-                    new[] {
+                    new[]
+                    {
                         new DiagnosticResultLocation("Test0.cs", 35, 35)
                     }
             };

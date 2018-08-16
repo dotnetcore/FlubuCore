@@ -1,15 +1,15 @@
-﻿using FlubuCore.Scripting;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using FlubuCore.Context;
 using System.IO;
-using FlubuCore.WebApi.Models;
-using FlubuCore.WebApi.Repository;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using FlubuCore.Context;
+using FlubuCore.Scripting;
 using FlubuCore.WebApi;
 using FlubuCore.WebApi.Infrastructure;
+using FlubuCore.WebApi.Models;
+using FlubuCore.WebApi.Repository;
 using LiteDB;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 //#ass  .\lib\netstandard.dll
 //#ass  .\lib\System.Reflection.TypeExtensions.dll
@@ -150,16 +150,20 @@ namespace DeploymentScript
             }
 
             System.IO.FileInfo fi = null;
-            try {
+            try
+            {
                 fi = new System.IO.FileInfo(config.DeploymentPath);
             }
             catch (ArgumentException) { }
             catch (System.IO.PathTooLongException) { }
             catch (NotSupportedException) { }
-            if (ReferenceEquals(fi, null)) {
+            if (ReferenceEquals(fi, null))
+            {
                 throw new ArgumentException("DeploymentPath is not a legal path. Did u use double '\\'?");
-            } else {
-                
+            }
+else
+            {
+
             }
 
             if (config.CopyOnlyBinaries)
@@ -210,5 +214,4 @@ namespace DeploymentScript
         }
     }
 
-  
 }

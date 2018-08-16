@@ -1,11 +1,11 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Formatting;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using Xunit;
 
 namespace TestHelper
@@ -77,7 +77,7 @@ namespace TestHelper
             var analyzerDiagnostics = GetSortedDiagnosticsFromDocuments(analyzer, new[] { document });
             var compilerDiagnostics = GetCompilerDiagnostics(document);
             var attempts = analyzerDiagnostics.Length;
-            
+
             for (int i = 0; i < attempts; ++i)
             {
                 var actions = new List<CodeAction>();

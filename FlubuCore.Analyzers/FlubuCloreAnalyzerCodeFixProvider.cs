@@ -46,7 +46,7 @@
 ////            context.RegisterCodeFix(
 ////                CodeAction.Create(
 ////                    title: title,
-////                    createChangedSolution: c => MakeUppercaseAsync(context.Document, declaration, c), 
+////                    createChangedSolution: c => MakeUppercaseAsync(context.Document, declaration, c),
 ////                    equivalenceKey: title),
 ////                diagnostic);
 ////        }
@@ -65,7 +65,7 @@
 ////            var originalSolution = document.Project.Solution;
 ////            var optionSet = originalSolution.Workspace.Options;
 ////            var newSolution = await Renamer.RenameSymbolAsync(document.Project.Solution, typeSymbol, newName, optionSet, cancellationToken).ConfigureAwait(false);
-            
+
 ////            // Return the new solution with the now-uppercase type name.
 ////            return newSolution;
 ////        }

@@ -1,9 +1,9 @@
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Diagnostics;
 using Xunit;
 
 namespace TestHelper
@@ -13,7 +13,6 @@ namespace TestHelper
     /// </summary>
     public abstract partial class DiagnosticVerifier
     {
-        #region To be implemented by Test classes
         /// <summary>
         /// Get the CSharp analyzer being tested - to be implemented in non-abstract class
         /// </summary>
@@ -29,9 +28,6 @@ namespace TestHelper
         {
             return null;
         }
-        #endregion
-
-        #region Verifier wrappers
 
         /// <summary>
         /// Called to test a C# DiagnosticAnalyzer when applied on the single inputted string as a source
@@ -77,23 +73,6 @@ namespace TestHelper
             VerifyDiagnostics(sources, LanguageNames.VisualBasic, GetBasicDiagnosticAnalyzer(), expected);
         }
 
-        /// <summary>
-        /// General method that gets a collection of actual diagnostics found in the source after the analyzer is run, 
-        /// then verifies each of them.
-        /// </summary>
-        /// <param name="sources">An array of strings to create source documents from to run the analyzers on</param>
-        /// <param name="language">The language of the classes represented by the source strings</param>
-        /// <param name="analyzer">The analyzer to be run on the source code</param>
-        /// <param name="expected">DiagnosticResults that should appear after the analyzer is run on the sources</param>
-        private void VerifyDiagnostics(string[] sources, string language, DiagnosticAnalyzer analyzer, params DiagnosticResult[] expected)
-        {
-            var diagnostics = GetSortedDiagnostics(sources, language, analyzer);
-            VerifyDiagnosticResults(diagnostics, analyzer, expected);
-        }
-
-        #endregion
-
-        #region Actual comparisons and verifications
         /// <summary>
         /// Checks each of the actual Diagnostics found and compares them with the corresponding DiagnosticResult in the array of expected results.
         /// Diagnostics are considered equal only if the DiagnosticResultLocation, Id, Severity, and Message of the DiagnosticResult match the actual diagnostic.
@@ -209,9 +188,7 @@ namespace TestHelper
                 }
             }
         }
-        #endregion
 
-        #region Formatting Diagnostics
         /// <summary>
         /// Helper method to format a Diagnostic into an easily readable string
         /// </summary>
@@ -263,8 +240,22 @@ namespace TestHelper
                     }
                 }
             }
+
             return builder.ToString();
         }
-        #endregion
+
+        /// <summary>
+        /// General method that gets a collection of actual diagnostics found in the source after the analyzer is run,
+        /// then verifies each of them.
+        /// </summary>
+        /// <param name="sources">An array of strings to create source documents from to run the analyzers on</param>
+        /// <param name="language">The language of the classes represented by the source strings</param>
+        /// <param name="analyzer">The analyzer to be run on the source code</param>
+        /// <param name="expected">DiagnosticResults that should appear after the analyzer is run on the sources</param>
+        private void VerifyDiagnostics(string[] sources, string language, DiagnosticAnalyzer analyzer, params DiagnosticResult[] expected)
+        {
+            var diagnostics = GetSortedDiagnostics(sources, language, analyzer);
+            VerifyDiagnosticResults(diagnostics, analyzer, expected);
+        }
     }
 }

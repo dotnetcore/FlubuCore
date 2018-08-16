@@ -6,7 +6,7 @@ namespace FlubuCore.Analyzers.Tests.Scripts
 {
     public static class TargetParameterAnalyzerUnitTestsScripts
     {
-        public const string CorrectTargetDefinititionScript =  @"
+        public const string CorrectTargetDefinititionScript = @"
 using System;
 using System.IO;
 using FlubuCore.Context;
@@ -47,6 +47,7 @@ namespace FlubuCore.WebApi.Tests
         }
      }
 }";
+
         public const string WrongFirstParameterScript = @"
   using System;
 using System.IO;
