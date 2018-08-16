@@ -153,15 +153,22 @@ These examples will help you to get quickly start with FlubuCore:
 * [Deployment script example](https://github.com/flubu-core/examples/blob/master/DeployScriptExample/BuildScript/DeployScript.cs
 )
 
-## Have a question?
+## 🛎 Have a question?
 
  [![Join the chat at https://gitter.im/FlubuCore/Lobby](https://badges.gitter.im/mbdavid/LiteDB.svg)](https://gitter.im/FlubuCore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-## Contribution Guidelines
-* If u find a bug please report it :) 
-* If u have any improvement or feature proposal's we would be glad to hear from you. Add new issue as proposal and we will discuss it with you.
-* If u want to fix a bug yourself, improve or add new feature to flubu.. Fork, Pull request but first add new issue so we discuss it. You can also search the issues by label Help wanted, Good first issue or any other if u know how to fix/implement it. 
+## 🎁 Contributing
 
+Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+## ❤️ Ways to Contribute
+
+* Spread the word about the project.
+* Improve documentation.
+* Fix a bug.
+* Implement a new feature.
+* Discuss potential ways to improve project.
+* Improve existing implementation, performance, etc.
 
 ## Release Notes
 
