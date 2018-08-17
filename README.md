@@ -172,4 +172,4 @@ Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Release Notes
 
-Release notes can be found [here](https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt).
+ Notable FlubuCore changes by release can be found in [What's new](https://github.com/flubu-core/flubu.core/wiki/9-What's-New). See [release notes](https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt) for full set of changes.
