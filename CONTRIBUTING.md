@@ -32,7 +32,7 @@ Pull requests are welcome! We are also looking for new team member's [![Gitter](
 Please keep the following in mind:
 
 * You can contribute to the code by fixing a bug, implement new feature or improve existing code. 
-  Search issues by label Help wanted, Good first issue, Enchantment, New task, New plugin or take any other issue if u know kow to implement fix it.
+  Search issues by label Help wanted, Good first issue, Enchantment, New task, New plugin or take any other issue if u know how to implement/fix it.
 * If u found a new bug and want to fix it your self or you want to implement new feature first open new issue so we discuss it with you.
 * Make sure the tests pass. Your changes probably deserve new tests as well.
 * Remember that this project is cross-platform compatible (macOS, Windows, Linux)
