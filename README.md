@@ -165,7 +165,7 @@ Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 * Spread the word about the project.
 * Improve documentation.
-* Fix a bug.
+* Report, fix a bug.
 * Implement a new feature.
 * Discuss potential ways to improve project.
 * Improve existing implementation, performance, etc.
