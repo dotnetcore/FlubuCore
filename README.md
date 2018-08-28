@@ -169,6 +169,7 @@ Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 * Implement a new feature.
 * Discuss potential ways to improve project.
 * Improve existing implementation, performance, etc.
+* If u like the project please don't forget to give it a star so that the community get's bigger.
 
 ## Release Notes
 
