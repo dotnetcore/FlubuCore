@@ -125,6 +125,8 @@
 
 * [Possibility to use FlubuCore tasks in any other .NET application.](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs)
 
+* [Cake have a lot of addins that are quite usefull. If needed you can use any of them in FlubuCore.](https://github.com/flubu-core/FlubuCore.CakePlugin)
+
 * Improved developer experience with FlubuCore custom analyzers.
 
 ![FlubuCore analyzers in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/FlubuCoreCustomAnalyzerDemo.png)
