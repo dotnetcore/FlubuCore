@@ -25,6 +25,7 @@
     <Compile Remove="FlubuCore.Analyzer\**" />
     <Compile Remove="FlubuCore.GlobalTool\**" />
     <Compile Remove="FlubuCore.Runner\**" />
+    <Compile Remove="FlubuCore.Tests\**" />
     <Compile Remove="FlubuCore.WebApi.Client\**" />
     <Compile Remove="FlubuCore.WebApi.Model\**" />
     <Compile Remove="FlubuCore.WebApi.Tests\**" />
@@ -53,6 +54,7 @@
     <EmbeddedResource Remove="FlubuCore.Analyzer\**" />
     <EmbeddedResource Remove="FlubuCore.GlobalTool\**" />
     <EmbeddedResource Remove="FlubuCore.Runner\**" />
+    <EmbeddedResource Remove="FlubuCore.Tests\**" />
     <EmbeddedResource Remove="FlubuCore.WebApi.Client\**" />
     <EmbeddedResource Remove="FlubuCore.WebApi.Model\**" />
     <EmbeddedResource Remove="FlubuCore.WebApi.Tests\**" />
@@ -81,6 +83,7 @@
     <None Remove="FlubuCore.Analyzer\**" />
     <None Remove="FlubuCore.GlobalTool\**" />
     <None Remove="FlubuCore.Runner\**" />
+    <None Remove="FlubuCore.Tests\**" />
     <None Remove="FlubuCore.WebApi.Client\**" />
     <None Remove="FlubuCore.WebApi.Model\**" />
     <None Remove="FlubuCore.WebApi.Tests\**" />

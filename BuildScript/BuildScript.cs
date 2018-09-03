@@ -27,7 +27,7 @@ public class BuildScript : DefaultBuildScript
         var compile = context
             .CreateTarget("compile")
             .SetDescription("Compiles the VS solution")
-            .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj", "Flubu.Tests/Flubu.Tests.csproj", "FlubuCore.WebApi.Model/FlubuCore.WebApi.Model.csproj", "FlubuCore.WebApi.Client/FlubuCore.WebApi.Client.csproj", "FlubuCore.WebApi/FlubuCore.WebApi.csproj", "FlubuCore.GlobalTool/FlubuCore.GlobalTool.csproj"))
+            .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj", "FlubuCore.Tests/FlubuCore.Tests.csproj", "FlubuCore.WebApi.Model/FlubuCore.WebApi.Model.csproj", "FlubuCore.WebApi.Client/FlubuCore.WebApi.Client.csproj", "FlubuCore.WebApi/FlubuCore.WebApi.csproj", "FlubuCore.GlobalTool/FlubuCore.GlobalTool.csproj"))
             .AddCoreTask(x => x.Restore())
             .AddCoreTask(x => x.Build())
             .DependsOn(buildVersion);
@@ -70,7 +70,7 @@ public class BuildScript : DefaultBuildScript
 
         var flubuTests = context.CreateTarget("test")
             .SetDescription("Runs all tests in solution.")
-            .AddCoreTask(x => x.Test().Project("Flubu.Tests\\Flubu.Tests.csproj"))
+            .AddCoreTask(x => x.Test().Project("FlubuCore.Tests\\FlubuCore.Tests.csproj"))
             .AddCoreTask(x => x.Test().Project("FlubuCore.WebApi.Tests\\FlubuCore.WebApi.Tests.csproj"))
             .AddCoreTask(x => x.Test().Project("FlubuCore.Analyzers.Tests\\FlubuCore.Analyzers.Tests.csproj"));
 
