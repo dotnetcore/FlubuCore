@@ -39,23 +39,23 @@ namespace Flubu.Tests.Packaging
             IZipper zipper = new Zipper(Context);
             IDirectoryFilesLister directoryFilesLister = new DirectoryFilesLister();
             StandardPackageDef packageDef = new StandardPackageDef();
-            DirectorySource test = new DirectorySource(Context, directoryFilesLister, "test", new FullPath("tmp\\test"));
-            DirectorySource test2 = new DirectorySource(Context, directoryFilesLister, "test2", new FullPath("tmp\\test2"));
+            DirectorySource test = new DirectorySource(Context, directoryFilesLister, "test", new FullPath("tmp/test"));
+            DirectorySource test2 = new DirectorySource(Context, directoryFilesLister, "test2", new FullPath("tmp/test2"));
             packageDef.AddFilesSource(test);
             packageDef.AddFilesSource(test2);
             CopyProcessor copyProcessor = new CopyProcessor(
                Context,
                copier,
-               new FullPath("tmp\\output"));
+               new FullPath("tmp/output"));
             copyProcessor
                 .AddTransformation("test", new LocalPath(@"test"))
                 .AddTransformation("test2", new LocalPath(@"test2"));
             IPackageDef copiedPackageDef = copyProcessor.Process(packageDef);
 
-            ZipProcessor zipProcessor = new ZipProcessor(Context, zipper, new FileFullPath("tmp\\test.zip"), new FullPath("tmp\\output"), false, null, "test", "test2");
+            ZipProcessor zipProcessor = new ZipProcessor(Context, zipper, new FileFullPath("tmp/test.zip"), new FullPath("tmp\\output"), false, null, "test", "test2");
             zipProcessor.Process(copiedPackageDef);
 
-            using (ZipArchive archive = ZipFile.OpenRead("tmp\\test.zip"))
+            using (ZipArchive archive = ZipFile.OpenRead("tmp/test.zip"))
             {
                 Assert.Equal(4, archive.Entries.Count);
                 Assert.Equal("test\\test.txt", archive.Entries[0].FullName);
@@ -72,8 +72,8 @@ namespace Flubu.Tests.Packaging
             IZipper zipper = new Zipper(Context);
             IDirectoryFilesLister directoryFilesLister = new DirectoryFilesLister();
             StandardPackageDef packageDef = new StandardPackageDef();
-            DirectorySource test = new DirectorySource(Context, directoryFilesLister, "test", new FullPath("tmp\\test"));
-            DirectorySource test2 = new DirectorySource(Context, directoryFilesLister, "test2", new FullPath("tmp\\test2"));
+            DirectorySource test = new DirectorySource(Context, directoryFilesLister, "test", new FullPath("tmp/test"));
+            DirectorySource test2 = new DirectorySource(Context, directoryFilesLister, "test2", new FullPath("tmp/test2"));
             packageDef.AddFilesSource(test);
             packageDef.AddFilesSource(test2);
             CopyProcessor copyProcessor = new CopyProcessor(
@@ -85,10 +85,10 @@ namespace Flubu.Tests.Packaging
                 .AddTransformation("test2", new LocalPath(@"test2"));
             IPackageDef copiedPackageDef = copyProcessor.Process(packageDef);
 
-            ZipProcessor zipProcessor = new ZipProcessor(Context, zipper, new FileFullPath("tmp\\test.zip"), new FullPath("tmp\\output"), true, null, "test", "test2");
+            ZipProcessor zipProcessor = new ZipProcessor(Context, zipper, new FileFullPath("tmp/test.zip"), new FullPath("tmp/output"), true, null, "test", "test2");
             zipProcessor.Process(copiedPackageDef);
 
-            using (ZipArchive archive = ZipFile.OpenRead("tmp\\test.zip"))
+            using (ZipArchive archive = ZipFile.OpenRead("tmp/test.zip"))
             {
                 Assert.Equal(4, archive.Entries.Count);
                 Assert.Equal("test2\\test.txt", archive.Entries[1].FullName);
@@ -105,22 +105,22 @@ namespace Flubu.Tests.Packaging
             IZipper zipper = new Zipper(Context);
             IDirectoryFilesLister directoryFilesLister = new DirectoryFilesLister();
             StandardPackageDef packageDef = new StandardPackageDef();
-            DirectorySource test = new DirectorySource(Context, directoryFilesLister, "test", new FullPath("tmp\\test"));
-            DirectorySource test2 = new DirectorySource(Context, directoryFilesLister, "test2", new FullPath("tmp\\test2"));
+            DirectorySource test = new DirectorySource(Context, directoryFilesLister, "test", new FullPath("tmp/test"));
+            DirectorySource test2 = new DirectorySource(Context, directoryFilesLister, "test2", new FullPath("tmp/test2"));
             packageDef.AddFilesSource(test);
             packageDef.AddFilesSource(test2);
             CopyProcessor copyProcessor = new CopyProcessor(
                Context,
                copier,
-               new FullPath("tmp\\output"));
+               new FullPath("tmp/output"));
             copyProcessor
                 .AddTransformation("test", new LocalPath(@"test"))
                 .AddTransformation("test2", new LocalPath(@"test2"));
             IPackageDef copiedPackageDef = copyProcessor.Process(packageDef);
 
-            ZipProcessor zipProcessor = new ZipProcessor(Context, zipper, new FileFullPath("tmp\\test.zip"), new FullPath("tmp\\output"), true, null, "test", "test2");
+            ZipProcessor zipProcessor = new ZipProcessor(Context, zipper, new FileFullPath("tmp/test.zip"), new FullPath("tmp/output"), true, null, "test", "test2");
             zipProcessor.Process(copiedPackageDef);
-            string zf = "tmp\\test.zip";
+            string zf = "tmp/test.zip";
             using (ZipArchive archive = ZipFile.OpenRead(zf))
             {
                 Assert.Equal(4, archive.Entries.Count);
@@ -143,8 +143,8 @@ namespace Flubu.Tests.Packaging
         [Fact]
         public void UnzipFileZippedWithExternalZipper()
         {
-            new UnzipTask(@"TestData\apiSimulator.zip", "Tmp").Execute(Context);
-            Assert.True(Directory.Exists(@"tmp\apiSimulator"));
+            new UnzipTask(@"TestData/apiSimulator.zip", "Tmp").Execute(Context);
+            Assert.True(Directory.Exists(@"tmp/apiSimulator"));
         }
 
         private static void CreateTestFile(string fileName, string data)

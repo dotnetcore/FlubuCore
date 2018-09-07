@@ -27,24 +27,24 @@ namespace Flubu.Tests.Tasks
         public void PackagingAddFileToPackageTest()
         {
             Directory.CreateDirectory("tmp");
-            Directory.CreateDirectory(@"tmp\Test");
-            using (File.Create(@"tmp\Test\test.txt"))
+            Directory.CreateDirectory(@"tmp/Test");
+            using (File.Create(@"tmp/Test/test.txt"))
             {
             }
 
-            using (File.Create(@"tmp\Test\test1.txt"))
+            using (File.Create(@"tmp/Test/test1.txt"))
             {
             }
 
             Context.SetBuildVersion(new Version(1, 0, 0, 0));
 
-            new PackageTask(@"tmp\output")
-                .AddFileToPackage(@"tmp\Test\test1.txt", "test")
-                .AddFileToPackage(@"tmp\Test\test1.txt", string.Empty)
+            new PackageTask(@"tmp/output")
+                .AddFileToPackage(@"tmp/Test/test1.txt", "test")
+                .AddFileToPackage(@"tmp/Test/test1.txt", string.Empty)
                 .ZipPackage(@"test.zip", true, 4)
                 .ExecuteVoid(Context);
 
-            using (ZipArchive archive = ZipFile.OpenRead("tmp\\output\\test_1.0.0.0.zip"))
+            using (ZipArchive archive = ZipFile.OpenRead("tmp/output/test_1.0.0.0.zip"))
             {
                 Assert.Equal(2, archive.Entries.Count);
                 Assert.Equal(@"test1.txt", archive.Entries[1].FullName);
@@ -56,29 +56,29 @@ namespace Flubu.Tests.Tasks
         public void PackagingWihoutFiltersTest()
         {
             Directory.CreateDirectory("tmp");
-            Directory.CreateDirectory(@"tmp\Test");
-            using (File.Create(@"tmp\Test\test.txt"))
+            Directory.CreateDirectory(@"tmp/Test");
+            using (File.Create(@"tmp/Test/test.txt"))
             {
             }
 
-            using (File.Create(@"tmp\Test\test1.txt"))
+            using (File.Create(@"tmp/Test/test1.txt"))
             {
             }
 
-            Directory.CreateDirectory(@"tmp\Test2");
-            using (File.Create(@"tmp\Test2\test2.txt"))
+            Directory.CreateDirectory(@"tmp/Test2");
+            using (File.Create(@"tmp/Test2/test2.txt"))
             {
             }
 
             Context.SetBuildVersion(new Version(1, 0, 0, 0));
 
-            new PackageTask(@"tmp\output")
-                .AddDirectoryToPackage(@"tmp\test", "test")
-                .AddDirectoryToPackage(@"tmp\test2", "test2")
+            new PackageTask(@"tmp/output")
+                .AddDirectoryToPackage(@"tmp/test", "test")
+                .AddDirectoryToPackage(@"tmp/test2", "test2")
                 .ZipPackage(@"test.zip", true, 4)
                 .ExecuteVoid(Context);
 
-            using (ZipArchive archive = ZipFile.OpenRead("tmp\\output\\test_1.0.0.0.zip"))
+            using (ZipArchive archive = ZipFile.OpenRead("tmp/output/test_1.0.0.0.zip"))
             {
                 Assert.Equal(3, archive.Entries.Count);
                 Assert.Equal(@"test\test.txt", archive.Entries[0].FullName);
@@ -91,31 +91,31 @@ namespace Flubu.Tests.Tasks
         public void PackagingWithFiltersTest()
         {
             Directory.CreateDirectory("tmp");
-            Directory.CreateDirectory(@"tmp\Test");
-            using (File.Create(@"tmp\Test\test.txt"))
+            Directory.CreateDirectory(@"tmp/Test");
+            using (File.Create(@"tmp/Test/test.txt"))
             {
             }
 
-            using (File.Create(@"tmp\Test\some.fln"))
+            using (File.Create(@"tmp/Test/some.fln"))
             {
             }
 
-            Directory.CreateDirectory(@"tmp\Test2");
-            using (File.Create(@"tmp\Test2\test2.txt"))
+            Directory.CreateDirectory(@"tmp/Test2");
+            using (File.Create(@"tmp/Test2/test2.txt"))
             {
             }
 
-            using (File.Create(@"tmp\Test2\fas.bl"))
+            using (File.Create(@"tmp/Test2/fas.bl"))
             {
             }
 
-            new PackageTask(@"tmp\output")
-                .AddDirectoryToPackage(@"tmp\test", "test", false, new RegexFileFilter(@".fln"))
-                .AddDirectoryToPackage(@"tmp\test2", "test2", false, new RegexFileFilter(@".bl"))
+            new PackageTask(@"tmp/output")
+                .AddDirectoryToPackage(@"tmp/test", "test", false, new RegexFileFilter(@".fln"))
+                .AddDirectoryToPackage(@"tmp/test2", "test2", false, new RegexFileFilter(@".bl"))
                 .ZipPackage(@"test.zip", false)
                 .ExecuteVoid(Context);
 
-            using (ZipArchive archive = ZipFile.OpenRead("tmp\\output\\test.zip"))
+            using (ZipArchive archive = ZipFile.OpenRead("tmp/output/test.zip"))
             {
                 Assert.Equal(2, archive.Entries.Count);
                 Assert.Equal(@"test\test.txt", archive.Entries[0].FullName);
@@ -127,17 +127,17 @@ namespace Flubu.Tests.Tasks
         public void PackagingWithDoubleDotsInZipFileNameTest()
         {
             Directory.CreateDirectory("tmp");
-            Directory.CreateDirectory(@"tmp\Test");
-            using (File.Create(@"tmp\Test\test.txt"))
+            Directory.CreateDirectory(@"tmp/Test");
+            using (File.Create(@"tmp/Test/test.txt"))
             {
             }
 
-            new PackageTask(@"tmp\output")
-                .AddDirectoryToPackage(@"tmp\test", "test")
+            new PackageTask(@"tmp/output")
+                .AddDirectoryToPackage(@"tmp/test", "test")
                 .ZipPackage(@"test.flubu.zip", false)
                 .ExecuteVoid(Context);
 
-            using (ZipArchive archive = ZipFile.OpenRead("tmp\\output\\test.flubu.zip"))
+            using (ZipArchive archive = ZipFile.OpenRead("tmp/output/test.flubu.zip"))
             {
                 Assert.Single(archive.Entries);
             }
@@ -147,17 +147,17 @@ namespace Flubu.Tests.Tasks
         public void PackagingWithDoubleDotsInZipFileNameNoZipExtensionTest()
         {
             Directory.CreateDirectory("tmp");
-            Directory.CreateDirectory(@"tmp\Test");
-            using (File.Create(@"tmp\Test\test.txt"))
+            Directory.CreateDirectory(@"tmp/Test");
+            using (File.Create(@"tmp/Test/test.txt"))
             {
             }
 
-            new PackageTask(@"tmp\output")
-                .AddDirectoryToPackage(@"tmp\test", "test")
+            new PackageTask(@"tmp/output")
+                .AddDirectoryToPackage(@"tmp/test", "test")
                 .ZipPackage(@"test.flubu", false)
                 .ExecuteVoid(Context);
 
-            using (ZipArchive archive = ZipFile.OpenRead("tmp\\output\\test.flubu.zip"))
+            using (ZipArchive archive = ZipFile.OpenRead("tmp/output/test.flubu.zip"))
             {
                 Assert.Single(archive.Entries);
             }
@@ -167,23 +167,23 @@ namespace Flubu.Tests.Tasks
         public void PackagingWihoutZippingTest()
         {
             Directory.CreateDirectory("tmp");
-            Directory.CreateDirectory(@"tmp\Test");
-            using (File.Create(@"tmp\Test\test.txt"))
+            Directory.CreateDirectory(@"tmp/Test");
+            using (File.Create(@"tmp/Test/test.txt"))
             {
             }
 
-            using (File.Create(@"tmp\Test\test1.txt"))
+            using (File.Create(@"tmp/Test/test1.txt"))
             {
             }
 
-            Directory.CreateDirectory(@"tmp\Test2");
-            using (File.Create(@"tmp\Test2\test2.txt"))
+            Directory.CreateDirectory(@"tmp/Test2");
+            using (File.Create(@"tmp/Test2/test2.txt"))
             {
             }
 
-            new PackageTask(@"tmp\output")
-                .AddDirectoryToPackage(@"tmp\test", "test")
-                .AddDirectoryToPackage(@"tmp\test2", "test2")
+            new PackageTask(@"tmp/output")
+                .AddDirectoryToPackage(@"tmp/test", "test")
+                .AddDirectoryToPackage(@"tmp/test2", "test2")
                 .ExecuteVoid(Context);
 
             Assert.True(File.Exists(@"tmp\output\test\test.txt"));
@@ -194,19 +194,19 @@ namespace Flubu.Tests.Tasks
         public void PackagingWithAddFileToPackageTest()
         {
             Directory.CreateDirectory("tmp");
-            Directory.CreateDirectory(@"tmp\Test");
-            using (File.Create(@"tmp\Test\test.txt"))
+            Directory.CreateDirectory(@"tmp/Test");
+            using (File.Create(@"tmp/Test/test.txt"))
             {
             }
 
-            Directory.CreateDirectory(@"tmp\Test2");
-            using (File.Create(@"tmp\Test2\test2.txt"))
+            Directory.CreateDirectory(@"tmp/Test2");
+            using (File.Create(@"tmp/Test2/test2.txt"))
             {
             }
 
-            new PackageTask(@"tmp\output")
-                .AddDirectoryToPackage(@"tmp\test", "test")
-                .AddFileToPackage(@"tmp\Test2\test2.txt", @"test")
+            new PackageTask(@"tmp/output")
+                .AddDirectoryToPackage(@"tmp/test", "test")
+                .AddFileToPackage(@"tmp/Test2/test2.txt", @"test")
                 .ExecuteVoid(Context);
 
             Assert.True(File.Exists(@"tmp\output\test\test.txt"));
