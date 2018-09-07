@@ -104,7 +104,7 @@ public class BuildScript : DefaultBuildScript
         var compileLinux = context
             .CreateTarget("compile.linux")
             .SetDescription("Compiles the VS solution")
-            .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj", "Flubu.Tests/Flubu.Tests.csproj", "FlubuCore.GlobalTool/FlubuCore.GlobalTool.csproj"))
+            .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj", "FlubuCore.Tests/FlubuCore.Tests.csproj", "FlubuCore.GlobalTool/FlubuCore.GlobalTool.csproj"))
             .AddCoreTask(x => x.Restore())
             .DependsOn(buildVersion);
 
