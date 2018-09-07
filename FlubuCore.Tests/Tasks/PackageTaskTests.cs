@@ -73,8 +73,8 @@ namespace Flubu.Tests.Tasks
             Context.SetBuildVersion(new Version(1, 0, 0, 0));
 
             new PackageTask(@"tmp/output")
-                .AddDirectoryToPackage(@"tmp/test", "test")
-                .AddDirectoryToPackage(@"tmp/test2", "test2")
+                .AddDirectoryToPackage(@"tmp/Test", "test")
+                .AddDirectoryToPackage(@"tmp/Test2", "test2")
                 .ZipPackage(@"test.zip", true, 4)
                 .ExecuteVoid(Context);
 
@@ -110,8 +110,8 @@ namespace Flubu.Tests.Tasks
             }
 
             new PackageTask(@"tmp/output")
-                .AddDirectoryToPackage(@"tmp/test", "test", false, new RegexFileFilter(@".fln"))
-                .AddDirectoryToPackage(@"tmp/test2", "test2", false, new RegexFileFilter(@".bl"))
+                .AddDirectoryToPackage(@"tmp/Test", "test", false, new RegexFileFilter(@".fln"))
+                .AddDirectoryToPackage(@"tmp/Test2", "test2", false, new RegexFileFilter(@".bl"))
                 .ZipPackage(@"test.zip", false)
                 .ExecuteVoid(Context);
 
@@ -133,7 +133,7 @@ namespace Flubu.Tests.Tasks
             }
 
             new PackageTask(@"tmp/output")
-                .AddDirectoryToPackage(@"tmp/test", "test")
+                .AddDirectoryToPackage(@"tmp/Test", "test")
                 .ZipPackage(@"test.flubu.zip", false)
                 .ExecuteVoid(Context);
 
@@ -153,7 +153,7 @@ namespace Flubu.Tests.Tasks
             }
 
             new PackageTask(@"tmp/output")
-                .AddDirectoryToPackage(@"tmp/test", "test")
+                .AddDirectoryToPackage(@"tmp/Test", "test")
                 .ZipPackage(@"test.flubu", false)
                 .ExecuteVoid(Context);
 
@@ -182,8 +182,8 @@ namespace Flubu.Tests.Tasks
             }
 
             new PackageTask(@"tmp/output")
-                .AddDirectoryToPackage(@"tmp/test", "test")
-                .AddDirectoryToPackage(@"tmp/test2", "test2")
+                .AddDirectoryToPackage(@"tmp/Test", "test")
+                .AddDirectoryToPackage(@"tmp/Test2", "test2")
                 .ExecuteVoid(Context);
 
             Assert.True(File.Exists(@"tmp\output\test\test.txt"));
