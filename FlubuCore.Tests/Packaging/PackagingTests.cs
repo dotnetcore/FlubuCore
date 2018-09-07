@@ -10,6 +10,8 @@ namespace Flubu.Tests.Packaging
     [Collection(nameof(FlubuTestCollection))]
     public class PackagingTests : FlubuTestBase
     {
+        private static char _seperator = Path.DirectorySeparatorChar;
+
         private readonly FlubuTestFixture _fixture;
 
         public PackagingTests(FlubuTestFixture fixture)
@@ -22,14 +24,14 @@ namespace Flubu.Tests.Packaging
             }
 
             Directory.CreateDirectory("tmp");
-            Directory.CreateDirectory("tmp\\Test");
-            Directory.CreateDirectory("tmp\\Test2");
-            Directory.CreateDirectory("tmp\\Test3");
+            Directory.CreateDirectory("tmp/test");
+            Directory.CreateDirectory("tmp/test2");
+            Directory.CreateDirectory("tmp/test3");
 
-            CreateTestFile("tmp\\Test\\test.txt", "test.txt");
-            CreateTestFile("tmp\\Test2\\test2.txt", "test.txt");
-            CreateTestFile("tmp\\Test2\\test.txt", "test.txt");
-            CreateTestFile("tmp\\Test\\test2.txt", "test2.txt");
+            CreateTestFile("tmp/test/test.txt", "test.txt");
+            CreateTestFile("tmp/test2/test2.txt", "test.txt");
+            CreateTestFile("tmp/test2/test.txt", "test.txt");
+            CreateTestFile("tmp/test/test2.txt", "test2.txt");
         }
 
         [Fact]
@@ -58,10 +60,10 @@ namespace Flubu.Tests.Packaging
             using (ZipArchive archive = ZipFile.OpenRead("tmp/test.zip"))
             {
                 Assert.Equal(4, archive.Entries.Count);
-                Assert.Equal("test\\test.txt", archive.Entries[0].FullName);
-                Assert.Equal("test\\test2.txt", archive.Entries[1].FullName);
-                Assert.Equal("test2\\test.txt", archive.Entries[2].FullName);
-                Assert.Equal("test2\\test2.txt", archive.Entries[3].FullName);
+                Assert.Equal($"test{_seperator}test.txt", archive.Entries[0].FullName);
+                Assert.Equal($"test{_seperator}test2.txt", archive.Entries[1].FullName);
+                Assert.Equal($"test2{_seperator}test.txt", archive.Entries[2].FullName);
+                Assert.Equal($"test2{_seperator}test2.txt", archive.Entries[3].FullName);
             }
         }
 
@@ -91,9 +93,9 @@ namespace Flubu.Tests.Packaging
             using (ZipArchive archive = ZipFile.OpenRead("tmp/test.zip"))
             {
                 Assert.Equal(4, archive.Entries.Count);
-                Assert.Equal("test2\\test.txt", archive.Entries[1].FullName);
-                Assert.Equal("test2\\test2.txt", archive.Entries[0].FullName);
-                Assert.Equal("test\\test2.txt", archive.Entries[2].FullName);
+                Assert.Equal($"test2{_seperator}test.txt", archive.Entries[1].FullName);
+                Assert.Equal($"test2{_seperator}test2.txt", archive.Entries[0].FullName);
+                Assert.Equal($"test{_seperator}test2.txt", archive.Entries[2].FullName);
                 Assert.Equal("_zipmetadata.json", archive.Entries[3].FullName);
             }
         }
@@ -124,9 +126,9 @@ namespace Flubu.Tests.Packaging
             using (ZipArchive archive = ZipFile.OpenRead(zf))
             {
                 Assert.Equal(4, archive.Entries.Count);
-                Assert.Equal("test2\\test.txt", archive.Entries[1].FullName);
-                Assert.Equal("test2\\test2.txt", archive.Entries[0].FullName);
-                Assert.Equal("test\\test2.txt", archive.Entries[2].FullName);
+                Assert.Equal($"test2{_seperator}test.txt", archive.Entries[1].FullName);
+                Assert.Equal($"test2{_seperator}test2.txt", archive.Entries[0].FullName);
+                Assert.Equal($"test{_seperator}test2.txt", archive.Entries[2].FullName);
                 Assert.Equal("_zipmetadata.json", archive.Entries[3].FullName);
             }
 
@@ -134,10 +136,10 @@ namespace Flubu.Tests.Packaging
             UnzipTask unzip = new UnzipTask(zf, unzipPath);
             unzip.Execute(Context);
 
-            CheckTestFile(Path.Combine(unzipPath, "test2\\test.txt"), "test.txt\r\n");
-            CheckTestFile(Path.Combine(unzipPath, "test2\\test2.txt"), "test.txt\r\n");
-            CheckTestFile(Path.Combine(unzipPath, "test\\test.txt"), "test.txt\r\n");
-            CheckTestFile(Path.Combine(unzipPath, "test\\test2.txt"), "test2.txt\r\n");
+            CheckTestFile(Path.Combine(unzipPath, $"test2{_seperator}test.txt"), "test.txt\r\n");
+            CheckTestFile(Path.Combine(unzipPath, $"test2{_seperator}test2.txt"), "test.txt\r\n");
+            CheckTestFile(Path.Combine(unzipPath, $"test{_seperator}test.txt"), "test.txt\r\n");
+            CheckTestFile(Path.Combine(unzipPath, $"test{_seperator}test2.txt"), "test2.txt\r\n");
         }
 
         [Fact]

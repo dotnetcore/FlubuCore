@@ -11,6 +11,8 @@ namespace Flubu.Tests.Tasks
     [Collection(nameof(FlubuTestCollection))]
     public class PackageTaskTests : FlubuTestBase
     {
+         private static char _seperator = Path.DirectorySeparatorChar;
+
         private readonly FlubuTestFixture _fixture;
 
         public PackageTaskTests(FlubuTestFixture fixture)
@@ -47,8 +49,8 @@ namespace Flubu.Tests.Tasks
             using (ZipArchive archive = ZipFile.OpenRead("tmp/output/test_1.0.0.0.zip"))
             {
                 Assert.Equal(2, archive.Entries.Count);
-                Assert.Equal(@"test1.txt", archive.Entries[1].FullName);
-                Assert.Equal(@"test\test1.txt", archive.Entries[0].FullName);
+                Assert.Equal($"test1.txt", archive.Entries[1].FullName);
+                Assert.Equal($"test{_seperator}test1.txt", archive.Entries[0].FullName);
             }
         }
 
@@ -81,9 +83,9 @@ namespace Flubu.Tests.Tasks
             using (ZipArchive archive = ZipFile.OpenRead("tmp/output/test_1.0.0.0.zip"))
             {
                 Assert.Equal(3, archive.Entries.Count);
-                Assert.Equal(@"test\test.txt", archive.Entries[0].FullName);
-                Assert.Equal(@"test\test1.txt", archive.Entries[1].FullName);
-                Assert.Equal(@"test2\test2.txt", archive.Entries[2].FullName);
+                Assert.Equal($"test{_seperator}test.txt", archive.Entries[0].FullName);
+                Assert.Equal($"test{_seperator}test1.txt", archive.Entries[1].FullName);
+                Assert.Equal($"test2{_seperator}test2.txt", archive.Entries[2].FullName);
             }
         }
 
@@ -118,8 +120,8 @@ namespace Flubu.Tests.Tasks
             using (ZipArchive archive = ZipFile.OpenRead("tmp/output/test.zip"))
             {
                 Assert.Equal(2, archive.Entries.Count);
-                Assert.Equal(@"test\test.txt", archive.Entries[0].FullName);
-                Assert.Equal(@"test2\test2.txt", archive.Entries[1].FullName);
+                Assert.Equal($"test{_seperator}test.txt", archive.Entries[0].FullName);
+                Assert.Equal($"test2{_seperator}test2.txt", archive.Entries[1].FullName);
             }
         }
 
@@ -186,8 +188,8 @@ namespace Flubu.Tests.Tasks
                 .AddDirectoryToPackage(@"tmp/Test2", "test2")
                 .ExecuteVoid(Context);
 
-            Assert.True(File.Exists(@"tmp\output\test\test.txt"));
-            Assert.True(File.Exists(@"tmp\output\test2\test2.txt"));
+            Assert.True(File.Exists(@"tmp/output/test/test.txt"));
+            Assert.True(File.Exists(@"tmp/output/test2/test2.txt"));
         }
 
         [Fact]
@@ -209,8 +211,8 @@ namespace Flubu.Tests.Tasks
                 .AddFileToPackage(@"tmp/Test2/test2.txt", @"test")
                 .ExecuteVoid(Context);
 
-            Assert.True(File.Exists(@"tmp\output\test\test.txt"));
-            Assert.True(File.Exists(@"tmp\output\test\test2.txt"));
+            Assert.True(File.Exists(@"tmp/output/test/test.txt"));
+            Assert.True(File.Exists(@"tmp/output/test/test2.txt"));
         }
     }
 }
