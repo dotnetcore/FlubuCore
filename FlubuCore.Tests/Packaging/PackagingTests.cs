@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using FlubuCore.IO;
 using FlubuCore.Packaging;
 using FlubuCore.Tasks.Packaging;
@@ -54,7 +55,7 @@ namespace Flubu.Tests.Packaging
                 .AddTransformation("test2", new LocalPath(@"test2"));
             IPackageDef copiedPackageDef = copyProcessor.Process(packageDef);
 
-            ZipProcessor zipProcessor = new ZipProcessor(Context, zipper, new FileFullPath("tmp/test.zip"), new FullPath("tmp\\output"), false, null, "test", "test2");
+            ZipProcessor zipProcessor = new ZipProcessor(Context, zipper, new FileFullPath("tmp/test.zip"), new FullPath("tmp/output"), false, null, "test", "test2");
             zipProcessor.Process(copiedPackageDef);
 
             using (ZipArchive archive = ZipFile.OpenRead("tmp/test.zip"))
@@ -81,7 +82,7 @@ namespace Flubu.Tests.Packaging
             CopyProcessor copyProcessor = new CopyProcessor(
                Context,
                copier,
-               new FullPath("tmp\\output"));
+               new FullPath("tmp/output"));
             copyProcessor
                 .AddTransformation("test", new LocalPath(@"test"))
                 .AddTransformation("test2", new LocalPath(@"test2"));
@@ -126,10 +127,11 @@ namespace Flubu.Tests.Packaging
             using (ZipArchive archive = ZipFile.OpenRead(zf))
             {
                 Assert.Equal(4, archive.Entries.Count);
-                Assert.Equal($"test2{_seperator}test.txt", archive.Entries[1].FullName);
-                Assert.Equal($"test2{_seperator}test2.txt", archive.Entries[0].FullName);
-                Assert.Equal($"test{_seperator}test2.txt", archive.Entries[2].FullName);
-                Assert.Equal("_zipmetadata.json", archive.Entries[3].FullName);
+                var list = archive.Entries.ToList<ZipArchiveEntry>();
+                Assert.Contains(list, x => x.FullName == $"test2{_seperator}test.txt");
+                Assert.Contains(list, x => x.FullName == $"test2{_seperator}test2.txt");
+                Assert.Contains(list, x => x.FullName == $"test{_seperator}test2.txt");
+                Assert.Contains(list, x => x.FullName == "_zipmetadata.json");
             }
 
             string unzipPath = "tmp/tt/";
@@ -145,7 +147,7 @@ namespace Flubu.Tests.Packaging
         [Fact]
         public void UnzipFileZippedWithExternalZipper()
         {
-            new UnzipTask(@"TestData/apiSimulator.zip", "Tmp").Execute(Context);
+            new UnzipTask(@"TestData/apiSimulator.zip", "tmp").Execute(Context);
             Assert.True(Directory.Exists(@"tmp/apiSimulator"));
         }
 

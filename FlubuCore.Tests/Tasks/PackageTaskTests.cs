@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using FlubuCore.Context;
 using FlubuCore.Packaging;
 using FlubuCore.Tasks.Packaging;
@@ -83,9 +84,10 @@ namespace Flubu.Tests.Tasks
             using (ZipArchive archive = ZipFile.OpenRead("tmp/output/test_1.0.0.0.zip"))
             {
                 Assert.Equal(3, archive.Entries.Count);
-                Assert.Equal($"test{_seperator}test.txt", archive.Entries[0].FullName);
-                Assert.Equal($"test{_seperator}test1.txt", archive.Entries[1].FullName);
-                Assert.Equal($"test2{_seperator}test2.txt", archive.Entries[2].FullName);
+                var list = archive.Entries.ToList<ZipArchiveEntry>();
+                Assert.Contains(list, x => x.FullName == $"test{_seperator}test.txt");
+                Assert.Contains(list, x => x.FullName == $"test{_seperator}test1.txt");
+                Assert.Contains(list, x => x.FullName == $"test2{_seperator}test2.txt");
             }
         }
 
@@ -207,7 +209,7 @@ namespace Flubu.Tests.Tasks
             }
 
             new PackageTask(@"tmp/output")
-                .AddDirectoryToPackage(@"tmp/test", "test")
+                .AddDirectoryToPackage(@"tmp/Test", "test")
                 .AddFileToPackage(@"tmp/Test2/test2.txt", @"test")
                 .ExecuteVoid(Context);
 
