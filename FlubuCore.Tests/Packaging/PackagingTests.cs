@@ -61,10 +61,11 @@ namespace Flubu.Tests.Packaging
             using (ZipArchive archive = ZipFile.OpenRead("tmp/test.zip"))
             {
                 Assert.Equal(4, archive.Entries.Count);
-                Assert.Equal($"test{_seperator}test.txt", archive.Entries[0].FullName);
-                Assert.Equal($"test{_seperator}test2.txt", archive.Entries[1].FullName);
-                Assert.Equal($"test2{_seperator}test.txt", archive.Entries[2].FullName);
-                Assert.Equal($"test2{_seperator}test2.txt", archive.Entries[3].FullName);
+                var list = archive.Entries.ToList<ZipArchiveEntry>();
+                Assert.Contains(list, x => x.FullName == $"test{_seperator}test.txt");
+                Assert.Contains(list, x => x.FullName == $"test{_seperator}test2.txt");
+                Assert.Contains(list, x => x.FullName == $"test2{_seperator}test.txt");
+                Assert.Contains(list, x => x.FullName == $"test2{_seperator}test2.txt");
             }
         }
 
@@ -94,10 +95,12 @@ namespace Flubu.Tests.Packaging
             using (ZipArchive archive = ZipFile.OpenRead("tmp/test.zip"))
             {
                 Assert.Equal(4, archive.Entries.Count);
-                Assert.Equal($"test2{_seperator}test.txt", archive.Entries[1].FullName);
-                Assert.Equal($"test2{_seperator}test2.txt", archive.Entries[0].FullName);
-                Assert.Equal($"test{_seperator}test2.txt", archive.Entries[2].FullName);
-                Assert.Equal("_zipmetadata.json", archive.Entries[3].FullName);
+                var list = archive.Entries.ToList<ZipArchiveEntry>();
+
+                Assert.Contains(list, x => x.FullName == "_zipmetadata.json");
+                Assert.Contains(list, x => x.FullName == $"test{_seperator}test2.txt");
+                Assert.Contains(list, x => x.FullName == $"test2{_seperator}test.txt");
+                Assert.Contains(list, x => x.FullName == $"test2{_seperator}test2.txt");
             }
         }
 
@@ -137,11 +140,11 @@ namespace Flubu.Tests.Packaging
             string unzipPath = "tmp/tt/";
             UnzipTask unzip = new UnzipTask(zf, unzipPath);
             unzip.Execute(Context);
-
-            CheckTestFile(Path.Combine(unzipPath, $"test2{_seperator}test.txt"), "test.txt\r\n");
-            CheckTestFile(Path.Combine(unzipPath, $"test2{_seperator}test2.txt"), "test.txt\r\n");
-            CheckTestFile(Path.Combine(unzipPath, $"test{_seperator}test.txt"), "test.txt\r\n");
-            CheckTestFile(Path.Combine(unzipPath, $"test{_seperator}test2.txt"), "test2.txt\r\n");
+            var newLine = System.Environment.NewLine;
+            CheckTestFile(Path.Combine(unzipPath, $"test2{_seperator}test.txt"), $"test.txt{newLine}");
+            CheckTestFile(Path.Combine(unzipPath, $"test2{_seperator}test2.txt"), $"test.txt{newLine}");
+            CheckTestFile(Path.Combine(unzipPath, $"test{_seperator}test.txt"), $"test.txt{newLine}");
+            CheckTestFile(Path.Combine(unzipPath, $"test{_seperator}test2.txt"), $"test2.txt{newLine}");
         }
 
         [Fact]
