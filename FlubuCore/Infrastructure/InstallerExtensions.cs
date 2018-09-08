@@ -8,6 +8,7 @@ using FlubuCore.Services;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
 using FlubuCore.Tasks.FlubuWebApi;
+using FlubuCore.Tasks.Git;
 using FlubuCore.Tasks.Iis;
 using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Solution;
@@ -70,7 +71,8 @@ namespace FlubuCore.Infrastructure
                 .AddTask<DotnetPackTask>()
                 .AddTask<DotnetCleanTask>()
                 .AddTask<DeletePackagesTask>()
-                .AddTask<DeleteReportsTask>();
+                .AddTask<DeleteReportsTask>()
+                .AddTask<GitAddTask>();
         }
     }
 }

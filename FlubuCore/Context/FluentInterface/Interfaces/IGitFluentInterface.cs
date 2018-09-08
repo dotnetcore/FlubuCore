@@ -11,5 +11,11 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="directory">Directory where reposiotry will be cloned to.</param>
         /// <returns></returns>
         GitCloneTask Clone(string repository, string directory);
+
+        /// <summary>
+        /// This command updates the index using the current content found in the working tree, to prepare the content staged for the next commit.
+        /// </summary>
+        /// <returns></returns>
+        GitAddTask Add();
     }
 }
