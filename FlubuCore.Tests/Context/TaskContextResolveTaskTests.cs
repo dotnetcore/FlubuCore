@@ -473,5 +473,11 @@ namespace Flubu.Tests.Context
         {
             Assert.NotNull(Context.Tasks().GitTasks().Commit());
         }
+
+          [Fact]
+        public void ResolveGitPushTask()
+        {
+            Assert.NotNull(Context.Tasks().GitTasks().Push());
+        }
     }
 }

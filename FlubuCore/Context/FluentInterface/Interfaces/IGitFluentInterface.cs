@@ -17,6 +17,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         GitCommitTask Commit();
 
         /// <summary>
+        /// Updates remote refs using local refs, while sending objects necessary to complete the given refs.
+        /// </summary>
+        /// <returns></returns>
+        GitPushTask Push();
+
+        /// <summary>
         /// Clones specified existring git repository into specified directory.
         /// </summary>
         /// <param name="repository">Url of the repository to clone.</param>
