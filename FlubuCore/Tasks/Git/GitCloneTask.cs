@@ -9,8 +9,9 @@ namespace FlubuCore.Tasks.Git
     {
         public GitCloneTask(string repository, string directory)
         {
-            InsertArgument(0, repository);
-            InsertArgument(1, directory);
+            InsertArgument(0, "clone");
+            InsertArgument(1, repository);
+            InsertArgument(2, directory);
         }
 
          protected override string Description { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
