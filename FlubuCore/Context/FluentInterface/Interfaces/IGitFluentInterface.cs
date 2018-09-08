@@ -11,6 +11,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         GitPullTask Pull();
 
         /// <summary>
+        /// Stores the current contents of the index in a new commit along with a log message from the user describing the changes.
+        /// </summary>
+        /// <returns></returns>
+        GitCommitTask Commit();
+
+        /// <summary>
         /// Clones specified existring git repository into specified directory.
         /// </summary>
         /// <param name="repository">Url of the repository to clone.</param>

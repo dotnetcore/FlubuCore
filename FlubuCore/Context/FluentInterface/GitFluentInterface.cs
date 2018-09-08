@@ -20,6 +20,11 @@ namespace FlubuCore.Context.FluentInterface
             return Context.CreateTask<GitCloneTask>(repository, directory);
         }
 
+        public GitCommitTask Commit()
+        {
+           return Context.CreateTask<GitCommitTask>();
+        }
+
         public GitPullTask Pull()
         {
              return Context.CreateTask<GitPullTask>();

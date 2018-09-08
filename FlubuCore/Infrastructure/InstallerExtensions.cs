@@ -73,7 +73,8 @@ namespace FlubuCore.Infrastructure
                 .AddTask<DeletePackagesTask>()
                 .AddTask<DeleteReportsTask>()
                 .AddTask<GitAddTask>()
-                .AddTask<GitPullTask>();
+                .AddTask<GitPullTask>()
+                .AddTask<GitCommitTask>();
         }
     }
 }

@@ -456,16 +456,22 @@ namespace Flubu.Tests.Context
             Assert.NotNull(Context.Tasks().GitTasks().Clone("test", "b"));
         }
 
-         [Fact]
+        [Fact]
         public void ResolveGitAddTask()
         {
             Assert.NotNull(Context.Tasks().GitTasks().Add());
         }
 
-           [Fact]
+        [Fact]
         public void ResolveGitPullTask()
         {
             Assert.NotNull(Context.Tasks().GitTasks().Pull());
+        }
+
+        [Fact]
+        public void ResolveGitCommitTask()
+        {
+            Assert.NotNull(Context.Tasks().GitTasks().Commit());
         }
     }
 }
