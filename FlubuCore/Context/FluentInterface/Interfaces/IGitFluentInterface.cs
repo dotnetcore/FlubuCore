@@ -5,6 +5,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
     public interface IGitFluentInterface
     {
         /// <summary>
+        /// Incorporates changes from a remote repository into the current branch.
+        /// </summary>
+        /// <returns></returns>
+        GitPullTask Pull();
+
+        /// <summary>
         /// Clones specified existring git repository into specified directory.
         /// </summary>
         /// <param name="repository">Url of the repository to clone.</param>

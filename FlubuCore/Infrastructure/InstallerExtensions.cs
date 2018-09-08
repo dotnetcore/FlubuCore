@@ -72,7 +72,8 @@ namespace FlubuCore.Infrastructure
                 .AddTask<DotnetCleanTask>()
                 .AddTask<DeletePackagesTask>()
                 .AddTask<DeleteReportsTask>()
-                .AddTask<GitAddTask>();
+                .AddTask<GitAddTask>()
+                .AddTask<GitPullTask>();
         }
     }
 }
