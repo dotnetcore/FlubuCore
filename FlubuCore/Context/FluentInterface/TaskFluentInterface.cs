@@ -25,13 +25,16 @@ namespace FlubuCore.Context.FluentInterface
 
         private readonly WebApiFluentInterface _webApiFluentInterface;
 
+        private readonly GitFluentInterface _gitFluentInterface;
+
         private readonly IHttpClientFactory _httpClientFactory;
 
         /// <inheritdoc />
-        public TaskFluentInterface(IIisTaskFluentInterface iisTasksFluentInterface, IWebApiFluentInterface webApiFluentInterface, IHttpClientFactory httpClientFactory)
+        public TaskFluentInterface(IIisTaskFluentInterface iisTasksFluentInterface, IWebApiFluentInterface webApiFluentInterface, IGitFluentInterface gitFluentInterface, IHttpClientFactory httpClientFactory)
         {
             _iisTasksFluentInterface = (IisTaskFluentInterface)iisTasksFluentInterface;
             _webApiFluentInterface = (WebApiFluentInterface)webApiFluentInterface;
+            _gitFluentInterface = (GitFluentInterface)gitFluentInterface;
             _httpClientFactory = httpClientFactory;
         }
 
@@ -227,6 +230,12 @@ namespace FlubuCore.Context.FluentInterface
         public UnzipTask UnzipTask(string zip, string destination)
         {
             return Context.CreateTask<UnzipTask>(zip, destination);
+        }
+
+        public IGitFluentInterface GitTasks()
+        {
+            _gitFluentInterface.Context = Context;
+            return _gitFluentInterface;
         }
 
         /// <inheritdoc />

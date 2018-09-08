@@ -449,5 +449,11 @@ namespace Flubu.Tests.Context
         {
             Assert.NotNull(Context.CoreTasks().Tool().Uninstall("Test"));
         }
+
+        [Fact]
+        public void GitCloneTask()
+        {
+            Assert.NotNull(Context.Tasks().GitTasks().Clone("test", "b"));
+        }
     }
 }

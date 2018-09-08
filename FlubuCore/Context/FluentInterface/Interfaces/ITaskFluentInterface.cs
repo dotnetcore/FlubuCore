@@ -222,6 +222,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         UnzipTask UnzipTask(string zip, string destionation);
 
         /// <summary>
+        /// Git specific tasks.
+        /// </summary>
+        /// <returns></returns>
+        IGitFluentInterface GitTasks();
+
+        /// <summary>
         /// Internet information service specific tasks.
         /// </summary>
         /// <returns></returns>
