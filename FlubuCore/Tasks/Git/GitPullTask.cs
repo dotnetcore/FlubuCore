@@ -7,12 +7,27 @@ namespace FlubuCore.Tasks.Git
 {
     public class GitPullTask : ExternalProcessTaskBase<GitPullTask>
     {
+        private string _description;
+
          public GitPullTask()
          {
              InsertArgument(0, "pull");
          }
 
-        protected override string Description { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+           protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes git command 'pull'.";
+                }
+
+                return _description;
+            }
+
+            set { _description = value; }
+        }
 
         /// <summary>
         /// force progress reporting.

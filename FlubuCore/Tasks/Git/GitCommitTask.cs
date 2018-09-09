@@ -7,12 +7,27 @@ namespace FlubuCore.Tasks.Git
 {
     public class GitCommitTask : ExternalProcessTaskBase<GitCommitTask>
     {
+        private string _description;
+
         public GitCommitTask()
          {
              InsertArgument(0, "commit");
          }
 
-        protected override string Description { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+           protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes git command 'commit' with specified option.";
+                }
+
+                return _description;
+            }
+
+            set { _description = value; }
+        }
 
         /// <summary>
         /// Override the commit author. Specify an explicit author using the standard A U Thor author@example.com format.

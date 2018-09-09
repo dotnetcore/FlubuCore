@@ -7,6 +7,8 @@ namespace FlubuCore.Tasks.Git
 {
     public class GitTagTask : ExternalProcessTaskBase<GitTagTask>
     {
+        private string _description;
+
         /// <summary>
         /// Task updates the index using the current content found in the working tree, to prepare the content staged for the next commit.
         /// </summary>

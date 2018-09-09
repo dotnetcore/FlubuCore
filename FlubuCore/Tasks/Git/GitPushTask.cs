@@ -7,6 +7,8 @@ namespace FlubuCore.Tasks.Git
 {
     public class GitPushTask : ExternalProcessTaskBase<GitPullTask>
     {
+        private string _description;
+
          public GitPushTask()
          {
              InsertArgument(0, "push");

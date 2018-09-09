@@ -7,6 +7,8 @@ namespace FlubuCore.Tasks.Git
 {
     public class GitRemoveFilesTask : ExternalProcessTaskBase<GitTagTask>
     {
+        private string _description;
+
         /// <summary>
         /// Remove files from the index, or from the working tree and the index. git rm will not remove a file from just your working directory.
         /// </summary>
@@ -16,7 +18,20 @@ namespace FlubuCore.Tasks.Git
              InsertArgument(1, file);
         }
 
-        protected override string Description { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+         protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes git command 'rm'.";
+                }
+
+                return _description;
+            }
+
+            set { _description = value; }
+        }
 
         public GitRemoveFilesTask AllowRecursiveRemoval()
         {

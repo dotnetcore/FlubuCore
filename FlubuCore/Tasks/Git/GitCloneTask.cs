@@ -7,6 +7,8 @@ namespace FlubuCore.Tasks.Git
 {
     public class GitCloneTask : ExternalProcessTaskBase<GitCloneTask>
     {
+        private string _description;
+
         public GitCloneTask(string repository, string directory)
         {
             InsertArgument(0, "clone");
@@ -14,7 +16,20 @@ namespace FlubuCore.Tasks.Git
             InsertArgument(2, directory);
         }
 
-         protected override string Description { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+           protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes git command 'clone' with specified option.";
+                }
+
+                return _description;
+            }
+
+            set { _description = value; }
+        }
 
         /// <summary>
         /// checkout specified branch instead of the remote's HEAD.

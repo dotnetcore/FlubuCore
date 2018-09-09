@@ -7,6 +7,8 @@ namespace FlubuCore.Tasks.Git
 {
     public class GitAddTask : ExternalProcessTaskBase<GitCloneTask>
     {
+        private string _description;
+
         /// <summary>
         /// Task updates the index using the current content found in the working tree, to prepare the content staged for the next commit.
         /// </summary>
@@ -15,7 +17,20 @@ namespace FlubuCore.Tasks.Git
              InsertArgument(0, "add");
         }
 
-        protected override string Description { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+         protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes git command 'add' with specified option.";
+                }
+
+                return _description;
+            }
+
+            set { _description = value; }
+        }
 
         /// <summary>
         /// iles to add content from. Fileglobs (e.g. *.c) can be given to add all matching files.
