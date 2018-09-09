@@ -11,6 +11,8 @@ namespace FlubuCore.Tasks.Git
 
         public GitCloneTask(string repository, string directory)
         {
+            repository.MustNotBeNullOrEmpty($"{nameof(repository)} parameter must not be null or empty. ");
+
             InsertArgument(0, "clone");
             InsertArgument(1, repository);
             InsertArgument(2, directory);
