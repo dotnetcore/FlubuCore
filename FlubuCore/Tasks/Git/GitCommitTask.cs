@@ -36,6 +36,7 @@ namespace FlubuCore.Tasks.Git
         /// <returns></returns>
         public GitCommitTask Author(string author)
         {
+            author.MustNotBeNullOrEmpty($"{nameof(author)} parameter must not be null or empty. ");
             WithArguments("--author", author);
             return this;
         }
@@ -47,6 +48,7 @@ namespace FlubuCore.Tasks.Git
         /// <returns></returns>
         public GitCommitTask Message(string message)
         {
+            message.MustNotBeNullOrEmpty($"{nameof(message)} parameter must not be null or empty. ");
             WithArguments("--message", message);
             return this;
         }
@@ -97,7 +99,7 @@ namespace FlubuCore.Tasks.Git
         /// <param name="file"></param>
         /// <returns></returns>
         public GitCommitTask AddFile(string file)
-        {
+        {          
             InsertArgument(1, file);
             return this;
         }
