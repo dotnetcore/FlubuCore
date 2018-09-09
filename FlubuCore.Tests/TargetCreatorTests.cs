@@ -30,6 +30,7 @@ namespace Flubu.Tests
                 .AddTransient<ILinuxTaskFluentInterface, LinuxTaskFluentInterface>()
                 .AddTransient<IIisTaskFluentInterface, IisTaskFluentInterface>()
                 .AddTransient<IWebApiFluentInterface, WebApiFluentInterface>()
+                 .AddTransient<IGitFluentInterface, GitFluentInterface>()
                 .AddTransient<IToolsFluentInterface, ToolsFluentInterface>()
                 .AddSingleton<IHttpClientFactory, HttpClientFactory>()
                 .BuildServiceProvider();
