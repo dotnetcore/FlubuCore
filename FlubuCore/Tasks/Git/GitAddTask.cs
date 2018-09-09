@@ -41,6 +41,8 @@ namespace FlubuCore.Tasks.Git
         /// <returns></returns>
         public GitAddTask PathSpec(string pathSpec)
         {
+            pathSpec.MustNotBeNullOrEmpty($"{nameof(pathSpec)} parameter must not be null or empty. ");
+
             InsertArgument(1, pathSpec);
             return this;
         }
