@@ -36,14 +36,22 @@ namespace FlubuCore.Tasks.Process
 
         protected TTask InsertArgument(int index, string arg)
         {
-            _arguments.Insert(index, arg);
+            if (!string.IsNullOrEmpty(arg))
+            {
+                 _arguments.Insert(index, arg);
+            }
+
             return this as TTask;
         }
 
         /// <inheritdoc />
         public TTask WithArguments(string arg)
         {
-            _arguments.Add(arg);
+            if (!string.IsNullOrEmpty(arg))
+            {
+                _arguments.Add(arg);
+            }
+
             return this as TTask;
         }
 

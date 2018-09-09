@@ -14,7 +14,7 @@ namespace FlubuCore.Tasks.Git
              InsertArgument(0, "commit");
          }
 
-           protected override string Description
+        protected override string Description
         {
             get
             {
@@ -99,7 +99,7 @@ namespace FlubuCore.Tasks.Git
         /// <param name="file"></param>
         /// <returns></returns>
         public GitCommitTask AddFile(string file)
-        {          
+        {
             InsertArgument(1, file);
             return this;
         }

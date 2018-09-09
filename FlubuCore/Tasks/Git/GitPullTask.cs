@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Git
             {
                 if (string.IsNullOrEmpty(_description))
                 {
-                    return $"Executes git command 'pull'.";
+                    return $"Executes git command 'pull' with specified option.";
                 }
 
                 return _description;

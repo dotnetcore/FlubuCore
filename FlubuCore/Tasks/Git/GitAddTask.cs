@@ -33,7 +33,7 @@ namespace FlubuCore.Tasks.Git
         }
 
         /// <summary>
-        /// iles to add content from. Fileglobs (e.g. *.c) can be given to add all matching files.
+        /// Files to add content from. Fileglobs (e.g. *.c) can be given to add all matching files.
         /// Also a leading directory name (e.g. dir to add dir/file1 and dir/file2) can be given
         /// to update the index to match the current state of the directory as a whole.
         /// </summary>
