@@ -54,6 +54,18 @@ namespace FlubuCore.Tasks.Git
         }
 
         /// <summary>
+        /// tag message.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public GitTagTask Message(string message)
+        {
+            message.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(message));
+            WithArguments("--message", message);
+            return this;
+        }
+
+        /// <summary>
         /// replace the tag if exists.
         /// </summary>
         /// <returns></returns>
