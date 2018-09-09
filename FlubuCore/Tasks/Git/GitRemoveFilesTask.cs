@@ -14,17 +14,18 @@ namespace FlubuCore.Tasks.Git
         /// </summary>
         public GitRemoveFilesTask(string file)
         {
+             file.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(file));
              InsertArgument(0, "rm");
              InsertArgument(1, file);
         }
 
-         protected override string Description
+        protected override string Description
         {
             get
             {
                 if (string.IsNullOrEmpty(_description))
                 {
-                    return $"Executes git command 'rm'.";
+                    return $"Executes git command 'rm' with specified option.";
                 }
 
                 return _description;
