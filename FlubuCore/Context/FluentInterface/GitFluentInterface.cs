@@ -34,5 +34,10 @@ namespace FlubuCore.Context.FluentInterface
         {
              return Context.CreateTask<GitPushTask>();
         }
+
+        public GitTagTask Tag(string name)
+        {
+            return Context.CreateTask<GitTagTask>(name);
+        }
     }
 }

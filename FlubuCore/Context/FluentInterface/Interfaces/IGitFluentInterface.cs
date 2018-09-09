@@ -35,5 +35,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <returns></returns>
         GitAddTask Add();
+
+        GitTagTask Tag(string name);
     }
 }
