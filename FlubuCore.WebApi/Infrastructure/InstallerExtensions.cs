@@ -15,6 +15,7 @@ using FlubuCore.Services;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
 using FlubuCore.Tasks.FlubuWebApi;
+using FlubuCore.Tasks.Git;
 using FlubuCore.Tasks.Iis;
 using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Solution;
@@ -104,6 +105,7 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddTransient<ICoreTaskFluentInterface, CoreTaskFluentInterface>()
                 .AddTransient<ILinuxTaskFluentInterface, LinuxTaskFluentInterface>()
                 .AddTransient<IToolsFluentInterface, ToolsFluentInterface>()
+                .AddTransient<IGitFluentInterface, GitFluentInterface>()
                 .AddTransient<ITarget, TargetFluentInterface>()
                 .AddTransient<GenerateCommonAssemblyInfoTask>()
                 .AddTransient<FetchBuildVersionFromFileTask>()
@@ -121,7 +123,11 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddTask<DotnetPackTask>()
                 .AddTask<DotnetCleanTask>()
                 .AddTask<DeletePackagesTask>()
-                .AddTask<DeleteReportsTask>();
+                .AddTask<DeleteReportsTask>()
+                .AddTask<GitAddTask>()
+                .AddTask<GitPullTask>()
+                .AddTask<GitCommitTask>()
+                .AddTask<GitPushTask>();
         }
     }
 }
