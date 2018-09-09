@@ -43,7 +43,6 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolUninstall ToolPath(string path)
         {
-            path.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(path));
             WithArguments("--tool-path", path);
             return this;
         }

@@ -36,7 +36,6 @@ namespace FlubuCore.Tasks.Git
         /// <returns></returns>
         public GitCommitTask Author(string author)
         {
-            author.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(author));
             WithArguments("--author", author);
             return this;
         }
@@ -48,7 +47,6 @@ namespace FlubuCore.Tasks.Git
         /// <returns></returns>
         public GitCommitTask Message(string message)
         {
-            message.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(message));
             WithArguments("--message", message);
             return this;
         }

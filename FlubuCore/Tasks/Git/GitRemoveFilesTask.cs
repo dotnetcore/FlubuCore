@@ -14,7 +14,6 @@ namespace FlubuCore.Tasks.Git
         /// </summary>
         public GitRemoveFilesTask(string file)
         {
-             file.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(file));
              InsertArgument(0, "rm");
              InsertArgument(1, file);
         }

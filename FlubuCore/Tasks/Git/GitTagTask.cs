@@ -14,7 +14,6 @@ namespace FlubuCore.Tasks.Git
         /// </summary>
         public GitTagTask(string tagName)
         {
-             tagName.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(tagName));
              InsertArgument(0, "tag");
              InsertArgument(1, tagName);
         }
@@ -61,7 +60,6 @@ namespace FlubuCore.Tasks.Git
         /// <returns></returns>
         public GitTagTask Message(string message)
         {
-            message.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(message));
             WithArguments("--message", message);
             return this;
         }

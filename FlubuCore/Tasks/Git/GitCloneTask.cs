@@ -11,8 +11,6 @@ namespace FlubuCore.Tasks.Git
 
         public GitCloneTask(string repository, string directory)
         {
-            repository.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(repository));
-
             InsertArgument(0, "clone");
             InsertArgument(1, repository);
             InsertArgument(2, directory);
@@ -40,7 +38,6 @@ namespace FlubuCore.Tasks.Git
         /// <returns></returns>
         public GitCloneTask Branch(string name)
         {
-            name.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(Branch));
             WithArguments("--branch", name);
             return this;
         }

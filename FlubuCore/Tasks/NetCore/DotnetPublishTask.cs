@@ -47,7 +47,6 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetPublishTask Framework(string framework)
         {
-              framework.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(framework));
             WithArguments("-f", framework);
             return this;
         }
@@ -59,7 +58,6 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetPublishTask AddRuntime(string runtime)
         {
-            runtime.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(runtime));
             WithArguments("-r", runtime);
             return this;
         }
@@ -71,8 +69,6 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetPublishTask OutputDirectory(string directory)
         {
-            directory.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(directory));
-            WithArguments("-o", directory);
             return this;
         }
 
@@ -83,14 +79,12 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetPublishTask Configuration(string configuration)
         {
-            configuration.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(configuration));
             WithArguments("-c", configuration);
             return this;
         }
 
         public DotnetPublishTask VersionSufix(string versionSufix)
         {
-            versionSufix.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(versionSufix));
             WithArguments("--version-suffix", versionSufix);
             return this;
         }

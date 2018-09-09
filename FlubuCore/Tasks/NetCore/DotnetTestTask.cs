@@ -48,7 +48,6 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetTestTask Framework(string framework)
         {
-            framework.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(framework));
             WithArguments("-f", framework);
             return this;
         }
@@ -60,7 +59,6 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetTestTask OutputDirectory(string directory)
         {
-            directory.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(directory));
             WithArguments("-o", directory);
             return this;
         }
@@ -72,7 +70,6 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetTestTask SetSettingFileToUse(string settingFilePath)
         {
-            settingFilePath.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(settingFilePath));
             WithArguments("--settings", settingFilePath);
             return this;
         }
@@ -84,7 +81,6 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetTestTask SetTestAdapterPath(string pathToAdapter)
         {
-            pathToAdapter.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(pathToAdapter));
             WithArguments("--test-adapter-path", pathToAdapter);
             return this;
         }
@@ -101,7 +97,6 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetTestTask AddFilter(string filterExpression)
         {
-            filterExpression.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(filterExpression));
             WithArguments("--filter", filterExpression);
             return this;
         }
@@ -113,7 +108,6 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetTestTask Configuration(string configuration)
         {
-            configuration.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(configuration));
             WithArguments("-c", configuration);
             return this;
         }
@@ -125,7 +119,6 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetTestTask VerboseLogs(string pathToFile)
         {
-            pathToFile.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(pathToFile));
             WithArguments("-d", pathToFile);
             return this;
         }
