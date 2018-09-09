@@ -36,6 +36,11 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns></returns>
         GitAddTask Add();
 
+        /// <summary>
+        /// Add a tag reference in refs/tags/, unless -d/-l/-v is given to delete, list or verify tags.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         GitTagTask Tag(string name);
 
         /// <summary>
