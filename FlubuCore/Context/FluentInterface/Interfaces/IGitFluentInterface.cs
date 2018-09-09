@@ -37,5 +37,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         GitAddTask Add();
 
         GitTagTask Tag(string name);
+
+        /// <summary>
+        /// Remove files from the index, or from the working tree and the index. git rm will not remove a file from just your working directory.
+        /// </summary>
+        /// <param name="file">Files to remove. Fileglobs (e.g. *.c) can be given to remove all matching files.</param>
+        /// <returns></returns>
+        GitRemoveFilesTask RemoveFile(string file);
     }
 }

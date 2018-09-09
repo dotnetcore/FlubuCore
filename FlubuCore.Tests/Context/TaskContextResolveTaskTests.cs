@@ -480,10 +480,16 @@ namespace Flubu.Tests.Context
             Assert.NotNull(Context.Tasks().GitTasks().Push());
         }
 
-          [Fact]
+        [Fact]
         public void ResolveGitTagTask()
         {
             Assert.NotNull(Context.Tasks().GitTasks().Tag("a"));
+        }
+
+        [Fact]
+        public void ResolveGitRemoveFileTask()
+        {
+            Assert.NotNull(Context.Tasks().GitTasks().RemoveFile("a"));
         }
     }
 }

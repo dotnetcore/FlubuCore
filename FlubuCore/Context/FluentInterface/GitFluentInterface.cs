@@ -35,6 +35,11 @@ namespace FlubuCore.Context.FluentInterface
              return Context.CreateTask<GitPushTask>();
         }
 
+        public GitRemoveFilesTask RemoveFile(string file)
+        {
+             return Context.CreateTask<GitRemoveFilesTask>(file);
+        }
+
         public GitTagTask Tag(string name)
         {
             return Context.CreateTask<GitTagTask>(name);
