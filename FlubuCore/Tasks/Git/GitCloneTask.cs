@@ -40,6 +40,7 @@ namespace FlubuCore.Tasks.Git
         /// <returns></returns>
         public GitCloneTask Branch(string name)
         {
+            name.MustNotBeNullOrEmpty($"{nameof(name)} parameter must not be null or empty. ");
             WithArguments("--branch", name);
             return this;
         }
