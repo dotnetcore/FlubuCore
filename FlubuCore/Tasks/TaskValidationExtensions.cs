@@ -7,11 +7,11 @@ namespace FlubuCore.Tasks
 {
     internal static class TaskExtensions
     {
-        public static void MustNotBeNullOrEmpty(this string parameter, string validationMessage)
+        public static void MustNotBeNullOrEmpty(this string parameter, string validationMessage, params string[] messageArgs)
         {
             if (string.IsNullOrEmpty(parameter))
             {
-                throw new TaskExecutionException(validationMessage, 0);
+                throw new TaskExecutionException(string.Format(validationMessage, messageArgs), 0);
             }
         }
     }

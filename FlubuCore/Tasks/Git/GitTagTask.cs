@@ -18,7 +18,20 @@ namespace FlubuCore.Tasks.Git
              InsertArgument(1, tagName);
         }
 
-        protected override string Description { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+          protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes git command 'tag' with specified options.";
+                }
+
+                return _description;
+            }
+
+            set { _description = value; }
+        }
 
         /// <summary>
         /// Delete tag(s).

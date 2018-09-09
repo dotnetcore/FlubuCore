@@ -11,14 +11,14 @@ namespace FlubuCore.Tasks.Git
 
         public GitCloneTask(string repository, string directory)
         {
-            repository.MustNotBeNullOrEmpty($"{nameof(repository)} parameter must not be null or empty. ");
+            repository.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(repository));
 
             InsertArgument(0, "clone");
             InsertArgument(1, repository);
             InsertArgument(2, directory);
         }
 
-           protected override string Description
+        protected override string Description
         {
             get
             {
@@ -40,7 +40,7 @@ namespace FlubuCore.Tasks.Git
         /// <returns></returns>
         public GitCloneTask Branch(string name)
         {
-            name.MustNotBeNullOrEmpty($"{nameof(name)} parameter must not be null or empty. ");
+            name.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(Branch));
             WithArguments("--branch", name);
             return this;
         }

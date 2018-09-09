@@ -14,7 +14,20 @@ namespace FlubuCore.Tasks.Git
              InsertArgument(0, "push");
          }
 
-        protected override string Description { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+           protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes git command 'push' with specified option.";
+                }
+
+                return _description;
+            }
+
+            set { _description = value; }
+        }
 
         /// <summary>
         /// The "remote" repository that is destination of a push operation.
