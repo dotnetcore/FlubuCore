@@ -49,6 +49,14 @@ namespace FlubuCore.Commanding
                 var result = script.Run(_taskSession);
                 return result;
             }
+            catch (TaskExecutionException e)
+            {
+                  if (_args.RethrowOnException)
+                    throw;
+
+                 _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{e.ToString()}", null, (t, ex) => t);
+                 return StatusCodes.BuildScriptNotFound;
+            }
             catch (FlubuException e)
             {
                 if (_args.RethrowOnException)
