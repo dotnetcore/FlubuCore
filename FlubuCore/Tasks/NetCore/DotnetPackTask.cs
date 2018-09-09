@@ -48,6 +48,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetPackTask OutputDirectory(string directory)
         {
+            directory.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(directory));
             WithArguments("-o", directory);
             return this;
         }
@@ -59,6 +60,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetPackTask Configuration(string configuration)
         {
+            configuration.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(configuration));
             WithArguments("-c", configuration);
             return this;
         }
@@ -90,6 +92,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetPackTask VersionSufix(string versionSufix)
         {
+            versionSufix.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(versionSufix));
             WithArguments("--version-suffix", versionSufix);
             return this;
         }

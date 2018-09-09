@@ -39,6 +39,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetRestoreTask AddNugetSouce(string source)
         {
+            source.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(source));
             WithArguments("-s", source);
             return this;
         }
@@ -49,6 +50,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetRestoreTask AddRuntime(string runtime)
         {
+            runtime.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(runtime));
             WithArguments("-r", runtime);
             return this;
         }
@@ -60,6 +62,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetRestoreTask PackagesDirectory(string directory)
         {
+            directory.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(directory));
             WithArguments("--pacakges", directory);
             return this;
         }
@@ -80,6 +83,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetRestoreTask NugetConfigFile(string configFile)
         {
+            configFile.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(configFile));
             WithArguments("--configfile", configFile);
             return this;
         }

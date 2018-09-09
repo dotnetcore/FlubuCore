@@ -54,6 +54,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetCleanTask Framework(string framework)
         {
+            framework.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(framework));
             WithArguments("-f", framework);
             return this;
         }
@@ -65,6 +66,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetCleanTask Configuration(string configuration)
         {
+            configuration.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(configuration));
             WithArguments("-c", configuration);
             return this;
         }

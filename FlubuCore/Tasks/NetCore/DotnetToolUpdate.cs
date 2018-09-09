@@ -15,6 +15,7 @@ namespace FlubuCore.Tasks.NetCore
         public DotnetToolUpdate(string nugetPackageId)
             : base(StandardDotnetCommands.Tool)
         {
+            nugetPackageId.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(nugetPackageId));
             WithArguments("update");
             WithArguments(nugetPackageId);
         }
@@ -43,6 +44,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolUpdate ToolInstallationPath(string path)
         {
+            path.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(path));
             WithArguments("--tool-path", path);
             return this;
         }
@@ -54,6 +56,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolUpdate NugetConfigFile(string pathToFile)
         {
+            pathToFile.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(pathToFile));
             WithArguments("--configfile", pathToFile);
             return this;
         }
@@ -65,6 +68,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolUpdate AddNugetSource(string source)
         {
+            source.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(source));
             WithArguments("--add-source", source);
             return this;
         }
@@ -76,6 +80,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolUpdate Framework(string framework)
         {
+            framework.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(framework));
             WithArguments("--framework", framework);
             return this;
         }

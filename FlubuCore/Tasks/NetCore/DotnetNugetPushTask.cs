@@ -43,6 +43,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetNugetPushTask ServerUrl(string serverUrl)
         {
+            serverUrl.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(serverUrl));
             WithArguments("-s", serverUrl);
             return this;
         }
@@ -54,6 +55,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetNugetPushTask SymbolServerUrl(string symbolServerUrl)
         {
+            symbolServerUrl.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(symbolServerUrl));
             WithArguments("-ss", symbolServerUrl);
             return this;
         }
@@ -75,6 +77,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetNugetPushTask ApiKey(string apiKey)
         {
+            apiKey.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(apiKey));
             WithArguments("-k", apiKey);
             return this;
         }
@@ -86,6 +89,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetNugetPushTask SymbolApiKey(string symbolApyKey)
         {
+            symbolApyKey.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(symbolApyKey));
             WithArguments("-sk", symbolApyKey);
             return this;
         }

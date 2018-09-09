@@ -34,6 +34,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolInstall NugetPackageVersion(string version)
         {
+           version.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(version));
             WithArguments("--version", version);
             return this;
         }
@@ -55,6 +56,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolInstall ToolInstallationPath(string path)
         {
+            path.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(path));
             WithArguments("--tool-path", path);
             return this;
         }
@@ -66,6 +68,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolInstall NugetConfigFile(string pathToFile)
         {
+            pathToFile.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(pathToFile));
             WithArguments("--configfile", pathToFile);
             return this;
         }
@@ -77,6 +80,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolInstall AddNugetSource(string source)
         {
+            source.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(source));
             WithArguments("--add-source", source);
             return this;
         }
@@ -88,6 +92,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolInstall Framework(string framework)
         {
+            framework.MustNotBeNullOrEmpty(ValidationMessages.ParamNotNullOrEmpty, nameof(framework));
             WithArguments("--framework", framework);
             return this;
         }
