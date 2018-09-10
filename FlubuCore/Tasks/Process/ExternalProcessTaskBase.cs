@@ -41,7 +41,7 @@ namespace FlubuCore.Tasks.Process
         {
             if (!string.IsNullOrEmpty(arg))
             {
-                Arguments.Add(arg);
+                Arguments.Add((arg, null, false));
             }
 
             return this as TTask;
