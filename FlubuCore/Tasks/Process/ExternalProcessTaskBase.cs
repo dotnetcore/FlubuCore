@@ -24,13 +24,30 @@ namespace FlubuCore.Tasks.Process
         /// </summary>
         protected bool NoOutputLog { get; set; }
 
-        internal List<string> Arguments { get; } = new List<string>();
+        internal List<(string argKey, string argValue, bool valueRequired)> Arguments { get; } = new List<(string argKey, string argValue, bool valueRequired)>();
 
         protected TTask InsertArgument(int index, string arg)
         {
             if (!string.IsNullOrEmpty(arg))
             {
-                 Arguments.Insert(index, arg);
+                 Arguments.Insert(index, (arg, null, false));
+            }
+
+            return this as TTask;
+        }
+
+        /// <summary>
+        /// Adds argument with corresponding value. eg --Framework .net462 where --Framework is key and .net462 is value.
+        /// If value is null or empty task fails on execution. if key is null both argument's are ignored.
+        /// </summary>
+        /// <param name="argKey"></param>
+        /// <param name="argValue"></param>
+        /// <returns></returns>
+        protected TTask WithArgumentsValueRequired(string argKey, string argValue)
+        {
+            if (!string.IsNullOrEmpty(argKey))
+            {
+                Arguments.Add((argKey, argValue, true));
             }
 
             return this as TTask;
@@ -50,7 +67,11 @@ namespace FlubuCore.Tasks.Process
         /// <inheritdoc />
         public TTask WithArguments(params string[] args)
         {
-            Arguments.AddRange(args);
+            foreach (var arg in args)
+            {
+                Arguments.Add((arg, null, false));
+            }
+
             return this as TTask;
         }
 
@@ -104,11 +125,30 @@ namespace FlubuCore.Tasks.Process
             if (DoNotLog)
                 task.NoLog();
 
+            var argumentsFlat = new List<string>();
+
+            foreach (var arg in Arguments)
+            {
+                argumentsFlat.Add(arg.argKey);
+
+                if (string.IsNullOrEmpty(arg.argValue))
+                {
+                    if (arg.valueRequired)
+                    {
+                        throw new TaskExecutionException($"Argument key {arg.argKey} requires value.", 0);
+                    }
+                }
+                else
+                {
+                    argumentsFlat.Add(arg.argValue);
+                }
+            }
+
             task
                 .CaptureErrorOutput()
                 .CaptureOutput()
                 .WorkingFolder(ExecuteWorkingFolder)
-                .WithArguments(Arguments.ToArray());
+                .WithArguments(argumentsFlat.ToArray());
 
             return task.Execute(context);
         }
