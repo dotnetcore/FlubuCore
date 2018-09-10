@@ -105,7 +105,7 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            _packagePath.MustNotBeNullOrEmpty("packagePath (path to nupkg) must not be null or empty.");
+            _packagePath.MustNotBeNullOrEmpty("packagePath (path to .nupkg) must not be null or empty.");
 
             // do not push new packages from a local build
             if (context.BuildSystems().IsLocalBuild && _skipPushOnLocalBuild)

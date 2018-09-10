@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.Context;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Git
 {
     public class GitTagTask : ExternalProcessTaskBase<GitTagTask>
     {
+        private readonly string _tagName;
         private string _description;
 
         /// <summary>
@@ -14,11 +16,12 @@ namespace FlubuCore.Tasks.Git
         /// </summary>
         public GitTagTask(string tagName)
         {
-             InsertArgument(0, "tag");
-             InsertArgument(1, tagName);
+            _tagName = tagName;
+            InsertArgument(0, "tag");
+            InsertArgument(1, tagName);
         }
 
-          protected override string Description
+        protected override string Description
         {
             get
             {
@@ -60,7 +63,7 @@ namespace FlubuCore.Tasks.Git
         /// <returns></returns>
         public GitTagTask Message(string message)
         {
-            WithArguments("--message", message);
+            WithArgumentsValueRequired("--message", message);
             return this;
         }
 
@@ -82,6 +85,12 @@ namespace FlubuCore.Tasks.Git
         {
             WithArguments("--sign");
             return this;
+        }
+
+        protected override int DoExecute(ITaskContextInternal context)
+        {
+            _tagName.MustNotBeNullOrEmpty("Tag name must not be null or empty.");
+            return base.DoExecute(context);
         }
     }
 }

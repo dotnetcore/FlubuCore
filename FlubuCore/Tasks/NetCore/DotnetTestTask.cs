@@ -167,7 +167,7 @@ namespace FlubuCore.Tasks.NetCore
                 }
             }
 
-            if (!args().Exists(x => x == "-c" || x == "--configuration"))
+            if (!args.Exists(x => x == "-c" || x == "--configuration"))
             {
                 var configuration = context.Properties.Get<string>(BuildProps.BuildConfiguration, null);
                 if (configuration != null)

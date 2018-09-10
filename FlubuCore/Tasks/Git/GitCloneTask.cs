@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.Context;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Git
 {
     public class GitCloneTask : ExternalProcessTaskBase<GitCloneTask>
     {
+        private readonly string _repository;
         private string _description;
 
         public GitCloneTask(string repository, string directory)
         {
+            _repository = repository;
             InsertArgument(0, "clone");
             InsertArgument(1, repository);
             InsertArgument(2, directory);
@@ -38,7 +41,7 @@ namespace FlubuCore.Tasks.Git
         /// <returns></returns>
         public GitCloneTask Branch(string name)
         {
-            WithArguments("--branch", name);
+            WithArgumentsValueRequired("--branch", name);
             return this;
         }
 
@@ -100,6 +103,12 @@ namespace FlubuCore.Tasks.Git
         {
             WithArguments("--shared");
             return this;
+        }
+
+        protected override int DoExecute(ITaskContextInternal context)
+        {
+            _repository.MustNotBeNullOrEmpty("Url of the repository to clone must not be empty.");
+            return base.DoExecute(context);
         }
     }
 }

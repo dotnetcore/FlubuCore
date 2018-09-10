@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.Context;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Git
 {
     public class GitRemoveFilesTask : ExternalProcessTaskBase<GitTagTask>
     {
+        private readonly string _file;
+
         private string _description;
 
         /// <summary>
@@ -14,7 +17,8 @@ namespace FlubuCore.Tasks.Git
         /// </summary>
         public GitRemoveFilesTask(string file)
         {
-             InsertArgument(0, "rm");
+            _file = file;
+            InsertArgument(0, "rm");
              InsertArgument(1, file);
         }
 
@@ -79,6 +83,12 @@ namespace FlubuCore.Tasks.Git
         {
             WithArguments("--dry-run");
             return this;
+        }
+
+        protected override int DoExecute(ITaskContextInternal context)
+        {
+            _file.MustNotBeNullOrEmpty("Files to remove must not be empty.");
+            return base.DoExecute(context);
         }
     }
 }

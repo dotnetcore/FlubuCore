@@ -11,7 +11,7 @@ namespace FlubuCore.Tasks
         {
             if (string.IsNullOrEmpty(parameter))
             {
-                throw new TaskExecutionException(string.Format(validationMessage, messageArgs), 0);
+                throw new TaskValidationException(string.Format(validationMessage, messageArgs));
             }
         }
     }

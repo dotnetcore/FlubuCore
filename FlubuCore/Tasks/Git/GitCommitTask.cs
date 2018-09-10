@@ -36,7 +36,7 @@ namespace FlubuCore.Tasks.Git
         /// <returns></returns>
         public GitCommitTask Author(string author)
         {
-            WithArguments("--author", author);
+            WithArgumentsValueRequired("--author", author);
             return this;
         }
 
@@ -47,7 +47,7 @@ namespace FlubuCore.Tasks.Git
         /// <returns></returns>
         public GitCommitTask Message(string message)
         {
-            WithArguments("--message", message);
+            WithArgumentsValueRequired("--message", message);
             return this;
         }
 
