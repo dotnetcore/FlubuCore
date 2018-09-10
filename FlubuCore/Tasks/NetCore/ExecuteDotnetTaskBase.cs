@@ -7,10 +7,6 @@ namespace FlubuCore.Tasks.NetCore
     public abstract class ExecuteDotnetTaskBase<TTask> : ExternalProcessTaskBase<TTask>
         where TTask : class, ITask
     {
-        private string _workingFolder;
-        private string _dotnetExecutable;
-        private bool _doNotLogOutput;
-
         public ExecuteDotnetTaskBase(string command)
         {
             Command = command;
