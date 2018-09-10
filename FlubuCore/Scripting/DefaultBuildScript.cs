@@ -6,6 +6,7 @@ using FlubuCore.Context;
 using FlubuCore.IO;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks.NetCore;
+using FlubuCore.WebApi.Client;
 
 namespace FlubuCore.Scripting
 {
@@ -27,6 +28,14 @@ namespace FlubuCore.Scripting
 
                 taskSession.LogInfo(e.Message);
                 return 3;
+            }
+            catch (WebApiException e)
+            {
+                taskSession.OnFinish();
+                if (taskSession.Args.RethrowOnException)
+                    throw;
+
+                return 1;
             }
             catch (FlubuException e)
             {
