@@ -41,7 +41,6 @@ namespace FlubuCore.Tasks.NetCore
                 return -1;
             }
 
-            BeforeExecute(context);
             IRunProgramTask task = context.Tasks().RunProgramTask(program);
 
             if (_doNotLogOutput)
@@ -50,19 +49,18 @@ namespace FlubuCore.Tasks.NetCore
             if (DoNotLog)
                 task.NoLog();
 
+            BeforeExecute(context);
+            var argumentsFlat = ValidateAndGetArgumentsFlat();
+
             task
                 .WithArguments(Command)
-                .WithArguments(GetArguments().ToArray())
+                .WithArguments(argumentsFlat.ToArray())
                 .WorkingFolder(_workingFolder)
                 .CaptureErrorOutput()
                 .CaptureOutput()
                 .ExecuteVoid(context);
 
             return 0;
-        }
-
-        protected virtual void BeforeExecute(ITaskContextInternal context)
-        {
         }
     }
 }

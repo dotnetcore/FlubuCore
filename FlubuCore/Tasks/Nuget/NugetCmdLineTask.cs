@@ -68,7 +68,7 @@ namespace FlubuCore.Tasks.Nuget
         }
 
         /// <inheritdoc />
-        protected override void PrepareExecutableParameters(ITaskContextInternal context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             ExecutablePath = FindNuGetCmdLinePath();
 
@@ -78,7 +78,7 @@ namespace FlubuCore.Tasks.Nuget
                     string.Format(
                         "Could not find NuGet.CommandLine package in the {0} directory. You have to download it yourself.",
                         PackagesDirName), -1);
-                return;
+                return 5;
             }
 
             _command.MustNotBeNullOrEmpty("Nuget command must not be empty.");
@@ -90,6 +90,8 @@ namespace FlubuCore.Tasks.Nuget
 
             if (ApiKey != null)
                 WithArguments("-ApiKey", ApiKey);
+
+           return base.DoExecute(context);
         }
 
         private string FindNuGetCmdLinePath()

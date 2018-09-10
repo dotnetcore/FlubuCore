@@ -190,7 +190,7 @@ namespace FlubuCore.Tasks.MsSql
                 if (DoNotLog)
                     task.NoLog();
 
-               var args = ValidateAndGetArgumentsFlat();
+                var args = ValidateAndGetArgumentsFlat();
 
                 task
                     .WithArguments("-i")

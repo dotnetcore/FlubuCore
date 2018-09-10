@@ -134,8 +134,6 @@ namespace FlubuCore.Tasks.Process
         /// <inheritdoc />
         protected override int DoExecute(ITaskContextInternal context)
         {
-            PrepareExecutableParameters(context);
-
             IRunProgramTask task = context.Tasks().RunProgramTask(ExecutablePath);
 
             if (NoOutputLog)
@@ -143,6 +141,8 @@ namespace FlubuCore.Tasks.Process
 
             if (DoNotLog)
                 task.NoLog();
+
+            BeforeExecute(context);
 
             var argumentsFlat = ValidateAndGetArgumentsFlat();
 
@@ -179,7 +179,7 @@ namespace FlubuCore.Tasks.Process
             return argumentsFlat;
         }
 
-        protected virtual void PrepareExecutableParameters(ITaskContextInternal context)
+        protected virtual void BeforeExecute(ITaskContextInternal context)
         {
         }
     }

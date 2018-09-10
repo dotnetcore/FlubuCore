@@ -491,5 +491,11 @@ namespace Flubu.Tests.Context
         {
             Assert.NotNull(Context.Tasks().GitTasks().RemoveFile("a"));
         }
+
+        [Fact]
+        public void ResolveDockerBuildTask()
+        {
+            Assert.NotNull(Context.Tasks().DockerTasks().Build("."));
+        }
     }
 }

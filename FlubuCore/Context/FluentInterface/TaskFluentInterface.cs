@@ -29,12 +29,15 @@ namespace FlubuCore.Context.FluentInterface
 
         private readonly IHttpClientFactory _httpClientFactory;
 
+        private readonly DockerFluentInterface _dockerFluentInterface;
+
         /// <inheritdoc />
-        public TaskFluentInterface(IIisTaskFluentInterface iisTasksFluentInterface, IWebApiFluentInterface webApiFluentInterface, IGitFluentInterface gitFluentInterface, IHttpClientFactory httpClientFactory)
+        public TaskFluentInterface(IIisTaskFluentInterface iisTasksFluentInterface, IWebApiFluentInterface webApiFluentInterface, IGitFluentInterface gitFluentInterface, IDockerFluentInterface dockerFluentInterface, IHttpClientFactory httpClientFactory)
         {
             _iisTasksFluentInterface = (IisTaskFluentInterface)iisTasksFluentInterface;
             _webApiFluentInterface = (WebApiFluentInterface)webApiFluentInterface;
             _gitFluentInterface = (GitFluentInterface)gitFluentInterface;
+            _dockerFluentInterface = (DockerFluentInterface)dockerFluentInterface;
             _httpClientFactory = httpClientFactory;
         }
 
@@ -236,6 +239,12 @@ namespace FlubuCore.Context.FluentInterface
         {
             _gitFluentInterface.Context = Context;
             return _gitFluentInterface;
+        }
+
+        public IDockerFluentInterface DockerTasks()
+        {
+            _dockerFluentInterface.Context = Context;
+            return _dockerFluentInterface;
         }
 
         /// <inheritdoc />

@@ -219,7 +219,7 @@ namespace FlubuCore.Tasks.Solution
         }
 
         /// <inheritdoc />
-        protected override void PrepareExecutableParameters(ITaskContextInternal context)
+        protected override int DoExecute(ITaskContextInternal context)
         {
             ExecutablePath = FindMsBuildPath(context);
             if (string.IsNullOrEmpty(_solutionFileName))
@@ -250,6 +250,8 @@ namespace FlubuCore.Tasks.Solution
 
             if (NoOutputLog)
                 WithArguments("/noconlog");
+
+           return base.DoExecute(context);
         }
 
         private string FindMsBuildPath(ITaskContextInternal context)

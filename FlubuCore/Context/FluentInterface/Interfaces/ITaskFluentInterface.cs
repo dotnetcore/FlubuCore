@@ -228,6 +228,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         IGitFluentInterface GitTasks();
 
         /// <summary>
+        /// Docker specific tasks.
+        /// </summary>
+        /// <returns></returns>
+        IDockerFluentInterface DockerTasks();
+
+        /// <summary>
         /// Internet information service specific tasks.
         /// </summary>
         /// <returns></returns>
