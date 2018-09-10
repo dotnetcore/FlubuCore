@@ -1,4 +1,5 @@
-﻿using FlubuCore.Tasks.Process;
+﻿using FlubuCore.Context;
+using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Utils
 {
@@ -34,6 +35,14 @@ namespace FlubuCore.Tasks.Utils
 
             InsertArgument(0, server);
             return (TTask)(object)this;
+        }
+
+        protected override int DoExecute(ITaskContextInternal context)
+        {
+            Command.MustNotBeNullOrEmpty("sc command must not be empty.");
+            ServiceName.MustNotBeNullOrEmpty("Service name must not be empty.");
+
+            return base.DoExecute(context);
         }
     }
 }
