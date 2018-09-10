@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.Context;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace FlubuCore.Tasks.NetCore
 {
     public class DotnetToolInstall : ExecuteDotnetTaskBase<DotnetToolInstall>
     {
+        private readonly string _nugetPackageId;
+
         private string _description;
 
         /// <summary>
@@ -16,6 +19,7 @@ namespace FlubuCore.Tasks.NetCore
         public DotnetToolInstall(string nugetPackageId)
             : base(StandardDotnetCommands.Tool)
         {
+            _nugetPackageId = nugetPackageId;
             WithArguments("install");
             WithArguments(nugetPackageId);
         }
@@ -34,7 +38,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolInstall NugetPackageVersion(string version)
         {
-            WithArguments("--version", version);
+            WithArgumentsValueRequired("--version", version);
             return this;
         }
 
@@ -55,7 +59,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolInstall ToolInstallationPath(string path)
         {
-            WithArguments("--tool-path", path);
+            WithArgumentsValueRequired("--tool-path", path);
             return this;
         }
 
@@ -66,7 +70,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolInstall NugetConfigFile(string pathToFile)
         {
-            WithArguments("--configfile", pathToFile);
+            WithArgumentsValueRequired("--configfile", pathToFile);
             return this;
         }
 
@@ -77,7 +81,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolInstall AddNugetSource(string source)
         {
-            WithArguments("--add-source", source);
+            WithArgumentsValueRequired("--add-source", source);
             return this;
         }
 
@@ -88,7 +92,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolInstall Framework(string framework)
         {
-            WithArguments("--framework", framework);
+            WithArgumentsValueRequired("--framework", framework);
             return this;
         }
 
@@ -101,6 +105,12 @@ namespace FlubuCore.Tasks.NetCore
         {
             WithArguments("--verbosity", verbosity.ToString().ToLower());
             return this;
+        }
+
+        protected override int DoExecute(ITaskContextInternal context)
+        {
+            _nugetPackageId.MustNotBeNullOrEmpty("Nuget package id of the tool to install must not be empty.");
+            return base.DoExecute(context);
         }
     }
 }

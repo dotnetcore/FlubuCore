@@ -9,6 +9,7 @@ namespace FlubuCore.Tasks.NetCore
     {
         private string _description;
         private bool _skipPushOnLocalBuild;
+        private string _packagePath;
 
         /// <summary>
         /// Pushes the nuget package to nuget server.
@@ -19,6 +20,7 @@ namespace FlubuCore.Tasks.NetCore
         {
             WithArguments("push");
             WithArguments(packagePath);
+            _packagePath = packagePath;
         }
 
         protected override string Description
@@ -43,7 +45,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetNugetPushTask ServerUrl(string serverUrl)
         {
-            WithArguments("-s", serverUrl);
+            WithArgumentsValueRequired("-s", serverUrl);
             return this;
         }
 
@@ -54,7 +56,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetNugetPushTask SymbolServerUrl(string symbolServerUrl)
         {
-            WithArguments("-ss", symbolServerUrl);
+            WithArgumentsValueRequired("-ss", symbolServerUrl);
             return this;
         }
 
@@ -75,7 +77,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetNugetPushTask ApiKey(string apiKey)
         {
-            WithArguments("-k", apiKey);
+            WithArgumentsValueRequired("-k", apiKey);
             return this;
         }
 
@@ -86,7 +88,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetNugetPushTask SymbolApiKey(string symbolApyKey)
         {
-            WithArguments("-sk", symbolApyKey);
+            WithArgumentsValueRequired("-sk", symbolApyKey);
             return this;
         }
 
@@ -103,6 +105,8 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override int DoExecute(ITaskContextInternal context)
         {
+            _packagePath.MustNotBeNullOrEmpty("packagePath (path to nupkg) must not be null or empty.");
+
             // do not push new packages from a local build
             if (context.BuildSystems().IsLocalBuild && _skipPushOnLocalBuild)
             {

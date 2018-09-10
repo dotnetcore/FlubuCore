@@ -37,7 +37,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetTestTask Project(string projectName)
         {
-            GetArguments().Insert(0, projectName);
+            InsertArgument(0, projectName);
             return this;
         }
 
@@ -48,7 +48,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetTestTask Framework(string framework)
         {
-            WithArguments("-f", framework);
+            WithArgumentsValueRequired("-f", framework);
             return this;
         }
 
@@ -59,7 +59,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetTestTask OutputDirectory(string directory)
         {
-            WithArguments("-o", directory);
+            WithArgumentsValueRequired("-o", directory);
             return this;
         }
 
@@ -70,7 +70,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetTestTask SetSettingFileToUse(string settingFilePath)
         {
-            WithArguments("--settings", settingFilePath);
+            WithArgumentsValueRequired("--settings", settingFilePath);
             return this;
         }
 
@@ -81,7 +81,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetTestTask SetTestAdapterPath(string pathToAdapter)
         {
-            WithArguments("--test-adapter-path", pathToAdapter);
+            WithArgumentsValueRequired("--test-adapter-path", pathToAdapter);
             return this;
         }
 
@@ -97,7 +97,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetTestTask AddFilter(string filterExpression)
         {
-            WithArguments("--filter", filterExpression);
+            WithArgumentsValueRequired("--filter", filterExpression);
             return this;
         }
 
@@ -108,7 +108,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetTestTask Configuration(string configuration)
         {
-            WithArguments("-c", configuration);
+            WithArgumentsValueRequired("-c", configuration);
             return this;
         }
 
@@ -119,7 +119,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetTestTask VerboseLogs(string pathToFile)
         {
-            WithArguments("-d", pathToFile);
+            WithArgumentsValueRequired("-d", pathToFile);
             return this;
         }
 
@@ -157,7 +157,8 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override void BeforeExecute(ITaskContextInternal context)
         {
-            if (GetArguments().Count == 0 || GetArguments()[0].StartsWith("-"))
+            var args = GetArguments();
+            if (args.Count == 0 || args[0].StartsWith("-"))
             {
                 var solustionFileName = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
                 if (solustionFileName != null)
@@ -166,7 +167,7 @@ namespace FlubuCore.Tasks.NetCore
                 }
             }
 
-            if (!GetArguments().Exists(x => x == "-c" || x == "--configuration"))
+            if (!args().Exists(x => x == "-c" || x == "--configuration"))
             {
                 var configuration = context.Properties.Get<string>(BuildProps.BuildConfiguration, null);
                 if (configuration != null)

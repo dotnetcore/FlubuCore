@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.NetCore
 {
     public class DotnetToolUninstall : ExecuteDotnetTaskBase<DotnetToolUninstall>
     {
+        private readonly string _nugetPackageId;
         private string _description;
 
         /// <summary>
@@ -15,6 +17,7 @@ namespace FlubuCore.Tasks.NetCore
         public DotnetToolUninstall(string nugetPackageId)
             : base(StandardDotnetCommands.Tool)
         {
+            _nugetPackageId = nugetPackageId;
             WithArguments("uninstall");
             WithArguments(nugetPackageId);
         }
@@ -43,8 +46,14 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolUninstall ToolPath(string path)
         {
-            WithArguments("--tool-path", path);
+            WithArgumentsValueRequired("--tool-path", path);
             return this;
+        }
+
+        protected override int DoExecute(ITaskContextInternal context)
+        {
+            _nugetPackageId.MustNotBeNullOrEmpty("Nuget package id of the tool to uninstall must not be empty.");
+            return base.DoExecute(context);
         }
     }
 }

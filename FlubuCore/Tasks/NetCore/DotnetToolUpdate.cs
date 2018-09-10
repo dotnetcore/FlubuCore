@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.NetCore
 {
     public class DotnetToolUpdate : ExecuteDotnetTaskBase<DotnetToolUpdate>
     {
+        private readonly string _nugetPackageId;
         private string _description;
 
         /// <summary>
@@ -15,6 +17,7 @@ namespace FlubuCore.Tasks.NetCore
         public DotnetToolUpdate(string nugetPackageId)
             : base(StandardDotnetCommands.Tool)
         {
+            _nugetPackageId = nugetPackageId;
             WithArguments("update");
             WithArguments(nugetPackageId);
         }
@@ -43,7 +46,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolUpdate ToolInstallationPath(string path)
         {
-            WithArguments("--tool-path", path);
+            WithArgumentsValueRequired("--tool-path", path);
             return this;
         }
 
@@ -54,7 +57,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolUpdate NugetConfigFile(string pathToFile)
         {
-            WithArguments("--configfile", pathToFile);
+            WithArgumentsValueRequired("--configfile", pathToFile);
             return this;
         }
 
@@ -65,7 +68,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolUpdate AddNugetSource(string source)
         {
-            WithArguments("--add-source", source);
+            WithArgumentsValueRequired("--add-source", source);
             return this;
         }
 
@@ -76,7 +79,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolUpdate Framework(string framework)
         {
-            WithArguments("--framework", framework);
+            WithArgumentsValueRequired("--framework", framework);
             return this;
         }
 
@@ -87,8 +90,14 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolUpdate Verbosity(VerbosityOptions verbosity)
         {
-            WithArguments("--verbosity", verbosity.ToString().ToLower());
+            WithArgumentsValueRequired("--verbosity", verbosity.ToString().ToLower());
             return this;
+        }
+
+        protected override int DoExecute(ITaskContextInternal context)
+        {
+            _nugetPackageId.MustNotBeNullOrEmpty("Nuget package id of the tool to update must not be empty.");
+            return base.DoExecute(context);
         }
     }
 }

@@ -137,7 +137,8 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override void BeforeExecute(ITaskContextInternal context)
         {
-            if (GetArguments().Count == 0 || GetArguments()[0].StartsWith("-"))
+            var args = GetArguments();
+            if (args.Count == 0 || args[0].StartsWith("-"))
             {
                 var solustionFileName = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
                 if (solustionFileName != null)

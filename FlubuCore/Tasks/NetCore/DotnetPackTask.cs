@@ -37,7 +37,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetPackTask Project(string projectName)
         {
-            GetArguments().Insert(0, projectName);
+            InsertArgument(0, projectName);
             return this;
         }
 
@@ -48,7 +48,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetPackTask OutputDirectory(string directory)
         {
-            WithArguments("-o", directory);
+            WithArgumentsValueRequired("-o", directory);
             return this;
         }
 
@@ -59,7 +59,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetPackTask Configuration(string configuration)
         {
-            WithArguments("-c", configuration);
+            WithArgumentsValueRequired("-c", configuration);
             return this;
         }
 

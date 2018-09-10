@@ -62,7 +62,7 @@ namespace FlubuCore.Tasks.Process
         /// <param name="argKey"></param>
         /// <param name="argValue"></param>
         /// <returns></returns>
-        protected TTask WithKArgumentsValueRequired(string argKey, string argValue)
+        protected TTask WithArgumentsValueRequired(string argKey, string argValue)
         {
             if (!string.IsNullOrEmpty(argKey))
             {
@@ -155,7 +155,7 @@ namespace FlubuCore.Tasks.Process
             return task.Execute(context);
         }
 
-        private List<string> ValidateAndGetArgumentsFlat()
+        protected List<string> ValidateAndGetArgumentsFlat()
         {
             var argumentsFlat = new List<string>();
 

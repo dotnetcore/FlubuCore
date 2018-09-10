@@ -45,7 +45,7 @@ namespace FlubuCore.Tasks.NetCore
 
         public DotnetBuildTask Framework(string framework)
         {
-            WithArguments("-f", framework);
+            WithArgumentsValueRequired("-f", framework);
             return this;
         }
 
@@ -56,7 +56,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetBuildTask AddRuntime(string runtime)
         {
-            WithArguments("-r", runtime);
+            WithArgumentsValueRequired("-r", runtime);
             return this;
         }
 
@@ -67,7 +67,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetBuildTask Configuration(string configuration)
         {
-            WithArguments("-c", configuration);
+            WithArgumentsValueRequired("-c", configuration);
             return this;
         }
 
@@ -114,7 +114,8 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override void BeforeExecute(ITaskContextInternal context)
         {
-            if (GetArguments().Count == 0 || GetArguments()[0].StartsWith("-"))
+            var args = GetArguments();
+            if (args.Count == 0 || args[0].StartsWith("-"))
             {
                 var solustionFileName = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
                 if (solustionFileName != null)
@@ -123,7 +124,7 @@ namespace FlubuCore.Tasks.NetCore
                 }
             }
 
-            if (!GetArguments().Exists(x => x == "-c" || x == "--configuration"))
+            if (!args.Exists(x => x == "-c" || x == "--configuration"))
             {
                 var configuration = context.Properties.Get<string>(BuildProps.BuildConfiguration, null);
                 if (configuration != null)

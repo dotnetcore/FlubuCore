@@ -54,7 +54,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetCleanTask Framework(string framework)
         {
-            WithArguments("-f", framework);
+            WithArgumentsValueRequired("-f", framework);
             return this;
         }
 
@@ -65,7 +65,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetCleanTask Configuration(string configuration)
         {
-            WithArguments("-c", configuration);
+            WithArgumentsValueRequired("-c", configuration);
             return this;
         }
 
