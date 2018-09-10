@@ -81,6 +81,8 @@ namespace FlubuCore.Tasks.Nuget
                 return;
             }
 
+            _command.MustNotBeNullOrEmpty("Nuget command must not be empty.");
+
             InsertArgument(0, _command);
 
             if (Verbosity.HasValue)
