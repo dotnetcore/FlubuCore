@@ -39,7 +39,7 @@ namespace FlubuCore.Tasks.NetCore
 
             IRunProgramTask task = context.Tasks().RunProgramTask(program);
 
-            if (_doNotLogOutput)
+            if (NoOutputLog)
                 task.DoNotLogOutput();
 
             if (DoNotLog)
@@ -51,7 +51,7 @@ namespace FlubuCore.Tasks.NetCore
             task
                 .WithArguments(Command)
                 .WithArguments(argumentsFlat.ToArray())
-                .WorkingFolder(_workingFolder)
+                .WorkingFolder(ExecuteWorkingFolder)
                 .CaptureErrorOutput()
                 .CaptureOutput()
                 .ExecuteVoid(context);
