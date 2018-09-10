@@ -43,7 +43,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetCleanTask Project(string projectName)
         {
-            GetArguments().Insert(0, projectName);
+            InsertArgument(0, projectName);
             return this;
         }
 

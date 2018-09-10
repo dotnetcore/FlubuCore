@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.NetCore
 
         public DotnetRestoreTask Project(string projectName)
         {
-            GetArguments().Insert(0, projectName);
+            InsertArgument(0, projectName);
             return this;
         }
 

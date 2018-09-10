@@ -39,7 +39,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetBuildTask Project(string projectName)
         {
-            GetArguments().Insert(0, projectName);
+            InsertArgument(0, projectName);
             return this;
         }
 
