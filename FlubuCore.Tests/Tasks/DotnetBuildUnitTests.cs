@@ -12,7 +12,7 @@ namespace Flubu.Tests.Tasks
         public DotnetBuildUnitTests()
         {
             _task = new DotnetBuildTask();
-            _task.DotnetExecutable("dotnet");
+            _task.Executable("dotnet");
             Tasks.Setup(x => x.RunProgramTask("dotnet")).Returns(RunProgramTask.Object);
         }
 

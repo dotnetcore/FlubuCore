@@ -20,7 +20,7 @@ namespace Flubu.Tests.Tasks
         public void ExecuteNonExistentCommand()
         {
             ExecuteDotnetTask task = Context.CoreTasks().ExecuteDotnetTask("nonexist")
-                .DotnetExecutable(PathToDotnetExecutable);
+               .Executable(PathToDotnetExecutable);
 
             TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.ExecuteVoid(Context));
         }
@@ -29,7 +29,7 @@ namespace Flubu.Tests.Tasks
         public void ExecuteWrongArgsCommand()
         {
             ExecuteDotnetTask task = new ExecuteDotnetTask("build")
-                .DotnetExecutable(PathToDotnetExecutable)
+                .Executable(PathToDotnetExecutable)
                 .WithArguments("Flubu.NonExtstProj");
 
             TaskExecutionException e = Assert.Throws<TaskExecutionException>(() => task.Execute(Context));
@@ -50,7 +50,7 @@ namespace Flubu.Tests.Tasks
         public void ExecuteCommand()
         {
             ExecuteDotnetTask task = Context.CoreTasks().ExecuteDotnetTask("help")
-                .DotnetExecutable(PathToDotnetExecutable);
+                .Executable(PathToDotnetExecutable);
 
             var res = task.Execute(Context);
 
@@ -61,7 +61,7 @@ namespace Flubu.Tests.Tasks
         public void ExecuteCommandTargetTreeCreate()
         {
             ExecuteDotnetTask task = new ExecuteDotnetTask("help");
-            task.DotnetExecutable(PathToDotnetExecutable);
+            task.Executable(PathToDotnetExecutable);
 
             int res = task.Execute(Context);
             Assert.Equal(0, res);

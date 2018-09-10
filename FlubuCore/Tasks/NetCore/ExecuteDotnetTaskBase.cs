@@ -4,7 +4,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.NetCore
 {
-    public abstract class ExecuteDotnetTaskBase<TTask> : TaskBase<int, TTask>
+    public abstract class ExecuteDotnetTaskBase<TTask> : ExternalProcessTaskBase<TTask>
         where TTask : class, ITask
     {
         private string _workingFolder;
@@ -21,62 +21,10 @@ namespace FlubuCore.Tasks.NetCore
             Command = command.ToString().ToLowerInvariant();
         }
 
-        internal List<string> Arguments { get; } = new List<string>();
-
         /// <summary>
         /// Dotnet command to be executed.
         /// </summary>
         public string Command { get; }
-
-        /// <summary>
-        /// Add's Argument to the dotnet see <c>Command</c>
-        /// </summary>
-        /// <param name="arg">Argument to be added</param>
-        /// <returns></returns>
-        public TTask WithArguments(string arg)
-        {
-            Arguments.Add(arg);
-            return this as TTask;
-        }
-
-        /// <summary>
-        /// Add's Arguments to the dotnet see <c>Command</c>
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public TTask WithArguments(params string[] args)
-        {
-            Arguments.AddRange(args);
-            return this as TTask;
-        }
-
-        /// <summary>
-        /// Working folder of the dotnet command
-        /// </summary>
-        /// <param name="folder"></param>
-        /// <returns></returns>
-        public TTask WorkingFolder(string folder)
-        {
-            _workingFolder = folder;
-            return this as TTask;
-        }
-
-        /// <summary>
-        /// Path to the dotnet executable.
-        /// </summary>
-        /// <param name="fullPath"></param>
-        /// <returns></returns>
-        public TTask DotnetExecutable(string fullPath)
-        {
-            _dotnetExecutable = fullPath;
-            return this as TTask;
-        }
-
-        public TTask DoNotLogOutput()
-        {
-            _doNotLogOutput = true;
-            return this as TTask;
-        }
 
         protected override int DoExecute(ITaskContextInternal context)
         {

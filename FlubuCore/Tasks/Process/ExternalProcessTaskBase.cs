@@ -7,11 +7,6 @@ namespace FlubuCore.Tasks.Process
         where TTask : class, ITask
     {
         /// <summary>
-        /// Arguments for the command line.
-        /// </summary>
-        private readonly List<string> _arguments = new List<string>();
-
-        /// <summary>
         /// Gets or sets working folder.
         /// </summary>
         /// <value>
@@ -29,16 +24,13 @@ namespace FlubuCore.Tasks.Process
         /// </summary>
         protected bool NoOutputLog { get; set; }
 
-        public List<string> GetArguments()
-        {
-            return _arguments;
-        }
+        internal List<string> Arguments { get; } = new List<string>();
 
         protected TTask InsertArgument(int index, string arg)
         {
             if (!string.IsNullOrEmpty(arg))
             {
-                 _arguments.Insert(index, arg);
+                 Arguments.Insert(index, arg);
             }
 
             return this as TTask;
@@ -49,7 +41,7 @@ namespace FlubuCore.Tasks.Process
         {
             if (!string.IsNullOrEmpty(arg))
             {
-                _arguments.Add(arg);
+                Arguments.Add(arg);
             }
 
             return this as TTask;
@@ -58,7 +50,7 @@ namespace FlubuCore.Tasks.Process
         /// <inheritdoc />
         public TTask WithArguments(params string[] args)
         {
-            _arguments.AddRange(args);
+            Arguments.AddRange(args);
             return this as TTask;
         }
 
@@ -83,7 +75,7 @@ namespace FlubuCore.Tasks.Process
         /// <returns></returns>
         public TTask ClearArguments()
         {
-            _arguments.Clear();
+            Arguments.Clear();
             return this as TTask;
         }
 
@@ -116,7 +108,7 @@ namespace FlubuCore.Tasks.Process
                 .CaptureErrorOutput()
                 .CaptureOutput()
                 .WorkingFolder(ExecuteWorkingFolder)
-                .WithArguments(_arguments.ToArray());
+                .WithArguments(Arguments.ToArray());
 
             return task.Execute(context);
         }

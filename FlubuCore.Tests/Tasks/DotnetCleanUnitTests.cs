@@ -12,7 +12,7 @@ namespace Flubu.Tests.Tasks
         public DotnetCleanUnitTests()
         {
             _task = new DotnetCleanTask();
-            _task.DotnetExecutable("dotnet");
+            _task.Executable("dotnet");
             Tasks.Setup(x => x.RunProgramTask("dotnet")).Returns(RunProgramTask.Object);
             Properties.Setup(x => x.Get<string>(BuildProps.BuildDir, null, It.IsAny<string>())).Returns("build");
             Properties.Setup(x => x.Get<string>(BuildProps.OutputDir, null, It.IsAny<string>())).Returns("output");
