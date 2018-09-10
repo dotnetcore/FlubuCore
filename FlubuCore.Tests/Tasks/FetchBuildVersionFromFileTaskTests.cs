@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 using FlubuCore.Context;
 using FlubuCore.Tasks.Versioning;
-using Microsoft.Extensions.Logging;
 using Xunit;
 
-namespace Flubu.Tests.Tasks
+namespace FlubuCore.Tests.Tasks
 {
     [Collection(nameof(FlubuTestCollection))]
     public class FetchBuildVersionFromFileTaskTests : FlubuTestBase

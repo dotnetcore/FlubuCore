@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using FlubuCore.Context;
-using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Services;
 using FlubuCore.Tasks.Process;
 using FlubuCore.Tasks.Solution;
 using Moq;
 using Xunit;
 
-namespace Flubu.Tests.Tasks
+namespace FlubuCore.Tests.Tasks
 {
     public class CompileSolutionTaskUnitTests : TaskUnitTestBase
     {

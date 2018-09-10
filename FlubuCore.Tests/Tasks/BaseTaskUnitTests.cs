@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FlubuCore;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
 using FlubuCore.IO.Wrappers;
-using FlubuCore.Services;
-using FlubuCore.Tasks;
 using Moq;
 using Xunit;
 
-namespace Flubu.Tests.Tasks
+namespace FlubuCore.Tests.Tasks
 {
     public class BaseTaskUnitTests : TaskUnitTestBase
     {

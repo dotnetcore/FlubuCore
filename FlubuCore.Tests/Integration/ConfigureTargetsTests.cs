@@ -6,7 +6,7 @@ using FlubuCore.Targeting;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Flubu.Tests.Integration
+namespace FlubuCore.Tests.Integration
 {
     [Collection(nameof(IntegrationTestCollection))]
     public class ConfigureTargetsTests

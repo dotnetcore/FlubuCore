@@ -7,7 +7,7 @@ using FlubuCore.Packaging;
 using FlubuCore.Tasks.Packaging;
 using Xunit;
 
-namespace Flubu.Tests.Tasks
+namespace FlubuCore.Tests.Tasks
 {
     [Collection(nameof(FlubuTestCollection))]
     public class PackageTaskTests : FlubuTestBase

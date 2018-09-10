@@ -4,7 +4,7 @@ using FlubuCore.Scripting;
 using FlubuCore.Tasks.Process;
 using Moq;
 
-namespace Flubu.Tests.Tasks
+namespace FlubuCore.Tests.Tasks
 {
     public abstract class TaskUnitTestBase
     {

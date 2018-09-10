@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace Flubu.Tests.Services
+namespace FlubuCore.Tests.Services
 {
     public class FlubuEnviromentTests
     {

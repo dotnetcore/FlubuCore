@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Runtime.Versioning;
-using System.Text;
+﻿using System.Collections.Generic;
 using FlubuCore.Scripting;
 using Microsoft.DotNet.Cli.Utils;
 using Xunit;
 
-namespace Flubu.Tests.Scripting
+namespace FlubuCore.Tests.Scripting
 {
     public class NugetPackageResolverTests
     {

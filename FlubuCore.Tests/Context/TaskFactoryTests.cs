@@ -1,9 +1,8 @@
-﻿using FlubuCore.Tasks;
-using FlubuCore.Tasks.NetCore;
+﻿using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Solution;
 using Xunit;
 
-namespace Flubu.Tests.Context
+namespace FlubuCore.Tests.Context
 {
     [Collection(nameof(FlubuTestCollection))]
     public class TaskFactoryTests : FlubuTestBase

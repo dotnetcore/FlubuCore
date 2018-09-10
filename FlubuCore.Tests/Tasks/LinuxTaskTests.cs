@@ -2,7 +2,7 @@
 using FlubuCore.Tasks.Linux;
 using Xunit;
 
-namespace Flubu.Tests.Tasks
+namespace FlubuCore.Tests.Tasks
 {
     [Collection(nameof(FlubuTestCollection))]
     public class LinuxTaskTests : FlubuTestBase

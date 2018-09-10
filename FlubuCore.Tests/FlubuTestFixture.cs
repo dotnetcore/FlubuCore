@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
 
-namespace Flubu.Tests
+namespace FlubuCore.Tests
 {
     public class FlubuTestFixture : IDisposable
     {

@@ -1,20 +1,16 @@
 ﻿using System;
-using DotNet.Cli.Flubu.Commanding;
 using DotNet.Cli.Flubu.Infrastructure;
-using FlubuCore;
 using FlubuCore.Commanding;
 using FlubuCore.Infrastructure;
-using FlubuCore.Tasks;
 using FlubuCore.Tasks.Process;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Xunit;
 
-namespace Flubu.Tests
+namespace FlubuCore.Tests
 {
     public class InfrastructureTests
     {

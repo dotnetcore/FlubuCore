@@ -5,7 +5,7 @@ using FlubuCore.Tasks.Versioning;
 using Moq;
 using Xunit;
 
-namespace Flubu.Tests.Tasks
+namespace FlubuCore.Tests.Tasks
 {
     [Collection(nameof(FlubuTestCollection))]
     public class UpdateNetCoreVersionTaskUnitTests : FlubuTestBase

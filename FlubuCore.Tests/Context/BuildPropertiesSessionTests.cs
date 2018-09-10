@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FlubuCore.Context;
+﻿using FlubuCore.Context;
 using Xunit;
 
-namespace Flubu.Tests.Context
+namespace FlubuCore.Tests.Context
 {
     public class BuildPropertiesSessionTests
     {

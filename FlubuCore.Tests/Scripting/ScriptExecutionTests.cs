@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
@@ -13,7 +12,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-namespace Flubu.Tests.Scripting
+namespace FlubuCore.Tests.Scripting
 {
     public class ScriptExecutionTests
     {

@@ -4,7 +4,7 @@ using Microsoft.Extensions.CommandLineUtils;
 using Moq;
 using Xunit;
 
-namespace Flubu.Tests.Commanding
+namespace FlubuCore.Tests.Commanding
 {
     public class CommandParserTests
     {

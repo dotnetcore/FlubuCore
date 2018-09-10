@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FlubuCore.Context;
+﻿using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Infrastructure;
@@ -12,7 +9,7 @@ using FlubuCore.Tasks.Solution;
 using Moq;
 using Xunit;
 
-namespace Flubu.Tests.Context
+namespace FlubuCore.Tests.Context
 {
      public class TargetFluentInterfaceIntegrationTestsWithTarget
     {

@@ -2,7 +2,7 @@
 using FlubuCore.Tasks.Text;
 using Xunit;
 
-namespace Flubu.Tests.Tasks
+namespace FlubuCore.Tests.Tasks
 {
     [Collection(nameof(FlubuTestCollection))]
     public class UpdateJsonFileTaskTests : FlubuTestBase

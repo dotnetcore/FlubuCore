@@ -4,7 +4,7 @@ using FlubuCore.IO.Wrappers;
 using FlubuCore.Tasks.Versioning;
 using Xunit;
 
-namespace Flubu.Tests.Tasks
+namespace FlubuCore.Tests.Tasks
 {
     [Collection(nameof(FlubuTestCollection))]
     public class UpdateNetCoreVersionTaskIntegrationTests : FlubuTestBase

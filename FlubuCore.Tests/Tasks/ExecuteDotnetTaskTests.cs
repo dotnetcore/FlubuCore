@@ -1,9 +1,8 @@
-﻿using System.Runtime.InteropServices;
-using FlubuCore.Context;
+﻿using FlubuCore.Context;
 using FlubuCore.Tasks.NetCore;
 using Xunit;
 
-namespace Flubu.Tests.Tasks
+namespace FlubuCore.Tests.Tasks
 {
     [Collection(nameof(FlubuTestCollection))]
     public class ExecuteDotnetTaskTests : FlubuTestBase

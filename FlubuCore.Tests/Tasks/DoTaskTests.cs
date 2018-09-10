@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
 using Xunit;
 
-namespace Flubu.Tests.Tasks
+namespace FlubuCore.Tests.Tasks
 {
     public class DoTaskTests : TaskUnitTestBase
     {

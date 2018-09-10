@@ -1,13 +1,12 @@
 ﻿using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.Context.FluentInterface.Interfaces;
-using FlubuCore.Context.FluentInterface.TaskExtensions;
 using FlubuCore.Infrastructure;
 using FlubuCore.Targeting;
 using Moq;
 using Xunit;
 
-namespace Flubu.Tests.Context
+namespace FlubuCore.Tests.Context
 {
     public class TargetFluentInterfaceTests
     {

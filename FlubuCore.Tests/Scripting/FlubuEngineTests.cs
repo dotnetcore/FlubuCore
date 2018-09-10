@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using Flubu.Tests.Integration;
 using FlubuCore.Scripting;
-using FlubuCore.Targeting;
+using FlubuCore.Tests.Integration;
 using Xunit;
 
-namespace Flubu.Tests.Scripting
+namespace FlubuCore.Tests.Scripting
 {
     public class BuildScriptEngineTests
     {

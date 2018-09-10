@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Flubu.Tests.TestData.BuildScripts;
-using Flubu.Tests.TestData.BuildScripts.ForCreateTargetWithAttributes;
-using FlubuCore.Context;
+﻿using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Infrastructure;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
-using FlubuCore.Tasks.Solution;
+using FlubuCore.Tests.TestData.BuildScripts.ForCreateTargetWithAttributes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-namespace Flubu.Tests
+namespace FlubuCore.Tests
 {
     public class TargetCreatorTests
     {

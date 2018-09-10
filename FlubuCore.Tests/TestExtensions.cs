@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 
-namespace Flubu.Tests
+namespace FlubuCore.Tests
 {
     public static class TestExtensions
     {

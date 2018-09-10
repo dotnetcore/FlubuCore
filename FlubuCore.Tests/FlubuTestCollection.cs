@@ -1,7 +1,6 @@
-﻿using Flubu.Tests.Tasks;
-using Xunit;
+﻿using Xunit;
 
-namespace Flubu.Tests
+namespace FlubuCore.Tests
 {
     [CollectionDefinition(nameof(FlubuTestCollection))]
     public class FlubuTestCollection : ICollectionFixture<FlubuTestFixture>

@@ -3,7 +3,7 @@ using FlubuCore.Tasks.NetCore;
 using Moq;
 using Xunit;
 
-namespace Flubu.Tests.Tasks
+namespace FlubuCore.Tests.Tasks
 {
     public class DotnetRestoreUnitTests : TaskUnitTestBase
     {

@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using FlubuCore.Context;
 using FlubuCore.Tasks.Text;
 using Xunit;
 
-namespace Flubu.Tests.Tasks
+namespace FlubuCore.Tests.Tasks
 {
     [Collection(nameof(FlubuTestCollection))]
     public class MergeConfigurationFileTaskTests : FlubuTestBase

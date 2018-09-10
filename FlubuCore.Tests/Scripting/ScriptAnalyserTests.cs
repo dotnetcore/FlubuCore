@@ -6,7 +6,7 @@ using FlubuCore.Scripting.Processors;
 using Moq;
 using Xunit;
 
-namespace Flubu.Tests.Scripting
+namespace FlubuCore.Tests.Scripting
 {
     public class ScriptAnalyserTests
     {

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DotNet.Cli.Flubu.Commanding;
+﻿using DotNet.Cli.Flubu.Commanding;
 using FlubuCore.Commanding;
 using Xunit;
 
-namespace Flubu.Tests.Commanding
+namespace FlubuCore.Tests.Commanding
 {
     public class FlubuConfigurationProviderTests
     {

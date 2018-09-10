@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using DotNet.Cli.Flubu.Infrastructure;
-using FlubuCore;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.Infrastructure;
@@ -11,7 +10,7 @@ using FlubuCore.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Flubu.Tests
+namespace FlubuCore.Tests
 {
     public abstract class FlubuTestBase
     {

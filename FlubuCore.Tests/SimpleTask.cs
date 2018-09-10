@@ -1,9 +1,8 @@
 ﻿using FlubuCore.Context;
 using FlubuCore.IO.Wrappers;
-using FlubuCore.Services;
 using FlubuCore.Tasks;
 
-namespace Flubu.Tests
+namespace FlubuCore.Tests
 {
     public class SimpleTask : TaskBase<int, SimpleTask>
     {

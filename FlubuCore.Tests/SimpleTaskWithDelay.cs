@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
 
-namespace Flubu.Tests
+namespace FlubuCore.Tests
 {
     public class SimpleTaskWithDelay : TaskBase<int, SimpleTaskWithDelay>
     {

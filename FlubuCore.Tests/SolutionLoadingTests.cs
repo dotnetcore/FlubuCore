@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FlubuCore.Context;
-using FlubuCore.Tasks.Solution;
-using FlubuCore.Tasks.Solution.VSSolutionBrowsing;
+﻿using FlubuCore.Tasks.Solution.VSSolutionBrowsing;
 using Xunit;
 
-namespace Flubu.Tests
+namespace FlubuCore.Tests
 {
     public class SolutionLoadingTests
     {

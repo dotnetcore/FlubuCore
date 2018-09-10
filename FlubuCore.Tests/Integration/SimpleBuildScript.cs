@@ -3,7 +3,7 @@ using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Scripting;
 using Xunit;
 
-namespace Flubu.Tests.Integration
+namespace FlubuCore.Tests.Integration
 {
     public class SimpleBuildScript : DefaultBuildScript
     {

@@ -5,7 +5,7 @@ using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Utils;
 using Xunit;
 
-namespace Flubu.Tests.Context
+namespace FlubuCore.Tests.Context
 {
     [Collection(nameof(FlubuTestCollection))]
     public class TaskContextResolveTaskTests : FlubuTestBase

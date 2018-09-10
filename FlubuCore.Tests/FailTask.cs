@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
 
-namespace Flubu.Tests
+namespace FlubuCore.Tests
 {
     public class FailTask : TaskBase<int, FailTask>
     {

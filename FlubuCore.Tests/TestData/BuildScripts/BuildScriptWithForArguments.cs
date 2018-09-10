@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
 
-namespace Flubu.Tests.TestData.BuildScripts
+namespace FlubuCore.Tests.TestData.BuildScripts
 {
     public class BuildScriptWithForArguments : DefaultBuildScript
     {

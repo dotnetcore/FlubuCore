@@ -9,7 +9,7 @@ using Microsoft.DotNet.Cli.Utils;
 using Moq;
 using Xunit;
 
-namespace Flubu.Tests.Tasks
+namespace FlubuCore.Tests.Tasks
 {
     [Collection(nameof(FlubuTestCollection))]
     public class RunProgramTaskTests : FlubuTestBase

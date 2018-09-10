@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
 
-namespace Flubu.Tests.Integration
+namespace FlubuCore.Tests.Integration
 {
     public class BuildScriptWithHttpClient : DefaultBuildScript
     {

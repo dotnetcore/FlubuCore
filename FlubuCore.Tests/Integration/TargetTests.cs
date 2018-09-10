@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using DotNet.Cli.Flubu.Infrastructure;
-using FlubuCore;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
 using FlubuCore.IO.Wrappers;
@@ -14,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Task = System.Threading.Tasks.Task;
 
-namespace Flubu.Tests.Integration
+namespace FlubuCore.Tests.Integration
 {
     [Collection(nameof(FlubuTestCollection))]
     public class TargetTests : FlubuTestBase
