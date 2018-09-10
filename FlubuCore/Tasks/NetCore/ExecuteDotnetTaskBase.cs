@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            string program = _dotnetExecutable;
+            string program = ExecutablePath;
 
             if (string.IsNullOrEmpty(program))
             {
