@@ -101,7 +101,7 @@ namespace FlubuCore.Tasks.MsSql
         /// <returns></returns>
         public SqlCmdTask Server(string server)
         {
-            WithArguments("-S", server);
+            WithArgumentsValueRequired("-S", server);
             return this;
         }
 
@@ -112,7 +112,7 @@ namespace FlubuCore.Tasks.MsSql
         /// <returns></returns>
         public SqlCmdTask UserName(string userName)
         {
-            WithArguments("-U", userName);
+            WithArgumentsValueRequired("-U", userName);
             return this;
         }
 
@@ -123,7 +123,7 @@ namespace FlubuCore.Tasks.MsSql
         /// <returns></returns>
         public SqlCmdTask Password(string password)
         {
-            WithArguments("-P", password);
+            WithArgumentsValueRequired("-P", password);
             return this;
         }
 
@@ -144,7 +144,7 @@ namespace FlubuCore.Tasks.MsSql
         /// <returns></returns>
         public SqlCmdTask Database(string database)
         {
-            WithArguments("-d", database);
+            WithArgumentsValueRequired("-d", database);
             return this;
         }
 
