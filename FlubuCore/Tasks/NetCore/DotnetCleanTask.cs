@@ -43,7 +43,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetCleanTask Project(string projectName)
         {
-            Arguments.Insert(0, projectName);
+            GetArguments().Insert(0, projectName);
             return this;
         }
 
@@ -114,7 +114,7 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override void BeforeExecute(ITaskContextInternal context)
         {
-            if (Arguments.Count == 0 || Arguments[0].StartsWith("-"))
+            if (GetArguments().Count == 0 || GetArguments()[0].StartsWith("-"))
             {
                 var solustionFileName = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
                 if (solustionFileName != null)
@@ -123,7 +123,7 @@ namespace FlubuCore.Tasks.NetCore
                 }
             }
 
-            if (!Arguments.Exists(x => x == "-c" || x == "--configuration"))
+            if (!GetArguments().Exists(x => x == "-c" || x == "--configuration"))
             {
                 var configuration = context.Properties.Get<string>(BuildProps.BuildConfiguration, null);
                 if (configuration != null)

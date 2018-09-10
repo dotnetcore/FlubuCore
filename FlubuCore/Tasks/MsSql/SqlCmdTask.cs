@@ -190,10 +190,12 @@ namespace FlubuCore.Tasks.MsSql
                 if (DoNotLog)
                     task.NoLog();
 
+               var args = ValidateAndGetArgumentsFlat();
+
                 task
                     .WithArguments("-i")
                     .WithArguments(file)
-                    .WithArguments(Arguments.ToArray())
+                    .WithArguments(args.ToArray())
                     .CaptureErrorOutput()
                     .CaptureOutput()
                     .WorkingFolder(ExecuteWorkingFolder)

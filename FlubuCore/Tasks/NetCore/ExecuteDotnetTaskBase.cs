@@ -52,7 +52,7 @@ namespace FlubuCore.Tasks.NetCore
 
             task
                 .WithArguments(Command)
-                .WithArguments(Arguments.ToArray())
+                .WithArguments(GetArguments().ToArray())
                 .WorkingFolder(_workingFolder)
                 .CaptureErrorOutput()
                 .CaptureOutput()

@@ -36,7 +36,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetPublishTask Project(string projectName)
         {
-            Arguments.Insert(0, projectName);
+            GetArguments().Insert(0, projectName);
             return this;
         }
 
@@ -122,7 +122,7 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override void BeforeExecute(ITaskContextInternal context)
         {
-            if (!Arguments.Exists(x => x == "-c" || x == "--configuration"))
+            if (!GetArguments().Exists(x => x == "-c" || x == "--configuration"))
             {
                 var configuration = context.Properties.Get<string>(BuildProps.BuildConfiguration, null);
                 if (configuration != null)

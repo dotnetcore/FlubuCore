@@ -71,7 +71,7 @@ namespace Flubu.Tests.Tasks
             _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
             _task.WithArguments("aaa");
 
-            Assert.Single(_task.Arguments);
+            Assert.Single(_task.GetArguments());
         }
 
         [Fact]
@@ -84,7 +84,7 @@ namespace Flubu.Tests.Tasks
             _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
             _task.WithArguments("aaa");
             _task.Execute(Context.Object);
-            Assert.Equal(4, _task.Arguments.Count);
+            Assert.Equal(4, _task.GetArguments().Count);
         }
 
         private void SetupMsBuildVersions(bool include40 = true, bool include120 = true)

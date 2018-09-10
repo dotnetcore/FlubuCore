@@ -21,8 +21,8 @@ namespace Flubu.Tests.Tasks
         {
             Properties.Setup(x => x.Get<string>(BuildProps.BuildConfiguration, null, It.IsAny<string>())).Returns("Release");
             _task.ExecuteVoid(Context.Object);
-            Assert.Equal("-c", _task.Arguments[0]);
-            Assert.Equal("Release", _task.Arguments[1]);
+            Assert.Equal("-c", _task.GetArguments()[0]);
+            Assert.Equal("Release", _task.GetArguments()[1]);
         }
 
         [Fact]
@@ -30,9 +30,9 @@ namespace Flubu.Tests.Tasks
         {
             _task.Configuration("Release");
             _task.ExecuteVoid(Context.Object);
-            Assert.Equal(2, _task.Arguments.Count);
-            Assert.Equal("-c", _task.Arguments[0]);
-            Assert.Equal("Release", _task.Arguments[1]);
+            Assert.Equal(2, _task.GetArguments().Count);
+            Assert.Equal("-c", _task.GetArguments()[0]);
+            Assert.Equal("Release", _task.GetArguments()[1]);
         }
 
         [Fact]
@@ -40,8 +40,8 @@ namespace Flubu.Tests.Tasks
         {
             _task.WithArguments("--configuration", "Release");
             _task.ExecuteVoid(Context.Object);
-            Assert.Equal("--configuration", _task.Arguments[0]);
-            Assert.Equal("Release", _task.Arguments[1]);
+            Assert.Equal("--configuration", _task.GetArguments()[0]);
+            Assert.Equal("Release", _task.GetArguments()[1]);
         }
     }
 }

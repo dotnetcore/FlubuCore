@@ -6,6 +6,11 @@ namespace FlubuCore.Tasks.Process
     public abstract class ExternalProcessTaskBase<TTask> : TaskBase<int, TTask>, IExternalProcess<TTask>
         where TTask : class, ITask
     {
+        // ReSharper disable once InconsistentNaming
+#pragma warning disable SA1300 // Element should begin with upper-case letter
+        private List<(string argKey, string argValue, bool valueRequired)> _arguments { get; } = new List<(string argKey, string argValue, bool valueRequired)>();
+#pragma warning restore SA1300 // Element should begin with upper-case letter
+
         /// <summary>
         /// Gets or sets working folder.
         /// </summary>
@@ -24,13 +29,27 @@ namespace FlubuCore.Tasks.Process
         /// </summary>
         protected bool NoOutputLog { get; set; }
 
-        internal List<(string argKey, string argValue, bool valueRequired)> Arguments { get; } = new List<(string argKey, string argValue, bool valueRequired)>();
+        internal List<string> GetArguments()
+        {
+            var argumentsFlat = new List<string>();
+            foreach (var arg in _arguments)
+            {
+                argumentsFlat.Add(arg.argKey);
+
+                if (!string.IsNullOrEmpty(arg.argValue))
+                {
+                    argumentsFlat.Add(arg.argValue);
+                }
+            }
+
+            return argumentsFlat;
+        }
 
         protected TTask InsertArgument(int index, string arg)
         {
             if (!string.IsNullOrEmpty(arg))
             {
-                 Arguments.Insert(index, (arg, null, false));
+                 _arguments.Insert(index, (arg, null, false));
             }
 
             return this as TTask;
@@ -43,11 +62,11 @@ namespace FlubuCore.Tasks.Process
         /// <param name="argKey"></param>
         /// <param name="argValue"></param>
         /// <returns></returns>
-        protected TTask WithArgumentsValueRequired(string argKey, string argValue)
+        protected TTask WithKArgumentsValueRequired(string argKey, string argValue)
         {
             if (!string.IsNullOrEmpty(argKey))
             {
-                Arguments.Add((argKey, argValue, true));
+                _arguments.Add((argKey, argValue, true));
             }
 
             return this as TTask;
@@ -58,7 +77,7 @@ namespace FlubuCore.Tasks.Process
         {
             if (!string.IsNullOrEmpty(arg))
             {
-                Arguments.Add((arg, null, false));
+                _arguments.Add((arg, null, false));
             }
 
             return this as TTask;
@@ -69,7 +88,7 @@ namespace FlubuCore.Tasks.Process
         {
             foreach (var arg in args)
             {
-                Arguments.Add((arg, null, false));
+                _arguments.Add((arg, null, false));
             }
 
             return this as TTask;
@@ -96,7 +115,7 @@ namespace FlubuCore.Tasks.Process
         /// <returns></returns>
         public TTask ClearArguments()
         {
-            Arguments.Clear();
+            _arguments.Clear();
             return this as TTask;
         }
 
@@ -125,9 +144,22 @@ namespace FlubuCore.Tasks.Process
             if (DoNotLog)
                 task.NoLog();
 
+            var argumentsFlat = ValidateAndGetArgumentsFlat();
+
+            task
+                .CaptureErrorOutput()
+                .CaptureOutput()
+                .WorkingFolder(ExecuteWorkingFolder)
+                .WithArguments(argumentsFlat.ToArray());
+
+            return task.Execute(context);
+        }
+
+        private List<string> ValidateAndGetArgumentsFlat()
+        {
             var argumentsFlat = new List<string>();
 
-            foreach (var arg in Arguments)
+            foreach (var arg in _arguments)
             {
                 argumentsFlat.Add(arg.argKey);
 
@@ -144,13 +176,7 @@ namespace FlubuCore.Tasks.Process
                 }
             }
 
-            task
-                .CaptureErrorOutput()
-                .CaptureOutput()
-                .WorkingFolder(ExecuteWorkingFolder)
-                .WithArguments(argumentsFlat.ToArray());
-
-            return task.Execute(context);
+            return argumentsFlat;
         }
 
         protected virtual void PrepareExecutableParameters(ITaskContextInternal context)

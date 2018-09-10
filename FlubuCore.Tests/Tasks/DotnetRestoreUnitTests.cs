@@ -21,8 +21,8 @@ namespace Flubu.Tests.Tasks
         {
             _task.Project("project");
             _task.ExecuteVoid(Context.Object);
-            Assert.Single(_task.Arguments);
-            Assert.Equal("project", _task.Arguments[0]);
+            Assert.Single(_task.GetArguments());
+            Assert.Equal("project", _task.GetArguments()[0]);
         }
 
         [Fact]
@@ -30,7 +30,7 @@ namespace Flubu.Tests.Tasks
         {
             _task.WithArguments("project");
             _task.ExecuteVoid(Context.Object);
-            Assert.Equal("project", _task.Arguments[0]);
+            Assert.Equal("project", _task.GetArguments()[0]);
         }
 
         [Fact]
@@ -38,8 +38,8 @@ namespace Flubu.Tests.Tasks
         {
             Properties.Setup(x => x.Get<string>(BuildProps.SolutionFileName, null,  It.IsAny<string>())).Returns("project2");
             _task.ExecuteVoid(Context.Object);
-            Assert.Single(_task.Arguments);
-            Assert.Equal("project2", _task.Arguments[0]);
+            Assert.Single(_task.GetArguments());
+            Assert.Equal("project2", _task.GetArguments()[0]);
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace Flubu.Tests.Tasks
             _task.WithArguments("-c", "release", "somearg", "-sf");
             _task.Project("project");
             _task.ExecuteVoid(Context.Object);
-            Assert.Equal("project", _task.Arguments[0]);
+            Assert.Equal("project", _task.GetArguments()[0]);
         }
     }
 }

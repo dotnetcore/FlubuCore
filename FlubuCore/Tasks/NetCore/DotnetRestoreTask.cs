@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.NetCore
 
         public DotnetRestoreTask Project(string projectName)
         {
-            Arguments.Insert(0, projectName);
+            GetArguments().Insert(0, projectName);
             return this;
         }
 
@@ -137,7 +137,7 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override void BeforeExecute(ITaskContextInternal context)
         {
-            if (Arguments.Count == 0 || Arguments[0].StartsWith("-"))
+            if (GetArguments().Count == 0 || GetArguments()[0].StartsWith("-"))
             {
                 var solustionFileName = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
                 if (solustionFileName != null)
