@@ -59,18 +59,15 @@ namespace FlubuCore.Tasks.Iis
             using (serverManager)
             {
                 ApplicationPoolCollection applicationPoolCollection = serverManager.ApplicationPools;
-                const string message = "Application pool '{0}' has been {1}ed.";
                 foreach (ApplicationPool applicationPool in applicationPoolCollection)
                 {
                     if (applicationPool.Name == _applicationPoolName)
                     {
-                        string logMessage;
                         switch (_action)
                         {
                             case ControlApplicationPoolAction.Start:
                                 {
                                     RunWithRetries(x => applicationPool.Start(), 3);
-                                    logMessage = string.Format(CultureInfo.InvariantCulture, message, _applicationPoolName, _action);
                                     break;
                                 }
 
@@ -80,14 +77,12 @@ namespace FlubuCore.Tasks.Iis
                                         x => applicationPool.Stop(),
                                         3,
                                         -2147023834 /*app pool already stopped*/);
-                                    logMessage = string.Format(CultureInfo.InvariantCulture, message, _applicationPoolName, "stopp");
                                     break;
                                 }
 
                             case ControlApplicationPoolAction.Recycle:
                                 {
                                     RunWithRetries(x => applicationPool.Recycle(), 3);
-                                    logMessage = string.Format(CultureInfo.InvariantCulture, message, _applicationPoolName, _action);
                                     break;
                                 }
 
@@ -97,7 +92,7 @@ namespace FlubuCore.Tasks.Iis
 
                         serverManager.CommitChanges();
 
-                        DoLogInfo(logMessage);
+                        DoLogInfo($"Application pool '{_applicationPoolName}' has been {_action}ed.");
                         return 0;
                     }
                 }
@@ -110,7 +105,7 @@ namespace FlubuCore.Tasks.Iis
                 if (_failIfNotExist)
                     throw new TaskExecutionException(appPoolDoesNotExistMessage, 1);
 
-                DoLogInfo(message);
+                DoLogInfo($"No action taken on application pool {_applicationPoolName}");
                 return 0;
             }
         }
