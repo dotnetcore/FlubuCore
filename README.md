@@ -173,6 +173,12 @@ Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 * Discuss potential ways to improve project.
 * Improve existing implementation, performance, etc.
 
-## Release Notes
+## Release Notes and Roadmap
 
  Notable FlubuCore changes by release can be found in [What's new](https://github.com/flubu-core/flubu.core/wiki/9-What's-New) wiki section. See [release notes](https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt) for full set of changes.
+ 
+You can see FlubuCore roadmap by exploring opened [milestones.](https://github.com/flubu-core/flubu.core/milestones)
+
+## Thanks
+
+Special thanks to [@ironcev](https://github.com/ironcev) for greatly improving readme and for giving some valuable advices.
