@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FlubuCore.Context;
+using FlubuCore.Context.FluentInterface;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,6 +49,11 @@ namespace FlubuCore.Targeting
 
         public ITargetInternal AddTarget(string targetName)
         {
+            if (_targets.ContainsKey(targetName))
+            {
+                throw new ArgumentException($"Target with the name '{targetName}' already exists");
+            }
+
             ITargetInternal target = new Target(this, targetName, _args);
             _targets.Add(target.TargetName, target);
             return target;
@@ -55,6 +61,11 @@ namespace FlubuCore.Targeting
 
         public ITargetInternal AddTarget(ITargetInternal target)
         {
+            if (_targets.ContainsKey(target.TargetName))
+            {
+                throw new ArgumentException($"Target with the name '{target.TargetName}' already exists");
+            }
+
             _targets.Add(target.TargetName, target);
             return target;
         }
