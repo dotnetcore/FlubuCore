@@ -9,14 +9,15 @@ namespace FlubuCore.Tasks.Git
     public class GitCloneTask : ExternalProcessTaskBase<GitCloneTask>
     {
         private readonly string _repository;
+        private readonly string _directory;
         private string _description;
 
         public GitCloneTask(string repository, string directory)
         {
             _repository = repository;
+            _directory = directory;
             InsertArgument(0, "clone");
-            InsertArgument(1, repository);
-            InsertArgument(2, directory);
+  
         }
 
         protected override string Description
@@ -108,6 +109,7 @@ namespace FlubuCore.Tasks.Git
         protected override int DoExecute(ITaskContextInternal context)
         {
             _repository.MustNotBeNullOrEmpty("Url of the repository to clone must not be empty.");
+            WithArguments(_directory, _repository);
             return base.DoExecute(context);
         }
     }
