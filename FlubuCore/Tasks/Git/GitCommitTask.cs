@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.Context;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Git
@@ -9,8 +10,11 @@ namespace FlubuCore.Tasks.Git
     {
         private string _description;
 
+        private readonly List<string> _files;
+
         public GitCommitTask()
          {
+             _files = new List<string>();
              InsertArgument(0, "commit");
          }
 
@@ -98,8 +102,18 @@ namespace FlubuCore.Tasks.Git
         /// <returns></returns>
         public GitCommitTask AddFile(string file)
         {
-            InsertArgument(1, file);
+            _files.Add(file);
             return this;
+        }
+
+        protected override int DoExecute(ITaskContextInternal context)
+        {
+            if (_files.Count != 0)
+            {
+                WithArguments(_files.ToArray());
+            }
+
+            return base.DoExecute(context);
         }
     }
 }
