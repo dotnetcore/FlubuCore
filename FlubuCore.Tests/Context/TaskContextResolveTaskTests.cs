@@ -497,5 +497,17 @@ namespace FlubuCore.Tests.Context
         {
             Assert.NotNull(Context.Tasks().DockerTasks().Build("."));
         }
+
+        [Fact]
+        public void ResolveDockerRunTask()
+        {
+            Assert.NotNull(Context.Tasks().DockerTasks().Run("a", "b", "c"));
+        }
+
+        [Fact]
+        public void ResolveDockerRunTaskNoParams()
+        {
+            Assert.NotNull(Context.Tasks().DockerTasks().Run("a", "b"));
+        }
     }
 }

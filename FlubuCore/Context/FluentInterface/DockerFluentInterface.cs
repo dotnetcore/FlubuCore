@@ -14,5 +14,10 @@ namespace FlubuCore.Context.FluentInterface
         {
             return Context.CreateTask<DockerBuildTask>(pathOrUrl);
         }
+
+        public DockerRunTask Run(string image, string command, params string[] imageArgs)
+        {
+            return Context.CreateTask<DockerRunTask>(image, command, imageArgs);
+        }
     }
 }

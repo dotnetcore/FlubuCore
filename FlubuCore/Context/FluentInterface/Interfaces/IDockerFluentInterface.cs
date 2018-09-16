@@ -13,5 +13,15 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="pathOrUrl">Path or url to a build’s context set of files.</param>
         /// <returns></returns>
         DockerBuildTask Build(string pathOrUrl);
+
+        /// <summary>
+        /// Docker runs processes in isolated containers. A container is a process which runs on a host.
+        /// The host may be local or remote. When an operator executes docker run, the container process that runs is isolated in that it has its own file system, its own networking, and its own isolated process tree separate from the host.
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="command"></param>
+        /// <param name="imageArgs"></param>
+        /// <returns></returns>
+        DockerRunTask Run(string image, string command, params string[] imageArgs);
     }
 }
