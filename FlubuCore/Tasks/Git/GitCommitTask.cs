@@ -8,9 +8,9 @@ namespace FlubuCore.Tasks.Git
 {
     public class GitCommitTask : ExternalProcessTaskBase<GitCommitTask>
     {
-        private string _description;
-
         private readonly List<string> _files;
+
+        private string _description;
 
         public GitCommitTask()
          {

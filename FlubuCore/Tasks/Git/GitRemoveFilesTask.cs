@@ -17,9 +17,8 @@ namespace FlubuCore.Tasks.Git
         /// </summary>
         public GitRemoveFilesTask(string file)
         {
-            _file = file;
-            InsertArgument(0, "rm");
-             InsertArgument(1, file);
+             _file = file;
+             InsertArgument(0, "rm");
         }
 
         protected override string Description
@@ -88,6 +87,7 @@ namespace FlubuCore.Tasks.Git
         protected override int DoExecute(ITaskContextInternal context)
         {
             _file.MustNotBeNullOrEmpty("Files to remove must not be empty.");
+            WithArguments(_file);
             return base.DoExecute(context);
         }
     }
