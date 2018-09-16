@@ -18,7 +18,6 @@ namespace FlubuCore.Tasks.Git
         {
             _tagName = tagName;
             InsertArgument(0, "tag");
-            InsertArgument(1, tagName);
         }
 
         protected override string Description
@@ -90,6 +89,7 @@ namespace FlubuCore.Tasks.Git
         protected override int DoExecute(ITaskContextInternal context)
         {
             _tagName.MustNotBeNullOrEmpty("Tag name must not be null or empty.");
+            WithArguments(_tagName);
             return base.DoExecute(context);
         }
     }
