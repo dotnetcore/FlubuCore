@@ -9,6 +9,7 @@ namespace FlubuCore.Tasks.Docker
     public class DockerBuildTask : ExternalProcessTaskBase<DockerBuildTask>
     {
         private readonly string _pathOrUrl;
+        private string _description;
 
         public DockerBuildTask(string pathOrUrl)
         {
@@ -16,7 +17,20 @@ namespace FlubuCore.Tasks.Docker
             _pathOrUrl = pathOrUrl;
         }
 
-        protected override string Description { get; set; }
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes docker command 'build' with specified option.";
+                }
+
+                return _description;
+            }
+
+            set { _description = value; }
+        }
 
         /// <summary>
         /// Image name and optionally a tag in the 'name:tag' format.

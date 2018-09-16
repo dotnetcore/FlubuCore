@@ -11,6 +11,7 @@ namespace FlubuCore.Tasks.Docker
         private readonly string _image;
         private readonly string _command;
         private readonly string[] _imageArgs;
+        private string _description;
 
         public DockerRunTask(string image, string command, params string[] imageArgs)
         {
@@ -20,7 +21,20 @@ namespace FlubuCore.Tasks.Docker
             WithArguments("run");
         }
 
-        protected override string Description { get; set; }
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes docker command 'run' with specified option.";
+                }
+
+                return _description;
+            }
+
+            set { _description = value; }
+        }
 
         /// <summary>
         /// --add-host

@@ -9,6 +9,7 @@ namespace FlubuCore.Tasks.Docker
     public class DockerStopTask : ExternalProcessTaskBase<DockerStopTask>
     {
         private readonly string[] _containers;
+        private string _description;
 
         public DockerStopTask(List<string> containers)
         {
@@ -22,7 +23,20 @@ namespace FlubuCore.Tasks.Docker
             WithArguments("stop");
         }
 
-        protected override string Description { get; set; }
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes docker command 'stop' with specified option.";
+                }
+
+                return _description;
+            }
+
+            set { _description = value; }
+        }
 
         /// <summary>
         /// -t, --time int

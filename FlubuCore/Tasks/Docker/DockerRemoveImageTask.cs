@@ -7,6 +7,7 @@ namespace FlubuCore.Tasks.Docker
     public class DockerRemoveImageTask : ExternalProcessTaskBase<DockerRemoveImageTask>
     {
         private readonly string[] _images;
+        private string _description;
 
         public DockerRemoveImageTask(List<string> images)
         {
@@ -20,7 +21,20 @@ namespace FlubuCore.Tasks.Docker
             WithArguments("rmi");
         }
 
-        protected override string Description { get; set; }
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes docker command 'rmi' with specified option.";
+                }
+
+                return _description;
+            }
+
+            set { _description = value; }
+        }
 
         /// <summary>
         /// --force, -f

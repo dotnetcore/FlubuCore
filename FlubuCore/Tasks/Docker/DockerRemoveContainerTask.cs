@@ -9,6 +9,7 @@ namespace FlubuCore.Tasks.Docker
     public class DockerRemoveContainerTask : ExternalProcessTaskBase<DockerRemoveContainerTask>
     {
         private readonly string[] _containers;
+        private string _description;
 
         public DockerRemoveContainerTask(List<string> containers)
         {
@@ -22,7 +23,20 @@ namespace FlubuCore.Tasks.Docker
             WithArguments("rm");
         }
 
-        protected override string Description { get; set; }
+        protected override string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_description))
+                {
+                    return $"Executes docker command 'rm' with specified option.";
+                }
+
+                return _description;
+            }
+
+            set { _description = value; }
+        }
 
         /// <summary>
         /// --force, -f
