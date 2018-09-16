@@ -1,3 +1,19 @@
+2.12.0.0
+- Added git add task.
+- Added git clone task.
+- Added git commit task.
+- Added git pull task.
+- Added git push task.
+- Added git remove files task.
+- Added git tag task.
+- Added docker build task.
+- Added docker run task.
+- Added docker stop task.
+- Added docker remove container task.
+- Added docker remove image task.
+- Improved validation in alot of tasks.
+- Fixed log message in control app poll task.
+
 2.11.2.0
 - Fixed install.ps1 as build.exe was renamed to flubu.exe
 
