@@ -17,7 +17,6 @@ namespace FlubuCore.Tasks.Git
             _repository = repository;
             _directory = directory;
             InsertArgument(0, "clone");
-  
         }
 
         protected override string Description
