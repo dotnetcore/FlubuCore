@@ -12,6 +12,7 @@ namespace FlubuCore.Tasks.Docker
 
         public DockerBuildTask(string pathOrUrl)
         {
+            WithArguments("build");
             _pathOrUrl = pathOrUrl;
         }
 

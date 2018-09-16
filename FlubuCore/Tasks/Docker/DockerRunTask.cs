@@ -17,6 +17,7 @@ namespace FlubuCore.Tasks.Docker
             _image = image;
             _command = command;
             _imageArgs = imageArgs;
+            WithArguments("run");
         }
 
         protected override string Description { get; set; }

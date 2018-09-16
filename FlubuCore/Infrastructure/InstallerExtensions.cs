@@ -7,6 +7,7 @@ using FlubuCore.Scripting;
 using FlubuCore.Services;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Docker;
 using FlubuCore.Tasks.FlubuWebApi;
 using FlubuCore.Tasks.Git;
 using FlubuCore.Tasks.Iis;
@@ -76,7 +77,8 @@ namespace FlubuCore.Infrastructure
                 .AddTask<GitAddTask>()
                 .AddTask<GitPullTask>()
                 .AddTask<GitCommitTask>()
-                .AddTask<GitPushTask>();
+                .AddTask<GitPushTask>()
+                .AddTask<DockerStopTask>();
         }
     }
 }

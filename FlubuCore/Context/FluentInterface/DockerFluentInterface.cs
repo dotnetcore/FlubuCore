@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Tasks.Docker;
@@ -18,6 +19,11 @@ namespace FlubuCore.Context.FluentInterface
         public DockerRunTask Run(string image, string command, params string[] imageArgs)
         {
             return Context.CreateTask<DockerRunTask>(image, command, imageArgs);
+        }
+
+        public DockerStopTask Stop(params string[] containers)
+        {
+            return Context.CreateTask<DockerStopTask>(containers.ToList());
         }
     }
 }

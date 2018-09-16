@@ -23,5 +23,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="imageArgs"></param>
         /// <returns></returns>
         DockerRunTask Run(string image, string command, params string[] imageArgs);
+
+        /// <summary>
+        /// Stop one or more running containers.
+        /// </summary>
+        /// <param name="containers"></param>
+        /// <returns></returns>
+        DockerStopTask Stop(params string[] containers);
     }
 }
