@@ -30,5 +30,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="containers"></param>
         /// <returns></returns>
         DockerStopTask Stop(params string[] containers);
+
+        /// <summary>
+        /// Remove one or more containers.
+        /// </summary>
+        /// <param name="containers"></param>
+        /// <returns></returns>
+        DockerRemoveContainerTask RemoveContainer(params string[] containers);
     }
 }

@@ -515,5 +515,11 @@ namespace FlubuCore.Tests.Context
         {
             Assert.NotNull(Context.Tasks().DockerTasks().Stop("a", "b"));
         }
+
+        [Fact]
+        public void ResolveDockerRemoveContainerTask()
+        {
+            Assert.NotNull(Context.Tasks().DockerTasks().RemoveContainer("a", "b"));
+        }
     }
 }

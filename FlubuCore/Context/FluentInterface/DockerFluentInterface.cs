@@ -25,5 +25,10 @@ namespace FlubuCore.Context.FluentInterface
         {
             return Context.CreateTask<DockerStopTask>(containers.ToList());
         }
+
+        public DockerRemoveContainerTask RemoveContainer(params string[] containers)
+        {
+            return Context.CreateTask<DockerRemoveContainerTask>(containers.ToList());
+        }
     }
 }
