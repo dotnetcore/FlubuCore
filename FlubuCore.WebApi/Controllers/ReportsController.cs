@@ -69,7 +69,7 @@ namespace FlubuCore.WebApi.Controllers
                 throw new HttpError(HttpStatusCode.NotFound, "NoReportsFound");
             }
 
-            task.AddDirectoryToPackage(downloadDirectory, dirName, true).ZipPackage(zipFilename, false).Execute(_taskSession);
+            task.AddDirectoryToPackage(downloadDirectory, dirName, false).ZipPackage(zipFilename, false).Execute(_taskSession);
             string zipPath = Path.Combine(zipDirectory, zipFilename);
 
             Stream fs = System.IO.File.OpenRead(zipPath);
