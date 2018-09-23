@@ -18,7 +18,7 @@ namespace FlubuCore.Tasks.Git
         public GitRemoveFilesTask(string file)
         {
              _file = file;
-            ExecutablePath = "git";
+             ExecutablePath = "git";
              InsertArgument(0, "rm");
         }
 
