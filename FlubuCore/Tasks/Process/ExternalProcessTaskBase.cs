@@ -134,6 +134,11 @@ namespace FlubuCore.Tasks.Process
         /// <inheritdoc />
         protected override int DoExecute(ITaskContextInternal context)
         {
+            if (string.IsNullOrEmpty(ExecutablePath))
+            {
+                throw new TaskExecutionException($"{nameof(ExecutablePath)} must be set.", 5);
+            }
+
             IRunProgramTask task = context.Tasks().RunProgramTask(ExecutablePath);
 
             if (NoOutputLog)
