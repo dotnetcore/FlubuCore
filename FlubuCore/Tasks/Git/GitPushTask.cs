@@ -11,6 +11,7 @@ namespace FlubuCore.Tasks.Git
 
          public GitPushTask()
          {
+             ExecutablePath = "git";
              InsertArgument(0, "push");
          }
 

@@ -15,6 +15,7 @@ namespace FlubuCore.Tasks.Git
         public GitCommitTask()
          {
              _files = new List<string>();
+             ExecutablePath = "git";
              InsertArgument(0, "commit");
          }
 

@@ -17,6 +17,7 @@ namespace FlubuCore.Tasks.Git
         public GitTagTask(string tagName)
         {
             _tagName = tagName;
+            ExecutablePath = "git";
             InsertArgument(0, "tag");
         }
 

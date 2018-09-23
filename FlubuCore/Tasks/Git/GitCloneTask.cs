@@ -16,6 +16,7 @@ namespace FlubuCore.Tasks.Git
         {
             _repository = repository;
             _directory = directory;
+            ExecutablePath = "git";
             InsertArgument(0, "clone");
         }
 
