@@ -350,6 +350,7 @@ namespace FlubuCore.Tasks.Docker
         protected override int DoExecute(ITaskContextInternal context)
         {
             _pathOrUrl.MustNotBeNullOrEmpty("PATH | URL must not be empty. run 'docker build --help' or see docker documentation online for help.");
+            ExecutablePath = "docker";
             WithArguments(_pathOrUrl);
             return base.DoExecute(context);
         }

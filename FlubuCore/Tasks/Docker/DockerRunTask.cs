@@ -975,7 +975,7 @@ namespace FlubuCore.Tasks.Docker
         protected override int DoExecute(ITaskContextInternal context)
         {
             _image.MustNotBeNullOrEmpty("Image must not be null or empty.");
-
+            ExecutablePath = "docker";
             WithArguments(_image);
             WithArguments(_command);
             WithArguments(_imageArgs);

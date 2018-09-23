@@ -72,6 +72,7 @@ namespace FlubuCore.Tasks.Docker
 
         protected override int DoExecute(ITaskContextInternal context)
         {
+            ExecutablePath = "docker";
             WithArguments(_containers);
             return base.DoExecute(context);
         }
