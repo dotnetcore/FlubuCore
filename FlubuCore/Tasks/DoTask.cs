@@ -13,7 +13,7 @@ namespace FlubuCore.Tasks
             _taskAction = taskAction;
         }
 
-        internal override string TaskName
+        protected internal override string TaskName
         {
             get
             {
@@ -53,7 +53,7 @@ namespace FlubuCore.Tasks
 
         protected override string Description { get; set; }
 
-        internal override string TaskName
+        protected internal override string TaskName
         {
             get
             {
@@ -94,7 +94,7 @@ namespace FlubuCore.Tasks
 
         protected override string Description { get; set; }
 
-        internal override string TaskName
+        protected internal override string TaskName
         {
             get
             {
@@ -138,7 +138,7 @@ namespace FlubuCore.Tasks
 
         protected override string Description { get; set; }
 
-        internal override string TaskName
+        protected internal override string TaskName
         {
             get
             {
@@ -185,7 +185,7 @@ namespace FlubuCore.Tasks
 
         protected override string Description { get; set; }
 
-        internal override string TaskName
+        protected internal override string TaskName
         {
             get
             {
@@ -235,7 +235,7 @@ namespace FlubuCore.Tasks
 
         protected override string Description { get; set; }
 
-        internal override string TaskName
+        protected internal override string TaskName
         {
             get
             {

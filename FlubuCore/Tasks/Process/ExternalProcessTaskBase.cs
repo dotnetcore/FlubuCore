@@ -29,7 +29,7 @@ namespace FlubuCore.Tasks.Process
         /// </summary>
         protected bool NoOutputLog { get; set; }
 
-        internal List<string> GetArguments()
+        protected internal List<string> GetArguments()
         {
             var argumentsFlat = new List<string>();
             foreach (var arg in _arguments)

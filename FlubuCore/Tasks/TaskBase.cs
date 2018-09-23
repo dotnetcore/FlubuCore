@@ -37,7 +37,7 @@ namespace FlubuCore.Tasks
 
         internal List<(string argumentKey, string help)> ArgumentHelp { get; } = new List<(string argumentKey, string help)>();
 
-        internal override string TaskName
+        protected internal override string TaskName
         {
             get
             {
@@ -413,7 +413,7 @@ namespace FlubuCore.Tasks
             }
         }
 
-        internal override void LogTaskHelp(ITaskContext context)
+        protected internal override void LogTaskHelp(ITaskContext context)
         {
             context.LogInfo(" ");
             context.LogInfo(string.Empty);
@@ -621,10 +621,10 @@ namespace FlubuCore.Tasks
 
     public abstract class TaskHelp
     {
-        internal virtual string TaskName { get; set; }
+        protected internal virtual string TaskName { get; set; }
 
-        internal bool TaskExecuted { get;  set; }
+        protected internal bool TaskExecuted { get;  set; }
 
-        internal abstract void LogTaskHelp(ITaskContext context);
+        protected internal abstract void LogTaskHelp(ITaskContext context);
     }
 }
