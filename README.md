@@ -22,7 +22,7 @@
           .When(c => c.BuildSystems().Jenkins().IsRunningOnJenkins);
     ```
           
-* [Large number of often used built-in tasks](https://github.com/flubu-core/flubu.core/wiki/4-Tasks) like e.g. running tests, managing IIS, creating deployment packages, publishing NuGet packages, executing PowerShell scripts and many more.
+* [Large number of often used built-in tasks](https://github.com/flubu-core/flubu.core/wiki/4-Tasks) like e.g. running tests, managing IIS, creating deployment packages, publishing NuGet packages, docker tasks, executing PowerShell scripts and many more.
 
     ```
     target
@@ -86,7 +86,7 @@
  ```
   flubu.exe compile -solution=someOtherSolution.sln -sn=true
  ```
-* [Extending FlubuCore fluent interface by writing your own FlubuCore tasks.](https://github.com/flubu-core/flubu.core/wiki/5-How-to-write-and-use-FlubuCore-task-plugins)
+* [Extending FlubuCore fluent interface by writing your own tasks within FlubuCore plugins.](https://github.com/flubu-core/flubu.core/wiki/5-How-to-write-and-use-FlubuCore-task-plugins)
 
     ```
     public class ExampleFlubuPluginTask : TaskBase<int, ExampleFlubuPluginTask>
@@ -98,6 +98,7 @@
         }
     }
     ```
+* [Groving list of FlubuCore plugins complements built in tasks.](https://github.com/flubu-core/flubu.core/wiki/90-Awesome-FlubuCore-plugins)
 
 * [Asynchronous execution of tasks, target dependencies and custom code.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Async-execution)
 
