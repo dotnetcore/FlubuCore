@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using FlubuCore.Context;
 using FlubuCore.Tasks.Process;
 
@@ -194,8 +195,14 @@ namespace FlubuCore.Tasks.MsSql
 
                 task
                     .WithArguments("-i")
-                    .WithArguments(file)
-                    .WithArguments(args.ToArray())
+                    .WithArguments(file);
+                foreach (var arg in args)
+                {
+                    task.WithArguments(arg.arg, arg.maskArg);
+                }
+
+                task
+                    .WithArguments(args.Select(x => x.arg).ToArray())
                     .CaptureErrorOutput()
                     .CaptureOutput()
                     .WorkingFolder(ExecuteWorkingFolder)

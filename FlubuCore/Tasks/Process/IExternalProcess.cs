@@ -14,11 +14,12 @@
         /// Add argument for executable.
         /// </summary>
         /// <param name="arg"></param>
+        /// <param name="maskArg">If <c>true</c> argument is masked. Otherwise not.</param>
         /// <returns></returns>
-        T WithArguments(string arg);
+        T WithArguments(string arg, bool maskArg = false);
 
         /// <summary>
-        /// Add more arguments for executable.
+        /// Add arguments for executable.
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>

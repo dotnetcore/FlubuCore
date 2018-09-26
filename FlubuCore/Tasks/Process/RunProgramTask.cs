@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using FlubuCore.Context;
 using Microsoft.DotNet.Cli.Utils;
@@ -9,7 +10,7 @@ namespace FlubuCore.Tasks.Process
 {
     public class RunProgramTask : TaskBase<int, IRunProgramTask>, IRunProgramTask
     {
-        private readonly List<string> _arguments = new List<string>();
+        private readonly List<(string arg, bool maskArg)> _arguments = new List<(string arg, bool masgArg)>();
         private readonly StringBuilder _output = new StringBuilder();
         private readonly StringBuilder _errorOutput = new StringBuilder();
         private string _programToExecute;
@@ -47,10 +48,11 @@ namespace FlubuCore.Tasks.Process
         /// Add's argument to the program.
         /// </summary>
         /// <param name="arg"></param>
+        /// <param name="maskArg"></param>
         /// <returns></returns>
-        public IRunProgramTask WithArguments(string arg)
+        public IRunProgramTask WithArguments(string arg, bool maskArg = false)
         {
-            _arguments.Add(arg);
+            _arguments.Add((arg, maskArg));
             return this;
         }
 
@@ -59,7 +61,11 @@ namespace FlubuCore.Tasks.Process
         /// </summary>
         public IRunProgramTask WithArguments(params string[] args)
         {
-            _arguments.AddRange(args);
+            foreach (var arg in args)
+            {
+                _arguments.Add((arg, false));
+            }
+
             return this;
         }
 
@@ -134,7 +140,7 @@ namespace FlubuCore.Tasks.Process
             if (info.Exists)
                 cmd = info.FullName;
 
-            ICommand command = _commandFactory.Create(cmd, _arguments);
+            ICommand command = _commandFactory.Create(cmd, _arguments.Select(x => x.arg));
 
             command
                 .CaptureStdErr()
@@ -157,8 +163,14 @@ namespace FlubuCore.Tasks.Process
                         _output.AppendLine(l);
                 });
 
+            string commandArgs = null;
+            foreach (var arg in _arguments)
+            {
+                commandArgs = !arg.maskArg ? $"{commandArgs} {arg.arg}" : $"{commandArgs} ####";
+            }
+
             DoLogInfo(
-                $"Running program '{command.CommandName}':(work.dir='{_workingFolder}',args='{command.CommandArgs}')");
+                $"Running program '{command.CommandName}':(work.dir='{_workingFolder}',args='{commandArgs}')");
 
             int res = command.Execute()
                 .ExitCode;

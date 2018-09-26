@@ -21,7 +21,7 @@ namespace FlubuCore.Tests.Tasks
             Context.Setup(x => x.Args).Returns(CommandArguments.Object);
 
             RunProgramTask = new Mock<IRunProgramTask>();
-            RunProgramTask.Setup(x => x.WithArguments(It.IsAny<string>())).Returns(RunProgramTask.Object);
+            RunProgramTask.Setup(x => x.WithArguments(It.IsAny<string>(), false)).Returns(RunProgramTask.Object);
             RunProgramTask.Setup(x => x.WithArguments(It.IsAny<string[]>())).Returns(RunProgramTask.Object);
             RunProgramTask.Setup(x => x.WorkingFolder(It.IsAny<string>())).Returns(RunProgramTask.Object);
             RunProgramTask.Setup(x => x.CaptureErrorOutput()).Returns(RunProgramTask.Object);

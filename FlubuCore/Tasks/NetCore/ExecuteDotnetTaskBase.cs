@@ -49,8 +49,14 @@ namespace FlubuCore.Tasks.NetCore
             var argumentsFlat = ValidateAndGetArgumentsFlat();
 
             task
-                .WithArguments(Command)
-                .WithArguments(argumentsFlat.ToArray())
+                .WithArguments(Command);
+
+            foreach (var arg in argumentsFlat)
+            {
+                task.WithArguments(arg.arg, arg.maskArg);
+            }
+
+            task
                 .WorkingFolder(ExecuteWorkingFolder)
                 .CaptureErrorOutput()
                 .CaptureOutput()
