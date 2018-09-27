@@ -89,7 +89,7 @@ namespace FlubuCore.Tasks.Nuget
                 WithArguments("-Verbosity", Verbosity.ToString());
 
             if (ApiKey != null)
-                WithArguments("-ApiKey", ApiKey);
+                WithArgumentsValueRequired("-ApiKey", ApiKey, true);
 
            return base.DoExecute(context);
         }

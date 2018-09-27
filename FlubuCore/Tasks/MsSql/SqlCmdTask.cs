@@ -124,7 +124,7 @@ namespace FlubuCore.Tasks.MsSql
         /// <returns></returns>
         public SqlCmdTask Password(string password)
         {
-            WithArgumentsValueRequired("-P", password);
+            WithArgumentsValueRequired("-P", password, true);
             return this;
         }
 

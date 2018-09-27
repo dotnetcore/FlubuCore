@@ -807,7 +807,7 @@ namespace FlubuCore.Tasks.Docker
         /// </summary>
         public DockerRunTask SecurityOptions(string option)
         {
-            WithArgumentsValueRequired("--security-opt", option);
+            WithArgumentsValueRequired("--security-opt", option, true);
             return this;
         }
 

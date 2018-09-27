@@ -77,7 +77,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetNugetPushTask ApiKey(string apiKey)
         {
-            WithArgumentsValueRequired("-k", apiKey);
+            WithArgumentsValueRequired("-k", apiKey, true);
             return this;
         }
 

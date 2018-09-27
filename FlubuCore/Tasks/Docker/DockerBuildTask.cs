@@ -293,7 +293,7 @@ namespace FlubuCore.Tasks.Docker
         /// </summary>
         public DockerBuildTask SecurityOptions(string option)
         {
-            WithArgumentsValueRequired("--security-opt", option);
+            WithArgumentsValueRequired("--security-opt", option, true);
             return this;
         }
 
