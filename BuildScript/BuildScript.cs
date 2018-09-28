@@ -116,6 +116,8 @@ public class BuildScript : DefaultBuildScript
         context.CreateTarget("rebuild.linux")
             .SetDescription("Rebuilds the solution and publishes nuget packages.")
             .DependsOn(compileLinux, flubuTestsLinux, packageDotnetFlubu);
+
+        context.CreateTarget("testa").AddTask(x => x.RunProgramTask("libz.exe").WithArguments("--test", true));
     }
 
     private static void TargetPackageFlubuRunner(ITaskContext context)

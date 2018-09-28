@@ -83,3 +83,6 @@ FlubuCore.Analyzers/obj/
 FlubuCore.Tests/bin/
 FlubuCore.Tests/obj/
 FlubuCore.Tests/FlubuCore.Tests.csproj.user
+Template/.vs/
+Template/BuildScript/bin/
+Template/BuildScript/obj/

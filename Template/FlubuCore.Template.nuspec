@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>FlubuCore.Template</id>
+        <description>FlubuCore dotnet template.</description>
+        <summary>FlubuCore is a cross platform build and deployment automation system for building projects and executing deployment scripts using C# code.</summary>
+        <authors>Marko Zorec</authors>
+        <licenseUrl>https://github.com/flubu-core/flubu.core/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/flubu-core/flubu.core</projectUrl>   
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>    
+        <tags>build builder script buildscript automation VisualStudio</tags>
+        <packageTypes>
+            <packageType name="Template" />
+        </packageTypes>
+    </metadata>
+    <files>
+        <file src=".template.config/template.json" target="content/.template.config" />        
+        <file src="BuildScipt/BuildScript.csproj" target="content/BuildScript" />
+        <file src="BuildScript.cs" target="content/BuildScript" />       
+    </files>
+</package>
