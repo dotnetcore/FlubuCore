@@ -417,14 +417,14 @@ namespace FlubuCore.Tasks
         {
             context.LogInfo(" ");
             context.LogInfo(string.Empty);
-            context.LogInfo($"{TaskName}: {Description}");
+            context.LogInfo($"  {TaskName}: {Description}");
             if (ArgumentHelp == null || ArgumentHelp.Count <= 0)
             {
                 return;
             }
 
             context.LogInfo(string.Empty);
-            context.LogInfo("   Task arguments:");
+            context.LogInfo("       Task arguments:");
             foreach (var argument in ArgumentHelp)
             {
                 context.LogInfo($"        -{argument.argumentKey}    {argument.help}");

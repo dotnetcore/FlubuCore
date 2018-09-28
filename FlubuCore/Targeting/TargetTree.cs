@@ -221,7 +221,7 @@ namespace FlubuCore.Targeting
                 taskContext.LogInfo($"Target {targetName}  dependencies: ");
                 foreach (var targetDependencyName in target.Dependencies)
                 {
-                    taskContext.LogInfo("------------------------------------");
+                    taskContext.LogInfo(" ");
                     var targetDependecy = _targets[targetDependencyName.Key] as Target;
                     targetDependecy?.TargetHelp(taskContext);
                 }
