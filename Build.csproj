@@ -33,6 +33,7 @@
     <Compile Remove="FlubuCore\**" />
     <Compile Remove="Nuget\**" />
     <Compile Remove="output\**" />
+    <Compile Remove="Template\**" />
     <Compile Remove="tools\**" />
     <EmbeddedResource Remove=".git\**" />
     <EmbeddedResource Remove=".vs\**" />
@@ -62,6 +63,7 @@
     <EmbeddedResource Remove="FlubuCore\**" />
     <EmbeddedResource Remove="Nuget\**" />
     <EmbeddedResource Remove="output\**" />
+    <EmbeddedResource Remove="Template\**" />
     <EmbeddedResource Remove="tools\**" />
     <None Remove=".git\**" />
     <None Remove=".vs\**" />
@@ -91,6 +93,7 @@
     <None Remove="FlubuCore\**" />
     <None Remove="Nuget\**" />
     <None Remove="output\**" />
+    <None Remove="Template\**" />
     <None Remove="tools\**" />
   </ItemGroup>
   <ItemGroup>
