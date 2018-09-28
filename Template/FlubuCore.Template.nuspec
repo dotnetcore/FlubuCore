@@ -3,8 +3,9 @@
     <metadata>
         <id>FlubuCore.Template</id>
         <description>FlubuCore dotnet template.</description>
+	    <version>$version$</version>
         <summary>FlubuCore is a cross platform build and deployment automation system for building projects and executing deployment scripts using C# code.</summary>
-        <authors>Marko Zorec</authors>
+        <authors>Marko Zorec Zoro Zorec</authors>
         <licenseUrl>https://github.com/flubu-core/flubu.core/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/flubu-core/flubu.core</projectUrl>   
         <requireLicenseAcceptance>false</requireLicenseAcceptance>    
@@ -14,8 +15,8 @@
         </packageTypes>
     </metadata>
     <files>
-        <file src=".template.config/template.json" target="content/.template.config" />        
-        <file src="BuildScipt/BuildScript.csproj" target="content/BuildScript" />
-        <file src="BuildScript.cs" target="content/BuildScript" />       
+        <file src="../Template/.template.config/template.json" target="content/.template.config" />        
+        <file src="../Template/BuildScript/BuildScript.csproj" target="content/BuildScript" />
+        <file src="../Template/BuildScript/BuildScript.cs" target="content/BuildScript" />   
     </files>
 </package>
