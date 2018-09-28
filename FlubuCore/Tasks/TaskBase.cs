@@ -417,7 +417,7 @@ namespace FlubuCore.Tasks
         {
             context.LogInfo(" ");
             context.LogInfo(string.Empty);
-            context.LogInfo($"  {TaskName}: {Description}");
+            context.LogInfo($"    {TaskName}: {Description}");
             if (ArgumentHelp == null || ArgumentHelp.Count <= 0)
             {
                 return;
@@ -425,6 +425,7 @@ namespace FlubuCore.Tasks
 
             context.LogInfo(string.Empty);
             context.LogInfo("       Task arguments:");
+            context.LogInfo(" ");
             foreach (var argument in ArgumentHelp)
             {
                 context.LogInfo($"        -{argument.argumentKey}    {argument.help}");
