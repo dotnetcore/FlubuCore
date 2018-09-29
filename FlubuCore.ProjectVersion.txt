@@ -1,3 +1,12 @@
+2.12.2.0
+- Added dotnet template for flubu.
+- Sensible data is now masked in logs.
+- Added option to mask sensible parameters in WithArgument method.
+- Fixed Git add task. 
+- CompileSolutionTask: Fixed resolution of msbuild 15 when only build tools are installed.
+- Improved target detailed help visually.
+
+
 2.12.1.0
 - Added git add task.
 - Added git clone task.
@@ -13,8 +22,7 @@
 - Added docker remove image task.
 - Improved validation in alot of tasks.
 - Fixed log message in control app poll task.
-- WebApi: Packaging reports sub directiores is not recursive anymore
-  as it failed in some scenrarios sending reports.
+- WebApi: Packaging reports sub directiores is not recursive anymore as it failed in some scenrarios sending reports.
 
 2.11.2.0
 - Fixed install.ps1 as build.exe was renamed to flubu.exe
