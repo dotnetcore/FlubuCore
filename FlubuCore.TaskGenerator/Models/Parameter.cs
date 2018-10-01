@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FlubuCore.TaskGenerator
+﻿namespace FlubuCore.TaskGenerator.Models
 {
     public class Parameter
     {
