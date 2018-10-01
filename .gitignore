@@ -86,3 +86,7 @@ FlubuCore.Tests/FlubuCore.Tests.csproj.user
 Template/.vs/
 Template/BuildScript/bin/
 Template/BuildScript/obj/
+*.tmp
+FlubuCore.TaskGenerator/obj/
+FlubuCore.TaskGenerator/bin/
+FlubuCore.TaskGenerator/FlubuCore.TaskGenerator.csproj.user

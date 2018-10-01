@@ -50,7 +50,7 @@ namespace FlubuCore.Tasks.Process
         /// <param name="arg"></param>
         /// <param name="maskArg"></param>
         /// <returns></returns>
-        public IRunProgramTask WithArguments(string arg, bool maskArg = false)
+        public IRunProgramTask WithArguments(string arg, bool maskArg)
         {
             _arguments.Add((arg, maskArg));
             return this;

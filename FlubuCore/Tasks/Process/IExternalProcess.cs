@@ -16,7 +16,7 @@
         /// <param name="arg"></param>
         /// <param name="maskArg">If <c>true</c> argument is masked. Otherwise not.</param>
         /// <returns></returns>
-        T WithArguments(string arg, bool maskArg = false);
+        T WithArguments(string arg, bool maskArg);
 
         /// <summary>
         /// Add arguments for executable.
