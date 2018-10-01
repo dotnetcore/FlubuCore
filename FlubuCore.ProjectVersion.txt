@@ -1,3 +1,6 @@
+2.12.3.0
+- RunProgramTask: Fixed WithArguments.
+
 2.12.2.0
 - Added dotnet template for flubu.
 - Sensible data is now masked in logs.
