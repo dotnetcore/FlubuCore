@@ -13,9 +13,7 @@ namespace FlubuCore.TaskGenerator.Models
         // ReSharper disable once InconsistentNaming
         public string TResult { get; set; } = "int";
 
-        public string ConstuctorSummary { get; set; }
-
-        
+        public Constructor Constructor { get; set; }
 
         public List<Method> Methods { get; set; }
      }

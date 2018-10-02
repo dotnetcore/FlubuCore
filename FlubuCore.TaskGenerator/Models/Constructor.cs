@@ -6,13 +6,8 @@ namespace FlubuCore.TaskGenerator.Models
 {
     public class Constructor
     {
-        public 
+        public string Summary { get; set; }
 
         public List<Parameter> ConstructorParameters { get; set; }
-    }
-
-    public class ConstructorArgument
-    {
-
     }
 }
