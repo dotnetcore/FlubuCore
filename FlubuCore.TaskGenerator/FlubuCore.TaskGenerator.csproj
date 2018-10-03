@@ -6,10 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="Scripty.Core" Version="0.7.4" />
-    <PackageReference Include="Scripty.MsBuild" Version="0.7.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
 </Project>

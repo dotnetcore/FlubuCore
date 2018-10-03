@@ -39,38 +39,39 @@ namespace {task.Namespace}
 {{
      public partial class {task.TaskName} : ExternalProcessTaskBase<{task.TaskName}>
      {{
-        public {task.TaskName}({GetConstructorParameters(task)})
+        {WriteSummary(task.Constructor?.Summary)}
+        public {task.TaskName}({WriteConstructorParameters(task)})
         {{
-            {GetConstructorArguments(task)}
+            {WriteConstructorArguments(task)}
         }}
 
         protected override string Description {{ get; set; }}
-        {GetMethods(task)}
+        {WriteMethods(task)}
      }}
 }}
 ");
         }
 
-        public string GetConstructorArguments(Task task)
+        public string WriteConstructorArguments(Task task)
         {
             string arguments = string.Empty;
             foreach (var argument in task.Constructor.Arguments)
             {
-                arguments = $"{arguments}{GetArgument(argument)}{Environment.NewLine}";
+                arguments = $"{arguments}{WriteArgument(argument)}{Environment.NewLine}";
             }
 
             arguments = arguments.Remove(arguments.Length - Environment.NewLine.Length, Environment.NewLine.Length);
             return arguments;
         }
 
-        public string GetConstructorParameters(Task task)
+        public string WriteConstructorParameters(Task task)
         {
             string parameters = string.Empty;
             foreach (var argument in task.Constructor.Arguments)
             {
                 if (argument.Parameter != null)
                 {
-                    parameters = $"{parameters} {GetParameter(argument.Parameter)} ";
+                    parameters = $"{parameters} {WriteParameter(argument.Parameter)} ";
                 }
             }
 
@@ -78,15 +79,15 @@ namespace {task.Namespace}
             return parameters;
         }
 
-        public string GetMethods(Task task)
+        public string WriteMethods(Task task)
         {
             string methods = string.Empty;
             foreach (var method in task.Methods)
             {
-                methods = $@"{methods}
-        public {task.TaskName} {method.MethodName}({GetParameter(method.Argument?.Parameter)})
+                methods = $@"{methods}{WriteSummary(method.MethodSummary)}
+        public {task.TaskName} {method.MethodName}({WriteParameter(method.Argument?.Parameter)})
         {{
-            {GetArgument(method.Argument)}
+            {WriteArgument(method.Argument)}
             return this;
         }}";
             }
@@ -94,7 +95,7 @@ namespace {task.Namespace}
             return methods;
         }
 
-        private static string GetArgument(Argument argument)
+        private static string WriteArgument(Argument argument)
         {
             if (argument == null)
             {
@@ -112,7 +113,7 @@ namespace {task.Namespace}
         }
 
 
-        private string GetParameter(Parameter parameter)
+        private string WriteParameter(Parameter parameter)
         {
             if (parameter == null)
             {
@@ -121,5 +122,19 @@ namespace {task.Namespace}
 
             return $"{parameter.ParameterType} {parameter.ParameterName}";
         }
+
+        private string WriteSummary(string summary)
+        {
+            if (string.IsNullOrEmpty(summary))
+            {
+                return null;
+            }
+
+            return $@"
+        /// <summary>
+        /// {summary}
+        /// </summary>";
+        }
+
     }
 }
