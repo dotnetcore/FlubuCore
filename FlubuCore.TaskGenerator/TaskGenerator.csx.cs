@@ -43,9 +43,12 @@ namespace FlubuCore.{task.ProjectName}.Tasks
         public string GetConstructorParameters(Task task)
         {
             string parameters = string.Empty;
-            foreach (var parameter in task.ConstructorParameters)
+            foreach (var argument in task.Constructor.Arguments)
             {
-                parameters = $"{parameters} {parameter.ParameterType} {parameter.ParameterName} ";
+                if (argument.Parameter != null)
+                {
+                    parameters = $"{parameters} {argument.Parameter?.ParameterType} {argument.Parameter?.ParameterName} ";
+                }
             }
 
             return parameters;
