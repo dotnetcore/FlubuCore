@@ -16,6 +16,14 @@ namespace FlubuCore.TaskGenerator
             _context = context;
         }
 
+        public void GenerateTasks(List<Task> tasks)
+        {
+            foreach (var task in tasks)
+            {
+                GenerateTask(task);
+            }
+        }
+
         public void GenerateTask(Task task)
         {
             _context.Output[task.FileName]
@@ -27,16 +35,17 @@ using FlubuCore.Context;
 using FlubuCore.Tasks;
 using FlubuCore.Tasks.Process;
 
-namespace FlubuCore.{task.ProjectName}.Tasks
+namespace {task.Namespace}
 {{
-     public partial class {task.TaskName}Task<TTask> : ExternalProcessTaskBase<TTask> where TTask : class, ITask
+     public partial class {task.TaskName} : ExternalProcessTaskBase<{task.TaskName}>
      {{
-        public {task.TaskName}Task({GetConstructorParameters(task)})
+        public {task.TaskName}({GetConstructorParameters(task)})
         {{
             {GetConstructorArguments(task)}
         }}
 
         protected override string Description {{ get; set; }}
+        {GetMethods(task)}
      }}
 }}
 ");
@@ -47,22 +56,11 @@ namespace FlubuCore.{task.ProjectName}.Tasks
             string arguments = string.Empty;
             foreach (var argument in task.Constructor.Arguments)
             {
-                arguments = $"{arguments}{GetArgument(argument)}";
+                arguments = $"{arguments}{GetArgument(argument)}{Environment.NewLine}";
             }
 
+            arguments = arguments.Remove(arguments.Length - Environment.NewLine.Length, Environment.NewLine.Length);
             return arguments;
-        }
-
-        private static string GetArgument(Argument argument)
-        {
-            if (argument.HasArgumentValue)
-            {
-                return $"WithArgumentsRequiredValue(\"{argument.ArgumentKey}\", {argument.Parameter.ParameterName});{Environment.NewLine}";
-            }
-            else
-            {
-                return $"WithArguments(\"{argument.ArgumentKey}\");{Environment.NewLine}";
-            }
         }
 
         public string GetConstructorParameters(Task task)
@@ -85,14 +83,42 @@ namespace FlubuCore.{task.ProjectName}.Tasks
             string methods = string.Empty;
             foreach (var method in task.Methods)
             {
+                methods = $@"{methods}
+        public {task.TaskName} {method.MethodName}({GetParameter(method.Argument?.Parameter)})
+        {{
+            {GetArgument(method.Argument)}
+            return this;
+        }}";
             }
 
             return methods;
         }
 
+        private static string GetArgument(Argument argument)
+        {
+            if (argument == null)
+            {
+                return string.Empty;
+            }
+
+            if (argument.HasArgumentValue)
+            {
+                return $"WithArgumentsValueRequired(\"{argument.ArgumentKey}\", {argument.Parameter.ParameterName});";
+            }
+            else
+            {
+                return $"WithArguments(\"{argument.ArgumentKey}\");";
+            }
+        }
+
 
         private string GetParameter(Parameter parameter)
         {
+            if (parameter == null)
+            {
+                return string.Empty;
+            }
+
             return $"{parameter.ParameterType} {parameter.ParameterName}";
         }
     }
