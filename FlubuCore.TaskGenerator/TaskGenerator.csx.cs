@@ -29,15 +29,40 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.{task.ProjectName}.Tasks
 {{
-     public class {task.TaskName}Task<TTask> : ExternalProcessTaskBase<TTask> where TTask : class, ITask
+     public partial class {task.TaskName}Task<TTask> : ExternalProcessTaskBase<TTask> where TTask : class, ITask
      {{
-        public {task.TaskName}Task()
+        public {task.TaskName}Task({GetConstructorParameters(task)})
         {{
-            
+            {GetConstructorArguments(task)}
         }}
+
+        protected override string Description {{ get; set; }}
      }}
 }}
 ");
+        }
+
+        public string GetConstructorArguments(Task task)
+        {
+            string arguments = string.Empty;
+            foreach (var argument in task.Constructor.Arguments)
+            {
+                arguments = $"{arguments}{GetArgument(argument)}";
+            }
+
+            return arguments;
+        }
+
+        private static string GetArgument(Argument argument)
+        {
+            if (argument.HasArgumentValue)
+            {
+                return $"WithArgumentsRequiredValue(\"{argument.ArgumentKey}\", {argument.Parameter.ParameterName});{Environment.NewLine}";
+            }
+            else
+            {
+                return $"WithArguments(\"{argument.ArgumentKey}\");{Environment.NewLine}";
+            }
         }
 
         public string GetConstructorParameters(Task task)
@@ -47,11 +72,28 @@ namespace FlubuCore.{task.ProjectName}.Tasks
             {
                 if (argument.Parameter != null)
                 {
-                    parameters = $"{parameters} {argument.Parameter?.ParameterType} {argument.Parameter?.ParameterName} ";
+                    parameters = $"{parameters} {GetParameter(argument.Parameter)} ";
                 }
             }
 
+            parameters = parameters.Trim();
             return parameters;
+        }
+
+        public string GetMethods(Task task)
+        {
+            string methods = string.Empty;
+            foreach (var method in task.Methods)
+            {
+            }
+
+            return methods;
+        }
+
+
+        private string GetParameter(Parameter parameter)
+        {
+            return $"{parameter.ParameterType} {parameter.ParameterName}";
         }
     }
 }

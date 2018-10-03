@@ -8,9 +8,7 @@ namespace FlubuCore.TaskGenerator.Models
     {
         public string ArgumentKey { get; set; }
 
-        public bool HasArgumentValue => !string.IsNullOrEmpty(ArgumentValue);
-
-        public string ArgumentValue { get; set; }
+        public bool HasArgumentValue { get; set; }
 
         public Parameter Parameter { get; set; }
     }
