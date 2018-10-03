@@ -51,21 +51,21 @@ namespace DotNet.Cli.Flubu.Commanding
 
             _commandApp.HelpOption("-?|-h|--help");
 #if NET462
-            _commandApp.Name = "build.exe";
+            _commandApp.Name = "flubu.exe";
 #else
             _commandApp.Name = "dotnet flubu";
 #endif
-            _command = _commandApp.Argument("<Target> [flubu options] [build script arguments]", "The target to execute.", true);
+            _command = _commandApp.Argument("<Target> [build script arguments]", "The target to execute.", true);
 
             _scriptPath = _commandApp.Option("-s|--script <SCRIPT>", "Build script file to use.", CommandOptionType.SingleValue);
             _parallelTargetExecution = _commandApp.Option("--parallel", "If applied target's are executed in parallel", CommandOptionType.NoValue);
             _targetsToExecute = _commandApp.Option("-tte|--targetsToExecute <TARGETS_TO_EXECUTE>", "Target's that must be executed. Otherwise fails.", CommandOptionType.SingleValue);
             _isDebug = _commandApp.Option("-d|--debug", "Enable debug logging.", CommandOptionType.NoValue);
-            _configurationFile = _commandApp.Option("-cf|--configurationFile", "Path to the flubu json configuration file. If not specified configuration is readed from flubusettings.json ", CommandOptionType.SingleValue);
+            _configurationFile = _commandApp.Option("-cf|--configurationFile", "Path to the Flubu json configuration file. If not specified configuration is read from flubusettings.json ", CommandOptionType.SingleValue);
             _assemblyDirectories = _commandApp.Option("-ass", "Directory to search assemblies to include automatically in script (Assemblies in subdirectories are also loaded). If not specified assemblies are loaded by default from FlubuLib directory.", CommandOptionType.MultipleValue);
             _noDependencies = _commandApp.Option("-nd||--nodeps", "If applied no target dependencies are executed.", CommandOptionType.NoValue);
             _dryRun = _commandApp.Option("--dryRun", "Performs a dry run.", CommandOptionType.NoValue);
-            _commandApp.ExtendedHelpText = "  <Target> help                                 Shows detailed help for specifed target.";
+            _commandApp.ExtendedHelpText = "  <Target> help                                 Shows detailed help for specified target.";
 
             _commandApp.OnExecute(() => PrepareDefaultArguments());
 

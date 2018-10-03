@@ -90,3 +90,5 @@ Template/BuildScript/obj/
 FlubuCore.TaskGenerator/obj/
 FlubuCore.TaskGenerator/bin/
 FlubuCore.TaskGenerator/FlubuCore.TaskGenerator.csproj.user
+FlubuCore.TaskGenerator.Tests/bin/
+FlubuCore.TaskGenerator.Tests/obj/
