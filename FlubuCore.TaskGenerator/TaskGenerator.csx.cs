@@ -24,7 +24,7 @@ namespace FlubuCore.TaskGenerator
             }
         }
 
-        public void GenerateTask(Task task)
+        public virtual void GenerateTask(Task task)
         {
             _context.Output[task.FileName]
                 .WriteLine($@"
@@ -52,7 +52,7 @@ namespace {task.Namespace}
 ");
         }
 
-        public string WriteConstructorArguments(Task task)
+        protected internal virtual string WriteConstructorArguments(Task task)
         {
             string arguments = string.Empty;
             foreach (var argument in task.Constructor.Arguments)
@@ -64,7 +64,7 @@ namespace {task.Namespace}
             return arguments;
         }
 
-        public string WriteConstructorParameters(Task task)
+        protected internal virtual string WriteConstructorParameters(Task task)
         {
             string parameters = string.Empty;
             foreach (var argument in task.Constructor.Arguments)
@@ -79,7 +79,7 @@ namespace {task.Namespace}
             return parameters;
         }
 
-        public string WriteMethods(Task task)
+        protected internal virtual string WriteMethods(Task task)
         {
             string methods = string.Empty;
             foreach (var method in task.Methods)
@@ -95,7 +95,7 @@ namespace {task.Namespace}
             return methods;
         }
 
-        private static string WriteArgument(Argument argument)
+        protected internal virtual string WriteArgument(Argument argument)
         {
             if (argument == null)
             {
@@ -113,7 +113,7 @@ namespace {task.Namespace}
         }
 
 
-        private string WriteParameter(Parameter parameter)
+        protected internal virtual string WriteParameter(Parameter parameter)
         {
             if (parameter == null)
             {
@@ -123,7 +123,7 @@ namespace {task.Namespace}
             return $"{parameter.ParameterType} {parameter.ParameterName}";
         }
 
-        private string WriteSummary(string summary)
+        protected internal virtual string WriteSummary(string summary)
         {
             if (string.IsNullOrEmpty(summary))
             {
