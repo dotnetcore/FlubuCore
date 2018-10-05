@@ -48,8 +48,7 @@ namespace {task.Namespace}
         protected override string Description {{ get; set; }}
         {WriteMethods(task)}
      }}
-}}
-");
+}}");
         }
 
         protected internal virtual string WriteConstructorArguments(Task task)
@@ -82,6 +81,12 @@ namespace {task.Namespace}
         protected internal virtual string WriteMethods(Task task)
         {
             string methods = string.Empty;
+
+            if (task.Methods == null || task.Methods.Count == 0)
+            {
+                return methods;
+            }
+           
             foreach (var method in task.Methods)
             {
                 methods = $@"{methods}{WriteSummary(method.MethodSummary)}
@@ -89,8 +94,10 @@ namespace {task.Namespace}
         {{
             {WriteArgument(method.Argument)}
             return this;
-        }}";
+        }}" + Environment.NewLine;
             }
+
+            methods = methods.Remove(methods.Length - Environment.NewLine.Length, Environment.NewLine.Length);
 
             return methods;
         }
