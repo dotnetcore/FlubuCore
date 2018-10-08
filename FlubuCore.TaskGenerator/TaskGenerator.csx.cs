@@ -70,6 +70,11 @@ namespace {task.Namespace}
             {
                 if (argument.Parameter != null)
                 {
+                    if (!string.IsNullOrEmpty(parameters))
+                    {
+                        parameters = $"{parameters}, ";
+                    }
+
                     parameters = $"{parameters} {WriteParameter(argument.Parameter)} ";
                 }
             }
