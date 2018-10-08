@@ -116,14 +116,15 @@ namespace {task.Namespace}
 
             if (argument.HasArgumentValue)
             {
-                return $"WithArgumentsValueRequired(\"{argument.ArgumentKey}\", {argument.Parameter.ParameterName});";
+                string parameterName = ParameterName(argument.Parameter.ParameterName);
+
+                return $"WithArgumentsValueRequired(\"{argument.ArgumentKey}\", {parameterName});";
             }
             else
             {
                 return $"WithArguments(\"{argument.ArgumentKey}\");";
             }
         }
-
 
         protected internal virtual string WriteParameter(Parameter parameter)
         {
@@ -132,7 +133,10 @@ namespace {task.Namespace}
                 return string.Empty;
             }
 
-            return $"{parameter.ParameterType} {parameter.ParameterName}";
+            string parameterName = ParameterName(parameter.ParameterName);
+
+            return $"{parameter.ParameterType} {parameterName}";
+
         }
 
         protected internal virtual string WriteSummary(string summary)
@@ -148,5 +152,15 @@ namespace {task.Namespace}
         /// </summary>";
         }
 
+        protected internal virtual string ParameterName(string parameterName)
+        {
+            if (parameterName.Equals("namespace") || parameterName.Equals("params") || parameterName.Equals("operator") ||
+                parameterName.Equals("new") || parameterName.Equals("override"))
+            {
+                parameterName = $"@{parameterName}";
+            }
+
+            return parameterName;
+        }
     }
 }
