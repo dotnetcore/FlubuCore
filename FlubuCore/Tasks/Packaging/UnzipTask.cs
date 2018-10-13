@@ -103,7 +103,15 @@ namespace FlubuCore.Tasks.Packaging
                 string folder = Path.GetDirectoryName(file);
 
                 if (!Directory.Exists(folder))
+                {
                     Directory.CreateDirectory(folder);
+                }
+
+                string fullDestDirPath = Path.GetFullPath(file + Path.DirectorySeparatorChar);
+                if (!file.StartsWith(fullDestDirPath))
+                {
+                    throw new System.InvalidOperationException($"Entry is outside the target dir: {file}");
+                }
 
                 DoLogInfo($"inflating: {file}");
                 entry.ExtractToFile(file, true);
