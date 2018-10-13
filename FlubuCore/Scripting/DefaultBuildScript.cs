@@ -29,7 +29,7 @@ namespace FlubuCore.Scripting
                 taskSession.LogInfo(e.Message);
                 return 3;
             }
-            catch (WebApiException e)
+            catch (WebApiException)
             {
                 taskSession.OnFinish();
                 if (taskSession.Args.RethrowOnException)
