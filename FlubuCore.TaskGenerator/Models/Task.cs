@@ -8,6 +8,8 @@ namespace FlubuCore.TaskGenerator.Models
 
         public string TaskName { get; set; }
 
+        public string Parent { get; set; }
+
         public string ProjectName { get; set; }
 
         public string Namespace { get; set; }
