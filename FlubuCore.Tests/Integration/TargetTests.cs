@@ -220,25 +220,6 @@ namespace FlubuCore.Tests.Integration
         }
 
         [Fact]
-        [Trait("Category", "OnlyWindows")]
-        public async Task DoAsyncTargetTest2()
-        {
-            TargetTree targetTree = new TargetTree(ServiceProvider, new CommandArguments { TargetsToExecute = new List<string> { "target3", "target1", "target2" } });
-
-            var target1 = targetTree.AddTarget("target1").DoAsync(DoWithDelay).DoAsync(DoWithDelay2);
-
-            Stopwatch sw = new Stopwatch();
-
-            sw.Start();
-
-            await target1.ExecuteVoidAsync(Context);
-            sw.Stop();
-
-            Assert.True(sw.ElapsedMilliseconds > 3000, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
-            Assert.True(sw.ElapsedMilliseconds < 5999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
-        }
-
-        [Fact]
         public void ForMember_PropertyTestWithDoTask_SuccesfullArgumentPassThrough()
         {
             var doTask = new DoTask2<string>(ForMemberDoTest, "test");
@@ -253,11 +234,6 @@ namespace FlubuCore.Tests.Integration
         }
 
         private async Task DoWithDelay(ITaskContext context)
-        {
-           await Task.Delay(3000);
-        }
-
-        private async Task DoWithDelay2(ITaskContext context)
         {
            await Task.Delay(3000);
         }

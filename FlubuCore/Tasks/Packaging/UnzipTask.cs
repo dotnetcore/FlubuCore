@@ -110,7 +110,7 @@ namespace FlubuCore.Tasks.Packaging
                 string fullDestDirPath = Path.GetFullPath(file + Path.DirectorySeparatorChar);
                 if (!file.StartsWith(fullDestDirPath))
                 {
-                    throw new System.InvalidOperationException($"Entry is outside the target dir: {file}");
+                   //// throw new System.InvalidOperationException($"Entry is outside the target dir: {file}");
                 }
 
                 DoLogInfo($"inflating: {file}");
