@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FlubuCore.Context.FluentInterface.Interfaces;
+﻿using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Tasks.Git;
 
 namespace FlubuCore.Context.FluentInterface
@@ -43,6 +40,21 @@ namespace FlubuCore.Context.FluentInterface
         public GitTagTask Tag(string name)
         {
             return Context.CreateTask<GitTagTask>(name);
+        }
+
+        public GitSubmoduleTask Submodule()
+        {
+            return Context.CreateTask<GitSubmoduleTask>();
+        }
+
+        public GitSubmoduleTask InitSubmodules()
+        {
+            return Submodule().Init().Recursive();
+        }
+
+        public GitSubmoduleTask PullSubmodules()
+        {
+            return Submodule().Remote().Merge();
         }
     }
 }

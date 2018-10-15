@@ -1,3 +1,6 @@
+2.12.4.0
+- Added Git submodule support.
+
 2.12.3.0
 - RunProgramTask: Fixed WithArguments.
 

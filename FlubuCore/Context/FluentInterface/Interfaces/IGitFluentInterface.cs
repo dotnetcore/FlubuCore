@@ -49,5 +49,23 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="file">Files to remove. Fileglobs (e.g. *.c) can be given to remove all matching files.</param>
         /// <returns></returns>
         GitRemoveFilesTask RemoveFile(string file);
+
+        /// <summary>
+        /// Create raw submodule GIT command.
+        /// </summary>
+        /// <returns></returns>
+        GitSubmoduleTask Submodule();
+
+        /// <summary>
+        /// Create submodules init task with --init and --recursive arguments.
+        /// </summary>
+        /// <returns></returns>
+        GitSubmoduleTask InitSubmodules();
+
+        /// <summary>
+        /// Create submodules pull task with --remote and --merge arguments.
+        /// </summary>
+        /// <returns></returns>
+        GitSubmoduleTask PullSubmodules();
     }
 }
