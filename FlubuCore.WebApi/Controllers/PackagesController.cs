@@ -100,7 +100,13 @@ namespace FlubuCore.WebApi.Controllers
 
             if (!string.IsNullOrWhiteSpace(request.SubDirectoryToDelete))
             {
-                uploadDirectory = Path.Combine(uploadDirectory, request.SubDirectoryToDelete);
+                var destDirPath = Path.GetFullPath(Path.Combine(uploadDirectory + Path.DirectorySeparatorChar));
+                uploadDirectory = Path.GetFullPath(Path.Combine(uploadDirectory, request.SubDirectoryToDelete));
+
+                if (!uploadDirectory.StartsWith(destDirPath))
+                {
+                    throw new HttpError(HttpStatusCode.Forbidden);
+                }
             }
 
             try

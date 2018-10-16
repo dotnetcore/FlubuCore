@@ -150,5 +150,24 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             Assert.True(File.Exists("Packages//ttt.txt"));
             Assert.True(Directory.Exists("Packages/subdir"));
         }
+
+        [Fact]
+        public async Task DeletePackagesFromSubDir_DirectoryOutsideOfPackagesFolder_ThrowsForbiden()
+        {
+            var token = await Client.GetToken(new GetTokenRequest
+            {
+                Username = "User", Password = "password"
+            });
+
+            Client.Token = token.Token;
+
+            var ex = await Assert.ThrowsAsync<WebApiException>(async () => await Client.DeletePackagesAsync(
+                new CleanPackagesDirectoryRequest()
+                {
+                    SubDirectoryToDelete = "../../SomeSubdir"
+                }));
+
+            Assert.Equal(HttpStatusCode.Forbidden, ex.StatusCode);
+        }
     }
 }
