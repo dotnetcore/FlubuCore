@@ -124,27 +124,34 @@ namespace FlubuCore.WebApi.Controllers
         private string GetUploadDirectory()
         {
             var form = Request.Form;
-            string uploadDirectory = "Packages";
+            var uploadDirectory = Path.Combine(_hostingEnvironment.ContentRootPath, "Packages");
             if (form.ContainsKey("request"))
             {
                 StringValues request = form["request"];
                 var json = request[0];
+                UploadPackageRequest uploadPackageRequest = null;
                 try
                 {
-                    var uploadPackageRequest = JsonConvert.DeserializeObject<UploadPackageRequest>(json);
-                    if (!string.IsNullOrWhiteSpace(uploadPackageRequest.UploadToSubDirectory))
-                    {
-                        uploadDirectory = Path.Combine(uploadDirectory, uploadPackageRequest.UploadToSubDirectory);
-                    }
+                     uploadPackageRequest = JsonConvert.DeserializeObject<UploadPackageRequest>(json);
                 }
                 catch (System.Exception e)
                 {
                     _logger.LogWarning(
                         $"request was present but was not of type UploadPackageRequest. Package will be uploaded to root directory. Excetpion: {e}");
+                    return uploadDirectory;
                 }
-            }
 
-            uploadDirectory = Path.Combine(_hostingEnvironment.ContentRootPath, uploadDirectory);
+                    if (!string.IsNullOrWhiteSpace(uploadPackageRequest.UploadToSubDirectory))
+                    {
+                        var destDirPath = Path.GetFullPath(Path.Combine(uploadDirectory + Path.DirectorySeparatorChar));
+                        uploadDirectory = Path.GetFullPath(Path.Combine(uploadDirectory, uploadPackageRequest.UploadToSubDirectory));
+
+                        if (!uploadDirectory.StartsWith(destDirPath))
+                        {
+                            throw new HttpError(HttpStatusCode.Forbidden);
+                        }
+                    }
+            }
 
             if (!Directory.Exists(uploadDirectory))
             {
