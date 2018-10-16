@@ -52,7 +52,14 @@ namespace FlubuCore.WebApi.Controllers
 
             if (!string.IsNullOrEmpty(request.DownloadFromSubDirectory))
             {
-                downloadDirectory = Path.Combine(downloadDirectory, request.DownloadFromSubDirectory);
+                var destDirPath = Path.GetFullPath(Path.Combine(downloadDirectory + Path.DirectorySeparatorChar));
+                downloadDirectory = Path.GetFullPath(Path.Combine(downloadDirectory, request.DownloadFromSubDirectory));
+
+                if (!downloadDirectory.StartsWith(destDirPath))
+                {
+                    throw new HttpError(HttpStatusCode.Forbidden);
+                }
+
                 dirName = request.DownloadFromSubDirectory;
             }
 

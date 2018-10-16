@@ -66,6 +66,19 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         }
 
         [Fact]
+        public async Task DownloadReports_SubfolderOutsideOfReportsDir_ThrowsForbiden()
+        {
+            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            Client.Token = token.Token;
+            var ex = await Assert.ThrowsAsync<WebApiException>(async () => await Client.DownloadReportsAsync(new DownloadReportsRequest
+            {
+                DownloadFromSubDirectory = "../../Diffs"
+            }));
+
+            Assert.Equal(HttpStatusCode.Forbidden, ex.StatusCode);
+        }
+
+        [Fact]
         public async Task DeleteReports_Succesfull()
         {
             var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
