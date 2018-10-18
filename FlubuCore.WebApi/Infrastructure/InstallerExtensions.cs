@@ -128,7 +128,8 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddTask<GitAddTask>()
                 .AddTask<GitPullTask>()
                 .AddTask<GitCommitTask>()
-                .AddTask<GitPushTask>();
+                .AddTask<GitPushTask>()
+                .AddTask<GitSubmoduleTask>();
         }
     }
 }

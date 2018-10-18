@@ -527,5 +527,11 @@ namespace FlubuCore.Tests.Context
         {
             Assert.NotNull(Context.Tasks().DockerTasks().RemoveImage("a", "b"));
         }
+
+        [Fact]
+        public void ResolveGitSubmoduleTask()
+        {
+            Assert.NotNull(Context.Tasks().GitTasks().Submodule().Init());
+        }
     }
 }

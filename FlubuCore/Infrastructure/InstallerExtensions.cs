@@ -78,7 +78,8 @@ namespace FlubuCore.Infrastructure
                 .AddTask<GitPullTask>()
                 .AddTask<GitCommitTask>()
                 .AddTask<GitPushTask>()
-                .AddTask<DockerStopTask>();
+                .AddTask<DockerStopTask>()
+                .AddTask<GitSubmoduleTask>();
         }
     }
 }
