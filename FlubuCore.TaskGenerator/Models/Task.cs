@@ -12,6 +12,8 @@ namespace FlubuCore.TaskGenerator.Models
 
         public string ProjectName { get; set; }
 
+        public string ExecutablePath { get; set; }
+
         public string Namespace { get; set; }
 
         public Constructor Constructor { get; set; }

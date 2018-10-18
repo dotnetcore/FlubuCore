@@ -42,6 +42,7 @@ namespace {task.Namespace}
         {WriteSummary(task.Constructor?.Summary)}
         public {task.TaskName}({WriteConstructorParameters(task)})
         {{
+            ExecutablePath = ""{task.ExecutablePath}"";
             {WriteConstructorArguments(task)}
         }}
 
