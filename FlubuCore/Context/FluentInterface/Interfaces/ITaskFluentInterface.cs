@@ -255,6 +255,13 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         CopyFileTask CopyFileTask(string sourceFileName, string destinationFileName, bool overwrite);
 
         /// <summary>
+        /// Task touches (set last write time) specified file.
+        /// </summary>
+        /// <param name="fileName">File to touch.</param>
+        /// <returns></returns>
+        TouchFileTask TouchFile(string fileName);
+
+        /// <summary>
         /// Task creates directory.
         /// </summary>
         /// <param name="directoryPath"></param>
