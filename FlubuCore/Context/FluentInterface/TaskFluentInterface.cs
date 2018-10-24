@@ -357,5 +357,10 @@ namespace FlubuCore.Context.FluentInterface
         {
             return Context.CreateTask<SqlCmdTask>(sqlFiles.ToList());
         }
+
+        public T4TemplateTask GenerateT4Template(string templateFileName)
+        {
+            return Context.CreateTask<T4TemplateTask>(templateFileName);
+        }
     }
 }

@@ -8,12 +8,14 @@ using FlubuCore.Services;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
 using FlubuCore.Tasks.Docker;
+using FlubuCore.Tasks.FileSystem;
 using FlubuCore.Tasks.FlubuWebApi;
 using FlubuCore.Tasks.Git;
 using FlubuCore.Tasks.Iis;
 using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Solution;
 using FlubuCore.Tasks.Testing;
+using FlubuCore.Tasks.Text;
 using FlubuCore.Tasks.Versioning;
 using FlubuCore.WebApi.Client;
 using Microsoft.DotNet.Cli.Utils;
@@ -79,6 +81,8 @@ namespace FlubuCore.Infrastructure
                 .AddTask<GitCommitTask>()
                 .AddTask<GitPushTask>()
                 .AddTask<DockerStopTask>()
+                .AddTask<T4TemplateTask>()
+                .AddTask<TouchFileTask>()
                 .AddTask<GitSubmoduleTask>();
         }
     }

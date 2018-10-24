@@ -366,5 +366,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <returns></returns>
         SqlCmdTask SqlCmdTask(params string[] sqlFiles);
+
+        /// <summary>
+        /// Generate T4 template with TextTransform.exe utility.
+        /// </summary>
+        /// <param name="templateFileName">Filename to T4 transform.</param>
+        /// <returns></returns>
+        T4TemplateTask GenerateT4Template(string templateFileName);
     }
 }
