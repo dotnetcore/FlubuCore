@@ -76,7 +76,7 @@ namespace {task.Namespace}
                         parameters = $"{parameters}, ";
                     }
 
-                    parameters = $"{parameters} {WriteParameter(argument.Parameter)} ";
+                    parameters = $"{parameters} {WriteParameter(argument.Parameter)}";
                 }
             }
 
