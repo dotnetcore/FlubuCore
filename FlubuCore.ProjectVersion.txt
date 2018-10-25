@@ -1,3 +1,6 @@
+2.12.9.0
+- Fixed T4 TextTransform finder.
+
 2.12.8.0
 - Fixed T4 template task.
 

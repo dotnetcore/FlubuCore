@@ -55,8 +55,9 @@ namespace FlubuCore.Tasks.Text
                 if (File.Exists(path))
                     return path;
 
-                if (File.Exists(Path.Combine(path, ExecutableName)))
-                    return path;
+                var combined = Path.Combine(path, ExecutableName);
+                if (File.Exists(combined))
+                    return combined;
             }
 
             return null;
