@@ -54,7 +54,7 @@ namespace FlubuCore.Context.FluentInterface
 
         public GitSubmoduleTask PullSubmodules()
         {
-            return Submodule().Remote().Merge();
+            return Submodule().Update().Remote().Merge();
         }
     }
 }

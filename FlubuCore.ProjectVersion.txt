@@ -1,3 +1,6 @@
+2.12.7.0
+- Fixed git submodule update.
+
 2.12.6.0
 - Added touch file task.
 - Added T4 transform task.
