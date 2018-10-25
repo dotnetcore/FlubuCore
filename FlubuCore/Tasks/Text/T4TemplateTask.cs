@@ -13,9 +13,10 @@ namespace FlubuCore.Tasks.Text
 
         private readonly List<string> _executablePaths = new List<string>
         {
+            "c:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\BuildTools\\Common7\\IDE",
             "c:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Professional\\Common7\\IDE",
             "c:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\Common7\\IDE",
-            "c:\\Program Files (x86)\\Common Files\\Microsoft Shared\\TextTemplating2015"
+            "c:\\Program Files (x86)\\Common Files\\Microsoft Shared\\TextTemplating\\14.0"
         };
 
         public T4TemplateTask(string templateFileName)
@@ -37,9 +38,6 @@ namespace FlubuCore.Tasks.Text
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            if (!File.Exists(_templateFileName))
-                throw new FileNotFoundException($"Template file {_templateFileName} not found!");
-
             ExecutablePath = FindExecutable();
 
             if (string.IsNullOrEmpty(ExecutablePath))

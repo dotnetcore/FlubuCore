@@ -1,3 +1,6 @@
+2.12.8.0
+- Fixed T4 template task.
+
 2.12.7.0
 - Fixed git submodule update.
 
