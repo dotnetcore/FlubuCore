@@ -93,3 +93,4 @@ FlubuCore.TaskGenerator/FlubuCore.TaskGenerator.csproj.user
 FlubuCore.TaskGenerator.Tests/bin/
 FlubuCore.TaskGenerator.Tests/obj/
 FlubuCore.TaskGenerator.Tests/b.cs
+FlubuCore.TaskGenerator/.vs/
