@@ -1,3 +1,16 @@
+2.12.9.0
+- Fixed T4 TextTransform finder.
+
+2.12.8.0
+- Fixed T4 template task.
+
+2.12.7.0
+- Fixed git submodule update.
+
+2.12.6.0
+- Added touch file task.
+- Added T4 transform task.
+
 2.12.5.0
 - Fixed git submodule task registration.
 

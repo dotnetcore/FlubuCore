@@ -268,6 +268,12 @@ namespace FlubuCore.Context.FluentInterface
         }
 
         /// <inheritdoc />
+        public TouchFileTask TouchFile(string fileName)
+        {
+            return Context.CreateTask<TouchFileTask>(fileName);
+        }
+
+        /// <inheritdoc />
         public CreateDirectoryTask CreateDirectoryTask(string directoryPath, bool forceRecreate)
         {
             return Context.CreateTask<CreateDirectoryTask>(directoryPath, forceRecreate);
@@ -350,6 +356,11 @@ namespace FlubuCore.Context.FluentInterface
         public SqlCmdTask SqlCmdTask(params string[] sqlFiles)
         {
             return Context.CreateTask<SqlCmdTask>(sqlFiles.ToList());
+        }
+
+        public T4TemplateTask GenerateT4Template(string templateFileName)
+        {
+            return Context.CreateTask<T4TemplateTask>(templateFileName);
         }
     }
 }

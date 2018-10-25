@@ -255,6 +255,13 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         CopyFileTask CopyFileTask(string sourceFileName, string destinationFileName, bool overwrite);
 
         /// <summary>
+        /// Task touches (set last write time) specified file.
+        /// </summary>
+        /// <param name="fileName">File to touch.</param>
+        /// <returns></returns>
+        TouchFileTask TouchFile(string fileName);
+
+        /// <summary>
         /// Task creates directory.
         /// </summary>
         /// <param name="directoryPath"></param>
@@ -359,5 +366,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <returns></returns>
         SqlCmdTask SqlCmdTask(params string[] sqlFiles);
+
+        /// <summary>
+        /// Generate T4 template with TextTransform.exe utility.
+        /// </summary>
+        /// <param name="templateFileName">Filename to T4 transform.</param>
+        /// <returns></returns>
+        T4TemplateTask GenerateT4Template(string templateFileName);
     }
 }

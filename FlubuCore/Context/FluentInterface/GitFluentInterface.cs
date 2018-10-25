@@ -49,12 +49,12 @@ namespace FlubuCore.Context.FluentInterface
 
         public GitSubmoduleTask InitSubmodules()
         {
-            return Submodule().Init().Recursive();
+            return Submodule().Update().Init().Recursive();
         }
 
         public GitSubmoduleTask PullSubmodules()
         {
-            return Submodule().Remote().Merge();
+            return Submodule().Update().Remote().Merge();
         }
     }
 }
