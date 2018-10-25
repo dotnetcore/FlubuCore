@@ -79,14 +79,16 @@ namespace FlubuCore.Tasks.FlubuWebApi
                     DownloadFromSubDirectory = _subDirectory
                 }) as MemoryStream;
 
-                FileStream file = new FileStream(_saveAs, FileMode.Create, FileAccess.Write);
-                reports.WriteTo(file);
+                using (FileStream file = new FileStream(_saveAs, FileMode.Create, FileAccess.Write))
+                {
+                    reports.WriteTo(file);
 
 #if !NETSTANDARD1_6
 
-                reports.Close();
-                file.Close();
+                    reports.Close();
+                    file.Close();
 #endif
+                }
             }
             catch (WebApiException e)
             {
