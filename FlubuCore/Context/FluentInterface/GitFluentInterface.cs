@@ -7,6 +7,11 @@ namespace FlubuCore.Context.FluentInterface
     {
         public TaskContext Context { get; set; }
 
+        public GitCheckoutTask Checkout(string branch)
+        {
+            return new GitCheckoutTask(branch);
+        }
+
         public GitAddTask Add()
         {
              return Context.CreateTask<GitAddTask>();

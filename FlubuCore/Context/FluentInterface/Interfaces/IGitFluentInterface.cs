@@ -31,6 +31,13 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         GitCloneTask Clone(string repository, string directory);
 
         /// <summary>
+        /// Checkout specified branch.
+        /// </summary>
+        /// <param name="branch">Branch to checkout.</param>
+        /// <returns></returns>
+        GitCheckoutTask Checkout(string branch);
+
+        /// <summary>
         /// This command updates the index using the current content found in the working tree, to prepare the content staged for the next commit.
         /// </summary>
         /// <returns></returns>
