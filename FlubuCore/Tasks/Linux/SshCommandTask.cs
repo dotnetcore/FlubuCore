@@ -71,27 +71,28 @@ namespace FlubuCore.Tasks.Linux
                 using (SshCommand cmd = client.CreateCommand(cmdText.ToString()))
                 {
                     Task<string> task = Task.Factory.FromAsync<string, string>((p, c, st) => cmd.BeginExecute(p, c, st),
-                                        cmd.EndExecute, cmdText.ToString(), null);
+                        cmd.EndExecute, cmdText.ToString(), null);
 
-                    StreamReader reader = new StreamReader(cmd.OutputStream);
-
-                    while (true)
+                    using (StreamReader reader = new StreamReader(cmd.OutputStream))
                     {
-                        if (task.Wait(1000))
+                        while (true)
                         {
-                            DoLogInfo($"Command response [{task.Result ?? cmd.Error}]");
-                            break;
+                            if (task.Wait(1000))
+                            {
+                                DoLogInfo($"Command response [{task.Result ?? cmd.Error}]");
+                                break;
+                            }
+
+                            string data = await reader.ReadToEndAsync();
+                            if (!string.IsNullOrEmpty(data))
+                            {
+                                DoLogInfo(data);
+                            }
                         }
 
-                        string data = await reader.ReadToEndAsync();
-                        if (!string.IsNullOrEmpty(data))
-                        {
-                            DoLogInfo(data);
-                        }
+                        if (!string.IsNullOrEmpty(cmd.Error))
+                            context.LogError(cmd.Error);
                     }
-
-                    if (!string.IsNullOrEmpty(cmd.Error))
-                        context.LogError(cmd.Error);
                 }
 
                 client.Disconnect();

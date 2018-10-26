@@ -56,7 +56,10 @@ namespace FlubuCore.Tasks.Packaging
                     using (var sr = new StreamReader(ms))
                     {
                         var serializer = new JsonSerializer();
-                        metadata = serializer.Deserialize<ZipMetadata>(new JsonTextReader(sr));
+                        using (var jst = new JsonTextReader(sr))
+                        {
+                            metadata = serializer.Deserialize<ZipMetadata>(jst);
+                        }
                     }
                 }
 

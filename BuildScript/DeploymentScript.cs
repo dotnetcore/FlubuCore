@@ -19,6 +19,7 @@ using Newtonsoft.Json.Linq;
 //#ass .\FlubuCore.WebApi\FlubuCore.WebApi.Model.dll
 //#ass .\lib\Newtonsoft.Json.dll
 //#ass .\lib\LiteDB.dll
+//#ass .\lib\System.Security.Cryptography.Algorithms.dll
 
 namespace DeploymentScript
 {
