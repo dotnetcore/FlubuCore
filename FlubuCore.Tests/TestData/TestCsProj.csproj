@@ -1,0 +1,1335 @@
+﻿<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A7D43615-C465-4D5A-9E86-3D17601CACAC}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TestCsProj</RootNamespace>
+    <AssemblyName>TestCsProj</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress>
+    </Use64BitIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+    <MvcBuildViews>true</MvcBuildViews>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>default</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.0.0.999, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.0.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.FileExtensions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.FileExtensions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.FileExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Json, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Json.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Physical, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Physical.2.1.1\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Physical.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileSystemGlobbing, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileSystemGlobbing.2.1.1\lib\netstandard2.0\Microsoft.Extensions.FileSystemGlobbing.dll</HintPath>
+    </Reference>
+    <Reference Include="netstandard" />
+    <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Extensions.DependencyInjection, Version=4.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Extensions.DependencyInjection.4.3.0\lib\netstandard2.0\Autofac.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="CKEditor.NET, Version=3.6.6.2, Culture=neutral, PublicKeyToken=e379cdf2f8354999, processorArchitecture=MSIL">
+      <HintPath>..\packages\CKEditor.net.1.0.0\lib\CKEditor.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="ClosedXML, Version=0.93.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClosedXML.0.93.1\lib\net46\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.8.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.8.1\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelNumberFormat, Version=1.0.3.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelNumberFormat.1.0.3\lib\net20\ExcelNumberFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="FastMember.Signed, Version=1.4.1.0, Culture=neutral, PublicKeyToken=9e8f22703bef9a29, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastMember.Signed.1.4.1\lib\net461\FastMember.Signed.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.8.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.8.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Configuration, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Binder, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Binder.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.2.1.1\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz, Version=3.0.7.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quartz.3.0.7\lib\net452\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="System.AppContext, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.AppContext.4.3.0\lib\net463\System.AppContext.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Console, Version=4.0.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Console.4.3.1\lib\net46\System.Console.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.4.3.0\lib\net46\System.IO.FileSystem.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Packaging.4.5.0\lib\net46\System.IO.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.4.3.0\lib\net463\System.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Linq.Expressions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Expressions.4.3.0\lib\net463\System.Linq.Expressions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.1\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.4.3.0\lib\net462\System.Reflection.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Extensions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.Extensions.4.3.0\lib\net462\System.Runtime.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.4.3.0\lib\net463\System.Runtime.InteropServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.2\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Text.RegularExpressions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.RegularExpressions.4.3.0\lib\net463\System.Text.RegularExpressions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="netstandard" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.6\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Xml.ReaderWriter.4.3.1\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AEOI\DAC2\Pregledi\PodatkiZaPosredovanje.aspx" />
+    <Content Include="AEOI\DAC2\Pregledi\PosredovaniPodatki.aspx" />
+    <Content Include="AEOI\DAC2\Pregledi\PregledPodatkovPodrobno.aspx" />
+    <Content Include="AEOI\DAC2\Pregledi\PrejetiPodatkiIzTujine.aspx" />
+    <Content Include="AEOI\DAC2\Pregledi\PrejetiPodatkiOdFI.aspx" />
+    <Content Include="AEOI\Default.aspx" />
+    <Content Include="AEOI\Error.aspx" />
+    <Content Include="AEOI\KonfiguracijaApp.aspx" />
+    <Content Include="AEOI\Login.aspx" />
+    <Content Include="AEOI\ManagePassword.aspx" />
+    <Content Include="AEOI\PoiskusnaValidacijaXMLSporocila.aspx" />
+    <Content Include="AEOI\PotrjevanjePredPosiljanjem.aspx" />
+    <Content Include="AEOI\PotrjevanjePredPosiljanjemDodaj.aspx" />
+    <Content Include="AEOI\PregledDnevnikovAktivnosti.aspx" />
+    <Content Include="AEOI\PregledEvidenceZajemoVirovIDIS.aspx" />
+    <Content Include="AEOI\PregledOpozoril.aspx" />
+    <Content Include="AEOI\PregledPodatkovPorocanjePosredovanjeVEU.aspx" />
+    <Content Include="AEOI\PregledPosredovanihPodatkovVEU.aspx" />
+    <Content Include="AEOI\PregledPosredovanihPodatkovZNapako.aspx" />
+    <Content Include="AEOI\PregledPrejetihPodatkovIzEU.aspx" />
+    <Content Include="AEOI\PregledVIESMessage.aspx" />
+    <Content Include="AEOI\PregledZajetihPodatkovIDIS.aspx" />
+    <Content Include="AEOI\PregledZajetihPodatkovIDISDetail.aspx" />
+    <Content Include="AEOI\PrevajalnaTabela.aspx" />
+    <Content Include="AEOI\ProzilniSistem.aspx" />
+    <Content Include="AEOI\Razciscevanje.aspx" />
+    <Content Include="AEOI\RazciscevanjeDetail.aspx" />
+    <Content Include="AEOI\RazveljavitevPosiljanjaPodatkov.aspx" />
+    <Content Include="AEOI\RazveljavitevRazciscevanja.aspx" />
+    <Content Include="AEOI\SeznamNovosti.aspx" />
+    <Content Include="AEOI\SeznamNovostiVnos.aspx" />
+    <Content Include="AEOI\ShowDocument.aspx" />
+    <Content Include="AEOI\ShowFileDocument.aspx" />
+    <Content Include="AEOI\SifrantAplikacij.aspx" />
+    <Content Include="AEOI\SifrantDrzaveNePrejemnice.aspx" />
+    <Content Include="AEOI\SifrantEUDrzave.aspx" />
+    <Content Include="AEOI\SifrantiDostopUporabnika.aspx" />
+    <Content Include="AEOI\SifrantInvalidTIN.aspx" />
+    <Content Include="AEOI\SifrantISODrzave.aspx" />
+    <Content Include="AEOI\SifrantiUporabnik.aspx" />
+    <Content Include="AEOI\SifrantKS.aspx" />
+    <Content Include="AEOI\SifrantNapakAplikacija.aspx" />
+    <Content Include="AEOI\SifrantOpozoril.aspx" />
+    <Content Include="AEOI\SifrantOseba.aspx" />
+    <Content Include="AEOI\SifrantPrevodov.aspx" />
+    <Content Include="AEOI\SifrantProzilnihDogodkov.aspx" />
+    <Content Include="AEOI\SifrantPS.aspx" />
+    <Content Include="AEOI\SifrantRazciscevanja.aspx" />
+    <Content Include="AEOI\SifrantTecaj.aspx" />
+    <Content Include="AEOI\SifrantTipSporocil.aspx" />
+    <Content Include="AEOI\SifrantVelikostDatoteke.aspx" />
+    <Content Include="AEOI\SifrantVir.aspx" />
+    <Content Include="AEOI\SifrantZapisa.aspx" />
+    <Content Include="AEOI\StatistikaPorocanja.aspx" />
+    <Content Include="AEOI\StatistikaSprejema.aspx" />
+    <Content Include="AEOI\StatistikaSprejemaVrednostno.aspx" />
+    <Content Include="AEOI\TestAEOI.aspx" />
+    <Content Include="AEOI\TvorbaXMLPredPosiljanjem.aspx" />
+    <Content Include="AEOI\TvorbaXMLPredPosiljanjemDodaj.aspx" />
+    <Content Include="AEOI\ValidacijaPotrditev.aspx" />
+    <Content Include="AEOI\ValidacijaPredPosiljanjem.aspx" />
+    <Content Include="AEOI\ValidacijaPredPosiljanjemDodaj.aspx" />
+    <Content Include="AEOI\ViesMessage.aspx" />
+    <Content Include="AEOI\ViewMessageXmlDetail.aspx" />
+    <Content Include="AEOI\ZajemPodatkovZaPorocanje.aspx" />
+    <Content Include="contents.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\json2.js" />
+    <Content Include="Scripts\json2.min.js" />
+    <Content Include="xslt\AEOI\Excel\PregledSporocilPripravljenihZaPosiljanje.xslt" />
+    <Content Include="xslt\AEOI\Excel\PregledTvorbaXMLPredPosiljanjem.xslt" />
+    <Content Include="xslt\AEOI\Excel\PregledTvorbaXMLPredPosiljanjemDodaj.xslt" />
+    <Content Include="xslt\AEOI\Excel\PregledViesMessage.xslt" />
+    <Content Include="xslt\AEOI\Excel\PrevajalnaTabela.xslt" />
+    <Content Include="xslt\AEOI\Excel\SifrantAplikacij.xslt" />
+    <Content Include="xslt\AEOI\Excel\SifrantDrzavNePrejemnice.xslt" />
+    <Content Include="xslt\AEOI\Excel\SifrantEUDrzave.xslt" />
+    <Content Include="xslt\AEOI\Excel\SifrantInvalidTIN.xslt" />
+    <Content Include="xslt\AEOI\Excel\SifrantKS.xslt" />
+    <Content Include="xslt\AEOI\Excel\SifrantProzilnihDogodkov.xslt" />
+    <Content Include="xslt\AEOI\Excel\SifrantPS.xslt" />
+    <Content Include="xslt\AEOI\Excel\SifrantTipSporocil.xslt" />
+    <Content Include="xslt\AEOI\Excel\SplitString.xslt" />
+    <Content Include="xslt\AEOI\Excel\SporocilaPripravljenaZaPosiljanje.xslt" />
+    <Content Include="xslt\AEOI\Excel\StatistikaPorocanja.xslt" />
+    <Content Include="xslt\AEOI\Excel\StatistikaSprejema.xslt" />
+    <Content Include="xslt\AEOI\Excel\StatistikaSprejemaVrednostno.xslt" />
+    <Content Include="xslt\AEOI\Excel\Super.xslt" />
+    <Content Include="xslt\AEOI\Excel\ValidacijaPotrditev.xslt" />
+    <Content Include="xslt\AEOI\Excel\ValidacijaXMLPredPosiljanjem.xslt" />
+    <Content Include="xslt\AEOI\Gui\DnevnikAktivnosti.xslt" />
+    <Content Include="xslt\AEOI\Gui\PregledEvidenceZajemovPodatkovIzVirovIDIS.xslt" />
+    <Content Include="xslt\AEOI\Gui\PregledOpozoril.xslt" />
+    <Content Include="xslt\AEOI\Gui\PregledViesMessage.xslt" />
+    <Content Include="xslt\AEOI\Gui\RazveljavitevPosiljanjaPodatkov.xslt" />
+    <Content Include="xslt\AEOI\Gui\SifrantAplikacij.xslt" />
+    <Content Include="xslt\AEOI\Gui\SifrantEUDrzave.xslt" />
+    <Content Include="xslt\AEOI\Gui\SifrantInvalidTIN.xslt" />
+    <Content Include="xslt\AEOI\Gui\SifrantKS.xslt" />
+    <Content Include="xslt\AEOI\Gui\SifrantProzilnihDogodkov.xslt" />
+    <Content Include="xslt\AEOI\Gui\SifrantTipSporocil.xslt" />
+    <Content Include="xslt\AEOI\Gui\ZajemPodatkovZaPorocanjeIndividualno.xslt" />
+    <Content Include="xslt\AEOI\Gui\ZajemPodatkovZaPorocanjeVsi.xslt" />
+    <Content Include="xslt\AEOI\Kartice\Income.xslt" />
+    <Content Include="xslt\AEOI\Kartice\Loan.xslt" />
+    <Content Include="xslt\AEOI\Kartice\MakeFA_Detail.xslt" />
+    <Content Include="xslt\AEOI\Kartice\MakeFI_Detail.xslt" />
+    <Content Include="xslt\AEOI\Kartice\MakeIE_Detail.xslt" />
+    <Content Include="xslt\AEOI\Kartice\MakeIP_Detail.xslt" />
+    <Content Include="xslt\AEOI\Kartice\MakeLIP_Detail.xslt" />
+    <Content Include="xslt\AEOI\Kartice\MakePEN_Detail.xslt" />
+    <Content Include="xslt\AEOI\Kartice\Payments.xslt" />
+    <Content Include="xslt\AEOI\Kartice\Transaction.xslt" />
+    <Content Include="xslt\AEOI\Osebe\Address.xslt" />
+    <Content Include="xslt\AEOI\Osebe\AddressTypeFA.xslt" />
+    <Content Include="xslt\AEOI\Osebe\ControllingPerson.xslt" />
+    <Content Include="xslt\AEOI\Osebe\Individual.xslt" />
+    <Content Include="xslt\AEOI\Osebe\ListAddress.xslt" />
+    <Content Include="xslt\AEOI\Osebe\NamePersonTypeFA.xslt" />
+    <Content Include="xslt\AEOI\Osebe\NameType.xslt" />
+    <Content Include="xslt\AEOI\Osebe\Organisation.xslt" />
+    <Content Include="xslt\AEOI\Osebe\PersonNNP.xslt" />
+    <Content Include="xslt\AEOI\Osebe\PersonNP.xslt" />
+    <Content Include="AEOI\DownloadHendler.ashx" />
+    <Content Include="Login.master" />
+    <Content Include="Content\common.css" />
+    <Content Include="Content\jqCron.css" />
+    <Content Include="Content\jquery.datetimepicker.css" />
+    <Content Include="Content\Login.css" />
+    <Content Include="Content\master.css" />
+    <Content Include="Content\Pregledi1.css" />
+    <Content Include="Content\Registracija.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\themes\smoothness\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\smoothness\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\smoothness\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\smoothness\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\smoothness\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\smoothness\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\smoothness\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\smoothness\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\smoothness\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\smoothness\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\smoothness\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\smoothness\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\smoothness\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\smoothness\jquery-ui.css" />
+    <Content Include="Content\themes\smoothness\jquery.ui.theme.css" />
+    <Content Include="controls\akcijaUrnik.ascx" />
+    <Content Include="controls\TransientMessage.ascx" />
+    <Content Include="Images\accent.png" />
+    <Content Include="Images\arrowNested.png" />
+    <Content Include="Images\BackToPage.png" />
+    <Content Include="Images\bullet.png" />
+    <Content Include="Images\DDImage.bmp" />
+    <Content Include="Images\delete.gif" />
+    <Content Include="Images\heroAccent.png" />
+    <Content Include="Images\Icons\Add.png" />
+    <Content Include="Images\Icons\Add_20x20.png" />
+    <Content Include="Images\Icons\Add_25x25.png" />
+    <Content Include="Images\Icons\Add_Symbol.png" />
+    <Content Include="Images\Icons\AEOI-DF.PNG" />
+    <Content Include="Images\Icons\AEOI-IE.png" />
+    <Content Include="Images\Icons\AEOI-IP.png" />
+    <Content Include="Images\Icons\AEOI-LIP.png" />
+    <Content Include="Images\Icons\AEOI-PEN.png" />
+    <Content Include="Images\Icons\Application_Blueprint.png" />
+    <Content Include="Images\Icons\Application_Design.png" />
+    <Content Include="Images\Icons\Apps.png" />
+    <Content Include="Images\Icons\Archive.png" />
+    <Content Include="Images\Icons\Blackboard.png" />
+    <Content Include="Images\Icons\Blackboard_2.png" />
+    <Content Include="Images\Icons\Blocknotes.png" />
+    <Content Include="Images\Icons\Blocknotes_2.png" />
+    <Content Include="Images\Icons\Blocknotes_22.4x25.6.png" />
+    <Content Include="Images\Icons\Blocknotes_Blue.png" />
+    <Content Include="Images\Icons\Blueprint.png" />
+    <Content Include="Images\Icons\Blueprint_Blog.png" />
+    <Content Include="Images\Icons\Blueprint_Website.png" />
+    <Content Include="Images\Icons\Book.png" />
+    <Content Include="Images\Icons\Bookmark.png" />
+    <Content Include="Images\Icons\Box.png" />
+    <Content Include="Images\Icons\buttonGreen.png" />
+    <Content Include="Images\Icons\buttonRed.png" />
+    <Content Include="Images\Icons\Button_Back.png" />
+    <Content Include="Images\Icons\Button_BackWithName.png" />
+    <Content Include="Images\Icons\Button_BackWithNameLong.png" />
+    <Content Include="Images\Icons\Button_BackWithNameLongPress.png" />
+    <Content Include="Images\Icons\Button_Down.png" />
+    <Content Include="Images\Icons\Button_Down_25x25.png" />
+    <Content Include="Images\Icons\Button_FastForward.png" />
+    <Content Include="Images\Icons\Button_First.png" />
+    <Content Include="Images\Icons\Button_Last.png" />
+    <Content Include="Images\Icons\Button_Next.png" />
+    <Content Include="Images\Icons\Button_Play_Pause.png" />
+    <Content Include="Images\Icons\Button_Rec.png" />
+    <Content Include="Images\Icons\Button_Rewind.png" />
+    <Content Include="Images\Icons\Button_Shuffle.png" />
+    <Content Include="Images\Icons\Button_Stop.png" />
+    <Content Include="Images\Icons\Button_Sync.png" />
+    <Content Include="Images\Icons\Button_Up.png" />
+    <Content Include="Images\Icons\Button_Up_25x25.png" />
+    <Content Include="Images\Icons\Calendar.png" />
+    <Content Include="Images\Icons\Calendar_2.png" />
+    <Content Include="Images\Icons\Chart_Bar.png" />
+    <Content Include="Images\Icons\Chart_Bar_3D_Ascending.png" />
+    <Content Include="Images\Icons\Chart_Bar_3D_Descending.png" />
+    <Content Include="Images\Icons\Chart_Bar_Big.png" />
+    <Content Include="Images\Icons\Chart_Bar_Document.png" />
+    <Content Include="Images\Icons\Chart_Bar_Files.png" />
+    <Content Include="Images\Icons\Chart_Bar_Files_Wide.png" />
+    <Content Include="Images\Icons\Chart_Bar_Table.png" />
+    <Content Include="Images\Icons\Chart_Graph.png" />
+    <Content Include="Images\Icons\Chart_Graph_Ascending.png" />
+    <Content Include="Images\Icons\Chart_Graph_Descending.png" />
+    <Content Include="Images\Icons\Chart_Pie.png" />
+    <Content Include="Images\Icons\Chart_Vertical_Bar_Poll.png" />
+    <Content Include="Images\Icons\Checkmark.png" />
+    <Content Include="Images\Icons\Checkmark_24x17.6.png" />
+    <Content Include="Images\Icons\ClapBoard.png" />
+    <Content Include="Images\Icons\Clipboard.png" />
+    <Content Include="Images\Icons\Clipboard_Empty.png" />
+    <Content Include="Images\Icons\Clipboard_Full.png" />
+    <Content Include="Images\Icons\Clipboard_Full_2.png" />
+    <Content Include="Images\Icons\Clock.png" />
+    <Content Include="Images\Icons\Colors.png" />
+    <Content Include="Images\Icons\Comment.png" />
+    <Content Include="Images\Icons\Comment_Add.png" />
+    <Content Include="Images\Icons\Comment_Bubble.png" />
+    <Content Include="Images\Icons\Comment_Delete.png" />
+    <Content Include="Images\Icons\Comment_Reply.png" />
+    <Content Include="Images\Icons\Conversation.png" />
+    <Content Include="Images\Icons\Dashboard.png" />
+    <Content Include="Images\Icons\Denided.png" />
+    <Content Include="Images\Icons\Error.png" />
+    <Content Include="Images\Icons\Error_Symbol.png" />
+    <Content Include="Images\Icons\Error_Symbol_16.8x16.8.png" />
+    <Content Include="Images\Icons\Fav.png" />
+    <Content Include="Images\Icons\Fav_Empty.png" />
+    <Content Include="Images\Icons\File.png" />
+    <Content Include="Images\Icons\Files.png" />
+    <Content Include="Images\Icons\Files_Copy.png" />
+    <Content Include="Images\Icons\File_Add.png" />
+    <Content Include="Images\Icons\File_AI_Illustrator.png" />
+    <Content Include="Images\Icons\File_BMP_Image.png" />
+    <Content Include="Images\Icons\File_Checked.png" />
+    <Content Include="Images\Icons\File_Content.png" />
+    <Content Include="Images\Icons\File_CSS_Stylesheet.png" />
+    <Content Include="Images\Icons\File_Delete.png" />
+    <Content Include="Images\Icons\File_Doc_Text_Word.png" />
+    <Content Include="Images\Icons\File_Edit.png" />
+    <Content Include="Images\Icons\File_HTML.png" />
+    <Content Include="Images\Icons\File_JPG_Image.png" />
+    <Content Include="Images\Icons\File_List.png" />
+    <Content Include="Images\Icons\File_List_25.6x25.6.png" />
+    <Content Include="Images\Icons\File_MPMusic.png" />
+    <Content Include="Images\Icons\File_PDF_Acrobat.png" />
+    <Content Include="Images\Icons\File_PHP.png" />
+    <Content Include="Images\Icons\File_PNG_Image.png" />
+    <Content Include="Images\Icons\File_PSD_Photoshop.png" />
+    <Content Include="Images\Icons\File_Table.png" />
+    <Content Include="Images\Icons\File_Text.png" />
+    <Content Include="Images\Icons\File_Warning.png" />
+    <Content Include="Images\Icons\File_XLS_Excel.png" />
+    <Content Include="Images\Icons\File_XML.png" />
+    <Content Include="Images\Icons\File_ZIP_Archive.png" />
+    <Content Include="Images\Icons\Folder.png" />
+    <Content Include="Images\Icons\Folder_Add.png" />
+    <Content Include="Images\Icons\Folder_Chart.png" />
+    <Content Include="Images\Icons\Folder_Checked.png" />
+    <Content Include="Images\Icons\Folder_Edit.png" />
+    <Content Include="Images\Icons\Folder_Empty.png" />
+    <Content Include="Images\Icons\Folder_Favorites.png" />
+    <Content Include="Images\Icons\Folder_Info.png" />
+    <Content Include="Images\Icons\Folder_Network.png" />
+    <Content Include="Images\Icons\Folder_Remove.png" />
+    <Content Include="Images\Icons\Folder_Sync.png" />
+    <Content Include="Images\Icons\Folder_Upload.png" />
+    <Content Include="Images\Icons\Folder_Warning.png" />
+    <Content Include="Images\Icons\Gear.png" />
+    <Content Include="Images\Icons\Help.png" />
+    <Content Include="Images\Icons\Home.png" />
+    <Content Include="Images\Icons\Home2.png" />
+    <Content Include="Images\Icons\iMac.png" />
+    <Content Include="Images\Icons\image.png" />
+    <Content Include="Images\Icons\Info.png" />
+    <Content Include="Images\Icons\Info_Light.png" />
+    <Content Include="Images\Icons\Location.png" />
+    <Content Include="Images\Icons\MacBook.png" />
+    <Content Include="Images\Icons\MacBookAir.png" />
+    <Content Include="Images\Icons\MacBookPro.png" />
+    <Content Include="Images\Icons\Mail.png" />
+    <Content Include="Images\Icons\MailBox.png" />
+    <Content Include="Images\Icons\Mails.png" />
+    <Content Include="Images\Icons\Mail_Add.png" />
+    <Content Include="Images\Icons\Mail_Compose.png" />
+    <Content Include="Images\Icons\Mail_Delete.png" />
+    <Content Include="Images\Icons\Mail_Gmail.png" />
+    <Content Include="Images\Icons\Mail_Info.png" />
+    <Content Include="Images\Icons\Mail_Old.png" />
+    <Content Include="Images\Icons\Mail_Open.png" />
+    <Content Include="Images\Icons\Mail_Reply.png" />
+    <Content Include="Images\Icons\Mail_Verified.png" />
+    <Content Include="Images\Icons\Mail_Warning.png" />
+    <Content Include="Images\Icons\News.png" />
+    <Content Include="Images\Icons\Pencil_2.png" />
+    <Content Include="Images\Icons\Pin.png" />
+    <Content Include="Images\Icons\Project.png" />
+    <Content Include="Images\Icons\Project_2.png" />
+    <Content Include="Images\Icons\Rating.png" />
+    <Content Include="Images\Icons\Remove_Symbol.png" />
+    <Content Include="Images\Icons\Remove_SymbolRed.png" />
+    <Content Include="Images\Icons\Search.png" />
+    <Content Include="Images\Icons\SearchWithText.png" />
+    <Content Include="Images\Icons\search_32.png" />
+    <Content Include="Images\Icons\Sticky.png" />
+    <Content Include="Images\Icons\Target.png" />
+    <Content Include="Images\Icons\Trash.png" />
+    <Content Include="Images\Icons\Trash_Delete.png" />
+    <Content Include="Images\Icons\Trash_Full.png" />
+    <Content Include="Images\Icons\Trash_Warning.png" />
+    <Content Include="Images\Icons\User.png" />
+    <Content Include="Images\Icons\User2.png" />
+    <Content Include="Images\Icons\Valid.png" />
+    <Content Include="Images\Icons\Warning.png" />
+    <Content Include="Images\Icons\Warning_2.png" />
+    <Content Include="Images\Icons\Windows.png" />
+    <Content Include="Images\Icons\Windows8.png" />
+    <Content Include="Images\Icons\Window_App.png" />
+    <Content Include="Images\Icons\Window_App_3Cols.png" />
+    <Content Include="Images\Icons\Window_App_Header.png" />
+    <Content Include="Images\Icons\Window_App_List.png" />
+    <Content Include="Images\Icons\Window_App_ListView.png" />
+    <Content Include="Images\Icons\Window_App_Results.png" />
+    <Content Include="Images\Icons\Window_App_Sidebar.png" />
+    <Content Include="Images\Icons\Window_App_SplitScreen.png" />
+    <Content Include="Images\Icons\Window_App_Splitscreen_3Columns.png" />
+    <Content Include="Images\Icons\Window_App_View.png" />
+    <Content Include="Images\Icons\Window_Config.png" />
+    <Content Include="Images\Icons\Window_Generic.png" />
+    <Content Include="Images\Icons\Window_Sidebar.png" />
+    <Content Include="Images\Icons\Wooden_Box.png" />
+    <Content Include="Images\Icons\Wooden_Box2.png" />
+    <Content Include="Images\Icons\Zoom_In.png" />
+    <Content Include="Images\Icons\Zoom_Out.png" />
+    <Content Include="Images\maximize.png" />
+    <Content Include="Images\minimize.png" />
+    <Content Include="Images\orderedList0.png" />
+    <Content Include="Images\orderedList1.png" />
+    <Content Include="Images\orderedList2.png" />
+    <Content Include="Images\orderedList3.png" />
+    <Content Include="Images\orderedList4.png" />
+    <Content Include="Images\orderedList5.png" />
+    <Content Include="Images\orderedList6.png" />
+    <Content Include="Images\orderedList7.png" />
+    <Content Include="Images\orderedList8.png" />
+    <Content Include="Images\orderedList9.png" />
+    <Content Include="Images\switch.gif" />
+    <Content Include="Menu\Menu.xsl" />
+    <Content Include="Scripts\Custom1.js" />
+    <Content Include="Scripts\jqCron.en.js" />
+    <Content Include="Scripts\jqCron.js" />
+    <Content Include="Scripts\jquery-1.8.3.js" />
+    <Content Include="Scripts\jquery-ui-1.9.2.js" />
+    <Content Include="Scripts\jquery.datetimepicker.js" />
+    <Content Include="Scripts\jquery.hoverImageEnlarge.js" />
+    <Content Include="Scripts\jquery.ui.datepicker.sl-SI.js" />
+    <Content Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="xslt\AEOI\Osebe\PersonNPStruktura.xslt" />
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="appsettings.my.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.messages.sl-SI.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\modernizr-2.5.3.js" />
+    <None Include="Scripts\test\jquery-1.7.1.intellisense.js" />
+    <Content Include="Scripts\test\jquery-1.7.1.js" />
+    <Content Include="Scripts\test\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\test\jquery-ui-1.8.20.js" />
+    <Content Include="Scripts\test\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\test\modernizr-2.5.3.js" />
+    <Content Include="Scripts\WebForms\DetailsView.js" />
+    <Content Include="Scripts\WebForms\Focus.js" />
+    <Content Include="Scripts\WebForms\GridView.js" />
+    <Content Include="Scripts\WebForms\Menu.js" />
+    <Content Include="Scripts\WebForms\MenuStandards.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjax.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxApplicationServices.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxComponentModel.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxCore.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxGlobalization.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxHistory.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxNetwork.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxSerialization.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxTimer.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxWebForms.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxWebServices.js" />
+    <Content Include="Scripts\WebForms\SmartNav.js" />
+    <Content Include="Scripts\WebForms\TreeView.js" />
+    <Content Include="Scripts\WebForms\WebForms.js" />
+    <Content Include="Scripts\WebForms\WebParts.js" />
+    <Content Include="Scripts\WebForms\WebUIValidation.js" />
+    <None Include="Scripts\_references.js" />
+    <Content Include="Site.master" />
+    <Content Include="web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AEOI_Common\AEOI_Common.csproj">
+      <Project>{5551aec5-b724-43d1-9236-e0229fa7bd02}</Project>
+      <Name>AEOI_Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AEOI_EntityModel\AEOI_EntityModel.csproj">
+      <Project>{1267b51d-ba97-401b-bb1e-e51010505d97}</Project>
+      <Name>AEOI_EntityModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\external\aeoi.common\Aeoi.Excel\Aeoi.Excel.csproj">
+      <Project>{6b81b81f-6050-4a33-9f4f-d9e8357df86d}</Project>
+      <Name>Aeoi.Excel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\external\aeoi.common\Aeoi.Shared\Aeoi.Shared.csproj">
+      <Project>{e0b66a52-d4d7-4e40-aef3-a6f1e0566d04}</Project>
+      <Name>Aeoi.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\external\vidis.common\EF.Common\Vidis.EF.Common.csproj">
+      <Project>{03905e1b-c990-419e-800b-c00c97e21b59}</Project>
+      <Name>Vidis.EF.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\external\vidis.common\EF.Idis\Vidis.EF.Idis.csproj">
+      <Project>{09fb3abf-4ce0-4b7f-938d-516893ec0eba}</Project>
+      <Name>Vidis.EF.Idis</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AEOI\DAC2\Pregledi\PodatkiZaPosredovanje.aspx.cs">
+      <DependentUpon>PodatkiZaPosredovanje.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\DAC2\Pregledi\PodatkiZaPosredovanje.aspx.designer.cs">
+      <DependentUpon>PodatkiZaPosredovanje.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\DAC2\Pregledi\PosredovaniPodatki.aspx.cs">
+      <DependentUpon>PosredovaniPodatki.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\DAC2\Pregledi\PosredovaniPodatki.aspx.designer.cs">
+      <DependentUpon>PosredovaniPodatki.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\DAC2\Pregledi\PregledPodatkovPodrobno.aspx.cs">
+      <DependentUpon>PregledPodatkovPodrobno.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\DAC2\Pregledi\PregledPodatkovPodrobno.aspx.designer.cs">
+      <DependentUpon>PregledPodatkovPodrobno.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\DAC2\Pregledi\PrejetiPodatkiIzTujine.aspx.cs">
+      <DependentUpon>PrejetiPodatkiIzTujine.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\DAC2\Pregledi\PrejetiPodatkiIzTujine.aspx.designer.cs">
+      <DependentUpon>PrejetiPodatkiIzTujine.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\DAC2\Pregledi\PrejetiPodatkiOdFI.aspx.cs">
+      <DependentUpon>PrejetiPodatkiOdFI.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\DAC2\Pregledi\PrejetiPodatkiOdFI.aspx.designer.cs">
+      <DependentUpon>PrejetiPodatkiOdFI.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\Error.aspx.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\Error.aspx.designer.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\KonfiguracijaApp.aspx.cs">
+      <DependentUpon>KonfiguracijaApp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\KonfiguracijaApp.aspx.designer.cs">
+      <DependentUpon>KonfiguracijaApp.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\ManagePassword.aspx.cs">
+      <DependentUpon>ManagePassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\ManagePassword.aspx.designer.cs">
+      <DependentUpon>ManagePassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\PoiskusnaValidacijaXMLSporocila.aspx.cs">
+      <DependentUpon>PoiskusnaValidacijaXMLSporocila.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\PoiskusnaValidacijaXMLSporocila.aspx.designer.cs">
+      <DependentUpon>PoiskusnaValidacijaXMLSporocila.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\PotrjevanjePredPosiljanjem.aspx.cs">
+      <DependentUpon>PotrjevanjePredPosiljanjem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\PotrjevanjePredPosiljanjem.aspx.designer.cs">
+      <DependentUpon>PotrjevanjePredPosiljanjem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\PotrjevanjePredPosiljanjemDodaj.aspx.cs">
+      <DependentUpon>PotrjevanjePredPosiljanjemDodaj.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\PotrjevanjePredPosiljanjemDodaj.aspx.designer.cs">
+      <DependentUpon>PotrjevanjePredPosiljanjemDodaj.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\PregledDnevnikovAktivnosti.aspx.cs">
+      <DependentUpon>PregledDnevnikovAktivnosti.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\PregledDnevnikovAktivnosti.aspx.designer.cs">
+      <DependentUpon>PregledDnevnikovAktivnosti.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\PregledEvidenceZajemoVirovIDIS.aspx.cs">
+      <DependentUpon>PregledEvidenceZajemoVirovIDIS.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\PregledEvidenceZajemoVirovIDIS.aspx.designer.cs">
+      <DependentUpon>PregledEvidenceZajemoVirovIDIS.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\PregledOpozoril.aspx.cs">
+      <DependentUpon>PregledOpozoril.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\PregledOpozoril.aspx.designer.cs">
+      <DependentUpon>PregledOpozoril.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\PregledPodatkovPorocanjePosredovanjeVEU.aspx.cs">
+      <DependentUpon>PregledPodatkovPorocanjePosredovanjeVEU.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\PregledPodatkovPorocanjePosredovanjeVEU.aspx.designer.cs">
+      <DependentUpon>PregledPodatkovPorocanjePosredovanjeVEU.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\PregledPosredovanihPodatkovVEU.aspx.cs">
+      <DependentUpon>PregledPosredovanihPodatkovVEU.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\PregledPosredovanihPodatkovVEU.aspx.designer.cs">
+      <DependentUpon>PregledPosredovanihPodatkovVEU.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\PregledPosredovanihPodatkovZNapako.aspx.cs">
+      <DependentUpon>PregledPosredovanihPodatkovZNapako.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\PregledPosredovanihPodatkovZNapako.aspx.designer.cs">
+      <DependentUpon>PregledPosredovanihPodatkovZNapako.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\PregledPrejetihPodatkovIzEU.aspx.cs">
+      <DependentUpon>PregledPrejetihPodatkovIzEU.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\PregledPrejetihPodatkovIzEU.aspx.designer.cs">
+      <DependentUpon>PregledPrejetihPodatkovIzEU.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\PregledVIESMessage.aspx.cs">
+      <DependentUpon>PregledVIESMessage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\PregledVIESMessage.aspx.designer.cs">
+      <DependentUpon>PregledVIESMessage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\PregledZajetihPodatkovIDIS.aspx.cs">
+      <DependentUpon>PregledZajetihPodatkovIDIS.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\PregledZajetihPodatkovIDIS.aspx.designer.cs">
+      <DependentUpon>PregledZajetihPodatkovIDIS.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\PregledZajetihPodatkovIDISDetail.aspx.cs">
+      <DependentUpon>PregledZajetihPodatkovIDISDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\PregledZajetihPodatkovIDISDetail.aspx.designer.cs">
+      <DependentUpon>PregledZajetihPodatkovIDISDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\PrevajalnaTabela.aspx.cs">
+      <DependentUpon>PrevajalnaTabela.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\PrevajalnaTabela.aspx.designer.cs">
+      <DependentUpon>PrevajalnaTabela.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\ProzilniSistem.aspx.cs">
+      <DependentUpon>ProzilniSistem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\ProzilniSistem.aspx.designer.cs">
+      <DependentUpon>ProzilniSistem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\Razciscevanje.aspx.cs">
+      <DependentUpon>Razciscevanje.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\Razciscevanje.aspx.designer.cs">
+      <DependentUpon>Razciscevanje.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\RazciscevanjeDetail.aspx.cs">
+      <DependentUpon>RazciscevanjeDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\RazciscevanjeDetail.aspx.designer.cs">
+      <DependentUpon>RazciscevanjeDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\RazveljavitevPosiljanjaPodatkov.aspx.cs">
+      <DependentUpon>RazveljavitevPosiljanjaPodatkov.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\RazveljavitevPosiljanjaPodatkov.aspx.designer.cs">
+      <DependentUpon>RazveljavitevPosiljanjaPodatkov.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\RazveljavitevRazciscevanja.aspx.cs">
+      <DependentUpon>RazveljavitevRazciscevanja.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\RazveljavitevRazciscevanja.aspx.designer.cs">
+      <DependentUpon>RazveljavitevRazciscevanja.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SeznamNovosti.aspx.cs">
+      <DependentUpon>SeznamNovosti.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SeznamNovosti.aspx.designer.cs">
+      <DependentUpon>SeznamNovosti.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SeznamNovostiVnos.aspx.cs">
+      <DependentUpon>SeznamNovostiVnos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SeznamNovostiVnos.aspx.designer.cs">
+      <DependentUpon>SeznamNovostiVnos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\ShowDocument.aspx.cs">
+      <DependentUpon>ShowDocument.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\ShowDocument.aspx.designer.cs">
+      <DependentUpon>ShowDocument.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\ShowFileDocument.aspx.cs">
+      <DependentUpon>ShowFileDocument.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\ShowFileDocument.aspx.designer.cs">
+      <DependentUpon>ShowFileDocument.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantAplikacij.aspx.cs">
+      <DependentUpon>SifrantAplikacij.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SifrantAplikacij.aspx.designer.cs">
+      <DependentUpon>SifrantAplikacij.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantDrzaveNePrejemnice.aspx.cs">
+      <DependentUpon>SifrantDrzaveNePrejemnice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SifrantDrzaveNePrejemnice.aspx.designer.cs">
+      <DependentUpon>SifrantDrzaveNePrejemnice.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantEUDrzave.aspx.cs">
+      <DependentUpon>SifrantEUDrzave.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SifrantEUDrzave.aspx.designer.cs">
+      <DependentUpon>SifrantEUDrzave.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantiDostopUporabnika.aspx.cs">
+      <DependentUpon>SifrantiDostopUporabnika.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SifrantiDostopUporabnika.aspx.designer.cs">
+      <DependentUpon>SifrantiDostopUporabnika.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantInvalidTIN.aspx.cs">
+      <DependentUpon>SifrantInvalidTIN.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SifrantInvalidTIN.aspx.designer.cs">
+      <DependentUpon>SifrantInvalidTIN.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantISODrzave.aspx.cs">
+      <DependentUpon>SifrantISODrzave.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SifrantISODrzave.aspx.designer.cs">
+      <DependentUpon>SifrantISODrzave.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantiUporabnik.aspx.cs">
+      <DependentUpon>SifrantiUporabnik.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SifrantiUporabnik.aspx.designer.cs">
+      <DependentUpon>SifrantiUporabnik.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantKS.aspx.cs">
+      <DependentUpon>SifrantKS.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SifrantKS.aspx.designer.cs">
+      <DependentUpon>SifrantKS.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantNapakAplikacija.aspx.cs">
+      <DependentUpon>SifrantNapakAplikacija.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantNapakAplikacija.aspx.designer.cs">
+      <DependentUpon>SifrantNapakAplikacija.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantOpozoril.aspx.cs">
+      <DependentUpon>SifrantOpozoril.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SifrantOpozoril.aspx.designer.cs">
+      <DependentUpon>SifrantOpozoril.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantOseba.aspx.cs">
+      <DependentUpon>SifrantOseba.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SifrantOseba.aspx.designer.cs">
+      <DependentUpon>SifrantOseba.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantPrevodov.aspx.cs">
+      <DependentUpon>SifrantPrevodov.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SifrantPrevodov.aspx.designer.cs">
+      <DependentUpon>SifrantPrevodov.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantProzilnihDogodkov.aspx.cs">
+      <DependentUpon>SifrantProzilnihDogodkov.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SifrantProzilnihDogodkov.aspx.designer.cs">
+      <DependentUpon>SifrantProzilnihDogodkov.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantPS.aspx.cs">
+      <DependentUpon>SifrantPS.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SifrantPS.aspx.designer.cs">
+      <DependentUpon>SifrantPS.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantRazciscevanja.aspx.cs">
+      <DependentUpon>SifrantRazciscevanja.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SifrantRazciscevanja.aspx.designer.cs">
+      <DependentUpon>SifrantRazciscevanja.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantTecaj.aspx.cs">
+      <DependentUpon>SifrantTecaj.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SifrantTecaj.aspx.designer.cs">
+      <DependentUpon>SifrantTecaj.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantTipSporocil.aspx.cs">
+      <DependentUpon>SifrantTipSporocil.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SifrantTipSporocil.aspx.designer.cs">
+      <DependentUpon>SifrantTipSporocil.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantVelikostDatoteke.aspx.cs">
+      <DependentUpon>SifrantVelikostDatoteke.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SifrantVelikostDatoteke.aspx.designer.cs">
+      <DependentUpon>SifrantVelikostDatoteke.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantVir.aspx.cs">
+      <DependentUpon>SifrantVir.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SifrantVir.aspx.designer.cs">
+      <DependentUpon>SifrantVir.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\SifrantZapisa.aspx.cs">
+      <DependentUpon>SifrantZapisa.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\SifrantZapisa.aspx.designer.cs">
+      <DependentUpon>SifrantZapisa.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\StatistikaPorocanja.aspx.cs">
+      <DependentUpon>StatistikaPorocanja.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\StatistikaPorocanja.aspx.designer.cs">
+      <DependentUpon>StatistikaPorocanja.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\StatistikaSprejema.aspx.cs">
+      <DependentUpon>StatistikaSprejema.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\StatistikaSprejema.aspx.designer.cs">
+      <DependentUpon>StatistikaSprejema.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\StatistikaSprejemaVrednostno.aspx.cs">
+      <DependentUpon>StatistikaSprejemaVrednostno.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\StatistikaSprejemaVrednostno.aspx.designer.cs">
+      <DependentUpon>StatistikaSprejemaVrednostno.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\TestAEOI.aspx.cs">
+      <DependentUpon>TestAEOI.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\TestAEOI.aspx.designer.cs">
+      <DependentUpon>TestAEOI.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\TvorbaXMLPredPosiljanjem.aspx.cs">
+      <DependentUpon>TvorbaXMLPredPosiljanjem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\TvorbaXMLPredPosiljanjem.aspx.designer.cs">
+      <DependentUpon>TvorbaXMLPredPosiljanjem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\TvorbaXMLPredPosiljanjemDodaj.aspx.cs">
+      <DependentUpon>TvorbaXMLPredPosiljanjemDodaj.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\TvorbaXMLPredPosiljanjemDodaj.aspx.designer.cs">
+      <DependentUpon>TvorbaXMLPredPosiljanjemDodaj.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\ValidacijaPotrditev.aspx.cs">
+      <DependentUpon>ValidacijaPotrditev.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\ValidacijaPotrditev.aspx.designer.cs">
+      <DependentUpon>ValidacijaPotrditev.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\ValidacijaPredPosiljanjem.aspx.cs">
+      <DependentUpon>ValidacijaPredPosiljanjem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\ValidacijaPredPosiljanjem.aspx.designer.cs">
+      <DependentUpon>ValidacijaPredPosiljanjem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\ValidacijaPredPosiljanjemDodaj.aspx.cs">
+      <DependentUpon>ValidacijaPredPosiljanjemDodaj.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\ValidacijaPredPosiljanjemDodaj.aspx.designer.cs">
+      <DependentUpon>ValidacijaPredPosiljanjemDodaj.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\ViesMessage.aspx.cs">
+      <DependentUpon>ViesMessage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\ViesMessage.aspx.designer.cs">
+      <DependentUpon>ViesMessage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\ViewMessageXmlDetail.aspx.cs">
+      <DependentUpon>ViewMessageXmlDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\ViewMessageXmlDetail.aspx.designer.cs">
+      <DependentUpon>ViewMessageXmlDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AEOI\ZajemPodatkovZaPorocanje.aspx.cs">
+      <DependentUpon>ZajemPodatkovZaPorocanje.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AEOI\ZajemPodatkovZaPorocanje.aspx.designer.cs">
+      <DependentUpon>ZajemPodatkovZaPorocanje.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Business\IocInstallerExtensions.cs" />
+    <Compile Include="Business\Log4NetExtensions.cs" />
+    <Compile Include="Business\Utils\Files.cs" />
+    <Compile Include="controls\akcijaUrnik.ascx.cs">
+      <DependentUpon>akcijaUrnik.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="controls\akcijaUrnik.ascx.designer.cs">
+      <DependentUpon>akcijaUrnik.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="controls\TransientMessage.ascx.cs">
+      <DependentUpon>TransientMessage.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="controls\TransientMessage.ascx.designer.cs">
+      <DependentUpon>TransientMessage.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Login.master.cs">
+      <DependentUpon>Login.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.master.designer.cs">
+      <DependentUpon>Login.master</DependentUpon>
+    </Compile>
+    <Compile Include="Business\BE\Types\AEOIUserData.cs" />
+    <Compile Include="Business\BL\Gui.cs" />
+    <Compile Include="Business\BL\HostAccess.cs" />
+    <Compile Include="Business\BL\LoginAccess.cs" />
+    <Compile Include="Business\BL\LoginClass.cs" />
+    <Compile Include="Business\IO\ExcelWriter.cs" />
+    <Compile Include="Business\Utils\Constants.cs" />
+    <Compile Include="Business\Utils\HelperGui.cs" />
+    <Compile Include="Business\Utils\LazyPagingGridView.cs" />
+    <Compile Include="Business\Utils\Methods.cs" />
+    <Compile Include="Business\Utils\PageBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Business\Utils\PasswordHash.cs" />
+    <Compile Include="Business\Utils\SortDirectionGui.cs" />
+    <Compile Include="Business\Utils\TransformacijaXML.cs" />
+    <Compile Include="Business\Utils\Validation.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Site.master.cs">
+      <DependentUpon>Site.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site.master.designer.cs">
+      <DependentUpon>Site.master</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="GatherAllFilesToPublish">
+  </Target>
+  <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

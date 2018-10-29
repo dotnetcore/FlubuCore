@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
 {
@@ -17,10 +16,7 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         {
         }
 
-        public IList<string> Files
-        {
-            get { return _files; }
-        }
+        public IList<string> Files => _files;
 
         public override void Parse(VSSolutionFileParser parser)
         {

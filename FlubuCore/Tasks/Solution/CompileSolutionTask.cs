@@ -60,9 +60,9 @@ namespace FlubuCore.Tasks.Solution
 
         protected override string Description
         {
-            get => string.IsNullOrEmpty(_description) ? $"Compiles the solution." : _description;
+            get => string.IsNullOrEmpty(_description) ? "Compiles the solution." : _description;
 
-            set { _description = value; }
+            set => _description = value;
         }
 
         /// <summary>
@@ -251,7 +251,7 @@ namespace FlubuCore.Tasks.Solution
             if (NoOutputLog)
                 WithArguments("/noconlog");
 
-           return base.DoExecute(context);
+            return base.DoExecute(context);
         }
 
         private string FindMsBuildPath(ITaskContextInternal context)

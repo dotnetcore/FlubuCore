@@ -1,3 +1,6 @@
+2.12.11.0
+- Fixed solution loading with duplicate properties.
+
 2.12.10.0
 - Added GIT checkout task.
 

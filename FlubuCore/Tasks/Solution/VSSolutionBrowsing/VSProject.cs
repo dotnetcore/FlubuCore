@@ -14,16 +14,9 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
 
         private readonly List<VSProjectItem> _items = new List<VSProjectItem>();
 
-        private readonly string _projectFileName;
-
         private readonly Dictionary<string, string> _properties = new Dictionary<string, string>();
 
         private bool _propertiesDictionary;
-
-        public VSProject(string projectFileName)
-        {
-            _projectFileName = projectFileName;
-        }
 
         /// <summary>
         /// Gets a read-only collection of project configurations.
@@ -36,8 +29,6 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         /// </summary>
         /// <value>A read-only collection of all the .cs files in the solution.</value>
         public IList<VSProjectItem> Items => _items;
-
-        public string ProjectFileName => _projectFileName;
 
         /// <summary>
         /// Gets a read-only collection of project properties.
@@ -54,13 +45,13 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         {
             using (Stream stream = File.OpenRead(projectFileName))
             {
-                VSProject data = new VSProject(projectFileName) { _propertiesDictionary = true };
+                VSProject data = new VSProject { _propertiesDictionary = true };
 
                 XmlReaderSettings xmlReaderSettings = new XmlReaderSettings
                 {
                     IgnoreComments = true,
                     IgnoreProcessingInstructions = true,
-                    IgnoreWhitespace = true,
+                    IgnoreWhitespace = true
                 };
 
                 using (XmlReader xmlReader = XmlReader.Create(stream, xmlReaderSettings))
@@ -111,23 +102,6 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
             return null;
         }
 
-        /// <summary>
-        /// Gets the List of VSProjectItem single type items.
-        /// </summary>
-        /// <param name="getItemType">Type of the item.</param>
-        /// <returns>List of items of specific itemType.</returns>
-        public IList<VSProjectItem> GetSingleTypeItems(string getItemType)
-        {
-            List<VSProjectItem> returnList = new List<VSProjectItem>();
-            foreach (VSProjectItem item in Items)
-            {
-                if (item.ItemType == getItemType)
-                    returnList.Add(item);
-            }
-
-            return returnList;
-        }
-
         private static VSProjectItem ReadItem(string projectName, XmlReader xmlReader, string itemType)
         {
             VSProjectItem item = new VSProjectItem(itemType) { Item = xmlReader["Include"] };
@@ -156,10 +130,13 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
             string propertyValue = xmlReader.ReadElementContentAsString();
             if (item.ItemProperties.ContainsKey(propertyName))
             {
-                throw new ArgumentException($"Item {propertyName}:{propertyValue} already exists in project {projectName}");
+                item.ItemProperties[propertyName] = propertyValue;
+                Console.WriteLine($"Item {propertyName}:{propertyValue} already exists in project {projectName}");
             }
-
-            item.ItemProperties.Add(propertyName, propertyValue);
+            else
+            {
+                item.ItemProperties.Add(propertyName, propertyValue);
+            }
         }
 
         private void ReadProject(string projectName, XmlReader xmlReader)

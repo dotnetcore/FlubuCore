@@ -19,29 +19,15 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
 
         private readonly Dictionary<string, string> _itemProperties = new Dictionary<string, string>();
 
-        private readonly string _itemType;
-
-        private string _item;
-
         public VSProjectItem(string itemType)
         {
-            _itemType = itemType;
+            ItemType = itemType;
         }
 
-        public string Item
-        {
-            get { return _item; }
-            set { _item = value; }
-        }
+        public string Item { get; set; }
 
-        public string ItemType
-        {
-            get { return _itemType; }
-        }
+        public string ItemType { get; }
 
-        public IDictionary<string, string> ItemProperties
-        {
-            get { return _itemProperties; }
-        }
+        public IDictionary<string, string> ItemProperties => _itemProperties;
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -35,21 +34,9 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         /// Gets a read-only collection of <see cref="VSProjectWithFileInfo"/> objects for all of the projects in the solution.
         /// </summary>
         /// <value>A read-only collection of <see cref="VSProjectWithFileInfo"/> objects .</value>
-        public ReadOnlyCollection<VSProjectInfo> Projects
-        {
-            get { return _projects.AsReadOnly(); }
-        }
+        public ReadOnlyCollection<VSProjectInfo> Projects => _projects.AsReadOnly();
 
-        /// <summary>
-        /// Gets or sets the VisualStudio project types dictionary.
-        /// </summary>
-        /// <value>The VisualStudio project types dictionary.</value>
-        public VSProjectTypesDictionary ProjectTypesDictionary { get; set; } = new VSProjectTypesDictionary();
-
-        public FullPath SolutionDirectoryPath
-        {
-            get { return SolutionFileName.Directory; }
-        }
+        public FullPath SolutionDirectoryPath => SolutionFileName.Directory;
 
         public FileFullPath SolutionFileName { get; }
 
@@ -140,23 +127,6 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
             }
 
             return solution;
-        }
-
-        /// <summary>
-        /// Finds the project by its unique id.
-        /// </summary>
-        /// <param name="projectGuid">The project's GUID.</param>
-        /// <returns>The <see cref="VSProjectWithFileInfo"/> object representing the project.</returns>
-        /// <exception cref="ArgumentException">The project was not found.</exception>
-        public VSProjectInfo FindProjectById(Guid projectGuid)
-        {
-            foreach (VSProjectInfo projectData in _projects)
-            {
-                if (projectData.ProjectGuid == projectGuid)
-                    return projectData;
-            }
-
-            throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Project {0} not found.", projectGuid));
         }
 
         public VSProjectInfo FindProjectByName(string projectName)
