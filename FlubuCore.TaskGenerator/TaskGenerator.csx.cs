@@ -55,18 +55,34 @@ namespace {task.Namespace}
         protected internal virtual string WriteConstructorArguments(Task task)
         {
             string arguments = string.Empty;
+
+            if (task.Constructor?.Arguments == null)
+            {
+                return arguments;
+            }
+            
             foreach (var argument in task.Constructor.Arguments)
             {
                 arguments = $"{arguments}{WriteArgument(argument)}{Environment.NewLine}";
             }
 
-            arguments = arguments.Remove(arguments.Length - Environment.NewLine.Length, Environment.NewLine.Length);
+            if (string.IsNullOrEmpty(arguments))
+            {
+                arguments = arguments.Remove(arguments.Length - Environment.NewLine.Length, Environment.NewLine.Length);
+            }
+
             return arguments;
         }
 
         protected internal virtual string WriteConstructorParameters(Task task)
         {
             string parameters = string.Empty;
+
+            if (task.Constructor?.Arguments == null)
+            {
+                return parameters;
+            }
+
             foreach (var argument in task.Constructor.Arguments)
             {
                 if (argument.Parameter != null)
