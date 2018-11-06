@@ -135,7 +135,7 @@ namespace {task.Namespace}
             {
                 string parameterName = ParameterName(argument.Parameter.ParameterName);
 
-                return $"WithArgumentsValueRequired(\"{argument.ArgumentKey}\", {parameterName});";
+                return $"WithArgumentsValueRequired(\"{argument.ArgumentKey}\", {parameterName}.ToString());";
             }
             else
             {
