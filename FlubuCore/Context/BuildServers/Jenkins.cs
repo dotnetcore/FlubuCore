@@ -21,5 +21,7 @@ namespace FlubuCore.Context.BuildServers
         public string SvnRevisionId => Environment.GetEnvironmentVariable("SVN_REVISION");
 
         public string GitCommitId => Environment.GetEnvironmentVariable("GIT_COMMIT");
+
+        public string GitBranch => Environment.GetEnvironmentVariable("GIT_BRANCH");
     }
 }
