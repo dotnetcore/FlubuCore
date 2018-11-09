@@ -39,6 +39,7 @@ namespace {task.Namespace}
 {{
      public partial class {task.TaskName} : ExternalProcessTaskBase<{task.TaskName}>
      {{
+        {WriteClassFieldsFromConstructorParameters(task.Constructor)}
         {WriteSummary(task.Constructor?.Summary)}
         public {task.TaskName}({WriteConstructorParameters(task)})
         {{
@@ -48,6 +49,8 @@ namespace {task.Namespace}
 
         protected override string Description {{ get; set; }}
         {WriteMethods(task)}
+        {WriteDoExecuteMethod(task)}
+
      }}
 }}");
         }
@@ -63,7 +66,7 @@ namespace {task.Namespace}
             
             foreach (var argument in task.Constructor.Arguments)
             {
-                arguments = $"{arguments}{WriteArgument(argument)}{Environment.NewLine}";
+                arguments = $"{arguments}{WriteConstructorArgument(argument)}{Environment.NewLine}";
             }
 
             if (string.IsNullOrEmpty(arguments))
@@ -124,6 +127,21 @@ namespace {task.Namespace}
             return methods;
         }
 
+        protected internal virtual string WriteConstructorArgument(ConstructorArgument argument)
+        {
+            if (argument == null)
+            {
+                return string.Empty;
+            }
+
+            if (!argument.AfterOptions)
+            {
+                WriteArgument(argument);
+            }
+
+            return $"_{argument.Parameter.ParameterName} = {argument.Parameter.ParameterName}";
+        }
+
         protected internal virtual string WriteArgument(Argument argument)
         {
             if (argument == null)
@@ -141,6 +159,31 @@ namespace {task.Namespace}
             {
                 return $"WithArguments(\"{argument.ArgumentKey}\");";
             }
+        }
+
+        protected internal virtual string WriteClassFieldsFromConstructorParameters(Constructor constructor)
+        {
+            if (constructor?.Arguments == null)
+            {
+                return string.Empty;
+            }
+
+            string fields = string.Empty;
+
+            foreach (var argument in constructor.Arguments)
+            {
+                if (!argument.HasArgumentValue || argument.Parameter == null)
+                {
+                    continue;
+                }
+
+                if (argument.AfterOptions)
+                {
+                    fields = $"{fields}{argument.Parameter.ParameterType} _{argument.Parameter.ParameterName}{Environment.NewLine}";
+                }
+            }
+
+            return fields;
         }
 
         protected internal virtual string WriteParameter(Parameter parameter)
@@ -178,6 +221,37 @@ namespace {task.Namespace}
             }
 
             return parameterName;
+        }
+
+        protected internal virtual string WriteDoExecuteMethod(Task task)
+        {
+            var constructor = task.Constructor;
+            if (constructor?.Arguments == null)
+            {
+                return string.Empty;
+            }
+
+            string withArguments = string.Empty;
+            foreach (var constructorArgument in constructor.Arguments)
+            {
+                if (constructorArgument.Parameter == null || !constructorArgument.AfterOptions)
+                {
+                    continue;
+                }
+
+                withArguments = $"{withArguments} {WriteDoExecuteWithArguments(constructorArgument)}";
+            }
+
+            return $@"protected override int DoExecute(ITaskContextInternal context)
+        {{
+            {withArguments}
+            return base.DoExecute(context);
+        }}";
+        }
+
+        protected internal virtual string WriteDoExecuteWithArguments(ConstructorArgument argument)
+        {
+            return $"WithArguments(_{argument.Parameter.ParameterName});{Environment.NewLine}";
         }
     }
 }
