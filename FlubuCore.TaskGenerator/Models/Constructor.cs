@@ -8,6 +8,6 @@ namespace FlubuCore.TaskGenerator.Models
     {
         public string Summary { get; set; }
 
-        public List<Argument> Arguments { get; set; }
+        public List<ConstructorArgument> Arguments { get; set; }
     }
 }

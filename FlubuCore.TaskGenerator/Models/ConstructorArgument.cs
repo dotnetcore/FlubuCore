@@ -7,7 +7,7 @@ namespace FlubuCore.TaskGenerator.Models
     public class ConstructorArgument : Argument
     {
         /// <summary>
-        /// Denominates if argument(command) is optional or not.
+        /// Determinates if argument(command) is optional or not.
         /// </summary>
         public bool IsOptional { get; set; }
 
