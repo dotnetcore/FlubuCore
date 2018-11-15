@@ -59,7 +59,7 @@ namespace {task.Namespace}
         {
             string arguments = string.Empty;
 
-            if (task.Constructor?.Arguments == null)
+            if (task.Constructor?.Arguments == null || task.Constructor.Arguments.Count == 0) 
             {
                 return arguments;
             }
@@ -136,10 +136,10 @@ namespace {task.Namespace}
 
             if (!argument.AfterOptions)
             {
-                WriteArgument(argument);
+               return WriteArgument(argument);
             }
 
-            return $"_{argument.Parameter.ParameterName} = {argument.Parameter.ParameterName}";
+            return $"_{argument.Parameter.ParameterName} = {argument.Parameter.ParameterName};";
         }
 
         protected internal virtual string WriteArgument(Argument argument)
@@ -163,7 +163,7 @@ namespace {task.Namespace}
 
         protected internal virtual string WriteClassFieldsFromConstructorParameters(Constructor constructor)
         {
-            if (constructor?.Arguments == null)
+            if (constructor?.Arguments?.Count == 0)
             {
                 return string.Empty;
             }
@@ -172,14 +172,17 @@ namespace {task.Namespace}
 
             foreach (var argument in constructor.Arguments)
             {
-                if (!argument.HasArgumentValue || argument.Parameter == null)
+                var parameter = argument.Parameter;
+                if (parameter == null)
                 {
                     continue;
                 }
 
+               
                 if (argument.AfterOptions)
                 {
-                    fields = $"{fields}{argument.Parameter.ParameterType} _{argument.Parameter.ParameterName}{Environment.NewLine}";
+                    string parameterType = parameter.AsParams ? $"{parameter.ParameterType}[]" : parameter.ParameterType;
+                    fields = $"{fields}private {parameterType} _{parameter.ParameterName};{Environment.NewLine}";
                 }
             }
 
@@ -192,10 +195,12 @@ namespace {task.Namespace}
             {
                 return string.Empty;
             }
-
+            
             string parameterName = ParameterName(parameter.ParameterName);
-
-            return $"{parameter.ParameterType} {parameterName}";
+            string parameterType = parameter.AsParams ? $"{parameter.ParameterType}[]" : parameter.ParameterType;
+            string prms = parameter.AsParams ? "params " : string.Empty;
+            string optional = parameter.IsOptional ? $" = {parameter.OptionalValue}" : string.Empty;
+            return $"{prms}{parameterType} {parameterName}";
 
         }
 
@@ -226,7 +231,7 @@ namespace {task.Namespace}
         protected internal virtual string WriteDoExecuteMethod(Task task)
         {
             var constructor = task.Constructor;
-            if (constructor?.Arguments == null)
+            if (constructor?.Arguments == null || constructor.Arguments.Count == 0)
             {
                 return string.Empty;
             }
