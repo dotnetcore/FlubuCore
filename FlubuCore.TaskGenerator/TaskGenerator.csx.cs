@@ -7,7 +7,7 @@ using Scripty.Core;
 
 namespace FlubuCore.TaskGenerator
 {
-     public class TaskGenerator
+    public class TaskGenerator : TaskGeneratorBase
     {
         private readonly ScriptContext _context;
 
@@ -59,11 +59,11 @@ namespace {task.Namespace}
         {
             string arguments = string.Empty;
 
-            if (task.Constructor?.Arguments == null || task.Constructor.Arguments.Count == 0) 
+            if (task.Constructor?.Arguments == null || task.Constructor.Arguments.Count == 0)
             {
                 return arguments;
             }
-            
+
             foreach (var argument in task.Constructor.Arguments)
             {
                 arguments = $"{arguments}{WriteConstructorArgument(argument)}{Environment.NewLine}";
@@ -111,7 +111,7 @@ namespace {task.Namespace}
             {
                 return methods;
             }
-           
+
             foreach (var method in task.Methods)
             {
                 methods = $@"{methods}{WriteSummary(method.MethodSummary)}
@@ -136,7 +136,7 @@ namespace {task.Namespace}
 
             if (!argument.AfterOptions)
             {
-               return WriteArgument(argument);
+                return WriteArgument(argument);
             }
 
             return $"_{argument.Parameter.ParameterName} = {argument.Parameter.ParameterName};";
@@ -178,30 +178,16 @@ namespace {task.Namespace}
                     continue;
                 }
 
-               
+
                 if (argument.AfterOptions)
                 {
-                    string parameterType = parameter.AsParams ? $"{parameter.ParameterType}[]" : parameter.ParameterType;
+                    string parameterType =
+                        parameter.AsParams ? $"{parameter.ParameterType}[]" : parameter.ParameterType;
                     fields = $"{fields}private {parameterType} _{parameter.ParameterName};{Environment.NewLine}";
                 }
             }
 
             return fields;
-        }
-
-        protected internal virtual string WriteParameter(Parameter parameter)
-        {
-            if (parameter == null)
-            {
-                return string.Empty;
-            }
-            
-            string parameterName = ParameterName(parameter.ParameterName);
-            string parameterType = parameter.AsParams ? $"{parameter.ParameterType}[]" : parameter.ParameterType;
-            string prms = parameter.AsParams ? "params " : string.Empty;
-            string optional = parameter.IsOptional ? $" = {parameter.OptionalValue}" : string.Empty;
-            return $"{prms}{parameterType} {parameterName}";
-
         }
 
         protected internal virtual string WriteSummary(string summary)
@@ -215,17 +201,6 @@ namespace {task.Namespace}
         /// <summary>
         /// {summary}
         /// </summary>";
-        }
-
-        protected internal virtual string ParameterName(string parameterName)
-        {
-            if (parameterName.Equals("namespace") || parameterName.Equals("params") || parameterName.Equals("operator") ||
-                parameterName.Equals("new") || parameterName.Equals("override"))
-            {
-                parameterName = $"@{parameterName}";
-            }
-
-            return parameterName;
         }
 
         protected internal virtual string WriteDoExecuteMethod(Task task)
