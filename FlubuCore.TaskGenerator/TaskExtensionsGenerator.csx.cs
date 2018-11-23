@@ -29,7 +29,6 @@ namespace FlubuCore.TaskGenerator
 using System;
 using System.Collections.Generic;
 using System.Text;
-using FlubuCore.Azure.Tasks;
 {WriteUsings(extensions.Usings)}
 namespace {extensions.Namespace}
 {{
