@@ -26,7 +26,7 @@ namespace FlubuCore.Tests
                 .AddTransient<IIisTaskFluentInterface, IisTaskFluentInterface>()
                 .AddTransient<IWebApiFluentInterface, WebApiFluentInterface>()
                 .AddTransient<IGitFluentInterface, GitFluentInterface>()
-                .AddTransient<IDockerFluentInterface, DockerFluentInterface>()
+                .AddTransient<DockerFluentInterface>()
                 .AddTransient<IToolsFluentInterface, ToolsFluentInterface>()
                 .AddSingleton<IHttpClientFactory, HttpClientFactory>()
                 .BuildServiceProvider();

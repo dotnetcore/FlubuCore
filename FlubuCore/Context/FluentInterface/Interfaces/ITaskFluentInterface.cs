@@ -231,7 +231,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// Docker specific tasks.
         /// </summary>
         /// <returns></returns>
-        IDockerFluentInterface DockerTasks();
+        DockerFluentInterface DockerTasks();
 
         /// <summary>
         /// Internet information service specific tasks.

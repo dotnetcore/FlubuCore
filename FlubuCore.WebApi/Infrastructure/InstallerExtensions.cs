@@ -106,7 +106,7 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddTransient<ILinuxTaskFluentInterface, LinuxTaskFluentInterface>()
                 .AddTransient<IToolsFluentInterface, ToolsFluentInterface>()
                 .AddTransient<IGitFluentInterface, GitFluentInterface>()
-                .AddTransient<IDockerFluentInterface, DockerFluentInterface>()
+                .AddTransient<DockerFluentInterface>()
                 .AddTransient<ITarget, TargetFluentInterface>()
                 .AddTransient<GenerateCommonAssemblyInfoTask>()
                 .AddTransient<FetchBuildVersionFromFileTask>()
