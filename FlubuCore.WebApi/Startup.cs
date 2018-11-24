@@ -1,26 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Security.Claims;
-using System.Security.Principal;
 using System.Text;
-using System.Threading.Tasks;
 using FlubuCore.WebApi.Configuration;
-using FlubuCore.WebApi.Controllers.Attributes;
 using FlubuCore.WebApi.Infrastructure;
-using FlubuCore.WebApi.Repository;
-using FlubuCore.WebApi.Services;
 using FluentValidation.AspNetCore;
-using LiteDB;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
@@ -56,6 +46,12 @@ namespace FlubuCore.WebApi
                     options.ModelValidatorProviders.Clear();
                 })
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+
+            services.Configure<FormOptions>(x =>
+            {
+                x.ValueLengthLimit = 1017483648;
+                x.MultipartBodyLengthLimit = 1017483648;
+            });
 
             services
                 .AddCoreComponentsForWebApi(Configuration)
