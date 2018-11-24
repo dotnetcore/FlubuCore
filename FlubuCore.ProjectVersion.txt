@@ -1,3 +1,12 @@
+2.13.0.0
+- Added docker generated tasks
+- (Breaking changes) Old Docker task's that were previously manually implemented were overwriten with generated task.
+  - Docker tasks that used property of type List<> were replaced with params. 
+  - Some method names in docker tasks were renamed to the same name as it is option name in the docker command.
+- Improved target fluent interface intelisense by adding methods from base interface.
+- GitBranch information can be readed for jenkins build system. context.BuildSystems().Jenkins().GitBranch;
+- WebApi increased max size limit of uploaded content
+
 2.12.11.0
 - Fixed solution loading with duplicate properties.
 
