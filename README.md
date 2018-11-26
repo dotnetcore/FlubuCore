@@ -10,6 +10,11 @@
 
 ![FlubuCore in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/demo.gif)
 
+FlubuCore is a .net (core) console application that uses power of roslyn to compile and execute your script. Above example could be run from command line with:
+
+* FlubuCore runner  ``` flubu.exe Default ```
+* FlubuCore dotnet cli tool ``` dotnet flubu Default ```
+* FlubuCore global tool ``` flubu Default ```
 ## Features and Advantages
 
 * Intuitive an easy to learn. C#, fluent interface, and IntelliSense make even most complex script creation a breeze.
