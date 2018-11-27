@@ -10,7 +10,7 @@
 
 ![FlubuCore in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/demo.gif)
 
-FlubuCore is a .net (core) console application that uses power of roslyn to compile and execute scripts. Above example could be run from command line with:
+FlubuCore is a .net (core) console application that uses power of roslyn to compile and execute scripts. Above example could be run from console with:
 
 * FlubuCore runner  ``` flubu.exe Default ```
 * FlubuCore dotnet cli tool ``` dotnet flubu Default ```
