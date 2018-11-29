@@ -170,7 +170,6 @@ Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 ### Ways to Contribute
 
 * Spread the word about the project.
-* If you like the project please don't forget to give it a star so that the community get's bigger.
 * Improve documentation.
 * Report, fix a bug.
 * Implement a new feature.
