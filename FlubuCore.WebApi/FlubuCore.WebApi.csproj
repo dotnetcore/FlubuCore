@@ -5,7 +5,7 @@
     <WarningsAsErrors>true</WarningsAsErrors>
     <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1701;1702;1705;1591;1573;1572;1574</NoWarn>
-  <Version>2.7.2.0</Version><AssemblyVersion>2.7.2.0</AssemblyVersion><FileVersion>2.7.2.0</FileVersion></PropertyGroup>
+  <Version>2.13.0.0</Version><AssemblyVersion>2.13.0.0</AssemblyVersion><FileVersion>2.13.0.0</FileVersion></PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp1.1'">
     <ReferringTargetFrameworkForProjectReferences>.NETStandard,Version=v1.6</ReferringTargetFrameworkForProjectReferences>
     <DefineConstants>NETCOREAPP1_1;</DefineConstants>
@@ -20,7 +20,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net462'">
     <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
-    <ReferringTargetFrameworkForProjectReferences>.NETStandard,Version=v2.0</ReferringTargetFrameworkForProjectReferences>
     <DefineConstants>NET462;</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp1.1|AnyCPU'">
