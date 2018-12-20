@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -117,6 +119,115 @@ namespace FlubuCore.WebApi.Client
         public async Task CleanReportsDirectoryAsync(CleanReportsDirectoryRequest request)
         {
             await SendAsync(request);
+        }
+
+         /// <summary>
+        /// Executes specified web api method and handles <see cref="WebApiException"/> with specified HttpStatusCode. If WebException with other status code has occured exception is retrown.
+        /// </summary>
+        /// <typeparam name="T">The response data</typeparam>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public async Task<Response<T>> ExecuteAsync<T>(Func<IWebApiClient, Task<T>> action)
+        {
+          return await ExecuteAsync(action, null);
+        }
+
+        /// <summary>
+        /// Executes specified web api method and handles <see cref="WebApiException"/> <see cref="TimeoutException"/> with specified HttpStatusCodes. If WebException with other status code has occured exception is rethrown.
+        /// </summary>
+        /// <typeparam name="T">The response data</typeparam>
+        /// <param name="action"></param>
+        /// <param name="statusCodesToHandle">HttpStatusCodes to handle.</param>
+        /// <returns></returns>
+        public async Task<Response<T>> ExecuteAsync<T>(Func<IWebApiClient, Task<T>> action, params HttpStatusCode[] statusCodesToHandle)
+        {
+            try
+            {
+                T result = await action(this);
+                return new Response<T> { Data = result };
+            }
+            catch (WebApiException ex)
+            {
+                if ((statusCodesToHandle == null || statusCodesToHandle.Contains(ex.StatusCode))
+                    && ex.StatusCode != HttpStatusCode.Unauthorized)
+                {
+                    var response = new Response<T> { Error = ex.ErrorModel };
+                    HandleErrors(response);
+                    return response;
+                }
+
+                throw;
+            }
+            catch (TaskCanceledException ex)
+            {
+                var response = new Response<T>
+                {
+                    Error = new ErrorModel
+                    {
+                        ErrorMessage = ex.Message,
+                        StackTrace = ex.StackTrace,
+                    }
+                };
+                HandleErrors(response);
+                return response;
+            }
+            catch (TimeoutException ex)
+            {
+                var response = new Response<T>
+                {
+                    Error = new ErrorModel
+                    {
+                        ErrorMessage = ex.Message,
+                        StackTrace = ex.StackTrace,
+                    }
+                };
+                HandleErrors(response);
+                return response;
+            }
+        }
+
+        /// <summary>
+        /// Executes specified web api method and handles <see cref="WebApiException"/> with specified HttpStatusCode. If WebException with other status code has occured exception is rethrown.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public async Task<ErrorModel> ExecuteAsync(Func<IWebApiClient, Task> action, HttpStatusCode statusCodeToHandle = HttpStatusCode.BadRequest)
+        {
+            return await ExecuteAsync(action, new HttpStatusCode[] { statusCodeToHandle });
+        }
+
+        /// <summary>
+        /// Executes specified web api method and handles <see cref="WebApiException"/> with specified HttpStatusCode. If WebException with other status code has occured exception is rethrown.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="statusCodesToHandle">HttpStatusCodes to handle.</param>
+        /// <returns></returns>
+        public async Task<ErrorModel> ExecuteAsync(Func<IWebApiClient, Task> action, params HttpStatusCode[] statusCodesToHandle)
+        {
+            try
+            {
+                await action(this);
+                return null;
+            }
+            catch (WebApiException ex)
+            {
+                var statusCodes = statusCodesToHandle.ToList();
+                if (statusCodes.Contains(ex.StatusCode) && ex.StatusCode != HttpStatusCode.Unauthorized)
+                {
+                    return ex.ErrorModel;
+                }
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Handles errors in execute method
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="response"></param>
+        public virtual void HandleErrors<T>(Response<T> response)
+        {
         }
     }
 }

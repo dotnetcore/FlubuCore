@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using FlubuCore.WebApi.Model;
@@ -57,5 +58,46 @@ namespace FlubuCore.WebApi.Client
         /// </summary>
         /// <returns></returns>
         Task CleanReportsDirectoryAsync(CleanReportsDirectoryRequest request);
+
+        /// <summary>
+        /// Executes specified web api method and handles <see cref="WebApiException"/> all errors.
+        /// </summary>
+        /// <typeparam name="T">The response data</typeparam>
+        /// <param name="action"></param>
+        /// <param name="statusCodeToHandle"></param>
+        /// <returns></returns>
+        Task<Response<T>> ExecuteAsync<T>(Func<IWebApiClient, Task<T>> action);
+
+        /// <summary>
+        /// Executes specified web api method and handles <see cref="WebApiException"/> with specified HttpStatusCode. If WebException with other status code has occured exception is retrown.
+        /// </summary>
+        /// <typeparam name="T">The response data</typeparam>
+        /// <param name="action"></param>
+        /// <param name="statusCodesToHandle">HttpStatusCodes to handle.</param>
+        /// <returns></returns>
+        Task<Response<T>> ExecuteAsync<T>(Func<IWebApiClient, Task<T>> action, params HttpStatusCode[] statusCodesToHandle);
+
+        /// <summary>
+        /// Executes specified web api method and handles <see cref="WebApiException"/> with specified HttpStatusCode. If WebException with other status code has occured exception is retrown.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="statusCodeToHandle"></param>
+        /// <returns></returns>
+        Task<ErrorModel> ExecuteAsync(Func<IWebApiClient, Task> action, HttpStatusCode statusCodeToHandle = HttpStatusCode.BadRequest);
+
+        /// <summary>
+        /// Executes specified web api method and handles <see cref="WebApiException"/> with specified HttpStatusCode. If WebException with other status code has occured exception is retrown.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="statusCodesToHandle">HttpStatusCodes to handle.</param>
+        /// <returns></returns>
+        Task<ErrorModel> ExecuteAsync(Func<IWebApiClient, Task> action, params HttpStatusCode[] statusCodesToHandle);
+
+        /// <summary>
+        /// Handles errors in execute method
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="response"></param>
+        void HandleErrors<T>(Response<T> response);
     }
 }

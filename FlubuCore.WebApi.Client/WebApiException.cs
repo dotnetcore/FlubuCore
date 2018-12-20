@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using FlubuCore.WebApi.Model;
 
 namespace FlubuCore.WebApi.Client
 {
@@ -19,6 +20,8 @@ namespace FlubuCore.WebApi.Client
         public string ErrorMessage { get; set; }
 
         public string WebApiStackTrace { get; set; }
+
+        public ErrorModel ErrorModel { get; set; }
 
         public List<string> Logs { get; set; }
     }
