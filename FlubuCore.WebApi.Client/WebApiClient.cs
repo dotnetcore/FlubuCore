@@ -148,8 +148,7 @@ namespace FlubuCore.WebApi.Client
             }
             catch (WebApiException ex)
             {
-                if ((statusCodesToHandle == null || statusCodesToHandle.Contains(ex.StatusCode))
-                    && ex.StatusCode != HttpStatusCode.Unauthorized)
+                if (statusCodesToHandle == null || statusCodesToHandle.Contains(ex.StatusCode))
                 {
                     var response = new Response<T> { Error = ex.ErrorModel };
                     HandleErrors(response);
@@ -212,7 +211,7 @@ namespace FlubuCore.WebApi.Client
             catch (WebApiException ex)
             {
                 var statusCodes = statusCodesToHandle.ToList();
-                if (statusCodes.Contains(ex.StatusCode) && ex.StatusCode != HttpStatusCode.Unauthorized)
+                if (statusCodes.Contains(ex.StatusCode))
                 {
                     return ex.ErrorModel;
                 }
