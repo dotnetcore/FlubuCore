@@ -73,9 +73,21 @@ namespace FlubuCore.Tasks.FlubuWebApi
                 UploadToSubDirectory = _uploadToSubDirectory,
             }));
 
-            if (response != null)
+            if (response.Error != null)
             {
-                throw new TaskExecutionException($"Upload packages failed: ErrorCode: {response.ErrorCode} ErrorMessage: {response.ErrorMessage}", 99);
+                throw new TaskExecutionException($"Upload packages failed: ErrorCode: {response.Error.ErrorCode} ErrorMessage: {response.Error.ErrorMessage}", 99);
+            }
+
+            if (response.Data == null || response.Data.Count == 0)
+            {
+                context.LogInfo("No packages uploaded.");
+            }
+            else
+            {
+                foreach (var package in response.Data)
+                {
+                    context.LogInfo($"Uploaded: {package}");
+                }
             }
 
             return 0;
