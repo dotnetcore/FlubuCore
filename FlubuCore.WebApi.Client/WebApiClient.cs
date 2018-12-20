@@ -52,7 +52,7 @@ namespace FlubuCore.WebApi.Client
             }
         }
 
-        public async Task UploadPackageAsync(UploadPackageRequest request)
+        public async Task<List<string>> UploadPackageAsync(UploadPackageRequest request)
         {
             FileInfo[] filesInDir;
             DirectoryInfo directoryInWhichToSearch = new DirectoryInfo(request.DirectoryPath);
@@ -67,9 +67,10 @@ namespace FlubuCore.WebApi.Client
 
             if (filesInDir.Length == 0)
             {
-                return;
+                return new List<string>();
             }
 
+           List<string> uploadedFiles = new List<string>();
             using (var content = new MultipartFormDataContent())
             {
                 ////todo investigate why one content has to be added.
@@ -77,6 +78,7 @@ namespace FlubuCore.WebApi.Client
                 content.Add(new StringContent(json), "request");
                 foreach (var file in filesInDir)
                 {
+                    uploadedFiles.Add(file.FullName);
                     var stream = new FileStream(file.FullName, FileMode.Open);
                     string fileName = Path.GetFileName(file.FullName);
                     content.Add(new StreamContent(stream), fileName, fileName);
@@ -88,6 +90,8 @@ namespace FlubuCore.WebApi.Client
                 var response = await Client.PostAsync(new Uri(string.Format("{0}api/packages", WebApiBaseUrl)), content);
 
                 await GetResponse<Void>(response);
+
+                return uploadedFiles;
             }
         }
 

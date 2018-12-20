@@ -29,8 +29,8 @@ namespace FlubuCore.WebApi.Client
         /// Upload's sprecified packages to flubu web api server.
         /// </summary>
         /// <param name="request"></param>
-        /// <returns></returns>
-        Task UploadPackageAsync(UploadPackageRequest request);
+        /// <returns>List of uploaded packages(files).</returns>
+        Task<List<string>> UploadPackageAsync(UploadPackageRequest request);
 
         /// <summary>
         /// Cleanes packages directory on flubu web api server.
