@@ -37,7 +37,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task Upload1PackageWithSearch_Succesfull()
         {
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
 
             await Client.UploadPackageAsync(new UploadPackageRequest
@@ -53,7 +53,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task Upload2Packages_Succesfull()
         {
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
 
             await Client.UploadPackageAsync(new UploadPackageRequest { DirectoryPath = "TestData" });
@@ -65,7 +65,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task Upload1PackageToSubDirectory_Succesfull()
         {
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
 
             await Client.UploadPackageAsync(new UploadPackageRequest
@@ -84,7 +84,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task Upload1PackageToSubDirectory_DirectoryOutsideOfPackagesFolder_ThrowsForbiden()
         {
-            var token = await Client.GetToken(new GetTokenRequest
+            var token = await Client.GetTokenAsync(new GetTokenRequest
             {
                 Username = "User", Password = "password"
             });
@@ -105,7 +105,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task DeletePackages_Succesfull()
         {
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
             if (Directory.Exists("Packages"))
             {
@@ -125,7 +125,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task DeletePackages_SubFolder_Succesfull()
         {
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
             if (Directory.Exists("Packages"))
             {
@@ -154,7 +154,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task DeletePackagesFromSubDir_DirectoryOutsideOfPackagesFolder_ThrowsForbiden()
         {
-            var token = await Client.GetToken(new GetTokenRequest
+            var token = await Client.GetTokenAsync(new GetTokenRequest
             {
                 Username = "User", Password = "password"
             });

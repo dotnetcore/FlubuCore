@@ -32,7 +32,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task GetTokenTest()
         {
-            var result = await Client.GetToken(new GetTokenRequest
+            var result = await Client.GetTokenAsync(new GetTokenRequest
             {
                 Username = "User",
                 Password = "password"
@@ -44,7 +44,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task GetTokenWrongPassowrdTest()
         {
-            var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.GetToken(
+            var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.GetTokenAsync(
                 new GetTokenRequest
                 {
                     Username = "User",
@@ -61,7 +61,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             {
                 try
                 {
-                    await Client.GetToken(new GetTokenRequest
+                    await Client.GetTokenAsync(new GetTokenRequest
                     {
                         Username = "User",
                         Password = "Password"
@@ -72,7 +72,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
                 }
             }
 
-            var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.GetToken(
+            var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.GetTokenAsync(
                 new GetTokenRequest
                 {
                     Username = "User",
@@ -85,7 +85,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task GetTokenWrongUsernameTest()
         {
-            var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.GetToken(
+            var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.GetTokenAsync(
                 new GetTokenRequest
                 {
                     Username = "User2",

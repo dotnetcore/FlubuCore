@@ -34,7 +34,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             {
             }
 
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
             var report = await Client.DownloadReportsAsync(new DownloadReportsRequest
             {
@@ -55,7 +55,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             {
             }
 
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
             var report = await Client.DownloadReportsAsync(new DownloadReportsRequest
             {
@@ -68,7 +68,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task DownloadReports_SubfolderOutsideOfReportsDir_ThrowsForbiden()
         {
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
             var ex = await Assert.ThrowsAsync<WebApiException>(async () => await Client.DownloadReportsAsync(new DownloadReportsRequest
             {
@@ -81,7 +81,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task DeleteReports_Succesfull()
         {
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
             if (Directory.Exists("Reports"))
             {
@@ -101,7 +101,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task DeleteReports_SubFolder_Succesfull()
         {
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
             if (Directory.Exists("Reports"))
             {
@@ -130,7 +130,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task DeletedReports_SubfolderOutsideOfReportsDir_ThrowsForbiden()
         {
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
             var ex = await Assert.ThrowsAsync<WebApiException>(async () => await Client.CleanReportsDirectoryAsync(new CleanReportsDirectoryRequest()
             {
@@ -143,7 +143,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async Task DownloadReports_FromRootNoReports_Succesfull()
         {
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
             var ex = await Assert.ThrowsAsync<WebApiException>(async () => await Client.DownloadReportsAsync(new DownloadReportsRequest()));
 

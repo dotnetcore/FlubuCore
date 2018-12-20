@@ -35,7 +35,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async void ExecuteScript_ExecuteSimpleScript_Sucesfull()
         {
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
 
             await Client.UploadScriptAsync(new UploadScriptRequest
@@ -66,7 +66,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async void ExecuteScript_OnErrorTest_Sucesfull()
         {
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
 
             await Client.UploadScriptAsync(new UploadScriptRequest
@@ -98,7 +98,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async void ExecuteScript_OnFinallyTest_Sucesfull()
         {
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
 
             await Client.UploadScriptAsync(new UploadScriptRequest
@@ -123,7 +123,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async void ExecuteScript_MainCommandEmpty_ThrowsBadRequest()
         {
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
             var exception = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(
                 new ExecuteScriptRequest
@@ -138,7 +138,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async void ExecuteScript_ScriptNotFound_ThrowsBadRequest()
         {
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
             var req = new ExecuteScriptRequest
             {
@@ -156,7 +156,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async void ExecuteScript_TargetNotFound_ThrowsBadRequest()
         {
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
             await Client.UploadScriptAsync(new UploadScriptRequest
             {
@@ -177,7 +177,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async void ExecuteScript_TargetThrowsException_ThrowsInternalServer()
         {
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
 
             await Client.UploadScriptAsync(new UploadScriptRequest
@@ -203,7 +203,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async void ExecuteScript_WhenTest_Sucesfull()
         {
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
 
             await Client.UploadScriptAsync(new UploadScriptRequest
@@ -241,7 +241,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async void UploadScript_Succesfull()
         {
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
 
             await Client.UploadScriptAsync(new UploadScriptRequest
@@ -255,7 +255,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         [Fact]
         public async void UploadScript_NotAllowedExtension_ThrowsForbiden()
         {
-            var token = await Client.GetToken(new GetTokenRequest { Username = "User", Password = "password" });
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
             Client.Token = token.Token;
             File.Delete("Users.Json");
             File.WriteAllText("Users.json", "test");

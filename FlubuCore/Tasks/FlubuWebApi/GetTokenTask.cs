@@ -87,7 +87,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
                 client.Timeout = _timeout.Value;
             }
 
-            var response = await client.GetToken(new GetTokenRequest
+            var response = await client.GetTokenAsync(new GetTokenRequest
             {
                 Username = _username,
                 Password = _password
