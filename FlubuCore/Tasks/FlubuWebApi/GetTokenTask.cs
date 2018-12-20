@@ -87,14 +87,19 @@ namespace FlubuCore.Tasks.FlubuWebApi
                 client.Timeout = _timeout.Value;
             }
 
-            var response = await client.GetTokenAsync(new GetTokenRequest
+            var response = await client.ExecuteAsync(c => c.GetTokenAsync(new GetTokenRequest
             {
                 Username = _username,
                 Password = _password
-            });
+            }));
 
-            client.Token = response.Token;
-            return response.Token;
+            if (response.Error != null)
+            {
+               throw new TaskExecutionException($"Get token failed: ErrorCode: {response.Error.ErrorCode} ErrorMessage: {response.Error.ErrorMessage}", 99);
+            }
+
+            client.Token = response.Data.Token;
+            return response.Data.Token;
         }
     }
 }

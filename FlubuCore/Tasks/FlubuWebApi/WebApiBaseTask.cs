@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FlubuCore.Context;
 using FlubuCore.WebApi.Client;
+using FlubuCore.WebApi.Model;
 
 namespace FlubuCore.Tasks.FlubuWebApi
 {

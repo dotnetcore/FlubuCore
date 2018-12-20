@@ -44,10 +44,15 @@ namespace FlubuCore.Tasks.FlubuWebApi
         protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
         {
             var client = WebApiClientFactory.Create(context.Properties.Get<string>(BuildProps.LastWebApiBaseUrl));
-            await client.UploadScriptAsync(new UploadScriptRequest
+            var response = await client.ExecuteAsync(c => c.UploadScriptAsync(new UploadScriptRequest
             {
                 FilePath = _scriptFilePath
-            });
+            }));
+
+            if (response != null)
+            {
+                throw new TaskExecutionException($"Upload script failed: ErrorCode: {response.ErrorCode} ErrorMessage: {response.ErrorMessage}", 99);
+            }
 
             return 0;
         }

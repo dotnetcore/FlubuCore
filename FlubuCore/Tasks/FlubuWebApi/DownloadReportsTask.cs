@@ -98,7 +98,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
                     return 0;
                 }
 
-                throw;
+                throw new TaskExecutionException($"Download reports failed: ErrorCode: {e.ErrorCode} ErrorMessage: {e.ErrorMessage}", 99);
             }
 
             return 0;

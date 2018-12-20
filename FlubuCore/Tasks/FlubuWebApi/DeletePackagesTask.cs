@@ -52,7 +52,13 @@ namespace FlubuCore.Tasks.FlubuWebApi
             };
 
             var client = WebApiClientFactory.Create(context.Properties.Get<string>(BuildProps.LastWebApiBaseUrl));
-            await client.DeletePackagesAsync(request);
+            var response = await client.ExecuteAsync(c => c.DeletePackagesAsync(request));
+
+            if (response != null)
+            {
+                throw new TaskExecutionException($"Delete packages failed: ErrorCode: {response.ErrorCode} ErrorMessage: {response.ErrorMessage}", 99);
+            }
+
             return 0;
         }
     }

@@ -52,7 +52,13 @@ namespace FlubuCore.Tasks.FlubuWebApi
             };
 
             var client = WebApiClientFactory.Create(context.Properties.Get<string>(BuildProps.LastWebApiBaseUrl));
-            await client.CleanReportsDirectoryAsync(request);
+            var response = await client.ExecuteAsync(c => c.CleanReportsDirectoryAsync(request));
+
+            if (response != null)
+            {
+                throw new TaskExecutionException($"Upload script failed: ErrorCode: {response.ErrorCode} ErrorMessage: {response.ErrorMessage}", 99);
+            }
+
             return 0;
         }
     }
