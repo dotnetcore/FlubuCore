@@ -228,7 +228,7 @@ namespace FlubuCore.WebApi.Client
 
         private void AddMethods(IEnumerable<MethodInfo> methodsList)
         {
-            string[] exclude = new[] { "ToString", "Equals", "GetHashCode", "GetType", "Finalize", "MemberwiseClone", nameof(RestClient.SendAsync) };
+            string[] exclude = new[] { "ToString", "Equals", "GetHashCode", "GetType", "Finalize", "MemberwiseClone", nameof(RestClient.SendAsync), nameof(IWebApiClient.ExecuteAsync) };
 
             foreach (var method in methodsList.Where(x => !exclude.Contains(x.Name)))
             {
