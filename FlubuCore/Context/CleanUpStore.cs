@@ -6,23 +6,43 @@ namespace FlubuCore.Context
 {
     public static class CleanUpStore
     {
+        private static readonly List<Action<ITaskContext>> _taskCleanUpActions = new List<Action<ITaskContext>>();
+
         private static object _lockObj = new object();
 
-        public static List<Action<ITaskContext>> TaskCleanUpActions { get; private set; } = new List<Action<ITaskContext>>();
+        public static bool StoreAccessed { get; private set; }
 
-        public static void AddCleanUpAction(Action<ITaskContext> action)
+        public static List<Action<ITaskContext>> TaskCleanUpActions
         {
-            lock (_lockObj)
+            get
             {
-                TaskCleanUpActions.Add(action);
+                lock (_lockObj)
+                {
+                    StoreAccessed = true;
+                    return _taskCleanUpActions;
+                }
             }
         }
 
-        public static void RemoveCleanUpAction(Action<ITaskContext> action)
+        public static void AddCleanupAction(Action<ITaskContext> action)
         {
-            lock (_lockObj)
+            if (!StoreAccessed)
             {
-                TaskCleanUpActions.Remove(action);
+                lock (_lockObj)
+                {
+                    _taskCleanUpActions.Add(action);
+                }
+            }
+        }
+
+        public static void RemoveCleanupAction(Action<ITaskContext> action)
+        {
+            if (!StoreAccessed)
+            {
+                lock (_lockObj)
+                {
+                    _taskCleanUpActions.Remove(action);
+                }
             }
         }
     }

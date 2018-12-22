@@ -19,7 +19,7 @@ namespace FlubuCore.Targeting
 
         public Action<ITaskContext> FinallyAction { get; set; }
 
-        public bool CleanUpOnCancel { get; set; }
+        public bool CleanupOnCancel { get; set; }
 
         public Action<ITaskContext, Exception> OnErrorAction { get; set; }
     }

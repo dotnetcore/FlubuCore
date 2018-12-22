@@ -362,6 +362,6 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="onError">action that will be taken on any task actions</param>
         /// <param name="when">Tasks will be added only if specified condition is meet.</param>
         /// <returns></returns>
-        ITarget Group(Action<ITargetBaseFluentInterfaceOfT<ITarget>> targetAction, Action<ITaskContext> onFinally = null, Action<ITaskContext, Exception> onError = null, Func<ITaskContext, bool> when = null, bool cleanUpOnCancel = false);
+        ITarget Group(Action<ITargetBaseFluentInterfaceOfT<ITarget>> targetAction, Action<ITaskContext> onFinally = null, Action<ITaskContext, Exception> onError = null, Func<ITaskContext, bool> when = null, bool cleanupOnCancel = false);
     }
 }

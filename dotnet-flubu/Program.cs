@@ -17,6 +17,10 @@ namespace DotNet.Cli.Flubu
 
         private static IServiceProvider _provider;
 
+        private static bool _cleanUpPerformed = false;
+
+        private static volatile bool _wait = false;
+
         public static int Main(string[] args)
         {
             if (args == null)
@@ -38,27 +42,32 @@ namespace DotNet.Cli.Flubu
             ICommandExecutor executor = _provider.GetRequiredService<ICommandExecutor>();
             executor.FlubuHelpText = cmdApp.GetHelpText();
 
-            ConsoleCancelEventHandler();
+            Console.CancelKeyPress += OnCancelKeyPress;
             var result = executor.ExecuteAsync().Result;
+
+            while (_wait)
+            {
+                Thread.Sleep(250);
+            }
+
             return result;
         }
 
-        private static void ConsoleCancelEventHandler()
+        private static void OnCancelKeyPress(object sender, ConsoleCancelEventArgs eventArgs)
         {
-            Console.CancelKeyPress += (sender, eventArgs) =>
+            if (!_cleanUpPerformed && CleanUpStore.TaskCleanUpActions?.Count > 0)
             {
-                if (CleanUpStore.TaskCleanUpActions?.Count > 0)
+                _wait = true;
+                Console.WriteLine($"Performing clean up actions:");
+                var taskSession = _provider.GetService<ITaskSession>();
+                foreach (var cleanUpAction in CleanUpStore.TaskCleanUpActions)
                 {
-                    Console.WriteLine($"Performing clean up actions:");
-                    var taskSession = _provider.GetService<ITaskSession>();
-                    foreach (var cleanUpAction in CleanUpStore.TaskCleanUpActions)
-                    {
-                        cleanUpAction.Invoke(taskSession);
-                    }
-
+                    cleanUpAction.Invoke(taskSession);
                     Console.WriteLine($"Finished performing clean up actions.");
                 }
-            };
+
+                _wait = false;
+            }
         }
     }
 }

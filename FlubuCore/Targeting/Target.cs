@@ -381,9 +381,9 @@ namespace FlubuCore.Targeting
             for (int i = 0; i < taskGroupsCount; i++)
             {
                 int tasksCount = _taskGroups[i].Tasks.Count;
-                if (_taskGroups[i].CleanUpOnCancel)
+                if (_taskGroups[i].CleanupOnCancel)
                 {
-                    CleanUpStore.AddCleanUpAction(_taskGroups[i].FinallyAction);
+                    CleanUpStore.AddCleanupAction(_taskGroups[i].FinallyAction);
                 }
 
                 try
@@ -429,10 +429,14 @@ namespace FlubuCore.Targeting
                 }
                 finally
                 {
-                    _taskGroups[i].FinallyAction?.Invoke(context);
-                    if (_taskGroups[i].CleanUpOnCancel)
+                    if (!CleanUpStore.StoreAccessed)
                     {
-                        CleanUpStore.RemoveCleanUpAction(_taskGroups[i].FinallyAction);
+                        if (_taskGroups[i].CleanupOnCancel)
+                        {
+                            CleanUpStore.RemoveCleanupAction(_taskGroups[i].FinallyAction);
+                        }
+
+                        _taskGroups[i].FinallyAction?.Invoke(context);
                     }
                 }
             }

@@ -220,7 +220,7 @@ namespace FlubuCore.Tasks
             TaskExecuted = true;
             if (_cleanUpOnCancel)
             {
-                CleanUpStore.AddCleanUpAction(_finallyAction);
+                CleanUpStore.AddCleanupAction(_finallyAction);
             }
 
             ITaskContextInternal contextInternal = (ITaskContextInternal)context;
@@ -310,17 +310,21 @@ namespace FlubuCore.Tasks
             }
             finally
             {
-                _finallyAction?.Invoke(context);
-                if (_cleanUpOnCancel)
+                if (!CleanUpStore.StoreAccessed)
                 {
-                    CleanUpStore.RemoveCleanUpAction(_finallyAction);
-                }
+                    if (_cleanUpOnCancel)
+                    {
+                        CleanUpStore.RemoveCleanupAction(_finallyAction);
+                    }
 
-                TaskStopwatch.Stop();
+                    _finallyAction?.Invoke(context);
 
-                if (LogDuration)
-                {
-                    DoLogInfo($"{TaskName} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
+                    TaskStopwatch.Stop();
+
+                    if (LogDuration)
+                    {
+                        DoLogInfo($"{TaskName} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
+                    }
                 }
             }
         }
@@ -337,7 +341,7 @@ namespace FlubuCore.Tasks
 
             if (_cleanUpOnCancel)
             {
-                CleanUpStore.AddCleanUpAction(_finallyAction);
+                CleanUpStore.AddCleanupAction(_finallyAction);
             }
 
             try
@@ -424,7 +428,7 @@ namespace FlubuCore.Tasks
                 _finallyAction?.Invoke(context);
                 if (_cleanUpOnCancel)
                 {
-                    CleanUpStore.RemoveCleanUpAction(_finallyAction);
+                    CleanUpStore.RemoveCleanupAction(_finallyAction);
                 }
 
                 TaskStopwatch.Stop();
