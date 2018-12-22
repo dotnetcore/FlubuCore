@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Threading;
 using DotNet.Cli.Flubu.Commanding;
 using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Commanding;
+using FlubuCore.Context;
 using FlubuCore.Infrastructure;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,8 +37,28 @@ namespace DotNet.Cli.Flubu
             var cmdApp = _provider.GetRequiredService<CommandLineApplication>();
             ICommandExecutor executor = _provider.GetRequiredService<ICommandExecutor>();
             executor.FlubuHelpText = cmdApp.GetHelpText();
+
+            ConsoleCancelEventHandler();
             var result = executor.ExecuteAsync().Result;
             return result;
+        }
+
+        private static void ConsoleCancelEventHandler()
+        {
+            Console.CancelKeyPress += (sender, eventArgs) =>
+            {
+                if (CleanUpStore.TaskCleanUpActions?.Count > 0)
+                {
+                    Console.WriteLine($"Performing clean up actions:");
+                    var taskSession = _provider.GetService<ITaskSession>();
+                    foreach (var cleanUpAction in CleanUpStore.TaskCleanUpActions)
+                    {
+                        cleanUpAction.Invoke(taskSession);
+                    }
+
+                    Console.WriteLine($"Finished performing clean up actions.");
+                }
+            };
         }
     }
 }
