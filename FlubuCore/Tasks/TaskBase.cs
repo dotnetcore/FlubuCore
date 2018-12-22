@@ -425,10 +425,14 @@ namespace FlubuCore.Tasks
             }
             finally
             {
-                _finallyAction?.Invoke(context);
-                if (_cleanUpOnCancel)
+                if (!CleanUpStore.StoreAccessed)
                 {
-                    CleanUpStore.RemoveCleanupAction(_finallyAction);
+                    if (_cleanUpOnCancel)
+                    {
+                        CleanUpStore.RemoveCleanupAction(_finallyAction);
+                    }
+
+                    _finallyAction?.Invoke(context);
                 }
 
                 TaskStopwatch.Stop();
