@@ -141,7 +141,7 @@ namespace FlubuCore.Context.FluentInterface
             throw new NotImplementedException("Do method for adding set of tasks was renamed to AddTasks.");
         }
 
-        public ITarget Group(Action<ITargetBaseFluentInterfaceOfT<ITarget>> targetAction, Action<ITaskContext> onFinally = null, Action<ITaskContext, Exception> onError = null, Func<ITaskContext, bool> when = null)
+        public ITarget Group(Action<ITargetBaseFluentInterfaceOfT<ITarget>> targetAction, Action<ITaskContext> onFinally = null, Action<ITaskContext, Exception> onError = null, Func<ITaskContext, bool> when = null, bool cleanUpOnCancel = false)
         {
             LastTargetAction = TargetAction.Other;
             ActionCount = 0;
@@ -150,6 +150,7 @@ namespace FlubuCore.Context.FluentInterface
                 GroupId = Guid.NewGuid().ToString(),
                 OnErrorAction = onError,
                 FinallyAction = onFinally,
+                CleanUpOnCancel = cleanUpOnCancel
             };
 
             var conditionMeet = when?.Invoke(Context);

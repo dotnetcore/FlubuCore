@@ -381,6 +381,11 @@ namespace FlubuCore.Targeting
             for (int i = 0; i < taskGroupsCount; i++)
             {
                 int tasksCount = _taskGroups[i].Tasks.Count;
+                if (_taskGroups[i].CleanUpOnCancel)
+                {
+                    CleanUpStore.AddCleanUpAction(_taskGroups[i].FinallyAction);
+                }
+
                 try
                 {
                     for (int j = 0; j < tasksCount; j++)
@@ -425,6 +430,10 @@ namespace FlubuCore.Targeting
                 finally
                 {
                     _taskGroups[i].FinallyAction?.Invoke(context);
+                    if (_taskGroups[i].CleanUpOnCancel)
+                    {
+                        CleanUpStore.RemoveCleanUpAction(_taskGroups[i].FinallyAction);
+                    }
                 }
             }
 
