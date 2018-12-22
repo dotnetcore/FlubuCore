@@ -47,7 +47,7 @@ namespace FlubuCore.Tasks
         /// </summary>
         /// <param name="finallyAction"></param>
         /// <returns></returns>
-        TTask Finally(Action<ITaskContext> finallyAction);
+        TTask Finally(Action<ITaskContext> finallyAction, bool cleanupOnCancel = false);
 
         /// <summary>
         /// Action to be taken if task fails.

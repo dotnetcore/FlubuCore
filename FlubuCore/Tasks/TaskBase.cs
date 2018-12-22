@@ -25,6 +25,8 @@ namespace FlubuCore.Tasks
 
         private string _taskName;
 
+        private bool _cleanUpOnCancel = false;
+
         private Action<ITaskContext> _finallyAction;
 
         private Action<ITaskContext, Exception> _onErrorAction;
@@ -107,9 +109,10 @@ namespace FlubuCore.Tasks
         }
 
         [DisableForMember]
-        public TTask Finally(Action<ITaskContext> finallyAction)
+        public TTask Finally(Action<ITaskContext> finallyAction, bool cleanupOnCancel = false)
         {
             _finallyAction = finallyAction;
+            _cleanUpOnCancel = cleanupOnCancel;
             return this as TTask;
         }
 
@@ -215,6 +218,11 @@ namespace FlubuCore.Tasks
         public TResult Execute(ITaskContext context)
         {
             TaskExecuted = true;
+            if (_cleanUpOnCancel)
+            {
+                CleanUpStore.AddCleanUpAction(_finallyAction);
+            }
+
             ITaskContextInternal contextInternal = (ITaskContextInternal)context;
 
             Context = context ?? throw new ArgumentNullException(nameof(context));
@@ -303,6 +311,11 @@ namespace FlubuCore.Tasks
             finally
             {
                 _finallyAction?.Invoke(context);
+                if (_cleanUpOnCancel)
+                {
+                    CleanUpStore.RemoveCleanUpAction(_finallyAction);
+                }
+
                 TaskStopwatch.Stop();
 
                 if (LogDuration)
@@ -321,6 +334,11 @@ namespace FlubuCore.Tasks
             Context = context ?? throw new ArgumentNullException(nameof(context));
 
             TaskStopwatch.Start();
+
+            if (_cleanUpOnCancel)
+            {
+                CleanUpStore.AddCleanUpAction(_finallyAction);
+            }
 
             try
             {
@@ -404,6 +422,11 @@ namespace FlubuCore.Tasks
             finally
             {
                 _finallyAction?.Invoke(context);
+                if (_cleanUpOnCancel)
+                {
+                    CleanUpStore.RemoveCleanUpAction(_finallyAction);
+                }
+
                 TaskStopwatch.Stop();
 
                 if (LogDuration)

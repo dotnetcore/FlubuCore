@@ -140,7 +140,10 @@ namespace FlubuCore.Scripting
                     taskSession.TargetTree.ScriptArgsHelp = ScriptProperties.GetPropertiesHelp(this);
                 }
 
-                foreach (var targetToRun in targetsInfo.targetsToRun) taskSession.TargetTree.RunTarget(taskSession, targetToRun);
+                foreach (var targetToRun in targetsInfo.targetsToRun)
+                {
+                    taskSession.TargetTree.RunTarget(taskSession, targetToRun);
+                }
             }
             else
             {
