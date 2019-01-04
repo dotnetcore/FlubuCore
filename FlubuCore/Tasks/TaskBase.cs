@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks
     public abstract class TaskBase<TResult, TTask> : TaskHelp, ITaskOfT<TResult, TTask>
         where TTask : class, ITask
     {
-        private readonly List<(Expression<Func<TTask, object>> Member, string ArgKey, bool includeParameterlessMethodByDefault)> _forMembers = new List<(Expression<Func<TTask, object>> Member, string ArgKey, bool includeParameterlessMethodByDefault)>();
+        private readonly List<(Expression<Func<TTask, object>> Member, string ArgKey, string consoleText, bool includeParameterlessMethodByDefault, bool interactive)> _forMembers = new List<(Expression<Func<TTask, object>> Member, string ArgKey, string consoleText, bool includeParameterlessMethodByDefault, bool interactive)>();
 
         private int _retriedTimes;
 
@@ -134,28 +134,47 @@ namespace FlubuCore.Tasks
         public TTask ForMember(Expression<Func<TTask, object>> taskMember, string argKey, string help = null, bool includeParameterlessMethodByDefault = true)
         {
             string key = argKey.TrimStart('-');
-            _forMembers.Add((taskMember, key, includeParameterlessMethodByDefault));
+            _forMembers.Add((taskMember, key, null, includeParameterlessMethodByDefault, false));
             if (!string.IsNullOrEmpty(help))
             {
                 ArgumentHelp.Add((argKey, help));
             }
             else
             {
-                if (taskMember.Body is MethodCallExpression methodExpression)
-                {
-                    string defaultValue = methodExpression.Arguments.Count == 1
-                        ? $"Default value: '{methodExpression.Arguments[0]}'."
-                        : null;
-                    ArgumentHelp.Add((argKey, $"Pass argument with key '{argKey}' to method '{methodExpression.Method.Name}'. {defaultValue}"));
-                }
-
-                var propertyExpression = GetMemberExpression(taskMember);
-                if (propertyExpression != null)
-                {
-                    ArgumentHelp.Add((argKey, $"Pass argument with key '{argKey}' to property '{propertyExpression.Member.Name}'."));
-                }
+                GetDefaultArgumentHelp(taskMember, argKey);
             }
 
+            return this as TTask;
+        }
+
+        [DisableForMember]
+        public TTask Interactive(Expression<Func<TTask, object>> taskMember, string argKey = null, string consoleText = null, string argHelp = null)
+        {
+            string key = null;
+            if (argKey != null)
+            {
+                key = argKey.TrimStart('-');
+            }
+            else
+            {
+                key = GetDefaultArgKeyFromMethodName(taskMember, key);
+            }
+
+            if (!string.IsNullOrEmpty(argHelp))
+            {
+                ArgumentHelp.Add((key, argHelp));
+            }
+            else
+            {
+                GetDefaultArgumentHelp(taskMember, argKey);
+            }
+
+            if (consoleText == null)
+            {
+                consoleText = $"Enter value for parameter '{key}': ";
+            }
+
+            _forMembers.Add((taskMember, key, consoleText, false, true));
             return this as TTask;
         }
 
@@ -235,7 +254,7 @@ namespace FlubuCore.Tasks
                     return default(TResult);
                 }
 
-                InvokeForMembers();
+                InvokeForMembers(_forMembers);
                 return DoExecute(contextInternal);
             }
             catch (Exception ex)
@@ -351,7 +370,8 @@ namespace FlubuCore.Tasks
                     return default(TResult);
                 }
 
-                InvokeForMembers();
+                InvokeForMembers(_forMembers);
+
                 return await DoExecuteAsync(contextInternal);
             }
             catch (Exception ex)
@@ -516,33 +536,33 @@ namespace FlubuCore.Tasks
             return solution;
         }
 
-        private void InvokeForMembers()
+        private void InvokeForMembers(List<(Expression<Func<TTask, object>> Member, string ArgKey, string consoleText, bool includeParameterlessMethodByDefault, bool interactive)> members)
         {
-            if (_forMembers.Count == 0)
+            if (members.Count == 0)
             {
                 return;
             }
 
-            foreach (var forMember in _forMembers)
+            foreach (var member in members)
             {
-                var memberExpression = GetMemberExpression(forMember.Member);
+                var memberExpression = GetMemberExpression(member.Member);
                 if (memberExpression != null)
                 {
-                    PassArgumentValueToProperty(forMember, memberExpression);
+                    PassArgumentValueToProperty(member, memberExpression);
                     continue;
                 }
 
-                var methodCallExpression = forMember.Member.Body as MethodCallExpression;
+                var methodCallExpression = member.Member.Body as MethodCallExpression;
                 if (methodCallExpression == null)
                 {
                     continue;
                 }
 
-                PassArgumentValueToMethodParameter(forMember, methodCallExpression);
+                PassArgumentValueToMethodParameter(member, methodCallExpression);
             }
         }
 
-        private void PassArgumentValueToMethodParameter((Expression<Func<TTask, object>> Member, string ArgKey, bool includeParameterlessMethodByDefault) forMember, MethodCallExpression methodCallExpression)
+        private void PassArgumentValueToMethodParameter((Expression<Func<TTask, object>> Member, string ArgKey, string consoleText, bool includeParameterlessMethodByDefault, bool interactive) forMember, MethodCallExpression methodCallExpression)
         {
             var attribute = methodCallExpression.Method.GetCustomAttribute<DisableForMemberAttribute>();
 
@@ -551,7 +571,7 @@ namespace FlubuCore.Tasks
                 throw new TaskExecutionException($"ForMember is not allowed on method '{methodCallExpression.Method.Name}'.", 20);
             }
 
-            if (!Context.ScriptArgs.ContainsKey(forMember.ArgKey))
+            if (!Context.ScriptArgs.ContainsKey(forMember.ArgKey) && !forMember.interactive)
             {
                 if (methodCallExpression.Arguments.Count == 0 && !forMember.includeParameterlessMethodByDefault)
                 {
@@ -563,6 +583,11 @@ namespace FlubuCore.Tasks
             }
 
             string argumentValue = Context.ScriptArgs[forMember.ArgKey];
+            if (string.IsNullOrEmpty(argumentValue) && forMember.interactive)
+            {
+                Console.Write(forMember.consoleText);
+                argumentValue = Console.ReadLine();
+            }
 
             try
             {
@@ -613,7 +638,7 @@ namespace FlubuCore.Tasks
             }
         }
 
-        private void PassArgumentValueToProperty((Expression<Func<TTask, object>> TaskMethod, string ArgKey, bool includeParameterlessMethodByDefault) forMember, MemberExpression memberExpression)
+        private void PassArgumentValueToProperty((Expression<Func<TTask, object>> Member, string ArgKey, string consoleText, bool includeParameterlessMethodByDefault, bool Interactive) forMember, MemberExpression memberExpression)
         {
             var attribute = memberExpression.Member.GetCustomAttribute<DisableForMemberAttribute>();
 
@@ -622,12 +647,19 @@ namespace FlubuCore.Tasks
                 throw new TaskExecutionException($"ForMember is not allowed on property '{memberExpression.Member.Name}'.", 20);
             }
 
-            if (!Context.ScriptArgs.ContainsKey(forMember.ArgKey))
+            if (!Context.ScriptArgs.ContainsKey(forMember.ArgKey) && !forMember.Interactive)
             {
                 return;
             }
 
             string value = Context.ScriptArgs[forMember.ArgKey];
+
+            if (string.IsNullOrEmpty(value) && forMember.Interactive)
+            {
+                Console.Write(forMember.consoleText);
+                value = Console.ReadLine();
+            }
+
             var propertyInfo = (PropertyInfo)memberExpression.Member;
             try
             {
@@ -648,6 +680,41 @@ namespace FlubuCore.Tasks
             var member = exp.Body as MemberExpression;
             var unary = exp.Body as UnaryExpression;
             return member ?? (unary != null ? unary.Operand as MemberExpression : null);
+        }
+
+        private void GetDefaultArgumentHelp(Expression<Func<TTask, object>> taskMember, string argKey)
+        {
+            if (taskMember.Body is MethodCallExpression methodExpression)
+            {
+                string defaultValue = methodExpression.Arguments.Count == 1
+                    ? $"Default value: '{methodExpression.Arguments[0]}'."
+                    : null;
+                ArgumentHelp.Add((argKey,
+                    $"Pass argument with key '{argKey}' to method '{methodExpression.Method.Name}'. {defaultValue}"));
+            }
+
+            var propertyExpression = GetMemberExpression(taskMember);
+            if (propertyExpression != null)
+            {
+                ArgumentHelp.Add((argKey,
+                    $"Pass argument with key '{argKey}' to property '{propertyExpression.Member.Name}'."));
+            }
+        }
+
+        private string GetDefaultArgKeyFromMethodName(Expression<Func<TTask, object>> taskMember, string key)
+        {
+            if (taskMember.Body is MethodCallExpression methodExpression)
+            {
+                key = methodExpression.Method.Name;
+            }
+
+            var propertyExpression = GetMemberExpression(taskMember);
+            if (propertyExpression != null)
+            {
+                key = propertyExpression.Member.Name;
+            }
+
+            return key;
         }
     }
 
