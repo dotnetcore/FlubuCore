@@ -1,3 +1,10 @@
+2.14.0.0
+- Adds support for Interactive task members.
+- Option to add clean up task when hitting ctrl + c with Finalize method on tasks or Finalize method on Group of tasks.
+- Improves logging on web api client tasks.
+- (Possible breaking change)Removed obsolete methods from some tasks
+- Adds option to set destination package folder in CreateZipPackageFromProjcet tasks. Currently only default destination folder could be used.
+
 2.13.0.0
 - Added docker generated tasks
 - (Breaking changes) Old Docker task's that were previously manually implemented were overwriten with generated task.
