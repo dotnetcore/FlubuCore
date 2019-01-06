@@ -42,5 +42,10 @@ namespace FlubuCore.Scripting
         /// Performs dry run.
         /// </summary>
         public bool DryRun { get; set; }
+
+        /// <summary>
+        /// Disables Interactive mode for all task members where Interactive method is applied.
+        /// </summary>
+        public bool DisableInteractive { get; set; }
     }
 }

@@ -37,6 +37,8 @@ namespace DotNet.Cli.Flubu.Commanding
 
         private CommandOption _dryRun;
 
+        private CommandOption _noInteractive;
+
         public FlubuCommandParser(
             CommandLineApplication commandApp,
             IFlubuConfigurationProvider flubuConfigurationProvider)
@@ -65,6 +67,7 @@ namespace DotNet.Cli.Flubu.Commanding
             _assemblyDirectories = _commandApp.Option("-ass", "Directory to search assemblies to include automatically in script (Assemblies in subdirectories are also loaded). If not specified assemblies are loaded by default from FlubuLib directory.", CommandOptionType.MultipleValue);
             _noDependencies = _commandApp.Option("-nd||--nodeps", "If applied no target dependencies are executed.", CommandOptionType.NoValue);
             _dryRun = _commandApp.Option("--dryRun", "Performs a dry run.", CommandOptionType.NoValue);
+            _noInteractive = _commandApp.Option("--noint", "Disables interactive mode for all task members. Default values are used instead", CommandOptionType.NoValue);
             _commandApp.ExtendedHelpText = "  <Target> help                                 Shows detailed help for specified target.";
 
             _commandApp.OnExecute(() => PrepareDefaultArguments());
@@ -107,6 +110,11 @@ namespace DotNet.Cli.Flubu.Commanding
             if (_dryRun.HasValue())
             {
                 _parsed.DryRun = true;
+            }
+
+            if (_noInteractive.HasValue())
+            {
+                _parsed.DisableInteractive = true;
             }
 
             if (_isDebug.HasValue())
