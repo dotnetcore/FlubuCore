@@ -6,7 +6,7 @@ namespace FlubuCore.Tasks.Iis
 {
     public class CreateAppPoolTask : TaskBase<int, CreateAppPoolTask>, ICreateAppPoolTask
     {
-        private readonly string _applicationPoolName;
+        private string _applicationPoolName;
 
         private bool _classicManagedPipelineMode;
         private string _description;
@@ -29,6 +29,12 @@ namespace FlubuCore.Tasks.Iis
                 return _description;
             }
             set => _description = value;
+        }
+
+        public CreateAppPoolTask ApplicationPoolName(string applicationPoolName)
+        {
+            _applicationPoolName = applicationPoolName;
+            return this;
         }
 
         public ICreateAppPoolTask UseClassicManagedPipelineMode()

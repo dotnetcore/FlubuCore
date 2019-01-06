@@ -5,16 +5,16 @@ namespace FlubuCore.Tasks.FileSystem
 {
     public class DeleteFilesTask : TaskBase<int, DeleteFilesTask>
     {
-        private readonly string _directoryPath;
-        private readonly string _filePattern;
-        private readonly bool _recursive;
+        private string _directoryPath;
+        private string _filePattern;
+        private bool _recursive;
         private string _description;
 
         /// <summary>
         /// </summary>
         /// <param name="directoryPath"></param>
         /// <param name="filePattern">The search string to match against the names of files in path. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters but doesnt support regular expressions.</param>
-        /// <param name="recursive"></param>
+        /// <param name="recursive">If true it searches and deletes all matching files in subdirectories.</param>
         public DeleteFilesTask(string directoryPath, string filePattern, bool recursive)
         {
             _directoryPath = directoryPath;
@@ -45,6 +45,33 @@ namespace FlubuCore.Tasks.FileSystem
         {
             var task = new DeleteFilesTask(directoryPath, filePattern, recursive);
             task.ExecuteVoid(context);
+        }
+
+        public DeleteFilesTask DirectoryPath(string directoryPath)
+        {
+            _directoryPath = directoryPath;
+            return this;
+        }
+
+        /// <summary>
+        /// The search string to match against the names of files in path. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters but doesnt support regular expressions.
+        /// </summary>
+        /// <param name="filePattern"></param>
+        /// <returns></returns>
+        public DeleteFilesTask FilePattern(string filePattern)
+        {
+            _filePattern = filePattern;
+            return this;
+        }
+
+        /// <summary>
+        /// If true it searches and deletes all matching files in subdirectories.
+        /// </summary>
+        /// <returns></returns>
+        public DeleteFilesTask Recursive()
+        {
+            _recursive = true;
+            return this;
         }
 
         protected override int DoExecute(ITaskContextInternal context)

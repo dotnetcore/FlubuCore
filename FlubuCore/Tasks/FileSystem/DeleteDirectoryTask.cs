@@ -6,9 +6,9 @@ namespace FlubuCore.Tasks.FileSystem
 {
     public class DeleteDirectoryTask : TaskBase<int, DeleteDirectoryTask>
     {
-        private readonly string _directoryPath;
+        private string _directoryPath;
 
-        private readonly bool _failIfNotExists;
+        private bool _failIfNotExists;
         private string _description;
 
         public DeleteDirectoryTask(string directoryPath, bool failIfNotExists)
@@ -39,6 +39,18 @@ namespace FlubuCore.Tasks.FileSystem
         {
             var task = new DeleteDirectoryTask(directoryPath, failIfNotExists);
             task.ExecuteVoid(context);
+        }
+
+        public DeleteDirectoryTask DirectoryPath(string directoryPath)
+        {
+            _directoryPath = directoryPath;
+            return this;
+        }
+
+        public DeleteDirectoryTask FailIfNotExists()
+        {
+            _failIfNotExists = true;
+            return this;
         }
 
         protected override int DoExecute(ITaskContextInternal context)

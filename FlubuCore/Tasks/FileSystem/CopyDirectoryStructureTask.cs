@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using FlubuCore.Context;
+using NuGet.Protocol.Core.Types;
 
 namespace FlubuCore.Tasks.FileSystem
 {
@@ -10,9 +11,9 @@ namespace FlubuCore.Tasks.FileSystem
     /// </summary>
     public class CopyDirectoryStructureTask : TaskBase<int, CopyDirectoryStructureTask>
     {
-        private readonly string _destinationPath;
-        private readonly bool _overwriteExisting;
-        private readonly string _sourcePath;
+        private string _destinationPath;
+        private bool _overwriteExisting;
+        private string _sourcePath;
         private List<string> _copiedFilesList;
 
         /// <summary>
@@ -56,6 +57,34 @@ namespace FlubuCore.Tasks.FileSystem
         public string InclusionPattern { get; set; }
 
         protected override string Description { get; set; }
+
+        /// <summary>
+        /// The source path.
+        /// </summary>
+        /// <param name="sourcePath"></param>
+        /// <returns></returns>
+        public CopyDirectoryStructureTask SourcePath(string sourcePath)
+        {
+            _sourcePath = sourcePath;
+            return this;
+        }
+
+        /// <summary>
+        /// The destination path.
+        /// </summary>
+        /// <param name="destinationPath"></param>
+        /// <returns></returns>
+        public CopyDirectoryStructureTask DestinationPath(string destinationPath)
+        {
+            _destinationPath = destinationPath;
+            return this;
+        }
+
+        public CopyDirectoryStructureTask OverwriteExisting()
+        {
+            _overwriteExisting = true;
+            return this;
+        }
 
         /// <summary>
         ///     Sets the exclusion regular expression pattern for files.

@@ -9,9 +9,9 @@ namespace FlubuCore.Tasks.Iis
 {
     public class ControlAppPoolTask : TaskBase<int, IControlAppPoolTask>, IControlAppPoolTask
     {
-        private readonly string _applicationPoolName;
-
         private readonly ControlApplicationPoolAction _action;
+
+        private string _applicationPoolName;
 
         private bool _failIfNotExist;
         private string _description;
@@ -36,6 +36,12 @@ namespace FlubuCore.Tasks.Iis
             }
 
             set { _description = value; }
+        }
+
+        public IControlAppPoolTask ApplicationPoolName(string appPoolName)
+        {
+            _applicationPoolName = appPoolName;
+            return this;
         }
 
         public IControlAppPoolTask FailIfNotExist()

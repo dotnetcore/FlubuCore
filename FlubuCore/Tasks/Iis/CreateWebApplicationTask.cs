@@ -13,7 +13,7 @@ namespace FlubuCore.Tasks.Iis
     public class CreateWebApplicationTask : IisTaskBase<ICreateWebApplicationTask>, ICreateWebApplicationTask
     {
         private readonly IList<MimeType> _mimeTypes;
-        private readonly string _applicationName;
+        private string _applicationName;
         private string _localPath;
         private string _websiteName = "Default Web Site";
         private string _applicationPoolName = "DefaultAppPool";
@@ -57,6 +57,12 @@ namespace FlubuCore.Tasks.Iis
         public ICreateWebApplicationTask LocalPath(string localPath)
         {
             _localPath = Path.GetFullPath(localPath);
+            return this;
+        }
+
+        public ICreateWebApplicationTask ApplicationName(string applicationName)
+        {
+            _applicationName = applicationName;
             return this;
         }
 

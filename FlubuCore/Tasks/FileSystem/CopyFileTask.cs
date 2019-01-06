@@ -8,10 +8,10 @@ namespace FlubuCore.Tasks.FileSystem
     /// </summary>
     public class CopyFileTask : TaskBase<int, CopyFileTask>
     {
-        private readonly string _destinationFileName;
-        private readonly bool _overwrite;
+        private string _destinationFileName;
+        private bool _overwrite;
 
-        private readonly string _sourceFileName;
+        private string _sourceFileName;
         private string _description;
 
         /// <summary>
@@ -41,6 +41,34 @@ namespace FlubuCore.Tasks.FileSystem
             }
 
             set => _description = value;
+        }
+
+        /// <summary>
+        /// The source path.
+        /// </summary>
+        /// <param name="sourceFileName"></param>
+        /// <returns></returns>
+        public CopyFileTask SourcePath(string sourceFileName)
+        {
+            _sourceFileName = sourceFileName;
+            return this;
+        }
+
+        /// <summary>
+        /// The destination path.
+        /// </summary>
+        /// <param name="destinationFileName"></param>
+        /// <returns></returns>
+        public CopyFileTask DestinationPath(string destinationFileName)
+        {
+            _destinationFileName = destinationFileName;
+            return this;
+        }
+
+        public CopyFileTask OverwriteExisting()
+        {
+            _overwrite = true;
+            return this;
         }
 
         protected override int DoExecute(ITaskContextInternal context)

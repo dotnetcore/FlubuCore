@@ -6,7 +6,7 @@ namespace FlubuCore.Tasks.Iis
 {
     public class DeleteAppPoolTask : TaskBase<int, IDeleteAppPoolTask>, IDeleteAppPoolTask
     {
-        private readonly string _appPoolName;
+        private string _appPoolName;
 
         private bool _failIfNotExist;
         private string _description;
@@ -29,6 +29,12 @@ namespace FlubuCore.Tasks.Iis
             }
 
             set { _description = value; }
+        }
+
+        public IDeleteAppPoolTask ApplicationPoolName(string appPoolName)
+        {
+            _appPoolName = appPoolName;
+            return this;
         }
 
         public IDeleteAppPoolTask FailIfNotExist()

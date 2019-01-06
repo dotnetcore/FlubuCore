@@ -8,7 +8,7 @@ namespace FlubuCore.Tasks.FileSystem
     /// </summary>
     public class CreateDirectoryTask : TaskBase<int, CreateDirectoryTask>
     {
-        private readonly bool _forceRecreate;
+        private bool _forceRecreate;
         private string _description;
 
         /// <summary>
@@ -43,6 +43,18 @@ namespace FlubuCore.Tasks.FileSystem
         {
             var task = new CreateDirectoryTask(directoryPath, forceRecreate);
             task.ExecuteVoid(context);
+        }
+
+        public CreateDirectoryTask SetDirectoryPath(string directoryPath)
+        {
+            DirectoryPath = directoryPath;
+            return this;
+        }
+
+        public CreateDirectoryTask ForceRecreate()
+        {
+            _forceRecreate = true;
+            return this;
         }
 
         protected override int DoExecute(ITaskContextInternal context)
