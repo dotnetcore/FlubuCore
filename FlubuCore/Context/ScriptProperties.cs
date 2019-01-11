@@ -75,7 +75,7 @@ namespace FlubuCore.Context
                 {
                     if (!string.IsNullOrEmpty(fromArgAttribute.Help))
                     {
-                        help.Add($"-{fromArgAttribute.ArgKey} | {fromArgAttribute.Help}");
+                        help.Add($"-{fromArgAttribute.ArgKey} : {fromArgAttribute.Help}");
                     }
                 }
             }

@@ -241,6 +241,7 @@ namespace FlubuCore.Targeting
             if (context != null && !string.IsNullOrEmpty(context.FlubuHelpText))
             {
                 context.LogInfo(context.FlubuHelpText);
+                context.LogInfo(string.Empty);
             }
 
             context.LogInfo("Targets:");
