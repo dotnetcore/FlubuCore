@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using DotNet.Cli.Flubu.Commanding;
-using Microsoft.Extensions.CommandLineUtils;
+using McMaster.Extensions.CommandLineUtils;
 using Moq;
 using Xunit;
 

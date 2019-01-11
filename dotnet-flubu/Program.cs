@@ -5,7 +5,7 @@ using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Commanding;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
-using Microsoft.Extensions.CommandLineUtils;
+using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 

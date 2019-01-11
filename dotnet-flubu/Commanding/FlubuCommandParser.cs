@@ -2,8 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FlubuCore;
 using FlubuCore.Scripting;
-using Microsoft.DotNet.Cli.Utils;
-using Microsoft.Extensions.CommandLineUtils;
+using McMaster.Extensions.CommandLineUtils;
 
 namespace DotNet.Cli.Flubu.Commanding
 {
