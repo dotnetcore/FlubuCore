@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console.Internal;
 
-namespace DotNet.Cli.Flubu.Infrastructure
+namespace FlubuCore.Infrastructure
 {
     public class FlubuConsoleLogger : ILogger
     {
@@ -12,6 +13,12 @@ namespace DotNet.Cli.Flubu.Infrastructure
 
         [ThreadStatic]
         private static StringBuilder _logBuilder;
+
+        [ThreadStatic]
+        private static bool _useColor;
+
+        [ThreadStatic]
+        private static ConsoleColors _consoleColor;
 
         // ConsoleColor does not have a value to specify the 'Default' color
         private readonly ConsoleColor? _defaultConsoleColor = null;
@@ -26,6 +33,21 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 ? (IConsole)new WindowsLogConsole()
                 : new AnsiLogConsole(new AnsiSystemConsole());
         }
+
+       public static ConsoleColors Color
+       {
+           private get
+           {
+               _useColor = false;
+               return _consoleColor;
+           }
+
+           set
+           {
+               _consoleColor = value;
+               _useColor = true;
+           }
+       }
 
         public IConsole Console
         {
@@ -82,8 +104,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
 
             if (!string.IsNullOrEmpty(message))
             {
-                logLevelColors = GetLogLevelConsoleColors(logLevel);
-
+                ////logLevelColors = GetLogLevelConsoleColors(logLevel);
                 logBuilder.AppendLine(message);
             }
 
@@ -98,16 +119,15 @@ namespace DotNet.Cli.Flubu.Infrastructure
 
                 lock (Lock)
                 {
-                    if (!string.IsNullOrEmpty(logLevelString))
+                    if (_useColor)
                     {
-                        Console.Write(
-                            logLevelString,
-                            logLevelColors.Background,
-                            logLevelColors.Foreground);
+                        // use default colors from here on
+                        Console.Write(logMessage, Color.Background, Color.Foreground);
                     }
-
-                    // use default colors from here on
-                    Console.Write(logMessage, _defaultConsoleColor, _defaultConsoleColor);
+                    else
+                    {
+                        Console.Write(logMessage, _defaultConsoleColor, _defaultConsoleColor);
+                    }
 
                     // In case of AnsiLogConsole, the messages are not yet written to the console,
                     // this would flush them instead.
@@ -164,7 +184,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
             }
         }
 
-        private struct ConsoleColors
+        public struct ConsoleColors
         {
             public ConsoleColors(ConsoleColor? foreground, ConsoleColor? background)
             {

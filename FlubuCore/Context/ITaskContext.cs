@@ -1,4 +1,5 @@
-﻿using FlubuCore.Context.FluentInterface.Interfaces;
+﻿using System;
+using FlubuCore.Context.FluentInterface.Interfaces;
 
 namespace FlubuCore.Context
 {
@@ -31,6 +32,14 @@ namespace FlubuCore.Context
 
         void LogInfo(string message);
 
+        void LogInfo(string message, ConsoleColor foregroundColor);
+
+        void LogInfo(string message, ConsoleColor backgroundColor, ConsoleColor foregroundColor);
+
         void LogError(string message);
+
+        void LogError(string message, ConsoleColor foregroundColor);
+
+        void LogError(string message, ConsoleColor backgroundColor, ConsoleColor foregroundColor);
     }
 }

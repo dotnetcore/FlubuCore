@@ -1,5 +1,7 @@
-﻿using FlubuCore.Context.FluentInterface;
+﻿using System;
+using FlubuCore.Context.FluentInterface;
 using FlubuCore.Context.FluentInterface.Interfaces;
+using FlubuCore.Infrastructure;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
 using Microsoft.Extensions.Logging;
@@ -54,12 +56,36 @@ namespace FlubuCore.Context
 
         public void LogInfo(string message)
         {
-            _log?.LogInformation(message);
+            _log.LogInformation(message);
+        }
+
+        public void LogInfo(string message, ConsoleColor foregroundColor)
+        {
+            FlubuConsoleLogger.Color = new FlubuConsoleLogger.ConsoleColors(foregroundColor, default(ConsoleColor));
+            _log.LogInformation(message);
+        }
+
+        public void LogInfo(string message, ConsoleColor backgroundColor, ConsoleColor foregroundColor)
+        {
+            FlubuConsoleLogger.Color = new FlubuConsoleLogger.ConsoleColors(foregroundColor, backgroundColor);
+            _log.LogInformation(message);
         }
 
         public void LogError(string message)
         {
-            _log?.LogError(message);
+            _log.LogError(message);
+        }
+
+        public void LogError(string message, ConsoleColor foregroundColor)
+        {
+            FlubuConsoleLogger.Color = new FlubuConsoleLogger.ConsoleColors(foregroundColor, default(ConsoleColor));
+            _log.LogError(message);
+        }
+
+        public void LogError(string message, ConsoleColor backgroundColor, ConsoleColor foregroundColor)
+        {
+            FlubuConsoleLogger.Color = new FlubuConsoleLogger.ConsoleColors(foregroundColor, backgroundColor);
+            _log.LogError(message);
         }
 
         internal T CreateTask<T>()
