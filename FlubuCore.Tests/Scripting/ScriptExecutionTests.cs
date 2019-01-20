@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
+using FlubuCore.Infrastructure;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using FlubuCore.Scripting.Analysis;
@@ -21,6 +22,8 @@ namespace FlubuCore.Tests.Scripting
         private readonly Mock<IScriptAnalyser> _analyser = new Mock<IScriptAnalyser>();
         private readonly Mock<IBuildScriptLocator> _scriptLocator = new Mock<IBuildScriptLocator>();
         private readonly Mock<ILogger<ScriptLoader>> _logger = new Mock<ILogger<ScriptLoader>>();
+        private readonly Mock<ILogger<TaskSession>> _loggerTaskSession = new Mock<ILogger<TaskSession>>();
+
         private readonly Mock<INugetPackageResolver> _nugetPackageResolver = new Mock<INugetPackageResolver>();
         private readonly ScriptLoader _loader;
 
@@ -64,7 +67,7 @@ namespace FlubuCore.Tests.Scripting
             var provider = new ServiceCollection().BuildServiceProvider();
 
             t.Run(new TaskSession(
-                null,
+                _loggerTaskSession.Object,
                 new TargetTree(provider, new CommandArguments()),
                 new CommandArguments(),
                 new DotnetTaskFactory(provider),
@@ -103,7 +106,7 @@ namespace FlubuCore.Tests.Scripting
             var provider = new ServiceCollection().BuildServiceProvider();
 
             t.Run(new TaskSession(
-                null,
+                _loggerTaskSession.Object,
                 new TargetTree(provider, new CommandArguments()),
                 new CommandArguments(),
                 new DotnetTaskFactory(provider),
