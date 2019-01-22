@@ -173,11 +173,21 @@ namespace FlubuCore.Scripting
 
                 if (File.Exists(packagePath))
                 {
+                    var versions = compileLibrary.Version.Split('.');
+                    int.TryParse(versions[0], out var major);
+                    int.TryParse(versions[1], out var minor);
+                    int.TryParse(versions[2], out var build);
+                    int revision = 0;
+                    if (versions.Length > 3)
+                    {
+                        int.TryParse(versions[3], out revision);
+                    }
+
                     assemblyReferences.Add(new AssemblyInfo
                     {
                         Name = compileLibrary.Name,
                         FullPath = packagePath,
-                        Version = new Version(compileLibrary.Version)
+                        Version = new Version(major, minor, build, revision)
                     });
                     return true;
                 }

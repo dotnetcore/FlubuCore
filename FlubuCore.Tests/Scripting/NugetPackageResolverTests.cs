@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FlubuCore.Scripting;
 using Microsoft.DotNet.Cli.Utils;
 using Xunit;
@@ -11,17 +12,23 @@ namespace FlubuCore.Tests.Scripting
         public void Resolve()
         {
             var resolver = new NugetPackageResolver(new CommandFactory());
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            resolver.ResolveNugetPackages(new List<NugetPackageReference>()
+            var assemblies = resolver.ResolveNugetPackages(new List<NugetPackageReference>()
             {
                 new NugetPackageReference
                 {
                     Id = "FlubuCore",
                     Version = "2.8.0",
-                }
+                },
+                new NugetPackageReference()
+                {
+                    Id = "Dapper",
+                    Version = "1.50.5"
+                },
             }, null);
-            watch.Stop();
-            var elapsedMs = watch.ElapsedMilliseconds;
+
+            Assert.True(assemblies.Count > 100);
+            Assert.True(assemblies.Any(x => x.Name == "FlubuCore"));
+            Assert.True(assemblies.Any(x => x.Name == "Dapper"));
         }
     }
 }
