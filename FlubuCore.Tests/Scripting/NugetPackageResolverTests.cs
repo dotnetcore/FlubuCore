@@ -10,10 +10,11 @@ namespace FlubuCore.Tests.Scripting
 {
     public class NugetPackageResolverTests
     {
-        [Fact]
+        [Fact(Skip = "Explicit test as it needs connection to nuget.")]
         public void ResolveNugetDependencies()
         {
             var resolver = new NugetPackageResolver(new CommandFactory());
+
             var assemblies = resolver.ResolveNugetPackages(new List<NugetPackageReference>()
             {
                 new NugetPackageReference
