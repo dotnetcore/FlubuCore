@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using FlubuCore.Scripting;
 using Microsoft.DotNet.Cli.Utils;
@@ -9,7 +11,7 @@ namespace FlubuCore.Tests.Scripting
     public class NugetPackageResolverTests
     {
         [Fact]
-        public void Resolve()
+        public void ResolveNugetDependencies()
         {
             var resolver = new NugetPackageResolver(new CommandFactory());
             var assemblies = resolver.ResolveNugetPackages(new List<NugetPackageReference>()
@@ -27,8 +29,8 @@ namespace FlubuCore.Tests.Scripting
             }, null);
 
             Assert.True(assemblies.Count > 100);
-            Assert.True(assemblies.Any(x => x.Name == "FlubuCore"));
-            Assert.True(assemblies.Any(x => x.Name == "Dapper"));
+            Assert.Contains(assemblies, x => x.Name == "FlubuCore");
+            Assert.Contains(assemblies, x => x.Name == "Dapper");
         }
     }
 }
