@@ -151,7 +151,7 @@ namespace FlubuCore.Tests.Scripting
             var provider = new ServiceCollection().BuildServiceProvider();
 
             t.Run(new TaskSession(
-                null,
+                _loggerTaskSession.Object,
                 new TargetTree(provider, new CommandArguments()),
                 new CommandArguments(),
                 new DotnetTaskFactory(provider),
