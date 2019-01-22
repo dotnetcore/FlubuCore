@@ -6,6 +6,6 @@ namespace FlubuCore.Scripting
 {
     public interface INugetPackageResolver
     {
-        List<string> ResolveNugetPackages(List<NugetPackageReference> packageReferences, string pathToBuildScript);
+        List<AssemblyInfo> ResolveNugetPackages(List<NugetPackageReference> packageReferences, string pathToBuildScript);
     }
 }

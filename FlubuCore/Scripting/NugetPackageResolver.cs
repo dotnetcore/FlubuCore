@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Xml.Linq;
@@ -18,16 +19,18 @@ namespace FlubuCore.Scripting
 
         private bool _packagesRestored;
 
+        private List<CompilationLibrary> _resolvedDependencies = new List<CompilationLibrary>();
+
         public NugetPackageResolver(ICommandFactory commandFactory)
         {
             _commandFactory = commandFactory;
         }
 
-        public List<string> ResolveNugetPackages(List<NugetPackageReference> packageReferences, string pathToBuildScript)
+        public List<AssemblyInfo> ResolveNugetPackages(List<NugetPackageReference> packageReferences, string pathToBuildScript)
         {
             if (packageReferences == null || packageReferences.Count == 0)
             {
-                return new List<string>();
+                return new List<AssemblyInfo>();
             }
 
             bool nugetPropsFileExists = File.Exists("./obj/FlubuGen.csproj.nuget.g.props");
@@ -61,33 +64,64 @@ namespace FlubuCore.Scripting
 
             var dependencyContext = ReadDependencyContext();
 
-            List<string> pathToReferences = new List<string>();
+            List<AssemblyInfo> assemblyReferences = new List<AssemblyInfo>();
             var compileLibraries = dependencyContext.CompileLibraries.ToList();
             foreach (var packageReference in packageReferences)
             {
-                var compileLibrary = compileLibraries.FirstOrDefault(x => x.Name.Equals(packageReference.Id, StringComparison.OrdinalIgnoreCase));
+                CompilationLibrary compileLibrary = compileLibraries.FirstOrDefault(x =>
+                    x.Name.Equals(packageReference.Id, StringComparison.OrdinalIgnoreCase));
 
                 if (compileLibrary == null)
                 {
-                    throw new ScriptException($"Nuget package '{packageReference.Id}' '{packageReference.Version}' not found.");
+                    throw new ScriptException(
+                        $"Nuget package '{packageReference.Id}' '{packageReference.Version}' not found.");
                 }
 
                 if (compileLibrary.Assemblies.Count == 0)
                 {
-                    throw new ScriptException($"Nuget package '{packageReference.Id}' '{packageReference.Version}' not found for framework {targetFramework} ");
+                    throw new ScriptException(
+                        $"Nuget package '{packageReference.Id}' '{packageReference.Version}' not found for framework {targetFramework} ");
                 }
 
-                bool packageFound = GetPackageFullPath(packageFolders, compileLibrary, pathToReferences);
+                bool packageFound = AddAssemblyReference(packageFolders, compileLibrary, assemblyReferences);
 
                 if (!packageFound)
                 {
                     throw new ScriptException($"Nuget package {packageReference.Id} not found.");
                 }
+
+                ResolveDependencies(compileLibrary, compileLibraries, packageFolders, assemblyReferences);
             }
 
             File.Delete(NugetPackageResolveConstants.GeneratedProjectFileName);
 
-            return pathToReferences;
+            return assemblyReferences;
+        }
+
+        public void ResolveDependencies(CompilationLibrary library, List<CompilationLibrary> compileLibraries, string[] packageFolders, List<AssemblyInfo> assemblyReferences)
+        {
+            if (library.Name == "NETStandard.Library" || _resolvedDependencies.Any(x => x.Name == library.Name))
+            {
+                return;
+            }
+
+            _resolvedDependencies.Add(library);
+
+            foreach (var dependency in library.Dependencies)
+            {
+                var dep = compileLibraries.FirstOrDefault(x => x.Name.Equals(dependency.Name));
+                if (dep.Assemblies != null && dep.Assemblies.Count() != 0 && !dep.Assemblies[0].EndsWith("_._"))
+                {
+                    bool packageFound = AddAssemblyReference(packageFolders, dep, assemblyReferences);
+
+                    if (!packageFound)
+                    {
+                        throw new ScriptException($"Nuget package {dependency.Name} not found.");
+                    }
+
+                    ResolveDependencies(dep, compileLibraries, packageFolders, assemblyReferences);
+                }
+            }
         }
 
         private static string GetTargetFramework()
@@ -124,16 +158,27 @@ namespace FlubuCore.Scripting
             }
         }
 
-        private static bool GetPackageFullPath(string[] packageFolders, CompilationLibrary compileLibrary, List<string> pathToReferences)
+        private static bool AddAssemblyReference(string[] packageFolders, CompilationLibrary compileLibrary,
+            List<AssemblyInfo> assemblyReferences)
         {
-            bool packageFound = false;
+            var assemblyRefrence = assemblyReferences.FirstOrDefault(x => x.Name == compileLibrary.Name);
+            if (assemblyRefrence != null || compileLibrary.Name == "System.Runtime")
+            {
+                return true;
+            }
+
             foreach (var packageFolder in packageFolders)
             {
                 var packagePath = Path.Combine(packageFolder, compileLibrary.Path, compileLibrary.Assemblies[0]);
 
                 if (File.Exists(packagePath))
                 {
-                    pathToReferences.Add(packagePath);
+                    assemblyReferences.Add(new AssemblyInfo
+                    {
+                        Name = compileLibrary.Name,
+                        FullPath = packagePath,
+                        Version = new Version(compileLibrary.Version)
+                    });
                     return true;
                 }
             }

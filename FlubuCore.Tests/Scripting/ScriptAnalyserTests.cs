@@ -59,7 +59,7 @@ namespace FlubuCore.Tests.Scripting
             _fileWrapper.Setup(x => x.Exists(expected)).Returns(true);
             AnalyserResult res = new AnalyserResult();
             pr.Process(res, line, 1);
-            Assert.Equal(expected, res.References.First());
+            Assert.Equal(expected, res.References.First().FullPath);
         }
 
         [Theory]

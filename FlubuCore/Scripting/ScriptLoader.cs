@@ -205,38 +205,43 @@ namespace FlubuCore.Scripting
             var flubuPath = flubuCoreAssembly.Location;
 
             //// Default assemblies that should be referenced.
-            var assemblyReferenceLocations = oldWay
+            var assemblyReferences = oldWay
                 ? GetBuildScriptReferencesForOldWayBuildScriptCreation()
                 : GetDefaultReferences(coreDir, flubuPath);
 
             // Enumerate all assemblies referenced by FlubuCore
             // and provide them as references to the build script we're about to
             // compile.
-            AssemblyName[] referencedAssemblies = flubuCoreAssembly.GetReferencedAssemblies();
-            foreach (var referencedAssembly in referencedAssemblies)
+            AssemblyName[] flubuReferencedAssemblies = flubuCoreAssembly.GetReferencedAssemblies();
+            foreach (var referencedAssembly in flubuReferencedAssemblies)
             {
                 Assembly loadedAssembly = Assembly.Load(referencedAssembly);
                 if (string.IsNullOrEmpty(loadedAssembly.Location))
                     continue;
 
-                assemblyReferenceLocations.Add(loadedAssembly.Location);
+                assemblyReferences.AddOrUpdateAssemblyInfo(new AssemblyInfo
+                {
+                    Name = referencedAssembly.Name,
+                    Version = referencedAssembly.Version,
+                    FullPath = loadedAssembly.Location,
+                });
             }
 
-            assemblyReferenceLocations.AddRange(analyserResult.References);
-            assemblyReferenceLocations.AddRange(
-                _nugetPackageResolver.ResolveNugetPackages(analyserResult.NugetPackages, pathToBuildScript));
-            AddOtherCsFilesToBuildScriptCode(analyserResult, assemblyReferenceLocations, code);
-            assemblyReferenceLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
-            assemblyReferenceLocations =
-                assemblyReferenceLocations.Distinct().Where(x => !string.IsNullOrEmpty(x)).ToList();
+            assemblyReferences.AddOrUpdateAssemblyInfo(analyserResult.References);
+            assemblyReferences.AddOrUpdateAssemblyInfo(_nugetPackageResolver.ResolveNugetPackages(analyserResult.NugetPackages, pathToBuildScript));
+            AddOtherCsFilesToBuildScriptCode(analyserResult, assemblyReferences, code);
+            var assemblyReferencesLocations = assemblyReferences.Select(x => x.FullPath).ToList();
+            assemblyReferencesLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
+            assemblyReferencesLocations =
+                assemblyReferencesLocations.Distinct().Where(x => !string.IsNullOrEmpty(x)).ToList();
             IEnumerable<PortableExecutableReference> references = null;
 
-            references = assemblyReferenceLocations.Select(i =>
+            references = assemblyReferencesLocations.Select(i =>
             {
                 return MetadataReference.CreateFromFile(i);
             });
 #if !NET462
-            foreach (var assemblyReferenceLocation in assemblyReferenceLocations)
+            foreach (var assemblyReferenceLocation in assemblyReferencesLocations)
             {
                 try
                 {
@@ -250,19 +255,38 @@ namespace FlubuCore.Scripting
             return references;
         }
 
-        private List<string> GetDefaultReferences(string coreDir, string flubuPath)
+        private List<AssemblyInfo> GetDefaultReferences(string coreDir, string flubuPath)
         {
-            List<string> assemblyReferenceLocations = new List<string>
+            var flubuAss = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
+            var objAss = typeof(object).GetTypeInfo().Assembly;
+            var linqAss = typeof(ILookup<string, string>).GetTypeInfo().Assembly;
+#pragma warning disable SA1305 // Field names should not use Hungarian notation
+            var ioAss = typeof(Stream).GetTypeInfo().Assembly;
+#pragma warning restore SA1305 // Field names should not use Hungarian notation
+            var linqExpAss = typeof(Expression).GetTypeInfo().Assembly;
+            var reflectionAss = typeof(MethodInfo).GetTypeInfo().Assembly;
+            var runtimeInteropAss = typeof(OSPlatform).GetTypeInfo().Assembly;
+            List<AssemblyInfo> assemblyReferenceLocations = new List<AssemblyInfo>
             {
-                Path.Combine(coreDir, "mscorlib.dll"),
-                Path.Combine(coreDir, "System.Runtime.dll"),
-                typeof(object).GetTypeInfo().Assembly.Location,
-                flubuPath,
-                typeof(ILookup<string, string>).GetTypeInfo().Assembly.Location,
-                typeof(Stream).GetTypeInfo().Assembly.Location,
-                typeof(Expression).GetTypeInfo().Assembly.Location,
-                typeof(MethodInfo).GetTypeInfo().Assembly.Location,
-                typeof(OSPlatform).GetTypeInfo().Assembly.Location,
+               new AssemblyInfo
+               {
+                   Name = "mscorlib",
+                   FullPath = Path.Combine(coreDir, "mscorlib.dll"),
+                   VersionStatus = VersionStatus.Sealed,
+               },
+               new AssemblyInfo
+               {
+                   Name = "System.Runtime",
+                   FullPath = Path.Combine(coreDir, "System.Runtime.dll"),
+                   VersionStatus = VersionStatus.Sealed
+               },
+               flubuAss.ToAssemblyInfo(),
+               objAss.ToAssemblyInfo(),
+               linqAss.ToAssemblyInfo(),
+               ioAss.ToAssemblyInfo(),
+               linqExpAss.ToAssemblyInfo(),
+               reflectionAss.ToAssemblyInfo(),
+               runtimeInteropAss.ToAssemblyInfo(),
             };
 
             assemblyReferenceLocations.AddReferenceByAssemblyName("System");
@@ -286,34 +310,49 @@ namespace FlubuCore.Scripting
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Private.Uri");
 
 #if NETSTANDARD2_0
-            assemblyReferenceLocations.Add(typeof(Console).GetTypeInfo().Assembly.Location);
+            var systemAss = typeof(Console).GetTypeInfo().Assembly;
+            assemblyReferenceLocations.Add(systemAss.ToAssemblyInfo());
 #endif
             return assemblyReferenceLocations;
         }
 
-        private List<string> GetBuildScriptReferencesForOldWayBuildScriptCreation()
+        private List<AssemblyInfo> GetBuildScriptReferencesForOldWayBuildScriptCreation()
         {
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
-            var flubuPath = typeof(DefaultBuildScript).GetTypeInfo().Assembly.Location;
-            List<string> assemblyReferenceLocations = new List<string>
+            var flubuAss = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
+
+            var objAss = typeof(object).GetTypeInfo().Assembly;
+#pragma warning disable SA1305 // Field names should not use Hungarian notation
+            var ioAss = typeof(File).GetTypeInfo().Assembly;
+#pragma warning restore SA1305 // Field names should not use Hungarian notation
+            var linqAss = typeof(ILookup<string, string>).GetTypeInfo().Assembly;
+            var linqExpAss = typeof(Expression).GetTypeInfo().Assembly;
+            var runtimeInteropAss = typeof(OSPlatform).GetTypeInfo().Assembly;
+            List<AssemblyInfo> assemblyReferenceLocations = new List<AssemblyInfo>
             {
-                Path.Combine(coreDir, "mscorlib.dll"),
-                typeof(object).GetTypeInfo().Assembly.Location,
-                flubuPath,
-                typeof(File).GetTypeInfo().Assembly.Location,
-                typeof(ILookup<string, string>).GetTypeInfo().Assembly.Location,
-                typeof(Expression).GetTypeInfo().Assembly.Location,
-                typeof(OSPlatform).GetTypeInfo().Assembly.Location,
+                new AssemblyInfo
+                {
+                    Name = "mscorlib",
+                    FullPath = Path.Combine(coreDir, "mscorlib.dll"),
+                    VersionStatus = VersionStatus.Sealed,
+                },
+                flubuAss.ToAssemblyInfo(),
+                objAss.ToAssemblyInfo(),
+                ioAss.ToAssemblyInfo(),
+                linqAss.ToAssemblyInfo(),
+                linqExpAss.ToAssemblyInfo(),
+                runtimeInteropAss.ToAssemblyInfo(),
             };
 
 #if NETSTANDARD2_0
-            assemblyReferenceLocations.Add(typeof(Console).GetTypeInfo().Assembly.Location);
+            var systemAss = typeof(Console).GetTypeInfo().Assembly;
+            assemblyReferenceLocations.Add(systemAss.ToAssemblyInfo());
 #endif
 
             return assemblyReferenceLocations;
         }
 
-        private void AddOtherCsFilesToBuildScriptCode(AnalyserResult analyserResult, List<string> assemblyReferenceLocations, List<string> code)
+        private void AddOtherCsFilesToBuildScriptCode(AnalyserResult analyserResult, List<AssemblyInfo> assemblyReferenceLocations, List<string> code)
         {
             foreach (var file in analyserResult.CsFiles)
             {
@@ -330,7 +369,7 @@ namespace FlubuCore.Scripting
 
                     var usings = additionalCode.Where(x => x.StartsWith("using"));
 
-                    assemblyReferenceLocations.AddRange(additionalCodeAnalyserResult.References);
+                    assemblyReferenceLocations.AddOrUpdateAssemblyInfo(additionalCodeAnalyserResult.References);
                     code.InsertRange(1, usings);
                     code.AddRange(additionalCode.Where(x => !x.StartsWith("using")));
                 }

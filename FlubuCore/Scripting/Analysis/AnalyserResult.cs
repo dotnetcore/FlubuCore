@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection.Metadata;
 
 namespace FlubuCore.Scripting.Analysis
 {
@@ -8,7 +9,7 @@ namespace FlubuCore.Scripting.Analysis
 
         public int? NamespaceIndex { get; set; }
 
-        public List<string> References { get; } = new List<string>();
+        public List<AssemblyInfo> References { get; } = new List<AssemblyInfo>();
 
         public List<string> CsFiles { get; } = new List<string>();
 

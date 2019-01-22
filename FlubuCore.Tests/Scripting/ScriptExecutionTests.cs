@@ -29,7 +29,7 @@ namespace FlubuCore.Tests.Scripting
 
         public ScriptExecutionTests()
         {
-            _nugetPackageResolver.Setup(x => x.ResolveNugetPackages(It.IsAny<List<NugetPackageReference>>(), It.IsAny<string>())).Returns(new List<string>());
+            _nugetPackageResolver.Setup(x => x.ResolveNugetPackages(It.IsAny<List<NugetPackageReference>>(), It.IsAny<string>())).Returns(new List<AssemblyInfo>());
             _loader = new ScriptLoader(_fileLoader.Object, _directory.Object, _analyser.Object, _scriptLocator.Object, _nugetPackageResolver.Object, _logger.Object);
         }
 
