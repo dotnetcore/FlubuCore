@@ -3,7 +3,7 @@ using System.Reflection.Metadata;
 
 namespace FlubuCore.Scripting.Analysis
 {
-    public class AnalyserResult
+    public class ScriptAnalyzerResult
     {
         public string ClassName { get; set; }
 

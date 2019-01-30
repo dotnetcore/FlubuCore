@@ -4,6 +4,6 @@ namespace FlubuCore.Scripting.Processors
 {
     public interface IDirectiveProcessor
     {
-        bool Process(AnalyserResult analyserResult, string line, int lineIndex);
+        bool Process(ScriptAnalyzerResult analyzerResult, string line, int lineIndex);
     }
 }

@@ -4,18 +4,18 @@ using FlubuCore.Scripting.Processors;
 
 namespace FlubuCore.Scripting.Analysis
 {
-    public class ScriptAnalyser : IScriptAnalyser
+    public class ScriptAnalyzer : IScriptAnalyzer
     {
         private readonly List<IDirectiveProcessor> _processors;
 
-        public ScriptAnalyser(IEnumerable<IDirectiveProcessor> processors)
+        public ScriptAnalyzer(IEnumerable<IDirectiveProcessor> processors)
         {
             _processors = processors.ToList();
         }
 
-        public AnalyserResult Analyze(List<string> lines)
+        public ScriptAnalyzerResult Analyze(List<string> lines)
         {
-            AnalyserResult analyserResult = new AnalyserResult();
+            ScriptAnalyzerResult analyzerResult = new ScriptAnalyzerResult();
             int i = 0;
             while (true)
             {
@@ -26,12 +26,12 @@ namespace FlubuCore.Scripting.Analysis
 
                 foreach (var processor in _processors)
                 {
-                    bool ret = processor.Process(analyserResult, line, i);
+                    bool ret = processor.Process(analyzerResult, line, i);
 
-                    if (!string.IsNullOrEmpty(analyserResult.ClassName))
+                    if (!string.IsNullOrEmpty(analyzerResult.ClassName))
                     {
-                        RemoveNamespace(lines, analyserResult);
-                        return analyserResult;
+                        RemoveNamespace(lines, analyzerResult);
+                        return analyzerResult;
                     }
 
                     if (ret)
@@ -45,15 +45,15 @@ namespace FlubuCore.Scripting.Analysis
                 i++;
             }
 
-            return analyserResult;
+            return analyzerResult;
         }
 
-        private void RemoveNamespace(List<string> lines, AnalyserResult analyserResult)
+        private void RemoveNamespace(List<string> lines, ScriptAnalyzerResult analyzerResult)
         {
-            if (analyserResult.NamespaceIndex.HasValue)
+            if (analyzerResult.NamespaceIndex.HasValue)
             {
-                lines.RemoveAt(analyserResult.NamespaceIndex.Value);
-                lines.RemoveAt(analyserResult.NamespaceIndex.Value);
+                lines.RemoveAt(analyzerResult.NamespaceIndex.Value);
+                lines.RemoveAt(analyzerResult.NamespaceIndex.Value);
                 var indexOfLastClosingCurlyBracket = lines.LastIndexOf("}");
                 lines.RemoveAt(indexOfLastClosingCurlyBracket);
             }

@@ -17,7 +17,7 @@ namespace FlubuCore.Scripting.Processors
             _pathWrapper = pathWrapper;
         }
 
-        public bool Process(AnalyserResult analyserResult, string line, int lineIndex)
+        public bool Process(ScriptAnalyzerResult analyzerResult, string line, int lineIndex)
         {
             if (!line.TrimStart().StartsWith("//#ass", StringComparison.OrdinalIgnoreCase))
                 return false;
@@ -43,7 +43,7 @@ namespace FlubuCore.Scripting.Processors
                 throw new ScriptException($"Assembly not found at location: {pathToDll}");
             }
 
-            analyserResult.References.Add(new AssemblyInfo
+            analyzerResult.References.Add(new AssemblyInfo
             {
                 Name = "N/A",
                 VersionStatus = VersionStatus.NotAvailable,

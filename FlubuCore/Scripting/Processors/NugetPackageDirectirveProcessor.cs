@@ -7,7 +7,7 @@ namespace FlubuCore.Scripting.Processors
 {
     public class NugetPackageDirectirveProcessor : IDirectiveProcessor
     {
-        public bool Process(AnalyserResult analyserResult, string line, int lineIndex)
+        public bool Process(ScriptAnalyzerResult analyzerResult, string line, int lineIndex)
         {
             if (!line.TrimStart().StartsWith("//#nuget", StringComparison.OrdinalIgnoreCase))
                 return false;
@@ -26,7 +26,7 @@ namespace FlubuCore.Scripting.Processors
                 throw new ScriptException("Invalid nuget package directive. Example of valid directive: '//#nuget: FlubuCore, 2.8.0'");
             }
 
-            analyserResult.NugetPackages.Add(new NugetPackageReference { Id = nugetInfos[0].Trim(), Version = nugetInfos[1].Trim() });
+            analyzerResult.NugetPackages.Add(new NugetPackageReference { Id = nugetInfos[0].Trim(), Version = nugetInfos[1].Trim() });
             return true;
         }
     }

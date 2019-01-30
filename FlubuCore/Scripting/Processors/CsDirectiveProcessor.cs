@@ -6,7 +6,7 @@ namespace FlubuCore.Scripting.Processors
 {
     public class CsDirectiveProcessor : IDirectiveProcessor
     {
-        public bool Process(AnalyserResult analyserResult, string line, int lineIndex)
+        public bool Process(ScriptAnalyzerResult analyzerResult, string line, int lineIndex)
         {
             if (!line.TrimStart().StartsWith("//#imp", StringComparison.OrdinalIgnoreCase))
                 return false;
@@ -19,7 +19,7 @@ namespace FlubuCore.Scripting.Processors
             }
 
             string file = line.Substring(index);
-            analyserResult.CsFiles.Add(Path.GetFullPath(file.Trim()));
+            analyzerResult.CsFiles.Add(Path.GetFullPath(file.Trim()));
             return true;
         }
     }

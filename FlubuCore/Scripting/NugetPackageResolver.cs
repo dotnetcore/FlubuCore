@@ -7,6 +7,8 @@ using System.Reflection.Metadata;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Xml.Linq;
+using FlubuCore.IO.Wrappers;
+using FlubuCore.Scripting.Analysis;
 using FlubuCore.Tasks.NetCore;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.DependencyModel;
@@ -16,24 +18,109 @@ namespace FlubuCore.Scripting
     public class NugetPackageResolver : INugetPackageResolver
     {
         private readonly ICommandFactory _commandFactory;
+        private readonly IFileWrapper _file;
 
         private bool _packagesRestored;
 
         private List<CompilationLibrary> _resolvedDependencies = new List<CompilationLibrary>();
 
-        public NugetPackageResolver(ICommandFactory commandFactory)
+        public NugetPackageResolver(ICommandFactory commandFactory, IFileWrapper file)
         {
             _commandFactory = commandFactory;
+            _file = file;
         }
 
-        public List<AssemblyInfo> ResolveNugetPackages(List<NugetPackageReference> packageReferences, string pathToBuildScript)
+        public List<AssemblyInfo> ResolveNugetPackagesFromDirectives(List<NugetPackageReference> packageReferences, string pathToBuildScript)
         {
+            List<AssemblyInfo> assemblyReferences = new List<AssemblyInfo>();
+
             if (packageReferences == null || packageReferences.Count == 0)
             {
-                return new List<AssemblyInfo>();
+                return assemblyReferences;
             }
 
-            bool nugetPropsFileExists = File.Exists("./obj/FlubuGen.csproj.nuget.g.props");
+            ResolveNugetPackagesFromDirectives(packageReferences, pathToBuildScript, assemblyReferences);
+
+            return assemblyReferences;
+        }
+
+        public List<AssemblyInfo> ResolveNugetPackagesFromFlubuCsproj(ProjectFileAnalyzerResult analyzerResult)
+        {
+            List<AssemblyInfo> assemblyReferences = new List<AssemblyInfo>();
+            string csprojLocation = analyzerResult.ProjectFileLocation;
+
+            var csprojDir = Path.GetDirectoryName(csprojLocation);
+            var csprojfileName = Path.GetFileName(csprojLocation);
+            var nugetPropsLocation = Path.Combine(csprojDir, "obj", csprojfileName + "nuget.g.props");
+            bool nugetPropsFileExists = _file.Exists(nugetPropsLocation);
+            bool mustRestoreNugetPackages = true;
+
+            if (nugetPropsFileExists)
+            {
+#pragma warning disable SA1305 // Field names should not use Hungarian notation
+                var csProjModifiedTime = File.GetLastWriteTime(csprojLocation);
+#pragma warning restore SA1305 // Field names should not use Hungarian notation
+                var nugetProsModifiedTime = File.GetLastWriteTime(nugetPropsLocation);
+                if (nugetProsModifiedTime > csProjModifiedTime)
+                {
+                    mustRestoreNugetPackages = false;
+                }
+            }
+
+            var targetFramework = GetTargetFramework();
+
+            if (mustRestoreNugetPackages)
+            {
+                if (nugetPropsFileExists)
+                {
+                    File.Delete(nugetPropsLocation);
+                }
+
+                RestoreNugetPackages(csprojLocation);
+            }
+
+            var document = XDocument.Load(nugetPropsLocation);
+            var packageFolders = document.Descendants().Single(d => d.Name.LocalName == "NuGetPackageFolders").Value
+                .Split(';');
+
+            var dependencyContext = ReadDependencyContext(Path.Combine(csprojDir, "obj", "project.assets.json"));
+
+            var compileLibraries = dependencyContext.CompileLibraries.ToList();
+            foreach (var packageReference in analyzerResult.NugetReferences)
+            {
+                CompilationLibrary compileLibrary = compileLibraries.FirstOrDefault(x =>
+                    x.Name.Equals(packageReference.Id, StringComparison.OrdinalIgnoreCase));
+
+                if (compileLibrary == null)
+                {
+                    throw new ScriptException(
+                        $"Nuget package '{packageReference.Id}' '{packageReference.Version}' not found.");
+                }
+
+                if (compileLibrary.Assemblies.Count == 0)
+                {
+                    throw new ScriptException(
+                        $"Nuget package '{packageReference.Id}' '{packageReference.Version}' not found for framework {targetFramework} ");
+                }
+
+                bool packageFound = AddAssemblyReference(packageFolders, compileLibrary, assemblyReferences);
+
+                if (!packageFound)
+                {
+                    throw new ScriptException($"Nuget package {packageReference.Id} not found.");
+                }
+
+                ResolveDependencies(compileLibrary, compileLibraries, packageFolders, assemblyReferences);
+            }
+
+            File.Delete(NugetPackageResolveConstants.GeneratedProjectFileName);
+
+            return assemblyReferences;
+        }
+
+        private List<AssemblyInfo> ResolveNugetPackagesFromDirectives(List<NugetPackageReference> packageReferences, string pathToBuildScript, List<AssemblyInfo> assemblyReferences)
+        {
+            bool nugetPropsFileExists = _file.Exists("./obj/FlubuGen.csproj.nuget.g.props");
             bool mustRestoreNugetPackages = true;
 
             if (!string.IsNullOrEmpty(pathToBuildScript) && nugetPropsFileExists)
@@ -56,15 +143,14 @@ namespace FlubuCore.Scripting
                 }
 
                 CreateNugetProjectFile(targetFramework, packageReferences);
-                RestoreNugetPackages();
+                RestoreNugetPackages(NugetPackageResolveConstants.GeneratedProjectFileName);
             }
 
             var document = XDocument.Load("./obj/FlubuGen.csproj.nuget.g.props");
             var packageFolders = document.Descendants().Single(d => d.Name.LocalName == "NuGetPackageFolders").Value.Split(';');
 
-            var dependencyContext = ReadDependencyContext();
+            var dependencyContext = ReadDependencyContext("./obj/project.assets.json");
 
-            List<AssemblyInfo> assemblyReferences = new List<AssemblyInfo>();
             var compileLibraries = dependencyContext.CompileLibraries.ToList();
             foreach (var packageReference in packageReferences)
             {
@@ -146,10 +232,9 @@ namespace FlubuCore.Scripting
             return targetFramework;
         }
 
-        private static DependencyContext ReadDependencyContext()
+        private static DependencyContext ReadDependencyContext(string assetsFileLocation)
         {
-            var assetsFile = "./obj/project.assets.json";
-            using (FileStream fs = new FileStream(assetsFile, FileMode.Open, FileAccess.Read))
+            using (FileStream fs = new FileStream(assetsFileLocation, FileMode.Open, FileAccess.Read))
             {
                 using (var contextReader = new DependencyContextJsonReader())
                 {
@@ -216,9 +301,9 @@ namespace FlubuCore.Scripting
             }
         }
 
-        private void RestoreNugetPackages()
+        private void RestoreNugetPackages(string csprojLocation)
         {
-            ICommand command = _commandFactory.Create("dotnet", new List<string>() { "restore", NugetPackageResolveConstants.GeneratedProjectFileName });
+            ICommand command = _commandFactory.Create("dotnet", new List<string>() { "restore", csprojLocation });
             command.CaptureStdErr().WorkingDirectory(Directory.GetCurrentDirectory()).Execute();
             _packagesRestored = true;
         }

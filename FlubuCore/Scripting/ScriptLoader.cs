@@ -35,7 +35,8 @@ namespace FlubuCore.Scripting
 
         private readonly IFileWrapper _file;
         private readonly IDirectoryWrapper _directory;
-        private readonly IScriptAnalyser _analyser;
+        private readonly IProjectFileAnalyzer _projectFileAnalyzer;
+        private readonly IScriptAnalyzer _scriptAnalyzer;
         private readonly IBuildScriptLocator _buildScriptLocator;
         private readonly INugetPackageResolver _nugetPackageResolver;
 
@@ -44,14 +45,16 @@ namespace FlubuCore.Scripting
         public ScriptLoader(
             IFileWrapper file,
             IDirectoryWrapper directory,
-            IScriptAnalyser analyser,
+            IProjectFileAnalyzer projectFileAnalyzer,
+            IScriptAnalyzer scriptAnalyzer,
             IBuildScriptLocator buildScriptLocator,
             INugetPackageResolver nugetPackageResolver,
             ILogger<ScriptLoader> log)
         {
             _file = file;
             _directory = directory;
-            _analyser = analyser;
+            _projectFileAnalyzer = projectFileAnalyzer;
+            _scriptAnalyzer = scriptAnalyzer;
             _log = log;
             _buildScriptLocator = buildScriptLocator;
             _nugetPackageResolver = nugetPackageResolver;
@@ -64,16 +67,17 @@ namespace FlubuCore.Scripting
             buildScriptAssemblyPath = Path.ChangeExtension(buildScriptAssemblyPath, "dll");
 
             List<string> code = _file.ReadAllLines(buildScriptFilePath);
-            AnalyserResult analyserResult = _analyser.Analyze(code);
+            ScriptAnalyzerResult scriptAnalyzerResult = _scriptAnalyzer.Analyze(code);
+            ProjectFileAnalyzerResult projectFileAnalyzerResult = _projectFileAnalyzer.Analyze();
             bool oldWay = false;
 #if NET462
           oldWay = true;
 #endif
-            var references = GetBuildScriptReferences(args, analyserResult, code, oldWay, buildScriptFilePath);
+            var references = GetBuildScriptReferences(args, projectFileAnalyzerResult, scriptAnalyzerResult, code, oldWay, buildScriptFilePath);
 
             if (oldWay)
             {
-                return await CreateBuildScriptInstanceOldWay(buildScriptFilePath, references, code, analyserResult);
+                return await CreateBuildScriptInstanceOldWay(buildScriptFilePath, references, code, scriptAnalyzerResult);
             }
 
             var assembly = TryLoadBuildScriptFromAssembly(buildScriptAssemblyPath, buildScriptFilePath);
@@ -197,8 +201,7 @@ namespace FlubuCore.Scripting
             }
         }
 
-        private IEnumerable<MetadataReference> GetBuildScriptReferences(CommandArguments args,
-            AnalyserResult analyserResult, List<string> code, bool oldWay, string pathToBuildScript)
+        private IEnumerable<MetadataReference> GetBuildScriptReferences(CommandArguments args, ProjectFileAnalyzerResult projectFileAnalyzerResult, ScriptAnalyzerResult scriptAnalyzerResult, List<string> code, bool oldWay, string pathToBuildScript)
         {
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuCoreAssembly = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
@@ -227,9 +230,18 @@ namespace FlubuCore.Scripting
                 });
             }
 
-            assemblyReferences.AddOrUpdateAssemblyInfo(analyserResult.References);
-            assemblyReferences.AddOrUpdateAssemblyInfo(_nugetPackageResolver.ResolveNugetPackages(analyserResult.NugetPackages, pathToBuildScript));
-            AddOtherCsFilesToBuildScriptCode(analyserResult, assemblyReferences, code);
+            assemblyReferences.AddOrUpdateAssemblyInfo(scriptAnalyzerResult.References);
+
+            if (projectFileAnalyzerResult.ProjectFileFound)
+            {
+                assemblyReferences.AddOrUpdateAssemblyInfo(_nugetPackageResolver.ResolveNugetPackagesFromFlubuCsproj(projectFileAnalyzerResult));
+            }
+            else
+            {
+                assemblyReferences.AddOrUpdateAssemblyInfo(_nugetPackageResolver.ResolveNugetPackagesFromDirectives(scriptAnalyzerResult.NugetPackages, pathToBuildScript));
+            }
+
+            AddOtherCsFilesToBuildScriptCode(scriptAnalyzerResult, assemblyReferences, code);
             var assemblyReferencesLocations = assemblyReferences.Select(x => x.FullPath).ToList();
             assemblyReferencesLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
             assemblyReferencesLocations =
@@ -352,24 +364,24 @@ namespace FlubuCore.Scripting
             return assemblyReferenceLocations;
         }
 
-        private void AddOtherCsFilesToBuildScriptCode(AnalyserResult analyserResult, List<AssemblyInfo> assemblyReferenceLocations, List<string> code)
+        private void AddOtherCsFilesToBuildScriptCode(ScriptAnalyzerResult analyzerResult, List<AssemblyInfo> assemblyReferenceLocations, List<string> code)
         {
-            foreach (var file in analyserResult.CsFiles)
+            foreach (var file in analyzerResult.CsFiles)
             {
                 if (_file.Exists(file))
                 {
                     _log.LogInformation($"File found: {file}");
                     List<string> additionalCode = _file.ReadAllLines(file);
 
-                    AnalyserResult additionalCodeAnalyserResult = _analyser.Analyze(additionalCode);
-                    if (additionalCodeAnalyserResult.CsFiles.Count > 0)
+                    ScriptAnalyzerResult additionalCodeAnalyzerResult = _scriptAnalyzer.Analyze(additionalCode);
+                    if (additionalCodeAnalyzerResult.CsFiles.Count > 0)
                     {
                         throw new NotSupportedException("//#imp is only supported in main buildscript .cs file.");
                     }
 
                     var usings = additionalCode.Where(x => x.StartsWith("using"));
 
-                    assemblyReferenceLocations.AddOrUpdateAssemblyInfo(additionalCodeAnalyserResult.References);
+                    assemblyReferenceLocations.AddOrUpdateAssemblyInfo(additionalCodeAnalyzerResult.References);
                     code.InsertRange(1, usings);
                     code.AddRange(additionalCode.Where(x => !x.StartsWith("using")));
                 }
@@ -397,7 +409,7 @@ namespace FlubuCore.Scripting
             return assemblyLocations;
         }
 
-        private async Task<IBuildScript> CreateBuildScriptInstanceOldWay(string buildScriptFIlePath, IEnumerable<MetadataReference> references, List<string> code,  AnalyserResult analyserResult)
+        private async Task<IBuildScript> CreateBuildScriptInstanceOldWay(string buildScriptFIlePath, IEnumerable<MetadataReference> references, List<string> code,  ScriptAnalyzerResult analyzerResult)
         {
             ScriptOptions opts = ScriptOptions.Default
                 .WithEmitDebugInformation(true)
@@ -407,7 +419,7 @@ namespace FlubuCore.Scripting
 
             Script script = CSharpScript
                 .Create(string.Join("\r\n", code), opts)
-                .ContinueWith(string.Format("var sc = new {0}();", analyserResult.ClassName));
+                .ContinueWith(string.Format("var sc = new {0}();", analyzerResult.ClassName));
 
             try
             {

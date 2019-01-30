@@ -5,7 +5,7 @@ namespace FlubuCore.Scripting.Processors
 {
     public class ClassDirectiveProcessor : IDirectiveProcessor
     {
-        public bool Process(AnalyserResult analyserResult, string line, int lineIndex)
+        public bool Process(ScriptAnalyzerResult analyzerResult, string line, int lineIndex)
         {
             var i = line.IndexOf("class", StringComparison.Ordinal);
             if (i < 0)
@@ -19,7 +19,7 @@ namespace FlubuCore.Scripting.Processors
                 i = tmp.Length;
             }
 
-            analyserResult.ClassName = tmp.Substring(0, i);
+            analyzerResult.ClassName = tmp.Substring(0, i);
             return true;
         }
     }

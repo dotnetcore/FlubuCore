@@ -25,7 +25,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
         public static IServiceCollection AddScriptAnalyser(this IServiceCollection services)
         {
             return services
-                .AddSingleton<IScriptAnalyser, ScriptAnalyser>()
+                .AddSingleton<IScriptAnalyzer, ScriptAnalyzer>()
                 .AddSingleton<IDirectiveProcessor, CsDirectiveProcessor>()
                 .AddSingleton<IDirectiveProcessor, ClassDirectiveProcessor>()
                 .AddSingleton<IDirectiveProcessor, AssemblyDirectiveProcessor>()

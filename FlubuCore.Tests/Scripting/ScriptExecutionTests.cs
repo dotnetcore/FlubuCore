@@ -19,18 +19,19 @@ namespace FlubuCore.Tests.Scripting
     {
         private readonly Mock<IFileWrapper> _fileLoader = new Mock<IFileWrapper>();
         private readonly Mock<IDirectoryWrapper> _directory = new Mock<IDirectoryWrapper>();
-        private readonly Mock<IScriptAnalyser> _analyser = new Mock<IScriptAnalyser>();
+        private readonly Mock<IScriptAnalyzer> _analyzer = new Mock<IScriptAnalyzer>();
         private readonly Mock<IBuildScriptLocator> _scriptLocator = new Mock<IBuildScriptLocator>();
         private readonly Mock<ILogger<ScriptLoader>> _logger = new Mock<ILogger<ScriptLoader>>();
         private readonly Mock<ILogger<TaskSession>> _loggerTaskSession = new Mock<ILogger<TaskSession>>();
+        private readonly Mock<IProjectFileAnalyzer> _projectFileAnalyzer = new Mock<IProjectFileAnalyzer>();
 
         private readonly Mock<INugetPackageResolver> _nugetPackageResolver = new Mock<INugetPackageResolver>();
         private readonly ScriptLoader _loader;
 
         public ScriptExecutionTests()
         {
-            _nugetPackageResolver.Setup(x => x.ResolveNugetPackages(It.IsAny<List<NugetPackageReference>>(), It.IsAny<string>())).Returns(new List<AssemblyInfo>());
-            _loader = new ScriptLoader(_fileLoader.Object, _directory.Object, _analyser.Object, _scriptLocator.Object, _nugetPackageResolver.Object, _logger.Object);
+            _nugetPackageResolver.Setup(x => x.ResolveNugetPackagesFromDirectives(It.IsAny<List<NugetPackageReference>>(), It.IsAny<string>())).Returns(new List<AssemblyInfo>());
+            _loader = new ScriptLoader(_fileLoader.Object, _directory.Object, _projectFileAnalyzer.Object, _analyzer.Object, _scriptLocator.Object, _nugetPackageResolver.Object, _logger.Object);
         }
 
         [Fact]
@@ -60,8 +61,8 @@ namespace FlubuCore.Tests.Scripting
                     "    }"
                 });
 
-            _analyser.Setup(i => i.Analyze(It.IsAny<List<string>>()))
-                .Returns(new AnalyserResult() { ClassName = "MyBuildScript" });
+            _analyzer.Setup(i => i.Analyze(It.IsAny<List<string>>()))
+                .Returns(new ScriptAnalyzerResult() { ClassName = "MyBuildScript" });
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync(args);
             var provider = new ServiceCollection().BuildServiceProvider();
@@ -98,8 +99,8 @@ namespace FlubuCore.Tests.Scripting
                     "}",
                 });
 
-            _analyser.Setup(i => i.Analyze(It.IsAny<List<string>>()))
-                .Returns(new AnalyserResult() { ClassName = "MyBuildScript" });
+            _analyzer.Setup(i => i.Analyze(It.IsAny<List<string>>()))
+                .Returns(new ScriptAnalyzerResult() { ClassName = "MyBuildScript" });
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync(args);
 
@@ -144,8 +145,8 @@ namespace FlubuCore.Tests.Scripting
                     "}"
                 });
 
-            _analyser.Setup(i => i.Analyze(It.IsAny<List<string>>()))
-                .Returns(new AnalyserResult() { ClassName = "MyBuildScript" });
+            _analyzer.Setup(i => i.Analyze(It.IsAny<List<string>>()))
+                .Returns(new ScriptAnalyzerResult() { ClassName = "MyBuildScript" });
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync(args);
             var provider = new ServiceCollection().BuildServiceProvider();

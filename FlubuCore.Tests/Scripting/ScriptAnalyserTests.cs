@@ -10,7 +10,7 @@ namespace FlubuCore.Tests.Scripting
 {
     public class ScriptAnalyserTests
     {
-        private readonly IScriptAnalyser _analyser;
+        private readonly IScriptAnalyzer _analyzer;
 
         private Mock<IFileWrapper> _fileWrapper;
 
@@ -31,7 +31,7 @@ namespace FlubuCore.Tests.Scripting
                 new NugetPackageDirectirveProcessor()
             };
 
-            _analyser = new ScriptAnalyser(processors);
+            _analyzer = new ScriptAnalyzer(processors);
         }
 
         [Theory]
@@ -43,7 +43,7 @@ namespace FlubuCore.Tests.Scripting
         public void GetClassNameFromBuildScriptCodeTest(string code, string expectedClassName)
         {
             ClassDirectiveProcessor pr = new ClassDirectiveProcessor();
-            AnalyserResult res = new AnalyserResult();
+            ScriptAnalyzerResult res = new ScriptAnalyzerResult();
             pr.Process(res, code, 1);
             Assert.Equal(expectedClassName, res.ClassName);
         }
@@ -57,7 +57,7 @@ namespace FlubuCore.Tests.Scripting
             AssemblyDirectiveProcessor pr = new AssemblyDirectiveProcessor(_fileWrapper.Object, _pathWrapper.Object);
             _pathWrapper.Setup(x => x.GetExtension(expected)).Returns(".dll");
             _fileWrapper.Setup(x => x.Exists(expected)).Returns(true);
-            AnalyserResult res = new AnalyserResult();
+            ScriptAnalyzerResult res = new ScriptAnalyzerResult();
             pr.Process(res, line, 1);
             Assert.Equal(expected, res.References.First().FullPath);
         }
@@ -68,7 +68,7 @@ namespace FlubuCore.Tests.Scripting
         public void NugetRefrence(string line, string expectedId, string expectedVersion)
         {
             NugetPackageDirectirveProcessor pr = new NugetPackageDirectirveProcessor();
-            AnalyserResult res = new AnalyserResult();
+            ScriptAnalyzerResult res = new ScriptAnalyzerResult();
             pr.Process(res, line, 1);
             Assert.Equal(expectedId, res.NugetPackages.First().Id);
             Assert.Equal(expectedVersion, res.NugetPackages.First().Version);
@@ -81,7 +81,7 @@ namespace FlubuCore.Tests.Scripting
         public void ParseCs(string line, string expected)
         {
             CsDirectiveProcessor pr = new CsDirectiveProcessor();
-            AnalyserResult res = new AnalyserResult();
+            ScriptAnalyzerResult res = new ScriptAnalyzerResult();
             pr.Process(res, line, 1);
             Assert.Equal(expected, res.CsFiles.First());
         }
@@ -102,7 +102,7 @@ namespace FlubuCore.Tests.Scripting
             _pathWrapper.Setup(x => x.GetExtension(It.IsAny<string>())).Returns(".dll");
             _fileWrapper.Setup(x => x.Exists(It.IsAny<string>())).Returns(true);
 
-            var res = _analyser.Analyze(lines);
+            var res = _analyzer.Analyze(lines);
 
             Assert.Equal("MyScript", res.ClassName);
             Assert.Single(res.References);
@@ -125,7 +125,7 @@ namespace FlubuCore.Tests.Scripting
                 "}"
             };
 
-            _analyser.Analyze(lines);
+            _analyzer.Analyze(lines);
             Assert.Equal(4, lines.Count);
         }
     }
