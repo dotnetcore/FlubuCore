@@ -4,7 +4,7 @@
     {
         public bool Process(ScriptAnalyzerResult analyzerResult, string line, int lineIndex)
         {
-            if (line.TrimStart().StartsWith("namespace"))
+            if (line.StartsWith("namespace"))
             {
                 analyzerResult.NamespaceIndex = lineIndex;
                 return false;

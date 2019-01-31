@@ -22,7 +22,7 @@ namespace FlubuCore.Scripting.Analysis
                 if (i >= lines.Count)
                     break;
 
-                string line = lines[i];
+                string line = lines[i].TrimStart();
 
                 foreach (var processor in _processors)
                 {

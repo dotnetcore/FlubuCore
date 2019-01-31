@@ -7,7 +7,7 @@ namespace FlubuCore.Scripting.Analysis.Processors
     {
         public bool Process(ScriptAnalyzerResult analyzerResult, string line, int lineIndex)
         {
-            if (!line.TrimStart().StartsWith("//#ref", StringComparison.OrdinalIgnoreCase))
+            if (!line.StartsWith("//#ref", StringComparison.OrdinalIgnoreCase))
                 return false;
 
             int dllIndex = line.IndexOf(" ", StringComparison.Ordinal);

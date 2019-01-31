@@ -7,7 +7,7 @@ namespace FlubuCore.Scripting.Analysis.Processors
     {
         public bool Process(ScriptAnalyzerResult analyzerResult, string line, int lineIndex)
         {
-            if (!line.TrimStart().StartsWith("//#imp", StringComparison.OrdinalIgnoreCase))
+            if (!line.StartsWith("//#imp", StringComparison.OrdinalIgnoreCase))
                 return false;
 
             int index = line.IndexOf(" ", StringComparison.Ordinal);
