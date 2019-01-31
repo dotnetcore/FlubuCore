@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Reflection;
-using FlubuCore.Scripting.Analysis;
 
-namespace FlubuCore.Scripting.Processors
+namespace FlubuCore.Scripting.Analysis.Processors
 {
     public class ReferenceDirectiveProcessor : IScriptProcessor
     {

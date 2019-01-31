@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FlubuCore.Scripting.Analysis;
 
-namespace FlubuCore.Scripting.Processors
+namespace FlubuCore.Scripting.Analysis.Processors
 {
     public class NugetPackageDirectirveProcessor : IScriptProcessor
     {

@@ -2,7 +2,6 @@
 using FlubuCore.Commanding;
 using FlubuCore.Scripting;
 using FlubuCore.Scripting.Analysis;
-using FlubuCore.Scripting.Processors;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
 
