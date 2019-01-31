@@ -4,7 +4,7 @@ using FlubuCore.Scripting.Analysis;
 
 namespace FlubuCore.Scripting.Processors
 {
-    public class CsDirectiveProcessor : IDirectiveProcessor
+    public class CsDirectiveProcessor : IScriptProcessor
     {
         public bool Process(ScriptAnalyzerResult analyzerResult, string line, int lineIndex)
         {

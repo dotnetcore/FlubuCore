@@ -6,9 +6,9 @@ namespace FlubuCore.Scripting.Analysis
 {
     public class ScriptAnalyzer : IScriptAnalyzer
     {
-        private readonly List<IDirectiveProcessor> _processors;
+        private readonly List<IScriptProcessorcessors;
 
-        public ScriptAnalyzer(IEnumerable<IDirectiveProcessor> processors)
+        public ScriptAnalyzer(IEnumerable<IScIScIScriptProcessor)
         {
             _processors = processors.ToList();
         }

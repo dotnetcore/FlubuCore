@@ -5,7 +5,7 @@ using FlubuCore.Scripting.Analysis;
 
 namespace FlubuCore.Scripting.Processors
 {
-    public class NugetPackageDirectirveProcessor : IDirectiveProcessor
+    public class NugetPackageDirectirveProcessor : IScriptProcessor
     {
         public bool Process(ScriptAnalyzerResult analyzerResult, string line, int lineIndex)
         {

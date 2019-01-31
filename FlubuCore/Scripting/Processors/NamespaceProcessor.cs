@@ -2,7 +2,7 @@
 
 namespace FlubuCore.Scripting.Processors
 {
-    public class NamespaceDirectiveProcessor : IDirectiveProcessor
+    public class NamespaceProcessor : IScriptProcessor
     {
         public bool Process(ScriptAnalyzerResult analyzerResult, string line, int lineIndex)
         {

@@ -22,11 +22,11 @@ namespace FlubuCore.Tests.Scripting
 
             _pathWrapper = new Mock<IPathWrapper>();
 
-            List<IDirectiveProcessor> processors = new List<IDirectiveProcessor>()
+            List<IScriptProcessor> processors = new List<IScriptProcessor>()
             {
                 new ClassDirectiveProcessor(),
                 new AssemblyDirectiveProcessor(_fileWrapper.Object, _pathWrapper.Object),
-                new NamespaceDirectiveProcessor(),
+                new NamespaceProcessor(),
                 new CsDirectiveProcessor(),
                 new NugetPackageDirectirveProcessor()
             };

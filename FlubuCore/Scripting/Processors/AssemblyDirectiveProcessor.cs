@@ -5,7 +5,7 @@ using FlubuCore.Scripting.Analysis;
 
 namespace FlubuCore.Scripting.Processors
 {
-    public class AssemblyDirectiveProcessor : IDirectiveProcessor
+    public class AssemblyDirectiveProcessor : IScriptProcessor
     {
         private readonly IFileWrapper _file;
 
