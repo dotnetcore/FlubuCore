@@ -30,7 +30,7 @@ namespace FlubuCore.Tests.Scripting
 
         public ScriptExecutionTests()
         {
-            _projectFileAnalyzer.Setup(x => x.Analyze(It.IsAny<string>())).Returns(new ProjectFileAnalyzerResult
+            _projectFileAnalyzer.Setup(x => x.Analyze(It.IsAny<string>(), It.IsAny<bool>())).Returns(new ProjectFileAnalyzerResult
             {
                 ProjectFileFound = false
             });
