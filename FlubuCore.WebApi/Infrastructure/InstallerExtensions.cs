@@ -87,6 +87,7 @@ namespace FlubuCore.WebApi.Infrastructure
         public static IServiceCollection AddScriptAnalyserForWebApi(this IServiceCollection services)
         {
             return services
+                .AddScoped<IProjectFileAnalyzer, ProjectFileAnalyzer>()
                 .AddScoped<IScriptAnalyzer, ScriptAnalyzer>()
                 .AddScoped<IDirectiveProcessor, CsDirectiveProcessor>()
                 .AddScoped<IDirectiveProcessor, ClassDirectiveProcessor>()
