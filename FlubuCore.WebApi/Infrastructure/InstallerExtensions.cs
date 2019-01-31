@@ -10,6 +10,7 @@ using FlubuCore.Infrastructure;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using FlubuCore.Scripting.Analysis;
+using FlubuCore.Scripting.Analysis.Processors;
 using FlubuCore.Services;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;

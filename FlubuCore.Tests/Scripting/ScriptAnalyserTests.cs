@@ -2,6 +2,7 @@
 using System.Linq;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting.Analysis;
+using FlubuCore.Scripting.Analysis.Processors;
 using Moq;
 using Xunit;
 

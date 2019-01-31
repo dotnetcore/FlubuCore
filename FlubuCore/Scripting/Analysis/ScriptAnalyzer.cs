@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FlubuCore.Scripting.Analysis.Processors;
 
 namespace FlubuCore.Scripting.Analysis
 {
