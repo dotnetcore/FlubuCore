@@ -23,7 +23,7 @@ namespace FlubuCore.Scripting.Analysis.Processors
                 throw new ScriptException("Invalid nuget package directive. Example of valid directive: '//#nuget: FlubuCore, 2.8.0'");
             }
 
-            analyzerResult.NugetPackages.Add(new NugetPackageReference { Id = nugetInfos[0].Trim(), Version = nugetInfos[1].Trim() });
+            analyzerResult.NugetPackageReferences.Add(new NugetPackageReference { Id = nugetInfos[0].Trim(), Version = nugetInfos[1].Trim() });
             return true;
         }
     }

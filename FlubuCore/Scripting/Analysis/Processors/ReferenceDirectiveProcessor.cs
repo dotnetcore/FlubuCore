@@ -19,7 +19,7 @@ namespace FlubuCore.Scripting.Analysis.Processors
             var type = Type.GetType(dll, true);
             var ass = type.GetTypeInfo().Assembly;
 
-            analyzerResult.References.Add(ass.ToAssemblyInfo());
+            analyzerResult.AssemblyReferences.Add(ass.ToAssemblyInfo());
             return true;
         }
     }

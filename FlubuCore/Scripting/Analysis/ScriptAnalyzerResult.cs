@@ -9,10 +9,10 @@ namespace FlubuCore.Scripting.Analysis
 
         public int? NamespaceIndex { get; set; }
 
-        public List<AssemblyInfo> References { get; } = new List<AssemblyInfo>();
+        public List<AssemblyInfo> AssemblyReferences { get; } = new List<AssemblyInfo>();
 
         public List<string> CsFiles { get; } = new List<string>();
 
-        public List<NugetPackageReference> NugetPackages { get; } = new List<NugetPackageReference>();
+        public List<NugetPackageReference> NugetPackageReferences { get; } = new List<NugetPackageReference>();
     }
 }

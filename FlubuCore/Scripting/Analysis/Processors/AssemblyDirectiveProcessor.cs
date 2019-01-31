@@ -42,7 +42,7 @@ namespace FlubuCore.Scripting.Analysis.Processors
                 throw new ScriptException($"Assembly not found at location: {pathToDll}");
             }
 
-            analyzerResult.References.Add(new AssemblyInfo
+            analyzerResult.AssemblyReferences.Add(new AssemblyInfo
             {
                 Name = "N/A",
                 VersionStatus = VersionStatus.NotAvailable,

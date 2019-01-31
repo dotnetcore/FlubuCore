@@ -230,7 +230,7 @@ namespace FlubuCore.Scripting
                 });
             }
 
-            assemblyReferences.AddOrUpdateAssemblyInfo(scriptAnalyzerResult.References);
+            assemblyReferences.AddOrUpdateAssemblyInfo(scriptAnalyzerResult.AssemblyReferences);
 
             if (projectFileAnalyzerResult.ProjectFileFound)
             {
@@ -238,7 +238,7 @@ namespace FlubuCore.Scripting
             }
             else
             {
-                assemblyReferences.AddOrUpdateAssemblyInfo(_nugetPackageResolver.ResolveNugetPackagesFromDirectives(scriptAnalyzerResult.NugetPackages, pathToBuildScript));
+                assemblyReferences.AddOrUpdateAssemblyInfo(_nugetPackageResolver.ResolveNugetPackagesFromDirectives(scriptAnalyzerResult.NugetPackageReferences, pathToBuildScript));
             }
 
             AddOtherCsFilesToBuildScriptCode(scriptAnalyzerResult, assemblyReferences, code);
@@ -381,7 +381,7 @@ namespace FlubuCore.Scripting
 
                     var usings = additionalCode.Where(x => x.StartsWith("using"));
 
-                    assemblyReferenceLocations.AddOrUpdateAssemblyInfo(additionalCodeAnalyzerResult.References);
+                    assemblyReferenceLocations.AddOrUpdateAssemblyInfo(additionalCodeAnalyzerResult.AssemblyReferences);
                     code.InsertRange(1, usings);
                     code.AddRange(additionalCode.Where(x => !x.StartsWith("using")));
                 }

@@ -59,7 +59,7 @@ namespace FlubuCore.Tests.Scripting
             _fileWrapper.Setup(x => x.Exists(expected)).Returns(true);
             ScriptAnalyzerResult res = new ScriptAnalyzerResult();
             pr.Process(res, line, 1);
-            Assert.Equal(expected, res.References.First().FullPath);
+            Assert.Equal(expected, res.AssemblyReferences.First().FullPath);
         }
 
         [Theory]
@@ -70,8 +70,8 @@ namespace FlubuCore.Tests.Scripting
             NugetPackageDirectirveProcessor pr = new NugetPackageDirectirveProcessor();
             ScriptAnalyzerResult res = new ScriptAnalyzerResult();
             pr.Process(res, line, 1);
-            Assert.Equal(expectedId, res.NugetPackages.First().Id);
-            Assert.Equal(expectedVersion, res.NugetPackages.First().Version);
+            Assert.Equal(expectedId, res.NugetPackageReferences.First().Id);
+            Assert.Equal(expectedVersion, res.NugetPackageReferences.First().Version);
         }
 
         [Theory]
@@ -105,8 +105,8 @@ namespace FlubuCore.Tests.Scripting
             var res = _analyzer.Analyze(lines);
 
             Assert.Equal("MyScript", res.ClassName);
-            Assert.Single(res.References);
-            Assert.Single(res.NugetPackages);
+            Assert.Single(res.AssemblyReferences);
+            Assert.Single(res.NugetPackageReferences);
             Assert.Single(res.CsFiles);
             Assert.Equal(2, lines.Count);
         }
