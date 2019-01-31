@@ -3,6 +3,7 @@ using System.Linq;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting.Analysis;
 using FlubuCore.Scripting.Analysis.Processors;
+using FlubuCore.Scripting.Attributes;
 using Moq;
 using Xunit;
 
@@ -65,7 +66,7 @@ namespace FlubuCore.Tests.Scripting
         [Theory]
         [InlineData("//#nuget FlubuCore, 2.7.0", "FlubuCore", "2.7.0")]
         [InlineData("//#nuget RockStar, 2.0.0  \r\n", "RockStar", "2.0.0")]
-        public void NugetRefrence(string line, string expectedId, string expectedVersion)
+        public void NugetReference(string line, string expectedId, string expectedVersion)
         {
             NugetPackageDirectirveProcessor pr = new NugetPackageDirectirveProcessor();
             ScriptAnalyzerResult res = new ScriptAnalyzerResult();
@@ -86,8 +87,30 @@ namespace FlubuCore.Tests.Scripting
             Assert.Equal(expected, res.CsFiles.First());
         }
 
+        [Theory]
+        [InlineData("[DisableLoadScriptReferencesAutomatically]", FlubuCore.Scripting.Attributes.ScriptAttributes.DisableLoadScriptReferencesAutomatically)]
+        [InlineData("[DisableLoadScriptReferencesAutomaticallyAttribute]", FlubuCore.Scripting.Attributes.ScriptAttributes.DisableLoadScriptReferencesAutomatically)]
+        [InlineData("[DisableLoadScriptReferencesAutomatically2]", null)]
+        [InlineData("[ADisableLoadScriptReferencesAutomatically]", null)]
+        [InlineData("DisableLoadScriptReferencesAutomatically]", null)]
+        [InlineData("[DisableLoadScriptReferencesAutomatically", null)]
+        public void ScriptAttributes(string line, ScriptAttributes? expected)
+        {
+            AttributesProcessor pr = new AttributesProcessor();
+            ScriptAnalyzerResult res = new ScriptAnalyzerResult();
+            pr.Process(res, line, 1);
+            if (expected.HasValue)
+            {
+                Assert.True(res.ScriptAttributes.Contains(expected.Value));
+            }
+            else
+            {
+                Assert.True(res.ScriptAttributes.Count == 0);
+            }
+        }
+
         [Fact]
-        public void Analyse()
+        public void Analyze()
         {
             List<string> lines = new List<string>()
             {
