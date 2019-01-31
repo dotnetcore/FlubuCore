@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 using FlubuCore.IO.Wrappers;
+using FlubuCore.Scripting.Attributes;
 
 namespace FlubuCore.Scripting.Analysis
 {
@@ -27,8 +28,16 @@ namespace FlubuCore.Scripting.Analysis
             _file = file;
         }
 
-        public ProjectFileAnalyzerResult Analyze(string location = null)
+        public ProjectFileAnalyzerResult Analyze(string location = null, bool disableAnalysis = false)
         {
+            if (disableAnalysis)
+            {
+                return new ProjectFileAnalyzerResult
+                {
+                    ProjectFileFound = false
+                };
+            }
+
             var result = LocateCsproj(location);
 
             if (!result.ProjectFileFound)

@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting.Analysis;
+using FlubuCore.Scripting.Attributes;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
@@ -68,7 +69,7 @@ namespace FlubuCore.Scripting
 
             List<string> code = _file.ReadAllLines(buildScriptFilePath);
             ScriptAnalyzerResult scriptAnalyzerResult = _scriptAnalyzer.Analyze(code);
-            ProjectFileAnalyzerResult projectFileAnalyzerResult = _projectFileAnalyzer.Analyze();
+            ProjectFileAnalyzerResult projectFileAnalyzerResult = _projectFileAnalyzer.Analyze(disableAnalysis: scriptAnalyzerResult.ScriptAttributes.Contains(ScriptAttributes.DisableLoadScriptReferencesAutomatically));
             bool oldWay = false;
 #if NET462
           oldWay = true;
