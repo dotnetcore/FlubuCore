@@ -236,6 +236,7 @@ namespace FlubuCore.Scripting
             if (projectFileAnalyzerResult.ProjectFileFound)
             {
                 assemblyReferences.AddOrUpdateAssemblyInfo(_nugetPackageResolver.ResolveNugetPackagesFromFlubuCsproj(projectFileAnalyzerResult));
+                AddAssemblyReferencesFromCsproj(projectFileAnalyzerResult, assemblyReferences);
             }
             else
             {
@@ -443,6 +444,28 @@ namespace FlubuCore.Scripting
                 }
 
                 throw new ScriptLoaderExcetpion($"Csharp source code file: {buildScriptFIlePath} has some compilation errors. {e.Message}.", e);
+            }
+        }
+
+#pragma warning disable SA1204 // Static elements should appear before instance elements
+        private static void AddAssemblyReferencesFromCsproj(ProjectFileAnalyzerResult projectFileAnalyzerResult, List<AssemblyInfo> assemblyReferences)
+#pragma warning restore SA1204 // Static elements should appear before instance elements
+        {
+            foreach (var reference in projectFileAnalyzerResult.AssemblyReferences)
+            {
+                if (!string.IsNullOrEmpty(reference.Path))
+                {
+                    assemblyReferences.AddOrUpdateAssemblyInfo(new AssemblyInfo
+                    {
+                        VersionStatus = VersionStatus.NotAvailable,
+                        FullPath = reference.Path,
+                        Name = reference.Name
+                    });
+                }
+                else
+                {
+                    assemblyReferences.AddReferenceByAssemblyName(reference.Name);
+                }
             }
         }
     }

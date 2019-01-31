@@ -21,7 +21,7 @@ namespace FlubuCore.Scripting
 
                 if (!string.IsNullOrEmpty(assembly.Location))
                 {
-                    references.Add(new AssemblyInfo
+                    references.AddOrUpdateAssemblyInfo(new AssemblyInfo
                     {
                         Name = assName.Name,
                         Version = assName.Version,
