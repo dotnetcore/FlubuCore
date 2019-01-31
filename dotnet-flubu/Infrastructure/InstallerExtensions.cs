@@ -27,12 +27,12 @@ namespace DotNet.Cli.Flubu.Infrastructure
             return services
                 .AddSingleton<IProjectFileAnalyzer, ProjectFileAnalyzer>()
                 .AddSingleton<IScriptAnalyzer, ScriptAnalyzer>()
-                .AddSingleton<IScriptProcessor, CsDirectiveProcessor>()
-                .AddSingleton<IScriptProcessor, ClassDirectiveProcessor>()
-                .AddSingleton<IScriptProcessor, AssemblyDirectiveProcessor>()
-                .AddSingleton<IScriptProcessor, ReferenceDirectiveProcessor>()
-                .AddSingleton<IScriptProcessor, NamespaceProcessor>()
-                .AddSingleton<IScriptProcessor, NugetPackageDirectirveProcessor>();
+                .AddSingleton<IDirectiveProcessor, CsDirectiveProcessor>()
+                .AddSingleton<IDirectiveProcessor, ClassDirectiveProcessor>()
+                .AddSingleton<IDirectiveProcessor, AssemblyDirectiveProcessor>()
+                .AddSingleton<IDirectiveProcessor, ReferenceDirectiveProcessor>()
+                .AddSingleton<IDirectiveProcessor, NamespaceProcessor>()
+                .AddSingleton<IDirectiveProcessor, NugetPackageDirectirveProcessor>();
         }
 
         public static IServiceCollection AddArguments(this IServiceCollection services, string[] args)
