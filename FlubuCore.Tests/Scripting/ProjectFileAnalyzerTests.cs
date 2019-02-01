@@ -29,7 +29,7 @@ namespace FlubuCore.Tests.Scripting
             Assert.Equal(3, result.AssemblyReferences.Count);
             Assert.Equal("Newtonsoft.Json", result.AssemblyReferences[0].Name);
             Assert.Contains(@"..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll", result.AssemblyReferences[0].Path);
-            Assert.Contains("TestData/ProjectFiles/Build.csproj", result.AssemblyReferences[0].Path);
+            Assert.StartsWith("TestData", result.AssemblyReferences[0].Path);
             Assert.Equal("System.Net.Http", result.AssemblyReferences[2].Name);
             Assert.Null(result.AssemblyReferences[2].Path);
         }

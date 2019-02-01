@@ -64,7 +64,7 @@ namespace FlubuCore.Scripting.Analysis
                 var packageNode = assemblyReferences.Current.Clone();
                 if (packageNode.MoveToChild("HintPath", string.Empty))
                 {
-                    reference.Path = Path.Combine(result.ProjectFileLocation, packageNode.InnerXml);
+                    reference.Path = Path.Combine(Path.GetDirectoryName(result.ProjectFileLocation), packageNode.InnerXml);
                 }
 
                 result.AssemblyReferences.Add(reference);
