@@ -51,7 +51,7 @@ namespace FlubuCore.Scripting
 
             var csprojDir = Path.GetDirectoryName(csprojLocation);
             var csprojfileName = Path.GetFileName(csprojLocation);
-            var nugetPropsLocation = Path.Combine(csprojDir, "obj", csprojfileName + "nuget.g.props");
+            var nugetPropsLocation = Path.Combine(csprojDir, "obj", csprojfileName + ".nuget.g.props");
             bool nugetPropsFileExists = _file.Exists(nugetPropsLocation);
             bool mustRestoreNugetPackages = true;
 
