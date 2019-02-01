@@ -47,6 +47,16 @@ namespace FlubuCore.Scripting
         public List<AssemblyInfo> ResolveNugetPackagesFromFlubuCsproj(ProjectFileAnalyzerResult analyzerResult)
         {
             List<AssemblyInfo> assemblyReferences = new List<AssemblyInfo>();
+            var nugetReferences = analyzerResult.NugetReferences.Where(x =>
+                            !x.Id.Equals("FlubuCore", StringComparison.OrdinalIgnoreCase) &&
+                            !x.Id.Equals("dotnet-flubu", StringComparison.OrdinalIgnoreCase) &&
+                            !x.Id.Equals("FlubuCore.Runner", StringComparison.OrdinalIgnoreCase)).ToList();
+
+            if (nugetReferences.Count == 0)
+            {
+                return assemblyReferences;
+            }
+
             string csprojLocation = analyzerResult.ProjectFileLocation;
 
             var csprojDir = Path.GetDirectoryName(csprojLocation);
@@ -86,7 +96,7 @@ namespace FlubuCore.Scripting
             var dependencyContext = ReadDependencyContext(Path.Combine(csprojDir, "obj", "project.assets.json"));
 
             var compileLibraries = dependencyContext.CompileLibraries.ToList();
-            foreach (var packageReference in analyzerResult.NugetReferences)
+            foreach (var packageReference in nugetReferences)
             {
                 CompilationLibrary compileLibrary = compileLibraries.FirstOrDefault(x =>
                     x.Name.Equals(packageReference.Id, StringComparison.OrdinalIgnoreCase));
