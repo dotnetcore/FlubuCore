@@ -521,5 +521,11 @@ namespace FlubuCore.Tests.Context
         {
             Assert.NotNull(Context.Tasks().GitTasks().Submodule().Init());
         }
+
+        [Fact]
+        public void ResolveGitVersionTask()
+        {
+            Assert.NotNull(Context.Tasks().GitVersionTask());
+        }
     }
 }

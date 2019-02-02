@@ -230,6 +230,13 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         IGitFluentInterface GitTasks();
 
         /// <summary>
+        /// GitVersion is a tool to help you achieve Semantic Versioning on your project.
+        /// https://gitversion.readthedocs.io/en/latest/
+        /// </summary>
+        /// <returns></returns>
+        GitVersionTask GitVersionTask();
+
+        /// <summary>
         /// Docker specific tasks.
         /// </summary>
         /// <returns></returns>

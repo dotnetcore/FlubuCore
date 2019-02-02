@@ -83,7 +83,8 @@ namespace FlubuCore.Infrastructure
                 .AddTask<DockerStopTask>()
                 .AddTask<T4TemplateTask>()
                 .AddTask<TouchFileTask>()
-                .AddTask<GitSubmoduleTask>();
+                .AddTask<GitSubmoduleTask>()
+                .AddTask<GitVersionTask>();
         }
     }
 }

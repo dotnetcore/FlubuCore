@@ -241,6 +241,11 @@ namespace FlubuCore.Context.FluentInterface
             return _gitFluentInterface;
         }
 
+        public GitVersionTask GitVersionTask()
+        {
+            return Context.CreateTask<GitVersionTask>();
+        }
+
         public DockerFluentInterface DockerTasks()
         {
             return _dockerFluentInterface;
