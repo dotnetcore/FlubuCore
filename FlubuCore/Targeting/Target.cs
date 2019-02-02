@@ -18,6 +18,8 @@ namespace FlubuCore.Targeting
 
         private readonly TargetTree _targetTree;
 
+        private Func<bool> _mustCondition;
+
         internal Target(TargetTree targetTree, string targetName, CommandArguments args)
         {
             if (targetName.Any(x => char.IsWhiteSpace(x)))
@@ -306,6 +308,12 @@ namespace FlubuCore.Targeting
             return this;
         }
 
+        public ITargetInternal Must(Func<bool> condition)
+        {
+            _mustCondition = condition;
+            return this;
+        }
+
         public void TargetHelp(ITaskContextInternal context)
         {
             _targetTree.MarkTargetAsExecuted(this);
@@ -361,6 +369,16 @@ namespace FlubuCore.Targeting
             if (_targetTree == null)
             {
                 throw new ArgumentNullException(nameof(_targetTree), "TargetTree must be set before Execution of target.");
+            }
+
+            if (_mustCondition != null)
+            {
+                var conditionMeet = _mustCondition.Invoke();
+
+                if (conditionMeet == false)
+                {
+                    throw new TaskExecutionException($"Condition in must was not meet. Failed to execute target: '{TargetName}'.", 50);
+                }
             }
 
             context.LogInfo($"Executing target {TargetName}");

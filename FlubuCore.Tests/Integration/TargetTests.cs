@@ -228,7 +228,32 @@ namespace FlubuCore.Tests.Integration
             doTask.Execute(Context);
         }
 
-        public void ForMemberDoTest(ITaskContext context, string param)
+        [Fact]
+        public void Must_ConditionNotMeet_ThrowsException()
+        {
+            TargetTree targetTree = _provider.GetService<TargetTree>();
+
+            var target1 = targetTree.AddTarget("target1");
+
+            target1.AddTask(null, new SimpleTask(new FileWrapper())).Must(() => false);
+
+            var ex = Assert.Throws<TaskExecutionException>(() => target1.ExecuteVoid(Context));
+            Assert.Equal(50, ex.ErrorCode);
+        }
+
+        [Fact]
+        public void Must_ConditionMeet_ExecutesTarget()
+        {
+            TargetTree targetTree = _provider.GetService<TargetTree>();
+
+            var target1 = targetTree.AddTarget("target1");
+
+            target1.AddTask(null, new SimpleTask(new FileWrapper())).Must(() => true);
+
+            target1.ExecuteVoid(Context);
+        }
+
+        private void ForMemberDoTest(ITaskContext context, string param)
         {
             Assert.Equal("value from arg", param);
         }

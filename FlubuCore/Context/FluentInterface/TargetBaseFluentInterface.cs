@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
+using Microsoft.Build.Utilities;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Task = System.Threading.Tasks.Task;
 
 namespace FlubuCore.Context.FluentInterface
 {
@@ -230,6 +232,11 @@ namespace FlubuCore.Context.FluentInterface
             }
 
             Target.RemoveLastAddedActionsFromTarget(LastTargetAction, ActionCount);
+            return this as TTargetFluentInterface;
+        }
+
+        public TTargetFluentInterface Must(Func<bool> condition)
+        {
             return this as TTargetFluentInterface;
         }
     }
