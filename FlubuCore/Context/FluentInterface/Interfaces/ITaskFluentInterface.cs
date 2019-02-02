@@ -176,13 +176,15 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         UpdateJsonFileTask UpdateJsonFileTask(string fileName);
 
         /// <summary>
-        /// Task Fetches build version from file.
+        /// Task Fetches build version from file. By default task fetches from file named: {ProductId}.ProjectVersion.Txt
+        /// Where ProductId is fetched from <see cref="IBuildPropertiesSession"/> build property named: <see cref="BuildProps.ProductId"/>.
         /// </summary>
         /// <returns></returns>
         FetchBuildVersionFromFileTask FetchBuildVersionFromFileTask();
 
         /// <summary>
-        /// Task fetched build version from external soruce(appveryor).
+        /// Task fetches build and revision number from external soruce(build system).
+        /// Supported build systems by default: AppVeyor, Bamboo, Bitrise, ContinousCl, Jenkins, TFS, TeamCity, TravisCI.
         /// </summary>
         /// <returns></returns>
         FetchVersionFromExternalSourceTask FetchVersionFromExternalSourceTask();

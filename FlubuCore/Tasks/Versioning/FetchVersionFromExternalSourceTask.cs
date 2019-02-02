@@ -6,19 +6,17 @@ namespace FlubuCore.Tasks.Versioning
 {
     public class FetchVersionFromExternalSourceTask : TaskBase<Version, FetchVersionFromExternalSourceTask>
     {
-        private readonly List<string> _buildNumbers = new List<string>
-        {
-            "APPVEYOR_BUILD_NUMBER",
-            "BUILD_NUMBER",
-        };
+        private readonly List<string> _buildNumbers = new List<string>();
 
         private readonly List<string> _revisionNumbers = new List<string>();
+
+        private bool _disableDefaultBuildSystems;
 
         private string _description;
 
         protected override string Description
         {
-            get => string.IsNullOrEmpty(_description) ? "Fetches version (build and revision) from environment variables." : _description;
+            get => string.IsNullOrEmpty(_description) ? "Fetches version (build and revision) from build system environment variables." : _description;
             set => _description = value;
         }
 
@@ -32,6 +30,11 @@ namespace FlubuCore.Tasks.Versioning
             return this;
         }
 
+        /// <summary>
+        /// Fetches revision number from given enviroment variable if it exists
+        /// </summary>
+        /// <param name="envName">Name of the enviroment variable</param>
+        /// <returns></returns>
         public FetchVersionFromExternalSourceTask WithRevisionNumber(string envName)
         {
             if (_revisionNumbers.Contains(envName))
@@ -54,9 +57,59 @@ namespace FlubuCore.Tasks.Versioning
             return this;
         }
 
+        /// <summary>
+        /// Ignores fetching of build number and revision number from build systems that this task supports by default.
+        /// </summary>
+        /// <returns></returns>
+        public FetchVersionFromExternalSourceTask IgnoreDefaultBuildSystems()
+        {
+            _disableDefaultBuildSystems = true;
+            return this;
+        }
+
         protected override Version DoExecute(ITaskContextInternal context)
         {
             int? buildNumber = null, revisionNumber = null;
+            if (!_disableDefaultBuildSystems)
+            {
+                switch (context.BuildSystems().RunningOn)
+                {
+                    case BuildSystemType.AppVeyor:
+                        buildNumber = ParseBuildNumber(context.BuildSystems().AppVeyor().BuildNumber);
+                        break;
+
+                    case BuildSystemType.Bamboo:
+                        buildNumber = ParseBuildNumber(context.BuildSystems().Bamboo().BuildNumber);
+                        break;
+
+                    case BuildSystemType.Bitrise:
+                        buildNumber = ParseBuildNumber(context.BuildSystems().BitRise().BuildNumber);
+                        break;
+
+                    case BuildSystemType.ContinousCl:
+                        buildNumber = ParseBuildNumber(context.BuildSystems().ContinuaCl().BuildNumber);
+                        break;
+
+                    case BuildSystemType.Jenkins:
+                    {
+                        buildNumber = ParseBuildNumber(context.BuildSystems().Jenkins().BuildNumber);
+                        revisionNumber = ParseBuildNumber(context.BuildSystems().Jenkins().SvnRevisionId);
+                        break;
+                    }
+
+                    case BuildSystemType.TFS:
+                        buildNumber = ParseBuildNumber(context.BuildSystems().TeamFoundationServer().BuildNumber);
+                        break;
+
+                    case BuildSystemType.TeamCity:
+                        buildNumber = ParseBuildNumber(context.BuildSystems().TeamCity().BuildNumber);
+                        break;
+
+                    case BuildSystemType.TravisCI:
+                        buildNumber = ParseBuildNumber(context.BuildSystems().Travis().BuildNumber);
+                        break;
+                }
+            }
 
             foreach (string itm in _buildNumbers)
             {
@@ -90,6 +143,17 @@ namespace FlubuCore.Tasks.Versioning
             context.SetBuildVersion(newVer);
             DoLogInfo($"Updated version to {newVer.ToString(4)}");
             return newVer;
+        }
+
+        private static int? ParseBuildNumber(string value)
+        {
+            int? buildNumber = null;
+            if (!string.IsNullOrEmpty(value))
+            {
+                buildNumber = int.Parse(value);
+            }
+
+            return buildNumber;
         }
     }
 }
