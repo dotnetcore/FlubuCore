@@ -151,7 +151,7 @@ namespace FlubuCore.Tasks.Process
                     if (!_doNotLogOutput)
                         DoLogInfo(l);
 
-                    if (_captureOutput)
+                    if (_captureErrorOutput)
                         _errorOutput.AppendLine(l);
                 })
                 .OnOutputLine(l =>
@@ -159,7 +159,7 @@ namespace FlubuCore.Tasks.Process
                     if (!_doNotLogOutput)
                         DoLogInfo(l);
 
-                    if (_captureErrorOutput)
+                    if (_captureOutput)
                         _output.AppendLine(l);
                 });
 
