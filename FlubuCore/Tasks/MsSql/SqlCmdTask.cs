@@ -9,7 +9,7 @@ namespace FlubuCore.Tasks.MsSql
     /// <summary>
     /// Execute SQL script file with sqlcmd.exe
     /// </summary>
-    public class SqlCmdTask : ExternalProcessTaskBase<SqlCmdTask>
+    public class SqlCmdTask : ExternalProcessTaskBase<int, SqlCmdTask>
     {
         private const string DefaultSqlCmdExe =
             @"C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\SQLCMD.EXE";

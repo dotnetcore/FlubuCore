@@ -4,7 +4,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker
 {
-    public class DockerRemoveImageTask : ExternalProcessTaskBase<DockerRemoveImageTask>
+    public class DockerRemoveImageTask : ExternalProcessTaskBase<int, DockerRemoveImageTask>
     {
         private readonly string[] _images;
         private string _description;

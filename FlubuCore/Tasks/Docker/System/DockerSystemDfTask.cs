@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.System
 {
-     public partial class DockerSystemDfTask : ExternalProcessTaskBase<DockerSystemDfTask>
+     public partial class DockerSystemDfTask : ExternalProcessTaskBase<int, DockerSystemDfTask>
      {
         
         

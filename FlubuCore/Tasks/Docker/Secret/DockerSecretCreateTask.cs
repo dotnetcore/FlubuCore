@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Secret
 {
-     public partial class DockerSecretCreateTask : ExternalProcessTaskBase<DockerSecretCreateTask>
+     public partial class DockerSecretCreateTask : ExternalProcessTaskBase<int, DockerSecretCreateTask>
      {
         private string _secret;
 private string _file;

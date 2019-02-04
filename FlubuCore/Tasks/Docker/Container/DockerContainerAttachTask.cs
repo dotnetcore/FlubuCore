@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Container
 {
-     public partial class DockerContainerAttachTask : ExternalProcessTaskBase<DockerContainerAttachTask>
+     public partial class DockerContainerAttachTask : ExternalProcessTaskBase<int, DockerContainerAttachTask>
      {
         private string _container;
 

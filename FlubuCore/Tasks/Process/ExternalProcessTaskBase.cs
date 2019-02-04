@@ -3,7 +3,7 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.Process
 {
-    public abstract class ExternalProcessTaskBase<TTask> : TaskBase<int, TTask>, IExternalProcess<TTask>
+    public abstract class ExternalProcessTaskBase<TResult, TTask> : TaskBase<TResult, TTask>, IExternalProcess<TTask>
         where TTask : class, ITask
     {
         // ReSharper disable once InconsistentNaming
@@ -133,7 +133,7 @@ namespace FlubuCore.Tasks.Process
         }
 
         /// <inheritdoc />
-        protected override int DoExecute(ITaskContextInternal context)
+        protected override TResult DoExecute(ITaskContextInternal context)
         {
             if (string.IsNullOrEmpty(ExecutablePath))
             {
@@ -161,7 +161,14 @@ namespace FlubuCore.Tasks.Process
                 task.WithArguments(arg.arg, arg.maskArg);
             }
 
-            return task.Execute(context);
+            var result = task.Execute(context);
+
+            if (typeof(TResult) == typeof(int))
+            {
+                return (TResult)(object)result;
+            }
+
+            return default(TResult);
         }
 
         protected List<(string arg, bool maskArg)> ValidateAndGetArgumentsFlat()

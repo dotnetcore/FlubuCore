@@ -5,7 +5,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Git
 {
-    public class GitAddTask : ExternalProcessTaskBase<GitCloneTask>
+    public class GitAddTask : ExternalProcessTaskBase<int, GitCloneTask>
     {
         private string _description;
 

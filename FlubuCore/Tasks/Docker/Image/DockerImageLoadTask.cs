@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Image
 {
-     public partial class DockerImageLoadTask : ExternalProcessTaskBase<DockerImageLoadTask>
+     public partial class DockerImageLoadTask : ExternalProcessTaskBase<int, DockerImageLoadTask>
      {
         
         

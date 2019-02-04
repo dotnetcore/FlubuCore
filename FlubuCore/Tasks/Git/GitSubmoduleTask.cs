@@ -2,7 +2,7 @@
 
 namespace FlubuCore.Tasks.Git
 {
-    public class GitSubmoduleTask : ExternalProcessTaskBase<GitSubmoduleTask>
+    public class GitSubmoduleTask : ExternalProcessTaskBase<int, GitSubmoduleTask>
     {
         private string _description;
 

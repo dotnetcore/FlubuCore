@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Plugin
 {
-     public partial class DockerPluginDisableTask : ExternalProcessTaskBase<DockerPluginDisableTask>
+     public partial class DockerPluginDisableTask : ExternalProcessTaskBase<int, DockerPluginDisableTask>
      {
         private string _plugin;
 

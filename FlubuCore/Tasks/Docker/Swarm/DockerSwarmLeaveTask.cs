@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Swarm
 {
-     public partial class DockerSwarmLeaveTask : ExternalProcessTaskBase<DockerSwarmLeaveTask>
+     public partial class DockerSwarmLeaveTask : ExternalProcessTaskBase<int, DockerSwarmLeaveTask>
      {
         
         

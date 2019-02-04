@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Container
 {
-     public partial class DockerContainerRunTask : ExternalProcessTaskBase<DockerContainerRunTask>
+     public partial class DockerContainerRunTask : ExternalProcessTaskBase<int, DockerContainerRunTask>
      {
         private string _image;
 private string _command;

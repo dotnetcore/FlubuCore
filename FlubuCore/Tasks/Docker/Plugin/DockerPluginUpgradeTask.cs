@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Plugin
 {
-     public partial class DockerPluginUpgradeTask : ExternalProcessTaskBase<DockerPluginUpgradeTask>
+     public partial class DockerPluginUpgradeTask : ExternalProcessTaskBase<int, DockerPluginUpgradeTask>
      {
         private string _plugin;
 private string _remote;

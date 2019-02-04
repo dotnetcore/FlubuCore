@@ -13,7 +13,7 @@ namespace FlubuCore.Tasks.Solution
     /// <summary>
     /// Task compiles solution with MsBuild.
     /// </summary>
-    public class CompileSolutionTask : ExternalProcessTaskBase<CompileSolutionTask>
+    public class CompileSolutionTask : ExternalProcessTaskBase<int, CompileSolutionTask>
     {
         private readonly List<string> _msbuildPaths = new List<string>();
         private readonly List<string> _loggingOptions = new List<string>();

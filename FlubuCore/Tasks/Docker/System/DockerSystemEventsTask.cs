@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.System
 {
-     public partial class DockerSystemEventsTask : ExternalProcessTaskBase<DockerSystemEventsTask>
+     public partial class DockerSystemEventsTask : ExternalProcessTaskBase<int, DockerSystemEventsTask>
      {
         
         

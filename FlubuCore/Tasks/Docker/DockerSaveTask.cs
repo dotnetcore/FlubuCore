@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker
 {
-     public partial class DockerSaveTask : ExternalProcessTaskBase<DockerSaveTask>
+     public partial class DockerSaveTask : ExternalProcessTaskBase<int, DockerSaveTask>
      {
         private string[] _image;
 

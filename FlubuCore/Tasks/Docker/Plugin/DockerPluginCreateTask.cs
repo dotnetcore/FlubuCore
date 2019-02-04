@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Plugin
 {
-     public partial class DockerPluginCreateTask : ExternalProcessTaskBase<DockerPluginCreateTask>
+     public partial class DockerPluginCreateTask : ExternalProcessTaskBase<int, DockerPluginCreateTask>
      {
         private string[] _plugin;
 

@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Trust
 {
-     public partial class DockerTrustInspectTask : ExternalProcessTaskBase<DockerTrustInspectTask>
+     public partial class DockerTrustInspectTask : ExternalProcessTaskBase<int, DockerTrustInspectTask>
      {
         private string[] _image;
 

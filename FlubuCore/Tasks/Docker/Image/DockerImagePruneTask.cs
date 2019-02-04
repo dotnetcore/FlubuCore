@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Image
 {
-     public partial class DockerImagePruneTask : ExternalProcessTaskBase<DockerImagePruneTask>
+     public partial class DockerImagePruneTask : ExternalProcessTaskBase<int, DockerImagePruneTask>
      {
         
         

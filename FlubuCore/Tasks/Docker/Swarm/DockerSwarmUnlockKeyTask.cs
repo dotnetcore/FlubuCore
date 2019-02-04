@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Swarm
 {
-     public partial class DockerSwarmUnlockKeyTask : ExternalProcessTaskBase<DockerSwarmUnlockKeyTask>
+     public partial class DockerSwarmUnlockKeyTask : ExternalProcessTaskBase<int, DockerSwarmUnlockKeyTask>
      {
         
         

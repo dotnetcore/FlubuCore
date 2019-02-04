@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Trust
 {
-     public partial class DockerTrustRevokeTask : ExternalProcessTaskBase<DockerTrustRevokeTask>
+     public partial class DockerTrustRevokeTask : ExternalProcessTaskBase<int, DockerTrustRevokeTask>
      {
         private string _image;
 

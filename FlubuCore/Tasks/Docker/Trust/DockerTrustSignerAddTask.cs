@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Trust
 {
-     public partial class DockerTrustSignerAddTask : ExternalProcessTaskBase<DockerTrustSignerAddTask>
+     public partial class DockerTrustSignerAddTask : ExternalProcessTaskBase<int, DockerTrustSignerAddTask>
      {
         private string _options;
 private string _name;

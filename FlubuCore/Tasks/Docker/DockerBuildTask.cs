@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker
 {
-     public partial class DockerBuildTask : ExternalProcessTaskBase<DockerBuildTask>
+     public partial class DockerBuildTask : ExternalProcessTaskBase<int, DockerBuildTask>
      {
         private string _pathOrURL;
 

@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Checkpoint
 {
-     public partial class DockerCheckpointRmTask : ExternalProcessTaskBase<DockerCheckpointRmTask>
+     public partial class DockerCheckpointRmTask : ExternalProcessTaskBase<int, DockerCheckpointRmTask>
      {
         private string _container;
 private string _checkpoint;

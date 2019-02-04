@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Trust
 {
-     public partial class DockerTrustKeyLoadTask : ExternalProcessTaskBase<DockerTrustKeyLoadTask>
+     public partial class DockerTrustKeyLoadTask : ExternalProcessTaskBase<int, DockerTrustKeyLoadTask>
      {
         private string _keyfile;
 

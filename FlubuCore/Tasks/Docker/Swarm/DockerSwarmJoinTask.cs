@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Swarm
 {
-     public partial class DockerSwarmJoinTask : ExternalProcessTaskBase<DockerSwarmJoinTask>
+     public partial class DockerSwarmJoinTask : ExternalProcessTaskBase<int, DockerSwarmJoinTask>
      {
         private string _host;
 

@@ -2,7 +2,7 @@
 
 namespace FlubuCore.Tasks.Git
 {
-    public class GitCheckoutTask : ExternalProcessTaskBase<GitCheckoutTask>
+    public class GitCheckoutTask : ExternalProcessTaskBase<int, GitCheckoutTask>
     {
         public GitCheckoutTask(string branch)
         {

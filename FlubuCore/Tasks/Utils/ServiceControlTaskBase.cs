@@ -7,7 +7,7 @@ namespace FlubuCore.Tasks.Utils
     /// Base class for <see cref="ServiceControlTask" />
     /// </summary>
     /// <typeparam name="TTask"></typeparam>
-    public abstract class ServiceControlTaskBase<TTask> : ExternalProcessTaskBase<TTask>
+    public abstract class ServiceControlTaskBase<TTask> : ExternalProcessTaskBase<int, TTask>
         where TTask : class, ITask
     {
         /// <inheritdoc />

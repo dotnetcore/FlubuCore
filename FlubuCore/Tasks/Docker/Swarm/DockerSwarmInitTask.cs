@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Swarm
 {
-     public partial class DockerSwarmInitTask : ExternalProcessTaskBase<DockerSwarmInitTask>
+     public partial class DockerSwarmInitTask : ExternalProcessTaskBase<int, DockerSwarmInitTask>
      {
         
         

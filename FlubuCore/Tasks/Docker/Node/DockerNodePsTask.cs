@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Node
 {
-     public partial class DockerNodePsTask : ExternalProcessTaskBase<DockerNodePsTask>
+     public partial class DockerNodePsTask : ExternalProcessTaskBase<int, DockerNodePsTask>
      {
         private string[] _node;
 

@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Trust
 {
-     public partial class DockerTrustKeyGenerateTask : ExternalProcessTaskBase<DockerTrustKeyGenerateTask>
+     public partial class DockerTrustKeyGenerateTask : ExternalProcessTaskBase<int, DockerTrustKeyGenerateTask>
      {
         private string _name;
 

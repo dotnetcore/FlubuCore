@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Config
 {
-     public partial class DockerConfigInspectTask : ExternalProcessTaskBase<DockerConfigInspectTask>
+     public partial class DockerConfigInspectTask : ExternalProcessTaskBase<int, DockerConfigInspectTask>
      {
         private string[] _config;
 

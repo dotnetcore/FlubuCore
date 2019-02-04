@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Volume
 {
-     public partial class DockerVolumeLsTask : ExternalProcessTaskBase<DockerVolumeLsTask>
+     public partial class DockerVolumeLsTask : ExternalProcessTaskBase<int, DockerVolumeLsTask>
      {
         
         

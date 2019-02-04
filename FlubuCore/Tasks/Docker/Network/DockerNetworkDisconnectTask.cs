@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Network
 {
-     public partial class DockerNetworkDisconnectTask : ExternalProcessTaskBase<DockerNetworkDisconnectTask>
+     public partial class DockerNetworkDisconnectTask : ExternalProcessTaskBase<int, DockerNetworkDisconnectTask>
      {
         private string _network;
 private string _container;

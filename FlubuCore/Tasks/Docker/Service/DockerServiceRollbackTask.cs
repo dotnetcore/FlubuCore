@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Service
 {
-     public partial class DockerServiceRollbackTask : ExternalProcessTaskBase<DockerServiceRollbackTask>
+     public partial class DockerServiceRollbackTask : ExternalProcessTaskBase<int, DockerServiceRollbackTask>
      {
         private string _service;
 

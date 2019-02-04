@@ -6,7 +6,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Text
 {
-    public class T4TemplateTask : ExternalProcessTaskBase<T4TemplateTask>
+    public class T4TemplateTask : ExternalProcessTaskBase<int, T4TemplateTask>
     {
         private const string ExecutableName = "TextTransform.exe";
         private readonly string _templateFileName;

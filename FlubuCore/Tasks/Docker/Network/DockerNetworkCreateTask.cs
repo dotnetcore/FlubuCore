@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Network
 {
-     public partial class DockerNetworkCreateTask : ExternalProcessTaskBase<DockerNetworkCreateTask>
+     public partial class DockerNetworkCreateTask : ExternalProcessTaskBase<int, DockerNetworkCreateTask>
      {
         private string _network;
 

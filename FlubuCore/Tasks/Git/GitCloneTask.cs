@@ -6,7 +6,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Git
 {
-    public class GitCloneTask : ExternalProcessTaskBase<GitCloneTask>
+    public class GitCloneTask : ExternalProcessTaskBase<int, GitCloneTask>
     {
         private readonly string _repository;
         private readonly string _directory;

@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.System
 {
-     public partial class DockerSystemPruneTask : ExternalProcessTaskBase<DockerSystemPruneTask>
+     public partial class DockerSystemPruneTask : ExternalProcessTaskBase<int, DockerSystemPruneTask>
      {
         
         

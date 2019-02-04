@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Trust
 {
-     public partial class DockerTrustSignerRemoveTask : ExternalProcessTaskBase<DockerTrustSignerRemoveTask>
+     public partial class DockerTrustSignerRemoveTask : ExternalProcessTaskBase<int, DockerTrustSignerRemoveTask>
      {
         private string _name;
 private string[] _repository;

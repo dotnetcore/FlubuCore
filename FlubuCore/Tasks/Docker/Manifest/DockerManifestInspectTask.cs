@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Manifest
 {
-     public partial class DockerManifestInspectTask : ExternalProcessTaskBase<DockerManifestInspectTask>
+     public partial class DockerManifestInspectTask : ExternalProcessTaskBase<int, DockerManifestInspectTask>
      {
         private string _manifest_list;
 private string _manifest;

@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker
 {
-     public partial class DockerSearchTask : ExternalProcessTaskBase<DockerSearchTask>
+     public partial class DockerSearchTask : ExternalProcessTaskBase<int, DockerSearchTask>
      {
         private string _term;
 

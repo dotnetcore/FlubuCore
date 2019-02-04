@@ -5,7 +5,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Utils
 {
-    public class ExecutePowerShellScriptTask : ExternalProcessTaskBase<ExecutePowerShellScriptTask>
+    public class ExecutePowerShellScriptTask : ExternalProcessTaskBase<int, ExecutePowerShellScriptTask>
     {
         private readonly string _pathToPowerShellScript;
         private string _description;

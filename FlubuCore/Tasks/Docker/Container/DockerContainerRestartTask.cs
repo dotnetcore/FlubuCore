@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Container
 {
-     public partial class DockerContainerRestartTask : ExternalProcessTaskBase<DockerContainerRestartTask>
+     public partial class DockerContainerRestartTask : ExternalProcessTaskBase<int, DockerContainerRestartTask>
      {
         private string[] _container;
 

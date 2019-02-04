@@ -4,7 +4,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.NetCore
 {
-    public abstract class ExecuteDotnetTaskBase<TTask> : ExternalProcessTaskBase<TTask>
+    public abstract class ExecuteDotnetTaskBase<TTask> : ExternalProcessTaskBase<int, TTask>
         where TTask : class, ITask
     {
         public ExecuteDotnetTaskBase(string command)

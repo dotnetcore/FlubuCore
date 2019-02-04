@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Volume
 {
-     public partial class DockerVolumeInspectTask : ExternalProcessTaskBase<DockerVolumeInspectTask>
+     public partial class DockerVolumeInspectTask : ExternalProcessTaskBase<int, DockerVolumeInspectTask>
      {
         private string[] _volume;
 

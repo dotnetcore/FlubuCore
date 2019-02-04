@@ -11,7 +11,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker
 {
-     public partial class DockerKillTask : ExternalProcessTaskBase<DockerKillTask>
+     public partial class DockerKillTask : ExternalProcessTaskBase<int, DockerKillTask>
      {
         private string[] _container;
 
