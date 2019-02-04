@@ -5,7 +5,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Versioning
 {
-    public class GitVersionTask : ExternalProcessTaskBase<GitVersionTask>
+    public class GitVersionTask : ExternalProcessTaskBase<int, GitVersionTask>
     {
         public GitVersionTask()
         {
