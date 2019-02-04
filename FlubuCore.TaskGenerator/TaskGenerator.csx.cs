@@ -40,7 +40,7 @@ using FlubuCore.Tasks.Process;
 
 namespace {task.Namespace}
 {{
-     public partial class {task.TaskName} : ExternalProcessTaskBase<{task.TaskName}>
+     public partial class {task.TaskName} : ExternalProcessTaskBase<{task.TaskResult}, {task.TaskName}>
      {{
         {WriteClassFieldsFromConstructorParameters(task.Constructor)}
         {WriteSummary(task.Constructor?.Summary)}
@@ -225,7 +225,7 @@ namespace {task.Namespace}
                 withArguments = $"{withArguments} {WriteDoExecuteWithArguments(constructorArgument)}";
             }
 
-            return $@"protected override int DoExecute(ITaskContextInternal context)
+            return $@"protected override {task.TaskResult} DoExecute(ITaskContextInternal context)
         {{
             {withArguments}
             return base.DoExecute(context);
