@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.Process
@@ -18,6 +19,10 @@ namespace FlubuCore.Tasks.Process
         /// Working folder.
         /// </value>
         protected string ExecuteWorkingFolder { get; set; }
+
+        protected string ProgramOutput { get; set; }
+
+        protected virtual bool GetProgramOutput { get; } = false;
 
         /// <summary>
         /// Executable path.
@@ -162,6 +167,11 @@ namespace FlubuCore.Tasks.Process
             }
 
             var result = task.Execute(context);
+
+            if (GetProgramOutput)
+            {
+                ProgramOutput = task.GetOutput();
+            }
 
             if (typeof(TResult) == typeof(int))
             {
