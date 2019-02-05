@@ -41,6 +41,11 @@ namespace FlubuCore.Tasks.Versioning
 
         internal List<string> AdditionalProperties { get; } = new List<string>();
 
+        /// <summary>
+        /// Use fixed version instead of fetching one from <see cref="IBuildPropertiesSession"/> build property named: <see cref="BuildProps.BuildVersion"/>
+        /// </summary>
+        /// <param name="version"></param>
+        /// <returns></returns>
         public UpdateNetCoreVersionTask FixedVersion(Version version)
         {
             _version = version;
