@@ -76,7 +76,7 @@ namespace FlubuCore.WebApi
             ConfigureAuthentication(app);
 
             app.UseMvc();
-
+            app.UseStaticFiles();
             app.UseSwagger(c =>
             {
                 c.PreSerializeFilters.Add((swagger, httpReq) => swagger.Host = httpReq.Host.Value);
