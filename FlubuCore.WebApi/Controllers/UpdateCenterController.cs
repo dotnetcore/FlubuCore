@@ -1,17 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using FlubuCore.WebApi.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Octokit;
 
 namespace FlubuCore.WebApi.Controllers
 {
     [Route("[controller]")]
     public class UpdateCenterController : Controller
     {
-        public IActionResult Index()
+        private readonly IGitHubClient _client;
+
+        public UpdateCenterController(IGitHubClient client)
         {
-            return View();
+            _client = client;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var owner = "flubu-core";
+            var reponame = "flubu.core";
+            var releases = await _client.Repository.Release.GetLatest(owner, reponame);
+
+            var model = new UpdateCenter()
+            {
+                LatestVersion = releases.TagName
+            };
+
+            return View(model);
         }
     }
 }

@@ -28,6 +28,7 @@ using LiteDB;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Octokit;
 
 namespace FlubuCore.WebApi.Infrastructure
 {
@@ -71,6 +72,8 @@ namespace FlubuCore.WebApi.Infrastructure
             services.AddTransient<INotificationService, NotificationService>();
             services.AddTransient<INugetPackageResolver, NugetPackageResolver>();
 
+            IGitHubClient gitHubClient = new GitHubClient(new Octokit.ProductHeaderValue("FlubuCore"));
+            services.AddSingleton(gitHubClient);
             return services;
         }
 

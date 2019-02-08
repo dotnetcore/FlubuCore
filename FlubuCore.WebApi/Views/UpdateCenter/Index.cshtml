@@ -1,4 +1,9 @@
-﻿<div class="text-center">
+﻿@model FlubuCore.WebApi.Models.ViewModels.UpdateCenter
+<div class="text-center">
     <h1 class="display-4">Update center</h1>
     <p>Update FlubuCore web api automatically from github releases.</p>
 </div>
+<div class="container">
+    <h6>Latest Version: @Model.LatestVersion</h6>
+</div>
+

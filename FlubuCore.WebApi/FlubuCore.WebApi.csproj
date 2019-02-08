@@ -65,6 +65,7 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="7.2.1" />
     <PackageReference Include="LiteDB" Version="4.1.2" />
+    <PackageReference Include="Octokit" Version="0.32.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="2.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="2.4.0" />
