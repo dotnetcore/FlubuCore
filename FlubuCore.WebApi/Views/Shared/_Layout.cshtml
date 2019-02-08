@@ -16,34 +16,48 @@
               integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FlubuCore</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                  
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <script type='text/javascript'>
 
-    <footer class="border-top footer text-muted">
+        function expandToWindow(element) {
+            var margin = 10;
+
+            if (element.style.height < window.innerHeight) {
+                var height = window.innerHeight - (15 * margin);
+                element.style.height = height + 'px' ;
+            }
+        }
+    </script>
+</head>
+<body onload='expandToWindow(document.getElementById("body"));'>
+    <div class="bg-light">
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom bg-light box-shadow mb-3">
+                <div class="container">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FlubuCore</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div id="body" class="container bg-white">
+            <partial name="_CookieConsentPartial" />
+            <main role="main" class="pb-3 ">
+                @RenderBody()
+
+            </main>
+        </div>
+    </div>
+    <footer class="border-top footer text-muted box-shadow bg-light">
         <div class="container">
             &copy; 2019 - FlubuCore
         </div>
     </footer>
+
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -67,4 +81,5 @@
 
     @RenderSection("Scripts", required: false)
 </body>
+
 </html>
