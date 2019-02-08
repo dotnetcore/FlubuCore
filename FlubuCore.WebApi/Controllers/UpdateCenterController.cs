@@ -24,10 +24,12 @@ namespace FlubuCore.WebApi.Controllers
             var owner = "flubu-core";
             var reponame = "flubu.core";
             var releases = await _client.Repository.Release.GetLatest(owner, reponame);
+            var currentVersion = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
 
             var model = new UpdateCenter()
             {
-                LatestVersion = releases.TagName
+                LatestVersion = releases.TagName,
+                CurrentVersion = currentVersion
             };
 
             return View(model);
