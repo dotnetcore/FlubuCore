@@ -31,7 +31,7 @@ namespace FlubuCore.WebApi.Controllers.WebApp
             var releases = await _client.Repository.Release.GetLatest(owner, reponame);
             var currentVersion = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
 
-            var model = new UpdateCenter()
+            var model = new UpdateCenterModel()
             {
                 LatestVersion = releases.TagName,
                 CurrentVersion = currentVersion
