@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FlubuCore.WebApi.Models.ViewModels
 {
-    public class UpdateCenter
+    public class UpdateCenterModel
     {
         public string LatestVersion { get; set; }
 
