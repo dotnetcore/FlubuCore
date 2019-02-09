@@ -51,7 +51,7 @@ namespace FlubuCore.WebApi.Controllers
         }
 
         /// <summary>
-        /// Executes specified flubu script.
+        /// Executes specified FlubuCore script.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>

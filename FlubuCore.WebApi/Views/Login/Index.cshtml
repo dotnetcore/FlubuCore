@@ -1,40 +1,41 @@
 ﻿@model FlubuCore.WebApi.Models.ViewModels.LoginModel
-
+<div class="text-center">
 <h1>Log in</h1>
-<div class="row">
-    <div class="col-md-4">
-        <section>
-            <form Asp-Action="Login" Asp-Controller="Login" method="post">
-                <h4>Use a web api account to log in.</h4>
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="@Model.Username"></label>
-                    <input asp-for="@Model.Username" class="form-control"/>
-                    <span asp-validation-for="Username" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="@Model.Password"></label>
-                    <input asp-for="@Model.Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Log in</button>
-                </div>
-             
-            </form>
-        </section>
-    </div>
-    @*<div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use another service to log in.</h4>
-            <hr />
-            <div>
-                <p>
-                    There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                    for details on setting up this ASP.NET application to support logging in via external services.
-                </p>
-            </div>
-        </section>
-    </div>*@
 </div>
+    <div class="row align-content-center">
+        <div class="col-md-4">
+            <section>
+                <form Asp-Action="Login" Asp-Controller="Login" method="post">
+                    <h5>Use a web api account to log in.</h5>
+                    <hr />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Username"></label>
+                        <input asp-for="@Model.Username" class="form-control" />
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Password"></label>
+                        <input asp-for="@Model.Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Log in</button>
+                    </div>
+
+                </form>
+            </section>
+        </div>
+        @*<div class="col-md-6 col-md-offset-2">
+                <section>
+                    <h4>Use another service to log in.</h4>
+                    <hr />
+                    <div>
+                        <p>
+                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
+                            for details on setting up this ASP.NET application to support logging in via external services.
+                        </p>
+                    </div>
+                </section>
+            </div>*@
+    </div>

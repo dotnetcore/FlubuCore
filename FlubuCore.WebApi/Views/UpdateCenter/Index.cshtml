@@ -3,8 +3,18 @@
     <h1 class="display-4">Update center</h1>
     <p>Update FlubuCore web api automatically from github releases.</p>
 </div>
-<div class="container">
+
+<div class="col-md-4">
     <h6>Current version: @Model.CurrentVersion</h6>
     <h6>Latest Version: @Model.LatestVersion</h6>
+    <br/>
+    @if (Model.NewVersionExists)
+    {
+        <button type="submit" class="btn btn-primary">Update</button>
+    }
+    else
+    {
+        <h6>Latest version installed!</h6>
+    }
 </div>
 

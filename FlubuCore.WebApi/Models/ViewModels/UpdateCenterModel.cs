@@ -10,5 +10,7 @@ namespace FlubuCore.WebApi.Models.ViewModels
         public string LatestVersion { get; set; }
 
         public string CurrentVersion { get; set; }
+
+        public bool NewVersionExists { get; set; }
     }
 }
