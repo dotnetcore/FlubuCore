@@ -4,9 +4,11 @@ using System.Text;
 using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Infrastructure;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,10 +43,7 @@ namespace FlubuCore.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc(options =>
-                {
-                    options.ModelValidatorProviders.Clear();
-                })
+            services.AddMvc(options => { })
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
             services.Configure<FormOptions>(x =>
@@ -73,9 +72,15 @@ namespace FlubuCore.WebApi
             loggerFactory.AddDebug();
             loggerFactory.AddSerilog(log, true);
             loggerFactory.AddFile("Logs/Flubu-{Date}.txt");
+            app.UseDeveloperExceptionPage();
             ConfigureAuthentication(app);
 
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
             app.UseStaticFiles();
             app.UseSwagger(c =>
             {
@@ -198,6 +203,19 @@ namespace FlubuCore.WebApi
             {
                 o.TokenValidationParameters = tokenValidationParameters;
             });
+
+             services.AddAuthentication(o =>
+                {
+                    o.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    o.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    o.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                }).AddCookie(options =>
+                {
+                    options.LoginPath = new PathString("/Login");
+                    options.Cookie.HttpOnly = true;
+                    options.Cookie.SameSite = SameSiteMode.Lax;
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                });
 #endif
         }
     }
