@@ -1,15 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Threading.Tasks;
 using FlubuCore.WebApi.Models.ViewModels;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Octokit;
 
-namespace FlubuCore.WebApi.Controllers
+namespace FlubuCore.WebApi.Controllers.WebApp
 {
     [Route("[controller]")]
+#if !NETCOREAPP1_1
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+#else
+     [Authorize(ActiveAuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+#endif
+
     public class UpdateCenterController : Controller
     {
         private readonly IGitHubClient _client;
