@@ -1,25 +1,21 @@
 ﻿@model FlubuCore.WebApi.Models.ViewModels.LoginModel
 
-@{
-    ViewData["Title"] = "Log in";
-}
-
-<h1>@ViewData["Title"]</h1>
+<h1>Log in</h1>
 <div class="row">
     <div class="col-md-4">
         <section>
-            <form id="account" method="post">
-                <h4>Use a local account to log in.</h4>
+            <form Asp-Action="Login" Asp-Controller="Login" method="post">
+                <h4>Use a web api account to log in.</h4>
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Username"></label>
-                    <input asp-for="Username" class="form-control" />
+                    <label asp-for="@Model.Username"></label>
+                    <input asp-for="@Model.Username" class="form-control"/>
                     <span asp-validation-for="Username" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Password"></label>
-                    <input asp-for="Password" class="form-control" />
+                    <label asp-for="@Model.Password"></label>
+                    <input asp-for="@Model.Password" class="form-control" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
