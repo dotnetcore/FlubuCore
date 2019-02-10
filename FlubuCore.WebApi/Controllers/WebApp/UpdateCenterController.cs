@@ -8,9 +8,14 @@ using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
+using FlubuCore.Context;
+using FlubuCore.Tasks;
+using FlubuCore.Tasks.Packaging;
+using FlubuCore.Tasks.Text;
 using FlubuCore.WebApi.Models.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Octokit;
@@ -32,9 +37,18 @@ namespace FlubuCore.WebApi.Controllers.WebApp
 
         private readonly IGitHubClient _client;
 
-        public UpdateCenterController(IGitHubClient client)
+        private readonly ITaskFactory _taskFactory;
+
+        private readonly ITaskSession _taskSession;
+
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        public UpdateCenterController(IGitHubClient client, ITaskFactory taskFactory, ITaskSession taskSession, IHostingEnvironment hostingEnvironment)
         {
             _client = client;
+            _taskFactory = taskFactory;
+            _taskSession = taskSession;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [HttpGet]
@@ -58,28 +72,30 @@ namespace FlubuCore.WebApi.Controllers.WebApp
         }
 
         [HttpGet("Update")]
-        public async Task Update()
+        public async Task<IActionResult> Update()
         {
-            string frameworkName = Assembly.GetEntryAssembly()?.GetCustomAttribute<TargetFrameworkAttribute>()?.FrameworkName;
+            string frameworkName = Assembly.GetEntryAssembly()?.GetCustomAttribute<TargetFrameworkAttribute>()
+                ?.FrameworkName;
             var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
             bool isNetCore = frameworkName.StartsWith(".NETCoreApp");
 
             var latestRelease = await _client.Repository.Release.GetLatest(_owner, _reponame);
             List<ReleaseAsset> assets;
-            if (isWindows)
-            {
-                assets = latestRelease.Assets.Where(x => x.Name.Contains("Windows")).ToList();
-            }
-            else
-            {
-                assets = latestRelease.Assets.Where(x => x.Name.Contains("Linux")).ToList();
-            }
 
             ReleaseAsset asset = null;
 
             if (isNetCore)
             {
                 string netCoreVersion = frameworkName.Replace(".NETCoreApp,Version=", string.Empty);
+                if (isWindows)
+                {
+                    assets = latestRelease.Assets.Where(x => x.Name.Contains("Windows")).ToList();
+                }
+                else
+                {
+                    assets = latestRelease.Assets.Where(x => x.Name.Contains("Linux")).ToList();
+                }
+
                 switch (netCoreVersion.ToLowerInvariant())
                 {
                     case "v2.1":
@@ -103,13 +119,33 @@ namespace FlubuCore.WebApi.Controllers.WebApp
             }
             else
             {
-                asset = assets.FirstOrDefault(x => x.Name.Contains("Net462"));
+                asset = latestRelease.Assets.FirstOrDefault(x => x.Name.Contains("Net462"));
             }
+
+            var rootDir = _hostingEnvironment.ContentRootPath;
+            if (!Directory.Exists(Path.Combine(rootDir, "Updates")))
+            {
+                Directory.CreateDirectory(Path.Combine(rootDir, "Updates"));
+            }
+
+            if (!Directory.Exists(Path.Combine(rootDir, "Updates/WebApi")))
+            {
+                Directory.CreateDirectory(Path.Combine(rootDir, "Updates/WebApi"));
+            }
+
+            var filename = Path.Combine(rootDir, "Updates/FlubuCoreWebApi_LatestRelease.zip");
 #if !NETCOREAPP1_1
             var wc = new WebClient();
-            var filename = "Release.zip";
             await wc.DownloadFileTaskAsync(asset.BrowserDownloadUrl, filename);
 #endif
+            var unzipTask = _taskFactory.Create<UnzipTask>(filename, Path.Combine(rootDir, "Updates/WebApi"));
+            unzipTask.Execute(_taskSession);
+
+            _taskFactory
+                .Create<UpdateJsonFileTask>(Path.Combine(rootDir, "Updates/WebApi/DeploymentConfig.json"))
+                .Update("DeploymentPath", rootDir).Execute(_taskSession);
+
+            return Ok();
         }
     }
 }
