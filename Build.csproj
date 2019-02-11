@@ -31,6 +31,7 @@
     <Compile Remove="FlubuCore.WebApi.Client\**" />
     <Compile Remove="FlubuCore.WebApi.Model\**" />
     <Compile Remove="FlubuCore.WebApi.Tests\**" />
+    <Compile Remove="FlubuCore.WebApi.Updater\**" />
     <Compile Remove="FlubuCore.WebApi\**" />
     <Compile Remove="FlubuCore\**" />
     <Compile Remove="Nuget\**" />
@@ -63,6 +64,7 @@
     <EmbeddedResource Remove="FlubuCore.WebApi.Client\**" />
     <EmbeddedResource Remove="FlubuCore.WebApi.Model\**" />
     <EmbeddedResource Remove="FlubuCore.WebApi.Tests\**" />
+    <EmbeddedResource Remove="FlubuCore.WebApi.Updater\**" />
     <EmbeddedResource Remove="FlubuCore.WebApi\**" />
     <EmbeddedResource Remove="FlubuCore\**" />
     <EmbeddedResource Remove="Nuget\**" />
@@ -95,6 +97,7 @@
     <None Remove="FlubuCore.WebApi.Client\**" />
     <None Remove="FlubuCore.WebApi.Model\**" />
     <None Remove="FlubuCore.WebApi.Tests\**" />
+    <None Remove="FlubuCore.WebApi.Updater\**" />
     <None Remove="FlubuCore.WebApi\**" />
     <None Remove="FlubuCore\**" />
     <None Remove="Nuget\**" />

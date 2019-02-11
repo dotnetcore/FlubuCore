@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.Analyzers.Tests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.Tests", "FlubuCore.Tests\FlubuCore.Tests.csproj", "{423BB55A-3CEC-42AF-8309-16934932DCF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlubuCore.WebApi.Updater", "FlubuCore.WebApi.Updater\FlubuCore.WebApi.Updater.csproj", "{E0260CB5-D436-4E1F-BEEE-9FEFA223528D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -169,6 +171,18 @@ Global
 		{423BB55A-3CEC-42AF-8309-16934932DCF1}.Release|x64.Build.0 = Release|Any CPU
 		{423BB55A-3CEC-42AF-8309-16934932DCF1}.Release|x86.ActiveCfg = Release|Any CPU
 		{423BB55A-3CEC-42AF-8309-16934932DCF1}.Release|x86.Build.0 = Release|Any CPU
+		{E0260CB5-D436-4E1F-BEEE-9FEFA223528D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0260CB5-D436-4E1F-BEEE-9FEFA223528D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0260CB5-D436-4E1F-BEEE-9FEFA223528D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E0260CB5-D436-4E1F-BEEE-9FEFA223528D}.Debug|x64.Build.0 = Debug|Any CPU
+		{E0260CB5-D436-4E1F-BEEE-9FEFA223528D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E0260CB5-D436-4E1F-BEEE-9FEFA223528D}.Debug|x86.Build.0 = Debug|Any CPU
+		{E0260CB5-D436-4E1F-BEEE-9FEFA223528D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0260CB5-D436-4E1F-BEEE-9FEFA223528D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0260CB5-D436-4E1F-BEEE-9FEFA223528D}.Release|x64.ActiveCfg = Release|Any CPU
+		{E0260CB5-D436-4E1F-BEEE-9FEFA223528D}.Release|x64.Build.0 = Release|Any CPU
+		{E0260CB5-D436-4E1F-BEEE-9FEFA223528D}.Release|x86.ActiveCfg = Release|Any CPU
+		{E0260CB5-D436-4E1F-BEEE-9FEFA223528D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
