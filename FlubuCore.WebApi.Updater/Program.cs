@@ -52,7 +52,7 @@ namespace FlubuCore.WebApi.Updater
             var process = Process.Start(new ProcessStartInfo
             {
                 WorkingDirectory = Path.GetDirectoryName(flubuPath),
-                FileName = "dotnet flubu",
+                FileName = isWindows ? flubuPath : "dotnet flubu",
                 Arguments = $"-s={deployScript}"
             });
          
