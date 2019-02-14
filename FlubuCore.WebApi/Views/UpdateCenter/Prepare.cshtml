@@ -1,0 +1,11 @@
+﻿@model FlubuCore.WebApi.Models.ViewModels.UpdateCenterModel
+<div class="text-center">
+    <h1 class="display-4">FlubuCore web api is ready to be updated</h1>
+    <p>After the restart web api will be updated automatically. </p>
+    <p>Update might take up to 1 minute. Please don't start web api meanwhile or update will fail.</p>
+    <form Asp-Action="Restart" Asp-Controller="UpdateCenter" method="post">
+        <button type="submit" class="btn btn-primary">Restart</button>
+    </form>
+</div>
+
+

@@ -75,8 +75,8 @@ namespace FlubuCore.WebApi.Controllers.WebApp
             return View(model);
         }
 
-        [HttpGet("Update")]
-        public async Task<IActionResult> Update()
+        [HttpGet("Prepare")]
+        public async Task<IActionResult> Prepare()
         {
             string frameworkName = Assembly.GetEntryAssembly()?.GetCustomAttribute<TargetFrameworkAttribute>()
                 ?.FrameworkName;
@@ -147,9 +147,18 @@ namespace FlubuCore.WebApi.Controllers.WebApp
 
             _taskFactory
                 .Create<UpdateJsonFileTask>(Path.Combine(rootDir, "Updates/WebApi/DeploymentConfig.json"))
-                .Update("DeploymentPath", rootDir).Execute(_taskSession);
+                .Update("DeploymentPath", rootDir)
+                .Update("CopyOnlyBinaries", "true").Execute(_taskSession);
 
-            var process = Process.Start(new ProcessStartInfo
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Restart()
+        {
+            var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+            var rootDir = _hostingEnvironment.ContentRootPath;
+            Process.Start(new ProcessStartInfo
             {
                 WorkingDirectory = Path.GetDirectoryName(Path.Combine(rootDir, "Updates/WebApi")),
                 FileName = isWindows ? Path.Combine(rootDir, "FlubuCore.WebApi.Updater.exe") : "dotnet FlubuCore.WebApi.Updater.dll"
