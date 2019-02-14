@@ -48,17 +48,28 @@ namespace FlubuCore.WebApi.Updater
 
             Console.WriteLine($"path: {deployScript}");
             Console.WriteLine($"flubu path: {flubuPath}");
-            var process = Process.Start(new ProcessStartInfo
+            int retry = 0;
+            while (retry < 10)
             {
-                WorkingDirectory = Path.GetDirectoryName(flubuPath),
-                FileName = isWindows ? flubuPath : "dotnet flubu",
-                Arguments = $"-s={deployScript}"
-            });
-         
-            process.WaitForExit();
-            int code = process.ExitCode;
-            Console.WriteLine($"flubu exit code: {code}");
-            Thread.Sleep(5000);
+                var process = Process.Start(new ProcessStartInfo
+                {
+                    WorkingDirectory = Path.GetDirectoryName(flubuPath),
+                    FileName = isWindows ? flubuPath : "dotnet flubu",
+                    Arguments = $"-s={deployScript}"
+                });
+
+                process.WaitForExit();
+                int code = process.ExitCode;
+                Console.WriteLine($"flubu exit code: {code}");
+                if (code == 0)
+                {
+                    break;
+                }
+
+                retry++;
+            }
+
+            Thread.Sleep(2000);
         }
     }
 }
