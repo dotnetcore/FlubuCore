@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -43,12 +44,15 @@ namespace FlubuCore.WebApi.Controllers.WebApp
 
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        public UpdateCenterController(IGitHubClient client, ITaskFactory taskFactory, ITaskSession taskSession, IHostingEnvironment hostingEnvironment)
+        private readonly IApplicationLifetime _applicationLifetime;
+
+        public UpdateCenterController(IGitHubClient client, ITaskFactory taskFactory, ITaskSession taskSession, IHostingEnvironment hostingEnvironment, IApplicationLifetime applicationLifetime)
         {
             _client = client;
             _taskFactory = taskFactory;
             _taskSession = taskSession;
             _hostingEnvironment = hostingEnvironment;
+            _applicationLifetime = applicationLifetime;
         }
 
         [HttpGet]
@@ -144,6 +148,14 @@ namespace FlubuCore.WebApi.Controllers.WebApp
             _taskFactory
                 .Create<UpdateJsonFileTask>(Path.Combine(rootDir, "Updates/WebApi/DeploymentConfig.json"))
                 .Update("DeploymentPath", rootDir).Execute(_taskSession);
+
+            var process = Process.Start(new ProcessStartInfo
+            {
+                WorkingDirectory = Path.GetDirectoryName(Path.Combine(rootDir, "Updates/WebApi")),
+                FileName = isWindows ? Path.Combine(rootDir, "FlubuCore.WebApi.Updater.exe") : "dotnet FlubuCore.WebApi.Updater.dll"
+            });
+
+            _applicationLifetime.StopApplication();
 
             return Ok();
         }

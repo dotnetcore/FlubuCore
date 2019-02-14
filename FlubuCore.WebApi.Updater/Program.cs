@@ -16,23 +16,21 @@ namespace FlubuCore.WebApi.Updater
             
             string frameworkName = Assembly.GetEntryAssembly()?.GetCustomAttribute<TargetFrameworkAttribute>()
                 ?.FrameworkName;
-            var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+            var isWindows = true;
             bool isNetCore = frameworkName.StartsWith(".NETCoreApp");
             string flubuPath, deployScript;
             if (isWindows)
             {
               
-               flubuPath = Path.GetFullPath("Updates/WebApi/flubu.exe");
+               flubuPath = Path.GetFullPath("WebApi/flubu.exe");
                if (isNetCore)
-               {
-                   deployScript = Path.GetFullPath("Updates/WebApi/DeployScript.cs");
-               }
-               else
                {
                    deployScript = Path.GetFullPath("Updates/WebApi/DeploymentScript.cs");
                }
-
-             
+               else
+               {
+                   deployScript = Path.GetFullPath("WebApi/DeployScript.cs");
+               }
             }
             else
             {
@@ -49,6 +47,7 @@ namespace FlubuCore.WebApi.Updater
             }
 
             Console.WriteLine($"path: {deployScript}");
+            Console.WriteLine($"flubu path: {flubuPath}");
             var process = Process.Start(new ProcessStartInfo
             {
                 WorkingDirectory = Path.GetDirectoryName(flubuPath),
@@ -59,6 +58,7 @@ namespace FlubuCore.WebApi.Updater
             process.WaitForExit();
             int code = process.ExitCode;
             Console.WriteLine($"flubu exit code: {code}");
+            Thread.Sleep(5000);
         }
     }
 }
