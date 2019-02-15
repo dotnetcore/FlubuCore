@@ -140,6 +140,16 @@ namespace DeploymentScript
                 {
                     File.Delete(outputDbFilePath);
                 }
+
+                if (File.Exists("FlubuCore.WebApi/appsettings.json"))
+                {
+                    File.Delete("FlubuCore.WebApi/appsettings.json");
+                }
+
+                if (File.Exists("FlubuCore.WebApi/web.config"))
+                {
+                    File.Delete("FlubuCore.WebApi/web.config");
+                }
             }
 
             context.Tasks().CopyDirectoryStructureTask("FlubuCore.Webapi", config.DeploymentPath, true).Execute(context);
