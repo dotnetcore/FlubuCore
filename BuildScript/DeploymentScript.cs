@@ -58,7 +58,7 @@ namespace DeploymentScript
             var dbFileName = Files.GetFileNameFromConnectionString(connectionString);
             var isPathRooted = Path.IsPathRooted(dbFileName);
 
-            if (!config.CopyOnlyBinaries)
+            if (!config.IsUpdate)
             {
                 if (config.RecreateDatabase)
                 {
@@ -174,7 +174,7 @@ namespace DeploymentScript
 
             }
 
-            if (config.CopyOnlyBinaries)
+            if (config.IsUpdate)
             {
                 return;
             }
@@ -254,7 +254,7 @@ namespace DeploymentScript
 
             public bool RecreateDatabase { get; set; }
 
-            public bool CopyOnlyBinaries { get; set; }
+            public bool IsUpdate { get; set; }
 
             public bool AllowScriptUpload { get; set; }
 

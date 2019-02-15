@@ -148,7 +148,7 @@ namespace FlubuCore.WebApi.Controllers.WebApp
             _taskFactory
                 .Create<UpdateJsonFileTask>(Path.Combine(rootDir, "Updates/WebApi/DeploymentConfig.json"))
                 .Update("DeploymentPath", rootDir)
-                .Update("CopyOnlyBinaries", "true").Execute(_taskSession);
+                .Update("IsUpdate", "true").Execute(_taskSession);
 
             return View();
         }
