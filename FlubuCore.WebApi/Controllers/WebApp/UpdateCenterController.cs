@@ -7,7 +7,6 @@ using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
-using System.Text;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
@@ -25,7 +24,7 @@ namespace FlubuCore.WebApi.Controllers.WebApp
 {
     [Route("[controller]")]
 #if !NETCOREAPP1_1
-    ////[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
 #else
      [Authorize(ActiveAuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
 #endif
