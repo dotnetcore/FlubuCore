@@ -1,12 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp1.1;netcoreapp2.0;netcoreapp2.1;net462</TargetFrameworks>
     <WarningsAsErrors>true</WarningsAsErrors>
     <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1701;1702;1705;1591;1573;1572;1574</NoWarn>
-  <Version>2.13.0.0</Version><AssemblyVersion>2.13.0.0</AssemblyVersion><FileVersion>2.13.0.0</FileVersion><PackageTargetFallback>portable-net45+win8</PackageTargetFallback></PropertyGroup>
-
+  <Version>2.14.0.0</Version><AssemblyVersion>2.14.0.0</AssemblyVersion><FileVersion>2.14.0.0</FileVersion></PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp1.1'">
+    <ReferringTargetFrameworkForProjectReferences>.NETStandard,Version=v1.6</ReferringTargetFrameworkForProjectReferences>
+    <DefineConstants>NETCOREAPP1_1;</DefineConstants>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
     <ReferringTargetFrameworkForProjectReferences>.NETStandard,Version=v2.0</ReferringTargetFrameworkForProjectReferences>
     <DefineConstants>NETCOREAPP2_0;</DefineConstants>
@@ -18,10 +21,6 @@
   <PropertyGroup Condition="'$(TargetFramework)' == 'net462'">
     <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
     <DefineConstants>NET462;</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp1.1'">
-    <ReferringTargetFrameworkForProjectReferences>.NETStandard,Version=v1.6</ReferringTargetFrameworkForProjectReferences>
-    <DefineConstants>NETCOREAPP1_1;</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp1.1|AnyCPU'">
     <DocumentationFile>bin\Release\netcoreapp1.1\FlubuCore.WebApi.xml</DocumentationFile>

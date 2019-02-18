@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net462;netcoreapp1.0;netcoreapp1.1;netcoreapp2.0;netcoreapp2.1</TargetFrameworks>
     <WarningsAsErrors>true</WarningsAsErrors>
@@ -21,9 +21,9 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <AssemblyVersion>2.8.2.0</AssemblyVersion>
-    <FileVersion>2.8.2.0</FileVersion>
-    <Version>2.8.2.0</Version>
+    <AssemblyVersion>2.14.0.0</AssemblyVersion>
+    <FileVersion>2.14.0.0</FileVersion>
+    <Version>2.14.0.0</Version>
     <RootNamespace>DotNet.Cli.Flubu</RootNamespace>
     <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1701;1702;1705;1591;1573;1572;1574</NoWarn>
