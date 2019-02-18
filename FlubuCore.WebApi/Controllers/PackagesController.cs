@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FlubuCore.WebApi.Controllers.Exceptions;
 using FlubuCore.WebApi.Model;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -16,8 +17,12 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace FlubuCore.WebApi.Controllers
 {
+#if !NETCOREAPP1_1
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+#else
+     [Authorize(ActiveAuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+#endif
     [Route("api/[controller]")]
-    [Authorize]
     public class PackagesController : ControllerBase
     {
         private readonly string[] _allowedFileExtension = { ".zip", ".7z", ".rar" };

@@ -10,14 +10,19 @@ using FlubuCore.Tasks;
 using FlubuCore.Tasks.Packaging;
 using FlubuCore.WebApi.Controllers.Exceptions;
 using FlubuCore.WebApi.Model;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlubuCore.WebApi.Controllers
 {
+#if !NETCOREAPP1_1
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+#else
+     [Authorize(ActiveAuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+#endif
     [Route("api/[controller]")]
-    [Authorize]
     public class ReportsController : ControllerBase
     {
         private readonly IHostingEnvironment _hostingEnvironment;
