@@ -6,7 +6,7 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Git
 {
-    public class GitRemoveFilesTask : ExternalProcessTaskBase<int, GitTagTask>
+    public class GitRemoveFilesTask : ExternalProcessTaskBase<int, GitRemoveFilesTask>
     {
         private readonly string _file;
 
