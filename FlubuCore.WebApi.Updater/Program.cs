@@ -16,7 +16,17 @@ namespace FlubuCore.WebApi.Updater
             
             string frameworkName = Assembly.GetEntryAssembly()?.GetCustomAttribute<TargetFrameworkAttribute>()
                 ?.FrameworkName;
-            var isWindows = true;
+            bool isWindows = true;
+            if (args.Length > 0)
+            {
+                var succeed = bool.TryParse(args[0], out isWindows);
+                if (!succeed)
+                {
+                    Console.WriteLine("Failed to parse argument.");
+                    isWindows = true;
+                }
+            }
+
             bool isNetCore = frameworkName.StartsWith(".NETCoreApp");
             string flubuPath, deployScript;
             if (isWindows)

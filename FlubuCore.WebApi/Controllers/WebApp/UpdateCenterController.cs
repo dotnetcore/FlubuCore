@@ -160,7 +160,8 @@ namespace FlubuCore.WebApi.Controllers.WebApp
             Process.Start(new ProcessStartInfo
             {
                 WorkingDirectory = Path.GetDirectoryName(Path.Combine(rootDir, "Updates/WebApi")),
-                FileName = isWindows ? Path.Combine(rootDir, "FlubuCore.WebApi.Updater.exe") : "dotnet FlubuCore.WebApi.Updater.dll"
+                FileName = isWindows ? Path.Combine(rootDir, "FlubuCore.WebApi.Updater.exe") : "dotnet FlubuCore.WebApi.Updater.dll",
+                Arguments = isWindows.ToString()
             });
 
             _applicationLifetime.StopApplication();
