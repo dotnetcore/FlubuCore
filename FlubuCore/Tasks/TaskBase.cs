@@ -511,7 +511,7 @@ namespace FlubuCore.Tasks
 
             Context.LogInfo(message);
         }
-        
+
         /// <summary>
         /// Log info if task logging is not disabled.
         /// </summary>

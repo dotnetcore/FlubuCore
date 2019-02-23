@@ -11,8 +11,11 @@ namespace FlubuCore.Tasks.FlubuWebApi
     {
         private readonly string _mainCommand;
         private readonly string _scriptFilePath;
+
         private readonly Dictionary<string, string> _scriptArguments;
         private string _description;
+
+        private ConsoleColor _logsForegroundColor = ConsoleColor.DarkGreen;
 
         public ExecuteFlubuScriptTask(string mainCommand, string scriptFilePath, IWebApiClientFactory webApiClient)
             : base(webApiClient)
@@ -49,6 +52,12 @@ namespace FlubuCore.Tasks.FlubuWebApi
             return this;
         }
 
+        public ExecuteFlubuScriptTask LogsWithColor(ConsoleColor foregroundColor)
+        {
+            _logsForegroundColor = foregroundColor;
+            return this;
+        }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             Task<int> task = DoExecuteAsync(context);
@@ -68,11 +77,11 @@ namespace FlubuCore.Tasks.FlubuWebApi
                     ScriptArguments = _scriptArguments,
                 });
 
-                WriteLogs(response.Logs);
+                WriteLogs(response.Logs, _logsForegroundColor);
             }
             catch (WebApiException e)
             {
-                WriteLogs(e.Logs);
+                WriteLogs(e.Logs, _logsForegroundColor);
                 throw new TaskExecutionException("Execute script failed!", 99);
             }
 

@@ -16,7 +16,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
 
         protected IWebApiClientFactory WebApiClientFactory { get; set; }
 
-        public void WriteLogs(List<string> logs)
+        public void WriteLogs(List<string> logs, ConsoleColor foregroundColor = ConsoleColor.DarkGreen)
         {
             if (logs == null)
             {
@@ -25,7 +25,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
 
             foreach (var log in logs)
             {
-                DoLogInfo(log);
+                DoLogInfo(log, foregroundColor);
             }
         }
     }
