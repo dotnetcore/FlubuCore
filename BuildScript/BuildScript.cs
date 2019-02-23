@@ -28,7 +28,6 @@ public class BuildScript : DefaultBuildScript
             .CreateTarget("compile")
             .SetDescription("Compiles the VS solution")
             .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj", "FlubuCore.Tests/FlubuCore.Tests.csproj", "FlubuCore.WebApi.Model/FlubuCore.WebApi.Model.csproj", "FlubuCore.WebApi.Client/FlubuCore.WebApi.Client.csproj", "FlubuCore.WebApi/FlubuCore.WebApi.csproj", "FlubuCore.GlobalTool/FlubuCore.GlobalTool.csproj"))
-            .AddCoreTask(x => x.Restore())
             .AddCoreTask(x => x.Build())
             .DependsOn(buildVersion);
 
@@ -59,7 +58,8 @@ public class BuildScript : DefaultBuildScript
             .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("netcoreapp2.1"))
             .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("netcoreapp2.0"))
             .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("netcoreapp1.1"))
-            .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("net462"));
+            .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("net462").AddRuntime("win7-x64"))
+            .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("net462").AddRuntime("win7-x86"));
 
         var packageWebApi = context.CreateTarget("Package.WebApi")
                 .AddTasks(PackageWebApi);
@@ -266,7 +266,23 @@ public class BuildScript : DefaultBuildScript
                 .AddFileToPackage(@"packages\System.Security.Cryptography.Algorithms.dll", "lib")
                 .AddFileToPackage(@"packages\netstandard.dll", "lib")
                 .DisableLogging()
-                .ZipPackage("FlubuCore.WebApi-Net462", true))
+                .ZipPackage("FlubuCore.WebApi-Net462-x64", true))
+            .AddTask(x => x.PackageTask("output\\WebApiPackages")
+                .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\net462\win7-x86\publish", "FlubuCore.WebApi", true)
+                .AddDirectoryToPackage(@"FlubuCore.WebApi.Updater\bin\Release\net462", "FlubuCore.WebApi", true)
+                .AddFileToPackage("BuildScript\\DeployScript.cs", "")
+                .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
+                .AddFileToPackage("output\\flubu.exe", "")
+                .AddFileToPackage("output\\flubu.exe.config", "")
+                .AddFileToPackage("output\\FlubuCore.dll", "")
+                .AddFileToPackage(@"packages\Newtonsoft.Json.11.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
+                .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard2.0\LiteDB.dll", "lib")
+                .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard2.0\LiteDB.dll", "")
+                .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
+                .AddFileToPackage(@"packages\System.Security.Cryptography.Algorithms.dll", "lib")
+                .AddFileToPackage(@"packages\netstandard.dll", "lib")
+                .DisableLogging()
+                .ZipPackage("FlubuCore.WebApi-Net462-x86", true))
             .AddTask(x => x.PackageTask("output\\WebApiPackages")
                 .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp2.0\publish", "FlubuCore.WebApi", true)
                 .AddDirectoryToPackage(@"FlubuCore.WebApi.Updater\bin\Release\netcoreapp2.0", "FlubuCore.WebApi", true)
