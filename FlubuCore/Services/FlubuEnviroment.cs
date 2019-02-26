@@ -7,8 +7,9 @@ namespace FlubuCore.Services
 {
     public static class FlubuEnviroment
     {
-        private static List<string> _vs2017Editions = new List<string>()
+        private static List<string> _vsEditions = new List<string>()
         {
+            "Preview",
             "BuildTools",
             "Professional",
             "Community",
@@ -73,9 +74,34 @@ namespace FlubuCore.Services
 #else
          string programFilesX86DirPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
 
-            foreach (var vs2017Edition in _vs2017Editions)
+            foreach (var vsEdition in _vsEditions)
             {
-                var msbuildPath = Path.Combine(programFilesX86DirPath, "Microsoft Visual Studio/2017", vs2017Edition, "MSBuild/15.0/Bin");
+                var msbuildPath = Path.Combine(programFilesX86DirPath, "Microsoft Visual Studio/2017", vsEdition, "MSBuild/15.0/Bin");
+
+                if (Directory.Exists(msbuildPath))
+                {
+                    if (Environment.Is64BitOperatingSystem)
+                    {
+                        msbuildPath = Path.Combine(msbuildPath, "amd64");
+                    }
+
+                    toolsVersions.Add(new Version("15.0"), msbuildPath);
+                    return;
+                }
+            }
+#endif
+        }
+
+        internal static void FillMsBuild16Path(SortedDictionary<Version, string> toolsVersions)
+        {
+#if NETSTANDARD1_6
+            return;
+#else
+         string programFilesX86DirPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+
+            foreach (var vsEdition in _vsEditions)
+            {
+                var msbuildPath = Path.Combine(programFilesX86DirPath, "Microsoft Visual Studio/2019", vsEdition, "MSBuild/Current/Bin");
 
                 if (Directory.Exists(msbuildPath))
                 {
