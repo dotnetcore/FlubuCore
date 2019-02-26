@@ -8,6 +8,8 @@ namespace FlubuCore.Scripting.Analysis
     {
         public string ClassName { get; set; }
 
+        public bool IsPartial { get; set; }
+
         public int? NamespaceIndex { get; set; }
 
         public List<AssemblyInfo> AssemblyReferences { get; } = new List<AssemblyInfo>();

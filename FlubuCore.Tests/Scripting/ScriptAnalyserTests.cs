@@ -36,17 +36,20 @@ namespace FlubuCore.Tests.Scripting
         }
 
         [Theory]
-        [InlineData("Foo\r\npublic class SomeBuildScript : Base\r\n{\r\n}", "SomeBuildScript")]
-        [InlineData("Foo\r\npublic class BuildScript    : Base\r\n{\r\n}", "BuildScript")]
-        [InlineData("Foo\r\npublic   class Deploy : Base\r\n{\r\n}", "Deploy")]
-        [InlineData("Foo\r\npublic class _LameScript123 \r\n{\r\n}", "_LameScript123")]
-        [InlineData("Foo\r\nbooo\r\npublic class BuildScript", "BuildScript")]
-        public void GetClassNameFromBuildScriptCodeTest(string code, string expectedClassName)
+        [InlineData("Foo\r\npublic class SomeBuildScript : Base\r\n{\r\n}", "SomeBuildScript", false)]
+        [InlineData("Foo\r\npublic class BuildScript    : Base\r\n{\r\n}", "BuildScript", false)]
+        [InlineData("Foo\r\npublic partial class BuildScript    : Base\r\n{\r\n}", "BuildScript", true)]
+        [InlineData("Foo\r\npublic   class Deploy : Base\r\n{\r\n}", "Deploy", false)]
+        [InlineData("Foo\r\npublic class _LameScript123 \r\n{\r\n}", "_LameScript123", false)]
+        [InlineData("Foo\r\nbooo\r\npublic class BuildScript", "BuildScript", false)]
+        [InlineData("Foo\r\npublic class BuildScriptpartial    : Base\r\n{\r\n}", "BuildScriptpartial", false)]
+        public void GetClassNameFromBuildScriptCodeTest(string code, string expectedClassName, bool isPartial)
         {
             ClassDirectiveProcessor pr = new ClassDirectiveProcessor();
             ScriptAnalyzerResult res = new ScriptAnalyzerResult();
             pr.Process(res, code, 1);
             Assert.Equal(expectedClassName, res.ClassName);
+            Assert.Equal(isPartial, res.IsPartial);
         }
 
         [Theory]

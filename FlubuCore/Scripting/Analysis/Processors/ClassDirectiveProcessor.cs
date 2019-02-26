@@ -10,6 +10,12 @@ namespace FlubuCore.Scripting.Analysis.Processors
             if (i < 0)
                 return false;
 
+           var partialIndex = line.IndexOf("partial", StringComparison.Ordinal);
+           if (partialIndex > 0 && partialIndex < i)
+           {
+               analyzerResult.IsPartial = true;
+           }
+
             var tmp = line.Substring(i + 6);
             tmp = tmp.TrimStart();
             i = tmp.IndexOf(" ", StringComparison.Ordinal);
