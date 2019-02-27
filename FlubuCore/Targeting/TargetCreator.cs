@@ -62,6 +62,17 @@ namespace FlubuCore.Targeting
                         }
                     }
 
+                    var parameterInfos = methodInfo.GetParameters();
+                    for (int i = 0; i < parameterInfos.Length; i++)
+                    {
+                        ParameterInfo parameter = parameterInfos[i];
+                        if (taskSession.Args.ScriptArguments.ContainsKey(parameter.Name))
+                        {
+                            object parsedValue = MethodParameterModifier.ParseValueByType(taskSession.Args.ScriptArguments[parameter.Name], parameter.ParameterType);
+                            attributeParamaters[i] = parsedValue;
+                        }
+                    }
+
                     methodInfo.Invoke(buildScript, attributeParamaters.ToArray());
                 }
             }
