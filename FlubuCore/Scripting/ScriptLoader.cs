@@ -244,6 +244,7 @@ namespace FlubuCore.Scripting
             }
 
             AddOtherCsFilesToBuildScriptCode(scriptAnalyzerResult, assemblyReferences, code);
+            AddPartialBuildScriptClassesToBuildScriptCode(scriptAnalyzerResult, code, pathToBuildScript, assemblyReferences);
             var assemblyReferencesLocations = assemblyReferences.Select(x => x.FullPath).ToList();
             assemblyReferencesLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
             assemblyReferencesLocations =
@@ -391,6 +392,47 @@ namespace FlubuCore.Scripting
                 {
                     _log.LogInformation($"File was not found: {file}");
                 }
+            }
+        }
+
+        private void AddPartialBuildScriptClassesToBuildScriptCode(ScriptAnalyzerResult analyzerResult, List<string> code, string buildScriptLocation,  List<AssemblyInfo> assemblyReferenceLocations)
+        {
+            if (!analyzerResult.IsPartial)
+            {
+                return;
+            }
+
+            var buildScriptDir = Path.GetDirectoryName(Path.GetFullPath(buildScriptLocation));
+            var fileName = Path.GetFileNameWithoutExtension(buildScriptLocation);
+            var scriptFiles = Directory.GetFiles(buildScriptDir, fileName + "**.cs");
+
+            foreach (var scriptFile in scriptFiles)
+            {
+                if (Path.GetFileNameWithoutExtension(scriptFile).Equals(fileName, StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                List<string> additionalCode = _file.ReadAllLines(scriptFile);
+
+                ScriptAnalyzerResult additionalCodeAnalyzerResult = _scriptAnalyzer.Analyze(additionalCode);
+                if (additionalCodeAnalyzerResult.CsFiles.Count > 0)
+                {
+                    throw new NotSupportedException("//#imp is only supported in main buildscript .cs file.");
+                }
+
+                if (!additionalCodeAnalyzerResult.IsPartial || additionalCodeAnalyzerResult.ClassName != analyzerResult.ClassName)
+                {
+                    continue;
+                }
+
+                _log.LogInformation($"Loading Partial class of build script: {scriptFile}");
+
+                var usings = additionalCode.Where(x => x.StartsWith("using"));
+
+                assemblyReferenceLocations.AddOrUpdateAssemblyInfo(additionalCodeAnalyzerResult.AssemblyReferences);
+                code.InsertRange(1, usings);
+                code.AddRange(additionalCode.Where(x => !x.StartsWith("using")));
             }
         }
 
