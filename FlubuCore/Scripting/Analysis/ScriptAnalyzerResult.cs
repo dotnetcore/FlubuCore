@@ -16,6 +16,8 @@ namespace FlubuCore.Scripting.Analysis
 
         public List<string> CsFiles { get; } = new List<string>();
 
+        public List<string> PartialCsFiles { get; } = new List<string>();
+
         public List<NugetPackageReference> NugetPackageReferences { get; } = new List<NugetPackageReference>();
 
         public List<ScriptAttributes> ScriptAttributes { get; } = new List<ScriptAttributes>();

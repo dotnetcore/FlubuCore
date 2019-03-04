@@ -70,6 +70,10 @@ namespace FlubuCore.Scripting
             List<string> code = _file.ReadAllLines(buildScriptFilePath);
             ScriptAnalyzerResult scriptAnalyzerResult = _scriptAnalyzer.Analyze(code);
             ProjectFileAnalyzerResult projectFileAnalyzerResult = _projectFileAnalyzer.Analyze(disableAnalysis: scriptAnalyzerResult.ScriptAttributes.Contains(ScriptAttributes.DisableLoadScriptReferencesAutomatically));
+
+            ProcessAddedCsFilesToBuildScript(scriptAnalyzerResult, code);
+            ProcessPartialBuildScriptClasses(scriptAnalyzerResult, code, buildScriptFilePath);
+
             bool oldWay = false;
 #if NET462
           oldWay = true;
@@ -81,7 +85,7 @@ namespace FlubuCore.Scripting
                 return await CreateBuildScriptInstanceOldWay(buildScriptFilePath, references, code, scriptAnalyzerResult);
             }
 
-            var assembly = TryLoadBuildScriptFromAssembly(buildScriptAssemblyPath, buildScriptFilePath);
+            var assembly = TryLoadBuildScriptFromAssembly(buildScriptAssemblyPath, buildScriptFilePath, scriptAnalyzerResult);
 
             if (assembly != null)
             {
@@ -89,7 +93,7 @@ namespace FlubuCore.Scripting
             }
 
             code.Insert(0, $"#line 1 \"{buildScriptFilePath}\"");
-            assembly = CompileBuildScriptToAssembly(buildScriptAssemblyPath, buildScriptFilePath, references, string.Join("\r\n", code));
+            assembly = CompileBuildScript(buildScriptAssemblyPath, buildScriptFilePath, references, string.Join("\r\n", code));
             return CreateBuildScriptInstance(assembly, buildScriptFilePath);
         }
 
@@ -108,7 +112,7 @@ namespace FlubuCore.Scripting
             return buildScript;
         }
 
-        private Assembly TryLoadBuildScriptFromAssembly(string buildScriptAssemblyPath, string buildScriptFilePath)
+        private Assembly TryLoadBuildScriptFromAssembly(string buildScriptAssemblyPath, string buildScriptFilePath, ScriptAnalyzerResult scriptAnalyzerResult)
         {
             if (!File.Exists(buildScriptAssemblyPath))
             {
@@ -121,6 +125,27 @@ namespace FlubuCore.Scripting
             if (buildScriptFileModified > buildScriptAssemblyModified)
             {
                 return null;
+            }
+
+            foreach (var csFile in scriptAnalyzerResult.CsFiles)
+            {
+                if (File.Exists(csFile))
+                {
+                    var csFileModifiedTime = File.GetLastWriteTime(csFile);
+                    if (csFileModifiedTime > buildScriptAssemblyModified)
+                    {
+                        return null;
+                    }
+                }
+            }
+
+            foreach (var partialCsFile in scriptAnalyzerResult.PartialCsFiles)
+            {
+                var csFileModifiedTime = File.GetLastWriteTime(partialCsFile);
+                if (csFileModifiedTime > buildScriptAssemblyModified)
+                {
+                    return null;
+                }
             }
 
 #if NETSTANDARD1_6
@@ -136,7 +161,7 @@ namespace FlubuCore.Scripting
 #endif
         }
 
-        private Assembly CompileBuildScriptToAssembly(string buildScriptAssemblyPath, string buildScriptFilePath, IEnumerable<MetadataReference> references, string code)
+        private Assembly CompileBuildScript(string buildScriptAssemblyPath, string buildScriptFilePath, IEnumerable<MetadataReference> references, string code)
         {
             SyntaxTree syntaxTree =
                 CSharpSyntaxTree.ParseText(SourceText.From(string.Join("\r\n", code), Encoding.UTF8));
@@ -243,8 +268,6 @@ namespace FlubuCore.Scripting
                 assemblyReferences.AddOrUpdateAssemblyInfo(_nugetPackageResolver.ResolveNugetPackagesFromDirectives(scriptAnalyzerResult.NugetPackageReferences, pathToBuildScript));
             }
 
-            AddOtherCsFilesToBuildScriptCode(scriptAnalyzerResult, assemblyReferences, code);
-            AddPartialBuildScriptClassesToBuildScriptCode(scriptAnalyzerResult, code, pathToBuildScript, assemblyReferences);
             var assemblyReferencesLocations = assemblyReferences.Select(x => x.FullPath).ToList();
             assemblyReferencesLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
             assemblyReferencesLocations =
@@ -367,7 +390,7 @@ namespace FlubuCore.Scripting
             return assemblyReferenceLocations;
         }
 
-        private void AddOtherCsFilesToBuildScriptCode(ScriptAnalyzerResult analyzerResult, List<AssemblyInfo> assemblyReferenceLocations, List<string> code)
+        private void ProcessAddedCsFilesToBuildScript(ScriptAnalyzerResult analyzerResult, List<string> code)
         {
             foreach (var file in analyzerResult.CsFiles)
             {
@@ -384,7 +407,7 @@ namespace FlubuCore.Scripting
 
                     var usings = additionalCode.Where(x => x.StartsWith("using"));
 
-                    assemblyReferenceLocations.AddOrUpdateAssemblyInfo(additionalCodeAnalyzerResult.AssemblyReferences);
+                    analyzerResult.AssemblyReferences.AddRange(additionalCodeAnalyzerResult.AssemblyReferences);
                     code.InsertRange(1, usings);
                     code.AddRange(additionalCode.Where(x => !x.StartsWith("using")));
                 }
@@ -395,7 +418,7 @@ namespace FlubuCore.Scripting
             }
         }
 
-        private void AddPartialBuildScriptClassesToBuildScriptCode(ScriptAnalyzerResult analyzerResult, List<string> code, string buildScriptLocation,  List<AssemblyInfo> assemblyReferenceLocations)
+        private void ProcessPartialBuildScriptClasses(ScriptAnalyzerResult analyzerResult, List<string> code, string buildScriptLocation)
         {
             if (!analyzerResult.IsPartial)
             {
@@ -429,8 +452,8 @@ namespace FlubuCore.Scripting
                 _log.LogInformation($"Loading Partial class of build script: {scriptFile}");
 
                 var usings = additionalCode.Where(x => x.StartsWith("using"));
-
-                assemblyReferenceLocations.AddOrUpdateAssemblyInfo(additionalCodeAnalyzerResult.AssemblyReferences);
+                analyzerResult.PartialCsFiles.Add(scriptFile);
+                analyzerResult.AssemblyReferences.AddRange(additionalCodeAnalyzerResult.AssemblyReferences);
                 code.InsertRange(1, usings);
                 code.AddRange(additionalCode.Where(x => !x.StartsWith("using")));
             }
