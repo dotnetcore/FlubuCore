@@ -85,7 +85,7 @@ namespace FlubuCore.Scripting
                 return await CreateBuildScriptInstanceOldWay(buildScriptFilePath, references, code, scriptAnalyzerResult);
             }
 
-            var assembly = TryLoadBuildScriptFromAssembly(buildScriptAssemblyPath, buildScriptFilePath, scriptAnalyzerResult);
+            var assembly = TryLoadBuildScriptFromAssembly(buildScriptAssemblyPath, buildScriptFilePath, scriptAnalyzerResult, projectFileAnalyzerResult);
 
             if (assembly != null)
             {
@@ -112,7 +112,7 @@ namespace FlubuCore.Scripting
             return buildScript;
         }
 
-        private Assembly TryLoadBuildScriptFromAssembly(string buildScriptAssemblyPath, string buildScriptFilePath, ScriptAnalyzerResult scriptAnalyzerResult)
+        private Assembly TryLoadBuildScriptFromAssembly(string buildScriptAssemblyPath, string buildScriptFilePath, ScriptAnalyzerResult scriptAnalyzerResult, ProjectFileAnalyzerResult projectFileAnalyzerResult)
         {
             if (!File.Exists(buildScriptAssemblyPath))
             {
@@ -125,6 +125,15 @@ namespace FlubuCore.Scripting
             if (buildScriptFileModified > buildScriptAssemblyModified)
             {
                 return null;
+            }
+
+            if (projectFileAnalyzerResult.ProjectFileFound)
+            {
+                var projectFileModified = File.GetLastWriteTime(projectFileAnalyzerResult.ProjectFileLocation);
+                if (projectFileModified > buildScriptAssemblyModified)
+                {
+                    return null;
+                }
             }
 
             foreach (var csFile in scriptAnalyzerResult.CsFiles)
