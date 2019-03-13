@@ -122,7 +122,20 @@ namespace FlubuCore.WebApi.Controllers.WebApp
             }
             else
             {
-                asset = latestRelease.Assets.FirstOrDefault(x => x.Name.Contains("Net462"));
+                bool is64BitProcess = true;
+#if NET462
+                is64BitProcess = Environment.Is64BitProcess;
+#endif
+                var filteredAssets = latestRelease.Assets.Where(x => x.Name.Contains("Net462"));
+
+                if (is64BitProcess)
+                {
+                   asset = filteredAssets.FirstOrDefault(x => x.Name.Contains("x64"));
+                }
+                else
+                {
+                    asset = filteredAssets.FirstOrDefault(x => x.Name.Contains("x86"));
+                }
             }
 
             var rootDir = _hostingEnvironment.ContentRootPath;
