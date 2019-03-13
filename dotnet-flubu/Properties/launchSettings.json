@@ -1,8 +1,7 @@
 {
   "profiles": {
     "dotnet-flubu": {
-      "commandName": "Project",
-      "commandLineArgs": "compile -s d:\\test.cs"
+      "commandName": "Project"
     }
   }
 }
