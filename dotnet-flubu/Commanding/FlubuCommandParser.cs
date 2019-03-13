@@ -171,6 +171,7 @@ namespace DotNet.Cli.Flubu.Commanding
                     case "script":
                     {
                         if (!string.IsNullOrEmpty(_parsed.Script))
+                        if (string.IsNullOrEmpty(_parsed.Script))
                         {
                             _parsed.Script = option.Value;
                         }
