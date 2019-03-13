@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using System.Linq;
-using FlubuCore;
 using FlubuCore.Scripting;
 using McMaster.Extensions.CommandLineUtils;
 
@@ -165,12 +163,12 @@ namespace DotNet.Cli.Flubu.Commanding
 
             foreach (var option in options)
             {
-                switch (option.Key)
+                var key = option.Key.ToLowerInvariant();
+                switch (key)
                 {
                     case "s":
                     case "script":
                     {
-                        if (!string.IsNullOrEmpty(_parsed.Script))
                         if (string.IsNullOrEmpty(_parsed.Script))
                         {
                             _parsed.Script = option.Value;
