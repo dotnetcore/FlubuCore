@@ -174,6 +174,8 @@ namespace FlubuCore.WebApi
 
             services.Configure<WebApiSettings>(settings =>
                 Configuration.GetSection(nameof(WebApiSettings)).Bind(settings));
+            services.Configure<WebAppSettings>(settings =>
+                Configuration.GetSection(nameof(WebAppSettings)).Bind(settings));
             services.Configure<NotificationSettings>(settings =>
                 Configuration.GetSection(nameof(NotificationSettings)).Bind(settings));
 

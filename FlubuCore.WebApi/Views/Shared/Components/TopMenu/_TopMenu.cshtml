@@ -1,0 +1,15 @@
+﻿@model FlubuCore.WebApi.Models.ViewModels.TopMenuViewModel
+
+<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+    @if (Model.WebAppSettings.AllowScriptExecution)
+    {
+        <ul class="navbar-nav flex-grow-1">
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="UpdateCenter" asp-action="Index">Scripts</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="UpdateCenter" asp-action="Index">Update center</a>
+            </li>
+        </ul>
+    }
+</div>

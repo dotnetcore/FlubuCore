@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace FlubuCore.WebApi.Configuration
 {
-    public class SecuritySettings
+    public class WebAppSettings
     {
+        public bool AllowScriptExecution { get; set; }
     }
 }
