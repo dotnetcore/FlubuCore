@@ -60,6 +60,7 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
+    <Folder Include="Views\Login\" />
     <Folder Include="wwwroot\" />
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\images\" />
