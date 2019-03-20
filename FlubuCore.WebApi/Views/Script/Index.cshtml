@@ -2,24 +2,36 @@
 <div class="text-center">
     <h1 class="display-4">Script execution</h1>
 </div>
+<p id="msgP" class="text-danger" >@Model.ScriptExecutionMessage</p>
 <div class="col-md-4">
     <section>
-        <form Asp-Action="Execute" Asp-Controller="Script" method="post">
-            @if (!string.IsNullOrEmpty(Model.ScriptExecutionMessage))
-            {
-                <p id="msgP" class="text-danger" >@Model.ScriptExecutionMessage</p>
-            }
+          
             <h6>Select script: <select id="Scripts" asp-items="@Model.Scripts" asp-for="SelectedScript"></select></h6>
             <h6>Select targets: <select id="Targets" asp-items="@Model.Targets" asp-for="SelectedTarget"></select></h6>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Execute</button>
+                <button id="executeBtn" type="submit" class="btn btn-primary">Execute</button>
             </div>
-           
-        </form>
     </section>
 </div>
 
 <script type="text/javascript">
+    $("#executeBtn").click(function () {
+        var scriptName = $("#Scripts").val();
+        var targetName = $("#Targets").val();
+        $.ajax({
+            type: "POST",
+            url: "script/Execute",
+            contentType: "application/json; charset=utf-8;",
+            dataType: "json",
+            data: JSON.stringify({ ScriptName: scriptName, TargetName: targetName }),
+            success: function (data) {
+                $('#msgP').text(data['msg']);
+            },
+            error: function (exc) {
+                $('#msgP').text('Error occured.');
+            }
+        });
+    });
 
     $("#Scripts").change(function () {
         var scriptName = this.value;

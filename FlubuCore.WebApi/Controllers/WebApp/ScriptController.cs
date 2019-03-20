@@ -7,6 +7,7 @@ using FlubuCore.Commanding;
 using FlubuCore.Scripting;
 using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Controllers.Attributes;
+using FlubuCore.WebApi.Models;
 using FlubuCore.WebApi.Models.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -76,36 +77,37 @@ namespace FlubuCore.WebApi.Controllers.WebApp
         }
 
         [HttpPost("Execute")]
-        [EmailNotificationFilter(NotificationFilter.ExecuteScript)]
-        public async Task<IActionResult> Execute([FromForm]ScriptsViewModel model)
+        public IActionResult Execute([FromBody]ExecuteScript request)
         {
-            PrepareCommandArguments(model);
+            PrepareCommandArguments(request.ScriptName, request.TargetName);
 
             try
             {
-                var result = await _commandExecutor.ExecuteAsync();
+                var result = _commandExecutor.ExecuteAsync().Result;
                 switch (result)
                 {
                     case 0:
                     {
-                        model.ScriptExecutionMessage = "Script executed successfully.";
-                        break;
+                        return Ok(new { msg = "Script executed successfully." });
+                    }
+
+                    default:
+                    {
+                        return Ok(new { msg = $"Script executed with code: {result}" });
                     }
                 }
             }
             catch (Exception ex)
             {
-                model.ScriptExecutionMessage = ex.Message;
+                return Ok(new { msg = ex.Message });
             }
-
-            return View("Index", model);
         }
 
-        private void PrepareCommandArguments(ScriptsViewModel model)
+        private void PrepareCommandArguments(string scriptName, string targetName)
         {
             _commandArguments.MainCommands = new List<string>();
-            var scriptFullPath = Path.Combine(_hostingEnvironment.ContentRootPath, "Scripts", model.SelectedScript);
-            _commandArguments.MainCommands.Add(model.SelectedTarget);
+            var scriptFullPath = Path.Combine(_hostingEnvironment.ContentRootPath, "Scripts", scriptName);
+            _commandArguments.MainCommands.Add(targetName);
             _commandArguments.Script = scriptFullPath;
             _commandArguments.RethrowOnException = true;
         }
