@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
 
 namespace FlubuCore.WebApi.Controllers.WebApp
 {
@@ -32,22 +33,31 @@ namespace FlubuCore.WebApi.Controllers.WebApp
         private readonly ICommandExecutor _commandExecutor;
 
         private readonly CommandArguments _commandArguments;
+        private WebAppSettings _webAppSettings
+            ;
 
         public ScriptController(
             IHostingEnvironment hostingEnvironment,
             ITargetExtractor targetExtractor,
             ICommandExecutor commandExecutor,
-            CommandArguments commandArguments)
+            CommandArguments commandArguments,
+            IOptions<WebAppSettings> webApiOptions)
         {
             _hostingEnvironment = hostingEnvironment;
             _targetExtractor = targetExtractor;
             _commandExecutor = commandExecutor;
             _commandArguments = commandArguments;
+            _webAppSettings = webApiOptions.Value;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
+            if (!_webAppSettings.AllowScriptExecution)
+            {
+                return NotFound();
+            }
+
             var scriptsFullPath = Path.Combine(_hostingEnvironment.ContentRootPath, "Scripts");
 
             if (!Directory.Exists(scriptsFullPath))
@@ -71,6 +81,11 @@ namespace FlubuCore.WebApi.Controllers.WebApp
         [HttpGet("TargetNames")]
         public IActionResult GetTargetNamesFromScript(string scriptName)
         {
+            if (!_webAppSettings.AllowScriptExecution)
+            {
+                return NotFound();
+            }
+
             var scriptsFullPath = Path.Combine(_hostingEnvironment.ContentRootPath, "Scripts", scriptName);
             var targets = _targetExtractor.ExtractTargets(scriptsFullPath);
             return Ok(targets);
@@ -80,6 +95,11 @@ namespace FlubuCore.WebApi.Controllers.WebApp
         [EmailNotificationFilter(NotificationFilter.ExecuteScript)]
         public IActionResult Execute([FromBody]ExecuteScript request)
         {
+            if (!_webAppSettings.AllowScriptExecution)
+            {
+                return NotFound();
+            }
+
             PrepareCommandArguments(request.ScriptName, request.TargetName);
 
             try
