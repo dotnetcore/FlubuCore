@@ -49,12 +49,16 @@
  
   <ItemGroup>
     <Compile Remove="Logs\**" />
+    <Compile Remove="Scripts\**" />
     <Compile Remove="Updates\**" />
     <Content Remove="Logs\**" />
+    <Content Remove="Scripts\**" />
     <Content Remove="Updates\**" />
     <EmbeddedResource Remove="Logs\**" />
+    <EmbeddedResource Remove="Scripts\**" />
     <EmbeddedResource Remove="Updates\**" />
     <None Remove="Logs\**" />
+    <None Remove="Scripts\**" />
     <None Remove="Updates\**" />
   </ItemGroup>
 

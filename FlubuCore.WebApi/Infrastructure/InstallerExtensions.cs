@@ -73,6 +73,7 @@ namespace FlubuCore.WebApi.Infrastructure
             services.AddTransient<ISecurityRepository, SecurityRepository>();
             services.AddTransient<INotificationService, NotificationService>();
             services.AddTransient<INugetPackageResolver, NugetPackageResolver>();
+            services.AddTransient<ITargetExtractor, TargetExtractor>();
 
             IGitHubClient gitHubClient = new GitHubClient(new Octokit.ProductHeaderValue("FlubuCore"));
             services.AddSingleton(gitHubClient);

@@ -9,5 +9,7 @@ namespace FlubuCore.WebApi.Models.ViewModels
     public class ScriptsViewModel
     {
         public SelectList Scripts { get; set; }
+
+        public SelectList Targets { get; set; }
     }
 }

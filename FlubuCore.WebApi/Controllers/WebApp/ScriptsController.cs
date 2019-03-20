@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using FlubuCore.Scripting;
 using FlubuCore.WebApi.Models.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -22,9 +23,12 @@ namespace FlubuCore.WebApi.Controllers.WebApp
     {
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        public ScriptsController(IHostingEnvironment hostingEnvironment)
+        private readonly ITargetExtractor _targetExtractor;
+
+        public ScriptsController(IHostingEnvironment hostingEnvironment, ITargetExtractor targetExtractor)
         {
             _hostingEnvironment = hostingEnvironment;
+            _targetExtractor = targetExtractor;
         }
 
         [HttpGet]
@@ -42,10 +46,11 @@ namespace FlubuCore.WebApi.Controllers.WebApp
 
             var scriptFiles = Directory.GetFiles(scriptsFullPath, "*.cs");
             List<string> scriptFileNames = scriptFiles.Select(sf => Path.GetFileName(sf)).ToList();
-
+            List<string> targets = _targetExtractor.ExtractTargets(scriptFiles[0]);
             return View(new ScriptsViewModel
             {
-                Scripts = new SelectList(scriptFileNames)
+                Scripts = new SelectList(scriptFileNames),
+                Targets = new SelectList(targets),
             });
         }
     }
