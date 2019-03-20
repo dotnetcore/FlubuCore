@@ -77,6 +77,7 @@ namespace FlubuCore.WebApi.Controllers.WebApp
         }
 
         [HttpPost("Execute")]
+        [EmailNotificationFilter(NotificationFilter.ExecuteScript)]
         public IActionResult Execute([FromBody]ExecuteScript request)
         {
             PrepareCommandArguments(request.ScriptName, request.TargetName);
