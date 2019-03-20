@@ -10,7 +10,7 @@
     <br/>
     @if (Model.NewVersionExists)
     {
-        <form Asp-Action="Update" Asp-Controller="UpdateCenter" method="post"></form>
+        <form Asp-Action="Prepare" Asp-Controller="UpdateCenter" method="post"></form>
         <button type="submit" class="btn btn-primary">Update</button>
     }
     else

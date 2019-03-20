@@ -1,0 +1,20 @@
+﻿@model FlubuCore.WebApi.Models.ViewModels.ScriptsViewModel
+<div class="text-center">
+    <h1 class="display-4">Script execution</h1>
+</div>
+<div class="col-md-4">
+    <section>
+        <form Asp-Action="Execute" Asp-Controller="Script" method="post">
+            @if (!string.IsNullOrEmpty(Model.ScriptExecutionMessage))
+            {
+                <p class="text-danger" >@Model.ScriptExecutionMessage</p>
+            }
+        <h6>Select script: <select asp-items="@Model.Scripts" asp-for="SelectedScript"></select></h6>
+            <h6>Select targets: <select asp-items="@Model.Targets" asp-for="SelectedTarget"></select></h6>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Execute</button>
+            </div>
+           
+        </form>
+    </section>
+</div>
