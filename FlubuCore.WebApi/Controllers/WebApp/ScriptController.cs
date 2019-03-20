@@ -19,11 +19,11 @@ using Microsoft.Extensions.Options;
 namespace FlubuCore.WebApi.Controllers.WebApp
 {
     [Route("[controller]")]
-////#if !NETCOREAPP1_1
-////    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
-////#else
-////    [Authorize(ActiveAuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
-////#endif
+#if !NETCOREAPP1_1
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+#else
+    [Authorize(ActiveAuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+#endif
     public class ScriptController : Controller
     {
         private readonly IHostingEnvironment _hostingEnvironment;
