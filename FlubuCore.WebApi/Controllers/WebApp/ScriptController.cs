@@ -67,6 +67,14 @@ namespace FlubuCore.WebApi.Controllers.WebApp
             });
         }
 
+        [HttpGet("TargetNames")]
+        public IActionResult GetTargetNamesFromScript(string scriptName)
+        {
+            var scriptsFullPath = Path.Combine(_hostingEnvironment.ContentRootPath, "Scripts", scriptName);
+            var targets = _targetExtractor.ExtractTargets(scriptsFullPath);
+            return Ok(targets);
+        }
+
         [HttpPost("Execute")]
         [EmailNotificationFilter(NotificationFilter.ExecuteScript)]
         public async Task<IActionResult> Execute([FromForm]ScriptsViewModel model)

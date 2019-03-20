@@ -7,10 +7,10 @@
         <form Asp-Action="Execute" Asp-Controller="Script" method="post">
             @if (!string.IsNullOrEmpty(Model.ScriptExecutionMessage))
             {
-                <p class="text-danger" >@Model.ScriptExecutionMessage</p>
+                <p id="msgP" class="text-danger" >@Model.ScriptExecutionMessage</p>
             }
-        <h6>Select script: <select asp-items="@Model.Scripts" asp-for="SelectedScript"></select></h6>
-            <h6>Select targets: <select asp-items="@Model.Targets" asp-for="SelectedTarget"></select></h6>
+            <h6>Select script: <select id="Scripts" asp-items="@Model.Scripts" asp-for="SelectedScript"></select></h6>
+            <h6>Select targets: <select id="Targets" asp-items="@Model.Targets" asp-for="SelectedTarget"></select></h6>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Execute</button>
             </div>
@@ -18,3 +18,30 @@
         </form>
     </section>
 </div>
+
+<script type="text/javascript">
+
+    $("#Scripts").change(function () {
+        var scriptName = this.value;
+        $.ajax({
+            type: "GET",
+            url: "script/TargetNames",
+            dataType: "json",
+            data: {scriptName: scriptName},
+            success: function (data) {
+                if (data) {
+                    $("#Targets").empty();
+                    $(data).each(function () {
+                        $("<option />", {
+                            val: this,
+                            text: this
+                        }).appendTo("#Targets");
+                    });
+                }
+            },
+            error: function (exc) {
+                $('#msgP').html('Error occured.');
+            }
+        });
+    });
+</script>
