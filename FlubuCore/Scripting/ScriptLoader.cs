@@ -32,6 +32,10 @@ namespace FlubuCore.Scripting
             "FlubuLib",
             "BuildScript/FlubuLib",
             "BuildScripts/FlubuLib",
+            "Build/FlubuLib",
+            "_Build/FlubuLib",
+            "_BuildScript/FlubuLib",
+            "_BuildScripts/FlubuLib"
         };
 
         private readonly IFileWrapper _file;
