@@ -18,7 +18,10 @@ namespace FlubuCore.Scripting.Analysis
             "Build.csproj",
             "BuildScript/BuildScript.csproj",
             "BuildScripts/BuildScripts.csproj",
-            "Build/Build.Csproj",
+            "Build/Build.csproj",
+            "_Build/Build.csproj",
+            "_BuildScript/BuildScript.csproj",
+            "_BuildScripts/BuildScripts.csproj"
         };
 
         private readonly IFileWrapper _file;
