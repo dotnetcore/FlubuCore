@@ -125,6 +125,17 @@ namespace FlubuCore.Tests.Scripting
         }
 
         [Fact]
+        public void NugetPackageAttribute_Succesfull()
+        {
+            AttributesProcessor pr = new AttributesProcessor(_fileWrapper.Object, _pathWrapper.Object);
+            ScriptAnalyzerResult res = new ScriptAnalyzerResult();
+            string line = @"[NugetPackage(""FlubuCore"", ""2.7.0"")]";
+            pr.Process(res, line, 1);
+            Assert.Equal("FlubuCore", res.NugetPackageReferences.First().Id);
+            Assert.Equal("2.7.0", res.NugetPackageReferences.First().Version);
+        }
+
+        [Fact]
         public void Analyze()
         {
             List<string> lines = new List<string>()

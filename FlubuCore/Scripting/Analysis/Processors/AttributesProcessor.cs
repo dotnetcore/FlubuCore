@@ -39,6 +39,10 @@ namespace FlubuCore.Scripting.Analysis.Processors
             {
                 ProcessAssemblyAttribute(analyzerResult, line);
             }
+            else if (attributeName.Contains("NugetPackage"))
+            {
+                ProcessNugetPackageAttribute(analyzerResult, line);
+            }
             else if (attributeName.Contains("Reference"))
             {
                 ProcessReferenceAttribute(analyzerResult, line);
@@ -98,6 +102,16 @@ namespace FlubuCore.Scripting.Analysis.Processors
                 VersionStatus = VersionStatus.NotAvailable,
                 FullPath = pathToDll
             });
+        }
+
+        private void ProcessNugetPackageAttribute(ScriptAnalyzerResult analyzerResult, string line)
+        {
+            int startParametersIndex = line.IndexOf('(') + 2;
+            int endParameterIndex = line.IndexOf(')') - 1;
+            string nugetPackage = line.Substring(startParametersIndex, endParameterIndex - startParametersIndex);
+            var nugetInfo = nugetPackage.Split(',');
+
+            analyzerResult.NugetPackageReferences.Add(new NugetPackageReference { Id = nugetInfo[0].Replace("\"", string.Empty).Trim(), Version = nugetInfo[1].Replace("\"", string.Empty).Trim() });
         }
     }
 }
