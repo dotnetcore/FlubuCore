@@ -440,7 +440,7 @@ namespace FlubuCore.Scripting
 
             var buildScriptDir = Path.GetDirectoryName(Path.GetFullPath(buildScriptLocation));
             var fileName = Path.GetFileNameWithoutExtension(buildScriptLocation);
-            var scriptFiles = Directory.GetFiles(buildScriptDir, fileName + "**.cs");
+            var scriptFiles = Directory.GetFiles(buildScriptDir, "*.cs");
 
             foreach (var scriptFile in scriptFiles)
             {
