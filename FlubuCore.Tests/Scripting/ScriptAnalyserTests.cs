@@ -97,7 +97,7 @@ namespace FlubuCore.Tests.Scripting
         [InlineData("[ADisableLoadScriptReferencesAutomatically]", null)]
         [InlineData("DisableLoadScriptReferencesAutomatically]", null)]
         [InlineData("[DisableLoadScriptReferencesAutomatically", null)]
-        public void ScriptAttributes(string line, ScriptConfigAttributes? expected)
+        public void ScriptConfigAttributes(string line, ScriptConfigAttributes? expected)
         {
             AttributesProcessor pr = new AttributesProcessor();
             ScriptAnalyzerResult res = new ScriptAnalyzerResult();

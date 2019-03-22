@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using FlubuCore.Scripting.Attributes;
 
@@ -22,8 +23,16 @@ namespace FlubuCore.Scripting.Analysis.Processors
             }
 
             var attributeName = line.Substring(1, endAttributeIndex - 1);
-
-            if (attributeName == nameof(DisableLoadScriptReferencesAutomaticallyAttribute).Replace("Attribute", string.Empty) ||
+            if (attributeName.Contains("Reference"))
+            {
+               int startParametersIndex = line.IndexOf('(') + 1;
+               int endParameterIndex = line.IndexOf(')') - 1;
+               string reference = line.Substring(startParametersIndex, endParameterIndex);
+               var type = Type.GetType(reference, true);
+               var ass = type.GetTypeInfo().Assembly;
+               analyzerResult.AssemblyReferences.Add(ass.ToAssemblyInfo());
+            }
+            else if (attributeName == nameof(DisableLoadScriptReferencesAutomaticallyAttribute).Replace("Attribute", string.Empty) ||
                 attributeName == nameof(DisableLoadScriptReferencesAutomaticallyAttribute))
             {
                 analyzerResult.ScriptAttributes.Add(ScriptConfigAttributes.DisableLoadScriptReferencesAutomatically);
