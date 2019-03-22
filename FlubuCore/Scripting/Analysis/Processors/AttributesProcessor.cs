@@ -1,13 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Text;
+using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting.Attributes;
 
 namespace FlubuCore.Scripting.Analysis.Processors
 {
     public class AttributesProcessor : IScriptProcessor
     {
+        private readonly IFileWrapper _file;
+
+        private readonly IPathWrapper _pathWrapper;
+
+        public AttributesProcessor(IFileWrapper file, IPathWrapper pathWrapper)
+        {
+            _file = file;
+            _pathWrapper = pathWrapper;
+        }
+
         public bool Process(ScriptAnalyzerResult analyzerResult, string line, int lineIndex)
         {
             if (!line.StartsWith("["))
@@ -23,7 +35,11 @@ namespace FlubuCore.Scripting.Analysis.Processors
             }
 
             var attributeName = line.Substring(1, endAttributeIndex - 1);
-            if (attributeName.Contains("Reference"))
+            if (attributeName.Contains("Assembly"))
+            {
+                ProcessAssemblyAttribute(analyzerResult, line);
+            }
+            else if (attributeName.Contains("Reference"))
             {
                int startParametersIndex = line.IndexOf('(') + 1;
                int endParameterIndex = line.IndexOf(')') - 1;
@@ -49,6 +65,34 @@ namespace FlubuCore.Scripting.Analysis.Processors
             }
 
             return true;
+        }
+
+        private void ProcessAssemblyAttribute(ScriptAnalyzerResult analyzerResult, string line)
+        {
+            int startParametersIndex = line.IndexOf('(') + 2;
+            int endParameterIndex = line.IndexOf(')') - 1;
+            string dll = line.Substring(startParametersIndex, endParameterIndex - startParametersIndex);
+            string pathToDll = Path.GetFullPath(dll.Trim());
+            string extension = _pathWrapper.GetExtension(pathToDll);
+            if (!extension.Equals(".dll", StringComparison.OrdinalIgnoreCase))
+            {
+                if (!extension.Equals(".exe", StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new ScriptException($"File doesn't have dll extension. {pathToDll}");
+                }
+            }
+
+            if (!_file.Exists(pathToDll))
+            {
+                throw new ScriptException($"Assembly not found at location: {pathToDll}");
+            }
+
+            analyzerResult.AssemblyReferences.Add(new AssemblyInfo
+            {
+                Name = "N/A",
+                VersionStatus = VersionStatus.NotAvailable,
+                FullPath = pathToDll
+            });
         }
     }
 }

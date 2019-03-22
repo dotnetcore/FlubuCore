@@ -97,9 +97,9 @@ namespace FlubuCore.Tests.Scripting
         [InlineData("[ADisableLoadScriptReferencesAutomatically]", null)]
         [InlineData("DisableLoadScriptReferencesAutomatically]", null)]
         [InlineData("[DisableLoadScriptReferencesAutomatically", null)]
-        public void ScriptConfigAttributes(string line, ScriptConfigAttributes? expected)
+        public void ScriptConfigAttributesTests(string line, ScriptConfigAttributes? expected)
         {
-            AttributesProcessor pr = new AttributesProcessor();
+            AttributesProcessor pr = new AttributesProcessor(_fileWrapper.Object, _pathWrapper.Object);
             ScriptAnalyzerResult res = new ScriptAnalyzerResult();
             pr.Process(res, line, 1);
             if (expected.HasValue)
@@ -110,6 +110,18 @@ namespace FlubuCore.Tests.Scripting
             {
                 Assert.True(res.ScriptAttributes.Count == 0);
             }
+        }
+
+        [Fact]
+        public void AssemblyAttribute_Succesfull()
+        {
+            AttributesProcessor pr = new AttributesProcessor(_fileWrapper.Object, _pathWrapper.Object);
+            ScriptAnalyzerResult res = new ScriptAnalyzerResult();
+            _pathWrapper.Setup(x => x.GetExtension("c:\\hello.dll")).Returns(".dll");
+            _fileWrapper.Setup(x => x.Exists("c:\\hello.dll")).Returns(true);
+            string line = "[Assembly(\"c:\\hello.dll\")]";
+            pr.Process(res, line, 1);
+            Assert.Equal("c:\\hello.dll", res.AssemblyReferences.First().FullPath);
         }
 
         [Fact]
