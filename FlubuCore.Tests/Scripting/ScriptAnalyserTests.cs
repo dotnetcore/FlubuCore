@@ -91,13 +91,13 @@ namespace FlubuCore.Tests.Scripting
         }
 
         [Theory]
-        [InlineData("[DisableLoadScriptReferencesAutomatically]", FlubuCore.Scripting.Attributes.ScriptAttributes.DisableLoadScriptReferencesAutomatically)]
-        [InlineData("[DisableLoadScriptReferencesAutomaticallyAttribute]", FlubuCore.Scripting.Attributes.ScriptAttributes.DisableLoadScriptReferencesAutomatically)]
+        [InlineData("[DisableLoadScriptReferencesAutomatically]", FlubuCore.Scripting.Attributes.ScriptConfigAttributes.DisableLoadScriptReferencesAutomatically)]
+        [InlineData("[DisableLoadScriptReferencesAutomaticallyAttribute]", FlubuCore.Scripting.Attributes.ScriptConfigAttributes.DisableLoadScriptReferencesAutomatically)]
         [InlineData("[DisableLoadScriptReferencesAutomatically2]", null)]
         [InlineData("[ADisableLoadScriptReferencesAutomatically]", null)]
         [InlineData("DisableLoadScriptReferencesAutomatically]", null)]
         [InlineData("[DisableLoadScriptReferencesAutomatically", null)]
-        public void ScriptAttributes(string line, ScriptAttributes? expected)
+        public void ScriptAttributes(string line, ScriptConfigAttributes? expected)
         {
             AttributesProcessor pr = new AttributesProcessor();
             ScriptAnalyzerResult res = new ScriptAnalyzerResult();

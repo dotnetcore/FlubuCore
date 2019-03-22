@@ -20,6 +20,6 @@ namespace FlubuCore.Scripting.Analysis
 
         public List<NugetPackageReference> NugetPackageReferences { get; } = new List<NugetPackageReference>();
 
-        public List<ScriptAttributes> ScriptAttributes { get; } = new List<ScriptAttributes>();
+        public List<ScriptConfigAttributes> ScriptAttributes { get; } = new List<ScriptConfigAttributes>();
     }
 }

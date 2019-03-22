@@ -26,13 +26,17 @@ namespace FlubuCore.Scripting.Analysis.Processors
             if (attributeName == nameof(DisableLoadScriptReferencesAutomaticallyAttribute).Replace("Attribute", string.Empty) ||
                 attributeName == nameof(DisableLoadScriptReferencesAutomaticallyAttribute))
             {
-                analyzerResult.ScriptAttributes.Add(ScriptAttributes.DisableLoadScriptReferencesAutomatically);
+                analyzerResult.ScriptAttributes.Add(ScriptConfigAttributes.DisableLoadScriptReferencesAutomatically);
             }
-
-            if (attributeName == nameof(AlwaysRecompileScriptAttribute).Replace("Attribute", string.Empty) ||
+            else if (attributeName == nameof(AlwaysRecompileScriptAttribute).Replace("Attribute", string.Empty) ||
                 attributeName == nameof(AlwaysRecompileScriptAttribute))
             {
-                analyzerResult.ScriptAttributes.Add(ScriptAttributes.AlwaysRecompileScript);
+                analyzerResult.ScriptAttributes.Add(ScriptConfigAttributes.AlwaysRecompileScript);
+            }
+            else if (attributeName == nameof(CreateBuildScriptInstanceOldWayAttribute).Replace("Attribute", string.Empty) ||
+                     attributeName == nameof(CreateBuildScriptInstanceOldWayAttribute))
+            {
+                analyzerResult.ScriptAttributes.Add(ScriptConfigAttributes.CreateBuildScriptInstanceOldWayAttribute);
             }
 
             return true;

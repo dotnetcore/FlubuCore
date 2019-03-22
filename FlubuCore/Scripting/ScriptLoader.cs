@@ -74,13 +74,15 @@ namespace FlubuCore.Scripting
             List<string> code = _file.ReadAllLines(buildScriptFilePath);
             ScriptAnalyzerResult scriptAnalyzerResult = _scriptAnalyzer.Analyze(code);
             ProjectFileAnalyzerResult projectFileAnalyzerResult = _projectFileAnalyzer.Analyze(
-                disableAnalysis: scriptAnalyzerResult.ScriptAttributes.Contains(ScriptAttributes
+                disableAnalysis: scriptAnalyzerResult.ScriptAttributes.Contains(ScriptConfigAttributes
                     .DisableLoadScriptReferencesAutomatically));
 
             ProcessAddedCsFilesToBuildScript(scriptAnalyzerResult, code);
             ProcessPartialBuildScriptClasses(scriptAnalyzerResult, code, buildScriptFilePath);
 
-            bool oldWay = false;
+            bool oldWay = scriptAnalyzerResult.ScriptAttributes.Contains(ScriptConfigAttributes
+                .CreateBuildScriptInstanceOldWayAttribute);
+
 #if NET462
           oldWay = true;
 #endif
@@ -94,7 +96,7 @@ namespace FlubuCore.Scripting
             }
 
             Assembly assembly = null;
-            if (!scriptAnalyzerResult.ScriptAttributes.Contains(ScriptAttributes.AlwaysRecompileScript))
+            if (!scriptAnalyzerResult.ScriptAttributes.Contains(ScriptConfigAttributes.AlwaysRecompileScript))
             {
                 assembly = TryLoadBuildScriptFromAssembly(buildScriptAssemblyPath, buildScriptFilePath,
                     scriptAnalyzerResult, projectFileAnalyzerResult);
