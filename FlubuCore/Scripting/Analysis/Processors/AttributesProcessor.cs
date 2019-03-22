@@ -35,15 +35,15 @@ namespace FlubuCore.Scripting.Analysis.Processors
             }
 
             var attributeName = line.Substring(1, endAttributeIndex - 1);
-            if (attributeName.Contains("Assembly"))
+            if (attributeName.StartsWith("Assembly"))
             {
                 ProcessAssemblyAttribute(analyzerResult, line);
             }
-            else if (attributeName.Contains("NugetPackage"))
+            else if (attributeName.StartsWith("NugetPackage"))
             {
                 ProcessNugetPackageAttribute(analyzerResult, line);
             }
-            else if (attributeName.Contains("Reference"))
+            else if (attributeName.StartsWith("Reference"))
             {
                 ProcessReferenceAttribute(analyzerResult, line);
             }
