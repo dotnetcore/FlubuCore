@@ -41,12 +41,7 @@ namespace FlubuCore.Scripting.Analysis.Processors
             }
             else if (attributeName.Contains("Reference"))
             {
-               int startParametersIndex = line.IndexOf('(') + 2;
-               int endParameterIndex = line.IndexOf(')') - 1;
-               string reference = line.Substring(startParametersIndex, endParameterIndex - startParametersIndex);
-               var type = Type.GetType(reference, true);
-               var ass = type.GetTypeInfo().Assembly;
-               analyzerResult.AssemblyReferences.Add(ass.ToAssemblyInfo());
+                ProcessReferenceAttribute(analyzerResult, line);
             }
             else if (attributeName == nameof(DisableLoadScriptReferencesAutomaticallyAttribute).Replace("Attribute", string.Empty) ||
                 attributeName == nameof(DisableLoadScriptReferencesAutomaticallyAttribute))
@@ -65,6 +60,16 @@ namespace FlubuCore.Scripting.Analysis.Processors
             }
 
             return true;
+        }
+
+        private static void ProcessReferenceAttribute(ScriptAnalyzerResult analyzerResult, string line)
+        {
+            int startParametersIndex = line.IndexOf('(') + 2;
+            int endParameterIndex = line.IndexOf(')') - 1;
+            string reference = line.Substring(startParametersIndex, endParameterIndex - startParametersIndex);
+            var type = Type.GetType(reference, true);
+            var ass = type.GetTypeInfo().Assembly;
+            analyzerResult.AssemblyReferences.Add(ass.ToAssemblyInfo());
         }
 
         private void ProcessAssemblyAttribute(ScriptAnalyzerResult analyzerResult, string line)
