@@ -3,5 +3,6 @@
     public enum ScriptAttributes
     {
         DisableLoadScriptReferencesAutomatically,
+        AlwaysRecompileScript
     }
 }

@@ -73,7 +73,9 @@ namespace FlubuCore.Scripting
 
             List<string> code = _file.ReadAllLines(buildScriptFilePath);
             ScriptAnalyzerResult scriptAnalyzerResult = _scriptAnalyzer.Analyze(code);
-            ProjectFileAnalyzerResult projectFileAnalyzerResult = _projectFileAnalyzer.Analyze(disableAnalysis: scriptAnalyzerResult.ScriptAttributes.Contains(ScriptAttributes.DisableLoadScriptReferencesAutomatically));
+            ProjectFileAnalyzerResult projectFileAnalyzerResult = _projectFileAnalyzer.Analyze(
+                disableAnalysis: scriptAnalyzerResult.ScriptAttributes.Contains(ScriptAttributes
+                    .DisableLoadScriptReferencesAutomatically));
 
             ProcessAddedCsFilesToBuildScript(scriptAnalyzerResult, code);
             ProcessPartialBuildScriptClasses(scriptAnalyzerResult, code, buildScriptFilePath);
@@ -82,18 +84,25 @@ namespace FlubuCore.Scripting
 #if NET462
           oldWay = true;
 #endif
-            var references = GetBuildScriptReferences(args, projectFileAnalyzerResult, scriptAnalyzerResult, code, oldWay, buildScriptFilePath);
+            var references = GetBuildScriptReferences(args, projectFileAnalyzerResult, scriptAnalyzerResult, code,
+                oldWay, buildScriptFilePath);
 
             if (oldWay)
             {
-                return await CreateBuildScriptInstanceOldWay(buildScriptFilePath, references, code, scriptAnalyzerResult);
+                return await CreateBuildScriptInstanceOldWay(buildScriptFilePath, references, code,
+                    scriptAnalyzerResult);
             }
 
-            var assembly = TryLoadBuildScriptFromAssembly(buildScriptAssemblyPath, buildScriptFilePath, scriptAnalyzerResult, projectFileAnalyzerResult);
-
-            if (assembly != null)
+            Assembly assembly = null;
+            if (!scriptAnalyzerResult.ScriptAttributes.Contains(ScriptAttributes.AlwaysRecompileScript))
             {
-                return CreateBuildScriptInstance(assembly, buildScriptFilePath);
+                assembly = TryLoadBuildScriptFromAssembly(buildScriptAssemblyPath, buildScriptFilePath,
+                    scriptAnalyzerResult, projectFileAnalyzerResult);
+
+                if (assembly != null)
+                {
+                    return CreateBuildScriptInstance(assembly, buildScriptFilePath);
+                }
             }
 
             code.Insert(0, $"#line 1 \"{buildScriptFilePath}\"");

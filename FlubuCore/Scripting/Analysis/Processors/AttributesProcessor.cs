@@ -29,6 +29,12 @@ namespace FlubuCore.Scripting.Analysis.Processors
                 analyzerResult.ScriptAttributes.Add(ScriptAttributes.DisableLoadScriptReferencesAutomatically);
             }
 
+            if (attributeName == nameof(AlwaysRecompileScriptAttribute).Replace("Attribute", string.Empty) ||
+                attributeName == nameof(AlwaysRecompileScriptAttribute))
+            {
+                analyzerResult.ScriptAttributes.Add(ScriptAttributes.AlwaysRecompileScript);
+            }
+
             return true;
         }
     }
