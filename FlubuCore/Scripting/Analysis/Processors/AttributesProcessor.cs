@@ -41,9 +41,9 @@ namespace FlubuCore.Scripting.Analysis.Processors
             }
             else if (attributeName.Contains("Reference"))
             {
-               int startParametersIndex = line.IndexOf('(') + 1;
+               int startParametersIndex = line.IndexOf('(') + 2;
                int endParameterIndex = line.IndexOf(')') - 1;
-               string reference = line.Substring(startParametersIndex, endParameterIndex);
+               string reference = line.Substring(startParametersIndex, endParameterIndex - startParametersIndex);
                var type = Type.GetType(reference, true);
                var ass = type.GetTypeInfo().Assembly;
                analyzerResult.AssemblyReferences.Add(ass.ToAssemblyInfo());
