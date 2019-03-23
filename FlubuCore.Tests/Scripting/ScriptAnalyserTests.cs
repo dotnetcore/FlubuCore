@@ -97,6 +97,10 @@ namespace FlubuCore.Tests.Scripting
         [InlineData("[ADisableLoadScriptReferencesAutomatically]", null)]
         [InlineData("DisableLoadScriptReferencesAutomatically]", null)]
         [InlineData("[DisableLoadScriptReferencesAutomatically", null)]
+        [InlineData("[AlwaysRecompileScriptAttribute]", ScriptConfigAttributes.AlwaysRecompileScript)]
+        [InlineData("[AlwaysRecompileScript]", ScriptConfigAttributes.AlwaysRecompileScript)]
+        [InlineData("[CreateBuildScriptInstanceOldWayAttribute]", ScriptConfigAttributes.CreateBuildScriptInstanceOldWayAttribute)]
+        [InlineData("[CreateBuildScriptInstanceOldWay]", ScriptConfigAttributes.CreateBuildScriptInstanceOldWayAttribute)]
         public void ScriptConfigAttributesTests(string line, ScriptConfigAttributes? expected)
         {
             AttributesProcessor pr = new AttributesProcessor(_fileWrapper.Object, _pathWrapper.Object);
