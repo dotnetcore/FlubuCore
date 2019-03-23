@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
+using FlubuCore.Services;
 using Microsoft.DotNet.Cli.Utils;
 using Xunit;
 
@@ -14,7 +15,7 @@ namespace FlubuCore.Tests.Scripting
         [Fact(Skip = "Explicit test as it needs connection to nuget.")]
         public void ResolveNugetDependencies()
         {
-            var resolver = new NugetPackageResolver(new CommandFactory(), new FileWrapper());
+            var resolver = new NugetPackageResolver(new CommandFactory(), new FileWrapper(), new FlubuEnviromentService());
 
             var assemblies = resolver.ResolveNugetPackagesFromDirectives(new List<NugetPackageReference>()
             {

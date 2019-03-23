@@ -9,6 +9,7 @@ using System.Text;
 using System.Xml.Linq;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting.Analysis;
+using FlubuCore.Services;
 using FlubuCore.Tasks.NetCore;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.DependencyModel;
@@ -20,14 +21,17 @@ namespace FlubuCore.Scripting
         private readonly ICommandFactory _commandFactory;
         private readonly IFileWrapper _file;
 
+        private readonly IFlubuEnviromentService _flubuEnviromentService;
+
         private bool _packagesRestored;
 
         private List<CompilationLibrary> _resolvedDependencies = new List<CompilationLibrary>();
 
-        public NugetPackageResolver(ICommandFactory commandFactory, IFileWrapper file)
+        public NugetPackageResolver(ICommandFactory commandFactory, IFileWrapper file, IFlubuEnviromentService flubuEnviromentService)
         {
             _commandFactory = commandFactory;
             _file = file;
+            _flubuEnviromentService = flubuEnviromentService;
         }
 
         public List<AssemblyInfo> ResolveNugetPackagesFromDirectives(List<NugetPackageReference> packageReferences, string pathToBuildScript)
@@ -313,7 +317,34 @@ namespace FlubuCore.Scripting
 
         private void RestoreNugetPackages(string csprojLocation)
         {
-            ICommand command = _commandFactory.Create("dotnet", new List<string>() { "restore", csprojLocation });
+            try
+            {
+                ICommand command = _commandFactory.Create("dotnet", new List<string>() { "restore", csprojLocation });
+                command.CaptureStdErr().WorkingDirectory(Directory.GetCurrentDirectory()).Execute();
+                _packagesRestored = true;
+            }
+            catch (InvalidOperationException e)
+            {
+                RestoreNugetPackagesMsBuildFallback(csprojLocation);
+                if (!_packagesRestored)
+                {
+                    throw new ScriptException("Can not restore nuget packages. dotnet core sdk/runtime not installed and msbuild 15 or higher not found. See for more information",
+                        e);
+                }
+            }
+        }
+
+        private void RestoreNugetPackagesMsBuildFallback(string csprojLocation)
+        {
+            var msbuilds = _flubuEnviromentService.ListAvailableMSBuildToolsVersions();
+            KeyValuePair<Version, string> msbuild = msbuilds.FirstOrDefault(x => x.Key >= new Version(15, 0, 0));
+            if (msbuild.Equals(default(KeyValuePair<Version, string>)))
+            {
+                return;
+            }
+
+            var msBuildPath = Path.Combine(msbuilds.Last().Value, "msbuild.exe");
+            ICommand command = _commandFactory.Create(msBuildPath, new List<string>() {"/t:restore", csprojLocation});
             command.CaptureStdErr().WorkingDirectory(Directory.GetCurrentDirectory()).Execute();
             _packagesRestored = true;
         }
