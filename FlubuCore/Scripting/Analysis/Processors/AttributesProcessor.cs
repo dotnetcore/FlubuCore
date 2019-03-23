@@ -68,9 +68,9 @@ namespace FlubuCore.Scripting.Analysis.Processors
 
         private static void ProcessReferenceAttribute(ScriptAnalyzerResult analyzerResult, string line)
         {
-            int startParametersIndex = line.IndexOf('(') + 2;
+            int startParametersIndex = line.IndexOf('\"') + 1;
             int endParameterIndex = line.IndexOf(')') - 1;
-            string reference = line.Substring(startParametersIndex, endParameterIndex - startParametersIndex);
+            string reference = line.Substring(startParametersIndex, endParameterIndex - startParametersIndex).Replace("\"", string.Empty).Trim();
             var type = Type.GetType(reference, true);
             var ass = type.GetTypeInfo().Assembly;
             analyzerResult.AssemblyReferences.Add(ass.ToAssemblyInfo());
@@ -78,10 +78,10 @@ namespace FlubuCore.Scripting.Analysis.Processors
 
         private void ProcessAssemblyAttribute(ScriptAnalyzerResult analyzerResult, string line)
         {
-            int startParametersIndex = line.IndexOf('(') + 2;
+            int startParametersIndex = line.IndexOf('\"') + 1;
             int endParameterIndex = line.IndexOf(')') - 1;
-            string dll = line.Substring(startParametersIndex, endParameterIndex - startParametersIndex);
-            string pathToDll = Path.GetFullPath(dll.Trim());
+            string dll = line.Substring(startParametersIndex, endParameterIndex - startParametersIndex).Replace("\"", string.Empty).Trim();
+            string pathToDll = Path.GetFullPath(dll);
             string extension = _pathWrapper.GetExtension(pathToDll);
             if (!extension.Equals(".dll", StringComparison.OrdinalIgnoreCase))
             {
@@ -106,7 +106,7 @@ namespace FlubuCore.Scripting.Analysis.Processors
 
         private void ProcessNugetPackageAttribute(ScriptAnalyzerResult analyzerResult, string line)
         {
-            int startParametersIndex = line.IndexOf('(') + 2;
+            int startParametersIndex = line.IndexOf('\"') + 1;
             int endParameterIndex = line.IndexOf(')') - 1;
             string nugetPackage = line.Substring(startParametersIndex, endParameterIndex - startParametersIndex);
             var nugetInfo = nugetPackage.Split(',');

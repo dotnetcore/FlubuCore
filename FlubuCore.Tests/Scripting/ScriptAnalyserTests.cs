@@ -116,24 +116,32 @@ namespace FlubuCore.Tests.Scripting
             }
         }
 
-        [Fact]
-        public void AssemblyAttribute_Succesfull()
+        [Theory]
+        [InlineData("[Assembly($\"c:\\hello.dll\")]")]
+        [InlineData("[Assembly(@@\"c:\\hello.dll\")]")]
+        [InlineData("[Assembly(   $\"c:\\hello.dll\")]")]
+        [InlineData("[Assembly(\"c:\\hello.dll\")]")]
+        [InlineData("[Assembly  (\"c:\\hello.dll\"  )  ]")]
+        public void AssemblyAttribute_Succesfull(string line)
         {
             AttributesProcessor pr = new AttributesProcessor(_fileWrapper.Object, _pathWrapper.Object);
             ScriptAnalyzerResult res = new ScriptAnalyzerResult();
             _pathWrapper.Setup(x => x.GetExtension("c:\\hello.dll")).Returns(".dll");
             _fileWrapper.Setup(x => x.Exists("c:\\hello.dll")).Returns(true);
-            string line = "[Assembly(\"c:\\hello.dll\")]";
             pr.Process(res, line, 1);
             Assert.Equal("c:\\hello.dll", res.AssemblyReferences.First().FullPath);
         }
 
-        [Fact]
-        public void NugetPackageAttribute_Succesfull()
+        [Theory]
+        [InlineData(@"[NugetPackage($ ""FlubuCore"",   ""2.7.0"")]")]
+        [InlineData(@"[NugetPackage(@@ ""FlubuCore"",   ""2.7.0"")]")]
+        [InlineData(@"[NugetPackage  (@@ ""FlubuCore"",""2.7.0""  )   ]")]
+        [InlineData(@"[NugetPackage(""FlubuCore"",""2.7.0"")]")]
+        [InlineData(@"[NugetPackage($""FlubuCore"",""2.7.0"")]")]
+        public void NugetPackageAttribute_Succesfull(string line)
         {
             AttributesProcessor pr = new AttributesProcessor(_fileWrapper.Object, _pathWrapper.Object);
             ScriptAnalyzerResult res = new ScriptAnalyzerResult();
-            string line = @"[NugetPackage(""FlubuCore"", ""2.7.0"")]";
             pr.Process(res, line, 1);
             Assert.Equal("FlubuCore", res.NugetPackageReferences.First().Id);
             Assert.Equal("2.7.0", res.NugetPackageReferences.First().Version);
