@@ -122,6 +122,7 @@ namespace FlubuCore.Tests.Scripting
         [InlineData("[Assembly(   $\"c:\\hello.dll\")]")]
         [InlineData("[Assembly(\"c:\\hello.dll\")]")]
         [InlineData("[Assembly  (\"c:\\hello.dll\"  )  ]")]
+        [Trait("Category", "OnlyWindows")]
         public void AssemblyAttribute_Succesfull(string line)
         {
             AttributesProcessor pr = new AttributesProcessor(_fileWrapper.Object, _pathWrapper.Object);
