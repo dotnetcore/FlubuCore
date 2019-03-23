@@ -344,7 +344,7 @@ namespace FlubuCore.Scripting
             }
 
             var msBuildPath = Path.Combine(msbuilds.Last().Value, "msbuild.exe");
-            ICommand command = _commandFactory.Create(msBuildPath, new List<string>() {"/t:restore", csprojLocation});
+            ICommand command = _commandFactory.Create(msBuildPath, new List<string>() { "/t:restore", csprojLocation });
             command.CaptureStdErr().WorkingDirectory(Directory.GetCurrentDirectory()).Execute();
             _packagesRestored = true;
         }
