@@ -110,7 +110,7 @@ namespace FlubuCore.Services
                         msbuildPath = Path.Combine(msbuildPath, "amd64");
                     }
 
-                    toolsVersions.Add(new Version("15.0"), msbuildPath);
+                    toolsVersions.Add(new Version("16.0"), msbuildPath);
                     return;
                 }
             }
