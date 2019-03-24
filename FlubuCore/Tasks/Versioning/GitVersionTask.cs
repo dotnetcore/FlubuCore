@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks.Process;
 using Newtonsoft.Json;
@@ -12,11 +11,10 @@ namespace FlubuCore.Tasks.Versioning
         public GitVersionTask()
         {
             ExecutablePath = "gitversion";
+            KeepProgramOutput = true;
         }
 
         protected override string Description { get; set; }
-
-        protected override bool GetProgramOutput { get; } = true;
 
         /// <summary>
         ///  The directory containing .git. If not defined current directory is used. (Must be first argument).
@@ -280,9 +278,10 @@ namespace FlubuCore.Tasks.Versioning
         {
             base.DoExecute(context);
 
-            if (!string.IsNullOrEmpty(ProgramOutput))
+            var output = GetOutput();
+            if (!string.IsNullOrEmpty(output))
             {
-                var gitVersion = JsonConvert.DeserializeObject<GitVersion>(ProgramOutput);
+                var gitVersion = JsonConvert.DeserializeObject<GitVersion>(output);
                 context.Properties.Set(BuildProps.BuildVersion, new Version(gitVersion.AssemblySemVer));
                 return gitVersion;
             }

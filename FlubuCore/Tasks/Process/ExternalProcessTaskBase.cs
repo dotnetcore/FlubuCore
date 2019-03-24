@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.Process
@@ -7,6 +6,8 @@ namespace FlubuCore.Tasks.Process
     public abstract class ExternalProcessTaskBase<TResult, TTask> : TaskBase<TResult, TTask>, IExternalProcess<TTask>
         where TTask : class, ITask
     {
+        private IRunProgramTask _task;
+
         // ReSharper disable once InconsistentNaming
 #pragma warning disable SA1300 // Element should begin with upper-case letter
         private List<(string argKey, string argValue, bool valueRequired, bool maskArg)> _arguments { get; } = new List<(string argKey, string argValue, bool valueRequired, bool maskArg)>();
@@ -20,9 +21,9 @@ namespace FlubuCore.Tasks.Process
         /// </value>
         protected string ExecuteWorkingFolder { get; set; }
 
-        protected string ProgramOutput { get; set; }
+        protected bool KeepProgramOutput { get; set; }
 
-        protected virtual bool GetProgramOutput { get; } = false;
+        protected bool KeepProgramErrorOutput { get; set; }
 
         /// <summary>
         /// Executable path.
@@ -137,6 +138,36 @@ namespace FlubuCore.Tasks.Process
             return this as TTask;
         }
 
+        /// <summary>
+        /// Captures the output of the executable.
+        /// </summary>
+        public TTask CaptureOutput()
+        {
+            KeepProgramOutput = true;
+            return this as TTask;
+        }
+
+        /// <summary>
+        /// Captures the error output of the executable.
+        /// </summary>
+        public TTask CaptureErrorOutput()
+        {
+            KeepProgramErrorOutput = true;
+            return this as TTask;
+        }
+
+        /// <summary>
+        /// Get the output produced by the executable.
+        /// </summary>
+        /// <returns></returns>
+        public virtual string GetOutput() => _task?.GetOutput();
+
+        /// <summary>
+        /// Get the error output produced by the executable.
+        /// </summary>
+        /// <returns></returns>
+        public virtual string GetErrorOutput() => _task?.GetErrorOutput();
+
         /// <inheritdoc />
         protected override TResult DoExecute(ITaskContextInternal context)
         {
@@ -145,33 +176,31 @@ namespace FlubuCore.Tasks.Process
                 throw new TaskExecutionException($"{nameof(ExecutablePath)} must be set.", 5);
             }
 
-            IRunProgramTask task = context.Tasks().RunProgramTask(ExecutablePath);
+            _task = context.Tasks()
+                          .RunProgramTask(ExecutablePath)
+                          .WorkingFolder(ExecuteWorkingFolder);
 
             if (NoOutputLog)
-                task.DoNotLogOutput();
+                _task.DoNotLogOutput();
 
             if (DoNotLog)
-                task.NoLog();
+                _task.NoLog();
+
+            if (KeepProgramOutput)
+                _task.CaptureOutput();
+
+            if (KeepProgramErrorOutput)
+                _task.CaptureErrorOutput();
 
             BeforeExecute(context);
 
             var argumentsFlat = ValidateAndGetArgumentsFlat();
-
-            task
-                .CaptureErrorOutput()
-                .CaptureOutput()
-                .WorkingFolder(ExecuteWorkingFolder);
             foreach (var arg in argumentsFlat)
             {
-                task.WithArguments(arg.arg, arg.maskArg);
+                _task.WithArguments(arg.arg, arg.maskArg);
             }
 
-            var result = task.Execute(context);
-
-            if (GetProgramOutput)
-            {
-                ProgramOutput = task.GetOutput();
-            }
+            var result = _task.Execute(context);
 
             if (typeof(TResult) == typeof(int))
             {

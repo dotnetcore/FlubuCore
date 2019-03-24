@@ -25,26 +25,6 @@ namespace FlubuCore.Tests.Tasks
         }
 
         [Fact]
-        public void QuickTest()
-        {
-           var a = TestTer<int>();
-        }
-
-        public T TestTer<T>()
-        {
-            int i = 5;
-            T a;
-
-            if (typeof(T) == typeof(int))
-            {
-                a = (T)(object)i;
-                return a;
-            }
-
-            return default(T);
-        }
-
-        [Fact]
         public void ExecuteDotNetCommandWithFullPath()
         {
             var fileName = GetOsPlatform() == OSPlatform.Windows ? "C:\\Program Files\\dotnet\\dotnet.exe" : "/usr/bin/dotnet";
