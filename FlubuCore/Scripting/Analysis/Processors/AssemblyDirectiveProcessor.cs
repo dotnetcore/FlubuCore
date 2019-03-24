@@ -44,7 +44,7 @@ namespace FlubuCore.Scripting.Analysis.Processors
 
             analyzerResult.AssemblyReferences.Add(new AssemblyInfo
             {
-                Name = "N/A",
+                Name = pathToDll,
                 VersionStatus = VersionStatus.NotAvailable,
                 FullPath = pathToDll
             });
