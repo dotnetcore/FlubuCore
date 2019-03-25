@@ -1,3 +1,35 @@
+3.0.0.0
+- Resolve nuget packages from build script csproj file automatically. No need for directives in build script anymore.
+- Load referenced libraries from build csproj file automatically. No need for directives in build script anymore.
+- All nuget dependencies are loaded automatically.
+- Added GitVersionTask: GitVersion is a tool to help you achieve Semantic Versioning on your project. [Documentation](https://gitversion.readthedocs.io/en/latest/)
+- Automatic load of build script partial classes. Partial classes have to be in same directory as build script.
+- Automatic update of FlubuCore web api to new version. Just navigate to /UpdateCenter
+- Added small web app to FlubuCore web api for executing scripts. Navigate to /Script
+- load assembly references, nuget references through script class attributes
+- Added Must method to target fluent interface. Condition in must will have to be meet otherwise target execution will fail before any task get executed.
+- Option to execute custom code before each target execution. Just override following methods:
+- Colored console logging
+- FetchVersionFromExternalSourceTask now supports following build systems : Bamboo, Bitrise, ContinousCl, Jenkins, TFS, TeamCity, TravisCI.
+- CompileSolutionTask: support for VS2019 
+- Restoring of nuget packages has fallback to msbuild now if dotnet core sdk is not installed
+- New Config attribute: Disable load of script references from csproj
+- New Config Attribute: Always recompile build script
+- Expose the output of ExternalProcessTaskBase
+- Fix: Specifing flubu script path in config file does not work
+- Fix: BuildScript assembly is not recompiled when included cs files are changed
+- Fix: Added interactive method to task fluent interface.
+- Fixed switched capture output and capture error output
+- Fixed GetRemoveFileTask base methods (null reference exception)
+- Fixed GitPushFileTask base methods (null reference excetpion).
+- Fixed GitAddTask base methods (null reference excetpion).
+- External process task return type is now generic
+- script key is now case insensitive in file configuration.
+- switched from Microsoft.Extensions.CommandLineUtils to McMaster.Extensions.CommadLineUtils
+- Minor visual improvements when displaying help.
+- Added Net462 Web api deploy package for x86
+- Added some more default build script locations.
+
 2.14.0.0
 - Adds support for Interactive task members.
 - Option to add clean up task when hitting ctrl + c with Finalize method on tasks or Finalize method on Group of tasks.
