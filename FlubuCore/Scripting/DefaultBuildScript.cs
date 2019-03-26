@@ -122,7 +122,7 @@ namespace FlubuCore.Scripting
                 }
                 else if (!targetsInfo.unknownTarget)
                 {
-                    s.LogInfo(s.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
+                    s.LogInfo(s.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL", s.HasFailed ? ConsoleColor.Red : ConsoleColor.Green);
                 }
             });
 
