@@ -1,17 +1,21 @@
 ﻿using System;
 using System.IO;
 using FlubuCore.IO.Wrappers;
+using Microsoft.Extensions.Logging;
 
 namespace FlubuCore.Scripting.Analysis.Processors
 {
     public class AssemblyDirectiveProcessor : IScriptProcessor
     {
+        private readonly ILogger<AssemblyDirectiveProcessor> _log;
+
         private readonly IFileWrapper _file;
 
         private readonly IPathWrapper _pathWrapper;
 
-        public AssemblyDirectiveProcessor(IFileWrapper file, IPathWrapper pathWrapper)
+        public AssemblyDirectiveProcessor(IFileWrapper file, IPathWrapper pathWrapper,  ILogger<AssemblyDirectiveProcessor> log)
         {
+            _log = log;
             _file = file;
             _pathWrapper = pathWrapper;
         }
@@ -41,6 +45,8 @@ namespace FlubuCore.Scripting.Analysis.Processors
             {
                 throw new ScriptException($"Assembly not found at location: {pathToDll}");
             }
+
+            _log.LogInformation("#ass directives are obsolete and will be removed in future versions. Use 'Assembly' attribute instead on build script class.");
 
             analyzerResult.AssemblyReferences.Add(new AssemblyInfo
             {
