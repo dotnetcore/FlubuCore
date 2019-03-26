@@ -281,7 +281,7 @@ namespace FlubuCore.Scripting
             }
 
             assemblyReferences.AddOrUpdateAssemblyInfo(scriptAnalyzerResult.AssemblyReferences);
-         
+
             if (projectFileAnalyzerResult.HasAnyReferences)
             {
                 assemblyReferences.AddOrUpdateAssemblyInfo(_nugetPackageResolver.ResolveNugetPackagesFromFlubuCsproj(projectFileAnalyzerResult));
