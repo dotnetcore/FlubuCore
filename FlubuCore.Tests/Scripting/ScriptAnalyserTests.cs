@@ -4,6 +4,7 @@ using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting.Analysis;
 using FlubuCore.Scripting.Analysis.Processors;
 using FlubuCore.Scripting.Attributes;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
@@ -26,10 +27,10 @@ namespace FlubuCore.Tests.Scripting
             List<IScriptProcessor> processors = new List<IScriptProcessor>()
             {
                 new ClassDirectiveProcessor(),
-                new AssemblyDirectiveProcessor(_fileWrapper.Object, _pathWrapper.Object),
+                new AssemblyDirectiveProcessor(_fileWrapper.Object, _pathWrapper.Object, new Mock<ILogger<AssemblyDirectiveProcessor>>().Object),
                 new NamespaceProcessor(),
                 new CsDirectiveProcessor(),
-                new NugetPackageDirectirveProcessor()
+                new NugetPackageDirectirveProcessor(new Mock<ILogger<NugetPackageDirectirveProcessor>>().Object)
             };
 
             _analyzer = new ScriptAnalyzer(processors);
@@ -58,7 +59,7 @@ namespace FlubuCore.Tests.Scripting
         [Trait("Category", "OnlyWindows")]
         public void ParseDll(string line, string expected)
         {
-            AssemblyDirectiveProcessor pr = new AssemblyDirectiveProcessor(_fileWrapper.Object, _pathWrapper.Object);
+            AssemblyDirectiveProcessor pr = new AssemblyDirectiveProcessor(_fileWrapper.Object, _pathWrapper.Object, new Mock<ILogger<AssemblyDirectiveProcessor>>().Object);
             _pathWrapper.Setup(x => x.GetExtension(expected)).Returns(".dll");
             _fileWrapper.Setup(x => x.Exists(expected)).Returns(true);
             ScriptAnalyzerResult res = new ScriptAnalyzerResult();
@@ -71,7 +72,7 @@ namespace FlubuCore.Tests.Scripting
         [InlineData("//#nuget RockStar, 2.0.0  \r\n", "RockStar", "2.0.0")]
         public void NugetReference(string line, string expectedId, string expectedVersion)
         {
-            NugetPackageDirectirveProcessor pr = new NugetPackageDirectirveProcessor();
+            NugetPackageDirectirveProcessor pr = new NugetPackageDirectirveProcessor(new Mock<ILogger<NugetPackageDirectirveProcessor>>().Object);
             ScriptAnalyzerResult res = new ScriptAnalyzerResult();
             pr.Process(res, line, 1);
             Assert.Equal(expectedId, res.NugetPackageReferences.First().Id);

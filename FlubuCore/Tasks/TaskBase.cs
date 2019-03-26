@@ -342,7 +342,7 @@ namespace FlubuCore.Tasks
 
                     if (LogDuration)
                     {
-                        DoLogInfo($"{TaskName} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
+                        DoLogInfo($"{TaskName} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)", , ConsoleColor.DarkGray);
                     }
                 }
             }
@@ -459,7 +459,7 @@ namespace FlubuCore.Tasks
 
                 if (LogDuration)
                 {
-                    DoLogInfo($"{TaskName} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
+                    DoLogInfo($"{TaskName} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)", ConsoleColor.DarkGray);
                 }
             }
         }

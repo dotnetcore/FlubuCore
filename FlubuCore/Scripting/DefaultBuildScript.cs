@@ -112,7 +112,7 @@ namespace FlubuCore.Scripting
 
                     if (targt?.TaskStopwatch.ElapsedTicks > 0)
                     {
-                        s.LogInfo($"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s");
+                        s.LogInfo($"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s", ConsoleColor.DarkGray);
                     }
                 }
 

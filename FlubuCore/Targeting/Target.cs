@@ -381,7 +381,7 @@ namespace FlubuCore.Targeting
                 }
             }
 
-            context.LogInfo($"Executing target {TargetName}");
+            context.LogInfo($"Executing target {TargetName}", ConsoleColor.DarkGray);
 
             _targetTree.EnsureDependenciesExecuted(context, TargetName);
             _targetTree.MarkTargetAsExecuted(this);
@@ -409,7 +409,7 @@ namespace FlubuCore.Targeting
                     for (int j = 0; j < tasksCount; j++)
                     {
                         var task = (TaskHelp)_taskGroups[i].Tasks[j].task;
-                        context.LogInfo($"Executing task {task.TaskName}");
+                        context.LogInfo($"Executing task {task.TaskName}", ConsoleColor.DarkGray);
                         if (_taskGroups[i].Tasks[j].taskExecutionMode == TaskExecutionMode.Synchronous)
                         {
                             _taskGroups[i].Tasks[j].task.ExecuteVoid(context);
