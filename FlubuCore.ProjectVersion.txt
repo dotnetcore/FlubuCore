@@ -1,3 +1,9 @@
+3.0.1.0
+- Fixes restoring and loading of nuget packages with old csproj
+- Stylecop nuget packages are not loaded anymore
+- build status is now logged with color.
+- Target and task information is now logged with color.
+
 3.0.0.0
 - Resolve nuget packages from build script csproj file automatically. No need for directives in build script anymore.
 - Load referenced libraries from build csproj file automatically. No need for directives in build script anymore.
