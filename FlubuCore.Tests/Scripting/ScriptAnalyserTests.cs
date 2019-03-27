@@ -135,6 +135,17 @@ namespace FlubuCore.Tests.Scripting
         }
 
         [Theory]
+        [InlineData("[Include($\".\\Test.cs\")]")]
+        [Trait("Category", "OnlyWindows")]
+        public void IncludeAttribute_Succesfull(string line)
+        {
+            AttributesProcessor pr = new AttributesProcessor(_fileWrapper.Object, _pathWrapper.Object);
+            ScriptAnalyzerResult res = new ScriptAnalyzerResult();
+            pr.Process(res, line, 1);
+            Assert.Contains("\\Test.cs", res.CsFiles[0]);
+        }
+
+        [Theory]
         [InlineData(@"[NugetPackage($ ""FlubuCore"",   ""2.7.0"")]")]
         [InlineData(@"[NugetPackage(@@ ""FlubuCore"",   ""2.7.0"")]")]
         [InlineData(@"[NugetPackage  (@@ ""FlubuCore"",""2.7.0""  )   ]")]

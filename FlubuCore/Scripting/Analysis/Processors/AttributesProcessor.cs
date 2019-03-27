@@ -43,6 +43,10 @@ namespace FlubuCore.Scripting.Analysis.Processors
             {
                 ProcessNugetPackageAttribute(analyzerResult, line);
             }
+            else if (attributeName.StartsWith("Include"))
+            {
+                ProcessIncludeAttribute(analyzerResult, line);
+            }
             else if (attributeName.StartsWith("Reference"))
             {
                 ProcessReferenceAttribute(analyzerResult, line);
@@ -66,21 +70,42 @@ namespace FlubuCore.Scripting.Analysis.Processors
             return true;
         }
 
+        private static void ProcessIncludeAttribute(ScriptAnalyzerResult analyzerResult, string line)
+        {
+            var file = GetSingleParameterFromAttrbiute(line);
+            analyzerResult.CsFiles.Add(Path.GetFullPath(file.Trim()));
+        }
+
         private static void ProcessReferenceAttribute(ScriptAnalyzerResult analyzerResult, string line)
         {
-            int startParametersIndex = line.IndexOf('\"') + 1;
-            int endParameterIndex = line.IndexOf(')') - 1;
-            string reference = line.Substring(startParametersIndex, endParameterIndex - startParametersIndex).Replace("\"", string.Empty).Trim();
+            var reference = GetSingleParameterFromAttrbiute(line);
             var type = Type.GetType(reference, true);
             var ass = type.GetTypeInfo().Assembly;
             analyzerResult.AssemblyReferences.Add(ass.ToAssemblyInfo());
         }
 
-        private void ProcessAssemblyAttribute(ScriptAnalyzerResult analyzerResult, string line)
+        private static void ProcessNugetPackageAttribute(ScriptAnalyzerResult analyzerResult, string line)
         {
             int startParametersIndex = line.IndexOf('\"') + 1;
             int endParameterIndex = line.IndexOf(')') - 1;
-            string dll = line.Substring(startParametersIndex, endParameterIndex - startParametersIndex).Replace("\"", string.Empty).Trim();
+            string nugetPackage = line.Substring(startParametersIndex, endParameterIndex - startParametersIndex);
+            var nugetInfo = nugetPackage.Split(',');
+
+            analyzerResult.NugetPackageReferences.Add(new NugetPackageReference { Id = nugetInfo[0].Replace("\"", string.Empty).Trim(), Version = nugetInfo[1].Replace("\"", string.Empty).Trim() });
+        }
+
+        private static string GetSingleParameterFromAttrbiute(string line)
+        {
+            int startParametersIndex = line.IndexOf('\"') + 1;
+            int endParameterIndex = line.IndexOf(')') - 1;
+            string reference = line.Substring(startParametersIndex, endParameterIndex - startParametersIndex)
+                .Replace("\"", string.Empty).Trim();
+            return reference;
+        }
+
+        private void ProcessAssemblyAttribute(ScriptAnalyzerResult analyzerResult, string line)
+        {
+            string dll = GetSingleParameterFromAttrbiute(line);
             string pathToDll = Path.GetFullPath(dll);
             string extension = _pathWrapper.GetExtension(pathToDll);
             if (!extension.Equals(".dll", StringComparison.OrdinalIgnoreCase))
@@ -102,16 +127,6 @@ namespace FlubuCore.Scripting.Analysis.Processors
                 VersionStatus = VersionStatus.NotAvailable,
                 FullPath = pathToDll
             });
-        }
-
-        private void ProcessNugetPackageAttribute(ScriptAnalyzerResult analyzerResult, string line)
-        {
-            int startParametersIndex = line.IndexOf('\"') + 1;
-            int endParameterIndex = line.IndexOf(')') - 1;
-            string nugetPackage = line.Substring(startParametersIndex, endParameterIndex - startParametersIndex);
-            var nugetInfo = nugetPackage.Split(',');
-
-            analyzerResult.NugetPackageReferences.Add(new NugetPackageReference { Id = nugetInfo[0].Replace("\"", string.Empty).Trim(), Version = nugetInfo[1].Replace("\"", string.Empty).Trim() });
         }
     }
 }
