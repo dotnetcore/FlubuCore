@@ -20,9 +20,9 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <AssemblyVersion>2.14.0.0</AssemblyVersion>
-    <FileVersion>2.14.0.0</FileVersion>
-    <Version>2.14.0.0</Version>
+    <AssemblyVersion>3.0.2.0</AssemblyVersion>
+    <FileVersion>3.0.2.0</FileVersion>
+    <Version>3.0.2.0</Version>
     <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1701;1702;1705;1591;1573;1572;1574</NoWarn>
   </PropertyGroup>

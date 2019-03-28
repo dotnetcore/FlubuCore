@@ -17,7 +17,7 @@
 
       A detailed example of how Flubu is used to build example project: https://bitbucket.org/zoroz/flubu.core.examples
     </Description>
-  <Version>2.14.0.0</Version><AssemblyVersion>2.14.0.0</AssemblyVersion><FileVersion>2.14.0.0</FileVersion></PropertyGroup>
+  <Version>3.0.2.0</Version><AssemblyVersion>3.0.2.0</AssemblyVersion><FileVersion>3.0.2.0</FileVersion></PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net462|AnyCPU'">
     <DocumentationFile>bin\Debug\net462\FlubuCore.WebApi.Client.xml</DocumentationFile>

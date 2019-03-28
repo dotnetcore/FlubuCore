@@ -13,7 +13,7 @@ namespace FlubuCore.Scripting.Attributes
         /// <summary>
         /// Adds assembly reference to script.
         /// </summary>
-        /// <param name="pathToAssembly">full path to assembly.</param>
+        /// <param name="pathToAssembly">Relative or absolute path to assembly.</param>
         public AssemblyAttribute(string pathToAssembly)
         {
         }
