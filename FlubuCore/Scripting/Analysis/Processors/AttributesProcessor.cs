@@ -85,7 +85,7 @@ namespace FlubuCore.Scripting.Analysis.Processors
                 includeSubDirectories = bool.Parse(parameters[1]);
             }
 
-            analyzerResult.CsDirectories.Add(new Tuple<(string path, bool includeSubDirectories)>((Path.GetFullPath(parameters[0]), includeSubDirectories)));
+            analyzerResult.CsDirectories.Add(new Tuple<(string path, bool includeSubDirectories)>((Path.GetFullPath(parameters[0].Replace("\"", string.Empty)), includeSubDirectories)));
         }
 
         private static void ProcessIncludeAttribute(ScriptAnalyzerResult analyzerResult, string line)
