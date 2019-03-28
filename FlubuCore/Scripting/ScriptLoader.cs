@@ -21,6 +21,7 @@ using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.Extensions.Logging;
+using NuGet.Packaging;
 using TypeInfo = System.Reflection.TypeInfo;
 
 namespace FlubuCore.Scripting
@@ -416,7 +417,27 @@ namespace FlubuCore.Scripting
 
         private void ProcessAddedCsFilesToBuildScript(ScriptAnalyzerResult analyzerResult, List<string> code)
         {
-            foreach (var file in analyzerResult.CsFiles)
+            List<string> csFiles = new List<string>();
+
+            foreach (var csDirectory in analyzerResult.CsDirectories)
+            {
+                if (Directory.Exists(csDirectory.Item1.path))
+                {
+                    var searchOption = csDirectory.Item1.includeSubDirectories
+                        ? SearchOption.AllDirectories
+                        : SearchOption.TopDirectoryOnly;
+
+                    csFiles.AddRange(Directory.GetFiles(csDirectory.Item1.path, "*.*", searchOption));
+                }
+                else
+                {
+                    _log.LogInformation($"Directory not found: '{csDirectory.Item1.path}'.");
+                }
+            }
+
+            csFiles.AddRange(analyzerResult.CsFiles);
+
+            foreach (var file in csFiles)
             {
                 if (_file.Exists(file))
                 {
