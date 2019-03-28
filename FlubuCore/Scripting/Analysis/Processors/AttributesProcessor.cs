@@ -43,6 +43,10 @@ namespace FlubuCore.Scripting.Analysis.Processors
             {
                 ProcessNugetPackageAttribute(analyzerResult, line);
             }
+            else if (attributeName.StartsWith("IncludeFromDirectory"))
+            {
+                ProcessIncludeFromDirectoryAttribute(analyzerResult, line);
+            }
             else if (attributeName.StartsWith("Include"))
             {
                 ProcessIncludeAttribute(analyzerResult, line);
@@ -70,6 +74,20 @@ namespace FlubuCore.Scripting.Analysis.Processors
             return true;
         }
 
+        private static void ProcessIncludeFromDirectoryAttribute(ScriptAnalyzerResult analyzerResult, string line)
+        {
+            var parameters = GetMultipleParametersFromAttribute(line);
+
+            bool includeSubDirectories = false;
+
+            if (parameters.Length > 1)
+            {
+                includeSubDirectories = bool.Parse(parameters[1]);
+            }
+
+            analyzerResult.CsDirectories.Add(new Tuple<(string path, bool includeSubDirectories)>((Path.GetFullPath(parameters[0]), includeSubDirectories)));
+        }
+
         private static void ProcessIncludeAttribute(ScriptAnalyzerResult analyzerResult, string line)
         {
             var file = GetSingleParameterFromAttrbiute(line);
@@ -86,12 +104,18 @@ namespace FlubuCore.Scripting.Analysis.Processors
 
         private static void ProcessNugetPackageAttribute(ScriptAnalyzerResult analyzerResult, string line)
         {
-            int startParametersIndex = line.IndexOf('\"') + 1;
-            int endParameterIndex = line.IndexOf(')') - 1;
-            string nugetPackage = line.Substring(startParametersIndex, endParameterIndex - startParametersIndex);
-            var nugetInfo = nugetPackage.Split(',');
+            var nugetInfo = GetMultipleParametersFromAttribute(line);
 
             analyzerResult.NugetPackageReferences.Add(new NugetPackageReference { Id = nugetInfo[0].Replace("\"", string.Empty).Trim(), Version = nugetInfo[1].Replace("\"", string.Empty).Trim() });
+        }
+
+        private static string[] GetMultipleParametersFromAttribute(string line)
+        {
+            int startParametersIndex = line.IndexOf('\"') + 1;
+            int endParameterIndex = line.IndexOf(')');
+            string parameters = line.Substring(startParametersIndex, endParameterIndex - startParametersIndex);
+            var splitedParameters = parameters.Split(',');
+            return splitedParameters;
         }
 
         private static string GetSingleParameterFromAttrbiute(string line)

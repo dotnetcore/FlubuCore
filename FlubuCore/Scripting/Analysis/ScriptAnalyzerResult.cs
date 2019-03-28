@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection.Metadata;
 using FlubuCore.Scripting.Attributes;
 
@@ -15,6 +16,8 @@ namespace FlubuCore.Scripting.Analysis
         public List<AssemblyInfo> AssemblyReferences { get; } = new List<AssemblyInfo>();
 
         public List<string> CsFiles { get; } = new List<string>();
+
+        public List<Tuple<(string path, bool includeSubDirectories)>> CsDirectories { get; } = new List<Tuple<(string path, bool includeSubDirectories)>>();
 
         public List<string> PartialCsFiles { get; } = new List<string>();
 

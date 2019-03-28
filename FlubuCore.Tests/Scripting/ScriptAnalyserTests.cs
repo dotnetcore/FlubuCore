@@ -146,6 +146,19 @@ namespace FlubuCore.Tests.Scripting
         }
 
         [Theory]
+        [InlineData("[IncludeFromDirectory($\".\\Test\", true)]", true)]
+        [InlineData("[IncludeFromDirectory($\".\\Test\")]", false)]
+        [Trait("Category", "OnlyWindows")]
+        public void IncludeFromDirectoryAttribute_Succesfull(string line, bool expectedIncludeSubDir)
+        {
+            AttributesProcessor pr = new AttributesProcessor(_fileWrapper.Object, _pathWrapper.Object);
+            ScriptAnalyzerResult res = new ScriptAnalyzerResult();
+            pr.Process(res, line, 1);
+            Assert.Contains("\\Test", res.CsDirectories[0].Item1.path);
+            Assert.Equal(expectedIncludeSubDir, res.CsDirectories[0].Item1.includeSubDirectories);
+        }
+
+        [Theory]
         [InlineData(@"[NugetPackage($ ""FlubuCore"",   ""2.7.0"")]")]
         [InlineData(@"[NugetPackage(@@ ""FlubuCore"",   ""2.7.0"")]")]
         [InlineData(@"[NugetPackage  (@@ ""FlubuCore"",""2.7.0""  )   ]")]
