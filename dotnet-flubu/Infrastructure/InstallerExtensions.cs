@@ -32,7 +32,8 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddSingleton<IScriptProcessor, AssemblyDirectiveProcessor>()
                 .AddSingleton<IScriptProcessor, ReferenceDirectiveProcessor>()
                 .AddSingleton<IScriptProcessor, NamespaceProcessor>()
-                .AddSingleton<IScriptProcessor, NugetPackageDirectirveProcessor>();
+                .AddSingleton<IScriptProcessor, NugetPackageDirectirveProcessor>()
+                .AddSingleton<IScriptProcessor, AttributesProcessor>();
         }
 
         public static IServiceCollection AddArguments(this IServiceCollection services, string[] args)

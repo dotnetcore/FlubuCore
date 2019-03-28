@@ -103,7 +103,8 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddScoped<IScriptProcessor, AssemblyDirectiveProcessor>()
                 .AddScoped<IScriptProcessor, ReferenceDirectiveProcessor>()
                 .AddScoped<IScriptProcessor, NamespaceProcessor>()
-                .AddScoped<IScriptProcessor, NugetPackageDirectirveProcessor>();
+                .AddScoped<IScriptProcessor, NugetPackageDirectirveProcessor>()
+                .AddScoped<IScriptProcessor, AttributesProcessor>();
         }
 
         public static IServiceCollection AddTasksForWebApi(this IServiceCollection services)
