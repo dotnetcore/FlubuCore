@@ -1,3 +1,6 @@
+3.0.2.0
+- Fixed attribute "directives"
+
 3.0.1.0
 - Fixes restoring and loading of nuget packages with old csproj
 - Stylecop nuget packages are not loaded anymore
