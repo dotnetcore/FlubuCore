@@ -11,7 +11,7 @@ namespace FlubuCore.Scripting.Analysis
 
         public bool IsPartial { get; set; }
 
-        public string NameSpace { get; set; }
+        public string Namespace { get; set; }
 
         public int? NamespaceIndex { get; set; }
 

@@ -436,7 +436,7 @@ namespace FlubuCore.Scripting
             }
 
             csFiles.AddRange(analyzerResult.CsFiles);
-
+            List<string> namespaces = new List<string>();
             foreach (var file in csFiles)
             {
                 if (_file.Exists(file))
@@ -450,9 +450,12 @@ namespace FlubuCore.Scripting
                         throw new NotSupportedException("//#imp is only supported in main buildscript .cs file.");
                     }
 
+                    namespaces.Add(additionalCodeAnalyzerResult.Namespace);
+
                     var usings = additionalCode.Where(x => x.StartsWith("using"));
 
                     analyzerResult.AssemblyReferences.AddRange(additionalCodeAnalyzerResult.AssemblyReferences);
+
                     code.InsertRange(1, usings);
                     code.AddRange(additionalCode.Where(x => !x.StartsWith("using")));
                 }
@@ -460,6 +463,13 @@ namespace FlubuCore.Scripting
                 {
                     _log.LogInformation($"File was not found: {file}");
                 }
+            }
+
+            namespaces = namespaces.Distinct().ToList();
+            foreach (var ns in namespaces)
+            {
+                var usng = $"using {ns};";
+                code.Remove(usng);
             }
         }
 

@@ -187,7 +187,7 @@ namespace FlubuCore.Tests.Scripting
             ScriptAnalyzerResult res = new ScriptAnalyzerResult();
             pr.Process(res, line, 2);
             Assert.Equal(2, res.NamespaceIndex);
-            Assert.Equal("FlubuCore.Helpers", res.NameSpace);
+            Assert.Equal("FlubuCore.Helpers", res.Namespace);
         }
 
         [Theory]
