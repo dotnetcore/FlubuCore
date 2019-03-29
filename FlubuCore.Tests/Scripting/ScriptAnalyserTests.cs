@@ -153,6 +153,7 @@ namespace FlubuCore.Tests.Scripting
                     "c:\\hello\\test.dll",
                     "c:\\hello\\test2.dll",
                 });
+
             _pathWrapper.Setup(x => x.GetExtension("c:\\hello\\test.dll")).Returns(".dll");
             _pathWrapper.Setup(x => x.GetExtension("c:\\hello\\test2.dll")).Returns(".dll");
             _fileWrapper.Setup(x => x.Exists("c:\\hello\\test.dll")).Returns(true);
@@ -175,6 +176,18 @@ namespace FlubuCore.Tests.Scripting
             ScriptAnalyzerResult res = new ScriptAnalyzerResult();
             pr.Process(res, line, 1);
             Assert.Contains("\\Test.cs", res.CsFiles[0]);
+        }
+
+        [Theory]
+        [InlineData("namespace FlubuCore.Helpers   ")]
+        [InlineData("namespace   FlubuCore.Helpers")]
+        public void NamespaceProcessor_Succesfull(string line)
+        {
+            NamespaceProcessor pr = new NamespaceProcessor();
+            ScriptAnalyzerResult res = new ScriptAnalyzerResult();
+            pr.Process(res, line, 2);
+            Assert.Equal(2, res.NamespaceIndex);
+            Assert.Equal("FlubuCore.Helpers", res.NameSpace);
         }
 
         [Theory]

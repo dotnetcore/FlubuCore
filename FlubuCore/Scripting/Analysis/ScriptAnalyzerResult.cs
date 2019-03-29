@@ -11,6 +11,8 @@ namespace FlubuCore.Scripting.Analysis
 
         public bool IsPartial { get; set; }
 
+        public string NameSpace { get; set; }
+
         public int? NamespaceIndex { get; set; }
 
         public List<AssemblyInfo> AssemblyReferences { get; } = new List<AssemblyInfo>();
