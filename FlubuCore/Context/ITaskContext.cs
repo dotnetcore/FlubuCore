@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if !NETSTANDARD1_6
+using System.Drawing;
+#endif
 using FlubuCore.Context.FluentInterface.Interfaces;
 
 namespace FlubuCore.Context
@@ -32,14 +34,14 @@ namespace FlubuCore.Context
 
         void LogInfo(string message);
 
-        void LogInfo(string message, ConsoleColor foregroundColor);
-
-        void LogInfo(string message, ConsoleColor backgroundColor, ConsoleColor foregroundColor);
+#if !NETSTANDARD1_6
+        void LogInfo(string message, Color foregroundColor);
+#endif
 
         void LogError(string message);
 
-        void LogError(string message, ConsoleColor foregroundColor);
-
-        void LogError(string message, ConsoleColor backgroundColor, ConsoleColor foregroundColor);
+#if !NETSTANDARD1_6
+        void LogError(string message, Color foregroundColor);
+#endif
     }
 }

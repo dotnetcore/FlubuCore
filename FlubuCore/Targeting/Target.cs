@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+#if !NETSTANDARD1_6
+using System.Drawing;
+#endif
 using System.Linq;
 using System.Threading.Tasks;
 using FlubuCore.Context;
@@ -381,7 +384,11 @@ namespace FlubuCore.Targeting
                 }
             }
 
-            context.LogInfo($"Executing target {TargetName}", ConsoleColor.DarkGray);
+#if  !NETSTANDARD1_6
+            context.LogInfo($"Executing target {TargetName}", Color.DimGray);
+#else
+            context.LogInfo($"Executing target {TargetName}");
+#endif
 
             _targetTree.EnsureDependenciesExecuted(context, TargetName);
             _targetTree.MarkTargetAsExecuted(this);
@@ -409,7 +416,12 @@ namespace FlubuCore.Targeting
                     for (int j = 0; j < tasksCount; j++)
                     {
                         var task = (TaskHelp)_taskGroups[i].Tasks[j].task;
-                        context.LogInfo($"Executing task {task.TaskName}", ConsoleColor.DarkGray);
+#if !NETSTANDARD1_6
+                        context.LogInfo($"Executing task {task.TaskName}", Color.DimGray);
+#else
+                        context.LogInfo($"Executing task {task.TaskName}");
+#endif
+
                         if (_taskGroups[i].Tasks[j].taskExecutionMode == TaskExecutionMode.Synchronous)
                         {
                             _taskGroups[i].Tasks[j].task.ExecuteVoid(context);

@@ -1,4 +1,7 @@
 ﻿using System;
+#if  !NETSTANDARD1_6
+using System.Drawing;
+#endif
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Infrastructure;
@@ -59,34 +62,26 @@ namespace FlubuCore.Context
             _log.LogInformation(message);
         }
 
-        public void LogInfo(string message, ConsoleColor foregroundColor)
+        #if !NETSTANDARD1_6
+        public void LogInfo(string message, Color foregroundColor)
         {
-            FlubuConsoleLogger.Color = new FlubuConsoleLogger.ConsoleColors(foregroundColor, default(ConsoleColor));
+            FlubuConsoleLogger.Color = foregroundColor;
             _log.LogInformation(message);
         }
-
-        public void LogInfo(string message, ConsoleColor backgroundColor, ConsoleColor foregroundColor)
-        {
-            FlubuConsoleLogger.Color = new FlubuConsoleLogger.ConsoleColors(foregroundColor, backgroundColor);
-            _log.LogInformation(message);
-        }
+        #endif
 
         public void LogError(string message)
         {
             _log.LogError(message);
         }
 
-        public void LogError(string message, ConsoleColor foregroundColor)
+#if !NETSTANDARD1_6
+        public void LogError(string message, Color foregroundColor)
         {
-            FlubuConsoleLogger.Color = new FlubuConsoleLogger.ConsoleColors(foregroundColor, default(ConsoleColor));
+            FlubuConsoleLogger.Color = foregroundColor;
             _log.LogError(message);
         }
-
-        public void LogError(string message, ConsoleColor backgroundColor, ConsoleColor foregroundColor)
-        {
-            FlubuConsoleLogger.Color = new FlubuConsoleLogger.ConsoleColors(foregroundColor, backgroundColor);
-            _log.LogError(message);
-        }
+#endif
 
         internal T CreateTask<T>()
             where T : ITask

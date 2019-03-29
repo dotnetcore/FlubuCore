@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+#if !NETSTANDARD1_6
+using System.Drawing;
+#endif
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using FlubuCore.Context;
@@ -112,7 +115,11 @@ namespace FlubuCore.Scripting
 
                     if (targt?.TaskStopwatch.ElapsedTicks > 0)
                     {
-                        s.LogInfo($"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s", ConsoleColor.DarkGray);
+#if  !NETSTANDARD1_6
+                        s.LogInfo($"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s", Color.DimGray);
+#else
+                          s.LogInfo($"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s");
+#endif
                     }
                 }
 
@@ -122,7 +129,12 @@ namespace FlubuCore.Scripting
                 }
                 else if (!targetsInfo.unknownTarget)
                 {
-                    s.LogInfo(s.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL", s.HasFailed ? ConsoleColor.Red : ConsoleColor.Green);
+#if  !NETSTANDARD1_6
+                    s.LogInfo(s.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL", s.HasFailed ? Color.Red : Color.Green);
+#else
+                    s.LogInfo(s.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
+#endif
+
                 }
             });
 

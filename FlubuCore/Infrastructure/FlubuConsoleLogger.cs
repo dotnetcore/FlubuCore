@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using FlubuCore.Context;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console.Internal;
+#if !NETSTANDARD1_6
+using System.Drawing;
+using Pastel;
+#endif
 
 namespace FlubuCore.Infrastructure
 {
@@ -17,8 +22,10 @@ namespace FlubuCore.Infrastructure
         [ThreadStatic]
         private static bool _useColor;
 
+        #if !NETSTANDARD1_6
         [ThreadStatic]
-        private static ConsoleColors _consoleColor;
+        private static Color _consoleColor;
+        #endif
 
         // ConsoleColor does not have a value to specify the 'Default' color
         private readonly ConsoleColor? _defaultConsoleColor = null;
@@ -28,13 +35,14 @@ namespace FlubuCore.Infrastructure
         public FlubuConsoleLogger(string name)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
-
-            Console = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+            BuildSystem buildSystem = new BuildSystem();
+            Console = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && buildSystem.IsLocalBuild
                 ? (IConsole)new WindowsLogConsole()
                 : new AnsiLogConsole(new AnsiSystemConsole());
         }
 
-       public static ConsoleColors Color
+#if !NETSTANDARD1_6
+       public static Color Color
        {
            private get
            {
@@ -48,6 +56,7 @@ namespace FlubuCore.Infrastructure
                _useColor = true;
            }
        }
+#endif
 
         public IConsole Console
         {
@@ -121,8 +130,11 @@ namespace FlubuCore.Infrastructure
                 {
                     if (_useColor)
                     {
-                        // use default colors from here on
-                        Console.Write(logMessage, Color.Background, Color.Foreground);
+                        #if !NETSTANDARD1_6
+                        Console.Write(logMessage.Pastel(Color), _defaultConsoleColor, _defaultConsoleColor);
+                        #else
+                        Console.Write(logMessage, _defaultConsoleColor, _defaultConsoleColor);
+                        #endif
                     }
                     else
                     {
@@ -201,12 +213,34 @@ namespace FlubuCore.Infrastructure
         {
             public void Write(string message)
             {
-                System.Console.Write(message);
+                if (_useColor)
+                {
+                    #if !NETSTANDARD1_6
+                    System.Console.Write(message.Pastel(Color));
+                    #else
+                    System.Console.Write(message);
+                    #endif
+                }
+                else
+                {
+                    System.Console.Write(message);
+                }
             }
 
             public void WriteLine(string message)
             {
-                System.Console.WriteLine(message);
+                if (_useColor)
+                {
+#if !NETSTANDARD1_6
+                    System.Console.WriteLine(message.Pastel(Color));
+#else
+                    System.Console.WriteLine(message);
+#endif
+                }
+                else
+                {
+                    System.Console.WriteLine(message);
+                }
             }
         }
     }

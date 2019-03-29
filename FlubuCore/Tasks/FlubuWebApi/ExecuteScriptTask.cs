@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+#if !NETSTANDARD1_6
+using System.Drawing;
+#endif
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.WebApi.Client;
@@ -15,7 +18,9 @@ namespace FlubuCore.Tasks.FlubuWebApi
         private readonly Dictionary<string, string> _scriptArguments;
         private string _description;
 
-        private ConsoleColor _logsForegroundColor = ConsoleColor.DarkGreen;
+#if !NETSTANDARD1_6
+        private Color _logsForegroundColor = Color.DarkGreen;
+#endif
 
         public ExecuteFlubuScriptTask(string mainCommand, string scriptFilePath, IWebApiClientFactory webApiClient)
             : base(webApiClient)
@@ -52,11 +57,13 @@ namespace FlubuCore.Tasks.FlubuWebApi
             return this;
         }
 
-        public ExecuteFlubuScriptTask LogsWithColor(ConsoleColor foregroundColor)
+#if !NETSTANDARD1_6
+        public ExecuteFlubuScriptTask LogsWithColor(Color foregroundColor)
         {
             _logsForegroundColor = foregroundColor;
             return this;
         }
+#endif
 
         protected override int DoExecute(ITaskContextInternal context)
         {
@@ -77,11 +84,20 @@ namespace FlubuCore.Tasks.FlubuWebApi
                     ScriptArguments = _scriptArguments,
                 });
 
+#if !NETSTANDARD1_6
                 WriteLogs(response.Logs, _logsForegroundColor);
+#else
+                WriteLogs(response.Logs);
+#endif
             }
             catch (WebApiException e)
             {
+#if !NETSTANDARD1_6
                 WriteLogs(e.Logs, _logsForegroundColor);
+ #else
+                 WriteLogs(e.Logs);
+#endif
+
                 throw new TaskExecutionException("Execute script failed!", 99);
             }
 

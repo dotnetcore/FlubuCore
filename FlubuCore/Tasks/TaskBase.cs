@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+#if !NETSTANDARD1_6
+using System.Drawing;
+#endif
+
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -342,7 +346,11 @@ namespace FlubuCore.Tasks
 
                     if (LogDuration)
                     {
-                        DoLogInfo($"{TaskName} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)", ConsoleColor.DarkGray);
+#if  !NETSTANDARD1_6
+                        DoLogInfo($"{TaskName} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)", Color.DimGray);
+#else
+   DoLogInfo($"{TaskName} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
+#endif
                     }
                 }
             }
@@ -459,7 +467,11 @@ namespace FlubuCore.Tasks
 
                 if (LogDuration)
                 {
-                    DoLogInfo($"{TaskName} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)", ConsoleColor.DarkGray);
+#if  !NETSTANDARD1_6
+                    DoLogInfo($"{TaskName} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)", Color.DimGray);
+#else
+                    DoLogInfo($"{TaskName} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
+#endif
                 }
             }
         }
@@ -512,29 +524,19 @@ namespace FlubuCore.Tasks
             Context.LogInfo(message);
         }
 
+#if  !NETSTANDARD1_6
         /// <summary>
         /// Log info if task logging is not disabled.
         /// </summary>
         /// <param name="message"></param>
-        protected void DoLogInfo(string message, ConsoleColor foregroundColor)
+        protected void DoLogInfo(string message, Color foregroundColor)
         {
             if (DoNotLog || Context == null)
                 return;
 
             Context.LogInfo(message, foregroundColor);
         }
-
-        /// <summary>
-        /// Log info if task logging is not disabled.
-        /// </summary>
-        /// <param name="message"></param>
-        protected void DoLogInfo(string message, ConsoleColor backgroundColor, ConsoleColor foregroundColor)
-        {
-            if (DoNotLog || Context == null)
-                return;
-
-            Context.LogInfo(message, backgroundColor, foregroundColor);
-        }
+#endif
 
         /// <summary>
         /// Log error if task logging is not disabled.
@@ -548,29 +550,19 @@ namespace FlubuCore.Tasks
             Context.LogError(message);
         }
 
+#if !NETSTANDARD1_6
         /// <summary>
         /// Log error if task logging is not disabled.
         /// </summary>
         /// <param name="message"></param>
-        protected void DoLogError(string message, ConsoleColor foregroundColor)
+        protected void DoLogError(string message, Color foregroundColor)
         {
             if (DoNotLog || Context == null)
                 return;
 
             Context.LogError(message, foregroundColor);
         }
-
-        /// <summary>
-        /// Log error if task logging is not disabled.
-        /// </summary>
-        /// <param name="message"></param>
-        protected void DoLogError(string message, ConsoleColor backgroundColor, ConsoleColor foregroundColor)
-        {
-            if (DoNotLog || Context == null)
-                return;
-
-            Context.LogError(message, backgroundColor, foregroundColor);
-        }
+#endif
 
         protected VSSolution GetRequiredVSSolution()
         {
