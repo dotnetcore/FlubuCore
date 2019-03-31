@@ -1,4 +1,4 @@
-﻿namespace FlubuCore.Scripting.Attributes
+﻿namespace FlubuCore.Scripting.Attributes.Config
 {
     public enum ScriptConfigAttributes
     {
