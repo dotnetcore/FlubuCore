@@ -9,6 +9,8 @@ namespace FlubuCore.Scripting.Analysis
     {
         public string ClassName { get; set; }
 
+        public string BaseClassName { get; set; }
+
         public bool IsPartial { get; set; }
 
         public string Namespace { get; set; }

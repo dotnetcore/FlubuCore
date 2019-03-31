@@ -7,5 +7,7 @@ namespace FlubuCore.IO.Wrappers
     public interface IPathWrapper
     {
         string GetExtension(string path);
+
+        string GetFullPath(string path);
     }
 }

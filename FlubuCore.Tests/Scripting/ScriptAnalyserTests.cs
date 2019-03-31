@@ -31,7 +31,7 @@ namespace FlubuCore.Tests.Scripting
 
             List<IScriptProcessor> processors = new List<IScriptProcessor>()
             {
-                new ClassDirectiveProcessor(),
+                new ClassDirectiveProcessor(_fileWrapper.Object, _pathWrapper.Object),
                 new AssemblyDirectiveProcessor(_fileWrapper.Object, _pathWrapper.Object, new Mock<ILogger<AssemblyDirectiveProcessor>>().Object),
                 new NamespaceProcessor(),
                 new CsDirectiveProcessor(),
@@ -51,11 +51,39 @@ namespace FlubuCore.Tests.Scripting
         [InlineData("Foo\r\npublic class BuildScriptpartial    : Base\r\n{\r\n}", "BuildScriptpartial", false)]
         public void GetClassNameFromBuildScriptCodeTest(string code, string expectedClassName, bool isPartial)
         {
-            ClassDirectiveProcessor pr = new ClassDirectiveProcessor();
+            ClassDirectiveProcessor pr = new ClassDirectiveProcessor(_fileWrapper.Object, _pathWrapper.Object);
             ScriptAnalyzerResult res = new ScriptAnalyzerResult();
             pr.Process(res, code, 1);
             Assert.Equal(expectedClassName, res.ClassName);
             Assert.Equal(isPartial, res.IsPartial);
+        }
+
+        [Theory]
+        [InlineData("public class BuildScript : DefaultBuildScript", "DefaultBuildScript")]
+        [InlineData("public class BuildScript :DefaultBuildScript", "DefaultBuildScript")]
+        [InlineData("public class BuildScript :   DefaultBuildScript", "DefaultBuildScript")]
+        [InlineData("public class BuildScript : DefaultBuildScript   ", "DefaultBuildScript")]
+        public void GetBaseClass_DefaultBuildScript(string code, string expectedBaseClass)
+        {
+            ClassDirectiveProcessor pr = new ClassDirectiveProcessor(_fileWrapper.Object, _pathWrapper.Object);
+            ScriptAnalyzerResult res = new ScriptAnalyzerResult();
+            pr.Process(res, code, 1);
+            Assert.Equal(expectedBaseClass, res.BaseClassName);
+            Assert.Empty(res.CsFiles);
+        }
+
+        [Fact]
+        public void GetBaseClass_NotDefaultBuildScript()
+        {
+            string code = "public class BuildScript : AwesomeBuildScript";
+            ClassDirectiveProcessor pr = new ClassDirectiveProcessor(_fileWrapper.Object, _pathWrapper.Object);
+            ScriptAnalyzerResult res = new ScriptAnalyzerResult();
+            _fileWrapper.Setup(x => x.Exists("AwesomeBuildScript.cs")).Returns(true);
+            _pathWrapper.Setup(x => x.GetFullPath("AwesomeBuildScript.cs")).Returns("/AwesomeBuildScript.cs");
+            pr.Process(res, code, 1);
+            Assert.Equal("AwesomeBuildScript", res.BaseClassName);
+            Assert.Single(res.CsFiles);
+            Assert.Equal("/AwesomeBuildScript.cs", res.CsFiles[0]);
         }
 
         [Theory]

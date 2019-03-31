@@ -11,5 +11,10 @@ namespace FlubuCore.IO.Wrappers
         {
             return Path.GetExtension(path);
         }
+
+        public string GetFullPath(string path)
+        {
+            return Path.GetFullPath(path);
+        }
     }
 }
