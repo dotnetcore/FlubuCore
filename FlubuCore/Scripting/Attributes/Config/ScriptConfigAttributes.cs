@@ -4,6 +4,7 @@
     {
         DisableLoadScriptReferencesAutomatically,
         AlwaysRecompileScript,
-        CreateBuildScriptInstanceOldWayAttribute
+        CreateBuildScriptInstanceOldWayAttribute,
+        DisableColoredLogging
     }
 }

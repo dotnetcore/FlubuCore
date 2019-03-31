@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting.Analysis;
 using FlubuCore.Scripting.Attributes;
+using FlubuCore.Scripting.Attributes.Config;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Scripting;

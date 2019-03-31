@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection.Metadata;
 using FlubuCore.Scripting.Attributes;
+using FlubuCore.Scripting.Attributes.Config;
 
 namespace FlubuCore.Scripting.Analysis
 {

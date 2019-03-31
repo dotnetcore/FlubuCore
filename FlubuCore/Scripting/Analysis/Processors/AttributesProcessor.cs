@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting.Attributes;
+using FlubuCore.Scripting.Attributes.Config;
 
 namespace FlubuCore.Scripting.Analysis.Processors
 {
@@ -71,6 +72,11 @@ namespace FlubuCore.Scripting.Analysis.Processors
                 attributeName == nameof(AlwaysRecompileScriptAttribute))
             {
                 analyzerResult.ScriptAttributes.Add(ScriptConfigAttributes.AlwaysRecompileScript);
+            }
+            else if (attributeName == nameof(DisableColoredLoggingAttribute).Replace("Attribute", string.Empty) ||
+                     attributeName == nameof(DisableColoredLoggingAttribute))
+            {
+                analyzerResult.ScriptAttributes.Add(ScriptConfigAttributes.DisableColoredLogging);
             }
             else if (attributeName == nameof(CreateBuildScriptInstanceOldWayAttribute).Replace("Attribute", string.Empty) ||
                      attributeName == nameof(CreateBuildScriptInstanceOldWayAttribute))

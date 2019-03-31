@@ -5,6 +5,7 @@ using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting.Analysis;
 using FlubuCore.Scripting.Analysis.Processors;
 using FlubuCore.Scripting.Attributes;
+using FlubuCore.Scripting.Attributes.Config;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
@@ -125,8 +126,8 @@ namespace FlubuCore.Tests.Scripting
         }
 
         [Theory]
-        [InlineData("[DisableLoadScriptReferencesAutomatically]", FlubuCore.Scripting.Attributes.ScriptConfigAttributes.DisableLoadScriptReferencesAutomatically)]
-        [InlineData("[DisableLoadScriptReferencesAutomaticallyAttribute]", FlubuCore.Scripting.Attributes.ScriptConfigAttributes.DisableLoadScriptReferencesAutomatically)]
+        [InlineData("[DisableLoadScriptReferencesAutomatically]", ScriptConfigAttributes.DisableLoadScriptReferencesAutomatically)]
+        [InlineData("[DisableLoadScriptReferencesAutomaticallyAttribute]", ScriptConfigAttributes.DisableLoadScriptReferencesAutomatically)]
         [InlineData("[DisableLoadScriptReferencesAutomatically2]", null)]
         [InlineData("[ADisableLoadScriptReferencesAutomatically]", null)]
         [InlineData("DisableLoadScriptReferencesAutomatically]", null)]
@@ -135,6 +136,8 @@ namespace FlubuCore.Tests.Scripting
         [InlineData("[AlwaysRecompileScript]", ScriptConfigAttributes.AlwaysRecompileScript)]
         [InlineData("[CreateBuildScriptInstanceOldWayAttribute]", ScriptConfigAttributes.CreateBuildScriptInstanceOldWayAttribute)]
         [InlineData("[CreateBuildScriptInstanceOldWay]", ScriptConfigAttributes.CreateBuildScriptInstanceOldWayAttribute)]
+        [InlineData("[DisableColoredLoggingAttribute]", ScriptConfigAttributes.DisableColoredLogging)]
+        [InlineData("[DisableColoredLogging]", ScriptConfigAttributes.DisableColoredLogging)]
         public void ScriptConfigAttributesTests(string line, ScriptConfigAttributes? expected)
         {
             AttributesProcessor pr = new AttributesProcessor(_fileWrapper.Object, _pathWrapper.Object, _directory.Object);
@@ -142,7 +145,7 @@ namespace FlubuCore.Tests.Scripting
             pr.Process(res, line, 1);
             if (expected.HasValue)
             {
-                Assert.True(res.ScriptAttributes.Contains(expected.Value));
+                Assert.Contains(expected.Value, res.ScriptAttributes);
             }
             else
             {
