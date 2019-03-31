@@ -3,7 +3,9 @@ using System.IO;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
 using FlubuCore.Context.FluentInterface.Interfaces;
+using FlubuCore.Scripting.Attributes.Config;
 
+[DisableColoredLogging]
 public class BuildScript : DefaultBuildScript
 {
     protected override void ConfigureBuildProperties(IBuildPropertiesContext context)

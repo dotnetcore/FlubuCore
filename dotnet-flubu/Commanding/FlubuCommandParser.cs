@@ -36,6 +36,8 @@ namespace DotNet.Cli.Flubu.Commanding
 
         private CommandOption _noInteractive;
 
+        private CommandOption _noColor;
+
         public FlubuCommandParser(
             CommandLineApplication commandApp,
             IFlubuConfigurationProvider flubuConfigurationProvider)
@@ -65,6 +67,7 @@ namespace DotNet.Cli.Flubu.Commanding
             _noDependencies = _commandApp.Option("-nd||--nodeps", "If applied no target dependencies are executed.", CommandOptionType.NoValue);
             _dryRun = _commandApp.Option("--dryRun", "Performs a dry run.", CommandOptionType.NoValue);
             _noInteractive = _commandApp.Option("--noint", "Disables interactive mode for all task members. Default values are used instead", CommandOptionType.NoValue);
+            _noColor = _commandApp.Option("--noColor", "Disables colored logging", CommandOptionType.NoValue);
             _commandApp.ExtendedHelpText = "  <Target> help                                 Shows detailed help for specified target.";
 
             _commandApp.OnExecute(() => PrepareDefaultArguments());
@@ -112,6 +115,11 @@ namespace DotNet.Cli.Flubu.Commanding
             if (_noInteractive.HasValue())
             {
                 _parsed.DisableInteractive = true;
+            }
+
+            if (_noColor.HasValue())
+            {
+                _parsed.DisableColoredLogging = true;
             }
 
             if (_isDebug.HasValue())
@@ -198,6 +206,12 @@ namespace DotNet.Cli.Flubu.Commanding
                     case "ass":
                     {
                         _parsed.AssemblyDirectories.Add(option.Value);
+                        break;
+                    }
+
+                    case "noColor":
+                    {
+                        _parsed.DisableColoredLogging = true;
                         break;
                     }
 

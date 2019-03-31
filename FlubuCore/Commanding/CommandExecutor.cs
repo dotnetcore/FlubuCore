@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using FlubuCore.Context;
+using FlubuCore.Infrastructure;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
 using Microsoft.Extensions.Logging;
@@ -35,6 +36,11 @@ namespace FlubuCore.Commanding
         public async Task<int> ExecuteAsync()
         {
             var version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+
+            if (_args.DisableColoredLogging)
+            {
+                FlubuConsoleLogger.DisableColloredLogging = true;
+            }
 
             _log.LogInformation($"Flubu v.{version}");
 

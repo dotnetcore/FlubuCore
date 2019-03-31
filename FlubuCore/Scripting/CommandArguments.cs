@@ -27,6 +27,11 @@ namespace FlubuCore.Scripting
         /// </summary>
         public bool Debug { get; set; }
 
+        /// <summary>
+        /// If <c>true</c> colored logging is disabled.
+        /// </summary>
+        public bool DisableColoredLogging { get; set; }
+
         public List<string> RemainingCommands { get; set; } = new List<string>();
 
         /// <summary>
