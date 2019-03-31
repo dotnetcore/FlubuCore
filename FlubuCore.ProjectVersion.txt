@@ -1,3 +1,11 @@
+3.1.0.0
+- Added IncludeFromDirectoryAttribute: Attribute adds all .cs files from specified directory. With second optional parameter you can include subdirectories. 
+- AssemblyFromDirectoryAttribute: When added on script class FlubuCore should add all assemblies from specified directory to script.
+- Load base script class automatically.
+- Improved collored console logging by wrapping strings of the output in ANSI codes that instruct the terminal to color the string based on the interpreted code.
+- Allow namespaces in included cs files. Executing script does not fail anymore if included cs file contain namespace.
+- Disable collored logging with attribute or script argument. 
+
 3.0.2.0
 - Fixed attribute "directives"
 
