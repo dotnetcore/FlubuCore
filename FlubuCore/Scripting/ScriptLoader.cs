@@ -11,6 +11,7 @@ using System.Runtime.Loader;
 #endif
 using System.Text;
 using System.Threading.Tasks;
+using FlubuCore.Infrastructure;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting.Analysis;
 using FlubuCore.Scripting.Attributes;
@@ -79,6 +80,7 @@ namespace FlubuCore.Scripting
                 disableAnalysis: scriptAnalyzerResult.ScriptAttributes.Contains(ScriptConfigAttributes
                     .DisableLoadScriptReferencesAutomatically));
 
+            ProcessConfigAttributes(scriptAnalyzerResult);
             ProcessAddedCsFilesToBuildScript(scriptAnalyzerResult, code);
             ProcessPartialBuildScriptClasses(scriptAnalyzerResult, code, buildScriptFilePath);
 
@@ -587,6 +589,14 @@ namespace FlubuCore.Scripting
                 {
                     assemblyReferences.AddReferenceByAssemblyName(reference.Name);
                 }
+            }
+        }
+
+        private void ProcessConfigAttributes(ScriptAnalyzerResult scriptAnalyzerResult)
+        {
+            if (scriptAnalyzerResult.ScriptAttributes.Contains(ScriptConfigAttributes.DisableColoredLogging))
+            {
+                FlubuConsoleLogger.DisableColloredLogging = true;
             }
         }
     }

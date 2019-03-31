@@ -41,6 +41,8 @@ namespace FlubuCore.Infrastructure
                 : new AnsiLogConsole(new AnsiSystemConsole());
         }
 
+        public static bool DisableColloredLogging { get; set; }
+
 #if !NETSTANDARD1_6
        public static Color Color
        {
@@ -128,7 +130,7 @@ namespace FlubuCore.Infrastructure
 
                 lock (Lock)
                 {
-                    if (_useColor)
+                    if (_useColor && !DisableColloredLogging)
                     {
                         #if !NETSTANDARD1_6
                         Console.Write(logMessage.Pastel(Color), _defaultConsoleColor, _defaultConsoleColor);
@@ -213,7 +215,7 @@ namespace FlubuCore.Infrastructure
         {
             public void Write(string message)
             {
-                if (_useColor)
+                if (_useColor && !DisableColloredLogging)
                 {
                     #if !NETSTANDARD1_6
                     System.Console.Write(message.Pastel(Color));
