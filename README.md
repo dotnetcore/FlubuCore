@@ -93,7 +93,7 @@ FlubuCore offers a .net (core) console application that uses power of roslyn to 
  ```
 * [Extending FlubuCore fluent interface by writing your own tasks within FlubuCore plugins.](https://github.com/flubu-core/flubu.core/wiki/5-How-to-write-and-use-FlubuCore-task-plugins)
 
-    ```c#
+    ```
     public class ExampleFlubuPluginTask : TaskBase<int, ExampleFlubuPluginTask>
     {
         protected override int DoExecute(ITaskContextInternal context)
