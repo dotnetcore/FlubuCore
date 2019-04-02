@@ -47,11 +47,11 @@ FlubuCore offers a .net (core) console application that uses power of roslyn to 
          .Do(NuGetPackageReferencingExample);
     ```
 
-* [Reference any .NET library, NuGet package or C# source code in your scripts.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script)
+* [assembly references and nuGet packages are loaded automatically](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script)when script is used together with project file. When script is executed alone (for example when deploying with FLubuCore script on production environment) references can be added with attributes.
 
     ```
-    //#ass .\Lib\EntityFramework.dll
-    //#nuget Newtonsoft.json, 11.0.2
+    [NugetPackage("Newtonsoft.json", "11.0.2")]
+    [Assembly(".\Lib\EntityFramework.dll")]
     public class BuildScript : DefaultBuildScript
     {
        public void NuGetPackageReferencingExample(ITaskContext context)
@@ -64,7 +64,7 @@ FlubuCore offers a .net (core) console application that uses power of roslyn to 
 * [Easily run any external program or console command in your script.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Run-any-program)
 
     ```
-    session.CreateTarget("Run.Libz")
+    context.CreateTarget("Run.Libz")
         .AddTask(x => x.RunProgramTask(@"packages\LibZ.Tool\1.2.0\tools\libz.exe")
             .WorkingFolder(@".\src")
             .WithArguments("add")
@@ -108,7 +108,7 @@ FlubuCore offers a .net (core) console application that uses power of roslyn to 
 * [Asynchronous execution of tasks, target dependencies and custom code.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Async-execution)
 
     ```
-    session.CreateTarget("Run.Tests")
+    context.CreateTarget("Run.Tests")
         .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName1"))
         .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName1"))
         .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName3"));
