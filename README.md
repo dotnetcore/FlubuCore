@@ -19,7 +19,7 @@ FlubuCore offers a .net (core) console application that uses power of roslyn to 
 
 * Intuitive an easy to learn. C#, fluent interface, and IntelliSense make even most complex script creation a breeze.
 
-    ```c#
+    ```
     context.CreateTarget("Example")
       .DependsOn(fetchBuildVersionTarget)
       .AddTask(x => x.CompileSolutionTask())
@@ -29,7 +29,7 @@ FlubuCore offers a .net (core) console application that uses power of roslyn to 
           
 * [Large number of often used built-in tasks](https://github.com/flubu-core/flubu.core/wiki/4-Tasks) like e.g. running tests, managing IIS, creating deployment packages, publishing NuGet packages, docker tasks, executing PowerShell scripts and many more.
 
-    ```c#
+    ```
     target
         .AddTask(x => x.CompileSolutionTask())
         .AddTask(x => x.CopyFileTask(source, destination, true))
@@ -40,16 +40,16 @@ FlubuCore offers a .net (core) console application that uses power of roslyn to 
 
 * [Execute your own custom C# code.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Custom-code)
 
-    ```c#
+    ```
     context.CreateTarget("MyCustomBuildTarget")
          .AddTask(x => x.CompileSolutionTask())
          .Do(MyCustomMethod)
          .Do(NuGetPackageReferencingExample);
     ```
 
-* [When build script is used together with project file all assembly references and nuGet packages are loaded automatically when executing script. When script is executed alone (for example when deploying with FLubuCore script on production environment) references can be added with attributes.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script)
+* [assembly references and nuGet packages are loaded automatically](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script)when script is used together with project file. When script is executed alone (for example when deploying with FLubuCore script on production environment) references can be added with attributes.
 
-    ```c#
+    ```
     [NugetPackage("Newtonsoft.json", "11.0.2")]
     [Assembly(".\Lib\EntityFramework.dll")]
     public class BuildScript : DefaultBuildScript
@@ -63,7 +63,7 @@ FlubuCore offers a .net (core) console application that uses power of roslyn to 
 
 * [Easily run any external program or console command in your script.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Run-any-program)
 
-    ```c#
+    ```
     context.CreateTarget("Run.Libz")
         .AddTask(x => x.RunProgramTask(@"packages\LibZ.Tool\1.2.0\tools\libz.exe")
             .WorkingFolder(@".\src")
@@ -72,7 +72,7 @@ FlubuCore offers a .net (core) console application that uses power of roslyn to 
     ```
 * [Pass command line arguments, settings from json configuration file or enviroment variables to your script.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Script-arguments)
 
- ```c#
+ ```
  public class SimpleScript : DefaultBuildScript
  {
     [FromArg("sn", "If true app is deployed on second node. Otherwise not.")]
@@ -107,7 +107,7 @@ FlubuCore offers a .net (core) console application that uses power of roslyn to 
 
 * [Asynchronous execution of tasks, target dependencies and custom code.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Async-execution)
 
-    ```c#
+    ```
     context.CreateTarget("Run.Tests")
         .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName1"))
         .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName1"))
@@ -123,7 +123,7 @@ FlubuCore offers a .net (core) console application that uses power of roslyn to 
 
 * [Possibility to test and debug your build scripts.](https://github.com/flubu-core/flubu.core/wiki/6-Writing-build-script-tests,-debuging-and-running-flubu-tasks-in-other--.net-applications)
 
-    ```c#
+    ```
     context.WaitForDebugger();
     ```
 
