@@ -47,7 +47,7 @@ FlubuCore offers a .net (core) console application that uses power of roslyn to 
          .Do(NuGetPackageReferencingExample);
     ```
 
-* [assembly references and nuget packages are loaded automatically](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script) when script is used together with project file. When script is executed alone (for example when deploying with FLubuCore script on production environment) references can be added with attributes.
+* [assembly references and nuget packages are loaded automatically](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script) when script is used together with project file. When script is executed alone (for example when deploying with FlubuCore script on production environment) references can be added with attributes.
 
     ```
     [NugetPackage("Newtonsoft.json", "11.0.2")]
