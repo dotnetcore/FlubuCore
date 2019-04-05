@@ -74,13 +74,31 @@ namespace FlubuCore.Tasks.Versioning
             if (!File.Exists(projectVersionFileName))
                 throw new InvalidOperationException($"Project version file '{projectVersionFileName}' is missing.");
 
-            Version buildVersion;
+            Version buildVersion = null;
             using (Stream stream = File.Open(projectVersionFileName, FileMode.Open))
             {
                 using (StreamReader reader = new StreamReader(stream))
                 {
-                    string versionAsString = reader.ReadLine();
-                    buildVersion = new Version(versionAsString);
+                    string line;
+                    bool versionFound = false;
+
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        try
+                        {
+                            buildVersion = new Version(line);
+                            versionFound = true;
+                            break;
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+
+                    if (!versionFound)
+                    {
+                        throw new TaskExecutionException($"Version information not found in file '{projectVersionFileName}' File should contaion line with version e.g. '1.0.0.0'", -53);
+                    }
                 }
             }
 
