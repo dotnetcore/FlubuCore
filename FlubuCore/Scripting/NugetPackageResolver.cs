@@ -112,20 +112,28 @@ namespace FlubuCore.Scripting
                         $"Nuget package '{packageReference.Id}' '{packageReference.Version}' not found.");
                 }
 
-                if (compileLibrary.Assemblies.Count == 0)
+                if (compileLibrary.Assemblies.Count != 0)
                 {
-                    throw new ScriptException(
-                        $"Nuget package '{packageReference.Id}' '{packageReference.Version}' not found for framework {targetFramework} ");
+                    bool packageFound = AddAssemblyReference(packageFolders, compileLibrary, assemblyReferences);
+
+                    if (!packageFound)
+                    {
+                        throw new ScriptException($"Nuget package {packageReference.Id} not found.");
+                    }
+
+                    ResolveDependencies(compileLibrary, compileLibraries, packageFolders, assemblyReferences);
                 }
-
-                bool packageFound = AddAssemblyReference(packageFolders, compileLibrary, assemblyReferences);
-
-                if (!packageFound)
+                else
                 {
-                    throw new ScriptException($"Nuget package {packageReference.Id} not found.");
+                    if (compileLibrary.Dependencies.Count != 0)
+                    {
+                        ResolveDependencies(compileLibrary, compileLibraries, packageFolders, assemblyReferences);
+                    }
+                    else
+                    {
+                        throw new ScriptException($"Nuget package '{packageReference.Id}' '{packageReference.Version}' not found for framework {targetFramework} ");
+                    }
                 }
-
-                ResolveDependencies(compileLibrary, compileLibraries, packageFolders, assemblyReferences);
             }
 
             File.Delete(NugetPackageResolveConstants.GeneratedProjectFileName);
@@ -178,20 +186,29 @@ namespace FlubuCore.Scripting
                         $"Nuget package '{packageReference.Id}' '{packageReference.Version}' not found.");
                 }
 
-                if (compileLibrary.Assemblies.Count == 0)
+                if (compileLibrary.Assemblies.Count != 0)
                 {
-                    throw new ScriptException(
-                        $"Nuget package '{packageReference.Id}' '{packageReference.Version}' not found for framework {targetFramework} ");
+                    bool packageFound = AddAssemblyReference(packageFolders, compileLibrary, assemblyReferences);
+
+                    if (!packageFound)
+                    {
+                        throw new ScriptException($"Nuget package {packageReference.Id} not found.");
+                    }
+
+                    ResolveDependencies(compileLibrary, compileLibraries, packageFolders, assemblyReferences);
                 }
-
-                bool packageFound = AddAssemblyReference(packageFolders, compileLibrary, assemblyReferences);
-
-                if (!packageFound)
+                else
                 {
-                    throw new ScriptException($"Nuget package {packageReference.Id} not found.");
+                    if (compileLibrary.Dependencies.Count != 0)
+                    {
+                        ResolveDependencies(compileLibrary, compileLibraries, packageFolders, assemblyReferences);
+                    }
+                    else
+                    {
+                        throw new ScriptException(
+                            $"Nuget package '{packageReference.Id}' '{packageReference.Version}' not found for framework {targetFramework} ");
+                    }
                 }
-
-                ResolveDependencies(compileLibrary, compileLibraries, packageFolders, assemblyReferences);
             }
 
             File.Delete(NugetPackageResolveConstants.GeneratedProjectFileName);
