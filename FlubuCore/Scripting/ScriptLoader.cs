@@ -230,7 +230,7 @@ namespace FlubuCore.Scripting
                         if (possiblyMissingAssemblyRefDirective)
                         {
                             errorMsg =
-                                $"{errorMsg} If your script doesnt have compilation errors in VS or VSCode you are probably missing assembly directive in build script. You have to add reference to all assemblies that flubu doesn't add by default with #ass, #nuget or #ref directive in build script. See build script fundamentals section 'Referencing other assemblies in build script' in https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script for more details.";
+                                $"{errorMsg} If your script doesnt have compilation errors in VS or VSCode script is probably missing some assembly reference. To resolve this issue you should see build script fundamentals, section 'Referencing other assemblies in build script': https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script for more details.";
                         }
 
                         throw new ScriptLoaderExcetpion(errorMsg);

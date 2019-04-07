@@ -27,7 +27,7 @@ namespace FlubuCore.Targeting
         {
             if (string.IsNullOrEmpty(targetName))
             {
-                throw new ScriptException("Target name must not be null or empty");
+                throw new ScriptException("Target name must not be null or empty.");
             }
 
             if (targetName.Any(x => char.IsWhiteSpace(x)))
