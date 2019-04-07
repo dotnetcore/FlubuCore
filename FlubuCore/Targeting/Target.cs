@@ -25,6 +25,11 @@ namespace FlubuCore.Targeting
 
         internal Target(TargetTree targetTree, string targetName, CommandArguments args)
         {
+            if (string.IsNullOrEmpty(targetName))
+            {
+                throw new ScriptException("Target name must not be null or empty");
+            }
+
             if (targetName.Any(x => char.IsWhiteSpace(x)))
             {
                 throw new ScriptException("Target name must not contain whitespaces.");
