@@ -210,27 +210,34 @@ namespace FlubuCore.Scripting
 
                     if (!result.Success)
                     {
+                        var errorMsg = $"Csharp source code file: {buildScriptFilePath} has some compilation errors!";
                         IEnumerable<Diagnostic> failures = result.Diagnostics.Where(diagnostic =>
                             diagnostic.IsWarningAsError ||
                             diagnostic.Severity == DiagnosticSeverity.Error);
-                        bool possiblyMissingAssemblyRefDirective = false;
+
                         foreach (Diagnostic diagnostic in failures)
                         {
                             _log.LogWarning($"ScriptError:{diagnostic.Id}: {diagnostic.GetMessage()}");
                             switch (diagnostic.Id)
                             {
-                                case "CS0246":
                                 case "CS0012":
-                                    possiblyMissingAssemblyRefDirective = true;
+                                {
+                                    errorMsg = $"{errorMsg} If your script doesn't have compilation errors in VS or VSCode script is probably missing some assembly reference. To resolve this issue you should see build script fundamentals, section 'Referencing other assemblies in build script': https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script for more details.";
                                     break;
-                            }
-                        }
+                                }
 
-                        var errorMsg = $"Csharp source code file: {buildScriptFilePath} has some compilation errors!";
-                        if (possiblyMissingAssemblyRefDirective)
-                        {
-                            errorMsg =
-                                $"{errorMsg} If your script doesnt have compilation errors in VS or VSCode script is probably missing some assembly reference. To resolve this issue you should see build script fundamentals, section 'Referencing other assemblies in build script': https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script for more details.";
+                                case "CS0246":
+                                {
+                                    errorMsg = $"{errorMsg} If your script doesn't have compilation errors in VS or VSCode script is probably missing some assembly reference or script doesn't include .cs file. To resolve this issue you should see build script fundamentals, section 'Referencing other assemblies in build script' and section 'Adding other .cs files to script' for more details: {Environment.NewLine} https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script {Environment.NewLine} https://github.com/flubu-core/flubu.core/wiki/2-Build-Script-Fundamentals#Adding-other-cs-files-to-build-script";
+                                    break;
+                                }
+
+                                case "CS0103":
+                                {
+                                    errorMsg = $"{errorMsg} If your script doesn't have compilation errors in VS or VSCode script probably doesn't include .cs file. To resolve this issue you should see build script fundamentals section 'Adding other .cs files to script' for more details: https://github.com/flubu-core/flubu.core/wiki/2-Build-Script-Fundamentals#Adding-other-cs-files-to-build-script";
+                                    break;
+                                }
+                            }
                         }
 
                         throw new ScriptLoaderExcetpion(errorMsg);
@@ -563,7 +570,17 @@ namespace FlubuCore.Scripting
             {
                 if (e.Message.Contains("CS0234"))
                 {
-                    throw new ScriptLoaderExcetpion($"Csharp source code file: {buildScriptFIlePath} has some compilation errors. {e.Message}. If your script doesnt have compilation errors in VS or VSCode you are probably missing assembly directive in build script. You have to add reference to all assemblies that flubu doesn't add by default with #ass, #nuget or #ref directive in build script. See build script fundamentals section 'Referencing other assemblies in build script' in https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script for more details.", e);
+                    throw new ScriptLoaderExcetpion($"Csharp source code file: {buildScriptFIlePath} has some compilation errors. {e.Message}. If your script doesnt have compilation errors in VS or VSCode script is probably missing some assembly reference. To resolve this issue you should see build script fundamentals, section 'Referencing other assemblies in build script': https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script for more details.", e);
+                }
+
+                if (e.Message.Contains("CS0246"))
+                {
+                    throw new ScriptLoaderExcetpion($"Csharp source code file: {buildScriptFIlePath} has some compilation errors. {e.Message}. If your script doesnt have compilation errors in VS or VSCode script is probably missing some assembly reference or script doesnt include .cs file. To resolve this issue you should see build script fundamentals, section 'Referencing other assemblies in build script' and section 'Adding other .cs files to script' for more details: {Environment.NewLine} https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script {Environment.NewLine} https://github.com/flubu-core/flubu.core/wiki/2-Build-Script-Fundamentals#Adding-other-cs-files-to-build-script", e);
+                }
+
+                if (e.Message.Contains("CS0103"))
+                {
+                    throw new ScriptLoaderExcetpion($"Csharp source code file: {buildScriptFIlePath} has some compilation errors. {e.Message}. If your script doesn't have compilation errors in VS or VSCode script probably doesn't include .cs file. To resolve this issue you should see build script fundamentals section 'Adding other .cs files to script' for more details: https://github.com/flubu-core/flubu.core/wiki/2-Build-Script-Fundamentals#Adding-other-cs-files-to-build-script", e);
                 }
 
                 throw new ScriptLoaderExcetpion($"Csharp source code file: {buildScriptFIlePath} has some compilation errors. {e.Message}.", e);
