@@ -88,7 +88,6 @@ namespace FlubuCore.Scripting
                 .CreateBuildScriptInstanceOldWayAttribute);
 
 #if NET462
-          oldWay = true;
 #endif
             var references = GetBuildScriptReferences(args, projectFileAnalyzerResult, scriptAnalyzerResult, code,
                 oldWay, buildScriptFilePath);
