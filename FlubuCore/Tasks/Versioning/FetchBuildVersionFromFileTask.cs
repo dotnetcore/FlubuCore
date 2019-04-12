@@ -18,9 +18,9 @@ namespace FlubuCore.Tasks.Versioning
 
         private bool _doNotSaveVersionToSession;
 
-        private string _productRootDir;
+        private string _prefixToRemove;
 
-        private string _productId;
+        private bool _allowSuffix;
 
         private List<string> _projectVersionFiles = new List<string>();
 
@@ -39,6 +39,29 @@ namespace FlubuCore.Tasks.Versioning
             }
 
             set { _description = value; }
+        }
+
+        /// <summary>
+        /// Removes prefix from version.
+        /// For example if u write version in file like so: ## 1.0.0.0 specify '##' as prefix to remove.
+        /// </summary>
+        /// <param name="prefix"></param>
+        /// <returns></returns>
+        public FetchBuildVersionFromFileTask RemovePrefix(string prefix)
+        {
+            _prefixToRemove = prefix;
+            return this;
+        }
+
+        /// <summary>
+        /// When specified version allows to have suffix. Suffix must contain whitespace.
+        /// For example 1.0.0.0 (28.1.2019)
+        /// </summary>
+        /// <returns></returns>
+        public FetchBuildVersionFromFileTask AllowSuffix()
+        {
+            _allowSuffix = true;
+            return this;
         }
 
         /// <summary>
@@ -63,12 +86,12 @@ namespace FlubuCore.Tasks.Versioning
 
         protected override Version DoExecute(ITaskContextInternal context)
         {
-            _productRootDir = context.Properties.Get<string>(BuildProps.ProductRootDir, ".");
-            _productId = context.Properties.Get<string>(BuildProps.ProductId, null);
-            if (_productId != null)
+            string productRootDir = context.Properties.Get<string>(BuildProps.ProductRootDir, ".");
+            string productId = context.Properties.Get<string>(BuildProps.ProductId, null);
+            if (productId != null)
             {
-                _projectVersionFiles.Add($"{_productId}.ProjectVersion.txt");
-                _projectVersionFiles.Add($"{_productId}.ProjectVersion.md");
+                _projectVersionFiles.Add($"{productId}.ProjectVersion.txt");
+                _projectVersionFiles.Add($"{productId}.ProjectVersion.md");
             }
 
             _projectVersionFiles.AddRange(_defaultprojectVersionFiles);
@@ -76,7 +99,7 @@ namespace FlubuCore.Tasks.Versioning
 
             foreach (var projectVersionFile in _projectVersionFiles)
             {
-                var filePath = Path.Combine(_productRootDir, projectVersionFile);
+                var filePath = Path.Combine(productRootDir, projectVersionFile);
                 if (File.Exists(filePath))
                 {
                     projectVersionFilePath = filePath;
@@ -89,7 +112,7 @@ namespace FlubuCore.Tasks.Versioning
                 string defaultLocations = string.Empty;
                 foreach (var projectVersionFile in _projectVersionFiles)
                 {
-                    defaultLocations = $"{Path.Combine(_productRootDir, projectVersionFile)}{Environment.NewLine}";
+                    defaultLocations = $"{Path.Combine(productRootDir, projectVersionFile)}{Environment.NewLine}";
                 }
 
                 throw new InvalidOperationException($"Project version file is missing. Set 'ProjectVersionFileName' or use one of the default locations: {Environment.NewLine}{defaultLocations}");
@@ -107,8 +130,25 @@ namespace FlubuCore.Tasks.Versioning
                     {
                         try
                         {
+                            if (_prefixToRemove != null && line.StartsWith(_prefixToRemove))
+                            {
+                                line = line.Substring(_prefixToRemove.Length);
+                            }
+
+                            line = line.Trim();
+
+                            if (_allowSuffix)
+                            {
+                               var index = line.IndexOf(' ');
+                               if (index > 0)
+                               {
+                                   line = line.Remove(index);
+                               }
+                            }
+
                             buildVersion = new Version(line);
                             versionFound = true;
+
                             break;
                         }
                         catch (Exception)

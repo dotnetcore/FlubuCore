@@ -33,13 +33,13 @@ namespace FlubuCore.Tests.Tasks
         }
 
         [Fact]
-        public void FetchBuildVersionFromFileVersionNotInFirstLineTest()
+        public void FetchBuildVersionFromFileVersionNotInFirstLineWithPrefixAndSufixTest()
         {
             var fileName = GetOsPlatform() == OSPlatform.Windows ? @"TestData\ReleaseNotes.md" : @"TestData/ReleaseNotes.md";
 
             Context.Properties.Set(BuildProps.ProductRootDir, ".");
             var task = new FetchBuildVersionFromFileTask();
-            task.ProjectVersionFileName(fileName.ExpandToExecutingPath());
+            task.ProjectVersionFileName(fileName.ExpandToExecutingPath()).RemovePrefix("##").AllowSufix();
             var buildVersion = task.Execute(Context);
 
             Assert.Equal(4, buildVersion.Major);
