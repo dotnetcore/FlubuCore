@@ -2,11 +2,11 @@
 - Fixes loading of nuget packages that don't have target framework specified.
 - FetchBuildVersionFromFileTask: Improves fetching of version from file by allowing version to be in any line not just first.
 - FetchBuildVersionFromFileTask: Adds default project version file locations.
-- FetchBuildVersionFromFileTask: Adds option to remove prefix from version
+- FetchBuildVersionFromFileTask: Adds option to remove prefix from version.
 - FetchBuildVersionFromFileTask: Adds option to allow any suffix. 
-- Improves error messages when cs files that are used in script are not included
+- Improves error messages when cs files that are used in script are not included.
 - Improves error messages when script assembly references are not loaded.
-- Added Null and empty target name validation
+- Added Null and empty target name validation.
 
 3.1.0.0
 - Added IncludeFromDirectoryAttribute: Attribute adds all .cs files from specified directory. With second optional parameter you can include subdirectories. 

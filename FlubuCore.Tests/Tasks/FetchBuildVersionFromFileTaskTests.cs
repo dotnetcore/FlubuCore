@@ -39,7 +39,7 @@ namespace FlubuCore.Tests.Tasks
 
             Context.Properties.Set(BuildProps.ProductRootDir, ".");
             var task = new FetchBuildVersionFromFileTask();
-            task.ProjectVersionFileName(fileName.ExpandToExecutingPath()).RemovePrefix("##").AllowSufix();
+            task.ProjectVersionFileName(fileName.ExpandToExecutingPath()).RemovePrefix("##").AllowSuffix();
             var buildVersion = task.Execute(Context);
 
             Assert.Equal(4, buildVersion.Major);
