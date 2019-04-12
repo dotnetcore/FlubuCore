@@ -1,20 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using FlubuCore.Context;
 using FlubuCore.Tasks.Solution;
+using Microsoft.DotNet.Cli.Utils;
 
 namespace FlubuCore.Tasks.Versioning
 {
     public class FetchBuildVersionFromFileTask : TaskBase<Version, FetchBuildVersionFromFileTask>, IFetchBuildVersionTask
     {
+        private static List<string> _defaultprojectVersionFiles = new List<string>()
+        {
+            "Changelog.md",
+            "ReleaseNotes.md",
+            "ReleaseNotes.txt",
+        };
+
         private bool _doNotSaveVersionToSession;
+
         private string _productRootDir;
+
         private string _productId;
 
-        /// <summary>
-        /// File name where project version will be retrived from. If not set default filane is {SolutionName}.ProjectVersion.txt
-        /// </summary>
-        private string _projectVersionFileName;
+        private List<string> _projectVersionFiles = new List<string>();
 
         private string _description;
 
@@ -44,38 +52,51 @@ namespace FlubuCore.Tasks.Versioning
         }
 
         /// <summary>
-        /// File name where project version will be retrived from. If not set default file name is {ProductId from session}.ProjectVersion.txt
+        /// File name where project version will be retrieved from. If not set one of the default file names is used.
+        /// Defaults: Changelog.md, ReleaseNotes.md, ReleaseNotes.txt, {ProductId from session}.ProjectVersion.md, {ProductId from session}.ProjectVersion.txt
         /// </summary>
         public FetchBuildVersionFromFileTask ProjectVersionFileName(string projectVersionFileName)
         {
-            _projectVersionFileName = projectVersionFileName;
+            _projectVersionFiles.Add(projectVersionFileName);
             return this;
         }
 
         protected override Version DoExecute(ITaskContextInternal context)
         {
             _productRootDir = context.Properties.Get<string>(BuildProps.ProductRootDir, ".");
-
-            if (string.IsNullOrEmpty(_productRootDir))
-                _productRootDir = ".";
-
-            string projectVersionFileName;
-
-            if (!string.IsNullOrEmpty(_projectVersionFileName))
+            _productId = context.Properties.Get<string>(BuildProps.ProductId, null);
+            if (_productId != null)
             {
-                projectVersionFileName = Path.Combine(_productRootDir, _projectVersionFileName);
-            }
-            else
-            {
-                _productId = context.Properties.Get<string>(BuildProps.ProductId);
-                projectVersionFileName = Path.Combine(_productRootDir, $"{_productId}.ProjectVersion.txt");
+                _projectVersionFiles.Add($"{_productId}.ProjectVersion.txt");
+                _projectVersionFiles.Add($"{_productId}.ProjectVersion.md");
             }
 
-            if (!File.Exists(projectVersionFileName))
-                throw new InvalidOperationException($"Project version file '{projectVersionFileName}' is missing.");
+            _projectVersionFiles.AddRange(_defaultprojectVersionFiles);
+            string projectVersionFilePath = null;
+
+            foreach (var projectVersionFile in _projectVersionFiles)
+            {
+                var filePath = Path.Combine(_productRootDir, projectVersionFile);
+                if (File.Exists(filePath))
+                {
+                    projectVersionFilePath = filePath;
+                    break;
+                }
+            }
+
+            if (projectVersionFilePath == null)
+            {
+                string defaultLocations = string.Empty;
+                foreach (var projectVersionFile in _projectVersionFiles)
+                {
+                    defaultLocations = $"{Path.Combine(_productRootDir, projectVersionFile)}{Environment.NewLine}";
+                }
+
+                throw new InvalidOperationException($"Project version file is missing. Set 'ProjectVersionFileName' or use one of the default locations: {Environment.NewLine}{defaultLocations}");
+            }
 
             Version buildVersion = null;
-            using (Stream stream = File.Open(projectVersionFileName, FileMode.Open))
+            using (Stream stream = File.Open(projectVersionFilePath, FileMode.Open))
             {
                 using (StreamReader reader = new StreamReader(stream))
                 {
@@ -97,7 +118,7 @@ namespace FlubuCore.Tasks.Versioning
 
                     if (!versionFound)
                     {
-                        throw new TaskExecutionException($"Version information not found in file '{projectVersionFileName}' File should contaion line with version e.g. '1.0.0.0'", -53);
+                        throw new TaskExecutionException($"Version information not found in file '{projectVersionFilePath}' File should contaion line with version e.g. '1.0.0.0'", -53);
                     }
                 }
             }
