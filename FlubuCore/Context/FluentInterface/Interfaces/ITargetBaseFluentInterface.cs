@@ -170,14 +170,14 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         TTargetFluentInterface DoAsync<T, T1, T2, T3, T4>(Func<ITaskContext, T, T1, T2, T3, T4, Task> doAction, T param, T1 param2, T2 param3, T3 param4, T4 param5, Action<DoTaskAsync6<T, T1, T2, T3, T4>> doOptions = null);
 
         /// <summary>
-        /// Target executes action specified before when only if specified condition in when is meet.
+        /// Target executes action specified before when only if specified <see cref="condition"/> is meet.
         /// </summary>
         /// <param name="condition">The condition.</param>
         /// <returns></returns>
         TTargetFluentInterface When(Func<ITaskContext, bool> condition);
 
         /// <summary>
-        /// Condition to be checked before target is executed. If condition is not meet execution of script fails.
+        /// Condition to be checked before target is executed. If <see cref="condition"/> is not meet execution of script fails.
         /// </summary>
         /// <param name="condition">The condition to be checked.</param>
         /// <returns></returns>
