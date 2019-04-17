@@ -214,26 +214,34 @@ namespace FlubuCore.Scripting
                         IEnumerable<Diagnostic> failures = result.Diagnostics.Where(diagnostic =>
                             diagnostic.IsWarningAsError ||
                             diagnostic.Severity == DiagnosticSeverity.Error);
-
+                        bool errorMsgDefined = false;
                         foreach (Diagnostic diagnostic in failures)
                         {
                             _log.LogWarning($"ScriptError:{diagnostic.Id}: {diagnostic.GetMessage()}");
+                            if (errorMsgDefined)
+                            {
+                                continue;
+                            }
+
                             switch (diagnostic.Id)
                             {
                                 case "CS0012":
                                 {
                                     errorMsg = $"{errorMsg} If your script doesn't have compilation errors in VS or VSCode script is probably missing some assembly reference. To resolve this issue you should see build script fundamentals, section 'Referencing other assemblies in build script': https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script for more details.";
+                                    errorMsgDefined = true;
                                     break;
                                 }
 
                                 case "CS0246":
                                 {
                                     errorMsg = $"{errorMsg} If your script doesn't have compilation errors in VS or VSCode script is probably missing some assembly reference or script doesn't include .cs file. To resolve this issue you should see build script fundamentals, section 'Referencing other assemblies in build script' and section 'Adding other .cs files to script' for more details: {Environment.NewLine} https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script {Environment.NewLine} https://github.com/flubu-core/flubu.core/wiki/2-Build-Script-Fundamentals#Adding-other-cs-files-to-build-script";
+                                    errorMsgDefined = true;
                                     break;
                                 }
 
                                 case "CS0103":
                                 {
+                                    errorMsgDefined = true;
                                     errorMsg = $"{errorMsg} If your script doesn't have compilation errors in VS or VSCode script probably doesn't include .cs file. To resolve this issue you should see build script fundamentals section 'Adding other .cs files to script' for more details: https://github.com/flubu-core/flubu.core/wiki/2-Build-Script-Fundamentals#Adding-other-cs-files-to-build-script";
                                     break;
                                 }
