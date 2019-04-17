@@ -237,6 +237,7 @@ namespace FlubuCore.Context.FluentInterface
 
         public TTargetFluentInterface Must(Func<bool> condition)
         {
+            Target.Must(condition);
             return this as TTargetFluentInterface;
         }
     }
