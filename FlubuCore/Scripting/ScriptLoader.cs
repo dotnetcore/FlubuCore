@@ -381,7 +381,7 @@ namespace FlubuCore.Scripting
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Threading.Thread");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Globalization");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Private.Uri");
-
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Drawing.Primitives");
 #if NETSTANDARD2_0
             var systemAss = typeof(Console).GetTypeInfo().Assembly;
             assemblyReferenceLocations.Add(systemAss.ToAssemblyInfo());
