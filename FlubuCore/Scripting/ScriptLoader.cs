@@ -504,10 +504,6 @@ namespace FlubuCore.Scripting
                 List<string> additionalCode = _file.ReadAllLines(scriptFile);
 
                 ScriptAnalyzerResult additionalCodeAnalyzerResult = _scriptAnalyzer.Analyze(additionalCode);
-                if (additionalCodeAnalyzerResult.CsFiles.Count > 0)
-                {
-                    throw new NotSupportedException("//#imp is only supported in main buildscript .cs file.");
-                }
 
                 if (!additionalCodeAnalyzerResult.IsPartial || additionalCodeAnalyzerResult.ClassName != analyzerResult.ClassName)
                 {
