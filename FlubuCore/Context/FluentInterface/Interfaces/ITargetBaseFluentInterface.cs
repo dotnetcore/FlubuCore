@@ -169,6 +169,11 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
         TTargetFluentInterface DoAsync<T, T1, T2, T3, T4>(Func<ITaskContext, T, T1, T2, T3, T4, Task> doAction, T param, T1 param2, T2 param3, T3 param4, T4 param5, Action<DoTaskAsync6<T, T1, T2, T3, T4>> doOptions = null);
 
+        /// <summary>
+        /// Target executes action specified before when only if specified condition in when is meet.
+        /// </summary>
+        /// <param name="condition">The condition.</param>
+        /// <returns></returns>
         TTargetFluentInterface When(Func<ITaskContext, bool> condition);
 
         /// <summary>
