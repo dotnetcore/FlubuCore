@@ -22,9 +22,9 @@ In case you've encountered a bug, please make sure:
 	* What you expected to see, and what happened instead.
 	* Your operating system and other environment information.
 	* As much information as possible, such as the command and configuration used.
-	* Interesting parts of code and logs with `--debug`.
+	* Interesting parts of code and script logs with `--debug` argument applied.
 	* All steps to reproduce the issue.
-* When you are requesting to fix a bug or new feature you should become a stargazer
+* When you are requesting to fix a bug or new feature you should become a stargazer.
 
 ## 🎁 I Want to contribute to the code
 
