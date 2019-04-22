@@ -24,6 +24,7 @@ In case you've encountered a bug, please make sure:
 	* As much information as possible, such as the command and configuration used.
 	* Interesting parts of code and logs with `--debug`.
 	* All steps to reproduce the issue.
+* When you are requesting to fix a bug or new feature you should become a stargazer
 
 ## 🎁 I Want to contribute to the code
 
