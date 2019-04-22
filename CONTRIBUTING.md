@@ -16,7 +16,7 @@ Please put some effort in requesting a new feature. If someone else is going to 
 
 In case you've encountered a bug, please make sure:
 
-* You are using the latest version]
+* You are using the latest version
 * You have read the [documentation](https://github.com/flubu-core/flubu.core/wiki) first, and double-checked your configuration.
 * In your issue description, please include:
 	* What you expected to see, and what happened instead.
