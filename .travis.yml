@@ -2,6 +2,7 @@ language: csharp
 os: 
   - linux
 
+dist: xenial 
 sudo: required
 mono: none
 dotnet: 2.2.203
