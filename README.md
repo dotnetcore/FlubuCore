@@ -1,8 +1,8 @@
 # FlubuCore
 
 ![Windows Build](http://lucidlynx.comtrade.com:8080/buildStatus/icon?job=FlubuCore)
-[![Travis](http://img.shields.io/travis/flubu-core/flubu.core.svg?branch=maste&?style=flat-square&label=linux-build)](https://travis-ci.org/flubu-core/flubu.core)
-[![NuGet](https://img.shields.io/nuget/v/FlubuCore.svg)](https://www.nuget.org/packages/FlubuCore/)
+[![NuGet](https://img.shields.io/nuget/v/FlubuCore.svg)](https://www.nuget.org/packages/FlubuCore)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/FlubuCore.svg)](https://www.nuget.org/packages/FlubuCore/)
 [![Gitter](https://img.shields.io/gitter/room/FlubuCore/Lobby.svg)](https://gitter.im/FlubuCore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![License](https://img.shields.io/github/license/flubu-core/flubu.core.svg)](https://github.com/flubu-core/flubu.core/blob/master/LICENSE)
 
@@ -182,6 +182,12 @@ Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
  Notable FlubuCore changes by release can be found in [What's new](https://github.com/flubu-core/flubu.core/wiki/9-What's-New) wiki section. See [release notes](https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt) for full set of changes.
  
 You can see FlubuCore roadmap by exploring opened [milestones.](https://github.com/flubu-core/flubu.core/milestones)
+
+## Used & Powered by
+Thank's to [Comtrade](https://comtrade.com) for supporting us.
+
+![FlubuCore analyzers in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/Svg/COMTRADE_logo.PNG)
+
 
 ## Thanks
 
