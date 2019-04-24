@@ -183,6 +183,12 @@ Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
  
 You can see FlubuCore roadmap by exploring opened [milestones.](https://github.com/flubu-core/flubu.core/milestones)
 
+## Used & Powered by
+Thank's to [Comtrade](https://comtrade.com) for supporting us.
+
+![FlubuCore analyzers in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/Svg/COMTRADE_logo.PNG)
+
+
 ## Thanks
 
 Special thanks to [@ironcev](https://github.com/ironcev) for greatly improving readme and for giving some valuable advices.
