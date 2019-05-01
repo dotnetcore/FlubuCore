@@ -117,7 +117,7 @@
     <Compile Include="BuildScript.cs" Exclude="**;bin\**;obj\**;**\*.xproj;packages\**" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-flubu" Version="3.0.0" />
+    <DotNetCliToolReference Include="dotnet-flubu" Version="3.1.2" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BuildScript\NetCore1.1\Deploy.csproj" />
