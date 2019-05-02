@@ -108,6 +108,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="projectName"></param>
         /// <returns></returns>
+        [Obsolete("Use 'NunitTask' instead.", true)]
         NUnitTask NUnitTaskForNunitV3(params string[] projectName);
 
         /// <summary>
@@ -115,6 +116,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="projectName"></param>
         /// <returns></returns>
+        [Obsolete("Use 'NunitTask' instead.", true)]
         NUnitTask NUnitTaskForNunitV2(params string[] projectName);
 
         /// <summary>
@@ -122,7 +124,15 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="projectName"></param>
         /// <returns></returns>
+        [Obsolete("Use 'NunitTask' instead.", true)]
         NUnitTask NUnitTaskByProjectName(params string[] projectName);
+
+        /// <summary>
+        /// Task runs NUnit tests that are in specified project.
+        /// </summary>
+        /// <param name="cmdOptions">Adds default command line options for specified NUnit version.</param>
+        /// <param name="projectName">The project.</param>
+        NUnitTask NUnitTask(NunitCmdOptions cmdOptions, params string[] projectName);
 
         /// <summary>
         /// Task runs nunit tests that are in specified assembly.
@@ -132,7 +142,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         NUnitTask NUnitTaskByAssemblyName(params string[] testAssemblyFileName);
 
         /// <summary>
-        /// Task runs xunit test that are in specified project
+        /// Task runs xunit test that are in specified project.
         /// </summary>
         /// <param name="projectName"></param>
         /// <returns></returns>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FlubuCore.Tasks.Iis;
 using FlubuCore.Tasks.NetCore;
+using FlubuCore.Tasks.Testing;
 using FlubuCore.Tasks.Utils;
 using Xunit;
 
@@ -229,21 +230,21 @@ namespace FlubuCore.Tests.Context
         }
 
         [Fact]
-        public void ResolveNunitTask2Test2()
+        public void ResolveNunitTaskNoDefaults()
         {
-            Context.Tasks().NUnitTaskByProjectName("pn", "tt");
+            Context.Tasks().NUnitTask(NunitCmdOptions.NoOptions, "tt");
         }
 
         [Fact]
-        public void ResolveNunitTaskForNunitV2Test()
+        public void ResolveNunitTaskV2Defaults()
         {
-            Context.Tasks().NUnitTaskForNunitV2("test", "abc");
+            Context.Tasks().NUnitTask(NunitCmdOptions.V2, "tt");
         }
 
         [Fact]
-        public void ResolveNunitTaskForNunitV3Test()
+        public void ResolveNunitTaskV3Defaults()
         {
-            Context.Tasks().NUnitTaskForNunitV3("test");
+            Context.Tasks().NUnitTask(NunitCmdOptions.V3, "tt", "ttt");
         }
 
         [Fact]

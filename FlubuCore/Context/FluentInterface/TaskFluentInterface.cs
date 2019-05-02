@@ -123,7 +123,7 @@ namespace FlubuCore.Context.FluentInterface
         /// <returns>New instance of nunit task</returns>
         public NUnitTask NUnitTaskForNunitV3(params string[] projectName)
         {
-            return NUnitTask.ForNunitV3(projectName);
+            return Tasks.Testing.NUnitTask.ForNunitV3(projectName);
         }
 
         /// <inheritdoc />
@@ -134,13 +134,28 @@ namespace FlubuCore.Context.FluentInterface
         /// <returns>New instance of nunit task</returns>
         public NUnitTask NUnitTaskForNunitV2(params string[] projectName)
         {
-            return NUnitTask.ForNunitV2(projectName);
+            return Tasks.Testing.NUnitTask.ForNunitV2(projectName);
         }
 
         /// <inheritdoc />
         public NUnitTask NUnitTaskByProjectName(params string[] projectName)
         {
             return Context.CreateTask<NUnitTask>(projectName.ToList());
+        }
+
+        public NUnitTask NUnitTask(NunitCmdOptions cmdOptions, params string[] projectName)
+        {
+            switch (cmdOptions)
+            {
+                case NunitCmdOptions.NoOptions:
+                    return Context.CreateTask<NUnitTask>(projectName.ToList());
+                case NunitCmdOptions.V2:
+                    return Tasks.Testing.NUnitTask.ForNunitV2(projectName);
+                case NunitCmdOptions.V3:
+                    return Tasks.Testing.NUnitTask.ForNunitV3(projectName);
+                default:
+                    throw new NotSupportedException($"Nunit default: '{cmdOptions} is not supported'");
+            }
         }
 
         /// <inheritdoc />
