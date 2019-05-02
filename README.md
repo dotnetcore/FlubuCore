@@ -1,6 +1,6 @@
 # FlubuCore
 
-![Windows Build](http://lucidlynx.comtrade.com:8080/buildStatus/icon?job=FlubuCore)
+[![Windows Build](http://lucidlynx.comtrade.com:8080/buildStatus/icon?job=FlubuCore)](http://lucidlynx.comtrade.com:8080/login?from=%2F)
 [![Travis](http://img.shields.io/travis/flubu-core/flubu.core.svg?branch=maste&?style=flat-square&label=linux-build)](https://travis-ci.org/flubu-core/flubu.core)
 [![NuGet](https://img.shields.io/nuget/v/FlubuCore.svg)](https://www.nuget.org/packages/FlubuCore)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/FlubuCore.svg)](https://www.nuget.org/packages/FlubuCore/)
