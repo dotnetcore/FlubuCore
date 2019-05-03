@@ -47,6 +47,7 @@ namespace FlubuCore.Scripting
             catch (FlubuException e)
             {
                 OnBuildFailed(taskSession, e);
+                AfterBuildExecution(taskSession);
                 if (taskSession.Args.RethrowOnException)
                     throw;
 
