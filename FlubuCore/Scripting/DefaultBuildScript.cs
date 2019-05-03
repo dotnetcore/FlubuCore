@@ -19,13 +19,15 @@ namespace FlubuCore.Scripting
         {
             try
             {
+                BeforeBuildExecution(taskSession);
                 RunBuild(taskSession);
+                AfterBuildExecution(taskSession);
                 taskSession.Complete();
                 return 0;
             }
             catch (TargetNotFoundException e)
             {
-                taskSession.OnFinish();
+                AfterBuildExecution(taskSession);
                 if (taskSession.Args.RethrowOnException)
                     throw;
 
@@ -34,7 +36,7 @@ namespace FlubuCore.Scripting
             }
             catch (WebApiException)
             {
-                taskSession.OnFinish();
+                AfterBuildExecution(taskSession);
                 if (taskSession.Args.RethrowOnException)
                     throw;
 
@@ -42,7 +44,6 @@ namespace FlubuCore.Scripting
             }
             catch (FlubuException e)
             {
-                taskSession.OnFinish();
                 if (taskSession.Args.RethrowOnException)
                     throw;
 
@@ -51,7 +52,7 @@ namespace FlubuCore.Scripting
             }
             catch (Exception ex)
             {
-                  taskSession.OnFinish();
+                AfterBuildExecution(taskSession);
                 if (taskSession.Args.RethrowOnException)
                     throw;
 
@@ -64,14 +65,15 @@ namespace FlubuCore.Scripting
 
         protected abstract void ConfigureTargets(ITaskContext context);
 
-        private static (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) ParseCmdLineArgs(ITaskContextInternal context, TargetTree targetTree)
+        private static (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) ParseCmdLineArgs(
+            ITaskContextInternal context, TargetTree targetTree)
         {
             if (context.Args.MainCommands == null || context.Args.MainCommands.Count == 0) return (null, false, null);
 
             if (targetTree.HasAllTargets(context.Args.MainCommands, out var notFoundTargets))
                 return (context.Args.MainCommands, false, null);
 
-            return (new List<string> { "help" }, true,  notFoundTargets);
+            return (new List<string> { "help" }, true, notFoundTargets);
         }
 
         private void RunBuild(ITaskSession taskSession)
@@ -82,14 +84,14 @@ namespace FlubuCore.Scripting
 
             ConfigureDefaultTargets(taskSession);
 
-            ScriptProperties.SetPropertiesFromScriptArg(this,  taskSession);
+            ScriptProperties.SetPropertiesFromScriptArg(this, taskSession);
 
             TargetCreator.CreateTargetFromMethodAttributes(this, taskSession);
 
             ConfigureTargets(taskSession);
 
             var targetsInfo = ParseCmdLineArgs(taskSession, taskSession.TargetTree);
-
+            taskSession.UnknownTarget = targetsInfo.unknownTarget;
             if (targetsInfo.targetsToRun == null || targetsInfo.targetsToRun.Count == 0)
             {
                 var defaultTargets = taskSession.TargetTree.DefaultTargets;
@@ -107,39 +109,11 @@ namespace FlubuCore.Scripting
                 }
             }
 
-            taskSession.Start(s =>
-            {
-                foreach (var target in s.TargetTree.EnumerateExecutedTargets())
-                {
-                    var targt = target as Target;
-
-                    if (targt?.TaskStopwatch.ElapsedTicks > 0)
-                    {
-#if  !NETSTANDARD1_6
-                        s.LogInfo($"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s", Color.DimGray);
-#else
-                          s.LogInfo($"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s");
-#endif
-                    }
-                }
-
-                if (taskSession.Args.DryRun)
-                {
-                    s.LogInfo("DRY RUN PERFORMED");
-                }
-                else if (!targetsInfo.unknownTarget)
-                {
-#if  !NETSTANDARD1_6
-                    s.LogInfo(s.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL", s.HasFailed ? Color.Red : Color.Green);
-#else
-                    s.LogInfo(s.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
-#endif
-
-                }
-            });
+            taskSession.Start();
 
             //// specific target help
-            if (targetsInfo.targetsToRun.Count == 2 && targetsInfo.targetsToRun[1].Equals("help", StringComparison.OrdinalIgnoreCase))
+            if (targetsInfo.targetsToRun.Count == 2 &&
+                targetsInfo.targetsToRun[1].Equals("help", StringComparison.OrdinalIgnoreCase))
             {
                 taskSession.TargetTree.RunTargetHelp(taskSession, targetsInfo.targetsToRun[0]);
                 return;
@@ -174,7 +148,8 @@ namespace FlubuCore.Scripting
 
             if (targetsInfo.unknownTarget)
             {
-                throw new TargetNotFoundException($"Target {string.Join(" and ", targetsInfo.notFoundTargets)} not found.");
+                throw new TargetNotFoundException(
+                    $"Target {string.Join(" and ", targetsInfo.notFoundTargets)} not found.");
             }
 
             AssertAllTargetDependenciesWereExecuted(taskSession);
@@ -186,6 +161,40 @@ namespace FlubuCore.Scripting
 
         protected virtual void AfterTargetExecution(ITaskContext context)
         {
+        }
+
+        protected virtual void BeforeBuildExecution(ITaskContext context)
+        {
+        }
+
+        protected virtual void AfterBuildExecution(ITaskSession session)
+        {
+            foreach (var target in session.TargetTree.EnumerateExecutedTargets())
+            {
+                var targt = target as Target;
+
+                if (targt?.TaskStopwatch.ElapsedTicks > 0)
+                {
+#if !NETSTANDARD1_6
+                    session.LogInfo($"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s", Color.DimGray);
+#else
+                    session.LogInfo($"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s");
+#endif
+                }
+            }
+
+            if (session.Args.DryRun)
+            {
+                session.LogInfo("DRY RUN PERFORMED");
+            }
+            else if (session.UnknownTarget.Value)
+            {
+#if !NETSTANDARD1_6
+                    session.LogInfo(session.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL", session.HasFailed ? Color.Red : Color.Green);
+#else
+                session.LogInfo(session.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
+#endif
+            }
         }
 
         private void ConfigureDefaultProps(ITaskSession taskSession)

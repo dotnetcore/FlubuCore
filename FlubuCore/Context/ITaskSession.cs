@@ -7,10 +7,10 @@ namespace FlubuCore.Context
     {
         bool HasFailed { get; }
 
-        void Start(Action<ITaskSession> onFinishDo);
+        bool? UnknownTarget { get; set; }
+
+        void Start();
 
         void Complete();
-
-        void OnFinish();
     }
 }
