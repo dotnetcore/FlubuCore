@@ -27,6 +27,7 @@ namespace FlubuCore.Scripting
             }
             catch (TargetNotFoundException e)
             {
+                OnBuildFailed(taskSession, e);
                 AfterBuildExecution(taskSession);
                 if (taskSession.Args.RethrowOnException)
                     throw;
@@ -34,8 +35,9 @@ namespace FlubuCore.Scripting
                 taskSession.LogInfo(e.Message);
                 return 3;
             }
-            catch (WebApiException)
+            catch (WebApiException e)
             {
+                OnBuildFailed(taskSession, e);
                 AfterBuildExecution(taskSession);
                 if (taskSession.Args.RethrowOnException)
                     throw;
@@ -44,19 +46,21 @@ namespace FlubuCore.Scripting
             }
             catch (FlubuException e)
             {
+                OnBuildFailed(taskSession, e);
                 if (taskSession.Args.RethrowOnException)
                     throw;
 
                 taskSession.LogInfo(e.Message);
                 return 1;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
+                OnBuildFailed(taskSession, e);
                 AfterBuildExecution(taskSession);
                 if (taskSession.Args.RethrowOnException)
                     throw;
 
-                taskSession.LogInfo(ex.ToString());
+                taskSession.LogInfo(e.ToString());
                 return 2;
             }
         }
@@ -178,7 +182,8 @@ namespace FlubuCore.Scripting
 #if !NETSTANDARD1_6
                     session.LogInfo($"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s", Color.DimGray);
 #else
-                    session.LogInfo($"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s");
+                    session.LogInfo(
+                        $"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s");
 #endif
                 }
             }
@@ -197,7 +202,11 @@ namespace FlubuCore.Scripting
             }
         }
 
-        private void ConfigureDefaultProps(ITaskSession taskSession)
+        protected virtual void OnBuildFailed(ITaskSession session, Exception ex)
+        {
+        }
+
+    private void ConfigureDefaultProps(ITaskSession taskSession)
         {
             taskSession.SetBuildVersion(new Version(1, 0, 0, 0));
             taskSession.SetDotnetExecutable(ExecuteDotnetTask.FindDotnetExecutable());
