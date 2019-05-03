@@ -5,6 +5,11 @@ namespace FlubuCore.Tasks
     public interface ITask
     {
         /// <summary>
+        /// Name of the task.
+        /// </summary>
+        string TaskName { get; }
+
+        /// <summary>
         ///     Executes the task using the specified script execution environment.
         /// </summary>
         /// <param name="context">The script execution environment.</param>
