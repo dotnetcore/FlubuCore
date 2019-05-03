@@ -350,7 +350,9 @@ namespace FlubuCore.Targeting
                     for (int i = 0; i < actionCount; i++)
                     {
                         var lastTask = lastGroup.Tasks.Last();
+
                         lastGroup.Tasks.Remove(lastTask);
+                        _targetTree.BuildSummaryExtras.Add((lastTask.task.TaskName, targetAction, TargetName));
                         if (lastGroup.Tasks.Count == 0)
                         {
                             TasksGroups.Remove(lastGroup);
@@ -364,7 +366,9 @@ namespace FlubuCore.Targeting
                 {
                     for (int i = 0; i < actionCount; i++)
                     {
-                        _dependencies.Remove(_dependencies.Keys.Last());
+                         var lastDependency = _dependencies.Keys.Last();
+                        _targetTree.BuildSummaryExtras.Add((lastDependency, targetAction, TargetName));
+                        _dependencies.Remove(lastDependency);
                     }
 
                     return;

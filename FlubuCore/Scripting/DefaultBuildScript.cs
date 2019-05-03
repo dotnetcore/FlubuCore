@@ -173,40 +173,14 @@ namespace FlubuCore.Scripting
 
         protected virtual void AfterBuildExecution(ITaskSession session)
         {
-            foreach (var target in session.TargetTree.EnumerateExecutedTargets())
-            {
-                var targt = target as Target;
-
-                if (targt?.TaskStopwatch.ElapsedTicks > 0)
-                {
-#if !NETSTANDARD1_6
-                    session.LogInfo($"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s", Color.DimGray);
-#else
-                    session.LogInfo(
-                        $"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s");
-#endif
-                }
-            }
-
-            if (session.Args.DryRun)
-            {
-                session.LogInfo("DRY RUN PERFORMED");
-            }
-            else if (session.UnknownTarget.Value)
-            {
-#if !NETSTANDARD1_6
-                    session.LogInfo(session.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL", session.HasFailed ? Color.Red : Color.Green);
-#else
-                session.LogInfo(session.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
-#endif
-            }
+            session.TargetTree.LogBuildSummary(session);
         }
 
         protected virtual void OnBuildFailed(ITaskSession session, Exception ex)
         {
         }
 
-    private void ConfigureDefaultProps(ITaskSession taskSession)
+        private void ConfigureDefaultProps(ITaskSession taskSession)
         {
             taskSession.SetBuildVersion(new Version(1, 0, 0, 0));
             taskSession.SetDotnetExecutable(ExecuteDotnetTask.FindDotnetExecutable());

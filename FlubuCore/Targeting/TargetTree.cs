@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+#if !NETSTANDARD1_6
+using System.Drawing;
+#endif
 using System.Linq;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
@@ -24,11 +27,11 @@ namespace FlubuCore.Targeting
 
             AddTarget("help")
                 .SetDescription("Displays the available targets in the build")
-                .Do(TargetsHelp);
+                .Do(LogTargetsHelp);
 
             AddTarget("tasks")
                 .SetDescription("Displays all registered tasks")
-                .Do(TasksHelp);
+                .Do(LogTasksHelp);
         }
 
         /// <summary>
@@ -44,6 +47,8 @@ namespace FlubuCore.Targeting
         public int TargetCount => _targets.Count;
 
         public List<string> ScriptArgsHelp { get; set; }
+
+        public List<(string actioName, TargetAction targetAction, string targetName)> BuildSummaryExtras { get; set; } = new List<(string actioName, TargetAction targetAction, string targetName)>();
 
         internal int DependenciesExecutedCount { get; private set; }
 
@@ -232,11 +237,64 @@ namespace FlubuCore.Targeting
             DefaultTargets.Add(target);
         }
 
+        public void LogBuildSummary(ITaskSession session)
+        {
+            foreach (var target in EnumerateExecutedTargets())
+            {
+                var targt = target as Target;
+
+                if (targt?.TaskStopwatch.ElapsedTicks > 0)
+                {
+#if !NETSTANDARD1_6
+                    session.LogInfo($"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s", Color.DimGray);
+#else
+                    session.LogInfo(
+                        $"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s");
+#endif
+                    foreach (var buildSummaryExtra in BuildSummaryExtras)
+                    {
+                        if (buildSummaryExtra.targetName != target.TargetName)
+                        {
+                            continue;
+                        }
+
+                        switch (buildSummaryExtra.targetAction)
+                        {
+                            case TargetAction.AddDependency:
+                            {
+                                session.LogInfo($"  Target dependence '{buildSummaryExtra.actioName}' was skipped.");
+                                break;
+                            }
+
+                            case TargetAction.AddTask:
+                            {
+                                session.LogInfo($"  Target task '{buildSummaryExtra.actioName}' was skipped.");
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (session.Args.DryRun)
+            {
+                session.LogInfo("DRY RUN PERFORMED");
+            }
+            else if (session.UnknownTarget.Value)
+            {
+#if !NETSTANDARD1_6
+                session.LogInfo(session.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL", session.HasFailed ? Color.Red : Color.Green);
+#else
+                session.LogInfo(session.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
+#endif
+            }
+        }
+
         /// <summary>
         ///     The target for displaying help in the command line.
         /// </summary>
         /// <param name="context">The task context.</param>
-        public void TargetsHelp(ITaskContextInternal context)
+        public void LogTargetsHelp(ITaskContextInternal context)
         {
             if (context != null && !string.IsNullOrEmpty(context.FlubuHelpText))
             {
@@ -276,7 +334,7 @@ namespace FlubuCore.Targeting
             }
         }
 
-        private void TasksHelp(ITaskContextInternal context)
+        private void LogTasksHelp(ITaskContextInternal context)
         {
             context.LogInfo("Tasks:");
 
