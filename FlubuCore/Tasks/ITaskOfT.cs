@@ -57,6 +57,14 @@ namespace FlubuCore.Tasks
         TTask OnError(Action<ITaskContext, Exception> onErrorAction);
 
         /// <summary>
+        /// Applies task actions specified in <see cref="taskAction"/> to task only when <see cref="condition"/>  is meet.
+        /// </summary>
+        /// <param name="condition">The condition to be meet.</param>
+        /// <param name="taskAction">task actions to be applied to task when <see cref="condition"/> is meet.</param>
+        /// <returns></returns>
+        TTask When(Func<bool> condition, Action<TTask> taskAction);
+
+        /// <summary>
         /// Passes script argument value with specified key in <see cref="argKey"/> to specified task method  in <see cref="taskMethod"/>
         /// </summary>
         /// <param name="taskMember">The method that the parameter value will be modified.</param>

@@ -127,6 +127,20 @@ namespace FlubuCore.Tasks
             return this as TTask;
         }
 
+        [DisableForMember]
+        public TTask When(Func<bool> condition, Action<TTask> taskAction)
+        {
+            var task = this as TTask;
+            var conditionMeet = condition?.Invoke() ?? true;
+
+            if (conditionMeet)
+            {
+                taskAction.Invoke(task);
+            }
+
+            return task;
+        }
+
         /// <inheritdoc />
         public TTask NoLog()
         {

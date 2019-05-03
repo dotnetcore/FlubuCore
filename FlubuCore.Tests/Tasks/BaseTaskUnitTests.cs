@@ -545,5 +545,19 @@ namespace FlubuCore.Tests.Tasks
             await Assert.ThrowsAsync<Exception>(async () => await failTask.Retry(3).DoNotFailOnError(condition: (c, e) => false).ExecuteAsync(Context.Object));
             Assert.Equal(4, failTask.ExecutedTimes);
         }
+
+        [Fact]
+        public void When_ConditionMeet_TaskActionsApplied()
+        {
+            _task.When(() => 1 == 1, t => { t.Path = "test"; });
+            Assert.Equal("test", _task.Path);
+        }
+
+        [Fact]
+        public void When_ConditionNotMeet_TaskActionsNotApplied()
+        {
+            _task.When(() => 1 == 2, t => { t.Path = "test"; });
+            Assert.Null(_task.Path);
+        }
     }
 }
