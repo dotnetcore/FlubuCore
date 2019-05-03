@@ -43,7 +43,7 @@ namespace FlubuCore.Tasks
 
         protected override string Description { get; set; }
 
-        protected internal override string TaskName
+        public override string TaskName
         {
             get
             {
@@ -57,7 +57,7 @@ namespace FlubuCore.Tasks
                 return base.TaskName;
             }
 
-            set => base.TaskName = value;
+            protected internal set => base.TaskName = value;
         }
 
         protected override int DoExecute(ITaskContextInternal context)
@@ -89,7 +89,7 @@ namespace FlubuCore.Tasks
 
         protected override string Description { get; set; }
 
-        protected internal override string TaskName
+        public override string TaskName
         {
             get
             {
@@ -103,7 +103,7 @@ namespace FlubuCore.Tasks
                 return base.TaskName;
             }
 
-            set => base.TaskName = value;
+            protected internal set => base.TaskName = value;
         }
 
         protected override int DoExecute(ITaskContextInternal context)
@@ -138,7 +138,7 @@ namespace FlubuCore.Tasks
 
         protected override string Description { get; set; }
 
-        protected internal override string TaskName
+        public override string TaskName
         {
             get
             {
@@ -152,7 +152,7 @@ namespace FlubuCore.Tasks
                 return base.TaskName;
             }
 
-            set => base.TaskName = value;
+            protected internal set => base.TaskName = value;
         }
 
         protected override int DoExecute(ITaskContextInternal context)
@@ -190,7 +190,7 @@ namespace FlubuCore.Tasks
 
         protected override string Description { get; set; }
 
-        protected internal override string TaskName
+        public override string TaskName
         {
             get
             {
@@ -204,7 +204,7 @@ namespace FlubuCore.Tasks
                 return base.TaskName;
             }
 
-            set => base.TaskName = value;
+            protected internal set => base.TaskName = value;
         }
 
         protected override int DoExecute(ITaskContextInternal context)
@@ -245,7 +245,7 @@ namespace FlubuCore.Tasks
 
         protected override string Description { get; set; }
 
-        protected internal override string TaskName
+        public override string TaskName
         {
             get
             {
@@ -259,7 +259,7 @@ namespace FlubuCore.Tasks
                 return base.TaskName;
             }
 
-            set => base.TaskName = value;
+            protected internal set => base.TaskName = value;
         }
 
         protected override int DoExecute(ITaskContextInternal context)

@@ -27,7 +27,7 @@ namespace FlubuCore.Tasks
                 return base.TaskName;
             }
 
-            set => base.TaskName = value;
+            protected internal set => base.TaskName = value;
         }
 
         protected override string Description { get; set; }
@@ -67,7 +67,7 @@ namespace FlubuCore.Tasks
                 return base.TaskName;
             }
 
-            set => base.TaskName = value;
+            protected internal set => base.TaskName = value;
         }
 
         protected override int DoExecute(ITaskContextInternal context)
@@ -108,7 +108,7 @@ namespace FlubuCore.Tasks
                 return base.TaskName;
             }
 
-            set => base.TaskName = value;
+            protected internal set => base.TaskName = value;
         }
 
         protected override int DoExecute(ITaskContextInternal context)
@@ -152,7 +152,7 @@ namespace FlubuCore.Tasks
                 return base.TaskName;
             }
 
-            set => base.TaskName = value;
+            protected internal set => base.TaskName = value;
         }
 
         protected override int DoExecute(ITaskContextInternal context)
@@ -199,7 +199,7 @@ namespace FlubuCore.Tasks
                 return base.TaskName;
             }
 
-            set => base.TaskName = value;
+            protected internal set => base.TaskName = value;
         }
 
         protected override int DoExecute(ITaskContextInternal context)
@@ -249,7 +249,7 @@ namespace FlubuCore.Tasks
                 return base.TaskName;
             }
 
-            set => base.TaskName = value;
+            protected internal set => base.TaskName = value;
         }
 
         protected override int DoExecute(ITaskContextInternal context)

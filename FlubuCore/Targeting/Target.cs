@@ -53,7 +53,7 @@ namespace FlubuCore.Targeting
 
         public string TargetName { get; }
 
-        protected internal override string TaskName => TargetName;
+        public override string TaskName => TargetName;
 
         protected override bool LogDuration => true;
 
