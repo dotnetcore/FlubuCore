@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using FlubuCore.IO.Wrappers;
 using Microsoft.Extensions.Logging;
@@ -7,7 +8,7 @@ namespace FlubuCore.Scripting
 {
     public class BuildScriptLocator : IBuildScriptLocator
     {
-        public static readonly string[] DefaultScriptLocations =
+        public static readonly List<string> DefaultScriptLocations = new List<string>
         {
             "buildscript.cs",
             "BuildScript.cs",
