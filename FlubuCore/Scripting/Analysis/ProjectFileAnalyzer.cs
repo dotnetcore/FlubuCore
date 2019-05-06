@@ -14,7 +14,7 @@ namespace FlubuCore.Scripting.Analysis
         private static List<string> _csprojLocations = new List<string>()
         {
             "BuildScript.csproj",
-            "BuildScript.csproj",
+            "BuildScripts.csproj",
             "Build.csproj",
             "BuildScript/BuildScript.csproj",
             "BuildScripts/BuildScripts.csproj",
