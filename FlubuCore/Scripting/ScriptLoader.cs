@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -14,7 +13,6 @@ using System.Threading.Tasks;
 using FlubuCore.Infrastructure;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting.Analysis;
-using FlubuCore.Scripting.Attributes;
 using FlubuCore.Scripting.Attributes.Config;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -23,7 +21,6 @@ using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.Extensions.Logging;
-using NuGet.Packaging;
 using TypeInfo = System.Reflection.TypeInfo;
 
 namespace FlubuCore.Scripting
@@ -90,7 +87,7 @@ namespace FlubuCore.Scripting
 #if NET462
           oldWay = true;
 #endif
-            var references = GetBuildScriptReferences(args, projectFileAnalyzerResult, scriptAnalyzerResult, code,
+            var references = GetBuildScriptReferences(args, projectFileAnalyzerResult, scriptAnalyzerResult,
                 oldWay, buildScriptFilePath);
 
             if (oldWay)
@@ -99,7 +96,7 @@ namespace FlubuCore.Scripting
                     scriptAnalyzerResult);
             }
 
-            Assembly assembly = null;
+            Assembly assembly;
             if (!scriptAnalyzerResult.ScriptAttributes.Contains(ScriptConfigAttributes.AlwaysRecompileScript))
             {
                 assembly = TryLoadBuildScriptFromAssembly(buildScriptAssemblyPath, buildScriptFilePath,
@@ -270,7 +267,7 @@ namespace FlubuCore.Scripting
             }
         }
 
-        private IEnumerable<MetadataReference> GetBuildScriptReferences(CommandArguments args, ProjectFileAnalyzerResult projectFileAnalyzerResult, ScriptAnalyzerResult scriptAnalyzerResult, List<string> code, bool oldWay, string pathToBuildScript)
+        private IEnumerable<MetadataReference> GetBuildScriptReferences(CommandArguments args, ProjectFileAnalyzerResult projectFileAnalyzerResult, ScriptAnalyzerResult scriptAnalyzerResult, bool oldWay, string pathToBuildScript)
         {
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuCoreAssembly = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
@@ -279,7 +276,7 @@ namespace FlubuCore.Scripting
             //// Default assemblies that should be referenced.
             var assemblyReferences = oldWay
                 ? GetBuildScriptReferencesForOldWayBuildScriptCreation()
-                : GetDefaultReferences(coreDir, flubuPath);
+                : GetDefaultReferences(coreDir);
 
             // Enumerate all assemblies referenced by FlubuCore
             // and provide them as references to the build script we're about to
@@ -315,9 +312,8 @@ namespace FlubuCore.Scripting
             assemblyReferencesLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
             assemblyReferencesLocations =
                 assemblyReferencesLocations.Distinct().Where(x => !string.IsNullOrEmpty(x)).ToList();
-            IEnumerable<PortableExecutableReference> references = null;
 
-            references = assemblyReferencesLocations.Select(i =>
+            var references = assemblyReferencesLocations.Select(i =>
             {
                 return MetadataReference.CreateFromFile(i);
             });
@@ -328,7 +324,7 @@ namespace FlubuCore.Scripting
                 {
                     AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyReferenceLocation);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
             }
@@ -336,7 +332,7 @@ namespace FlubuCore.Scripting
             return references;
         }
 
-        private List<AssemblyInfo> GetDefaultReferences(string coreDir, string flubuPath)
+        private List<AssemblyInfo> GetDefaultReferences(string coreDir)
         {
             var flubuAss = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
             var objAss = typeof(object).GetTypeInfo().Assembly;
