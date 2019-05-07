@@ -13,11 +13,14 @@ using Task = System.Threading.Tasks.Task;
 
 namespace FlubuCore.Targeting
 {
-    public class TargetTree
+    public partial class TargetTree
     {
         private readonly IServiceProvider _provider;
+
         private readonly CommandArguments _args;
+
         private readonly HashSet<string> _executedTargets = new HashSet<string>();
+
         private readonly Dictionary<string, ITargetInternal> _targets = new Dictionary<string, ITargetInternal>(StringComparer.OrdinalIgnoreCase);
 
         public TargetTree(IServiceProvider provider, CommandArguments args)
@@ -287,64 +290,6 @@ namespace FlubuCore.Targeting
 #else
                 session.LogInfo(session.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
 #endif
-            }
-        }
-
-        /// <summary>
-        ///     The target for displaying help in the command line.
-        /// </summary>
-        /// <param name="context">The task context.</param>
-        public void LogTargetsHelp(ITaskContextInternal context)
-        {
-            if (context != null && !string.IsNullOrEmpty(context.FlubuHelpText))
-            {
-                context.LogInfo(context.FlubuHelpText);
-                context.LogInfo(string.Empty);
-            }
-
-            context.LogInfo("Targets:");
-
-            // first sort the targets
-            var sortedTargets = new SortedList<string, ITargetInternal>();
-
-            foreach (var target in _targets.Values)
-            {
-                sortedTargets.Add(target.TargetName, target);
-            }
-
-            // now display them in sorted order
-            foreach (ITargetInternal target in sortedTargets.Values)
-            {
-                if (target.IsHidden == false)
-                {
-                    context.LogInfo($"  {target.TargetName} : {target.Description}");
-                }
-            }
-
-            if (ScriptArgsHelp?.Count > 0)
-            {
-                context.LogInfo(" ");
-                context.LogInfo("Global build script arguments:");
-                foreach (var argHelp in ScriptArgsHelp)
-                {
-                    context.LogInfo($"  {argHelp}");
-                }
-
-                context.LogInfo(" ");
-            }
-        }
-
-        private void LogTasksHelp(ITaskContextInternal context)
-        {
-            context.LogInfo("Tasks:");
-
-            // first sort the targets
-            IEnumerable<ITask> tasks = _provider.GetServices<ITask>();
-
-            // now display them in sorted order
-            foreach (ITask task in tasks)
-            {
-                context.LogInfo($"  {task.GetType().FullName}");
             }
         }
     }
