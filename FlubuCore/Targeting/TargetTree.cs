@@ -91,16 +91,16 @@ namespace FlubuCore.Targeting
             List<Task> tasks = new List<Task>();
             for (int i = 0; i < n; i++)
             {
-                var dependantTargetName = target.Dependencies.Keys.ElementAt(i);
+                var dependentTargetName = target.Dependencies.Keys.ElementAt(i);
                 var executionMode = target.Dependencies.Values.ElementAt(i);
-                if (_executedTargets.Contains(dependantTargetName))
+                if (_executedTargets.Contains(dependentTargetName))
                     continue;
 
                 if (_args.TargetsToExecute != null)
                 {
-                    if (!_args.TargetsToExecute.Contains(dependantTargetName))
+                    if (!_args.TargetsToExecute.Contains(dependentTargetName))
                     {
-                        throw new TaskExecutionException($"Target {dependantTargetName} is not on the TargetsToExecute list", 3);
+                        throw new TaskExecutionException($"Target {dependentTargetName} is not on the TargetsToExecute list", 3);
                     }
 
                     DependenciesExecutedCount++;
@@ -108,11 +108,11 @@ namespace FlubuCore.Targeting
 
                 if (executionMode == TaskExecutionMode.Synchronous)
                 {
-                    RunTarget(taskContext, dependantTargetName);
+                    RunTarget(taskContext, dependentTargetName);
                 }
                 else
                 {
-                    tasks.Add(RunTargetAsync(taskContext, dependantTargetName));
+                    tasks.Add(RunTargetAsync(taskContext, dependentTargetName));
                     if (i + 1 < n)
                     {
                         if (target.Dependencies.Values.ElementAt(i + 1) != TaskExecutionMode.Synchronous)

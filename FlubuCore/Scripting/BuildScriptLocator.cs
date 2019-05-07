@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 using FlubuCore.IO.Wrappers;
 using Microsoft.Extensions.Logging;
 
@@ -31,6 +30,7 @@ namespace FlubuCore.Scripting
         private readonly ILogger<BuildScriptLocator> _log;
 
         private readonly IFileWrapper _file;
+
         private readonly IPathWrapper _path;
 
         public BuildScriptLocator(
@@ -60,6 +60,15 @@ namespace FlubuCore.Scripting
             if (!string.IsNullOrEmpty(args.Script))
             {
                 return TakeExplicitBuildScriptName(args);
+            }
+
+            if (_file.Exists("./.flubu"))
+            {
+                var lines = _file.ReadAllLines("./.flubu");
+                if (!string.IsNullOrEmpty(lines[0]) && _file.Exists(lines[0]))
+                {
+                    return lines[0];
+                }
             }
 
             _log.LogInformation("Build script file name was not explicitly specified, searching the default locations:");
@@ -96,8 +105,8 @@ namespace FlubuCore.Scripting
         {
             var errorMsg =
                 new StringBuilder(
-                    "The build script file was not specified. Please specify it as the argument(-s={PathToBuildScript}) or use some of the default paths for script file: ");
-            foreach (var defaultScriptLocation in BuildScriptLocator.DefaultScriptLocations)
+                    "The build script file was not specified. Please specify it as the argument '-s={PathToBuildScript}' or run flubu setup to store it in file or use some of the default paths for script file: ");
+            foreach (var defaultScriptLocation in DefaultScriptLocations)
                 errorMsg.AppendLine(defaultScriptLocation);
 
             throw new BuildScriptLocatorException(errorMsg.ToString());

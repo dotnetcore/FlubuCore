@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using System.Xml;
 using System.Xml.XPath;
 using FlubuCore.IO.Wrappers;
-using FlubuCore.Scripting.Attributes;
 
 namespace FlubuCore.Scripting.Analysis
 {
     public class ProjectFileAnalyzer : IProjectFileAnalyzer
     {
-        private static List<string> _csprojLocations = new List<string>()
+        private static readonly List<string> _defaultCsprojLocations = new List<string>()
         {
             "BuildScript.csproj",
             "BuildScripts.csproj",
@@ -81,7 +77,18 @@ namespace FlubuCore.Scripting.Analysis
             ProjectFileAnalyzerResult result = new ProjectFileAnalyzerResult();
             if (location == null)
             {
-                foreach (var item in _csprojLocations)
+                if (_file.Exists("./.flubu"))
+                {
+                    var lines = _file.ReadAllLines("./.flubu");
+                    if (lines.Count > 1 && !string.IsNullOrEmpty(lines[1]) && _file.Exists(lines[1]))
+                    {
+                        result.ProjectFileFound = true;
+                        result.ProjectFileLocation = Path.GetFullPath(lines[1]);
+                        return result;
+                    }
+                }
+
+                foreach (var item in _defaultCsprojLocations)
                 {
                     if (_file.Exists(item))
                     {
