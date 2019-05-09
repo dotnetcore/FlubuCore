@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace FlubuCore.Scripting.Analysis
@@ -10,18 +11,9 @@ namespace FlubuCore.Scripting.Analysis
 
         public string ProjectFileLocation { get; set; }
 
-        public bool HasAnyReferences
-        {
-            get
-            {
-                if (NugetReferences.Count != 0 && AssemblyReferences.Count != 0)
-                {
-                    return true;
-                }
+        public bool HasAnyNugetReferences => NugetReferences.Count != 0;
 
-                return false;
-            }
-        }
+        public bool HasAnyAssemblyReferences => AssemblyReferences.Count != 0;
 
         public List<NugetPackageReference> NugetReferences { get; set; } = new List<NugetPackageReference>();
 

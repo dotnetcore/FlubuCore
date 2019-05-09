@@ -271,7 +271,6 @@ namespace FlubuCore.Scripting
         {
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuCoreAssembly = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
-            var flubuPath = flubuCoreAssembly.Location;
 
             //// Default assemblies that should be referenced.
             var assemblyReferences = oldWay
@@ -298,15 +297,11 @@ namespace FlubuCore.Scripting
 
             assemblyReferences.AddOrUpdateAssemblyInfo(scriptAnalyzerResult.AssemblyReferences);
 
-            if (projectFileAnalyzerResult.HasAnyReferences)
-            {
-                assemblyReferences.AddOrUpdateAssemblyInfo(_nugetPackageResolver.ResolveNugetPackagesFromFlubuCsproj(projectFileAnalyzerResult));
-                AddAssemblyReferencesFromCsproj(projectFileAnalyzerResult, assemblyReferences);
-            }
-            else
-            {
-                assemblyReferences.AddOrUpdateAssemblyInfo(_nugetPackageResolver.ResolveNugetPackagesFromDirectives(scriptAnalyzerResult.NugetPackageReferences, pathToBuildScript));
-            }
+            assemblyReferences.AddOrUpdateAssemblyInfo(projectFileAnalyzerResult.HasAnyNugetReferences
+                ? _nugetPackageResolver.ResolveNugetPackagesFromFlubuCsproj(projectFileAnalyzerResult)
+                : _nugetPackageResolver.ResolveNugetPackagesFromDirectives(scriptAnalyzerResult.NugetPackageReferences, pathToBuildScript));
+
+           AddAssemblyReferencesFromCsproj(projectFileAnalyzerResult, assemblyReferences);
 
             var assemblyReferencesLocations = assemblyReferences.Select(x => x.FullPath).ToList();
             assemblyReferencesLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
@@ -591,6 +586,11 @@ namespace FlubuCore.Scripting
         private static void AddAssemblyReferencesFromCsproj(ProjectFileAnalyzerResult projectFileAnalyzerResult, List<AssemblyInfo> assemblyReferences)
 #pragma warning restore SA1204 // Static elements should appear before instance elements
         {
+            if (!projectFileAnalyzerResult.HasAnyAssemblyReferences)
+            {
+                return;
+            }
+
             foreach (var reference in projectFileAnalyzerResult.AssemblyReferences)
             {
                 if (!string.IsNullOrEmpty(reference.Path))
