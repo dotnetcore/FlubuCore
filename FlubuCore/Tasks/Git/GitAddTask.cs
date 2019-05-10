@@ -18,7 +18,7 @@ namespace FlubuCore.Tasks.Git
              InsertArgument(0, "add");
         }
 
-         protected override string Description
+        protected override string Description
         {
             get
             {

@@ -1,4 +1,5 @@
 ﻿using FlubuCore.Tasks.NetCore;
+using FlubuCore.Tasks.Testing;
 using FlubuCore.Tasks.Versioning;
 
 namespace FlubuCore.Context.FluentInterface.Interfaces
@@ -86,5 +87,13 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         DotnetNugetPushTask NugetPush(string packagePath);
 
         IToolsFluentInterface Tool();
+
+        /// <summary>
+        /// Coverlet is a cross platform code coverage library for .NET Core, with support for line, branch and method coverage.
+        /// more info at: https://github.com/tonerdo/coverlet
+        /// </summary>
+        /// <param name="assembly">Path to the test assembly.</param>
+        /// <returns></returns>
+        CoverletTask CoverletTask(string assembly);
     }
 }

@@ -528,5 +528,11 @@ namespace FlubuCore.Tests.Context
         {
             Assert.NotNull(Context.Tasks().GitVersionTask());
         }
+
+        [Fact]
+        public void ResolveCoverletTask()
+        {
+            Assert.NotNull(Context.CoreTasks().CoverletTask("test"));
+        }
     }
 }

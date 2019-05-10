@@ -5,7 +5,7 @@
     <WarningsAsErrors>true</WarningsAsErrors>
     <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1701;1702;1705;1591;1573;1572;1574</NoWarn>
-  <Version>3.0.2.0</Version><AssemblyVersion>3.0.2.0</AssemblyVersion><FileVersion>3.0.2.0</FileVersion></PropertyGroup>
+  <Version>3.1.2.0</Version><AssemblyVersion>3.1.2.0</AssemblyVersion><FileVersion>3.1.2.0</FileVersion></PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp1.1'">
     <ReferringTargetFrameworkForProjectReferences>.NETStandard,Version=v1.6</ReferringTargetFrameworkForProjectReferences>
     <DefineConstants>NETCOREAPP1_1;</DefineConstants>

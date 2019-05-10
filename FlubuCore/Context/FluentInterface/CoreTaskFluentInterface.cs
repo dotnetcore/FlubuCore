@@ -1,5 +1,6 @@
 ﻿using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Tasks.NetCore;
+using FlubuCore.Tasks.Testing;
 using FlubuCore.Tasks.Versioning;
 
 namespace FlubuCore.Context.FluentInterface
@@ -120,6 +121,11 @@ namespace FlubuCore.Context.FluentInterface
         {
             _toolsFluent.Context = Context;
             return _toolsFluent;
+        }
+
+        public CoverletTask CoverletTask(string assembly)
+        {
+            return Context.CreateTask<CoverletTask>(assembly);
         }
     }
 }
