@@ -22,7 +22,9 @@ public class BuildScript : DefaultBuildScript
         var buildVersion = context.CreateTarget("buildVersion")
             .SetAsHidden()
             .SetDescription("Fetches flubu version from FlubuCore.ProjectVersion.txt file.")
-            .AddTask(x => x.FetchBuildVersionFromFileTask());
+            .AddTask(x => x.FetchBuildVersionFromFileTask()
+                .ProjectVersionFileName("CHANGELOG.md")
+                .RemovePrefix("## FlubuCore "));
 
         var compile = context
             .CreateTarget("compile")
