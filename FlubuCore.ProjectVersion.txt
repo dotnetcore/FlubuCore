@@ -1,7 +1,18 @@
+3.2.0.0
+- Added coverlet task
+- Adds flubu setup where you can set location of the build script and project file.
+- Added When condition to all tasks.
+- Adds OnBuildFailed event.
+- Adds before and after build execution events.
+- Improved nunit tasks fluent intefaces.
+- Added skipped target dependencies and tasks logging.
+- Publicly exposed task name.
+- fixes one of the default build script csproj location.
+
 3.1.2.0
-- Fixes Must on target fluent interface
+- Fixes Must on target fluent interface.
 - Fixes script when using partial classes. Script failed in some scenarios.
-- script allows includes of other cs files in partial classes
+- script allows includes of other cs files in partial classes.
 - System.Drawing.Primitives assembly reference doesn't need to be referenced exlicitly anymore in script uses collored logging (issue was only present when target .net core framework)
 - Improved some script error messages.
 
