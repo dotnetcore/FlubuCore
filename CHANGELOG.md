@@ -1,10 +1,46 @@
 ## FlubuCore 3.2.0.0
-- Added coverlet task
-- Adds flubu setup where you can set location of the build script and project file.
+- Added coverlet task ```.AddCoreTask(x => x.CoverletTask("assembly.dll")```
+- Adds flubu setup where you can set location of the build script and project file. run ```flubu setup```
 - Added When condition to all tasks.
+```c#
+ var compile = context
+            .CreateTarget("compile")
+            .SetDescription("Compiles the VS solution")
+            .AddCoreTask(x => x.Build().When(
+                () =>
+            {
+                return context.BuildSystems().IsLocalBuild;
+
+            }, task => { task.Configuration("Debug"); }));
+ ```
 - Fixed bug where nuget and assemlby references were not loaded if csproj didnt have both of them
 - Adds OnBuildFailed event.
+```c#
+public class BuildScript : DefaultBuildScript
+{
+    protected override void OnBuildFailed(ITaskSession session, Exception ex)
+    {
+    } 
+}
+ ```
 - Adds before and after build execution events.
+```c#
+    protected override void BeforeTargetExecution(ITaskContext context)
+    {
+    }
+
+    protected override void AfterTargetExecution(ITaskContext context)
+    {
+    }
+
+    protected override void BeforeBuildExecution(ITaskContext context)
+    {
+    }
+
+    protected override void AfterBuildExecution(ITaskSession session)
+    {
+    }
+ ```
 - Improved nunit tasks fluent intefaces.
 - Added skipped target dependencies and tasks logging.
 - Publicly exposed task name.
