@@ -9,7 +9,7 @@ public class BuildScript : DefaultBuildScript
     protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
     {
         context.Properties.Set(BuildProps.CompanyName, "Flubu");
-        context.Properties.Set(BuildProps.CompanyCopyright, "Copyright (C) 2010-2016 Flubu");
+        context.Properties.Set(BuildProps.CompanyCopyright, "Copyright (C) 2010-2019 FlubuCore");
         context.Properties.Set(BuildProps.ProductId, "FlubuCore");
         context.Properties.Set(BuildProps.ProductName, "FlubuCore");
         context.Properties.Set(BuildProps.BuildDir, "output");
@@ -21,10 +21,11 @@ public class BuildScript : DefaultBuildScript
     {
         var buildVersion = context.CreateTarget("buildVersion")
             .SetAsHidden()
-            .SetDescription("Fetches flubu version from FlubuCore.ProjectVersion.txt file.")
+            .SetDescription("Fetches flubu version from CHANGELOG.md file.")
             .AddTask(x => x.FetchBuildVersionFromFileTask()
                 .ProjectVersionFileName("CHANGELOG.md")
-                .RemovePrefix("## FlubuCore "));
+                .RemovePrefix("## FlubuCore ")
+                .RemovePrefix("## FlubuCore"));
 
         var compile = context
             .CreateTarget("compile")
@@ -34,7 +35,7 @@ public class BuildScript : DefaultBuildScript
             .DependsOn(buildVersion);
 
         var pack = context.CreateTarget("pack")
-            .SetDescription("Packs flubu componets for nuget publishing")
+            .SetDescription("Packs flubu componets for nuget publishing.")
             .AddCoreTask(x => x.Pack()
                 .Project("FlubuCore.WebApi.Model").IncludeSymbols()
                 .OutputDirectory("..\\output"))
@@ -64,10 +65,11 @@ public class BuildScript : DefaultBuildScript
             .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("net462").AddRuntime("win7-x86"));
 
         var packageWebApi = context.CreateTarget("Package.WebApi")
+            .SetDescription("Packages web api into zip deployment package.")
                 .AddTasks(PackageWebApi);
 
         var flubuRunnerMerge = context.CreateTarget("merge")
-            .SetDescription("Merge's all assemblyes into .net flubu console application")
+            .SetDescription("Merge's all assemblyes into .net flubu console application executable.")
             .Do(TargetMerge);
 
         var flubuTests = context.CreateTarget("test")
@@ -77,11 +79,12 @@ public class BuildScript : DefaultBuildScript
             .AddCoreTask(x => x.Test().Project("FlubuCore.Analyzers.Tests\\FlubuCore.Analyzers.Tests.csproj"));
 
         var nugetPublish = context.CreateTarget("nuget.publish")
+            .SetDescription("Publishes all FlubuCore nuget packages.")
             .Do(PublishNuGetPackage).
             DependsOn(buildVersion);
 
         var packageFlubuRunner = context.CreateTarget("package.FlubuRunner")
-            .SetDescription("Packages .net 4.62 Flubu runner into zip.")
+            .SetDescription("Packages .net 4.62 FlubuCore runner into zip.")
             .Do(TargetPackageFlubuRunner);
 
         var packageDotnetFlubu = context.CreateTarget("package.DotnetFlubu")
@@ -116,7 +119,7 @@ public class BuildScript : DefaultBuildScript
             .AddCoreTask(x => x.Test().Project("FlubuCore.WebApi.Tests\\FlubuCore.WebApi.Tests.csproj"));
 
         context.CreateTarget("rebuild.linux")
-            .SetDescription("Rebuilds the solution and publishes nuget packages.")
+            .SetDescription("Rebuilds the solution.")
             .DependsOn(compileLinux, flubuTestsLinux, packageDotnetFlubu);
     }
 
@@ -151,45 +154,33 @@ public class BuildScript : DefaultBuildScript
 
         var key = context.ScriptArgs["nugetKey"];
 
-        context.CoreTasks().ExecuteDotnetTask("nuget")
+        context.CoreTasks().NugetPush($"output\\FlubuCore.WebApi.Model.{nugetVersion}.nupkg")
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.WebApi.Model. exception: {e.Message}"); })
-            .WithArguments("push")
-            .WithArguments($"output\\FlubuCore.WebApi.Model.{nugetVersion}.nupkg")
             .WithArguments("-s", "https://www.nuget.org/api/v2/package")
             .WithArguments("-k", key).Execute(context);
 
-        context.CoreTasks().ExecuteDotnetTask("nuget")
+        context.CoreTasks().NugetPush($"output\\FlubuCore.WebApi.Client.{nugetVersion}.nupkg")
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.WebApi.Client. exception: {e.Message}"); })
-            .WithArguments("push")
-            .WithArguments($"output\\FlubuCore.WebApi.Client.{nugetVersion}.nupkg")
             .WithArguments("-s", "https://www.nuget.org/api/v2/package")
             .WithArguments("-k", key).Execute(context);
 
-        context.CoreTasks().ExecuteDotnetTask("nuget")
+        context.CoreTasks().NugetPush($"output\\FlubuCore.{nugetVersion}.nupkg")
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore. exception: {e.Message}"); })
-            .WithArguments("push")
-            .WithArguments($"output\\FlubuCore.{nugetVersion}.nupkg")
             .WithArguments("-s", "https://www.nuget.org/api/v2/package")
             .WithArguments("-k", key).Execute(context);
 
-        context.CoreTasks().ExecuteDotnetTask("nuget")
+        context.CoreTasks().NugetPush($"output\\dotnet-flubu.{nugetVersion}.nupkg")
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish dotnet-flubu. exception: {e.Message}"); })
-            .WithArguments("push")
-            .WithArguments($"output\\dotnet-flubu.{nugetVersion}.nupkg")
             .WithArguments("-s", "https://www.nuget.org/api/v2/package")
             .WithArguments("-k", key).Execute(context);
 
-        context.CoreTasks().ExecuteDotnetTask("nuget")
+        context.CoreTasks().NugetPush($"output\\FlubuCore.GlobalTool.{nugetVersion}.nupkg")
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.GlobalTool. exception: {e.Message}"); })
-            .WithArguments("push")
-            .WithArguments($"output\\FlubuCore.GlobalTool.{nugetVersion}.nupkg")
             .WithArguments("-s", "https://www.nuget.org/api/v2/package")
             .WithArguments("-k", key).Execute(context);
 
-        context.CoreTasks().ExecuteDotnetTask("nuget")
+        context.CoreTasks().NugetPush($"output\\FlubuCore.Analyzers.1.0.3.nupkg")
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.Analyzer. exception: {e.Message}"); })
-            .WithArguments("push")
-            .WithArguments($"output\\FlubuCore.Analyzers.1.0.3.nupkg")
             .WithArguments("-s", "https://www.nuget.org/api/v2/package")
             .WithArguments("-k", key).Execute(context);
 
