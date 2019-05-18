@@ -2,8 +2,7 @@
   so that the community get's bigger.
 - You can find flubu core documentation at https://github.com/flubu-core/flubu.core
 - You can find detailed examples of how flubu is used at https://github.com/flubu-core/examples
-- You can find list of major changes of new version at: https://github.com/flubu-core/flubu.core/wiki/9-What's-New
-- You can find all release notes at: https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt
+- You can find changelog at: https://github.com/flubu-core/flubu.core/blob/master/CHANGELOG.md
 - Have a question? Create a new issue at: https://github.com/flubu-core/flubu.core/issues
 - If u find a bug please report it :)
 - If u have any improvement or feature proposal's we would be glad to hear from you. Add new issue as proposal on github and we will discuss it with you.
