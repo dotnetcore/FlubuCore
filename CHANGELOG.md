@@ -32,7 +32,7 @@ public class BuildScript : DefaultBuildScript
     protected override void AfterTargetExecution(ITaskContext context)
     {
     }
-    
+```    
 - Adds before and after build execution events.
 ```c#
     protected override void BeforeBuildExecution(ITaskContext context)
