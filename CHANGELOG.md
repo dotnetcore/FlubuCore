@@ -23,7 +23,7 @@ public class BuildScript : DefaultBuildScript
     } 
 }
  ```
-- Adds before and after build execution events.
+- Adds before and after target execution events.
 ```c#
     protected override void BeforeTargetExecution(ITaskContext context)
     {
@@ -32,7 +32,9 @@ public class BuildScript : DefaultBuildScript
     protected override void AfterTargetExecution(ITaskContext context)
     {
     }
-
+    
+- Adds before and after build execution events.
+```c#
     protected override void BeforeBuildExecution(ITaskContext context)
     {
     }
@@ -44,7 +46,7 @@ public class BuildScript : DefaultBuildScript
 - Improved nunit tasks fluent intefaces.
 - Added skipped target dependencies and tasks logging.
 - Publicly exposed task name.
-- fixed one of the default build script csproj location.
+- fixed one of the default build script csproj locations.
 
 ## FlubuCore 3.1.2.0
 - Fixes Must on target fluent interface.
