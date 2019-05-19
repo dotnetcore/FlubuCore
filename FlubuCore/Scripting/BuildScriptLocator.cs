@@ -105,7 +105,7 @@ namespace FlubuCore.Scripting
         {
             var errorMsg =
                 new StringBuilder(
-                    "The build script file was not specified. Please specify it as the argument '-s={PathToBuildScript}' or run flubu setup to store it in file or use some of the default paths for script file: ");
+                    "The build script file was not specified. Please specify it as the argument '-s={PathToBuildScript}' or run 'flubu setup' to store the location in a file or use some of the default paths for script file: ");
             foreach (var defaultScriptLocation in DefaultScriptLocations)
                 errorMsg.AppendLine(defaultScriptLocation);
 

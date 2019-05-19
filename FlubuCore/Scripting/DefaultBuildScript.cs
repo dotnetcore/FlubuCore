@@ -21,8 +21,8 @@ namespace FlubuCore.Scripting
             {
                 BeforeBuildExecution(taskSession);
                 RunBuild(taskSession);
-                AfterBuildExecution(taskSession);
                 taskSession.Complete();
+                AfterBuildExecution(taskSession);
                 return 0;
             }
             catch (TargetNotFoundException e)
