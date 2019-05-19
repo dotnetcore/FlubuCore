@@ -1,3 +1,7 @@
+## FlubuCore 3.2.1.0
+- Fixed build status
+- Improved message when build script is not found.
+
 ## FlubuCore 3.2.0.0
 - Added coverlet task ```.AddCoreTask(x => x.CoverletTask("assembly.dll")```
 - Adds flubu setup where you can set location of the build script and project file. run ```flubu setup```
