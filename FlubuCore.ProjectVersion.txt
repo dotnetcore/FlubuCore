@@ -1,3 +1,5 @@
+OBSOLETE see CHANGELOG.md
+
 3.2.0.0
 - Added coverlet task
 - Adds flubu setup where you can set location of the build script and project file.

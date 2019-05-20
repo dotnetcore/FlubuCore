@@ -3,12 +3,12 @@
 - Create project version file(txt, md...) for solution e.g. YourSolutionName.ProjectVersion.txt and add version of your project to file e.g. 1.0.0.0 
 - run "Build.exe" for default target or "Build.exe '{targetName}'" for specific build target. 
 - optionaly you can copy Build.exe to root directory of the solution.
-- If u like flubu give it a star at https://github.com/flubu-core/flubu.core and upvote on https://stackoverflow.com/questions/40890522/choice-for-build-tool-msbuild-nant-or-something-else/46776658#46776658
+- If u like flubu give it a star at https://github.com/flubu-core/flubu.core 
   so that the community get's bigger.
 - You can find flubu core documentation at https://github.com/flubu-core/flubu.core
 - You can find detailed examples of how flubu is used at https://github.com/flubu-core/examples
 - You can find list of major changes of new version at: https://github.com/flubu-core/flubu.core/wiki/9-What's-New
-- You can find all release notes at: https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt
+- You can find all release notes at: https://github.com/flubu-core/flubu.core/blob/master/CHANGELOG.md
 - Have a question? Create a new issue at: https://github.com/flubu-core/flubu.core/issues
 - If u find a bug please report it :)
 - If u have any improvement or feature proposal's we would be glad to hear from you. Add new issue as proposal on github and we will discuss it with you.
