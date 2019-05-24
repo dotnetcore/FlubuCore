@@ -19,7 +19,7 @@ addons:
   
 git:
   depth: false
-
+before_script: cd src
 script:
 - dotnet restore Build.csproj
 - dotnet flubu rebuild.linux -s=BuildScript/BuildScript.cs
