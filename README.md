@@ -10,7 +10,7 @@
 
 "FlubuCore - Fluent Builder Core" is a cross platform build and deployment automation system. You can define your build and deployment scripts in C# using an intuitive fluent interface. This gives you code completion, IntelliSense, debugging, FlubuCore custom analyzers, and native access to the whole .NET ecosystem inside of your scripts.
 
-![FlubuCore in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/demo.gif)
+![FlubuCore in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/demo.gif)
 
 FlubuCore offers a .net (core) console application that uses power of roslyn to compile and execute scripts. Above example can be run from console with:
 
@@ -136,7 +136,7 @@ context.CreateTarget("Run.Libz")
 
 * Improved developer experience with FlubuCore custom analyzers.
 
-![FlubuCore analyzers in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/FlubuCoreCustomAnalyzerDemo.png)
+![FlubuCore analyzers in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCoreCustomAnalyzerDemo.png)
 
 ## Getting Started
 Using FlubuCore is straightforward and very simple :-) It is also fully and throughly documented.
@@ -189,7 +189,7 @@ You can see FlubuCore roadmap by exploring opened [milestones.](https://github.c
 ## Used & Powered by
 Thank's to Comtrade for supporting us.
 
-[![FlubuCore analyzers in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/Svg/COMTRADE_logo.PNG)](https://www.comtrade.com)
+[![FlubuCore analyzers in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/Svg/COMTRADE_logo.PNG)](https://www.comtrade.com)
 
 
 ## Acknowledgements
