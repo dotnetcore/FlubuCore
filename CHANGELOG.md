@@ -10,8 +10,8 @@
  var compile = context
             .CreateTarget("compile")
             .SetDescription("Compiles the VS solution")
-            .AddCoreTask(x => x.Build().When(
-                () =>
+            .AddCoreTask(x => x.Build().Configuration("Release").When(
+            () =>
             {
                 return context.BuildSystems().IsLocalBuild;
 
