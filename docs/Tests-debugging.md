@@ -1,75 +1,25 @@
-You can write your own tasks for flubu and extend flubu fluent interface with them.
+### **Writing build script tests and debuging build script through test**
 
-When fluent interface will be extended with your custom task you could simply add it to the target or execute it with Do task with the following example code:
+Wiki coming soon. Meanwhile see simple test to get you started: https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs
 
-```c# 
-//#nuget FlubuCore.ExamplePlugin, 1.0.1
-public class BuildScript : DefaultBuildScript
-{
-    protected override void ConfigureTargets(ITaskContext context)
-    {
-        context.CreateTarget("FlubuPlugin.Example")
-           .SetAsDefault()
-           .Do(DoPluginExample);
+If needed you can debug build script through test.
 
-       context.CreateTarget("FlubuPlugin.Example2")
-           .AddTask(x => x.ExampleFlubuPluginTask());
-    }
+You can use flubu task in other .net applications just like in above test example.
 
-   private void DoPluginExample(ITaskContext context)
-   {
-       context.Tasks().ExampleFlubuPluginTask()
-           .Message("some example message from plugin").Execute(context);
-   }
-}
-```
-### How to create your own task plugin 
-* Create new project in vs FlubuCore.{PluginName}
-* Add FlubuCore nuget package to project.
-* Add task and implement it. Following code shows implementation of example flubu plugin task.
+### **Debugging build script by attaching to running process**
+You can debug build script by attaching debuger to Flubu process. 
 
-```c#    
-    public class ExampleFlubuPluginTask : TaskBase<int, ExampleFlubuPluginTask>
-    {
-        private string _message;
+* Because Flubu alters build script slightly you have to disable option 'Require source code files to exactly match the original version' in visual studio.
+Option can be found under Tools->Options->Debugging->General->Require source code files to exactly match the original version. Not sure for VS code if any settings have to be changed.
+* It is advised to use  WaitForDebugger extension method on ITaskContext before first break point
 
-        protected override string Description { get; set; }
-
-        public ExampleFlubuPluginTask Message(string message)
+        protected override void ConfigureTargets(ITaskContext context)
         {
-            _message = message;
-            return this;
+            context.WaitForDebugger();
         }
 
-        protected override int DoExecute(ITaskContextInternal context)
-        {
-            //// write task logic here.
-            context.LogInfo(!string.IsNullOrEmpty(_message) ? _message : "Just some dummy code");
+* Run build script and attach debugger to FlubuCore process. FlubuCore process name vary depending on which FlubuCore "runner" you are using.
 
-            return 0;
-        }
-    }
-```
-* Then you need to write an extension method to add the task to flubu fluent interface. Extension method for our example task:
-
-```C#
-using FlubuCore.PluginExample;
-
-namespace FlubuCore.Context.FluentInterface.Interfaces
-{
-   public static class TaskFluentInterfaceExtension
-    {
-        public static ExampleFlubuPluginTask ExampleFlubuPluginTask(this ITaskFluentInterface flubu)
-        {
-            return new ExampleFlubuPluginTask();
-        }
-    }
-}
-```
-* It is recommended that you add task to ICoreTaskFluentInterface or  ITaskFluentInterface
-* Most elegant way to add the plugin is to add nuget reference with nuget directive ```//#nuget {PluginNugetId}, {Version}``` Alternatively you can add the FlubuCore.ExamplePlugin assembly to FlubuLib directory so that the assembly get's loaded automatically when flubu script is executed or add #ass directive to build script. For more information see BuildScript fundamentals on wiki.
-* We would be very glad if you add your plugin to the nuget repository. It would be great if the plugin name would start 
-  with FlubuCore so others can find it.
-
-* you can see whole example plugin code [here](https://github.com/flubu-core/examples/tree/master/FlubuCustomTaskPluginAndLoadAssembliesFromDirectoryExample)
- 
+	* FlubuCore.Runner - You have to attach debugger to process named flubu.exe
+    * dotnet-flubu Cli tool - You have to attach debugger to right process named dotnet
+	* FlubuCore.GlobalTool - You have to attach debugger to process named Flubu

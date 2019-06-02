@@ -1,28 +1,32 @@
 site_name: FlubuCore
-site_description: A cross platform build and deployment automation system for building projects and executing deployment scripts using C# code.
-site_author: Marko Zorec
-site_url: https://github.com/dotnetcore/FlubuCore
+
 
 repo_name: 'GitHub'
 repo_url: 'https://github.com/dotnetcore/FlubuCore'
 
 theme:
-     name: material
+     name: 'material'
      palette:
-       primary: indigo
-       accent: indigo
-      feature:
-    tabs: true 
-       
+       primary: 'indigo'
+       accent: 'indigo'
+     feature:
+       tabs: true 
+      
 nav:
-    - 'Home': 'index.md'
+    - 'FlubuCore': 'index.md'
     - 'Getting started': 'getting-started.md'
     - 'Build script fundamentals': 'buildscript-fundamentals.md'
+    - 'Build script runner': 'build-script-runner.md'
     - 'Tasks': 'tasks.md'
     - 'How to write and use plugins': 'write-plugins.md'
-    - 'Tests and debuging': 'Tests-debugging.md'
-    - 'Web api getting started': 'web-api-getting-started.md'
-    - 'Awesome plugins': 'awesome-plugins.md'
+    - 'Tests and debuging': 'Tests-debugging.md'    
+    - 'Web api' :
+        - 'Getting started' : 'WebApi/getting-started.md'
+    - 'Awesome plugins': 
+        - 'Plugins': 'AwesomePlugins/awesome-plugins.md'
+    - 'Examples' :
+        - 'Index' : 'https://github.com/dotnetcore/FlubuCore.Examples/wiki'   
+ 
 
 markdown_extensions:
   - markdown.extensions.admonition

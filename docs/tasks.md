@@ -1,7 +1,9 @@
 Here you can find list of FlubuCore built in tasks with short description. Each task have fluent interface. See code documentation for detailed task documentation. If u have any questions about a task join us on gitter.
 
-===Tasks===
-|=Task name|=description|
+### **Tasks** 
+
+| Task name | Description |
+| --- | ----------- |
 |RunProgramTask|Task runs specified external program|
 |CompileSolutionTask|Task compiles specified solution.|
 |PackageTask|Task Packages specified directories and files into specified directory or zip file..|
@@ -47,7 +49,9 @@ Here you can find list of FlubuCore built in tasks with short description. Each 
 |DockerTasks|Build, Run, Stop Remove Container, Remove Image and all other tasks for coresponding docker cli commands. All tasks are genereated from offical docker documentation. |
 |FlubuWebApiTasks|Various flubu web api client tasks.|
 
-=== .net core Tasks===
+### **.net core Tasks** 
+| Task name | Description |
+| --- | ----------- |
 |ExecuteDotnetTask|Executes specified dotnet command.
 |DotnetRestoreTask|Restores the dependencies and tools for a given application / project..
 |DotnetPublishTask|compiles the application, reads through its dependencies specified in the project file and publishes the resulting set of files to a directory.

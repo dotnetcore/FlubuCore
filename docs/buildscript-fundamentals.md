@@ -1,4 +1,4 @@
-## Build script
+## **Build script**
 
 
 Each build script should inherit from DefaulBuildScript class. Two abstact methods from DefaultBuildScript have to be implemented.
@@ -23,12 +23,12 @@ Empty build script example
 ```
 
 <a name="Targets"></a>
-Targets
+## **Targets**
 -------
 
 Targets are used to perform specific work in a specific order. A target can for example execute flubu built in tasks like a task for compiling the solution or it can execute some custom code. Target can also have dependencies on other targets.
 
-### Create a new Target
+### **Create a new Target**
 
 Following code will create a new target that will execute a built in task.
 
@@ -58,7 +58,7 @@ You can also pass values to parameter through console arguments, FlubuCore confi
 `Flubu targetName2 -destination=SomeOtherDestination`
 
 <a name="Tasks"></a>
-### Tasks
+### **Tasks**
 
 Tasks are divided in tasks and core tasks. tasks can be executed in .net and .net core projects. Core tasks can only be executed in .net core projects.
 
@@ -71,21 +71,30 @@ Following example executes 2 core tasks in a target. Order of execution is the s
 ```
 
 All Tasks also have following methods
-- `.Finally(c => { c.LogInfo("Example");}))` - Finally block acts just like finally in try catch
-- `.OnError((c, ex) => { c.LogInfo("Example");}))` - onError can perform some custom action when error occurs on single task
-- `.Retry(5, 1000)` - Retry mechanism. You can apply specific condition when retry mechanism will retry task.
-- `.DoNotFailOnError()` - script does not fail in case of exception. You can apply specific condition when task will not fail. 
-- `.NoLog()` - Task doesn't log anything to console output.
-- `.SetDescription()` - Overrides the default help description of the task.
-- `.ForMember()` - pass through console argument to method or property. See [Pass console arguments, settings from json configuration file, environment variables with ForMember to tasks.](#Arguments-pass-through-to-tasks) for more details.
+  
+- ``` .OnError((c, ex) => { c.LogInfo("Example");})) ``` - onError can perform some custom action when error occurs on single task
+
+- ``` .Retry(5, 1000) ``` - Retry mechanism. You can apply specific condition when retry mechanism will retry task.
+
+- ``` .Finally(c => { c.LogInfo("Example");})) ``` - Finally block acts just like finally in try catch
+
+- ``` .DoNotFailOnError() ``` - script does not fail in case of exception. You can apply specific condition when task will not fail. 
+
+- ``` .NoLog() ``` - Task doesn't log anything to console output.
+
+- ``` .SetDescription() ``` - Overrides the default help description of the task.
+
+- ``` .ForMember() ``` - pass through console argument to method or property. See [Pass console arguments, settings from json configuration file, environment variables with ForMember to tasks.](#Arguments-pass-through-to-tasks) for more details.
+
 - conditonal task execution with when cluase on single task (see bellow for group of tasks)
 
-```C#
+```c#
        context.CreateTarget("Example")
             .AddTask(x => x.CompileSolutionTask())
             .AddTask(x => x.PublishNuGetPackageTask("packageId", "pathToNuspec"))
                 .When(c => c.BuildSystems().Jenkins().IsRunningOnJenkins);
 ```
+
 - set task parameters only when specified condition is meet.
 
 ```c#
@@ -98,11 +107,11 @@ All Tasks also have following methods
                 return context.BuildSystems().IsLocalBuild;
 
             }, task => { task.Configuration("Debug"); }));
- ```
+```
 
-- `.Interactive` - Interactively pass argument from console to specified task method / parameter.
+- ```.Interactive()``` - Interactively pass argument from console to specified task method / parameter.
 <a name="Custom-code"></a>
-### Custom code / tasks
+### **Custom code / tasks**
 
 Following example executes some custom code. You can also use built in flubu tasks in custom code as shown in example.
 
@@ -137,34 +146,25 @@ You can also pass arguments to custom code like so:
      }
 ```
 
+<a name="Target-dependencies"></a>
+### **Target dependencies**
+
+Target can have dependencies on other targets. All dependenies will be executed before target in the specified order.
+
+When targetC is executed target’s will be executed in the following order: TargetB, TargetA, TargetC
+
+```C#
+      var targetA = context.CreateTarget("TargetA");
+      var targetB = context.CreateTarget("TargetB");
+      var targetC = context.CreateTarget("TargetC")
+          .DependsOn(targetB, targetA);
+```
+
+<a name="Async-execution"></a>
+
 <a name="Run-any-program"></a>
-### Run any program or command in build script with RunProgramTask
 
-```C#
-    protected override void ConfigureTargets(ITaskContext session)
-    {
-         var runExternalProgramExample = session.CreateTarget("run.libz")
-            .AddTask(x => x.RunProgramTask(@"packages\LibZ.Tool\1.2.0\tools\libz.exe")
-                .WorkingFolder(@".\src")
-                .WithArguments("add")
-                .WithArguments("--libz", "Assemblies.libz"));
-    }
-```
-
-Linux Example:
-
-```C#
-    protected override void ConfigureTargets(ITaskContext session)
-    {
-         var runExternalProgramExample = session.CreateTarget("systemctl.example")
-            .AddTask(x => x.RunProgramTask(@"systemctl")             
-                .WithArguments("start")
-                .WithArguments("nginx.service"));
-    }
-```
-
-<a name="Reuse-set-of-tasks"></a>
-### Reuse set of tasks in different targets
+### **Reuse set of tasks in different targets**
 
 Following example shows how to reuse set of tasks in different targets:
 
@@ -190,7 +190,7 @@ Following example shows how to reuse set of tasks in different targets:
 
 ```
 <a name="Group-task"></a>
-### Group tasks and apply When, OnError, Finally on them
+### **Group tasks and apply When, OnError, Finally on them**
 
 -  Conditonal task execution with When clause on group of tasks.
 
@@ -243,22 +243,7 @@ Following example shows how to reuse set of tasks in different targets:
                 });
 ```
 
-<a name="Target-dependencies"></a>
-### Target dependencies
-
-Target can have dependencies on other targets. All dependenies will be executed before target in the specified order.
-
-When targetC is executed target’s will be executed in the following order: TargetB, TargetA, TargetC
-
-```C#
-      var targetA = context.CreateTarget("TargetA");
-      var targetB = context.CreateTarget("TargetB");
-      var targetC = context.CreateTarget("TargetC")
-          .DependsOn(targetB, targetA);
-```
-
-<a name="Async-execution"></a>
-### Async execution of tasks, customCode and dependencies
+### **Async execution of tasks, customCode and dependencies**
 
 <ul>
 <li>
@@ -297,7 +282,7 @@ Async and sync methods can also be mixed
 The code above will first execute 2 nunit tasks asynchronously and wait for both tasks to finish. Then it will execute SomeCustomMethod synchrounosly. After it is finished code from SomeCustomAsyncMethod2 and SomeCustomAsyncMethod3 will be executed asynchronously.
 
 <a name="Other-features"></a>
-### Other features
+### **Other features**
 
 -   SetAsDefault method: When applied to target that target is runned by default if no target is specified when running the script with runner.
 -   SetAsHidden method: When applied to target that target is not shown in help and it can only be run as other target dependecie.
@@ -305,8 +290,35 @@ The code above will first execute 2 nunit tasks asynchronously and wait for both
 - Must method: Condition in must will have to be meet otherwise target execution will fail before any task get executed.
 - Log:`.LogInfo("Some Text2", ConsoleColor.Blue);`
 
+#### Run any program or command in build script with RunProgramTask
+
+```C#
+    protected override void ConfigureTargets(ITaskContext session)
+    {
+         var runExternalProgramExample = session.CreateTarget("run.libz")
+            .AddTask(x => x.RunProgramTask(@"packages\LibZ.Tool\1.2.0\tools\libz.exe")
+                .WorkingFolder(@".\src")
+                .WithArguments("add")
+                .WithArguments("--libz", "Assemblies.libz"));
+    }
+```
+
+Linux Example:
+
+```C#
+    protected override void ConfigureTargets(ITaskContext session)
+    {
+         var runExternalProgramExample = session.CreateTarget("systemctl.example")
+            .AddTask(x => x.RunProgramTask(@"systemctl")             
+                .WithArguments("start")
+                .WithArguments("nginx.service"));
+    }
+```
+
+<a name="Reuse-set-of-tasks"></a>
+
 <a name="Build-properties"></a>
-## Build properties
+### **Build properties**
 
 You can define various build properties in ConfigureBuildProperties method to share them in different tasks and custom code.
 
@@ -345,7 +357,8 @@ like so:
 ```
 
 <a name="Predefined-build-properties"></a>
-### Predefined build properties
+#### Predefined build properties
+
  Some build properties are already defined. You can access them through interface:
   
 ` context.Properties.Get(PredefinedBuildProperties.OsPlatform);`
@@ -361,7 +374,7 @@ Available predefined build properties:
 All of them can be overriden.
 
 <a name="Script-arguments"></a>
-## Pass command line arguments, settings from json configuration file or environment variables to your build script properties.
+## **Pass command line arguments, settings from json configuration file or environment variables to your build script properties.**
 
  You can pass command line arguments, settings from json configuration file or environment variables to your build script properties by adding FromArg attribute to property. 
 
@@ -393,14 +406,12 @@ First parameter in FromArg attribute is the argument key. Second is the help des
 Property types that are supported: string, boolean, int, long, decimal, double, DateTime.
 
 <a name="Command-line-argument"></a>
-### Passing command line argument to build script property.
+### **Passing command line argument to build script property.**
 
  `Dotnet flubu Deploy.Example -sn=true`
 
 <a name="json-configuration-file"></a>
-### Passing setting from json configuration file to build script property
-
-Flubu 
+### **Passing setting from json configuration file to build script property**
 
  * Create file FlubuSettings.json where Flubu runner is located.
  * Add argument key and value to file in json format.
@@ -415,7 +426,7 @@ Flubu
 * You can also create json configuration file by machine name FlubuSettings.{MachineName}.Json. If MachineName in file matches the machine name Flubu will automatically read settings from that file.
 
 <a name="enviroment-variable"></a>
-### Passing enviroment variable to build script property
+### **Passing enviroment variable to build script property**
 
 You can also set script arguments through environment variables. environment variables must have prefix flubu_
 
@@ -424,7 +435,7 @@ For above example you would add environment variable from windows command line w
 `set flubu_sn=true`
 
 <a name="Arguments-pass-through-to-tasks"></a>
-## Pass console arguments, settings from json configuration file, environment variables with ForMember to tasks.
+## **Pass console arguments, settings from json configuration file, environment variables with ForMember to tasks.**
 
 There is an alternative more sophisticated way to pass console arguments, settings and environment variables to tasks
 
@@ -444,7 +455,7 @@ There is an alternative more sophisticated way to pass console arguments, settin
  `Dotnet flubu compile -solution=someothersolution.sln`
 
 <a name="Referencing-other-assemblies-in-build-script"></a>
-## Referencing external assemblies in build script
+## **Referencing external assemblies in build script**
 
 FlubuCore loads all assemblies references and nuget packages automatically from build script csproj. Csproj must be at on of the location specified [here](https://github.com/flubu-core/flubu.core/blob/master/FlubuCore/Scripting/Analysis/ProjectFileAnalyzer.cs) If not assembly and nuget references will not be loaded automatically when executing script.
 
@@ -460,7 +471,7 @@ public class BuildScript : DefaultBuildScript
 Alternatively when you are running scripts without csproj(for example deploy scripts) external references can be added  with directives in three ways:
 
 <a name="By-assembly-relative-or-full-path"></a>
-### By assembly relative or full path
+### **By assembly relative or full path**
 
 On the build script class you have to add attribute:
 
@@ -484,7 +495,7 @@ public class BuildScript : DefaultBuildScript
 ```
 
 <a name="Referencing-nuget-packages"></a>
-### Referencing nuget packages
+### **Referencing nuget packages**
 
 Flubu supports referencing nuget packages. .net core sdk or msbuild must be installed if u want to reference nuget packages otherwise they will not get restored.
 
@@ -502,7 +513,7 @@ You have to add NugetPackage attribute on the script class:
 ```
 
 <a name="Load-assembly-by-assembly-full-name"></a>
-### Load assembly by assembly full name
+### **Load assembly by assembly full name**
 
 System assemblies can be loaded by fully qualifed assemlby name.
 
@@ -524,7 +535,7 @@ One way to get fully qualifed assembly name:
     var fullQualifedAssemblyName = typeof(XmlDocument).Assembly.FullName;
 
 <a name="Load-all-assemblies-from-directory"></a>
-### Load all assemblies from directory
+### **Load all assemblies from directory**
 Even if you are not using your script together with csproj flubu can load all external assemblies for you automatically from directory (assemblies in subdirectories are also loaded ). 
 
 By default flubu loads all assemblies from directory FlubuLib. Just create the directory at the flubu runner location and put assemblies in that directory. You can specify directory in flubu runner from where to load assemblyes also:
@@ -540,7 +551,7 @@ alternatively you can put ass key into flubusettings.json file:
     }` 
 
 <a name="Adding-other-cs-files-to-build-script"></a>
-## Adding other .cs files to script
+## **Adding other .cs files to script**
 
 On the build script class you have to add attribute:
 
@@ -565,7 +576,7 @@ public class BuildScript : DefaultBuildScript
 ```
 
 <a name="Build-system-providers"></a>
-## Build system providers 
+## **Build system providers** 
 
 You can acces various build, commit... information for various build systems (such as Jenkins, TeamCity, AppVeyor, Travis...) 
 
@@ -578,7 +589,7 @@ You can acces various build, commit... information for various build systems (su
 ```
 
 <a name="Before-After"></a>
-## Build events
+## **Build events**
 
 - OnBuildFailed event:
 ```c#
@@ -588,7 +599,8 @@ public class BuildScript : DefaultBuildScript
     {
     } 
 }
- ```
+```
+ 
 - before and after target execution events:
 ```c#
     protected override void BeforeTargetExecution(ITaskContext context)
@@ -599,6 +611,7 @@ public class BuildScript : DefaultBuildScript
     {
     }
 ```    
+
 - before and after build execution events:
 ```c#
     protected override void BeforeBuildExecution(ITaskContext context)
@@ -608,8 +621,8 @@ public class BuildScript : DefaultBuildScript
     protected override void AfterBuildExecution(ITaskSession session)
     {
     }
- ```
+```
 <a name="partial-class"></a>
-## Partial and base class in script
+## **Partial and base class in script**
 
 Partial and base classes are loaded automatically if they are located in the same directory as buildscript. Otherwise they have to be added with Include attribute. 

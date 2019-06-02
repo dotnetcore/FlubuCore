@@ -1,5 +1,5 @@
 
-## About
+## **About**
 With FlubuCore web api you can execute FlubuCore scripts remotely. Mainly it is meant to automate deployment of .net or .net core applications from your build server to different environments but it can be used for any other FlubuCore script execution.
 
 Web Api supports:
@@ -19,12 +19,12 @@ In this getting started tutorial we will:
 - Run deployment script through build script remotely.
 
 <a name="requirements"></a>
-### Requirements
+### **Requirements**
 
 - .net 462+ runtime or .net core runtime installed on the server. Depending on which build of FlubuCore.WebApi you plan to use.
 
 <a name="Web-api-deployment"></a>
-### Web api deployment
+### **Web api deployment**
 - Get appropriate web api deploy package from https://github.com/flubu-core/flubu.core/releases.
 - Copy web api deployment package to the server where you want to execute flubu script.
 - Unzip the package.
@@ -39,7 +39,7 @@ In this getting started tutorial we will:
 Some actions might need administration rights like starting / stoping the application pool. If that's the case u have to change identity on the application pool where you hosted the web api. Go to Application pools -> Web api app pool -> Advanced settings -> process model -> Identity and change to user which has admin rights.
 
 <a name="Write-deploy-script"></a>
-### Write deploy script
+### **Write deploy script**
 Example .net  deploy script can be found [Here](https://github.com/flubu-core/examples/blob/master/DeployScriptExample/BuildScript/DeployScript.cs). If u want to try the example the best way is to just clone the flubu core examples directory. Deploy script for .net core application would be of course slightly different.
 
 Example deploy script for .net application will
@@ -55,7 +55,7 @@ When you finish writing your deploy script. manually copy it to web api deployed
 If needed modify Example DeployScript for your needs.
 
 <a name="Write-build-script"></a>
-### Write build script
+### **Write build script**
    Example .net build script can be found [here](https://github.com/flubu-core/examples/blob/master/DeployScriptExample/BuildScript/BuildScript.cs)
    
 Example .net build script will
@@ -67,7 +67,7 @@ Example .net build script will
 If needed modify Example BuildScript for your needs.
 
 <a name="Run-deploy-script"></a>
-### Run deploy script
+### **Run deploy script**
 If u cloned example repository just execute at the root foolder:
 
  `dotnet restore buildscript.csproj ` and `dotnet flubu deploy -s=buildscript\buildscript.cs` in cmd from DeployScriptExample folder
@@ -75,7 +75,7 @@ If u cloned example repository just execute at the root foolder:
 In real case scenario you would probably deploy from your build server after sucesfull build, after merge to release branch, manually execute the job on build server...  
 
 <a name="Security"></a>
-### Security 
+### **Security** 
 As attacker can do alot of damage if he gains access to web api next security measures should be implemented if possible:
 
 * If possible Flubu web api should not be publicly accessible.
@@ -89,11 +89,11 @@ As attacker can do alot of damage if he gains access to web api next security me
 For detailed description of security settings see appsettings.json file on web api.
 
 <a name="Automatic-update"></a>
-### Automatic update 
+### **Automatic update**
 
 You can automatically update FlubuCore web api if new version is available. Just navigate to /UpdateCenter (not /api/UpdateCenter)
 
 <a name="manual-target-execution"></a>
-## Manual target execution remotely through FlubuCore web app
+### **Manual target execution remotely through FlubuCore web app**
 
 You can manually execute target through FlubuCore web app. Just navigate to /Script
