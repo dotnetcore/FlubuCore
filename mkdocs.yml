@@ -7,9 +7,12 @@ theme:
      name: 'material'
      palette:
        primary: 'indigo'
-       accent: 'indigo' 
+       accent: 'indigo'
+     font:
+        text: 'Roboto'        
      feature:
-       tabs: true      
+       tabs: true 
+  
       
 nav:
     - 'FlubuCore': 'index.md'
