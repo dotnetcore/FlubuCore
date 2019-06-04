@@ -143,9 +143,9 @@
 </td></tr></table>
 
 <ul>
-<li><code class="codehilite"><span class="na">.Interactive</span><span class="p">()</span></code> - Interactively pass argument from console to specified task method / parameter.
-<a name="Custom-code"></a></li>
+<li><code class="codehilite"><span class="na">.Interactive</span><span class="p">()</span></code> - Interactively pass argument from console to specified task method / parameter.</li>
 </ul>
+<p><a name="Custom-code"></a></p>
 <h3 id="custom-code-tasks"><strong>Custom code / tasks</strong><a class="headerlink" href="#custom-code-tasks" title="Permanent link">&para;</a></h3>
 <p>Following example executes some custom code. You can also use built in flubu tasks in custom code as shown in example.</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
@@ -213,8 +213,7 @@
 </pre></div>
 </td></tr></table>
 
-<p><a name="Async-execution"></a></p>
-<p><a name="Run-any-program"></a></p>
+<p><a name="Reuse-set-of-tasks"></a></p>
 <h3 id="reuse-set-of-tasks-in-different-targets"><strong>Reuse set of tasks in different targets</strong><a class="headerlink" href="#reuse-set-of-tasks-in-different-targets" title="Permanent link">&para;</a></h3>
 <p>Following example shows how to reuse set of tasks in different targets:</p>
 <p><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
@@ -343,6 +342,7 @@
 </pre></div>
 </td></tr></table>
 
+<p><a name="Async-execution"></a></p>
 <h3 id="async-execution-of-tasks-customcode-and-dependencies"><strong>Async execution of tasks, customCode and dependencies</strong><a class="headerlink" href="#async-execution-of-tasks-customcode-and-dependencies" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
@@ -395,6 +395,7 @@ Dependencies can be executed asynchrounosly with DependsOnAsync method.
 <li>Must method: Condition in must will have to be meet otherwise target execution will fail before any task get executed.</li>
 <li>Log:<code class="codehilite">.<span class="k">LogInfo</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">Some Text2</span><span class="s2">&quot;</span>, <span class="nv">ConsoleColor</span>.<span class="nv">Blue</span><span class="ss">)</span><span class="c1">;</span></code></li>
 </ul>
+<p><a name="Run-any-program"></a></p>
 <h4 id="run-any-program-or-command-in-build-script-with-runprogramtask">Run any program or command in build script with RunProgramTask<a class="headerlink" href="#run-any-program-or-command-in-build-script-with-runprogramtask" title="Permanent link">&para;</a></h4>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
@@ -431,7 +432,6 @@ Dependencies can be executed asynchrounosly with DependsOnAsync method.
 </pre></div>
 </td></tr></table>
 
-<p><a name="Reuse-set-of-tasks"></a></p>
 <p><a name="Build-properties"></a></p>
 <h3 id="build-properties"><strong>Build properties</strong><a class="headerlink" href="#build-properties" title="Permanent link">&para;</a></h3>
 <p>You can define various build properties in ConfigureBuildProperties method to share them in different tasks and custom code.</p>
