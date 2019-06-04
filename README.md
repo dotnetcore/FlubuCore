@@ -140,7 +140,7 @@ context.CreateTarget("Run.Libz")
 ## Getting Started
 Using FlubuCore is straightforward and very simple :-) It is also fully and throughly documented.
 
-The [Getting Started](https://flubucore.dotnetcore.xyz/getting-started/) chapter in [Documentation](https://flubucore.dotnetcore.xyz) will help you set up your first FlubuCore build in no time.
+The [Getting Started](https://flubucore.dotnetcore.xyz/getting-started/) chapter in [FlubuCore Documentation](https://flubucore.dotnetcore.xyz) will help you set up your first FlubuCore build in no time.
 
 A comprehensive list of features that FlubuCore has to offer with descriptions can be found in the [Build Script Fundamentals](https://flubucore.dotnetcore.xyz/buildscript-fundamentals) chapter.
 
@@ -183,7 +183,7 @@ Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 Changes with description and examples can be found in [Changelog](https://github.com/flubu-core/flubu.core/blob/master/CHANGELOG.md) 
  
-You can see FlubuCore roadmap by exploring opened [milestones.](https://github.com/flubu-core/flubu.core/milestones)
+You can see FlubuCore roadmap by exploring opened [Milestones.](https://github.com/flubu-core/flubu.core/milestones)
 
 ## Used & Powered by
 Thank's to Comtrade for supporting us.
