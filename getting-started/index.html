@@ -13,7 +13,7 @@
 <h5 id="or-install-with-flubucore-template">Or Install with FlubuCore template<a class="headerlink" href="#or-install-with-flubucore-template" title="Permanent link">&para;</a></h5>
 <ul>
 <li>In console navigate where your solution is located.</li>
-<li>Run <code class="codehilite"><span class="n">dotnet</span> <span class="k">new</span> <span class="o">-</span><span class="n">i</span> <span class="n">FlubuCore</span><span class="p">.</span><span class="k">Template</span></code></li>
+<li>Run <code>dotnet new -i FlubuCore.Template</code></li>
 <li>Run 'dotnet new FlubuCore'</li>
 <li>This will add BuildScript.csproj with FlubuCore references and FlubuCore script template.</li>
 </ul>
@@ -80,21 +80,21 @@ project.json:
 </td></tr></table></p>
 <ul>
 <li>
-<p>Run <code class="codehilite"><span class="n">dotnet</span> <span class="n">restore</span></code>. This command will restore dotnet-flubu package and add it to dotnet tool commands.</p>
+<p>Run <code>dotnet restore</code>. This command will restore dotnet-flubu package and add it to dotnet tool commands.</p>
 </li>
 <li>
-<p>Run <code class="codehilite"><span class="n">dotnet</span> <span class="n">flubu</span> <span class="n">help</span></code>. There you will see besided default commands the compile command that we just added.</p>
+<p>Run <code>dotnet flubu help</code>. There you will see besided default commands the compile command that we just added.</p>
 </li>
 <li>
-<p>Run <code class="codehilite"><span class="n">dotnet</span> <span class="n">flubu</span> <span class="n">compile</span></code> This command will compile your solution.</p>
+<p>Run <code>dotnet flubu compile</code> This command will compile your solution.</p>
 </li>
 </ul>
 <p><a name="Run-build-script-core-with-global-tool"></a></p>
 <h4 id="run-build-script-in-net-core-with-global-tool">Run build script in .NET core with global tool<a class="headerlink" href="#run-build-script-in-net-core-with-global-tool" title="Permanent link">&para;</a></h4>
 <ul>
 <li>.net core sdk 2.1.300 or greater must be installed.</li>
-<li>Install FlubuCore global tool: <code class="codehilite"><span class="n">dotnet</span> <span class="n">tool</span> <span class="n">install</span> <span class="c1">--global FlubuCore.GlobalTool</span></code></li>
-<li>Run <code class="codehilite"><span class="n">flubu</span> <span class="n">compile</span></code> where build script is located. It will compile your solution.</li>
+<li>Install FlubuCore global tool: <code>dotnet tool install --global FlubuCore.GlobalTool</code></li>
+<li>Run <code>flubu compile</code> where build script is located. It will compile your solution.</li>
 </ul>
 <p>This is very basic build script just for you to see how simple it is to get you started. FlubuCore has to offer a lot of nice features. Read more about them at <a href="../buildscript-fundamentals/">Build script fundamentals</a> 
 alternatively you can take a look at <a href="https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScript.cs">.net core examples</a> and see most of main features in action.</p>

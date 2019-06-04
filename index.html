@@ -11,9 +11,9 @@
 <p><img alt="FlubuCore in action" src="https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/demo.gif" /></p>
 <p>FlubuCore offers a .net (core) console application that uses power of roslyn to compile and execute scripts. Above example can be run from console with:</p>
 <ul>
-<li>FlubuCore runner  <code class="codehilite"><span class="n">flubu</span><span class="p">.</span><span class="n">exe</span> <span class="k">Default</span></code></li>
-<li>FlubuCore dotnet cli tool <code class="codehilite"><span class="n">dotnet</span> <span class="n">flubu</span> <span class="k">Default</span></code></li>
-<li>FlubuCore global tool <code class="codehilite"><span class="n">flubu</span> <span class="k">Default</span></code></li>
+<li>FlubuCore runner  <code>flubu.exe Default</code></li>
+<li>FlubuCore dotnet cli tool <code>dotnet flubu Default</code></li>
+<li>FlubuCore global tool <code>flubu Default</code></li>
 </ul>
 <h2 id="features-and-advantages"><strong>Features and Advantages</strong><a class="headerlink" href="#features-and-advantages" title="Permanent link">&para;</a></h2>
 <ul>
@@ -23,11 +23,11 @@
 2
 3
 4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="ss">&quot;Example&quot;</span><span class="p">)</span>
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="s">&quot;Example&quot;</span><span class="p">)</span>
   <span class="p">.</span><span class="n">DependsOn</span><span class="p">(</span><span class="n">fetchBuildVersionTarget</span><span class="p">)</span>
-  <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">CompileSolutionTask</span><span class="p">())</span>
-  <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">PublishNuGetPackageTask</span><span class="p">(</span><span class="ss">&quot;packageId&quot;</span><span class="p">,</span> <span class="ss">&quot;pathToNuspec&quot;</span><span class="p">))</span>
-      <span class="p">.</span><span class="k">When</span><span class="p">(</span><span class="k">c</span> <span class="o">=&gt;</span> <span class="k">c</span><span class="p">.</span><span class="n">BuildSystems</span><span class="p">().</span><span class="n">Jenkins</span><span class="p">().</span><span class="n">IsRunningOnJenkins</span><span class="p">);</span>
+  <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">CompileSolutionTask</span><span class="p">())</span>
+  <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">PublishNuGetPackageTask</span><span class="p">(</span><span class="s">&quot;packageId&quot;</span><span class="p">,</span> <span class="s">&quot;pathToNuspec&quot;</span><span class="p">))</span>
+      <span class="p">.</span><span class="n">When</span><span class="p">(</span><span class="n">c</span> <span class="p">=&gt;</span> <span class="n">c</span><span class="p">.</span><span class="n">BuildSystems</span><span class="p">().</span><span class="n">Jenkins</span><span class="p">().</span><span class="n">IsRunningOnJenkins</span><span class="p">);</span>
 </pre></div>
 </td></tr></table>
 
@@ -40,11 +40,11 @@
 4
 5
 6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">target</span>
-    <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">CompileSolutionTask</span><span class="p">())</span>
-    <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">CopyFileTask</span><span class="p">(</span><span class="k">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="k">true</span><span class="p">))</span>
-    <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">IisTasks</span><span class="p">()</span>
-                    <span class="p">.</span><span class="n">CreateAppPoolTask</span><span class="p">(</span><span class="ss">&quot;Example app pool&quot;</span><span class="p">)</span>
-                    <span class="p">.</span><span class="k">Mode</span><span class="p">(</span><span class="n">CreateApplicationPoolMode</span><span class="p">.</span><span class="n">DoNothingIfExists</span><span class="p">));</span>
+    <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">CompileSolutionTask</span><span class="p">())</span>
+    <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">CopyFileTask</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="k">true</span><span class="p">))</span>
+    <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">IisTasks</span><span class="p">()</span>
+                    <span class="p">.</span><span class="n">CreateAppPoolTask</span><span class="p">(</span><span class="s">&quot;Example app pool&quot;</span><span class="p">)</span>
+                    <span class="p">.</span><span class="n">Mode</span><span class="p">(</span><span class="n">CreateApplicationPoolMode</span><span class="p">.</span><span class="n">DoNothingIfExists</span><span class="p">));</span>
 </pre></div>
 </td></tr></table>
 
@@ -54,10 +54,10 @@
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
-4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nv">context</span>.<span class="nv">CreateTarget</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">MyCustomBuildTarget</span><span class="s2">&quot;</span><span class="ss">)</span>
-     .<span class="nv">AddTask</span><span class="ss">(</span><span class="nv">x</span> <span class="o">=&gt;</span> <span class="nv">x</span>.<span class="nv">CompileSolutionTask</span><span class="ss">())</span>
-     .<span class="k">Do</span><span class="ss">(</span><span class="nv">MyCustomMethod</span><span class="ss">)</span>
-     .<span class="k">Do</span><span class="ss">(</span><span class="nv">NuGetPackageReferencingExample</span><span class="ss">)</span><span class="c1">;</span>
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="s">&quot;MyCustomBuildTarget&quot;</span><span class="p">)</span>
+     <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">CompileSolutionTask</span><span class="p">())</span>
+     <span class="p">.</span><span class="n">Do</span><span class="p">(</span><span class="n">MyCustomMethod</span><span class="p">)</span>
+     <span class="p">.</span><span class="n">Do</span><span class="p">(</span><span class="n">NuGetPackageReferencingExample</span><span class="p">);</span>
 </pre></div>
 </td></tr></table>
 
@@ -72,37 +72,49 @@
 6
 7
 8
-9</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="k">[NugetPackage(&quot;Newtonsoft.json&quot;, &quot;11.0.2&quot;)]</span>
-<span class="k">[Assembly(&quot;.\Lib\EntityFramework.dll&quot;)]</span>
-<span class="na">public class BuildScript : DefaultBuildScript</span>
-<span class="na">{</span>
-   <span class="na">public void NuGetPackageReferencingExample(ITaskContext context)</span>
-    <span class="na">{</span>
-        <span class="na">JsonConvert.SerializeObject(&quot;Example&quot;);</span>
-    <span class="na">}</span>
-<span class="na">}</span>
+9</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="na">[NugetPackage(&quot;Newtonsoft.json&quot;, &quot;11.0.2&quot;)]</span>
+<span class="na">[Assembly(&quot;.\Lib\EntityFramework.dll&quot;)]</span>
+<span class="k">public</span> <span class="k">class</span> <span class="nc">BuildScript</span> <span class="p">:</span> <span class="n">DefaultBuildScript</span>
+<span class="p">{</span>
+   <span class="k">public</span> <span class="k">void</span> <span class="nf">NuGetPackageReferencingExample</span><span class="p">(</span><span class="n">ITaskContext</span> <span class="n">context</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">JsonConvert</span><span class="p">.</span><span class="n">SerializeObject</span><span class="p">(</span><span class="s">&quot;Example&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </td></tr></table>
 
 <ul>
 <li><a href="https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Run-any-program">Easily run any external program or console command in your script.</a></li>
 </ul>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3
-4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="s">&quot;Run.Libz&quot;</span><span class="p">)</span>
-    <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">RunProgramTask</span><span class="p">(</span><span class="s">@&quot;packages\LibZ.Tool</span><span class="se">\1</span><span class="s">.2.0</span><span class="se">\t</span><span class="s">ools\libz.exe&quot;</span><span class="p">)</span>
-        <span class="p">.</span><span class="n">WorkingFolder</span><span class="p">(</span><span class="s">@&quot;.\src&quot;</span><span class="p">)</span>
-        <span class="p">.</span><span class="n">WithArguments</span><span class="p">(</span><span class="s">&quot;add&quot;</span><span class="p">)</span>
-        <span class="p">.</span><span class="n">WithArguments</span><span class="p">(</span><span class="s">&quot;--libz&quot;</span><span class="p">,</span> <span class="s">&quot;Assemblies.libz&quot;</span><span class="p">));</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span> <span class="k">public</span> <span class="k">class</span> <span class="nc">SimpleScript</span> <span class="p">:</span> <span class="n">DefaultBuildScript</span>
+ <span class="p">{</span>
+    <span class="k">protected</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">ConfigureTargets</span><span class="p">(</span><span class="n">ITaskContext</span> <span class="n">context</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="s">&quot;Run.Libz&quot;</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">RunProgramTask</span><span class="p">(</span><span class="s">@&quot;packages\LibZ.Tool\1.2.0\tools\libz.exe&quot;</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">WorkingFolder</span><span class="p">(</span><span class="s">@&quot;.\src&quot;</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">WithArguments</span><span class="p">(</span><span class="s">&quot;add&quot;</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">WithArguments</span><span class="p">(</span><span class="s">&quot;--libz&quot;</span><span class="p">,</span> <span class="s">&quot;Assemblies.libz&quot;</span><span class="p">));</span>
+    <span class="p">}</span>
+ <span class="p">}</span>
 </pre></div>
 </td></tr></table>
 
 <ul>
 <li><a href="https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Script-arguments">Pass command line arguments, settings from json configuration file or environment variables to your script.</a></li>
 </ul>
-<p><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -114,64 +126,62 @@
 10
 11
 12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29</pre></div></td><td class="code"><div class="codehilite"><pre><span></span> <span class="nv">public</span> <span class="nv">class</span> <span class="nv">SimpleScript</span> : <span class="nv">DefaultBuildScript</span>
- {
-    [<span class="nv">FromArg</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">sn</span><span class="s2">&quot;</span>, <span class="s2">&quot;</span><span class="s">If true app is deployed on second node. Otherwise not.</span><span class="s2">&quot;</span><span class="ss">)</span>]
-    <span class="nv">public</span> <span class="nv">bool</span> <span class="nv">deployOnSecondNode</span> { <span class="nv">get</span><span class="c1">; set; }</span>
+13</pre></div></td><td class="code"><div class="codehilite"><pre><span></span> <span class="k">public</span> <span class="k">class</span> <span class="nc">SimpleScript</span> <span class="p">:</span> <span class="n">DefaultBuildScript</span>
+ <span class="p">{</span>
+<span class="na">    [FromArg(&quot;sn&quot;, &quot;If true app is deployed on second node. Otherwise not.&quot;)]</span>
+    <span class="k">public</span> <span class="kt">bool</span> <span class="n">deployOnSecondNode</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
 
 
-     <span class="nv">protected</span> <span class="nv">override</span> <span class="nv">void</span> <span class="nv">ConfigureTargets</span><span class="ss">(</span><span class="nv">ITaskContext</span> <span class="nv">context</span><span class="ss">)</span>
-     {
-         <span class="nv">context</span>.<span class="nv">CreateTarget</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">compile</span><span class="s2">&quot;</span><span class="ss">)</span>
-            .<span class="nv">AddTask</span><span class="ss">(</span><span class="nv">x</span> <span class="o">=&gt;</span> <span class="nv">x</span>.<span class="nv">CompileSolutionTask</span><span class="ss">()</span>
-                .<span class="nv">ForMember</span><span class="ss">(</span><span class="nv">y</span> <span class="o">=&gt;</span> <span class="nv">y</span>.<span class="nv">SolutionFileName</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">someSolution.sln</span><span class="s2">&quot;</span><span class="ss">)</span>, <span class="s2">&quot;</span><span class="s">solution</span><span class="s2">&quot;</span>, <span class="s2">&quot;</span><span class="s">The solution to build.</span><span class="s2">&quot;</span><span class="ss">))</span><span class="c1">; </span>
-     }
-  }
- ```
-
- ```
-  <span class="nv">flubu</span>.<span class="nv">exe</span> <span class="nv">compile</span> <span class="o">-</span><span class="nv">solution</span><span class="o">=</span><span class="nv">someOtherSolution</span>.<span class="nv">sln</span> <span class="o">-</span><span class="nv">sn</span><span class="o">=</span><span class="nv">true</span>
- ```
-<span class="o">*</span> [<span class="nv">Extending</span> <span class="nv">FlubuCore</span> <span class="nv">fluent</span> <span class="nv">interface</span> <span class="nv">by</span> <span class="nv">writing</span> <span class="nv">your</span> <span class="nv">own</span> <span class="nv">tasks</span> <span class="nv">within</span> <span class="nv">FlubuCore</span> <span class="nv">plugins</span>.]<span class="ss">(</span><span class="nv">https</span>:<span class="o">//</span><span class="nv">flubucore</span>.<span class="nv">dotnetcore</span>.<span class="nv">xyz</span><span class="o">/</span><span class="nv">write</span><span class="o">-</span><span class="nv">plugins</span><span class="ss">)</span>
-
-```<span class="nv">cs</span>
-    <span class="nv">public</span> <span class="nv">class</span> <span class="nv">ExampleFlubuPluginTask</span> : <span class="nv">TaskBase</span><span class="o">&lt;</span><span class="nv">int</span>, <span class="nv">ExampleFlubuPluginTask</span><span class="o">&gt;</span>
-    {
-        <span class="nv">protected</span> <span class="nv">override</span> <span class="nv">int</span> <span class="nv">DoExecute</span><span class="ss">(</span><span class="nv">ITaskContextInternal</span> <span class="nv">context</span><span class="ss">)</span>
-        {
-            <span class="o">//</span> <span class="nv">Write</span> <span class="nv">your</span> <span class="nv">task</span> <span class="nv">logic</span> <span class="nv">here</span>.
-            <span class="k">return</span> <span class="mi">0</span><span class="c1">;</span>
-        }
-    }
+     <span class="k">protected</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">ConfigureTargets</span><span class="p">(</span><span class="n">ITaskContext</span> <span class="n">context</span><span class="p">)</span>
+     <span class="p">{</span>
+         <span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="s">&quot;compile&quot;</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">CompileSolutionTask</span><span class="p">()</span>
+                <span class="p">.</span><span class="n">ForMember</span><span class="p">(</span><span class="n">y</span> <span class="p">=&gt;</span> <span class="n">y</span><span class="p">.</span><span class="n">SolutionFileName</span><span class="p">(</span><span class="s">&quot;someSolution.sln&quot;</span><span class="p">),</span> <span class="s">&quot;solution&quot;</span><span class="p">,</span> <span class="s">&quot;The solution to build.&quot;</span><span class="p">));</span> 
+     <span class="p">}</span>
+ <span class="p">}</span>
 </pre></div>
 </td></tr></table>
-* <a href="https://flubucore.dotnetcore.xyz/AwesomePlugins/awesome-plugins/">Growing list of FlubuCore plugins complements built in tasks.</a></p>
+
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>  flubu.exe compile -solution=someOtherSolution.sln -sn=true
+</pre></div>
+</td></tr></table>
+
 <ul>
-<li><a href="https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Async-execution">Asynchronous execution of tasks, target dependencies and custom code.</a></li>
+<li><a href="https://flubucore.dotnetcore.xyz/write-plugins">Extending FlubuCore fluent interface by writing your own tasks within FlubuCore plugins.</a></li>
 </ul>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
-4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>    <span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="ss">&quot;Run.Tests&quot;</span><span class="p">)</span>
-        <span class="p">.</span><span class="n">AddTaskAsync</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">NUnitTaskForNunitV3</span><span class="p">(</span><span class="ss">&quot;TestProjectName1&quot;</span><span class="p">))</span>
-        <span class="p">.</span><span class="n">AddTaskAsync</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">NUnitTaskForNunitV3</span><span class="p">(</span><span class="ss">&quot;TestProjectName1&quot;</span><span class="p">))</span>
-        <span class="p">.</span><span class="n">AddTaskAsync</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">NUnitTaskForNunitV3</span><span class="p">(</span><span class="ss">&quot;TestProjectName3&quot;</span><span class="p">));</span>
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>    <span class="k">public</span> <span class="k">class</span> <span class="nc">ExampleFlubuPluginTask</span> <span class="p">:</span> <span class="n">TaskBase</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">ExampleFlubuPluginTask</span><span class="p">&gt;</span>
+    <span class="p">{</span>
+        <span class="k">protected</span> <span class="k">override</span> <span class="kt">int</span> <span class="nf">DoExecute</span><span class="p">(</span><span class="n">ITaskContextInternal</span> <span class="n">context</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">// Write your task logic here.</span>
+            <span class="k">return</span> <span class="m">0</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<ul>
+<li>
+<p><a href="https://flubucore.dotnetcore.xyz/AwesomePlugins/awesome-plugins/">Growing list of FlubuCore plugins complements built in tasks.</a></p>
+</li>
+<li>
+<p><a href="https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Async-execution">Asynchronous execution of tasks, target dependencies and custom code.</a></p>
+</li>
+</ul>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>    <span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="s">&quot;Run.Tests&quot;</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">AddTaskAsync</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">NUnitTaskForNunitV3</span><span class="p">(</span><span class="s">&quot;TestProjectName1&quot;</span><span class="p">))</span>
+        <span class="p">.</span><span class="n">AddTaskAsync</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">NUnitTaskForNunitV3</span><span class="p">(</span><span class="s">&quot;TestProjectName1&quot;</span><span class="p">))</span>
+        <span class="p">.</span><span class="n">AddTaskAsync</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">NUnitTaskForNunitV3</span><span class="p">(</span><span class="s">&quot;TestProjectName3&quot;</span><span class="p">));</span>
 </pre></div>
 </td></tr></table>
 
@@ -179,8 +189,8 @@
 <li><a href="https://flubucore.dotnetcore.xyz/getting-started#getting-started-net-core">Full .NET Core support including the global CLI tool</a></li>
 </ul>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>    <span class="n">dotnet</span> <span class="n">tool</span> <span class="n">install</span> <span class="c1">--global FlubuCore.GlobalTool</span>
-    <span class="n">flubu</span> <span class="n">compile</span>
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>    dotnet tool install --global FlubuCore.GlobalTool
+    flubu compile
 </pre></div>
 </td></tr></table>
 
@@ -207,9 +217,15 @@
 <p>Using FlubuCore is straightforward and very simple :-) It is also fully and throughly documented.</p>
 <p>The <a href="https://flubucore.dotnetcore.xyz/getting-started/">Getting Started</a> chapter in <a href="https://flubucore.dotnetcore.xyz">Documentation</a> will help you set up your first FlubuCore build in no time.</p>
 <p>A comprehensive list of features that FlubuCore has to offer with descriptions can be found in the <a href="https://flubucore.dotnetcore.xyz/buildscript-fundamentals">Build Script Fundamentals</a> chapter.</p>
-<p>Once you have your build and deployment scripts defined, the following Wiki chapters will explain how to run them:
-* For .NET Framework projects use <a href="https://flubucore.dotnetcore.xyz/getting-started#Installation.net">FlubuCore.Runner</a>
-* For .NET Core projects use <a href="https://flubucore.dotnetcore.xyz/getting-started#Installation-.net-core">FlubuCore CLI global tool</a></p>
+<p>Once you have your build and deployment scripts defined, the following Wiki chapters will explain how to run them:</p>
+<ul>
+<li>
+<p>For .NET Framework projects use <a href="https://flubucore.dotnetcore.xyz/getting-started#Installation.net">FlubuCore.Runner</a></p>
+</li>
+<li>
+<p>For .NET Core projects use <a href="https://flubucore.dotnetcore.xyz/getting-started#Installation-.net-core">FlubuCore CLI global tool</a></p>
+</li>
+</ul>
 <h2 id="examples"><strong>Examples</strong><a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
 <p>Aside from the detailed Wiki FlubuCore comes with example projects that reflect real-life situations. The examples can be found in the separate <a href="https://github.com/flubu-core/examples/">Examples repository</a>.</p>
 <p>These examples will help you to get quickly start with FlubuCore:
@@ -237,5 +253,5 @@
 <li>Improve existing implementation, performance, etc.</li>
 </ul>
 <h2 id="changelog-and-roadmap"><strong>Changelog and Roadmap</strong><a class="headerlink" href="#changelog-and-roadmap" title="Permanent link">&para;</a></h2>
-<p>Changes with description and examples can be found in <a href="https://github.com/flubu-core/flubu.core/blob/master/CHANGELOG.md">Changelog</a> </p>
-<p>You can see FlubuCore roadmap by exploring opened <a href="https://github.com/flubu-core/flubu.core/milestones">milestones.</a></p></article></div></div></main><footer class="md-footer"><div class="md-footer-nav"><nav class="md-footer-nav__inner md-grid"><a href="getting-started/" title="Getting started" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next"><div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span class="md-flex__ellipsis"><span class="md-footer-nav__direction">Next</span>Getting started</span></div><div class="md-flex__cell md-flex__cell--shrink"><i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i></div></a></nav></div><div class="md-footer-meta md-typeset"><div class="md-footer-meta__inner md-grid"><div class="md-footer-copyright">powered by <a href="https://www.mkdocs.org">MkDocs</a> and <a href="https://squidfunk.github.io/mkdocs-material/">Material for MkDocs</a></div></div></div></footer></div><script src="assets/javascripts/application.b260a35d.js"></script><script>app.initialize({version:"1.0.4",url:{base:"."}})</script></body></html>
+<p>Changes with description and examples can be found in <a href="https://github.com/flubu-core/flubu.core/blob/master/CHANGELOG.md">Changelog.</a> </p>
+<p>You can see FlubuCore roadmap by exploring opened <a href="https://github.com/flubu-core/flubu.core/milestones">Milestones.</a></p></article></div></div></main><footer class="md-footer"><div class="md-footer-nav"><nav class="md-footer-nav__inner md-grid"><a href="getting-started/" title="Getting started" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next"><div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span class="md-flex__ellipsis"><span class="md-footer-nav__direction">Next</span>Getting started</span></div><div class="md-flex__cell md-flex__cell--shrink"><i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i></div></a></nav></div><div class="md-footer-meta md-typeset"><div class="md-footer-meta__inner md-grid"><div class="md-footer-copyright">powered by <a href="https://www.mkdocs.org">MkDocs</a> and <a href="https://squidfunk.github.io/mkdocs-material/">Material for MkDocs</a></div></div></div></footer></div><script src="assets/javascripts/application.b260a35d.js"></script><script>app.initialize({version:"1.0.4",url:{base:"."}})</script></body></html>

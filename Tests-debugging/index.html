@@ -12,10 +12,10 @@ Option can be found under Tools-&gt;Options-&gt;Debugging-&gt;General-&gt;Requir
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
-4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">protected</span> <span class="n">override</span> <span class="n">void</span> <span class="n">ConfigureTargets</span><span class="p">(</span><span class="n">ITaskContext</span> <span class="n">context</span><span class="p">)</span>
-<span class="err">{</span>
-    <span class="n">context</span><span class="p">.</span><span class="n">WaitForDebugger</span><span class="p">();</span>
-<span class="err">}</span>
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>protected override void ConfigureTargets(ITaskContext context)
+{
+    context.WaitForDebugger();
+}
 </pre></div>
 </td></tr></table>
 

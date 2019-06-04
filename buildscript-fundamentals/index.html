@@ -69,7 +69,7 @@
 </td></tr></table>
 
 <p>You can also pass values to parameter through console arguments, FlubuCore config file.</p>
-<p><code class="codehilite"><span class="n">Flubu</span> <span class="n">targetName2</span> <span class="o">-</span><span class="n">destination</span><span class="o">=</span><span class="n">SomeOtherDestination</span></code></p>
+<p><code>Flubu targetName2 -destination=SomeOtherDestination</code></p>
 <p><a name="Tasks"></a></p>
 <h3 id="tasks"><strong>Tasks</strong><a class="headerlink" href="#tasks" title="Permanent link">&para;</a></h3>
 <p>Tasks are divided in tasks and core tasks. tasks can be executed in .net and .net core projects. Core tasks can only be executed in .net core projects.</p>
@@ -85,25 +85,25 @@
 <p>All Tasks also have following methods</p>
 <ul>
 <li>
-<p><code class="codehilite">.<span class="nv">OnError</span><span class="ss">((</span><span class="nv">c</span>, <span class="nv">ex</span><span class="ss">)</span> <span class="o">=&gt;</span> { <span class="nv">c</span>.<span class="k">LogInfo</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">Example</span><span class="s2">&quot;</span><span class="ss">)</span><span class="c1">;}))</span></code> - onError can perform some custom action when error occurs on single task</p>
+<p><code>.OnError((c, ex) =&gt; { c.LogInfo("Example");}))</code> - onError can perform some custom action when error occurs on single task</p>
 </li>
 <li>
-<p><code class="codehilite"><span class="na">.Retry</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span></code> - Retry mechanism. You can apply specific condition when retry mechanism will retry task.</p>
+<p><code>.Retry(5, 1000)</code> - Retry mechanism. You can apply specific condition when retry mechanism will retry task.</p>
 </li>
 <li>
-<p><code class="codehilite">.<span class="nv">Finally</span><span class="ss">(</span><span class="nv">c</span> <span class="o">=&gt;</span> { <span class="nv">c</span>.<span class="k">LogInfo</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">Example</span><span class="s2">&quot;</span><span class="ss">)</span><span class="c1">;}))</span></code> - Finally block acts just like finally in try catch</p>
+<p><code>.Finally(c =&gt; { c.LogInfo("Example");}))</code> - Finally block acts just like finally in try catch</p>
 </li>
 <li>
-<p><code class="codehilite"><span class="na">.DoNotFailOnError</span><span class="p">()</span></code> - script does not fail in case of exception. You can apply specific condition when task will not fail. </p>
+<p><code>.DoNotFailOnError()</code> - script does not fail in case of exception. You can apply specific condition when task will not fail. </p>
 </li>
 <li>
-<p><code class="codehilite"><span class="na">.NoLog</span><span class="p">()</span></code> - Task doesn't log anything to console output.</p>
+<p><code>.NoLog()</code> - Task doesn't log anything to console output.</p>
 </li>
 <li>
-<p><code class="codehilite"><span class="na">.SetDescription</span><span class="p">()</span></code> - Overrides the default help description of the task.</p>
+<p><code>.SetDescription()</code> - Overrides the default help description of the task.</p>
 </li>
 <li>
-<p><code class="codehilite"><span class="na">.ForMember</span><span class="p">()</span></code> - pass through console argument to method or property. See <a href="#Arguments-pass-through-to-tasks">Pass console arguments, settings from json configuration file, environment variables with ForMember to tasks.</a> for more details.</p>
+<p><code>.ForMember()</code> - pass through console argument to method or property. See <a href="#Arguments-pass-through-to-tasks">Pass console arguments, settings from json configuration file, environment variables with ForMember to tasks.</a> for more details.</p>
 </li>
 <li>
 <p>conditonal task execution with when cluase on single task (see bellow for group of tasks)</p>
@@ -143,7 +143,7 @@
 </td></tr></table>
 
 <ul>
-<li><code class="codehilite"><span class="na">.Interactive</span><span class="p">()</span></code> - Interactively pass argument from console to specified task method / parameter.</li>
+<li><code>.Interactive()</code> - Interactively pass argument from console to specified task method / parameter.</li>
 </ul>
 <p><a name="Custom-code"></a></p>
 <h3 id="custom-code-tasks"><strong>Custom code / tasks</strong><a class="headerlink" href="#custom-code-tasks" title="Permanent link">&para;</a></h3>
@@ -393,7 +393,7 @@ Dependencies can be executed asynchrounosly with DependsOnAsync method.
 <li>SetAsHidden method: When applied to target that target is not shown in help and it can only be run as other target dependecie.</li>
 <li>GetEnviromentVariable method: Get's the enviroment variable.</li>
 <li>Must method: Condition in must will have to be meet otherwise target execution will fail before any task get executed.</li>
-<li>Log:<code class="codehilite">.<span class="k">LogInfo</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">Some Text2</span><span class="s2">&quot;</span>, <span class="nv">ConsoleColor</span>.<span class="nv">Blue</span><span class="ss">)</span><span class="c1">;</span></code></li>
+<li>Log:<code>.LogInfo("Some Text2", ConsoleColor.Blue);</code></li>
 </ul>
 <p><a name="Run-any-program"></a></p>
 <h4 id="run-any-program-or-command-in-build-script-with-runprogramtask">Run any program or command in build script with RunProgramTask<a class="headerlink" href="#run-any-program-or-command-in-build-script-with-runprogramtask" title="Permanent link">&para;</a></h4>
@@ -490,7 +490,7 @@ Dependencies can be executed asynchrounosly with DependsOnAsync method.
 <p><a name="Predefined-build-properties"></a></p>
 <h4 id="predefined-build-properties">Predefined build properties<a class="headerlink" href="#predefined-build-properties" title="Permanent link">&para;</a></h4>
 <p>Some build properties are already defined. You can access them through interface:</p>
-<p><code class="codehilite"><span class="n">context</span><span class="p">.</span><span class="n">Properties</span><span class="p">.</span><span class="k">Get</span><span class="p">(</span><span class="n">PredefinedBuildProperties</span><span class="p">.</span><span class="n">OsPlatform</span><span class="p">);</span></code></p>
+<p><code>context.Properties.Get(PredefinedBuildProperties.OsPlatform);</code></p>
 <p>Available predefined build properties:</p>
 <ul>
 <li>OsPlatform</li>
@@ -549,7 +549,7 @@ Dependencies can be executed asynchrounosly with DependsOnAsync method.
 <p>Property types that are supported: string, boolean, int, long, decimal, double, DateTime.</p>
 <p><a name="Command-line-argument"></a></p>
 <h3 id="passing-command-line-argument-to-build-script-property"><strong>Passing command line argument to build script property.</strong><a class="headerlink" href="#passing-command-line-argument-to-build-script-property" title="Permanent link">&para;</a></h3>
-<p><code class="codehilite"><span class="n">Dotnet</span> <span class="n">flubu</span> <span class="n">Deploy</span><span class="p">.</span><span class="n">Example</span> <span class="o">-</span><span class="n">sn</span><span class="o">=</span><span class="k">true</span></code></p>
+<p><code>Dotnet flubu Deploy.Example -sn=true</code></p>
 <p><a name="json-configuration-file"></a></p>
 <h3 id="passing-setting-from-json-configuration-file-to-build-script-property"><strong>Passing setting from json configuration file to build script property</strong><a class="headerlink" href="#passing-setting-from-json-configuration-file-to-build-script-property" title="Permanent link">&para;</a></h3>
 <ul>
@@ -557,7 +557,10 @@ Dependencies can be executed asynchrounosly with DependsOnAsync method.
 <li>Add argument key and value to file in json format.</li>
 <li>For above example json file would look like this:</li>
 </ul>
-<p><code class="codehilite"><span class="err">{</span><span class="ss">&quot;sn&quot;</span> <span class="p">:</span> <span class="ss">&quot;true&quot;</span><span class="p">,</span><span class="ss">&quot;SomeOtherKey&quot;</span> <span class="p">:</span> <span class="ss">&quot;SomeOtherValue&quot;</span><span class="err">}</span></code> </p>
+<p><code>{
+      "sn" : "true",
+      "SomeOtherKey" : "SomeOtherValue"
+    }</code> </p>
 <ul>
 <li>It's typical to have different configuration settings for different environments, for example, development, testing, and production. Just create different files FlubuSettings.{Enviroment}.Json and <a href="https://andrewlock.net/how-to-set-the-hosting-environment-in-asp-net-core/">set enviroment variable</a> 'ASPNETCORE_ENVIRONMENT' on desired machine </li>
 <li>You can also create json configuration file by machine name FlubuSettings.{MachineName}.Json. If MachineName in file matches the machine name Flubu will automatically read settings from that file.</li>
@@ -566,7 +569,7 @@ Dependencies can be executed asynchrounosly with DependsOnAsync method.
 <h3 id="passing-enviroment-variable-to-build-script-property"><strong>Passing enviroment variable to build script property</strong><a class="headerlink" href="#passing-enviroment-variable-to-build-script-property" title="Permanent link">&para;</a></h3>
 <p>You can also set script arguments through environment variables. environment variables must have prefix flubu_</p>
 <p>For above example you would add environment variable from windows command line with the following command:</p>
-<p><code class="codehilite"><span class="k">set</span> <span class="n">flubu_sn</span><span class="o">=</span><span class="k">true</span></code></p>
+<p><code>set flubu_sn=true</code></p>
 <p><a name="Arguments-pass-through-to-tasks"></a></p>
 <h2 id="pass-console-arguments-settings-from-json-configuration-file-environment-variables-with-formember-to-tasks"><strong>Pass console arguments, settings from json configuration file, environment variables with ForMember to tasks.</strong><a class="headerlink" href="#pass-console-arguments-settings-from-json-configuration-file-environment-variables-with-formember-to-tasks" title="Permanent link">&para;</a></h2>
 <p>There is an alternative more sophisticated way to pass console arguments, settings and environment variables to tasks</p>
@@ -589,7 +592,7 @@ Dependencies can be executed asynchrounosly with DependsOnAsync method.
 <li>Second parameter is the argument key.</li>
 <li>Third optional parameter is help that it will be displayed in detailed target help. If parameter is not set then default generated help will be displayed.</li>
 </ul>
-<p><code class="codehilite"><span class="n">Dotnet</span> <span class="n">flubu</span> <span class="n">compile</span> <span class="o">-</span><span class="n">solution</span><span class="o">=</span><span class="n">someothersolution</span><span class="p">.</span><span class="n">sln</span></code></p>
+<p><code>Dotnet flubu compile -solution=someothersolution.sln</code></p>
 <p><a name="Referencing-other-assemblies-in-build-script"></a></p>
 <h2 id="referencing-external-assemblies-in-build-script"><strong>Referencing external assemblies in build script</strong><a class="headerlink" href="#referencing-external-assemblies-in-build-script" title="Permanent link">&para;</a></h2>
 <p>FlubuCore loads all assemblies references and nuget packages automatically from build script csproj. Csproj must be at on of the location specified <a href="https://github.com/flubu-core/flubu.core/blob/master/FlubuCore/Scripting/Analysis/ProjectFileAnalyzer.cs">here</a> If not assembly and nuget references will not be loaded automatically when executing script.</p>
@@ -681,7 +684,7 @@ FlubuCore can also load all assemblies from specified directory and optionaly fr
 </td></tr></table>
 
 <p>One way to get fully qualifed assembly name:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">var</span> <span class="n">fullQualifedAssemblyName</span> <span class="o">=</span> <span class="n">typeof</span><span class="p">(</span><span class="n">XmlDocument</span><span class="p">).</span><span class="n">Assembly</span><span class="p">.</span><span class="n">FullName</span><span class="p">;</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>var fullQualifedAssemblyName = typeof(XmlDocument).Assembly.FullName;
 </pre></div>
 </td></tr></table>
 
@@ -689,16 +692,16 @@ FlubuCore can also load all assemblies from specified directory and optionaly fr
 <h3 id="load-all-assemblies-from-directory"><strong>Load all assemblies from directory</strong><a class="headerlink" href="#load-all-assemblies-from-directory" title="Permanent link">&para;</a></h3>
 <p>Even if you are not using your script together with csproj flubu can load all external assemblies for you automatically from directory (assemblies in subdirectories are also loaded ). </p>
 <p>By default flubu loads all assemblies from directory FlubuLib. Just create the directory at the flubu runner location and put assemblies in that directory. You can specify directory in flubu runner from where to load assemblyes also:</p>
-<p><code class="codehilite"><span class="n">flubu</span><span class="p">.</span><span class="n">exe</span> <span class="o">-</span><span class="n">ass</span><span class="o">=</span><span class="n">somedirectory</span></code></p>
-<p><code class="codehilite"><span class="n">dotnet</span> <span class="n">flubu</span> <span class="o">-</span><span class="n">ass</span><span class="o">=</span><span class="n">somedirectory</span></code>
+<p><code>flubu.exe -ass=somedirectory</code></p>
+<p><code>dotnet flubu -ass=somedirectory</code>
 alternatively you can put ass key into flubusettings.json file:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
-4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="o">`</span><span class="err">{</span>
-  <span class="ss">&quot;ass&quot;</span> <span class="p">:</span> <span class="ss">&quot;someDirectory&quot;</span><span class="p">,</span>
-  <span class="ss">&quot;SomeOtherKey&quot;</span> <span class="p">:</span> <span class="ss">&quot;SomeOtherValue&quot;</span>
-<span class="err">}</span><span class="o">`</span>
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>`{
+  &quot;ass&quot; : &quot;someDirectory&quot;,
+  &quot;SomeOtherKey&quot; : &quot;SomeOtherValue&quot;
+}`
 </pre></div>
 </td></tr></table>
 

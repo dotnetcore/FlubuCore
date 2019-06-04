@@ -58,7 +58,7 @@
 <p><a name="Run-deploy-script"></a></p>
 <h3 id="run-deploy-script"><strong>Run deploy script</strong><a class="headerlink" href="#run-deploy-script" title="Permanent link">&para;</a></h3>
 <p>If u cloned example repository just execute at the root foolder:</p>
-<p><code class="codehilite"><span class="n">dotnet</span> <span class="n">restore</span> <span class="n">buildscript</span><span class="p">.</span><span class="n">csproj</span></code> and <code class="codehilite"><span class="n">dotnet</span> <span class="n">flubu</span> <span class="n">deploy</span> <span class="o">-</span><span class="n">s</span><span class="o">=</span><span class="n">buildscript</span><span class="err">\</span><span class="n">buildscript</span><span class="p">.</span><span class="n">cs</span></code> in cmd from DeployScriptExample folder</p>
+<p><code>dotnet restore buildscript.csproj</code> and <code>dotnet flubu deploy -s=buildscript\buildscript.cs</code> in cmd from DeployScriptExample folder</p>
 <p>In real case scenario you would probably deploy from your build server after sucesfull build, after merge to release branch, manually execute the job on build server...  </p>
 <p><a name="Security"></a></p>
 <h3 id="security"><strong>Security</strong><a class="headerlink" href="#security" title="Permanent link">&para;</a></h3>
