@@ -23,6 +23,7 @@ Empty build script example
 ```
 
 <a name="Targets"></a>
+
 ## **Targets**
 -------
 
@@ -58,6 +59,7 @@ You can also pass values to parameter through console arguments, FlubuCore confi
 `Flubu targetName2 -destination=SomeOtherDestination`
 
 <a name="Tasks"></a>
+
 ### **Tasks**
 
 Tasks are divided in tasks and core tasks. tasks can be executed in .net and .net core projects. Core tasks can only be executed in .net core projects.
@@ -110,7 +112,9 @@ All Tasks also have following methods
 ```
 
 - ```.Interactive()``` - Interactively pass argument from console to specified task method / parameter.
+
 <a name="Custom-code"></a>
+
 ### **Custom code / tasks**
 
 Following example executes some custom code. You can also use built in flubu tasks in custom code as shown in example.
@@ -147,6 +151,7 @@ You can also pass arguments to custom code like so:
 ```
 
 <a name="Target-dependencies"></a>
+
 ### **Target dependencies**
 
 Target can have dependencies on other targets. All dependenies will be executed before target in the specified order.
@@ -160,9 +165,7 @@ When targetC is executed target’s will be executed in the following order: Tar
           .DependsOn(targetB, targetA);
 ```
 
-<a name="Async-execution"></a>
-
-<a name="Run-any-program"></a>
+<a name="Reuse-set-of-tasks"></a>
 
 ### **Reuse set of tasks in different targets**
 
@@ -190,6 +193,7 @@ Following example shows how to reuse set of tasks in different targets:
 
 ```
 <a name="Group-task"></a>
+
 ### **Group tasks and apply When, OnError, Finally on them**
 
 -  Conditonal task execution with When clause on group of tasks.
@@ -243,6 +247,8 @@ Following example shows how to reuse set of tasks in different targets:
                 });
 ```
 
+<a name="Async-execution"></a>
+
 ### **Async execution of tasks, customCode and dependencies**
 
 <ul>
@@ -282,6 +288,7 @@ Async and sync methods can also be mixed
 The code above will first execute 2 nunit tasks asynchronously and wait for both tasks to finish. Then it will execute SomeCustomMethod synchrounosly. After it is finished code from SomeCustomAsyncMethod2 and SomeCustomAsyncMethod3 will be executed asynchronously.
 
 <a name="Other-features"></a>
+
 ### **Other features**
 
 -   SetAsDefault method: When applied to target that target is runned by default if no target is specified when running the script with runner.
@@ -289,6 +296,8 @@ The code above will first execute 2 nunit tasks asynchronously and wait for both
 - GetEnviromentVariable method: Get's the enviroment variable.
 - Must method: Condition in must will have to be meet otherwise target execution will fail before any task get executed.
 - Log:`.LogInfo("Some Text2", ConsoleColor.Blue);`
+
+<a name="Run-any-program"></a>
 
 #### Run any program or command in build script with RunProgramTask
 
@@ -315,9 +324,8 @@ Linux Example:
     }
 ```
 
-<a name="Reuse-set-of-tasks"></a>
-
 <a name="Build-properties"></a>
+
 ### **Build properties**
 
 You can define various build properties in ConfigureBuildProperties method to share them in different tasks and custom code.
@@ -357,6 +365,7 @@ like so:
 ```
 
 <a name="Predefined-build-properties"></a>
+
 #### Predefined build properties
 
  Some build properties are already defined. You can access them through interface:
@@ -374,6 +383,7 @@ Available predefined build properties:
 All of them can be overriden.
 
 <a name="Script-arguments"></a>
+
 ## **Pass command line arguments, settings from json configuration file or environment variables to your build script properties.**
 
  You can pass command line arguments, settings from json configuration file or environment variables to your build script properties by adding FromArg attribute to property. 
@@ -406,11 +416,13 @@ First parameter in FromArg attribute is the argument key. Second is the help des
 Property types that are supported: string, boolean, int, long, decimal, double, DateTime.
 
 <a name="Command-line-argument"></a>
+
 ### **Passing command line argument to build script property.**
 
  `Dotnet flubu Deploy.Example -sn=true`
 
 <a name="json-configuration-file"></a>
+
 ### **Passing setting from json configuration file to build script property**
 
  * Create file FlubuSettings.json where Flubu runner is located.
@@ -426,6 +438,7 @@ Property types that are supported: string, boolean, int, long, decimal, double, 
 * You can also create json configuration file by machine name FlubuSettings.{MachineName}.Json. If MachineName in file matches the machine name Flubu will automatically read settings from that file.
 
 <a name="enviroment-variable"></a>
+
 ### **Passing enviroment variable to build script property**
 
 You can also set script arguments through environment variables. environment variables must have prefix flubu_
@@ -435,6 +448,7 @@ For above example you would add environment variable from windows command line w
 `set flubu_sn=true`
 
 <a name="Arguments-pass-through-to-tasks"></a>
+
 ## **Pass console arguments, settings from json configuration file, environment variables with ForMember to tasks.**
 
 There is an alternative more sophisticated way to pass console arguments, settings and environment variables to tasks
@@ -455,6 +469,7 @@ There is an alternative more sophisticated way to pass console arguments, settin
  `Dotnet flubu compile -solution=someothersolution.sln`
 
 <a name="Referencing-other-assemblies-in-build-script"></a>
+
 ## **Referencing external assemblies in build script**
 
 FlubuCore loads all assemblies references and nuget packages automatically from build script csproj. Csproj must be at on of the location specified [here](https://github.com/flubu-core/flubu.core/blob/master/FlubuCore/Scripting/Analysis/ProjectFileAnalyzer.cs) If not assembly and nuget references will not be loaded automatically when executing script.
@@ -471,6 +486,7 @@ public class BuildScript : DefaultBuildScript
 Alternatively when you are running scripts without csproj(for example deploy scripts) external references can be added  with directives in three ways:
 
 <a name="By-assembly-relative-or-full-path"></a>
+
 ### **By assembly relative or full path**
 
 On the build script class you have to add attribute:
@@ -495,6 +511,7 @@ public class BuildScript : DefaultBuildScript
 ```
 
 <a name="Referencing-nuget-packages"></a>
+
 ### **Referencing nuget packages**
 
 Flubu supports referencing nuget packages. .net core sdk or msbuild must be installed if u want to reference nuget packages otherwise they will not get restored.
@@ -513,6 +530,7 @@ You have to add NugetPackage attribute on the script class:
 ```
 
 <a name="Load-assembly-by-assembly-full-name"></a>
+
 ### **Load assembly by assembly full name**
 
 System assemblies can be loaded by fully qualifed assemlby name.
@@ -535,6 +553,7 @@ One way to get fully qualifed assembly name:
     var fullQualifedAssemblyName = typeof(XmlDocument).Assembly.FullName;
 
 <a name="Load-all-assemblies-from-directory"></a>
+
 ### **Load all assemblies from directory**
 Even if you are not using your script together with csproj flubu can load all external assemblies for you automatically from directory (assemblies in subdirectories are also loaded ). 
 
@@ -551,6 +570,7 @@ alternatively you can put ass key into flubusettings.json file:
     }` 
 
 <a name="Adding-other-cs-files-to-build-script"></a>
+
 ## **Adding other .cs files to script**
 
 On the build script class you have to add attribute:
@@ -576,6 +596,7 @@ public class BuildScript : DefaultBuildScript
 ```
 
 <a name="Build-system-providers"></a>
+
 ## **Build system providers** 
 
 You can acces various build, commit... information for various build systems (such as Jenkins, TeamCity, AppVeyor, Travis...) 
@@ -589,6 +610,7 @@ You can acces various build, commit... information for various build systems (su
 ```
 
 <a name="Before-After"></a>
+
 ## **Build events**
 
 - OnBuildFailed event:
@@ -623,6 +645,7 @@ public class BuildScript : DefaultBuildScript
     }
 ```
 <a name="partial-class"></a>
+
 ## **Partial and base class in script**
 
 Partial and base classes are loaded automatically if they are located in the same directory as buildscript. Otherwise they have to be added with Include attribute. 
