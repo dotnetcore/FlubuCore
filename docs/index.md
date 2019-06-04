@@ -22,7 +22,7 @@ FlubuCore offers a .net (core) console application that uses power of roslyn to 
 
 * Intuitive an easy to learn. C#, fluent interface, and IntelliSense make even most complex script creation a breeze.
 
-```cs
+```c#
 context.CreateTarget("Example")
   .DependsOn(fetchBuildVersionTarget)
   .AddTask(x => x.CompileSolutionTask())
@@ -30,9 +30,9 @@ context.CreateTarget("Example")
       .When(c => c.BuildSystems().Jenkins().IsRunningOnJenkins);
 ```
           
-* [Large number of often used built-in tasks](https://github.com/flubu-core/flubu.core/wiki/4-Tasks) like e.g. running tests, managing IIS, creating deployment packages, publishing NuGet packages, docker tasks, executing PowerShell scripts and many more.
+* [Large number of often used built-in tasks](https://flubucore.dotnetcore.xyz/tasks/) like e.g. running tests, managing IIS, creating deployment packages, publishing NuGet packages, docker tasks, executing PowerShell scripts and many more.
 
-```cs
+```c#
 target
     .AddTask(x => x.CompileSolutionTask())
     .AddTask(x => x.CopyFileTask(source, destination, true))
@@ -41,18 +41,18 @@ target
                     .Mode(CreateApplicationPoolMode.DoNothingIfExists));
 ```
 
-* [Execute your own custom C# code.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Custom-code)
+* [Execute your own custom C# code.](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Custom-code)
 
-```cs
+```c#
 context.CreateTarget("MyCustomBuildTarget")
      .AddTask(x => x.CompileSolutionTask())
      .Do(MyCustomMethod)
      .Do(NuGetPackageReferencingExample);
 ```
 
-* [assembly references and nuget packages are loaded automatically](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script) when script is used together with project file. When script is executed alone (for example when deploying with FlubuCore script on production environment) references can be added with attributes.
+* [assembly references and nuget packages are loaded automatically](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Referencing-other-assemblies-in-build-script) when script is used together with project file. When script is executed alone (for example when deploying with FlubuCore script on production environment) references can be added with attributes.
 
-```cs
+```c#
 [NugetPackage("Newtonsoft.json", "11.0.2")]
 [Assembly(".\Lib\EntityFramework.dll")]
 public class BuildScript : DefaultBuildScript
@@ -64,19 +64,25 @@ public class BuildScript : DefaultBuildScript
 }
 ```
 
-* [Easily run any external program or console command in your script.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Run-any-program)
+* [Easily run any external program or console command in your script.](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Run-any-program)
 
-```cs
-context.CreateTarget("Run.Libz")
-    .AddTask(x => x.RunProgramTask(@"packages\LibZ.Tool\1.2.0\tools\libz.exe")
-        .WorkingFolder(@".\src")
-        .WithArguments("add")
-        .WithArguments("--libz", "Assemblies.libz"));
+```c#
+ public class SimpleScript : DefaultBuildScript
+ {
+	protected override void ConfigureTargets(ITaskContext context)
+    {
+		context.CreateTarget("Run.Libz")
+		.AddTask(x => x.RunProgramTask(@"packages\LibZ.Tool\1.2.0\tools\libz.exe")
+			.WorkingFolder(@".\src")
+			.WithArguments("add")
+			.WithArguments("--libz", "Assemblies.libz"));
+	}
+ }
 ```
 
-* [Pass command line arguments, settings from json configuration file or environment variables to your script.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Script-arguments)
+* [Pass command line arguments, settings from json configuration file or environment variables to your script.](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Script-arguments)
 
-```cs
+```c#
  public class SimpleScript : DefaultBuildScript
  {
     [FromArg("sn", "If true app is deployed on second node. Otherwise not.")]
@@ -89,16 +95,16 @@ context.CreateTarget("Run.Libz")
             .AddTask(x => x.CompileSolutionTask()
                 .ForMember(y => y.SolutionFileName("someSolution.sln"), "solution", "The solution to build.")); 
      }
-  }
- ```
+ }
+```
  
- ```
+```
   flubu.exe compile -solution=someOtherSolution.sln -sn=true
- ```
- 
-* [Extending FlubuCore fluent interface by writing your own tasks within FlubuCore plugins.](https://github.com/flubu-core/flubu.core/wiki/5-How-to-write-and-use-FlubuCore-task-plugins)
+```
 
-```cs
+* [Extending FlubuCore fluent interface by writing your own tasks within FlubuCore plugins.](https://flubucore.dotnetcore.xyz/write-plugins)
+
+```c#
     public class ExampleFlubuPluginTask : TaskBase<int, ExampleFlubuPluginTask>
     {
         protected override int DoExecute(ITaskContextInternal context)
@@ -108,32 +114,32 @@ context.CreateTarget("Run.Libz")
         }
     }
 ```
-	
-* [Growing list of FlubuCore plugins complements built in tasks.](https://github.com/flubu-core/flubu.core/wiki/90-Awesome-FlubuCore-plugins)
 
-* [Asynchronous execution of tasks, target dependencies and custom code.](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Async-execution)
+* [Growing list of FlubuCore plugins complements built in tasks.](https://flubucore.dotnetcore.xyz/AwesomePlugins/awesome-plugins/)
 
-```cs
+* [Asynchronous execution of tasks, target dependencies and custom code.](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Async-execution)
+
+```c#
     context.CreateTarget("Run.Tests")
         .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName1"))
         .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName1"))
         .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName3"));
 ```
 
-* [Full .NET Core support including the global CLI tool](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started#getting-started-net-core)
+* [Full .NET Core support including the global CLI tool](https://flubucore.dotnetcore.xyz/getting-started#getting-started-net-core)
 
 ```
     dotnet tool install --global FlubuCore.GlobalTool
     flubu compile
 ```
 
-* [Possibility to test and debug your build scripts.](https://github.com/flubu-core/flubu.core/wiki/6-Writing-build-script-tests,-debuging-and-running-flubu-tasks-in-other--.net-applications)
+* [Possibility to test and debug your build scripts.](https://flubucore.dotnetcore.xyz/Tests-debugging)
 
-```cs
+```c#
     context.WaitForDebugger();
 ```
 
-* [Easily automate deployments remotely via the FlubuCore Web API.](https://github.com/flubu-core/flubu.core/wiki/7-Web-Api:-Getting-started)
+* [Easily automate deployments remotely via the FlubuCore Web API.](https://flubucore.dotnetcore.xyz/WebApi/getting-started/)
 
 * [Possibility to use FlubuCore tasks in any other .NET application.](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs)
 
@@ -144,26 +150,25 @@ context.CreateTarget("Run.Libz")
 ## **Getting Started**
 Using FlubuCore is straightforward and very simple :-) It is also fully and throughly documented.
 
-The [Getting Started](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started) chapter on [FlubuCore Wiki](https://github.com/flubu-core/flubu.core/wiki/) will help you set up your first FlubuCore build in no time.
+The [Getting Started](https://flubucore.dotnetcore.xyz/getting-started/) chapter in [Documentation](https://flubucore.dotnetcore.xyz) will help you set up your first FlubuCore build in no time.
 
-A comprehensive list of features that FlubuCore has to offer with descriptions can be found in the [Build Script Fundamentals](https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals) chapter.
+A comprehensive list of features that FlubuCore has to offer with descriptions can be found in the [Build Script Fundamentals](https://flubucore.dotnetcore.xyz/buildscript-fundamentals) chapter.
 
 Once you have your build and deployment scripts defined, the following Wiki chapters will explain how to run them:
-* For .NET Framework projects use [FlubuCore.Runner](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started#Installation.net)
-* For .NET Core projects use [FlubuCore CLI global tool](https://github.com/flubu-core/flubu.core/wiki/1-Getting-started#Installation-.net-core)
+
+* For .NET Framework projects use [FlubuCore.Runner](https://flubucore.dotnetcore.xyz/getting-started#Installation.net)
+
+* For .NET Core projects use [FlubuCore CLI global tool](https://flubucore.dotnetcore.xyz/getting-started#Installation-.net-core)
 
 ## **Examples**
 Aside from the detailed Wiki FlubuCore comes with example projects that reflect real-life situations. The examples can be found in the separate [Examples repository](https://github.com/flubu-core/examples/).
 
 These examples will help you to get quickly start with FlubuCore:
-* [.NET Framework build example](https://github.com/flubu-core/examples/blob/master/MVC_NET4.61/BuildScripts/BuildScript.cs
-)
+* [.NET Framework build example](https://github.com/flubu-core/examples/blob/master/MVC_NET4.61/BuildScripts/BuildScript.cs)
 
-* [.NET Core build example](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScript.cs
-)
+* [.NET Core build example](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScript.cs)
 
-* [Deployment script example](https://github.com/flubu-core/examples/blob/master/DeployScriptExample/BuildScript/DeployScript.cs
-)
+* [Deployment script example](https://github.com/flubu-core/examples/blob/master/DeployScriptExample/BuildScript/DeployScript.cs)
 
 ## **Have a question?**
 
@@ -171,7 +176,7 @@ These examples will help you to get quickly start with FlubuCore:
 
 ## **Contributing**
 
-Please see [CONTRIBUTING.md](https://github.com/dotnetcore/FlubuCore/blob/master/CONTRIBUTING.md).
+Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## **Ways to Contribute**
 
@@ -185,6 +190,6 @@ Please see [CONTRIBUTING.md](https://github.com/dotnetcore/FlubuCore/blob/master
 
 ## **Changelog and Roadmap**
 
-Changes with description and examples can be found in [Changelog](https://github.com/flubu-core/flubu.core/blob/master/CHANGELOG.md) 
+Changes with description and examples can be found in [Changelog.](https://github.com/flubu-core/flubu.core/blob/master/CHANGELOG.md) 
  
-You can see FlubuCore roadmap by exploring opened [milestones.](https://github.com/flubu-core/flubu.core/milestones)
+You can see FlubuCore roadmap by exploring opened [Milestones.](https://github.com/flubu-core/flubu.core/milestones)

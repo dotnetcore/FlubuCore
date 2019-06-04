@@ -1,6 +1,5 @@
 site_name: FlubuCore
-
-
+site_url: http://flubucore.dotnetcore.xyz
 repo_name: 'GitHub'
 repo_url: 'https://github.com/dotnetcore/FlubuCore'
 
@@ -8,9 +7,9 @@ theme:
      name: 'material'
      palette:
        primary: 'indigo'
-       accent: 'indigo'
+       accent: 'indigo' 
      feature:
-       tabs: true 
+       tabs: true      
       
 nav:
     - 'FlubuCore': 'index.md'
@@ -31,7 +30,7 @@ nav:
 markdown_extensions:
   - markdown.extensions.admonition
   - markdown.extensions.codehilite:
-      guess_lang: true
+      guess_lang: false
       linenums: true
   - markdown.extensions.def_list
   - markdown.extensions.footnotes
