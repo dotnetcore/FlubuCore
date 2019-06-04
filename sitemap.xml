@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-     <loc>None</loc>
+     <loc>http://flubucore.dotnetcore.xyz/</loc>
      <lastmod>2019-06-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>None</loc>
+     <loc>http://flubucore.dotnetcore.xyz/getting-started/</loc>
      <lastmod>2019-06-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>None</loc>
+     <loc>http://flubucore.dotnetcore.xyz/buildscript-fundamentals/</loc>
      <lastmod>2019-06-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>None</loc>
+     <loc>http://flubucore.dotnetcore.xyz/build-script-runner/</loc>
      <lastmod>2019-06-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>None</loc>
+     <loc>http://flubucore.dotnetcore.xyz/tasks/</loc>
      <lastmod>2019-06-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>None</loc>
+     <loc>http://flubucore.dotnetcore.xyz/write-plugins/</loc>
      <lastmod>2019-06-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>None</loc>
+     <loc>http://flubucore.dotnetcore.xyz/Tests-debugging/</loc>
      <lastmod>2019-06-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>None</loc>
+     <loc>http://flubucore.dotnetcore.xyz/WebApi/getting-started/</loc>
      <lastmod>2019-06-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>None</loc>
+     <loc>http://flubucore.dotnetcore.xyz/AwesomePlugins/awesome-plugins/</loc>
      <lastmod>2019-06-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
