@@ -32,7 +32,7 @@
 </td></tr></table>
 
 <ul>
-<li><a href="https://github.com/flubu-core/flubu.core/wiki/4-Tasks">Large number of often used built-in tasks</a> like e.g. running tests, managing IIS, creating deployment packages, publishing NuGet packages, docker tasks, executing PowerShell scripts and many more.</li>
+<li><a href="https://flubucore.dotnetcore.xyz/tasks/">Large number of often used built-in tasks</a> like e.g. running tests, managing IIS, creating deployment packages, publishing NuGet packages, docker tasks, executing PowerShell scripts and many more.</li>
 </ul>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
@@ -49,7 +49,7 @@
 </td></tr></table>
 
 <ul>
-<li><a href="https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Custom-code">Execute your own custom C# code.</a></li>
+<li><a href="https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Custom-code">Execute your own custom C# code.</a></li>
 </ul>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
@@ -62,7 +62,7 @@
 </td></tr></table>
 
 <ul>
-<li><a href="https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script">assembly references and nuget packages are loaded automatically</a> when script is used together with project file. When script is executed alone (for example when deploying with FlubuCore script on production environment) references can be added with attributes.</li>
+<li><a href="https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Referencing-other-assemblies-in-build-script">assembly references and nuget packages are loaded automatically</a> when script is used together with project file. When script is executed alone (for example when deploying with FlubuCore script on production environment) references can be added with attributes.</li>
 </ul>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
@@ -85,7 +85,7 @@
 </td></tr></table>
 
 <ul>
-<li><a href="https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Run-any-program">Easily run any external program or console command in your script.</a></li>
+<li><a href="https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Run-any-program">Easily run any external program or console command in your script.</a></li>
 </ul>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
@@ -100,9 +100,9 @@
 </td></tr></table>
 
 <ul>
-<li><a href="https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Script-arguments">Pass command line arguments, settings from json configuration file or environment variables to your script.</a></li>
+<li><a href="https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Script-arguments">Pass command line arguments, settings from json configuration file or environment variables to your script.</a></li>
 </ul>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+<p><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -130,8 +130,7 @@
 26
 27
 28
-29
-30</pre></div></td><td class="code"><div class="codehilite"><pre><span></span> <span class="nv">public</span> <span class="nv">class</span> <span class="nv">SimpleScript</span> : <span class="nv">DefaultBuildScript</span>
+29</pre></div></td><td class="code"><div class="codehilite"><pre><span></span> <span class="nv">public</span> <span class="nv">class</span> <span class="nv">SimpleScript</span> : <span class="nv">DefaultBuildScript</span>
  {
     [<span class="nv">FromArg</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">sn</span><span class="s2">&quot;</span>, <span class="s2">&quot;</span><span class="s">If true app is deployed on second node. Otherwise not.</span><span class="s2">&quot;</span><span class="ss">)</span>]
     <span class="nv">public</span> <span class="nv">bool</span> <span class="nv">deployOnSecondNode</span> { <span class="nv">get</span><span class="c1">; set; }</span>
@@ -149,8 +148,7 @@
  ```
   <span class="nv">flubu</span>.<span class="nv">exe</span> <span class="nv">compile</span> <span class="o">-</span><span class="nv">solution</span><span class="o">=</span><span class="nv">someOtherSolution</span>.<span class="nv">sln</span> <span class="o">-</span><span class="nv">sn</span><span class="o">=</span><span class="nv">true</span>
  ```
-
-<span class="o">*</span> [<span class="nv">Extending</span> <span class="nv">FlubuCore</span> <span class="nv">fluent</span> <span class="nv">interface</span> <span class="nv">by</span> <span class="nv">writing</span> <span class="nv">your</span> <span class="nv">own</span> <span class="nv">tasks</span> <span class="nv">within</span> <span class="nv">FlubuCore</span> <span class="nv">plugins</span>.]<span class="ss">(</span><span class="nv">https</span>:<span class="o">//</span><span class="nv">github</span>.<span class="nv">com</span><span class="o">/</span><span class="nv">flubu</span><span class="o">-</span><span class="nv">core</span><span class="o">/</span><span class="nv">flubu</span>.<span class="nv">core</span><span class="o">/</span><span class="nv">wiki</span><span class="o">/</span><span class="mi">5</span><span class="o">-</span><span class="nv">How</span><span class="o">-</span><span class="nv">to</span><span class="o">-</span><span class="nv">write</span><span class="o">-</span><span class="nv">and</span><span class="o">-</span><span class="nv">use</span><span class="o">-</span><span class="nv">FlubuCore</span><span class="o">-</span><span class="nv">task</span><span class="o">-</span><span class="nv">plugins</span><span class="ss">)</span>
+<span class="o">*</span> [<span class="nv">Extending</span> <span class="nv">FlubuCore</span> <span class="nv">fluent</span> <span class="nv">interface</span> <span class="nv">by</span> <span class="nv">writing</span> <span class="nv">your</span> <span class="nv">own</span> <span class="nv">tasks</span> <span class="nv">within</span> <span class="nv">FlubuCore</span> <span class="nv">plugins</span>.]<span class="ss">(</span><span class="nv">https</span>:<span class="o">//</span><span class="nv">flubucore</span>.<span class="nv">dotnetcore</span>.<span class="nv">xyz</span><span class="o">/</span><span class="nv">write</span><span class="o">-</span><span class="nv">plugins</span><span class="ss">)</span>
 
 ```<span class="nv">cs</span>
     <span class="nv">public</span> <span class="nv">class</span> <span class="nv">ExampleFlubuPluginTask</span> : <span class="nv">TaskBase</span><span class="o">&lt;</span><span class="nv">int</span>, <span class="nv">ExampleFlubuPluginTask</span><span class="o">&gt;</span>
@@ -163,14 +161,9 @@
     }
 </pre></div>
 </td></tr></table>
-
+* <a href="https://flubucore.dotnetcore.xyz/AwesomePlugins/awesome-plugins/">Growing list of FlubuCore plugins complements built in tasks.</a></p>
 <ul>
-<li>
-<p><a href="https://github.com/flubu-core/flubu.core/wiki/90-Awesome-FlubuCore-plugins">Growing list of FlubuCore plugins complements built in tasks.</a></p>
-</li>
-<li>
-<p><a href="https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Async-execution">Asynchronous execution of tasks, target dependencies and custom code.</a></p>
-</li>
+<li><a href="https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Async-execution">Asynchronous execution of tasks, target dependencies and custom code.</a></li>
 </ul>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
@@ -183,7 +176,7 @@
 </td></tr></table>
 
 <ul>
-<li><a href="https://github.com/flubu-core/flubu.core/wiki/1-Getting-started#getting-started-net-core">Full .NET Core support including the global CLI tool</a></li>
+<li><a href="https://flubucore.dotnetcore.xyz/getting-started#getting-started-net-core">Full .NET Core support including the global CLI tool</a></li>
 </ul>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>    <span class="n">dotnet</span> <span class="n">tool</span> <span class="n">install</span> <span class="c1">--global FlubuCore.GlobalTool</span>
@@ -192,7 +185,7 @@
 </td></tr></table>
 
 <ul>
-<li><a href="https://github.com/flubu-core/flubu.core/wiki/6-Writing-build-script-tests,-debuging-and-running-flubu-tasks-in-other--.net-applications">Possibility to test and debug your build scripts.</a></li>
+<li><a href="https://flubucore.dotnetcore.xyz/Tests-debugging">Possibility to test and debug your build scripts.</a></li>
 </ul>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>    <span class="n">context</span><span class="p">.</span><span class="n">WaitForDebugger</span><span class="p">();</span>
 </pre></div>
@@ -200,7 +193,7 @@
 
 <ul>
 <li>
-<p><a href="https://github.com/flubu-core/flubu.core/wiki/7-Web-Api:-Getting-started">Easily automate deployments remotely via the FlubuCore Web API.</a></p>
+<p><a href="https://flubucore.dotnetcore.xyz/WebApi/getting-started/">Easily automate deployments remotely via the FlubuCore Web API.</a></p>
 </li>
 <li>
 <p><a href="https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs">Possibility to use FlubuCore tasks in any other .NET application.</a></p>
@@ -212,11 +205,11 @@
 <p><img alt="FlubuCore analyzers in action" src="https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCoreCustomAnalyzerDemo.png" /></p>
 <h2 id="getting-started"><strong>Getting Started</strong><a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
 <p>Using FlubuCore is straightforward and very simple :-) It is also fully and throughly documented.</p>
-<p>The <a href="https://github.com/flubu-core/flubu.core/wiki/1-Getting-started">Getting Started</a> chapter on <a href="https://github.com/flubu-core/flubu.core/wiki/">FlubuCore Wiki</a> will help you set up your first FlubuCore build in no time.</p>
-<p>A comprehensive list of features that FlubuCore has to offer with descriptions can be found in the <a href="https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals">Build Script Fundamentals</a> chapter.</p>
+<p>The <a href="https://flubucore.dotnetcore.xyz/getting-started/">Getting Started</a> chapter in <a href="https://flubucore.dotnetcore.xyz">Documentation</a> will help you set up your first FlubuCore build in no time.</p>
+<p>A comprehensive list of features that FlubuCore has to offer with descriptions can be found in the <a href="https://flubucore.dotnetcore.xyz/buildscript-fundamentals">Build Script Fundamentals</a> chapter.</p>
 <p>Once you have your build and deployment scripts defined, the following Wiki chapters will explain how to run them:
-* For .NET Framework projects use <a href="https://github.com/flubu-core/flubu.core/wiki/1-Getting-started#Installation.net">FlubuCore.Runner</a>
-* For .NET Core projects use <a href="https://github.com/flubu-core/flubu.core/wiki/1-Getting-started#Installation-.net-core">FlubuCore CLI global tool</a></p>
+* For .NET Framework projects use <a href="https://flubucore.dotnetcore.xyz/getting-started#Installation.net">FlubuCore.Runner</a>
+* For .NET Core projects use <a href="https://flubucore.dotnetcore.xyz/getting-started#Installation-.net-core">FlubuCore CLI global tool</a></p>
 <h2 id="examples"><strong>Examples</strong><a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
 <p>Aside from the detailed Wiki FlubuCore comes with example projects that reflect real-life situations. The examples can be found in the separate <a href="https://github.com/flubu-core/examples/">Examples repository</a>.</p>
 <p>These examples will help you to get quickly start with FlubuCore:
@@ -232,7 +225,7 @@
 <h2 id="have-a-question"><strong>Have a question?</strong><a class="headerlink" href="#have-a-question" title="Permanent link">&para;</a></h2>
 <p><a href="https://gitter.im/FlubuCore/Lobby?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img alt="Join the chat at https://gitter.im/FlubuCore/Lobby" src="https://badges.gitter.im/mbdavid/LiteDB.svg" /></a></p>
 <h2 id="contributing"><strong>Contributing</strong><a class="headerlink" href="#contributing" title="Permanent link">&para;</a></h2>
-<p>Please see <a href="https://github.com/dotnetcore/FlubuCore/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a>.</p>
+<p>Please see <a href="./CONTRIBUTING.md">CONTRIBUTING.md</a>.</p>
 <h2 id="ways-to-contribute"><strong>Ways to Contribute</strong><a class="headerlink" href="#ways-to-contribute" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Spread the word about the project.</li>
