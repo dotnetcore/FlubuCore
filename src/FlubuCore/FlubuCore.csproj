@@ -1,19 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard1.6;net462</TargetFrameworks>
     <WarningsAsErrors>true</WarningsAsErrors>
     <AssemblyName>FlubuCore</AssemblyName>
     <PackageId>FlubuCore</PackageId>
     <PackageTags>dotnet;flubu;flubucore;build;builder;script;buildscript;automation;VisualStudio</PackageTags>
-    <PackageLicenseUrl>http://www.opensource.org/licenses/bsd-license.php</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/flubu-core/flubu.core</PackageProjectUrl>
-    <PackageReleaseNotes>https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt</PackageReleaseNotes>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/dotnetcore/FlubuCore</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/dotnetcore/FlubuCore/blob/master/CHANGELOG.md</PackageReleaseNotes>
     <Description>
      A cross platform build and deployment automation system for building projects and executing deployment scripts using C# code.
 
-     Documentation can be found at: https://github.com/flubu-core/flubu.core
+     Documentation can be found at: https://github.com/dotnetcore/FlubuCore
 
-     Detailed examples can be found at: https://github.com/flubu-core/examples
+     Detailed examples can be found at: https://github.com/dotnetcore/FlubuCore.Examples
     </Description>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>

@@ -6,10 +6,10 @@
     <version>$version$</version>
     <authors>Marko Zorec, Zoro Zorec</authors>
     <owners>Marko Zorec, Zoro Zorec</owners>
-    <projectUrl>https://github.com/flubu-core/flubu.core</projectUrl>
+    <projectUrl>https://github.com/dotnetcore/FlubuCore</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <licenseUrl>http://www.opensource.org/licenses/bsd-license.php</licenseUrl>
-	<releaseNotes>https://github.com/flubu-core/flubu.core/blob/master/FlubuCore.ProjectVersion.txt</releaseNotes>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+	<releaseNotes>https://github.com/dotnetcore/FlubuCore/blob/master/CHANGELOG.md</releaseNotes>
     <description>
     This package includes the Flubu runner which is used for executing Flubu scripts. 
       Flubu is a C# library for building projects and executing deployment scripts using C# code.

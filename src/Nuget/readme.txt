@@ -3,13 +3,12 @@
 - Create project version file(txt, md...) for solution e.g. YourSolutionName.ProjectVersion.txt and add version of your project to file e.g. 1.0.0.0 
 - run "Build.exe" for default target or "Build.exe '{targetName}'" for specific build target. 
 - optionaly you can copy Build.exe to root directory of the solution.
-- If u like flubu give it a star at https://github.com/flubu-core/flubu.core 
+- If u like flubu give it a star at https://github.com/dotnetcore/FlubuCore/
   so that the community get's bigger.
-- You can find flubu core documentation at https://github.com/flubu-core/flubu.core
-- You can find detailed examples of how flubu is used at https://github.com/flubu-core/examples
-- You can find list of major changes of new version at: https://github.com/flubu-core/flubu.core/wiki/9-What's-New
-- You can find all release notes at: https://github.com/flubu-core/flubu.core/blob/master/CHANGELOG.md
-- Have a question? Create a new issue at: https://github.com/flubu-core/flubu.core/issues
+- You can find flubu core documentation at https://github.com/dotnetcore/FlubuCore/
+- You can find detailed examples of how flubu is used at https://github.com/dotnetcore/FlubuCore.Examples
+- You can find all release notes at: https://github.com/dotnetcore/FlubuCore/blob/master/CHANGELOG.md
+- Have a question? Create a new issue at: https://github.com/dotnetcore/FlubuCore/issues
 - If u find a bug please report it :)
 - If u have any improvement or feature proposal's we would be glad to hear from you. Add new issue as proposal on github and we will discuss it with you.
 - If u want to fix a bug yourself, improve or add new feature to flubu.. Fork, Pull request but first add new issue on github so we discuss it.
