@@ -3,7 +3,6 @@ You can write your own tasks for flubu and extend flubu fluent interface with th
 When fluent interface will be extended with your custom task you could simply add it to the target or execute it with Do task with the following example code:
 
 ```c# 
-//#nuget FlubuCore.ExamplePlugin, 1.0.1
 public class BuildScript : DefaultBuildScript
 {
     protected override void ConfigureTargets(ITaskContext context)
@@ -29,26 +28,26 @@ public class BuildScript : DefaultBuildScript
 * Add task and implement it. Following code shows implementation of example flubu plugin task.
 
 ```c#    
-    public class ExampleFlubuPluginTask : TaskBase<int, ExampleFlubuPluginTask>
+public class ExampleFlubuPluginTask : TaskBase<int, ExampleFlubuPluginTask>
+{
+    private string _message;
+
+    protected override string Description { get; set; }
+
+    public ExampleFlubuPluginTask Message(string message)
     {
-        private string _message;
-
-        protected override string Description { get; set; }
-
-        public ExampleFlubuPluginTask Message(string message)
-        {
-            _message = message;
-            return this;
-        }
-
-        protected override int DoExecute(ITaskContextInternal context)
-        {
-            //// write task logic here.
-            context.LogInfo(!string.IsNullOrEmpty(_message) ? _message : "Just some dummy code");
-
-            return 0;
-        }
+        _message = message;
+        return this;
     }
+
+    protected override int DoExecute(ITaskContextInternal context)
+    {
+        //// write task logic here.
+        context.LogInfo(!string.IsNullOrEmpty(_message) ? _message : "Just some dummy code");
+
+        return 0;
+    }
+}
 ```
 
 * Then you need to write an extension method to add the task to flubu fluent interface. Extension method for our example task:
@@ -69,8 +68,6 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 ```
 
 * It is recommended that you add task to ICoreTaskFluentInterface or  ITaskFluentInterface
-
-* Most elegant way to add the plugin is to add nuget reference with nuget directive ```//#nuget {PluginNugetId}, {Version}``` Alternatively you can add the FlubuCore.ExamplePlugin assembly to FlubuLib directory so that the assembly get's loaded automatically when flubu script is executed or add #ass directive to build script. For more information see BuildScript fundamentals on wiki.
 
 * We would be very glad if you add your plugin to the nuget repository. It would be great if the plugin name would start 
   with FlubuCore so others can find it.

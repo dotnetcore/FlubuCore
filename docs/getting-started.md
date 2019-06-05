@@ -31,21 +31,23 @@ Add BuildScript.cs file to buildscript projetct and add Following code.
 Following code adds compile target to flubu commands. Compile target compiles the solution.
 
 ```C#
-    public class MyBuildScript : DefaultBuildScript
+public class MyBuildScript : DefaultBuildScript
+{
+	protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
     {
-        protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-        {
-            context.Properties.Set(BuildProps.CompanyName, "Flubu");
-            context.Properties.Set(BuildProps.CompanyCopyright, "Copyright (C) 2010-2016 Flubu");
-            context.Properties.Set(BuildProps.ProductId, "FlubuCoreExample");
-            context.Properties.Set(BuildProps.ProductName, "FlubuCoreExample");
-        }
-        protected override void ConfigureTargets(ITaskContext session)
-        {
-             var compile = context.CreateTarget("compile")
-               .SetDescription("Compiles the solution.")
-               .AddCoreTask(x => x.Build("FlubuExample.sln"));
-        }
+		context.Properties.Set(BuildProps.CompanyName, "Flubu");
+        context.Properties.Set(BuildProps.CompanyCopyright, "Copyright (C) 2010-2016 Flubu");
+        context.Properties.Set(BuildProps.ProductId, "FlubuCoreExample");
+        context.Properties.Set(BuildProps.ProductName, "FlubuCoreExample");
+    }
+	
+    protected override void ConfigureTargets(ITaskContext session)
+    {
+        var compile = context.CreateTarget("compile")
+			.SetDescription("Compiles the solution.")
+            .AddCoreTask(x => x.Build("FlubuExample.sln"));
+    }
+}
 ```
 
 <a name="Run-build-script-Core"></a>
@@ -104,26 +106,26 @@ Modify BuildScript.cs with the following code. Change solution name to yours.
 Following code adds compile target to flubu commands. Compile target compiles the solution.
 
 ```C#   
-    using FlubuCore.Context;
-    using FlubuCore.Scripting;
+using FlubuCore.Context;
+using FlubuCore.Scripting;
 
-    public class BuildScript : DefaultBuildScript
+public class BuildScript : DefaultBuildScript
+{
+	protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
     {
-        protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-        {
-            context.Properties.Set(BuildProps.ProductId, "FlubuExample");
-            context.Properties.Set(BuildProps.ProductName, "FlubuExample");
-            context.Properties.Set(BuildProps.SolutionFileName, "FlubuExample.sln");
-            context.Properties.Set(BuildProps.BuildConfiguration, "Release");
-        }
-
-        protected override void ConfigureTargets(ITaskContext session)
-        {
-            var compile = session.CreateTarget("compile")
-                .SetDescription("Compiles the solution.")
-                .AddTask(x => x.CompileSolutionTask());
-        }
+		context.Properties.Set(BuildProps.ProductId, "FlubuExample");
+        context.Properties.Set(BuildProps.ProductName, "FlubuExample");
+        context.Properties.Set(BuildProps.SolutionFileName, "FlubuExample.sln");
+        context.Properties.Set(BuildProps.BuildConfiguration, "Release");
     }
+
+    protected override void ConfigureTargets(ITaskContext session)
+    {
+        var compile = session.CreateTarget("compile")
+         .SetDescription("Compiles the solution.")
+         .AddTask(x => x.CompileSolutionTask());
+    }
+}
 ```
 
 <a name="run-build-script"></a>

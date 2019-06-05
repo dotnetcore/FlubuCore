@@ -176,7 +176,7 @@ These examples will help you to get quickly start with FlubuCore:
 
 ## **Contributing**
 
-Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
+Please see [CONTRIBUTING.md](https://github.com/dotnetcore/FlubuCore/blob/master/CONTRIBUTING.md).
 
 ## **Ways to Contribute**
 

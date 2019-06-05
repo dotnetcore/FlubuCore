@@ -27,7 +27,7 @@ nav:
     - 'Awesome plugins': 
         - 'Plugins': 'AwesomePlugins/awesome-plugins.md'
     - 'Examples' :
-        - 'Index' : 'https://github.com/dotnetcore/FlubuCore.Examples/wiki'   
+        - 'Index' : 'https://github.com/dotnetcore/FlubuCore.Examples'   
  
 
 markdown_extensions:

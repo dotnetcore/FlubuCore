@@ -10,16 +10,16 @@ Each build script should inherit from DefaulBuildScript class. Two abstact metho
 Empty build script example
 
 ```C#
-    public class BuildScript : DefaultBuildScript
+public class BuildScript : DefaultBuildScript
+{
+	protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
     {
-        protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-        {
-        }
-
-        protected override void ConfigureTargets(ITaskContext session)
-        {
-        }
     }
+
+    protected override void ConfigureTargets(ITaskContext session)
+    {
+    }
+}
 ```
 
 <a name="Targets"></a>
@@ -34,24 +34,24 @@ Targets are used to perform specific work in a specific order. A target can for 
 Following code will create a new target that will execute a built in task.
 
 ```C#
-    protected override void ConfigureTargets(ITaskContext context)
-    {
-          context.CreateTarget("Compile")
-             .SetDescription("Compiles the solution")
-             .AddTask(x => x.CompileSolutionTask());
-    }
+protected override void ConfigureTargets(ITaskContext context)
+{
+	context.CreateTarget("Compile")
+		.SetDescription("Compiles the solution")
+        .AddTask(x => x.CompileSolutionTask());
+}
 ```
 
 Target's can also be defined with attribute on method.
 
 ```C#
-    [Target("targetName", "a", "b")]
-    [Target("targetName2", "c", "d")]
-    [Target("targetName3", "e", "f")]
-    public void Example(ITarget target, string source, string destination)
-    {
-            target.AddTask(x => x.CopyFileTask(source, destination, true));
-    }
+[Target("targetName", "a", "b")]
+[Target("targetName2", "c", "d")]
+[Target("targetName3", "e", "f")]
+public void Example(ITarget target, string source, string destination)
+{
+	target.AddTask(x => x.CopyFileTask(source, destination, true));
+}
 ```
 
 You can also pass values to parameter through console arguments, FlubuCore config file.
@@ -67,9 +67,9 @@ Tasks are divided in tasks and core tasks. tasks can be executed in .net and .ne
 Following example executes 2 core tasks in a target. Order of execution is the same as specified in code.
 
 ```C#  
-    context.CreateTarget("Build")
-        .AddCoreTask(x => x.Restore())
-        .AddCoreTask(x => x.Build());
+context.CreateTarget("Build")
+    .AddCoreTask(x => x.Restore())
+    .AddCoreTask(x => x.Build());
 ```
 
 All Tasks also have following methods
@@ -91,24 +91,25 @@ All Tasks also have following methods
 - conditonal task execution with when cluase on single task (see bellow for group of tasks)
 
 ```c#
-       context.CreateTarget("Example")
-            .AddTask(x => x.CompileSolutionTask())
-            .AddTask(x => x.PublishNuGetPackageTask("packageId", "pathToNuspec"))
-                .When(c => c.BuildSystems().Jenkins().IsRunningOnJenkins);
+context.CreateTarget("Example")
+	.AddTask(x => x.CompileSolutionTask())
+    .AddTask(x => x.PublishNuGetPackageTask("packageId", "pathToNuspec"))
+    .When(c => c.BuildSystems().Jenkins().IsRunningOnJenkins);
 ```
 
 - set task parameters only when specified condition is meet.
 
 ```c#
  var compile = context
-            .CreateTarget("compile")
-            .SetDescription("Compiles the VS solution")
-            .AddCoreTask(x => x.Build().Configuration("Release").When(
-                () =>
-            {
-                return context.BuildSystems().IsLocalBuild;
-
-            }, task => { task.Configuration("Debug"); }));
+	.CreateTarget("compile")
+    .SetDescription("Compiles the VS solution")
+    .AddCoreTask(x => x.Build().Configuration("Release")
+	.When(
+		() =>
+		{
+	    	return context.BuildSystems().IsLocalBuild;
+	    }, 
+		task => { task.Configuration("Debug"); }));
 ```
 
 - ```.Interactive()``` - Interactively pass argument from console to specified task method / parameter.
@@ -120,34 +121,34 @@ All Tasks also have following methods
 Following example executes some custom code. You can also use built in flubu tasks in custom code as shown in example.
 
 ```C#
-     protected override void ConfigureTargets(ITaskContext context)
-     {
-         context.CreateTarget("Example")
-             .Do(CustomCodeExample);
-     }
+protected override void ConfigureTargets(ITaskContext context)
+{
+	context.CreateTarget("Example")
+       .Do(CustomCodeExample);
+}
 
-     private static void CustomCodeExample(ITaskContext context)
-     {
-         //// You can put any c# code here and use any .net libraries.
-         Console.WriteLine("Dummy custom code");
-         context.Tasks().NUnitTaskForNunitV3("project name").Execute(context);
-     }
+private static void CustomCodeExample(ITaskContext context)
+{
+    //// You can put any c# code here and use any .net libraries.
+    Console.WriteLine("Dummy custom code");
+    context.Tasks().NUnitTaskForNunitV3("project name").Execute(context);
+}
 ```
 
-You can also pass arguments to custom code like so:
+You can also pass arguments to custom code:
 
 ```C#
-     protected override void ConfigureTargets(ITaskContext context)
-     {
-         context.CreateTarget("Example")
-             .Do(CustomCodeExample, "some value", 1);
-     }
+protected override void ConfigureTargets(ITaskContext context)
+{
+	context.CreateTarget("Example")
+		.Do(CustomCodeExample, "some value", 1);
+}
 
-     private static void CustomCodeExample(ITaskContext context, string arg1, int arg2)
-     {
-         Console.WriteLine("Dummy custom code");
-         context.Tasks().NUnitTaskForNunitV3("project name").Execute(context);
-     }
+private static void CustomCodeExample(ITaskContext context, string arg1, int arg2)
+{
+	Console.WriteLine("Dummy custom code");
+    context.Tasks().NUnitTaskForNunitV3("project name").Execute(context);
+}
 ```
 
 <a name="Target-dependencies"></a>
@@ -159,10 +160,9 @@ Target can have dependencies on other targets. All dependenies will be executed 
 When targetC is executed target’s will be executed in the following order: TargetB, TargetA, TargetC
 
 ```C#
-      var targetA = context.CreateTarget("TargetA");
-      var targetB = context.CreateTarget("TargetB");
-      var targetC = context.CreateTarget("TargetC")
-          .DependsOn(targetB, targetA);
+var targetA = context.CreateTarget("TargetA");
+var targetB = context.CreateTarget("TargetB");
+var targetC = context.CreateTarget("TargetC").DependsOn(targetB, targetA);      
 ```
 
 <a name="Reuse-set-of-tasks"></a>
@@ -172,25 +172,24 @@ When targetC is executed target’s will be executed in the following order: Tar
 Following example shows how to reuse set of tasks in different targets:
 
 ```C#
-    protected override void ConfigureTargets(ITaskContext session)
-    {
-        session.CreateTarget("deploy.local").AddTasks(Deploy, "c:\\ExamplaApp").SetAsDefault();
+protected override void ConfigureTargets(ITaskContext session)
+{
+	session.CreateTarget("deploy.local").AddTasks(Deploy, "c:\\ExamplaApp").SetAsDefault();
                 
-        session.CreateTarget("deploy.test").AddTasks(Deploy, "d:\\ExamplaApp");
+    session.CreateTarget("deploy.test").AddTasks(Deploy, "d:\\ExamplaApp");
 
-        session.CreateTarget("deploy.prod").AddTasks(Deploy, "e:\\ExamplaApp");
-    }
+    session.CreateTarget("deploy.prod").AddTasks(Deploy, "e:\\ExamplaApp");
+}
 
-    private void Deploy(ITarget target, string deployPath)
-    {
-        target
-            .AddTask(x => x.IisTasks().CreateAppPoolTask("Example app pool").Mode(CreateApplicationPoolMode.DoNothingIfExists))
-            .AddTask(x => x.IisTasks().ControlAppPoolTask("Example app pool", ControlApplicationPoolAction.Stop).DoNotFailOnError())
-            .Do(UnzipPackage)
-            .AddTask(x => x.CopyDirectoryStructureTask(@"Packages\ExampleApp", @"C:\ExampleApp", true).Retry(20, 5000))
-            .Do(CreateWebSite)
-    }
-
+private void Deploy(ITarget target, string deployPath)
+{
+    target
+        .AddTask(x => x.IisTasks().CreateAppPoolTask("Example app pool").Mode(CreateApplicationPoolMode.DoNothingIfExists))
+        .AddTask(x => x.IisTasks().ControlAppPoolTask("Example app pool", ControlApplicationPoolAction.Stop).DoNotFailOnError())
+        .Do(UnzipPackage)
+        .AddTask(x => x.CopyDirectoryStructureTask(@"Packages\ExampleApp", @"C:\ExampleApp", true).Retry(20, 5000))
+        .Do(CreateWebSite)
+}    
 ```
 <a name="Group-task"></a>
 
@@ -199,52 +198,52 @@ Following example shows how to reuse set of tasks in different targets:
 -  Conditonal task execution with When clause on group of tasks.
 
 ```C#
-       protected override void ConfigureTargets(ITaskContext context)
-       {
-             context.CreateTarget("Example")
-            .AddCoreTask(x => x.Build())
-            .Group(
-                target =>
-                {
+protected override void ConfigureTargets(ITaskContext context)
+{
+	context.CreateTarget("Example")
+        .AddCoreTask(x => x.Build())
+        .Group(
+               target =>
+               {
                     target.AddCoreTask(x => x.Pack());
                     target.AddCoreTask(x => x.NugetPush("pathToPackage"));
-                },
-                when: c => !c.BuildSystems().Jenkins().IsRunningOnJenkins);
-        }
+               },
+               when: c => !c.BuildSystems().Jenkins().IsRunningOnJenkins);
+}
 ```
 
 - Finally on group of tasks: onFinally acts just like finally in try/catch.
 
 ```C#
-        context.CreateTarget("Example")
-                .AddCoreTask(x => x.Build())
-                .Group(
-                    target =>
-                    {
-                        target.AddCoreTask(x => x.Pack());
-                        target.AddCoreTask(x => x.NugetPush("pathToPackage"));
-                    },
-                    onFinally: c =>
-                    {
-                        c.Tasks().DeleteFilesTask("pathToNupkg", "*.*", true).Execute(c);
-                    });
+context.CreateTarget("Example")
+		.AddCoreTask(x => x.Build())
+         .Group(
+              target =>
+              {
+				 target.AddCoreTask(x => x.Pack());
+                 target.AddCoreTask(x => x.NugetPush("pathToPackage"));
+              },
+              onFinally: c =>
+              {
+				 c.Tasks().DeleteFilesTask("pathToNupkg", "*.*", true).Execute(c);
+              });
 ```
 
 - OnError on group of tasks:  You can perform some custom action when error occures in any of tasks that are in group.
 
 ```C#
-        context.CreateTarget("Example")
-            .AddCoreTask(x => x.Build())
-            .Group(
-                target =>
-                {
-                    target.AddCoreTask(x => x.Pack());
-                    target.AddCoreTask(x => x.NugetPush("pathToPackage"));
-                },
-                onError: (c, error) =>
-                {
-                   //// some custom action when error occures in any of the task in group.
-                });
+context.CreateTarget("Example")
+    .AddCoreTask(x => x.Build())
+    .Group(
+        target =>
+        {
+			target.AddCoreTask(x => x.Pack());
+            target.AddCoreTask(x => x.NugetPush("pathToPackage"));
+        },
+        onError: (c, error) =>
+        {
+           //// some custom action when error occures in any of the task in group.
+        });
 ```
 
 <a name="Async-execution"></a>
@@ -268,21 +267,21 @@ Dependencies can be executed asynchrounosly with DependsOnAsync method.
 Following target executes 3 tasks asynchorunusly.
 
 ```C#
-     session.CreateTarget("run.tests")
-         .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName1"))
-         .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName1"))
-         .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName3"));
+session.CreateTarget("run.tests")
+    .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName1"))
+    .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName1"))
+    .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName3"));
 ```
 
 Async and sync methods can also be mixed
 
 ```C#
-     session.CreateTarget("async.example")
-         .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName1"))
-         .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName1"))
-         .Do(SomeCustomMethod)
-         .DoAsync(SomeCustomAsyncMethod2)
-         .DoAsync(SomeCustomAsyncMethod3);
+session.CreateTarget("async.example")
+    .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName1"))
+    .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName1"))
+    .Do(SomeCustomMethod)
+    .DoAsync(SomeCustomAsyncMethod2)
+    .DoAsync(SomeCustomAsyncMethod3);
 ```
 
 The code above will first execute 2 nunit tasks asynchronously and wait for both tasks to finish. Then it will execute SomeCustomMethod synchrounosly. After it is finished code from SomeCustomAsyncMethod2 and SomeCustomAsyncMethod3 will be executed asynchronously.
@@ -302,26 +301,26 @@ The code above will first execute 2 nunit tasks asynchronously and wait for both
 #### Run any program or command in build script with RunProgramTask
 
 ```C#
-    protected override void ConfigureTargets(ITaskContext session)
-    {
-         var runExternalProgramExample = session.CreateTarget("run.libz")
-            .AddTask(x => x.RunProgramTask(@"packages\LibZ.Tool\1.2.0\tools\libz.exe")
-                .WorkingFolder(@".\src")
-                .WithArguments("add")
-                .WithArguments("--libz", "Assemblies.libz"));
-    }
+protected override void ConfigureTargets(ITaskContext session)
+{
+	var runExternalProgramExample = session.CreateTarget("run.libz")
+        .AddTask(x => x.RunProgramTask(@"packages\LibZ.Tool\1.2.0\tools\libz.exe")
+            .WorkingFolder(@".\src")
+            .WithArguments("add")
+            .WithArguments("--libz", "Assemblies.libz"));
+ }
 ```
 
 Linux Example:
 
 ```C#
-    protected override void ConfigureTargets(ITaskContext session)
-    {
-         var runExternalProgramExample = session.CreateTarget("systemctl.example")
-            .AddTask(x => x.RunProgramTask(@"systemctl")             
-                .WithArguments("start")
-                .WithArguments("nginx.service"));
-    }
+protected override void ConfigureTargets(ITaskContext session)
+{
+    var runExternalProgramExample = session.CreateTarget("systemctl.example")
+        AddTask(x => x.RunProgramTask(@"systemctl")             
+            .WithArguments("start")
+            .WithArguments("nginx.service"));
+}
 ```
 
 <a name="Build-properties"></a>
@@ -333,35 +332,37 @@ You can define various build properties in ConfigureBuildProperties method to sh
 Following example show how to share nunit console path across various nunit targets/tasks.
 
 ```C#
-        protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-        {
-            context.Properties.Set(BuildProps.NUnitConsolePath, @"packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe");
-        }
+protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
+{
+	context.Properties.Set(BuildProps.NUnitConsolePath, @"packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe");
+}
 
-        protected override void ConfigureTargets(ITaskContext session)
-        {
-            session.CreateTarget("unit.tests1")
-                .SetDescription("Runs unit tests")
-                .AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests"));
-            session.CreateTarget("unit.tests1")
-                .AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests2"));
-        }
+protected override void ConfigureTargets(ITaskContext session)
+{
+	session.CreateTarget("unit.tests1")
+        .SetDescription("Runs unit tests")
+        .AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests"));
+		
+    session.CreateTarget("unit.tests1")
+         AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests2"));
+}
 ```
 
 If nunit console path would not be set in build properties you would have to set it in each task separately.
 
 like so:
 ```C#
-       protected override void ConfigureTargets(ITaskContext session)
-        {
-            session.CreateTarget("unit.tests1")
-                .SetDescription("Runs unit tests")
-                .AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests")
-                  .NunitConsolePath(@"packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe"));
-            session.CreateTarget("unit.tests1")
-                .AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests2").
-                   NunitConsolePath(@"packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe"));
-        }
+protected override void ConfigureTargets(ITaskContext session)
+{
+    session.CreateTarget("unit.tests1")
+        .SetDescription("Runs unit tests")
+        .AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests")
+            .NunitConsolePath(@"packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe"));
+			
+    session.CreateTarget("unit.tests1")
+		.AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests2").
+			NunitConsolePath(@"packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe"));
+}
 ```
 
 <a name="Predefined-build-properties"></a>
@@ -389,26 +390,26 @@ All of them can be overriden.
  You can pass command line arguments, settings from json configuration file or environment variables to your build script properties by adding FromArg attribute to property. 
 
 ```C#
-      public class SimpleScript : DefaultBuildScript
-      {
-        [FromArg("sn", "If true app is deployed on second node. Otherwise not.")]
-        public bool deployOnSecondNode { get; set; }        
+public class SimpleScript : DefaultBuildScript
+{
+    [FromArg("sn", "If true app is deployed on second node. Otherwise not.")]
+    public bool deployOnSecondNode { get; set; }        
 
-        protected override void ConfigureTargets(ITaskContext context)
-        {
-            context.CreateTarget("Deploy.Exapmle")
-                .AddTask(x => x.FlubuWebApiTasks().GetTokenTask("user", "pass").SetWebApiBaseUrl("noade1Url"))
-                .AddTask(x => x.FlubuWebApiTasks().UploadPackageTask("packageDir", "*.zip"))
-                .AddTask(x => x.FlubuWebApiTasks().ExecuteScriptTask("Deploy", "DeployScript.cs"))
-                .Group(target =>
-                    {
-                    target.AddTask(x => x.FlubuWebApiTasks().GetTokenTask("user", "pass").SetWebApiBaseUrl("noade2Url"))
-                               .AddTask(x => x.FlubuWebApiTasks().UploadPackageTask("packageDir", "*.zip"))
-                               .AddTask(x => x.FlubuWebApiTasks().ExecuteScriptTask("Deploy", "DeployScript.cs"));
-                     },
-                     when: c => deployOnSecondNode);         
-        }
-      }
+    protected override void ConfigureTargets(ITaskContext context)
+    {
+        context.CreateTarget("Deploy.Exapmle")
+            .AddTask(x => x.FlubuWebApiTasks().GetTokenTask("user", "pass").SetWebApiBaseUrl("noade1Url"))
+            .AddTask(x => x.FlubuWebApiTasks().UploadPackageTask("packageDir", "*.zip"))
+            .AddTask(x => x.FlubuWebApiTasks().ExecuteScriptTask("Deploy", "DeployScript.cs"))
+            .Group(target =>
+            {
+                target.AddTask(x => x.FlubuWebApiTasks().GetTokenTask("user", "pass").SetWebApiBaseUrl("noade2Url"))
+                      .AddTask(x => x.FlubuWebApiTasks().UploadPackageTask("packageDir", "*.zip"))
+                      .AddTask(x => x.FlubuWebApiTasks().ExecuteScriptTask("Deploy", "DeployScript.cs"));
+            },
+            when: c => deployOnSecondNode);         
+    }
+}
 ```
 
 First parameter in FromArg attribute is the argument key. Second is the help description of the property shown in flubu runner. You actually don't need to put attribute on property. If u dont then the key is the same as property name and help is not shown for property in build script runner.
@@ -454,12 +455,12 @@ For above example you would add environment variable from windows command line w
 There is an alternative more sophisticated way to pass console arguments, settings and environment variables to tasks
 
 ```C#
-    protected override void ConfigureTargets(ITaskContext context)
-    {
-        context.CreateTarget("compile")
-            .AddTask(x => x.CompileSolutionTask()
-                .ForMember(y => y.SolutionFileName("someSolution.sln"), "solution", "The solution to build."));
-    }
+protected override void ConfigureTargets(ITaskContext context)
+{
+   context.CreateTarget("compile")
+       .AddTask(x => x.CompileSolutionTask()
+           .ForMember(y => y.SolutionFileName("someSolution.sln"), "solution", "The solution to build."));
+}
 ```
 
 * First parameter is the method or property argument will be passed through. values set in method parameters are default values if argument is not specified when running the build script.
@@ -492,14 +493,14 @@ Alternatively when you are running scripts without csproj(for example deploy scr
 On the build script class you have to add attribute:
 
 ```C#
-    [Assembly(@".\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll")]
-    public class BuildScript : DefaultBuildScript
+[Assembly(@".\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll")]
+public class BuildScript : DefaultBuildScript
+{
+    public void ReferencedAssemlby(ITaskContext context)
     {
-       public void ReferencedAssemlby(ITaskContext context)
-        {
-            JsonConvert.SerializeObject("Example");
-        }
+       JsonConvert.SerializeObject("Example");
     }
+}
 ```
 FlubuCore can also load all assemblies from specified directory and optionaly from it's subdirectories
 
@@ -519,14 +520,14 @@ Flubu supports referencing nuget packages. .net core sdk or msbuild must be inst
 You have to add NugetPackage attribute on the script class:
 
 ```C#
-    [NugetPackage("Newtonsoftjson", "11.0.2")]
-    public class BuildScript : DefaultBuildScript
+[NugetPackage("Newtonsoftjson", "11.0.2")]
+public class BuildScript : DefaultBuildScript
+{
+    public void ReferencedNugetPackage(ITaskContext context)
     {
-       public void ReferencedNugetPackage(ITaskContext context)
-        {
-            JsonConvert.SerializeObject("Example");
-        }
+       JsonConvert.SerializeObject("Example");
     }
+}
 ```
 
 <a name="Load-assembly-by-assembly-full-name"></a>
@@ -538,14 +539,14 @@ System assemblies can be loaded by fully qualifed assemlby name.
 You have to add Reference attribute on the script class:
 
 ```C#
-    [Reference("System.Xml.XmlDocument, System.Xml, Version=4.0.0.0, Culture=neutral, publicKeyToken=b77a5c561934e089")]
-    public class BuildScript : DefaultBuildScript
+[Reference("System.Xml.XmlDocument, System.Xml, Version=4.0.0.0, Culture=neutral, publicKeyToken=b77a5c561934e089")]
+public class BuildScript : DefaultBuildScript
+{
+    public void ReferencedAssemlby(ITaskContext context)
     {
-       public void ReferencedAssemlby(ITaskContext context)
-       {
-            XmlDocument xml = new XmlDocument();
-       }
+		XmlDocument xml = new XmlDocument();
     }
+}
 ```
 
 One way to get fully qualifed assembly name:
@@ -564,7 +565,7 @@ By default flubu loads all assemblies from directory FlubuLib. Just create the d
 `dotnet flubu -ass=somedirectory`
 alternatively you can put ass key into flubusettings.json file:
 
-    `{
+    {
       "ass" : "someDirectory",
       "SomeOtherKey" : "SomeOtherValue"
     }` 
@@ -576,14 +577,14 @@ alternatively you can put ass key into flubusettings.json file:
 On the build script class you have to add attribute:
 
 ```C#
-    [Include(@".\BuildHelper.cs")]
-    public class BuildScript : DefaultBuildScript
+[Include(@".\BuildHelper.cs")]
+public class BuildScript : DefaultBuildScript
+{
+    public void Example(ITaskContext context)
     {
-       public void Example(ITaskContext context)
-       {
-            BuildHelper.SomeMethod();
-       }
-    }    
+        BuildHelper.SomeMethod();
+    }
+}    
 ```
 
 FlubuCore can also load all .cs files to script from specified directory and optionaly from it's subfolders.
@@ -602,11 +603,11 @@ public class BuildScript : DefaultBuildScript
 You can acces various build, commit... information for various build systems (such as Jenkins, TeamCity, AppVeyor, Travis...) 
 
 ```C#
-      protected override void ConfigureTargets(ITaskContext context)
-      {
-            bool isLocalBuild = context.BuildSystems().IsLocalBuild;
-            var gitCommitId = context.BuildSystems().Jenkins().GitCommitId;
-      }
+protected override void ConfigureTargets(ITaskContext context)
+{
+    bool isLocalBuild = context.BuildSystems().IsLocalBuild;
+    var gitCommitId = context.BuildSystems().Jenkins().GitCommitId;
+}
 ```
 
 <a name="Before-After"></a>
@@ -614,6 +615,7 @@ You can acces various build, commit... information for various build systems (su
 ## **Build events**
 
 - OnBuildFailed event:
+
 ```c#
 public class BuildScript : DefaultBuildScript
 {
@@ -624,25 +626,27 @@ public class BuildScript : DefaultBuildScript
 ```
  
 - before and after target execution events:
-```c#
-    protected override void BeforeTargetExecution(ITaskContext context)
-    {
-    }
 
-    protected override void AfterTargetExecution(ITaskContext context)
-    {
-    }
+```c#
+protected override void BeforeTargetExecution(ITaskContext context)
+{
+}
+
+protected override void AfterTargetExecution(ITaskContext context)
+{
+}
 ```    
 
 - before and after build execution events:
-```c#
-    protected override void BeforeBuildExecution(ITaskContext context)
-    {
-    }
 
-    protected override void AfterBuildExecution(ITaskSession session)
-    {
-    }
+```c#
+protected override void BeforeBuildExecution(ITaskContext context)
+{
+}
+
+protected override void AfterBuildExecution(ITaskSession session)
+{
+}
 ```
 <a name="partial-class"></a>
 
