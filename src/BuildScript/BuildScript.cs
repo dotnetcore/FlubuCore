@@ -23,7 +23,7 @@ public class BuildScript : DefaultBuildScript
             .SetAsHidden()
             .SetDescription("Fetches flubu version from CHANGELOG.md file.")
             .AddTask(x => x.FetchBuildVersionFromFileTask()
-                .ProjectVersionFileName("CHANGELOG.md")
+                .ProjectVersionFileName("../CHANGELOG.md")
                 .RemovePrefix("## FlubuCore ")
                 .RemovePrefix("## FlubuCore"));
 
