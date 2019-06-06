@@ -119,6 +119,7 @@ namespace FlubuCore.Tasks.Versioning
             }
 
             Version buildVersion = null;
+            context.LogInfo($"Fetching version from file: {projectVersionFilePath}");
             using (Stream stream = File.Open(projectVersionFilePath, FileMode.Open))
             {
                 using (StreamReader reader = new StreamReader(stream))
@@ -168,7 +169,7 @@ namespace FlubuCore.Tasks.Versioning
                 context.SetBuildVersion(buildVersion);
             }
 
-            DoLogInfo($"Project build version (from file): {buildVersion}");
+            DoLogInfo($"Project version fetched: {buildVersion}");
             return buildVersion;
         }
     }
