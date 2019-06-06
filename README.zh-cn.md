@@ -8,7 +8,7 @@
 [![Member project of .NET Core Community](https://img.shields.io/badge/member%20project%20of-NCC-9e20c9.svg)](https://github.com/dotnetcore)
 [![License](https://img.shields.io/github/license/dotnetcore/FlubuCore.svg)](https://github.com/dotnetcore/FlubuCore/blob/master/LICENSE)
 
-“FlubuCore - Fluent Builder Core”，跨平台的构建与部署自动化系统，通过直观的 Fluent 接口，使用 C# 定义构建和部署脚本。这使你的代码具备自动完成、IntelliSense、调试、FlubuCore 自定义分析器，以及在脚本中对整个 .NET 生态的原生性访问。
+“FlubuCore - Fluent Builder Core”，跨平台的构建与部署自动化系统，通过直观的 Fluent 接口，使用 C# 定义构建和部署脚本。这使你的代码获得自动完成、IntelliSense、调试、FlubuCore 自定义分析器，以及在脚本中对整个 .NET 生态的原生性访问。
 
 ![FlubuCore in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/demo.gif)
 
@@ -97,40 +97,40 @@ flubu.exe compile -solution=someOtherSolution.sln -sn=true
 
 - [通过在 FlubuCore 插件中编写自己的任务来扩展 FlubuCore Fluent Api](https://flubucore.dotnetcore.xyz/write-plugins)。
 
-  ```cs
-  public class ExampleFlubuPluginTask : TaskBase<int, ExampleFlubuPluginTask>
-  {
-      protected override int DoExecute(ITaskContextInternal context)
-      {
-          // Write your task logic here.
-          return 0;
-      }
-  }
-  ```
+```cs
+public class ExampleFlubuPluginTask : TaskBase<int, ExampleFlubuPluginTask>
+{
+    protected override int DoExecute(ITaskContextInternal context)
+    {
+        // Write your task logic here.
+        return 0;
+    }
+}
+```
 
 - [不断丰富中的 FlubuCore 插件补充着内置任务](https://flubucore.dotnetcore.xyz/AwesomePlugins/awesome-plugins/)。
 
 - [异步执行任务、目标依赖与自定义代码](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Async-execution)。
 
-  ```cs
-  context.CreateTarget("Run.Tests")
-      .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName1"))
-      .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName1"))
-      .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName3"));
-  ```
+```cs
+context.CreateTarget("Run.Tests")
+    .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName1"))
+    .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName1"))
+    .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName3"));
+```
 
 - [完整的 .NET Core 支持，包括全局 CLI 工具](https://flubucore.dotnetcore.xyz/getting-started#getting-started-net-core)
 
-  ```
-  dotnet tool install --global FlubuCore.GlobalTool
-  flubu compile
-  ```
+```
+dotnet tool install --global FlubuCore.GlobalTool
+flubu compile
+```
 
 - [可对构建脚本测试和调试](https://flubucore.dotnetcore.xyz/Tests-debugging)
 
-  ```cs
-  context.WaitForDebugger();
-  ```
+```cs
+context.WaitForDebugger();
+```
 
 - [透过 FlubuCore Web API 轻松实现远程部署自动化](https://flubucore.dotnetcore.xyz/WebApi/getting-started/)
 
