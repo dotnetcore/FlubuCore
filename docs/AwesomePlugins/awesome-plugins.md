@@ -6,7 +6,11 @@
 
 * [FlubuCore.Gitter](https://github.com/flubu-core/FlubuCore.Gitter) - Plugin for sending gitter messages in specified room. 
 
+* FlubuCore.Kubernetes - Will not be implemented. Use [Kurernetes client](https://github.com/kubernetes-client/csharp) with FlubuCore instead.
+
 * [FlubuCore.Npm](https://github.com/flubu-core/FlubuCore.Npm) - Plugin adds tasks for numerous npm CLI commands.
 
 * [FlubuCore.Octopus](https://github.com/flubu-core/FlubuCore.Octopus) - Plugin adds tasks for numerous octopus CLI commands.
+
+* [FlubuCore.Slack](https://github.com/flubu-core/FlubuCore.Slack) - Plugin for sending message to slack channels.
 
