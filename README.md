@@ -1,4 +1,12 @@
+<p align="center">
+  <span>English</span> |  
+  <a href="https://github.com/dotnetcore/FlubuCore/tree/master/lang/chinese">中文</a>
+</p>
+
 # FlubuCore
+
+
+
 [![Windows Build](http://lucidlynx.comtrade.com:8080/buildStatus/icon?job=FlubuCore)](http://lucidlynx.comtrade.com:8080/login?from=%2F)
 [![Travis](https://img.shields.io/travis/dotnetcore/FlubuCore.svg?branch=maste&?style=flat-square&label=linux-build)](https://travis-ci.org/dotnetcore/FlubuCore)
 [![NuGet](https://img.shields.io/nuget/v/FlubuCore.svg)](https://www.nuget.org/packages/FlubuCore)
