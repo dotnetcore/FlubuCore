@@ -30,6 +30,7 @@ namespace FlubuCore.Tests.Tasks
             Assert.Equal(5, buildVersion.Version.Build);
             Assert.Equal(1, buildVersion.Version.Minor);
             Assert.Equal(2, buildVersion.Version.Revision);
+            Assert.Null(buildVersion.VersionQuality);
         }
 
         [Fact]
@@ -63,6 +64,7 @@ namespace FlubuCore.Tests.Tasks
             Assert.Equal(5, buildVersion.Version.Build);
             Assert.Equal(1, buildVersion.Version.Minor);
             Assert.Equal(2, buildVersion.Version.Revision);
+            Assert.Null(buildVersion.VersionQuality);
         }
     }
 }
