@@ -26,10 +26,27 @@ namespace FlubuCore.Tests.Tasks
             task.ProjectVersionFileName(fileName.ExpandToExecutingPath());
             var buildVersion = task.Execute(Context);
 
-            Assert.Equal(4, buildVersion.Major);
-            Assert.Equal(5, buildVersion.Build);
-            Assert.Equal(1, buildVersion.Minor);
-            Assert.Equal(2, buildVersion.Revision);
+            Assert.Equal(4, buildVersion.Version.Major);
+            Assert.Equal(5, buildVersion.Version.Build);
+            Assert.Equal(1, buildVersion.Version.Minor);
+            Assert.Equal(2, buildVersion.Version.Revision);
+        }
+
+        [Fact]
+        public void FetchBuildVersionFromFileWithVersionQualityTest()
+        {
+            var fileName = GetOsPlatform() == OSPlatform.Windows ? @"TestData\Flubu.ProjectVersionWithVersionQuality.txt" : @"TestData/Flubu.ProjectVersionWithVersionQuality.txt";
+
+            Context.Properties.Set(BuildProps.ProductRootDir, ".");
+            var task = new FetchBuildVersionFromFileTask();
+            task.ProjectVersionFileName(fileName.ExpandToExecutingPath());
+            var buildVersion = task.Execute(Context);
+
+            Assert.Equal(17, buildVersion.Version.Major);
+            Assert.Equal(11, buildVersion.Version.Minor);
+            Assert.Equal(0, buildVersion.Version.Build);
+            Assert.Equal(2, buildVersion.Version.Revision);
+            Assert.Equal("Beta20", buildVersion.VersionQuality);
         }
 
         [Fact]
@@ -42,10 +59,10 @@ namespace FlubuCore.Tests.Tasks
             task.ProjectVersionFileName(fileName.ExpandToExecutingPath()).RemovePrefix("##").AllowSuffix();
             var buildVersion = task.Execute(Context);
 
-            Assert.Equal(4, buildVersion.Major);
-            Assert.Equal(5, buildVersion.Build);
-            Assert.Equal(1, buildVersion.Minor);
-            Assert.Equal(2, buildVersion.Revision);
+            Assert.Equal(4, buildVersion.Version.Major);
+            Assert.Equal(5, buildVersion.Version.Build);
+            Assert.Equal(1, buildVersion.Version.Minor);
+            Assert.Equal(2, buildVersion.Version.Revision);
         }
     }
 }

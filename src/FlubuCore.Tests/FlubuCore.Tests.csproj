@@ -32,6 +32,7 @@
   <ItemGroup>
     <None Remove="appsettings.json" />
     <None Remove="appsettings2.json" />
+    <None Remove="TestData\Flubu.ProjectVersionWithVersionQuality.txt" />
     <None Remove="TestData\ReleaseNotes.md" />
   </ItemGroup>
  

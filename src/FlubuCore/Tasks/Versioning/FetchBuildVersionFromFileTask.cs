@@ -7,7 +7,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace FlubuCore.Tasks.Versioning
 {
-    public class FetchBuildVersionFromFileTask : TaskBase<Version, FetchBuildVersionFromFileTask>, IFetchBuildVersionTask
+    public class FetchBuildVersionFromFileTask : TaskBase<BuildVersion, FetchBuildVersionFromFileTask>, IFetchBuildVersionTask
     {
         private static List<string> _defaultprojectVersionFiles = new List<string>()
         {
@@ -84,7 +84,7 @@ namespace FlubuCore.Tasks.Versioning
             return this;
         }
 
-        protected override Version DoExecute(ITaskContextInternal context)
+        protected override BuildVersion DoExecute(ITaskContextInternal context)
         {
             string productRootDir = context.Properties.Get<string>(BuildProps.ProductRootDir, ".");
             string productId = context.Properties.Get<string>(BuildProps.ProductId, null);
@@ -118,7 +118,8 @@ namespace FlubuCore.Tasks.Versioning
                 throw new InvalidOperationException($"Project version file is missing. Set 'ProjectVersionFileName' or use one of the default locations: {Environment.NewLine}{defaultLocations}");
             }
 
-            Version buildVersion = null;
+            string versionQuality = null;
+            Version version = null;
             context.LogInfo($"Fetching version from file: {projectVersionFilePath}");
             using (Stream stream = File.Open(projectVersionFilePath, FileMode.Open))
             {
@@ -147,7 +148,22 @@ namespace FlubuCore.Tasks.Versioning
                                }
                             }
 
-                            buildVersion = new Version(line);
+                            if (line.Contains("-"))
+                            {
+                               var splitedVersion = line.Split('-');
+                               if (splitedVersion.Length > 2)
+                               {
+                                   throw new TaskExecutionException("Only one dash is allowed for version quality.", 6);
+                               }
+
+                               version = new Version(splitedVersion[0].Trim());
+                               versionQuality = splitedVersion[1].Trim();
+                            }
+                            else
+                            {
+                                version = new Version(line);
+                            }
+
                             versionFound = true;
 
                             break;
@@ -166,8 +182,15 @@ namespace FlubuCore.Tasks.Versioning
 
             if (!_doNotSaveVersionToSession)
             {
-                context.SetBuildVersion(buildVersion);
+                context.SetBuildVersion(version);
+                context.SetBuildVersionQuality(versionQuality);
             }
+
+            var buildVersion = new BuildVersion()
+            {
+                Version = version,
+                VersionQuality = versionQuality
+            };
 
             DoLogInfo($"Project version fetched: {buildVersion}");
             return buildVersion;
