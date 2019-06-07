@@ -1,3 +1,8 @@
+<p align="center
+  <a href="https://github.com/dotnetcore/FlubuCore">English</a> | 
+  <span>中文</span>  
+</p>
+
 # FlubuCore
 
 [![Windows Build](http://lucidlynx.comtrade.com:8080/buildStatus/icon?job=FlubuCore)](http://lucidlynx.comtrade.com:8080/login?from=%2F)
