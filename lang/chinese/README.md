@@ -1,4 +1,4 @@
-<p align="center
+<p align="center">
   <a href="https://github.com/dotnetcore/FlubuCore">English</a> | 
   <span>中文</span>  
 </p>
