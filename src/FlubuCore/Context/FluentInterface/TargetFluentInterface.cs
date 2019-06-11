@@ -85,16 +85,6 @@ namespace FlubuCore.Context.FluentInterface
             return this;
         }
 
-        public ITarget ForEach<T>(IEnumerable<T> collection, Action<T, ITarget> action)
-        {
-            foreach (var element in collection)
-            {
-                action(element, this);
-            }
-
-            return this;
-        }
-
         public ITarget Group(Action<ITargetBaseFluentInterfaceOfT<ITarget>> targetAction, Action<ITaskContext> onFinally = null, Action<ITaskContext, Exception> onError = null, Func<ITaskContext, bool> when = null, bool cleanupOnCancel = false)
         {
             LastTargetAction = TargetAction.Other;

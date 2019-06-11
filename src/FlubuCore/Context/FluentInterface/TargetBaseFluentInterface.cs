@@ -240,5 +240,16 @@ namespace FlubuCore.Context.FluentInterface
             Target.Must(condition);
             return this as TTargetFluentInterface;
         }
+
+        public TTargetFluentInterface ForEach<T>(IEnumerable<T> collection, Action<T, TTargetFluentInterface> action)
+        {
+            var target = this as TTargetFluentInterface;
+            foreach (var element in collection)
+            {
+                action(element, target);
+            }
+
+            return target;
+        }
     }
 }

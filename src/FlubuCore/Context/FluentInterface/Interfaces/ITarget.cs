@@ -291,7 +291,5 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="when">Tasks will be added only if specified condition is meet.</param>
         /// <returns></returns>
         ITarget Group(Action<ITargetBaseFluentInterfaceOfT<ITarget>> targetAction, Action<ITaskContext> onFinally = null, Action<ITaskContext, Exception> onError = null, Func<ITaskContext, bool> when = null, bool cleanupOnCancel = false);
-
-        ITarget ForEach<T>(IEnumerable<T> collection, Action<T, ITarget> action);
     }
 }

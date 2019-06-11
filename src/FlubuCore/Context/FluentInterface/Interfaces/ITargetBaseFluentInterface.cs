@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
@@ -182,6 +183,8 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="condition">The condition to be checked.</param>
         /// <returns></returns>
         TTargetFluentInterface Must(Func<bool> condition);
+
+        TTargetFluentInterface ForEach<T>(IEnumerable<T> collection, Action<T, TTargetFluentInterface> action);
     }
 
     public interface ITargetBaseFluentInterface

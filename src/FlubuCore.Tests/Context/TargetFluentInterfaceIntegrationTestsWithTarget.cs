@@ -1,4 +1,5 @@
-﻿using FlubuCore.Context;
+﻿using System.Collections.Generic;
+using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Infrastructure;
@@ -193,6 +194,26 @@ namespace FlubuCore.Tests.Context
             ITarget t = _fluent.AddCoreTaskAsync(x => x.Build()).AddCoreTaskAsync(x => x.Clean()).When(c => true);
             Assert.NotNull(t);
             Assert.Equal(2, _target.TasksGroups.Count);
+            Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);
+            Assert.Equal(1, _target.TasksGroups[1].Tasks.Count);
+        }
+
+        [Fact]
+        public void ForEach_AddTask()
+        {
+            _taskFactory.Setup(x => x.Create<DotnetBuildTask>()).Returns(new DotnetBuildTask());
+            _taskFactory.Setup(x => x.Create<DotnetCleanTask>()).Returns(new DotnetCleanTask());
+            Mock<ITargetInternal> target1 = new Mock<ITargetInternal>();
+            target1.Setup(x => x.TargetName).Returns("dep");
+
+            List<string> items = new List<string>() { "1", "2", "3", "4" };
+            ITarget t = _fluent.ForEach(items, (s, target) =>
+            {
+                target.AddCoreTask(x => x.Build());
+                target.Do(x => { });
+            });
+
+             Assert.Equal(8, _target.TasksGroups.Count);
             Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);
             Assert.Equal(1, _target.TasksGroups[1].Tasks.Count);
         }
