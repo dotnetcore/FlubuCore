@@ -310,6 +310,7 @@ namespace FlubuCore.Targeting
         {
             foreach (var task in tasks)
             {
+                task.SequentialLogging = SequentialLogging;
                 AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Parallel);
             }
 
@@ -366,7 +367,7 @@ namespace FlubuCore.Targeting
                 {
                     for (int i = 0; i < actionCount; i++)
                     {
-                         var lastDependency = _dependencies.Keys.Last();
+                        var lastDependency = _dependencies.Keys.Last();
                         _targetTree.BuildSummaryExtras.Add((lastDependency, targetAction, TargetName));
                         _dependencies.Remove(lastDependency);
                     }

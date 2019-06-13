@@ -251,5 +251,11 @@ namespace FlubuCore.Context.FluentInterface
 
             return target;
         }
+
+        public TTargetFluentInterface SequentialLogging(bool enable)
+        {
+            Target.SequentialLogging = enable;
+            return this as TTargetFluentInterface;
+        }
     }
 }

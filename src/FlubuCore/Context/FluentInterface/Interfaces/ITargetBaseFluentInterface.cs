@@ -185,6 +185,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         TTargetFluentInterface Must(Func<bool> condition);
 
         TTargetFluentInterface ForEach<T>(IEnumerable<T> collection, Action<T, TTargetFluentInterface> action);
+
+        /// <summary>
+        /// Enables / disables sequential logging in asynchronous executed tasks and target dependencies.
+        /// </summary>
+        /// <returns></returns>
+        TTargetFluentInterface SequentialLogging(bool enable);
     }
 
     public interface ITargetBaseFluentInterface

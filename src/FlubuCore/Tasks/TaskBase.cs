@@ -46,7 +46,7 @@ namespace FlubuCore.Tasks
 
         private List<string> _sequentialLogs;
 
-        protected bool LogSequentially { get; private set; }
+        protected TaskExecutionMode TaskExecutionMode { get; private set; }
 
         internal List<(string argumentKey, string help)> ArgumentHelp { get; } = new List<(string argumentKey, string help)>();
 
@@ -65,6 +65,8 @@ namespace FlubuCore.Tasks
 
             protected internal set => _taskName = value;
         }
+
+        public bool SequentialLogging { get; set; }
 
         /// <summary>
         /// Stopwatch for timings.
@@ -262,7 +264,7 @@ namespace FlubuCore.Tasks
         [DisableForMember]
         public TResult Execute(ITaskContext context)
         {
-            LogSequentially = false;
+            TaskExecutionMode = TaskExecutionMode.Synchronous;
             _sequentialLogs = new List<string>();
             TaskExecuted = true;
             if (_cleanUpOnCancel)
@@ -384,7 +386,7 @@ namespace FlubuCore.Tasks
         [DisableForMember]
         public async Task<TResult> ExecuteAsync(ITaskContext context)
         {
-            LogSequentially = true;
+            TaskExecutionMode = TaskExecutionMode.Parallel;
             _sequentialLogs = new List<string>();
             TaskExecuted = true;
             ITaskContextInternal contextInternal = (ITaskContextInternal)context;
@@ -547,7 +549,7 @@ namespace FlubuCore.Tasks
             if (DoNotLog || Context == null)
                 return;
 
-            if (LogSequentially)
+            if (TaskExecutionMode == TaskExecutionMode.Parallel && SequentialLogging)
             {
                 _sequentialLogs.Add(message);
             }
@@ -567,7 +569,7 @@ namespace FlubuCore.Tasks
             if (DoNotLog || Context == null)
                 return;
 
-            if (LogSequentially)
+            if (TaskExecutionMode == TaskExecutionMode.Parallel && SequentialLogging)
             {
                 _sequentialLogs.Add(message);
             }
@@ -587,7 +589,7 @@ namespace FlubuCore.Tasks
             if (DoNotLog || Context == null)
                 return;
 
-            if (LogSequentially)
+            if (TaskExecutionMode == TaskExecutionMode.Parallel && SequentialLogging)
             {
                 _sequentialLogs.Add(message);
             }
@@ -607,7 +609,7 @@ namespace FlubuCore.Tasks
             if (DoNotLog || Context == null)
                 return;
 
-            if (LogSequentially)
+            if (TaskExecutionMode == TaskExecutionMode.Parallel && SequentialLogging)
             {
                 _sequentialLogs.Add(message);
             }

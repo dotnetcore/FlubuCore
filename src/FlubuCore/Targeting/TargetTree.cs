@@ -112,6 +112,8 @@ namespace FlubuCore.Targeting
                 }
                 else
                 {
+                    var dependantTarget = _targets[dependentTargetName];
+                    dependantTarget.SequentialLogging = target.SequentialLogging;
                     tasks.Add(RunTargetAsync(taskContext, dependentTargetName));
                     if (i + 1 < n)
                     {
