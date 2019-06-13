@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Solution.VSSolutionBrowsing;
+using Microsoft.Build.Framework;
 using Task = System.Threading.Tasks.Task;
 
 namespace FlubuCore.Tasks
@@ -23,6 +24,8 @@ namespace FlubuCore.Tasks
     public abstract class TaskBase<TResult, TTask> : TaskHelp, ITaskOfT<TResult, TTask>
         where TTask : class, ITask
     {
+        private static object _logLockObj = new object();
+
         private readonly List<(Expression<Func<TTask, object>> Member, string ArgKey, string consoleText, bool includeParameterlessMethodByDefault, bool interactive)> _forMembers = new List<(Expression<Func<TTask, object>> Member, string ArgKey, string consoleText, bool includeParameterlessMethodByDefault, bool interactive)>();
 
         private int _retriedTimes;
@@ -41,6 +44,10 @@ namespace FlubuCore.Tasks
 
         private Action<Exception> _doNotFailOnErrorAction;
 
+        private List<string> _sequentialLogs;
+
+        protected bool LogSequentially { get; private set; }
+
         internal List<(string argumentKey, string help)> ArgumentHelp { get; } = new List<(string argumentKey, string help)>();
 
         public override string TaskName
@@ -56,7 +63,7 @@ namespace FlubuCore.Tasks
                 return type.Name;
             }
 
-           protected internal set => _taskName = value;
+            protected internal set => _taskName = value;
         }
 
         /// <summary>
@@ -255,6 +262,8 @@ namespace FlubuCore.Tasks
         [DisableForMember]
         public TResult Execute(ITaskContext context)
         {
+            LogSequentially = false;
+            _sequentialLogs = new List<string>();
             TaskExecuted = true;
             if (_cleanUpOnCancel)
             {
@@ -375,6 +384,8 @@ namespace FlubuCore.Tasks
         [DisableForMember]
         public async Task<TResult> ExecuteAsync(ITaskContext context)
         {
+            LogSequentially = true;
+            _sequentialLogs = new List<string>();
             TaskExecuted = true;
             ITaskContextInternal contextInternal = (ITaskContextInternal)context;
             Context = context ?? throw new ArgumentNullException(nameof(context));
@@ -410,8 +421,7 @@ namespace FlubuCore.Tasks
                         throw;
                     }
 
-                    contextInternal.LogInfo(
-                        $"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
+                    DoLogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                     _doNotFailOnErrorAction?.Invoke(ex);
                     return default(TResult);
                 }
@@ -426,8 +436,7 @@ namespace FlubuCore.Tasks
                             throw;
                         }
 
-                        contextInternal.LogInfo(
-                            $"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
+                        DoLogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                         _doNotFailOnErrorAction?.Invoke(ex);
                         return default(TResult);
                     }
@@ -459,7 +468,7 @@ namespace FlubuCore.Tasks
                         throw;
                     }
 
-                    contextInternal.LogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
+                    DoLogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                     _doNotFailOnErrorAction?.Invoke(ex);
                     return default(TResult);
                 }
@@ -488,6 +497,8 @@ namespace FlubuCore.Tasks
                     DoLogInfo($"{TaskName} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
 #endif
                 }
+
+                LogSequentialLogs(Context);
             }
         }
 
@@ -536,7 +547,14 @@ namespace FlubuCore.Tasks
             if (DoNotLog || Context == null)
                 return;
 
-            Context.LogInfo(message);
+            if (LogSequentially)
+            {
+                _sequentialLogs.Add(message);
+            }
+            else
+            {
+                Context.LogInfo(message);
+            }
         }
 
 #if  !NETSTANDARD1_6
@@ -549,7 +567,14 @@ namespace FlubuCore.Tasks
             if (DoNotLog || Context == null)
                 return;
 
-            Context.LogInfo(message, foregroundColor);
+            if (LogSequentially)
+            {
+                _sequentialLogs.Add(message);
+            }
+            else
+            {
+                Context.LogInfo(message, foregroundColor);
+            }
         }
 #endif
 
@@ -562,7 +587,14 @@ namespace FlubuCore.Tasks
             if (DoNotLog || Context == null)
                 return;
 
-            Context.LogError(message);
+            if (LogSequentially)
+            {
+                _sequentialLogs.Add(message);
+            }
+            else
+            {
+                Context.LogError(message);
+            }
         }
 
 #if !NETSTANDARD1_6
@@ -575,7 +607,14 @@ namespace FlubuCore.Tasks
             if (DoNotLog || Context == null)
                 return;
 
-            Context.LogError(message, foregroundColor);
+            if (LogSequentially)
+            {
+                _sequentialLogs.Add(message);
+            }
+            else
+            {
+                Context.LogError(message, foregroundColor);
+            }
         }
 #endif
 
@@ -776,6 +815,22 @@ namespace FlubuCore.Tasks
             }
 
             return key;
+        }
+
+        private void LogSequentialLogs(ITaskContext context)
+        {
+            if (_sequentialLogs == null || _sequentialLogs.Count == 0)
+            {
+                return;
+            }
+
+            lock (_logLockObj)
+            {
+                foreach (var log in _sequentialLogs)
+                {
+                    context.LogInfo(log);
+                }
+            }
         }
     }
 
