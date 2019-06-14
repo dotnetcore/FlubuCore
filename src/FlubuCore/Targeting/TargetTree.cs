@@ -112,9 +112,7 @@ namespace FlubuCore.Targeting
                 }
                 else
                 {
-                    var dependantTarget = _targets[dependentTargetName];
-                    dependantTarget.SequentialLogging = target.SequentialLogging;
-                    tasks.Add(RunTargetAsync(taskContext, dependentTargetName));
+                    tasks.Add(RunTargetAsync(taskContext, dependentTargetName, target.SequentialLogging));
                     if (i + 1 < n)
                     {
                         if (target.Dependencies.Values.ElementAt(i + 1) != TaskExecutionMode.Sync)
@@ -203,7 +201,7 @@ namespace FlubuCore.Targeting
             target.ExecuteVoid(taskContext);
         }
 
-        public async Task RunTargetAsync(ITaskContextInternal taskContext, string targetName)
+        public async Task RunTargetAsync(ITaskContextInternal taskContext, string targetName, bool sequentialLogging = false)
         {
             if (!_targets.ContainsKey(targetName))
             {
@@ -211,6 +209,7 @@ namespace FlubuCore.Targeting
             }
 
             ITargetInternal target = _targets[targetName];
+            target.SequentialLogging = sequentialLogging;
             await target.ExecuteVoidAsync(taskContext);
         }
 

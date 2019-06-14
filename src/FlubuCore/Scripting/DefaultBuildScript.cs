@@ -145,7 +145,9 @@ namespace FlubuCore.Scripting
                 var tasks = new List<Task>();
                 BeforeTargetExecution(taskSession);
                 foreach (var targetToRun in targetsInfo.targetsToRun)
-                    tasks.Add(taskSession.TargetTree.RunTargetAsync(taskSession, targetToRun));
+                {
+                    tasks.Add(taskSession.TargetTree.RunTargetAsync(taskSession, targetToRun, true));
+                }
 
                 Task.WaitAll(tasks.ToArray());
                 AfterTargetExecution(taskSession);

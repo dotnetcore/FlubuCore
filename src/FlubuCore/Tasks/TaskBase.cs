@@ -622,7 +622,7 @@ namespace FlubuCore.Tasks
             if (DoNotLog)
                 return;
 
-            if (TaskExecutionMode == TaskExecutionMode.Async && SequentialLogging)
+            if (SequentialLogging)
             {
                 _sequentialLogs.Add(message);
             }
