@@ -59,6 +59,8 @@ namespace FlubuCore.Targeting
 
         protected override string Description { get; set; }
 
+        protected override bool IsTarget { get; } = true;
+
         string ITargetInternal.Description
         {
             get { return Description; }
@@ -73,7 +75,7 @@ namespace FlubuCore.Targeting
         {
             foreach (string dependentTargetName in targetNames)
             {
-                _dependencies.Add(dependentTargetName, TaskExecutionMode.Synchronous);
+                _dependencies.Add(dependentTargetName, TaskExecutionMode.Sync);
             }
 
             return this;
@@ -88,7 +90,7 @@ namespace FlubuCore.Targeting
         {
             foreach (string dependentTargetName in targetNames)
             {
-                _dependencies.Add(dependentTargetName, TaskExecutionMode.Parallel);
+                _dependencies.Add(dependentTargetName, TaskExecutionMode.Async);
             }
 
             return this;
@@ -98,7 +100,7 @@ namespace FlubuCore.Targeting
         {
             var task = new DoTask(targetAction);
             taskAction?.Invoke(task);
-            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Parallel);
+            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Async);
 
             return this;
         }
@@ -107,7 +109,7 @@ namespace FlubuCore.Targeting
         {
             var task = new DoTask2<T>(targetAction, param);
             taskAction?.Invoke(task);
-            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Parallel);
+            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Async);
             return this;
         }
 
@@ -115,7 +117,7 @@ namespace FlubuCore.Targeting
         {
             var task = new DoTask3<T, T2>(targetAction, param, param2);
             taskAction?.Invoke(task);
-            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Parallel);
+            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Async);
             return this;
         }
 
@@ -123,7 +125,7 @@ namespace FlubuCore.Targeting
         {
             var task = new DoTask4<T1, T2, T3>(targetAction, param, param2, param3);
             taskAction?.Invoke(task);
-            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Parallel);
+            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Async);
             return this;
         }
 
@@ -131,7 +133,7 @@ namespace FlubuCore.Targeting
         {
             var task = new DoTask5<T1, T2, T3, T4>(targetAction, param, param2, param3, param4);
             taskAction?.Invoke(task);
-            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Parallel);
+            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Async);
             return this;
         }
 
@@ -139,7 +141,7 @@ namespace FlubuCore.Targeting
         {
             var task = new DoTask6<T1, T2, T3, T4, T5>(targetAction, param, param2, param3, param4, param5);
             taskAction?.Invoke(task);
-            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Parallel);
+            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Async);
             return this;
         }
 
@@ -147,7 +149,7 @@ namespace FlubuCore.Targeting
         {
             var task = new DoTaskAsync(targetAction);
             taskAction?.Invoke(task);
-            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Parallel);
+            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Async);
             return this;
         }
 
@@ -155,7 +157,7 @@ namespace FlubuCore.Targeting
         {
             var task = new DoTaskAsync2<T>(targetAction, param);
             taskAction?.Invoke(task);
-            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Parallel);
+            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Async);
             return this;
         }
 
@@ -163,7 +165,7 @@ namespace FlubuCore.Targeting
         {
             var task = new DoTaskAsync3<T, T2>(targetAction, param, param2);
             taskAction?.Invoke(task);
-            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Parallel);
+            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Async);
             return this;
         }
 
@@ -171,7 +173,7 @@ namespace FlubuCore.Targeting
         {
             var task = new DoTaskAsync4<T1, T2, T3>(targetAction, param, param2, param3);
             taskAction?.Invoke(task);
-            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Parallel);
+            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Async);
             return this;
         }
 
@@ -179,7 +181,7 @@ namespace FlubuCore.Targeting
         {
             var task = new DoTaskAsync5<T1, T2, T3, T4>(targetAction, param, param2, param3, param4);
             taskAction?.Invoke(task);
-            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Parallel);
+            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Async);
             return this;
         }
 
@@ -187,7 +189,7 @@ namespace FlubuCore.Targeting
         {
             var task = new DoTaskAsync6<T1, T2, T3, T4, T5>(targetAction, param, param2, param3, param4, param5);
             taskAction?.Invoke(task);
-            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Parallel);
+            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Async);
             return this;
         }
 
@@ -195,7 +197,7 @@ namespace FlubuCore.Targeting
         {
             var task = new DoTask(targetAction);
             taskAction?.Invoke(task);
-            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Synchronous);
+            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Sync);
             return this;
         }
 
@@ -203,7 +205,7 @@ namespace FlubuCore.Targeting
         {
             var task = new DoTask2<T>(targetAction, param);
             taskAction?.Invoke(task);
-            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Synchronous);
+            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Sync);
             return this;
         }
 
@@ -211,7 +213,7 @@ namespace FlubuCore.Targeting
         {
             var task = new DoTask3<T, T2>(targetAction, param, param2);
             taskAction?.Invoke(task);
-            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Synchronous);
+            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Sync);
             return this;
         }
 
@@ -219,7 +221,7 @@ namespace FlubuCore.Targeting
         {
             var task = new DoTask4<T1, T2, T3>(targetAction, param, param2, param3);
             taskAction?.Invoke(task);
-            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Synchronous);
+            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Sync);
             return this;
         }
 
@@ -227,7 +229,7 @@ namespace FlubuCore.Targeting
         {
             var task = new DoTask5<T1, T2, T3, T4>(targetAction, param, param2, param3, param4);
             taskAction?.Invoke(task);
-            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Synchronous);
+            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Sync);
             return this;
         }
 
@@ -235,7 +237,7 @@ namespace FlubuCore.Targeting
         {
             var task = new DoTask6<T1, T2, T3, T4, T5>(targetAction, param, param2, param3, param4, param5);
             taskAction?.Invoke(task);
-            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Synchronous);
+            AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Sync);
             return this;
         }
 
@@ -280,7 +282,7 @@ namespace FlubuCore.Targeting
         {
             foreach (ITargetInternal target in targets)
             {
-                _dependencies.Add(target.TargetName, TaskExecutionMode.Synchronous);
+                _dependencies.Add(target.TargetName, TaskExecutionMode.Sync);
             }
 
             return this;
@@ -290,7 +292,7 @@ namespace FlubuCore.Targeting
         {
             foreach (ITargetInternal target in targets)
             {
-                _dependencies.Add(target.TargetName, TaskExecutionMode.Parallel);
+                _dependencies.Add(target.TargetName, TaskExecutionMode.Async);
             }
 
             return this;
@@ -300,7 +302,7 @@ namespace FlubuCore.Targeting
         {
             foreach (var task in tasks)
             {
-                AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Synchronous);
+                AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Sync);
             }
 
             return this;
@@ -311,7 +313,7 @@ namespace FlubuCore.Targeting
             foreach (var task in tasks)
             {
                 task.SequentialLogging = SequentialLogging;
-                AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Parallel);
+                AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Async);
             }
 
             return this;
@@ -394,10 +396,14 @@ namespace FlubuCore.Targeting
                 }
             }
 
+            string message = TaskExecutionMode == TaskExecutionMode.Sync
+                ? $"Executing target {TargetName}"
+                : $"Executing target '{TargetName}' asynchronous.";
+
 #if  !NETSTANDARD1_6
-            context.LogInfo($"Executing target {TargetName}", Color.DimGray);
+             context.LogInfo(message, Color.DimGray);
 #else
-            context.LogInfo($"Executing target {TargetName}");
+             context.LogInfo(message);
 #endif
 
             _targetTree.EnsureDependenciesExecuted(context, TargetName);
@@ -426,22 +432,27 @@ namespace FlubuCore.Targeting
                     for (int j = 0; j < tasksCount; j++)
                     {
                         var task = (TaskHelp)_taskGroups[i].Tasks[j].task;
-#if !NETSTANDARD1_6
-                        context.LogInfo($"Executing task {task.TaskName}", Color.DimGray);
-#else
-                        context.LogInfo($"Executing task {task.TaskName}");
-#endif
 
-                        if (_taskGroups[i].Tasks[j].taskExecutionMode == TaskExecutionMode.Synchronous)
+                        if (_taskGroups[i].Tasks[j].taskExecutionMode == TaskExecutionMode.Sync)
                         {
+                            if (SequentialLogging)
+                            {
+                                _taskGroups[i].Tasks[j].task.SequentialLogging = true;
+                            }
+
                             _taskGroups[i].Tasks[j].task.ExecuteVoid(context);
                         }
                         else
                         {
+                            if (SequentialLogging)
+                            {
+                                _taskGroups[i].Tasks[j].task.SequentialLogging = true;
+                            }
+
                             tasks.Add(_taskGroups[i].Tasks[j].task.ExecuteVoidAsync(context));
                             if (j + 1 < tasksCount)
                             {
-                                if (_taskGroups[i].Tasks[j + 1].taskExecutionMode != TaskExecutionMode.Synchronous)
+                                if (_taskGroups[i].Tasks[j + 1].taskExecutionMode != TaskExecutionMode.Sync)
                                     continue;
                                 if (tasks.Count <= 0) continue;
                                 Task.WaitAll(tasks.ToArray());
@@ -449,7 +460,7 @@ namespace FlubuCore.Targeting
                             }
                             else if (i + 1 < taskGroupsCount)
                             {
-                                if (_taskGroups[i + 1].Tasks[0].taskExecutionMode != TaskExecutionMode.Synchronous)
+                                if (_taskGroups[i + 1].Tasks[0].taskExecutionMode != TaskExecutionMode.Sync)
                                     continue;
                                 if (tasks.Count <= 0) continue;
                                 Task.WaitAll(tasks.ToArray());

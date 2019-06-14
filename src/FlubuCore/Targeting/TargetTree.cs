@@ -106,7 +106,7 @@ namespace FlubuCore.Targeting
                     DependenciesExecutedCount++;
                 }
 
-                if (executionMode == TaskExecutionMode.Synchronous)
+                if (executionMode == TaskExecutionMode.Sync)
                 {
                     RunTarget(taskContext, dependentTargetName);
                 }
@@ -117,7 +117,7 @@ namespace FlubuCore.Targeting
                     tasks.Add(RunTargetAsync(taskContext, dependentTargetName));
                     if (i + 1 < n)
                     {
-                        if (target.Dependencies.Values.ElementAt(i + 1) != TaskExecutionMode.Synchronous)
+                        if (target.Dependencies.Values.ElementAt(i + 1) != TaskExecutionMode.Sync)
                             continue;
                         if (tasks.Count <= 0)
                             continue;
