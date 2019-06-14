@@ -222,6 +222,15 @@ namespace FlubuCore.Context.FluentInterface
             return this as TTargetFluentInterface;
         }
 
+        public TTargetFluentInterface AddTarget(ITarget target)
+        {
+            ActionCount = 1;
+            LastTargetAction = TargetAction.AddTask;
+            var t = (TargetFluentInterface)target;
+            Target.AddTask(TaskGroup, t.Target);
+            return this as TTargetFluentInterface;
+        }
+
         public TTargetFluentInterface When(Func<ITaskContext, bool> condition)
         {
             var conditionMeet = condition?.Invoke(Context) ?? true;

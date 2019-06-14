@@ -55,11 +55,11 @@ namespace FlubuCore.Targeting
 
         public override string TaskName => TargetName;
 
+        public override bool IsTarget { get; } = true;
+
         protected override bool LogDuration => true;
 
         protected override string Description { get; set; }
-
-        protected override bool IsTarget { get; } = true;
 
         string ITargetInternal.Description
         {
@@ -438,6 +438,11 @@ namespace FlubuCore.Targeting
                             if (SequentialLogging)
                             {
                                 _taskGroups[i].Tasks[j].task.SequentialLogging = true;
+                            }
+
+                            if (_taskGroups[i].Tasks[j].task.IsTarget)
+                            {
+                                _targetTree.EnsureDependenciesExecuted(context, _taskGroups[i].Tasks[j].task.TaskName);
                             }
 
                             _taskGroups[i].Tasks[j].task.ExecuteVoid(context);

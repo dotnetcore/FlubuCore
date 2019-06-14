@@ -68,6 +68,8 @@ namespace FlubuCore.Tasks
 
         public bool SequentialLogging { get; set; }
 
+        public virtual bool IsTarget { get; } = false;
+
         /// <summary>
         /// Stopwatch for timings.
         /// </summary>
@@ -111,8 +113,6 @@ namespace FlubuCore.Tasks
         /// </summary>
         /// <value><c>true</c> if duration should be logged; otherwise, <c>false</c>.</value>
         protected virtual bool LogDuration { get; set; } = false;
-
-        protected virtual bool IsTarget { get; } = false;
 
         /// <inheritdoc />
         [DisableForMember]

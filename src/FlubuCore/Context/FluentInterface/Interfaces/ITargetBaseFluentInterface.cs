@@ -44,6 +44,13 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
         TTargetFluentInterface AddCoreTaskAsync(Func<ICoreTaskFluentInterface, ITask> task);
 
+        /// <summary>
+        /// Add's the specified target to this target.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        TTargetFluentInterface AddTarget(ITarget target);
+
          /// <summary>
         /// Execute custom code in script. U can invoke base task actions through optional parameter.
         /// </summary>

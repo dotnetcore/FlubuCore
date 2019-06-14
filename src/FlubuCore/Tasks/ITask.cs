@@ -10,6 +10,11 @@ namespace FlubuCore.Tasks
         string TaskName { get; }
 
         /// <summary>
+        /// If true task is target otherwise it is task.
+        /// </summary>
+        bool IsTarget { get; }
+
+        /// <summary>
         /// Enables / disables sequential logging in asynchronous executed tasks.
         /// </summary>
         bool SequentialLogging { get; set; }
