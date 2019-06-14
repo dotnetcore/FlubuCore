@@ -443,6 +443,8 @@ namespace FlubuCore.Targeting
                             if (_taskGroups[i].Tasks[j].task.IsTarget)
                             {
                                 _targetTree.EnsureDependenciesExecuted(context, _taskGroups[i].Tasks[j].task.TaskName);
+                                var target = _taskGroups[i].Tasks[j].task as ITargetInternal;
+                                _targetTree.MarkTargetAsExecuted(target);
                             }
 
                             _taskGroups[i].Tasks[j].task.ExecuteVoid(context);
@@ -457,6 +459,8 @@ namespace FlubuCore.Targeting
                             if (_taskGroups[i].Tasks[j].task.IsTarget)
                             {
                                 _targetTree.EnsureDependenciesExecuted(context, _taskGroups[i].Tasks[j].task.TaskName);
+                                var target = _taskGroups[i].Tasks[j].task as ITargetInternal;
+                                _targetTree.MarkTargetAsExecuted(target);
                             }
 
                             tasks.Add(_taskGroups[i].Tasks[j].task.ExecuteVoidAsync(context));
