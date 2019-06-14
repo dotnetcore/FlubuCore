@@ -266,6 +266,7 @@ namespace FlubuCore.Tasks
         [DisableForMember]
         public TResult Execute(ITaskContext context)
         {
+            Context = context ?? throw new ArgumentNullException(nameof(context));
             TaskExecutionMode = TaskExecutionMode.Sync;
             _sequentialLogs = new List<string>();
             TaskExecuted = true;
@@ -286,7 +287,6 @@ namespace FlubuCore.Tasks
 
             ITaskContextInternal contextInternal = (ITaskContextInternal)context;
 
-            Context = context ?? throw new ArgumentNullException(nameof(context));
             TaskStopwatch.Start();
 
             try
@@ -398,6 +398,7 @@ namespace FlubuCore.Tasks
         [DisableForMember]
         public async Task<TResult> ExecuteAsync(ITaskContext context)
         {
+            Context = context ?? throw new ArgumentNullException(nameof(context));
             TaskExecutionMode = TaskExecutionMode.Async;
             _sequentialLogs = new List<string>();
             TaskExecuted = true;
@@ -412,7 +413,6 @@ namespace FlubuCore.Tasks
             }
 
             ITaskContextInternal contextInternal = (ITaskContextInternal)context;
-            Context = context ?? throw new ArgumentNullException(nameof(context));
 
             TaskStopwatch.Start();
 
@@ -595,7 +595,7 @@ namespace FlubuCore.Tasks
             }
             else
             {
-                Context?.LogInfo(message, foregroundColor);
+                Context.LogInfo(message, foregroundColor);
             }
         }
 #endif
@@ -628,7 +628,7 @@ namespace FlubuCore.Tasks
             }
             else
             {
-                Context?.LogError(message, foregroundColor);
+                Context.LogError(message, foregroundColor);
             }
         }
 #endif
@@ -641,7 +641,7 @@ namespace FlubuCore.Tasks
             }
             else
             {
-                Context?.LogInfo(message);
+                Context.LogInfo(message);
             }
         }
 
@@ -653,7 +653,7 @@ namespace FlubuCore.Tasks
             }
             else
             {
-                Context?.LogError(message);
+                Context.LogError(message);
             }
         }
 
