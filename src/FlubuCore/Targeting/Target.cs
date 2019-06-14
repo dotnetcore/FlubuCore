@@ -454,6 +454,11 @@ namespace FlubuCore.Targeting
                                 _taskGroups[i].Tasks[j].task.SequentialLogging = true;
                             }
 
+                            if (_taskGroups[i].Tasks[j].task.IsTarget)
+                            {
+                                _targetTree.EnsureDependenciesExecuted(context, _taskGroups[i].Tasks[j].task.TaskName);
+                            }
+
                             tasks.Add(_taskGroups[i].Tasks[j].task.ExecuteVoidAsync(context));
                             if (j + 1 < tasksCount)
                             {

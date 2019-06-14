@@ -47,9 +47,16 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <summary>
         /// Add's the specified target to this target.
         /// </summary>
-        /// <param name="target"></param>
+        /// <param name="target">The target to be added.</param>
         /// <returns></returns>
         TTargetFluentInterface AddTarget(ITarget target);
+
+        /// <summary>
+        /// Add's the specified target to this target.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        TTargetFluentInterface AddTargetAsync(ITarget target);
 
          /// <summary>
         /// Execute custom code in script. U can invoke base task actions through optional parameter.
