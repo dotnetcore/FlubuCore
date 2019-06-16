@@ -14,8 +14,11 @@ namespace FlubuCore.Context
     public class TaskContext : BuildPropertiesContext, ITaskContext
     {
         private readonly ITaskFactory _taskFactory;
+
         private readonly IFluentInterfaceFactory _fluentFactory;
+
         private readonly IBuildSystem _buildServers;
+
         private readonly ILogger _log;
 
         public TaskContext(
@@ -35,6 +38,8 @@ namespace FlubuCore.Context
         }
 
         public TargetTree TargetTree { get; }
+
+        protected int ExecutionDepth { get; set; }
 
         public ITaskFluentInterface Tasks()
         {
@@ -59,6 +64,7 @@ namespace FlubuCore.Context
 
         public void LogInfo(string message)
         {
+             FlubuConsoleLogger.Depth = ExecutionDepth;
             _log.LogInformation(message);
         }
 
@@ -66,18 +72,21 @@ namespace FlubuCore.Context
         public void LogInfo(string message, Color foregroundColor)
         {
             FlubuConsoleLogger.Color = foregroundColor;
+            FlubuConsoleLogger.Depth = ExecutionDepth;
             _log.LogInformation(message);
         }
         #endif
 
         public void LogError(string message)
         {
+            FlubuConsoleLogger.Depth = ExecutionDepth;
             _log.LogError(message);
         }
 
 #if !NETSTANDARD1_6
         public void LogError(string message, Color foregroundColor)
         {
+            FlubuConsoleLogger.Depth = ExecutionDepth;
             FlubuConsoleLogger.Color = foregroundColor;
             _log.LogError(message);
         }

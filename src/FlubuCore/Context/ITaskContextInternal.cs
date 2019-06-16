@@ -16,5 +16,11 @@ namespace FlubuCore.Context
         string FlubuHelpText { get; set; }
 
         void Fail(string message, int errorCode);
+
+        void DecreaseDepth();
+
+        void IncreaseDepth();
+
+        void ResetDepth();
     }
 }

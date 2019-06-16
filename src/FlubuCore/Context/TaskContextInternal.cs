@@ -34,6 +34,21 @@ namespace FlubuCore.Context
             throw new TaskExecutionException(message, errorCode);
         }
 
+        public void IncreaseDepth()
+        {
+            ExecutionDepth++;
+        }
+
+        public void DecreaseDepth()
+        {
+            ExecutionDepth--;
+        }
+
+        public void ResetDepth()
+        {
+            ExecutionDepth = 0;
+        }
+
         public void Dispose()
         {
             Dispose(true);

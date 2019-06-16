@@ -409,6 +409,7 @@ namespace FlubuCore.Targeting
              context.LogInfo(message);
 #endif
 
+            context.IncreaseDepth();
             _targetTree.EnsureDependenciesExecuted(context, TargetName);
             _targetTree.MarkTargetAsExecuted(this);
 
@@ -445,12 +446,18 @@ namespace FlubuCore.Targeting
 
                             if (_taskGroups[i].Tasks[j].task.IsTarget)
                             {
+                                context.IncreaseDepth();
                                 _targetTree.EnsureDependenciesExecuted(context, _taskGroups[i].Tasks[j].task.TaskName);
                                 var target = _taskGroups[i].Tasks[j].task as ITargetInternal;
                                 _targetTree.MarkTargetAsExecuted(target);
                             }
 
                             _taskGroups[i].Tasks[j].task.ExecuteVoid(context);
+
+                            if (_taskGroups[i].Tasks[j].task.IsTarget)
+                            {
+                                context.DecreaseDepth();
+                            }
                         }
                         else
                         {
@@ -461,6 +468,7 @@ namespace FlubuCore.Targeting
 
                             if (_taskGroups[i].Tasks[j].task.IsTarget)
                             {
+                                context.IncreaseDepth();
                                 _targetTree.EnsureDependenciesExecuted(context, _taskGroups[i].Tasks[j].task.TaskName);
                                 var target = _taskGroups[i].Tasks[j].task as ITargetInternal;
                                 _targetTree.MarkTargetAsExecuted(target);
@@ -487,6 +495,11 @@ namespace FlubuCore.Targeting
                             {
                                 Task.WaitAll(tasks.ToArray());
                             }
+
+                            if (_taskGroups[i].Tasks[j].task.IsTarget)
+                            {
+                                context.DecreaseDepth();
+                            }
                         }
                     }
                 }
@@ -497,6 +510,7 @@ namespace FlubuCore.Targeting
                 }
                 finally
                 {
+                    context.DecreaseDepth();
                     if (!CleanUpStore.StoreAccessed)
                     {
                         if (_taskGroups[i].CleanupOnCancel)

@@ -27,6 +27,9 @@ namespace FlubuCore.Infrastructure
         private static Color _consoleColor;
         #endif
 
+        [ThreadStatic]
+        private static int _depth = 0;
+
         // ConsoleColor does not have a value to specify the 'Default' color
         private readonly ConsoleColor? _defaultConsoleColor = null;
 
@@ -42,6 +45,13 @@ namespace FlubuCore.Infrastructure
         }
 
         public static bool DisableColloredLogging { get; set; }
+
+        public static int Depth
+        {
+            get { return _depth; }
+
+            set { _depth = value; }
+        }
 
 #if !NETSTANDARD1_6
        public static Color Color
@@ -112,7 +122,9 @@ namespace FlubuCore.Infrastructure
 
             var logLevelColors = default(ConsoleColors);
             var logLevelString = string.Empty;
+            string indentation = Depth > 0 ? new string(' ', Depth * 3) : string.Empty;
 
+            message = $"{indentation}{message}";
             if (!string.IsNullOrEmpty(message))
             {
                 ////logLevelColors = GetLogLevelConsoleColors(logLevel);

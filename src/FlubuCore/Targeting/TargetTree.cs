@@ -89,6 +89,7 @@ namespace FlubuCore.Targeting
             ITargetInternal target = _targets[targetName];
             int n = target.Dependencies.Count;
             List<Task> tasks = new List<Task>();
+            taskContext.IncreaseDepth();
             for (int i = 0; i < n; i++)
             {
                 var dependentTargetName = target.Dependencies.Keys.ElementAt(i);
@@ -132,6 +133,8 @@ namespace FlubuCore.Targeting
                     }
                 }
             }
+
+            taskContext.DecreaseDepth();
         }
 
         public IEnumerable<ITargetInternal> EnumerateExecutedTargets()

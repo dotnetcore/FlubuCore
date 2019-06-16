@@ -267,25 +267,26 @@ namespace FlubuCore.Tasks
         public TResult Execute(ITaskContext context)
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
+            ITaskContextInternal contextInternal = (ITaskContextInternal)context;
             TaskExecutionMode = TaskExecutionMode.Sync;
             _sequentialLogs = new List<string>();
             TaskExecuted = true;
 
             if (!IsTarget)
             {
+                contextInternal.DecreaseDepth();
 #if !NETSTANDARD1_6
                 LogSequentially($"Executing task {TaskName}", Color.DimGray);
 #else
                 LogSequentially($"Executing task {TaskName}");
 #endif
+                contextInternal.IncreaseDepth();
             }
 
             if (_cleanUpOnCancel)
             {
                 CleanUpStore.AddCleanupAction(_finallyAction);
             }
-
-            ITaskContextInternal contextInternal = (ITaskContextInternal)context;
 
             TaskStopwatch.Start();
 
