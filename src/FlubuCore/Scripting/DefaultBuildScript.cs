@@ -47,21 +47,31 @@ namespace FlubuCore.Scripting
             catch (FlubuException e)
             {
                 OnBuildFailed(taskSession, e);
+
+                if (!taskSession.Args.RethrowOnException)
+                {
+                    taskSession.LogInfo(e.Message);
+                }
+
                 AfterBuildExecution(taskSession);
                 if (taskSession.Args.RethrowOnException)
                     throw;
 
-                taskSession.LogInfo(e.Message);
                 return 1;
             }
             catch (Exception e)
             {
                 OnBuildFailed(taskSession, e);
+
+                if (!taskSession.Args.RethrowOnException)
+                {
+                    taskSession.LogInfo(e.ToString());
+                }
+
                 AfterBuildExecution(taskSession);
                 if (taskSession.Args.RethrowOnException)
                     throw;
 
-                taskSession.LogInfo(e.ToString());
                 return 2;
             }
         }
