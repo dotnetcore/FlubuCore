@@ -21,7 +21,9 @@ namespace FlubuCore.Targeting
 
         private readonly TargetTree _targetTree;
 
-        private Func<bool> _mustCondition;
+        private Func<ITaskContext, bool> _mustCondition;
+
+        private string _mustMessage;
 
         internal Target(TargetTree targetTree, string targetName, CommandArguments args)
         {
@@ -319,9 +321,10 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITargetInternal Must(Func<bool> condition)
+        public ITargetInternal Must(Func<ITaskContext, bool> condition, string message)
         {
             _mustCondition = condition;
+            _mustMessage = message;
             return this;
         }
 
@@ -388,11 +391,11 @@ namespace FlubuCore.Targeting
 
             if (_mustCondition != null)
             {
-                var conditionMeet = _mustCondition.Invoke();
+                var conditionMeet = _mustCondition.Invoke(Context);
 
                 if (conditionMeet == false)
                 {
-                    throw new TaskExecutionException($"Condition in must was not meet. Failed to execute target: '{TargetName}'.", 50);
+                    throw new TaskExecutionException($"Condition in must was not meet. Failed to execute target: '{TargetName}'. {_mustMessage}", 50);
                 }
             }
 

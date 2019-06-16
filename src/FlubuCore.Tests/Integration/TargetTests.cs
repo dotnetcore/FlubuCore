@@ -235,7 +235,7 @@ namespace FlubuCore.Tests.Integration
 
             var target1 = targetTree.AddTarget("target1");
 
-            target1.AddTask(null, new SimpleTask(new FileWrapper())).Must(() => false);
+            target1.AddTask(null, new SimpleTask(new FileWrapper())).Must((c) => false, null);
 
             var ex = Assert.Throws<TaskExecutionException>(() => target1.ExecuteVoid(Context));
             Assert.Equal(50, ex.ErrorCode);
@@ -248,7 +248,7 @@ namespace FlubuCore.Tests.Integration
 
             var target1 = targetTree.AddTarget("target1");
 
-            target1.AddTask(null, new SimpleTask(new FileWrapper())).Must(() => true);
+            target1.AddTask(null, new SimpleTask(new FileWrapper())).Must((c) => true, null);
 
             target1.ExecuteVoid(Context);
         }

@@ -219,6 +219,6 @@ namespace FlubuCore.Targeting
 
         ITargetInternal AddTaskAsync(TaskGroup taskGroup, params ITask[] task);
 
-        ITargetInternal Must(Func<bool> condition);
+        ITargetInternal Must(Func<ITaskContext, bool> condition, string message);
     }
 }
