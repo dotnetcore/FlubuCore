@@ -133,7 +133,16 @@ namespace FlubuCore.Infrastructure
 
             if (!string.IsNullOrEmpty(timeMark))
             {
-                indentation = indentation.Length > timeMark.Length ? indentation.Substring(timeMark.Length) : string.Empty;
+                if (Depth == 0)
+                {
+                    timeMark = string.Empty;
+                }
+                else
+                {
+                    indentation = indentation.Length > timeMark.Length
+                        ? indentation.Substring(timeMark.Length)
+                        : string.Empty;
+                }
             }
 
             if (!string.IsNullOrEmpty(message))
