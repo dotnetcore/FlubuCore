@@ -27,16 +27,18 @@ namespace FlubuCore.Scripting
             }
             catch (TargetNotFoundException e)
             {
+                taskSession.ResetDepth();
                 OnBuildFailed(taskSession, e);
                 AfterBuildExecution(taskSession);
                 if (taskSession.Args.RethrowOnException)
                     throw;
 
-                taskSession.LogInfo(e.Message);
+                taskSession.LogError(e.Message);
                 return 3;
             }
             catch (WebApiException e)
             {
+                taskSession.ResetDepth();
                 OnBuildFailed(taskSession, e);
                 AfterBuildExecution(taskSession);
                 if (taskSession.Args.RethrowOnException)
@@ -46,11 +48,16 @@ namespace FlubuCore.Scripting
             }
             catch (FlubuException e)
             {
+                taskSession.ResetDepth();
                 OnBuildFailed(taskSession, e);
 
                 if (!taskSession.Args.RethrowOnException)
                 {
-                    taskSession.LogInfo(e.Message);
+#if !NETSTANDARD1_6
+                    taskSession.LogError($"ERROR: {e.Message}", Color.Red);
+#else
+                    taskSession.LogError($"error: {e.Message}");
+#endif
                 }
 
                 AfterBuildExecution(taskSession);
@@ -61,11 +68,16 @@ namespace FlubuCore.Scripting
             }
             catch (Exception e)
             {
+                taskSession.ResetDepth();
                 OnBuildFailed(taskSession, e);
 
                 if (!taskSession.Args.RethrowOnException)
                 {
-                    taskSession.LogInfo(e.ToString());
+#if !NETSTANDARD1_6
+                    taskSession.LogError($"ERROR: {e.ToString()}", Color.Red);
+#else
+                    taskSession.LogError($"error: {e.ToString()}");
+#endif
                 }
 
                 AfterBuildExecution(taskSession);
