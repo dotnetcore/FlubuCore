@@ -28,8 +28,6 @@ namespace FlubuCore.Tasks
 
         private readonly List<(Expression<Func<TTask, object>> Member, string ArgKey, string consoleText, bool includeParameterlessMethodByDefault, bool interactive)> _forMembers = new List<(Expression<Func<TTask, object>> Member, string ArgKey, string consoleText, bool includeParameterlessMethodByDefault, bool interactive)>();
 
-        private bool _taskSucceded;
-
         private int _retriedTimes;
 
         private string _taskName;
@@ -67,6 +65,8 @@ namespace FlubuCore.Tasks
 
             protected internal set => _taskName = value;
         }
+
+        public TaskStatus TaskStatus { get; protected set; } = TaskStatus.NotRan;
 
         public bool SequentialLogging { get; set; }
 
@@ -301,11 +301,12 @@ namespace FlubuCore.Tasks
 
                 InvokeForMembers(_forMembers, contextInternal.Args.DisableInteractive);
                 var result = DoExecute(contextInternal);
-                _taskSucceded = true;
+                TaskStatus = TaskStatus.Finished;
                 return result;
             }
             catch (Exception ex)
             {
+                TaskStatus = TaskStatus.Failed;
                 _onErrorAction?.Invoke(Context, ex);
                 var shouldRetry = _retryCondition == null || _retryCondition.Invoke(Context, ex);
 
@@ -320,6 +321,7 @@ namespace FlubuCore.Tasks
                     contextInternal.LogInfo(
                         $"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                     _doNotFailOnErrorAction?.Invoke(ex);
+                    TaskStatus = TaskStatus.Finished;
                     return default(TResult);
                 }
 
@@ -336,6 +338,7 @@ namespace FlubuCore.Tasks
                         contextInternal.LogInfo(
                             $"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                         _doNotFailOnErrorAction?.Invoke(ex);
+                        TaskStatus = TaskStatus.Finished;
                         return default(TResult);
                     }
 
@@ -351,6 +354,7 @@ namespace FlubuCore.Tasks
 
                 while (_retriedTimes < NumberOfRetries)
                 {
+                    TaskStatus = TaskStatus.NotRan;
                     _retriedTimes++;
                     contextInternal.LogInfo($"Task failed: {ex.Message}");
                     DoLogInfo($"Retriying for {_retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
@@ -369,6 +373,7 @@ namespace FlubuCore.Tasks
                     contextInternal.LogInfo(
                         $"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                     _doNotFailOnErrorAction?.Invoke(ex);
+                    TaskStatus = TaskStatus.Finished;
                     return default(TResult);
                 }
 
@@ -386,19 +391,10 @@ namespace FlubuCore.Tasks
                     _finallyAction?.Invoke(context);
 
                     TaskStopwatch.Stop();
+                    LogFinishedStatus();
+                    LogSequentialLogs(Context);
 
-                    var statusMessage = _taskSucceded ? "finished" : "failed";
-
-                    if (LogDuration)
-                    {
-#if  !NETSTANDARD1_6
-                        DoLogInfo($"{TaskName} {statusMessage} (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)", Color.DimGray);
-#else
-   DoLogInfo($"{TaskName} {statusMessage} (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
-#endif
-                    }
-
-                    if (!_taskSucceded && IsTarget)
+                    if (TaskStatus == TaskStatus.Failed && IsTarget)
                     {
                         contextInternal.DecreaseDepth();
                     }
@@ -446,6 +442,7 @@ namespace FlubuCore.Tasks
             }
             catch (Exception ex)
             {
+                 TaskStatus = TaskStatus.Failed;
                 _onErrorAction?.Invoke(Context, ex);
                 var shouldRetry = _retryCondition == null || _retryCondition.Invoke(Context, ex);
 
@@ -459,6 +456,7 @@ namespace FlubuCore.Tasks
 
                     DoLogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                     _doNotFailOnErrorAction?.Invoke(ex);
+                    TaskStatus = TaskStatus.Finished;
                     return default(TResult);
                 }
 
@@ -474,6 +472,7 @@ namespace FlubuCore.Tasks
 
                         DoLogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                         _doNotFailOnErrorAction?.Invoke(ex);
+                        TaskStatus = TaskStatus.Finished;
                         return default(TResult);
                     }
 
@@ -493,6 +492,7 @@ namespace FlubuCore.Tasks
                     contextInternal.LogInfo($"Task failed: {ex.Message}");
                     DoLogInfo($"Retriying for {_retriedTimes} time(s). Number of all retries {NumberOfRetries}.");
                     await Task.Delay(RetryDelay);
+                    TaskStatus = TaskStatus.NotRan;
                     return await ExecuteAsync(context);
                 }
 
@@ -506,6 +506,7 @@ namespace FlubuCore.Tasks
 
                     DoLogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                     _doNotFailOnErrorAction?.Invoke(ex);
+                    TaskStatus = TaskStatus.Finished;
                     return default(TResult);
                 }
 
@@ -524,24 +525,30 @@ namespace FlubuCore.Tasks
                 }
 
                 TaskStopwatch.Stop();
-
-                if (LogDuration)
-                {
-                    var statusMessage = _taskSucceded ? "finished" : "failed";
-
-#if  !NETSTANDARD1_6
-                    DoLogInfo($"{TaskName} {statusMessage} (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)", Color.DimGray);
-#else
-                    DoLogInfo($"{TaskName} {statusMessage} (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
-#endif
-                }
-
+                LogFinishedStatus();
                 LogSequentialLogs(Context);
 
-                if (!_taskSucceded && IsTarget)
+                if (TaskStatus == TaskStatus.Failed && IsTarget)
                 {
                     contextInternal.DecreaseDepth();
                 }
+            }
+        }
+
+        public void LogFinishedStatus()
+        {
+            var statusMessage = StatusMessage();
+            var duration = TaskStatus == TaskStatus.Finished || TaskStatus == TaskStatus.Failed
+                ? $"(took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)"
+                : string.Empty;
+
+            if (LogDuration)
+            {
+#if !NETSTANDARD1_6
+                DoLogInfo($"{TaskName} {statusMessage} {duration}", Color.DimGray);
+#else
+                DoLogInfo($"{TaskName} {statusMessage} {duration}");
+#endif
             }
         }
 
@@ -889,6 +896,42 @@ namespace FlubuCore.Tasks
                     context.LogInfo(log);
                 }
             }
+        }
+
+        private string StatusMessage()
+        {
+            string statusMessage;
+            switch (TaskStatus)
+            {
+                case TaskStatus.Finished:
+                {
+                    statusMessage = "finished";
+                    break;
+                }
+
+                case TaskStatus.Failed:
+                {
+                    statusMessage = "failed";
+                    break;
+                }
+
+                case TaskStatus.Skipped:
+                {
+                    statusMessage = "skipped";
+                    break;
+                }
+
+                case TaskStatus.NotRan:
+                {
+                    statusMessage = "not ran";
+                    break;
+                }
+
+                default:
+                    throw new NotSupportedException("Task status not supported.");
+            }
+
+            return statusMessage;
         }
     }
 

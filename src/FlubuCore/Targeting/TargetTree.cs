@@ -250,12 +250,7 @@ namespace FlubuCore.Targeting
 
                 if (targt?.TaskStopwatch.ElapsedTicks > 0)
                 {
-#if !NETSTANDARD1_6
-                    session.LogInfo($"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s", Color.DimGray);
-#else
-                    session.LogInfo(
-                        $"Target {target.TargetName} took {(int)targt.TaskStopwatch.Elapsed.TotalSeconds} s");
-#endif
+                    targt.LogFinishedStatus();
                     foreach (var buildSummaryExtra in BuildSummaryExtras)
                     {
                         if (buildSummaryExtra.targetName != target.TargetName)

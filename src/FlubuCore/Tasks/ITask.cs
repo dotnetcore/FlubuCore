@@ -10,6 +10,11 @@ namespace FlubuCore.Tasks
         string TaskName { get; }
 
         /// <summary>
+        /// Status of the task.
+        /// </summary>
+        TaskStatus TaskStatus { get; }
+
+        /// <summary>
         /// If true task is target otherwise it is task.
         /// </summary>
         bool IsTarget { get; }
