@@ -243,6 +243,7 @@ namespace FlubuCore.Targeting
 
         public void LogBuildSummary(ITaskSession session)
         {
+            session.LogInfo(" ");
             foreach (var target in EnumerateExecutedTargets())
             {
                 var targt = target as Target;
