@@ -287,7 +287,7 @@ namespace FlubuCore.Targeting
             {
                 session.LogInfo("DRY RUN PERFORMED");
             }
-            else if (!session.UnknownTarget.Value)
+            else if (!session.UnknownTarget.HasValue && !session.UnknownTarget.Value)
             {
 #if !NETSTANDARD1_6
                 session.LogInfo(session.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL", session.HasFailed ? Color.Red : Color.Green);
