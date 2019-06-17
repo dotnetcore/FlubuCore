@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 using FlubuCore.Context;
@@ -30,8 +31,11 @@ namespace FlubuCore.Infrastructure
         [ThreadStatic]
         private static int _depth = 0;
 
-        // ConsoleColor does not have a value to specify the 'Default' color
+        private readonly Stopwatch _stopwatch = new Stopwatch();
+        //// ConsoleColor does not have a value to specify the 'Default' color
         private readonly ConsoleColor? _defaultConsoleColor = null;
+
+        private TimeSpan _lastTimeMark;
 
         private IConsole _console;
 
@@ -42,6 +46,8 @@ namespace FlubuCore.Infrastructure
             Console = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && buildSystem.IsLocalBuild
                 ? (IConsole)new WindowsLogConsole()
                 : new AnsiLogConsole(new AnsiSystemConsole());
+
+            _stopwatch.Start();
         }
 
         public static bool DisableColloredLogging { get; set; }
@@ -122,9 +128,14 @@ namespace FlubuCore.Infrastructure
 
             var logLevelColors = default(ConsoleColors);
             var logLevelString = string.Empty;
+            string timeMark = GetTimeMark();
             string indentation = Depth > 0 ? new string(' ', Depth * 3) : string.Empty;
 
-            message = $"{indentation}{message}";
+            if (!string.IsNullOrEmpty(timeMark))
+            {
+                indentation = indentation.Length > timeMark.Length ? indentation.Substring(timeMark.Length) : string.Empty;
+            }
+
             if (!string.IsNullOrEmpty(message))
             {
                 ////logLevelColors = GetLogLevelConsoleColors(logLevel);
@@ -142,17 +153,23 @@ namespace FlubuCore.Infrastructure
 
                 lock (Lock)
                 {
+#if !NETSTANDARD1_6
+                    if (!DisableColloredLogging)
+                    {
+                        timeMark = timeMark.Pastel(Color.Magenta);
+                    }
+#endif
                     if (_useColor && !DisableColloredLogging)
                     {
                         #if !NETSTANDARD1_6
-                        Console.Write(logMessage.Pastel(Color), _defaultConsoleColor, _defaultConsoleColor);
+                        Console.Write($"{timeMark}{indentation}{logMessage.Pastel(Color)}", _defaultConsoleColor, _defaultConsoleColor);
                         #else
-                        Console.Write(logMessage, _defaultConsoleColor, _defaultConsoleColor);
+                        Console.Write($"{timeMark}{indentation}{logMessage}", _defaultConsoleColor, _defaultConsoleColor);
                         #endif
                     }
                     else
                     {
-                        Console.Write(logMessage, _defaultConsoleColor, _defaultConsoleColor);
+                        Console.Write($"{timeMark}{indentation}{logMessage}", _defaultConsoleColor, _defaultConsoleColor);
                     }
 
                     // In case of AnsiLogConsole, the messages are not yet written to the console,
@@ -179,6 +196,20 @@ namespace FlubuCore.Infrastructure
         public IDisposable BeginScope<TState>(TState state)
         {
             throw new NotSupportedException();
+        }
+
+        private string GetTimeMark()
+        {
+            TimeSpan timeMark = _stopwatch.Elapsed;
+            TimeSpan diff = timeMark - _lastTimeMark;
+            string result = string.Empty;
+            if (diff.TotalSeconds >= 2)
+            {
+                result = string.Format("{0,1}: ", (int)diff.TotalSeconds);
+            }
+
+            _lastTimeMark = timeMark;
+            return result;
         }
 
         private ConsoleColors GetLogLevelConsoleColors(LogLevel logLevel)
