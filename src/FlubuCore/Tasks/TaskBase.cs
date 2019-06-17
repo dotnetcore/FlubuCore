@@ -28,6 +28,8 @@ namespace FlubuCore.Tasks
 
         private readonly List<(Expression<Func<TTask, object>> Member, string ArgKey, string consoleText, bool includeParameterlessMethodByDefault, bool interactive)> _forMembers = new List<(Expression<Func<TTask, object>> Member, string ArgKey, string consoleText, bool includeParameterlessMethodByDefault, bool interactive)>();
 
+        private bool _taskSucceded;
+
         private int _retriedTimes;
 
         private string _taskName;
@@ -298,7 +300,9 @@ namespace FlubuCore.Tasks
                 }
 
                 InvokeForMembers(_forMembers, contextInternal.Args.DisableInteractive);
-                return DoExecute(contextInternal);
+                var result = DoExecute(contextInternal);
+                _taskSucceded = true;
+                return result;
             }
             catch (Exception ex)
             {
@@ -383,13 +387,20 @@ namespace FlubuCore.Tasks
 
                     TaskStopwatch.Stop();
 
+                    var statusMessage = _taskSucceded ? "finished" : "failed";
+
                     if (LogDuration)
                     {
 #if  !NETSTANDARD1_6
-                        DoLogInfo($"{TaskName} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)", Color.DimGray);
+                        DoLogInfo($"{TaskName} {statusMessage} (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)", Color.DimGray);
 #else
-   DoLogInfo($"{TaskName} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
+   DoLogInfo($"{TaskName} {statusMessage} (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
 #endif
+                    }
+
+                    if (!_taskSucceded && IsTarget)
+                    {
+                        contextInternal.DecreaseDepth();
                     }
                 }
             }
@@ -516,14 +527,21 @@ namespace FlubuCore.Tasks
 
                 if (LogDuration)
                 {
+                    var statusMessage = _taskSucceded ? "finished" : "failed";
+
 #if  !NETSTANDARD1_6
-                    DoLogInfo($"{TaskName} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)", Color.DimGray);
+                    DoLogInfo($"{TaskName} {statusMessage} (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)", Color.DimGray);
 #else
-                    DoLogInfo($"{TaskName} finished (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
+                    DoLogInfo($"{TaskName} {statusMessage} (took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)");
 #endif
                 }
 
                 LogSequentialLogs(Context);
+
+                if (!_taskSucceded && IsTarget)
+                {
+                    contextInternal.DecreaseDepth();
+                }
             }
         }
 
