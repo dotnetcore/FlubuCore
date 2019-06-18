@@ -32,6 +32,8 @@ namespace FlubuCore.Tasks.Process
 
         private string _additionalOptionPrefix = "/o:";
 
+        private char? _additionalOptionKeyValueSeperator = null;
+
         /// <inheritdoc />
         public RunProgramTask(ICommandFactory commandFactory, string programToExecute)
         {
@@ -136,6 +138,18 @@ namespace FlubuCore.Tasks.Process
             return this;
         }
 
+        public IRunProgramTask ChangeAdditionalOptionPrefix(string newPrefix)
+        {
+            _additionalOptionPrefix = newPrefix;
+            return this;
+        }
+
+        public IRunProgramTask ChangeAdditionalOptionKeyValueSeperator(char newSeperator)
+        {
+            _additionalOptionKeyValueSeperator = newSeperator;
+            return this;
+        }
+
         /// <inheritdoc />
         protected override int DoExecute(ITaskContextInternal context)
         {
@@ -181,6 +195,11 @@ namespace FlubuCore.Tasks.Process
                 if (additionalOption.StartsWith(_additionalOptionPrefix))
                 {
                     var option = additionalOption.Remove(0, _additionalOptionPrefix.Length);
+                    if (_additionalOptionKeyValueSeperator.HasValue)
+                    {
+                        option = option.Replace('=', _additionalOptionKeyValueSeperator.Value);
+                    }
+
                     _arguments.Add((option, false));
                 }
             }
