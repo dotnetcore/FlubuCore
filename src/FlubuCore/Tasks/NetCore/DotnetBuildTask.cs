@@ -112,6 +112,75 @@ namespace FlubuCore.Tasks.NetCore
             return this;
         }
 
+        /// <summary>
+        /// Set the --version-suffix.
+        /// </summary>
+        /// <param name="suffix">version suffix e.g. -alpha</param>
+        /// <returns></returns>
+        public DotnetBuildTask VersionSuffix(string suffix)
+        {
+            WithArgumentsValueRequired("--version-suffix", suffix);
+            return this;
+        }
+
+        /// <summary>
+        /// Set version
+        /// </summary>
+        /// <param name="version">Version prefix e.g. 1.0.0</param>
+        /// <param name="versionSuffix">Version suffix e.g. -alpha</param>
+        /// <returns></returns>
+        public DotnetBuildTask Version(string version, string versionSuffix = null)
+        {
+            if (!string.IsNullOrEmpty(versionSuffix))
+            {
+                if (!versionSuffix.StartsWith("-"))
+                {
+                    versionSuffix = versionSuffix.Insert(0, "-");
+                }
+
+                WithArguments($"/p:Version={version}{versionSuffix}");
+            }
+            else
+            {
+                WithArguments($"/p:Version={version}");
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Set information version
+        /// </summary>
+        /// <param name="version"></param>
+        /// <returns></returns>
+        public DotnetBuildTask InformationalVersion(string version)
+        {
+            WithArguments($"/p:InformationalVersion={version}");
+            return this;
+        }
+
+        /// <summary>
+        /// Set assembly version
+        /// </summary>
+        /// <param name="version"></param>
+        /// <returns></returns>
+        public DotnetBuildTask AssemblyVersion(string version)
+        {
+            WithArguments($"/p:AssemblyVersion={version}");
+            return this;
+        }
+
+        /// <summary>
+        /// Set file version
+        /// </summary>
+        /// <param name="version"></param>
+        /// <returns></returns>
+        public DotnetBuildTask FileVersion(string version)
+        {
+            WithArguments($"/p:FileVersion={version}");
+            return this;
+        }
+
         protected override void BeforeExecute(ITaskContextInternal context)
         {
             var args = GetArguments();

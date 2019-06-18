@@ -91,6 +91,64 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
+        /// Set version
+        /// </summary>
+        /// <param name="version">Version prefix e.g. 1.0.0</param>
+        /// <param name="versionSuffix">Version suffix e.g. -alpha</param>
+        /// <returns></returns>
+        public DotnetPublishTask Version(string version, string versionSuffix = null)
+        {
+            if (!string.IsNullOrEmpty(versionSuffix))
+            {
+                if (!versionSuffix.StartsWith("-"))
+                {
+                    versionSuffix = versionSuffix.Insert(0, "-");
+                }
+
+                WithArguments($"/p:Version={version}{versionSuffix}");
+            }
+            else
+            {
+                WithArguments($"/p:Version={version}");
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Set information version
+        /// </summary>
+        /// <param name="version"></param>
+        /// <returns></returns>
+        public DotnetPublishTask InformationalVersion(string version)
+        {
+            WithArguments($"/p:InformationalVersion={version}");
+            return this;
+        }
+
+        /// <summary>
+        /// Set assembly version
+        /// </summary>
+        /// <param name="version"></param>
+        /// <returns></returns>
+        public DotnetPublishTask AssemblyVersion(string version)
+        {
+            WithArguments($"/p:AssemblyVersion={version}");
+            return this;
+        }
+
+        /// <summary>
+        /// Set file version
+        /// </summary>
+        /// <param name="version"></param>
+        /// <returns></returns>
+        public DotnetPublishTask FileVersion(string version)
+        {
+            WithArguments($"/p:FileVersion={version}");
+            return this;
+        }
+
+        /// <summary>
         ///  Set this flag to ignore project to project references and only restore the root project
         /// </summary>
         /// <returns></returns>

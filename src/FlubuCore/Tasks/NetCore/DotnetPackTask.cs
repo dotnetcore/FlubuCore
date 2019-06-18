@@ -90,7 +90,32 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetPackTask VersionSufix(string versionSufix)
         {
-            WithArguments("--version-suffix", versionSufix);
+            WithArgumentsValueRequired("--version-suffix", versionSufix);
+            return this;
+        }
+
+        /// <summary>
+        /// Set's package version
+        /// </summary>
+        /// <param name="version">Version prefix e.g. 1.0.0</param>
+        /// <param name="versionSuffix">Version suffix e.g. -alpha</param>
+        /// <returns></returns>
+        public DotnetPackTask PackageVersion(string version, string versionSuffix = null)
+        {
+            if (!string.IsNullOrEmpty(versionSuffix))
+            {
+                if (!versionSuffix.StartsWith("-"))
+                {
+                    versionSuffix = versionSuffix.Insert(0, "-");
+                }
+
+                WithArguments($"/p:PackageVersion={version}{versionSuffix}");
+            }
+            else
+            {
+                WithArguments($"/p:PackageVersion={version}");
+            }
+
             return this;
         }
 
