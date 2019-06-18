@@ -38,7 +38,7 @@ namespace FlubuCore.Tests.Commanding
             var res = _parser.Parse(new[] { value });
 
             Assert.Equal(value, res.MainCommands[0]);
-            Assert.Empty(res.RemainingCommands);
+            Assert.Empty(res.AdditionalOptions);
             Assert.False(res.Help);
         }
 

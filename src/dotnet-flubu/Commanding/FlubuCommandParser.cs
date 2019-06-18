@@ -89,7 +89,7 @@ namespace DotNet.Cli.Flubu.Commanding
         private int PrepareDefaultArguments()
         {
             _parsed.Help = false;
-            _parsed.MainCommands = _command.Values;
+            _parsed.MainCommands = _command.Values.Where(x => !x.StartsWith("/")).ToList();
             _parsed.Script = _scriptPath.Value();
             _parsed.AssemblyDirectories = _assemblyDirectories.Values;
             if (_targetsToExecute.HasValue())
@@ -149,9 +149,11 @@ namespace DotNet.Cli.Flubu.Commanding
                 }
                 else
                 {
-                    _parsed.RemainingCommands.Add(remainingArgument);
+                    _parsed.AdditionalOptions.Add(remainingArgument);
                 }
             }
+
+            _parsed.AdditionalOptions.AddRange(_command.Values.Where(x => x.StartsWith("/")).ToList());
 
             GetScriptArgumentsFromConfiguration();
         }

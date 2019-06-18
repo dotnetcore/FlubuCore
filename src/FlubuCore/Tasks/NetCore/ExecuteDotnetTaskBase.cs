@@ -51,11 +51,6 @@ namespace FlubuCore.Tasks.NetCore
             task
                 .WithArguments(Command);
 
-            foreach (var arg in argumentsFlat)
-            {
-                task.WithArguments(arg.arg, arg.maskArg);
-            }
-
             task
                 .WorkingFolder(ExecuteWorkingFolder)
                 .CaptureErrorOutput()

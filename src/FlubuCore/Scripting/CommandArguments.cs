@@ -32,7 +32,7 @@ namespace FlubuCore.Scripting
         /// </summary>
         public bool DisableColoredLogging { get; set; }
 
-        public List<string> RemainingCommands { get; set; } = new List<string>();
+        public List<string> AdditionalOptions { get; set; } = new List<string>();
 
         /// <summary>
         /// Location where <see cref="BuildScriptLocator"/> searches for build script.

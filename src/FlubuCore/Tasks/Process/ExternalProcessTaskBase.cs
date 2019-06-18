@@ -35,6 +35,8 @@ namespace FlubuCore.Tasks.Process
         /// </summary>
         protected bool NoOutputLog { get; set; }
 
+        protected virtual string AdditionalOptionPrefix { get; set; } = "/o:";
+
         protected internal List<string> GetArguments()
         {
             var argumentsFlat = new List<string>();
@@ -195,6 +197,7 @@ namespace FlubuCore.Tasks.Process
             BeforeExecute(context);
 
             var argumentsFlat = ValidateAndGetArgumentsFlat();
+
             foreach (var arg in argumentsFlat)
             {
                 _task.WithArguments(arg.arg, arg.maskArg);

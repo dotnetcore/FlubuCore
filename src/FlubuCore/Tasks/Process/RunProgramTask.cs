@@ -11,15 +11,26 @@ namespace FlubuCore.Tasks.Process
     public class RunProgramTask : TaskBase<int, IRunProgramTask>, IRunProgramTask
     {
         private readonly List<(string arg, bool maskArg)> _arguments = new List<(string arg, bool masgArg)>();
+
         private readonly StringBuilder _output = new StringBuilder();
+
         private readonly StringBuilder _errorOutput = new StringBuilder();
+
         private string _programToExecute;
+
         private ICommandFactory _commandFactory;
+
         private string _workingFolder;
+
         private bool _captureOutput;
+
         private bool _captureErrorOutput;
+
         private bool _doNotLogOutput;
+
         private string _description;
+
+        private string _additionalOptionPrefix = "/o:";
 
         /// <inheritdoc />
         public RunProgramTask(ICommandFactory commandFactory, string programToExecute)
@@ -164,6 +175,16 @@ namespace FlubuCore.Tasks.Process
                 });
 
             string commandArgs = null;
+
+            foreach (var additionalOption in context.Args.AdditionalOptions)
+            {
+                if (additionalOption.StartsWith(_additionalOptionPrefix))
+                {
+                    var option = additionalOption.Remove(0, _additionalOptionPrefix.Length);
+                    _arguments.Add((option, false));
+                }
+            }
+
             foreach (var arg in _arguments)
             {
                 commandArgs = !arg.maskArg ? $"{commandArgs} {arg.arg}" : $"{commandArgs} ####";
