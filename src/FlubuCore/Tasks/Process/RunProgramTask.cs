@@ -34,6 +34,8 @@ namespace FlubuCore.Tasks.Process
 
         private char? _additionalOptionKeyValueSeperator = null;
 
+        private Func<string, string> _addPrefixToAdditionalOptionKey = null;
+
         /// <inheritdoc />
         public RunProgramTask(ICommandFactory commandFactory, string programToExecute)
         {
@@ -150,6 +152,12 @@ namespace FlubuCore.Tasks.Process
             return this;
         }
 
+        public IRunProgramTask AddPrefixToAdditionalOptionKey(Func<string, string> action)
+        {
+            _addPrefixToAdditionalOptionKey = action;
+            return this;
+        }
+
         /// <inheritdoc />
         protected override int DoExecute(ITaskContextInternal context)
         {
@@ -199,6 +207,8 @@ namespace FlubuCore.Tasks.Process
                     {
                         option = option.Replace('=', _additionalOptionKeyValueSeperator.Value);
                     }
+
+                    option = _addPrefixToAdditionalOptionKey?.Invoke(option);
 
                     _arguments.Add((option, false));
                 }

@@ -1,4 +1,6 @@
-﻿namespace FlubuCore.Tasks.Process
+﻿using System;
+
+namespace FlubuCore.Tasks.Process
 {
     /// <inheritdoc cref="ITaskOfT{T, TTask}" />
     public interface IRunProgramTask : ITaskOfT<int, IRunProgramTask>, IExternalProcess<IRunProgramTask>
@@ -26,5 +28,11 @@
         /// </summary>
         /// <returns></returns>
         string GetErrorOutput();
+
+        IRunProgramTask ChangeAdditionalOptionPrefix(string newPrefix);
+
+        IRunProgramTask ChangeAdditionalOptionKeyValueSeperator(char newSeperator);
+
+        IRunProgramTask AddPrefixToAdditionalOptionKey(Func<string, string> action);
     }
 }
