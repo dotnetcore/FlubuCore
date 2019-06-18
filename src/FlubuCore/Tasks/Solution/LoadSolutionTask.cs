@@ -3,7 +3,7 @@ using FlubuCore.Tasks.Solution.VSSolutionBrowsing;
 
 namespace FlubuCore.Tasks.Solution
 {
-    public class LoadSolutionTask : TaskBase<int, LoadSolutionTask>
+    public class LoadSolutionTask : TaskBase<VSSolution, LoadSolutionTask>
     {
         private string _description;
 
@@ -36,7 +36,7 @@ namespace FlubuCore.Tasks.Solution
 
         public string SolutionFile { get; private set; }
 
-        protected override int DoExecute(ITaskContextInternal context)
+        protected override VSSolution DoExecute(ITaskContextInternal context)
         {
             if (string.IsNullOrEmpty(SolutionFile))
             {
@@ -52,7 +52,7 @@ namespace FlubuCore.Tasks.Solution
             VSSolution solution = VSSolution.Load(SolutionFile);
             context.Properties.Set(BuildProps.Solution, solution);
             solution.LoadProjects();
-            return 0;
+            return solution;
         }
     }
 }
