@@ -153,7 +153,7 @@ public class BuildScript : DefaultBuildScript
         var nugetVersion = version.ToString(3);
 
         var key = context.ScriptArgs["nugetKey"];
-      
+        
         context.CoreTasks().NugetPush($"output\\FlubuCore.WebApi.Model.{nugetVersion}.nupkg")
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.WebApi.Model. exception: {e.Message}"); })
             .WithArguments("-s", "https://www.nuget.org/api/v2/package")

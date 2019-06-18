@@ -312,7 +312,11 @@ namespace FlubuCore.Targeting
         {
             foreach (var task in tasks)
             {
-                task.SequentialLogging = SequentialLogging;
+                if (task is TaskCore tmp)
+                {
+                    tmp.SequentialLogging = SequentialLogging;
+                }
+
                 AddTaskToTaskGroup(taskGroup, task, TaskExecutionMode.Async);
             }
 
@@ -335,7 +339,7 @@ namespace FlubuCore.Targeting
             {
                 for (int j = 0; j < _taskGroups[i].Tasks.Count; j++)
                 {
-                    var task = (TaskHelp)_taskGroups[i].Tasks[j].task;
+                    var task = (TaskCore)_taskGroups[i].Tasks[j].task;
                     task.LogTaskHelp(context);
                 }
             }
@@ -435,16 +439,16 @@ namespace FlubuCore.Targeting
                 {
                     for (int j = 0; j < tasksCount; j++)
                     {
-                        var task = (TaskHelp)_taskGroups[i].Tasks[j].task;
+                        var task = (TaskCore)_taskGroups[i].Tasks[j].task;
 
                         if (_taskGroups[i].Tasks[j].taskExecutionMode == TaskExecutionMode.Sync)
                         {
                             if (SequentialLogging)
                             {
-                                _taskGroups[i].Tasks[j].task.SequentialLogging = true;
+                                task.SequentialLogging = SequentialLogging;
                             }
 
-                            if (_taskGroups[i].Tasks[j].task.IsTarget)
+                            if (task.IsTarget)
                             {
                                 context.IncreaseDepth();
                                 _targetTree.EnsureDependenciesExecuted(context, _taskGroups[i].Tasks[j].task.TaskName);
@@ -454,7 +458,7 @@ namespace FlubuCore.Targeting
 
                             _taskGroups[i].Tasks[j].task.ExecuteVoid(context);
 
-                            if (_taskGroups[i].Tasks[j].task.IsTarget)
+                            if (task.IsTarget)
                             {
                                 context.DecreaseDepth();
                             }
@@ -463,10 +467,10 @@ namespace FlubuCore.Targeting
                         {
                             if (SequentialLogging)
                             {
-                                _taskGroups[i].Tasks[j].task.SequentialLogging = true;
+                                task.SequentialLogging = SequentialLogging;
                             }
 
-                            if (_taskGroups[i].Tasks[j].task.IsTarget)
+                            if (task.IsTarget)
                             {
                                 context.IncreaseDepth();
                                 _targetTree.EnsureDependenciesExecuted(context, _taskGroups[i].Tasks[j].task.TaskName);
@@ -496,7 +500,7 @@ namespace FlubuCore.Targeting
                                 Task.WaitAll(tasks.ToArray());
                             }
 
-                            if (_taskGroups[i].Tasks[j].task.IsTarget)
+                            if (task.IsTarget)
                             {
                                 context.DecreaseDepth();
                             }
@@ -556,7 +560,7 @@ namespace FlubuCore.Targeting
 
         private void CheckThatTaskWasNotExecutedAlready(ITask result)
         {
-            if (result is TaskHelp taskBase)
+            if (result is TaskCore taskBase)
             {
                 if (taskBase.TaskExecuted)
                 {

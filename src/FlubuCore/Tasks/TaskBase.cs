@@ -21,7 +21,7 @@ namespace FlubuCore.Tasks
     /// <summary>
     ///     A base abstract class from which tasks can be implemented.
     /// </summary>
-    public abstract class TaskBase<TResult, TTask> : TaskHelp, ITaskOfT<TResult, TTask>
+    public abstract class TaskBase<TResult, TTask> : TaskCore, ITaskOfT<TResult, TTask>
         where TTask : class, ITask
     {
         private static object _logLockObj = new object();
@@ -65,12 +65,6 @@ namespace FlubuCore.Tasks
 
             protected internal set => _taskName = value;
         }
-
-        public TaskStatus TaskStatus { get; protected set; } = TaskStatus.NotRan;
-
-        public bool SequentialLogging { get; set; }
-
-        public virtual bool IsTarget { get; } = false;
 
         /// <summary>
         /// Stopwatch for timings.
@@ -535,7 +529,7 @@ namespace FlubuCore.Tasks
             }
         }
 
-        public void LogFinishedStatus()
+        internal void LogFinishedStatus()
         {
             var statusMessage = StatusMessage();
             var duration = TaskStatus == TaskStatus.Finished || TaskStatus == TaskStatus.Failed
@@ -935,9 +929,15 @@ namespace FlubuCore.Tasks
         }
     }
 
-    public abstract class TaskHelp
+    public abstract class TaskCore
     {
         public virtual string TaskName { get; protected internal set; }
+
+        public TaskStatus TaskStatus { get; protected set; } = TaskStatus.NotRan;
+
+        public bool SequentialLogging { get; set; }
+
+        public virtual bool IsTarget { get; } = false;
 
         protected internal bool TaskExecuted { get;  set; }
 

@@ -12,6 +12,11 @@ namespace FlubuCore.Targeting
 
         string TargetName { get; }
 
+        /// <summary>
+        /// Enables / disables sequential logging in asynchronous executed tasks.
+        /// </summary>
+        bool SequentialLogging { get; set; }
+
         string Description { get; }
 
         /// <summary>
