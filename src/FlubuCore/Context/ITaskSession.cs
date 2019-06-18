@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using FlubuCore.Targeting;
 
 namespace FlubuCore.Context
@@ -8,6 +9,8 @@ namespace FlubuCore.Context
         bool HasFailed { get; }
 
         bool? UnknownTarget { get; set; }
+
+        Stopwatch BuildStopwatch { get; }
 
         void Start();
 
