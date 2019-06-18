@@ -45,9 +45,15 @@ namespace FlubuCore.Tasks.Solution
                 {
                     throw new TaskExecutionException($"Solution file name not set. Set it through fluent interface or build property 'BuildProps.{nameof(BuildProps.SolutionFileName)}'", 0);
                 }
+
+                var sol = context.Properties.TryGet<VSSolution>(BuildProps.Solution);
+                if (sol != null)
+                {
+                    return sol;
+                }
             }
 
-            DoLogInfo($"Load solution {SolutionFile} properties");
+            DoLogInfo($"Load solution {SolutionFile} information");
 
             VSSolution solution = VSSolution.Load(SolutionFile);
             context.Properties.Set(BuildProps.Solution, solution);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using FlubuCore.Tasks.Solution.VSSolutionBrowsing;
 
 namespace FlubuCore.Context
 {
@@ -21,6 +22,39 @@ namespace FlubuCore.Context
             }
 
             context.LogInfo("Debugger attached.");
+        }
+
+        /// <summary>
+        /// Get's Visual studio solution information. if <see cref="solutionFileName"/> is not specified solution file name is readed from <see cref="IBuildPropertiesContext"/> property <see cref="BuildProps.SolutionFileName"/>
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="solutionFileName"></param>
+        /// <returns></returns>
+        public static VSSolution GetVsSolution(this ITaskContext context, string solutionFileName = null)
+        {
+            VSSolution solution = null;
+            bool saveSolution = true;
+            if (string.IsNullOrEmpty(solutionFileName))
+            {
+                solutionFileName = context.Properties.TryGet<string>(BuildProps.SolutionFileName);
+                solution = context.Properties.TryGet<VSSolution>(BuildProps.Solution);
+            }
+            else
+            {
+                saveSolution = false;
+            }
+
+            if (solution == null)
+            {
+               solution = context.Tasks().LoadSolutionTask(solutionFileName).DoNotFailOnError().Execute(context);
+            }
+
+            if (saveSolution)
+            {
+                context.Properties.Set(BuildProps.Solution, solution);
+            }
+
+            return solution;
         }
     }
 }
