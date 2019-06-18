@@ -21,9 +21,7 @@ namespace FlubuCore.Targeting
 
         private readonly TargetTree _targetTree;
 
-        private Func<ITaskContext, bool> _mustCondition;
-
-        private string _mustMessage;
+        private readonly List<(Func<ITaskContext, bool> condition, string failMessage)> _musts = new List<(Func<ITaskContext, bool> condition, string failMessage)>();
 
         internal Target(TargetTree targetTree, string targetName, CommandArguments args)
         {
@@ -321,10 +319,9 @@ namespace FlubuCore.Targeting
             return this;
         }
 
-        public ITargetInternal Must(Func<ITaskContext, bool> condition, string message)
+        public ITargetInternal Must(Func<ITaskContext, bool> condition, string failMessage)
         {
-            _mustCondition = condition;
-            _mustMessage = message;
+            _musts.Add((condition, failMessage));
             return this;
         }
 
@@ -389,13 +386,16 @@ namespace FlubuCore.Targeting
                 throw new ArgumentNullException(nameof(_targetTree), "TargetTree must be set before Execution of target.");
             }
 
-            if (_mustCondition != null)
+            if (_musts.Count > 0)
             {
-                var conditionMeet = _mustCondition.Invoke(Context);
-
-                if (conditionMeet == false)
+                foreach (var must in _musts)
                 {
-                    throw new TaskExecutionException($"Condition in must was not meet. Failed to execute target: '{TargetName}'. {_mustMessage}", 50);
+                    var conditionMeet = must.condition.Invoke(Context);
+
+                    if (conditionMeet == false)
+                    {
+                        throw new TaskExecutionException($"Condition in must was not meet. Failed to execute target: '{TargetName}'. {must.failMessage}", 50);
+                    }
                 }
             }
 
