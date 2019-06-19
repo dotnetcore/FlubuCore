@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FlubuCore.Context;
 using FlubuCore.Tasks.Process;
 
@@ -55,9 +56,20 @@ namespace FlubuCore.Tasks.NetCore
                 .WorkingFolder(ExecuteWorkingFolder)
                 .CaptureErrorOutput()
                 .CaptureOutput()
+                .AddPrefixToAdditionalOptionKey(AddDashPrefixToAdditionalOptionKey)
                 .ExecuteVoid(context);
 
             return 0;
+        }
+
+        private string AddDashPrefixToAdditionalOptionKey(string key)
+        {
+            if (key == null || !char.IsLetterOrDigit(key[0]))
+            {
+                return key;
+            }
+
+            return key.Length == 1 ? $"-{key}" : $"--{key}";
         }
     }
 }

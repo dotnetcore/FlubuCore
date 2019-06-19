@@ -203,12 +203,13 @@ namespace FlubuCore.Tasks.Process
                 if (additionalOption.StartsWith(_additionalOptionPrefix))
                 {
                     var option = additionalOption.Remove(0, _additionalOptionPrefix.Length);
+                    var splitOption = option.Split('=');
+                    option = $"{_addPrefixToAdditionalOptionKey?.Invoke(splitOption[0])}={splitOption[1]}";
+
                     if (_additionalOptionKeyValueSeperator.HasValue)
                     {
                         option = option.Replace('=', _additionalOptionKeyValueSeperator.Value);
                     }
-
-                    option = _addPrefixToAdditionalOptionKey?.Invoke(option);
 
                     _arguments.Add((option, false));
                 }
