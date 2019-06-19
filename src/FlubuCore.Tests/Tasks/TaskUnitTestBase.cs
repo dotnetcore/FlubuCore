@@ -1,4 +1,5 @@
-﻿using FlubuCore.Context;
+﻿using System;
+using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks.Process;
@@ -26,6 +27,7 @@ namespace FlubuCore.Tests.Tasks
             RunProgramTask.Setup(x => x.WorkingFolder(It.IsAny<string>())).Returns(RunProgramTask.Object);
             RunProgramTask.Setup(x => x.CaptureErrorOutput()).Returns(RunProgramTask.Object);
             RunProgramTask.Setup(x => x.CaptureOutput()).Returns(RunProgramTask.Object);
+            RunProgramTask.Setup(x => x.AddPrefixToAdditionalOptionKey(It.IsAny<Func<string, string>>())).Returns(RunProgramTask.Object);
         }
 
         protected Mock<ITaskContextInternal> Context { get; set; }
