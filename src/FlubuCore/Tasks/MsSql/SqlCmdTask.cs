@@ -24,10 +24,6 @@ namespace FlubuCore.Tasks.MsSql
         {
             _sqlFiles.AddRange(sqlFiles);
             _sqlCmdExePaths.Add(DefaultSqlCmdExe);
-            AddAdditionalOptionPrefix("SqlCmd");
-            AddAdditionalOptionPrefix("MsSql");
-            AddAdditionalOptionPrefix("Sql");
-            AddAdditionalOptionPrefix("MsSqlCmd");
         }
 
         protected override string Description
@@ -211,6 +207,10 @@ namespace FlubuCore.Tasks.MsSql
                     .CaptureOutput()
                     .WorkingFolder(ExecuteWorkingFolder)
                     .AddPrefixToAdditionalOptionKey(PrefixProcessors.AddSingleDashPrefixToAdditionalOptionKey)
+                    .AddNewAdditionalOptionPrefix("SqlCmd")
+                    .AddNewAdditionalOptionPrefix("Sql")
+                    .AddNewAdditionalOptionPrefix("MsSql")
+                    .AddNewAdditionalOptionPrefix("MsSqlCmd")
                     .ExecuteVoid(context);
 
                 _output = task.GetOutput();
