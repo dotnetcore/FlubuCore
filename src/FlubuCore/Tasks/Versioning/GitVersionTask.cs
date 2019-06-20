@@ -276,6 +276,8 @@ namespace FlubuCore.Tasks.Versioning
 
         protected override GitVersion DoExecute(ITaskContextInternal context)
         {
+            AddPrefixToAdditionalOptionKey(AddSlashPrefixToAdditionalOptionKey);
+            ChangeAdditionalOptionKeyValueSeperator(' ');
             base.DoExecute(context);
 
             var output = GetOutput();
@@ -287,6 +289,16 @@ namespace FlubuCore.Tasks.Versioning
             }
 
             return null;
+        }
+
+       private string AddSlashPrefixToAdditionalOptionKey(string key)
+       {
+            if (key == null || !char.IsLetterOrDigit(key[0]))
+            {
+                return key;
+            }
+
+            return $"/{key}";
         }
     }
 }

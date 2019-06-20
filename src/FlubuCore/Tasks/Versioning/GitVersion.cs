@@ -6,56 +6,56 @@ namespace FlubuCore.Tasks.Versioning
 {
     public class GitVersion
     {
-        public virtual int Major { get; set; }
+        public int Major { get; set; }
 
-        public virtual int Minor { get; set; }
+        public int Minor { get; set; }
 
-        public virtual int Patch { get; set; }
+        public int Patch { get; set; }
 
-        public virtual string PreReleaseTag { get; set; }
+        public string PreReleaseTag { get; set; }
 
-        public virtual string PreReleaseTagWithDash { get; set; }
+        public string PreReleaseTagWithDash { get; set; }
 
-        public virtual string PreReleaseLabel { get; set; }
+        public string PreReleaseLabel { get; set; }
 
-        public virtual string PreReleaseNumber { get; set; }
+        public string PreReleaseNumber { get; set; }
 
-        public virtual string BuildMetaData { get; set; }
+        public string BuildMetaData { get; set; }
 
-        public virtual string BuildMetaDataPadded { get; set; }
+        public string BuildMetaDataPadded { get; set; }
 
-        public virtual string FullBuildMetaData { get; set; }
+        public string FullBuildMetaData { get; set; }
 
-        public virtual string MajorMinorPatch { get; set; }
+        public string MajorMinorPatch { get; set; }
 
-        public virtual string SemVer { get; set; }
+        public string SemVer { get; set; }
 
-        public virtual string LegacySemVer { get; set; }
+        public string LegacySemVer { get; set; }
 
-        public virtual string LegacySemVerPadded { get; set; }
+        public string LegacySemVerPadded { get; set; }
 
-        public virtual string AssemblySemVer { get; set; }
+        public string AssemblySemVer { get; set; }
 
-        public virtual string FullSemVer { get; set; }
+        public string FullSemVer { get; set; }
 
-        public virtual string InformationalVersion { get; set; }
+        public string InformationalVersion { get; set; }
 
-        public virtual string BranchName { get; set; }
+        public string BranchName { get; set; }
 
-        public virtual string Sha { get; set; }
+        public string Sha { get; set; }
 
-        public virtual string NuGetVersionV2 { get; set; }
+        public string NuGetVersionV2 { get; set; }
 
-        public virtual string NuGetVersion { get; set; }
+        public string NuGetVersion { get; set; }
 
-        public virtual string NuGetPreReleaseTagV2 { get; set; }
+        public string NuGetPreReleaseTagV2 { get; set; }
 
-        public virtual string NuGetPreReleaseTag { get; set; }
+        public string NuGetPreReleaseTag { get; set; }
 
-        public virtual string CommitsSinceVersionSource { get; set; }
+        public string CommitsSinceVersionSource { get; set; }
 
-        public virtual string CommitsSinceVersionSourcePadded { get; set; }
+        public string CommitsSinceVersionSourcePadded { get; set; }
 
-        public virtual string CommitDate { get; set; }
+        public string CommitDate { get; set; }
     }
 }
