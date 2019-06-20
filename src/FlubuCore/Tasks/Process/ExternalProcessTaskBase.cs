@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.Process
@@ -6,6 +7,10 @@ namespace FlubuCore.Tasks.Process
     public abstract class ExternalProcessTaskBase<TResult, TTask> : TaskBase<TResult, TTask>, IExternalProcess<TTask>
         where TTask : class, ITask
     {
+        private Func<string, string> _prefixToAdditionalOptionKeyFunc;
+
+        private char _additionalOptionKeyValueSeperator;
+
         private IRunProgramTask _task;
 
         // ReSharper disable once InconsistentNaming
@@ -203,7 +208,10 @@ namespace FlubuCore.Tasks.Process
                 _task.WithArguments(arg.arg, arg.maskArg);
             }
 
-            var result = _task.Execute(context);
+            var result = _task
+                .AddPrefixToAdditionalOptionKey(_prefixToAdditionalOptionKeyFunc)
+                .ChangeAdditionalOptionKeyValueSeperator(_additionalOptionKeyValueSeperator)
+                .Execute(context);
 
             if (typeof(TResult) == typeof(int))
             {
@@ -236,6 +244,18 @@ namespace FlubuCore.Tasks.Process
             }
 
             return argumentsFlat;
+        }
+
+        protected TTask AddPrefixToAdditionalOptionKey(Func<string, string> func)
+        {
+            _prefixToAdditionalOptionKeyFunc = func;
+            return this as TTask;
+        }
+
+        protected TTask ChangeAdditionalOptionKeyValueSeperator(char newSeperator)
+        {
+            _additionalOptionKeyValueSeperator = newSeperator;
+            return this as TTask;
         }
 
         protected virtual void BeforeExecute(ITaskContextInternal context)
