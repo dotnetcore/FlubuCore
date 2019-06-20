@@ -7,6 +7,7 @@ namespace FlubuCore.Tasks.Git
         public GitCheckoutTask(string branch)
         {
             ExecutablePath = "git";
+            AddPrefixToAdditionalOptionKey(PrefixProcessors.AddDoubleDashPrefixToAdditionalOptionKey);
             WithArguments("checkout", branch);
         }
 

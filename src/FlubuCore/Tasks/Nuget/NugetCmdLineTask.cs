@@ -91,7 +91,8 @@ namespace FlubuCore.Tasks.Nuget
             if (ApiKey != null)
                 WithArgumentsValueRequired("-ApiKey", ApiKey, true);
 
-           return base.DoExecute(context);
+            AddPrefixToAdditionalOptionKey(PrefixProcessors.AddSingleDashPrefixToAdditionalOptionKey);
+            return base.DoExecute(context);
         }
 
         private string FindNuGetCmdLinePath()

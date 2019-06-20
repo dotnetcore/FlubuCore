@@ -56,20 +56,10 @@ namespace FlubuCore.Tasks.NetCore
                 .WorkingFolder(ExecuteWorkingFolder)
                 .CaptureErrorOutput()
                 .CaptureOutput()
-                .AddPrefixToAdditionalOptionKey(AddDashPrefixToAdditionalOptionKey)
+                .AddPrefixToAdditionalOptionKey(PrefixProcessors.AddDoubleDashPrefixToAdditionalOptionKey)
                 .ExecuteVoid(context);
 
             return 0;
-        }
-
-        private string AddDashPrefixToAdditionalOptionKey(string key)
-        {
-            if (key == null || !char.IsLetterOrDigit(key[0]))
-            {
-                return key;
-            }
-
-            return key.Length == 1 ? $"-{key}" : $"--{key}";
         }
     }
 }

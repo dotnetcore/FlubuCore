@@ -18,6 +18,7 @@ namespace FlubuCore.Tasks.Git
             _directory = directory;
             ExecutablePath = "git";
             InsertArgument(0, "clone");
+            AddPrefixToAdditionalOptionKey(PrefixProcessors.AddDoubleDashPrefixToAdditionalOptionKey);
         }
 
         protected override string Description

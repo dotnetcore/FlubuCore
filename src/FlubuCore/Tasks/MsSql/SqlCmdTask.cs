@@ -206,6 +206,7 @@ namespace FlubuCore.Tasks.MsSql
                     .CaptureErrorOutput()
                     .CaptureOutput()
                     .WorkingFolder(ExecuteWorkingFolder)
+                    .AddPrefixToAdditionalOptionKey(PrefixProcessors.AddSingleDashPrefixToAdditionalOptionKey)
                     .ExecuteVoid(context);
 
                 _output = task.GetOutput();

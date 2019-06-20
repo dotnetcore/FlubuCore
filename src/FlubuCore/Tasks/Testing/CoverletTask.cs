@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.Context;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Testing
@@ -202,6 +203,13 @@ namespace FlubuCore.Tasks.Testing
         {
             WithArguments("--merge-with", path);
             return this;
+        }
+
+        protected override int DoExecute(ITaskContextInternal context)
+        {
+            AddPrefixToAdditionalOptionKey(PrefixProcessors.AddSlashPrefixToAdditionalOptionKey);
+            ChangeAdditionalOptionKeyValueSeperator(' ');
+            return base.DoExecute(context);
         }
     }
 }

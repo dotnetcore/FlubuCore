@@ -251,6 +251,7 @@ namespace FlubuCore.Tasks.Solution
             if (NoOutputLog)
                 WithArguments("/noconlog");
 
+            AddPrefixToAdditionalOptionKey(PrefixProcessors.AddSlashPrefixToAdditionalOptionKey);
             return base.DoExecute(context);
         }
 

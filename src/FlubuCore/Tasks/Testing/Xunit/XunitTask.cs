@@ -216,6 +216,8 @@ namespace FlubuCore.Tasks.Testing.Xunit
                 task.WithArguments(xunitCommandLineOption);
             }
 
+            task.AddPrefixToAdditionalOptionKey(PrefixProcessors.AddSingleDashPrefixToAdditionalOptionKey);
+
             return task.Execute(context);
         }
 
