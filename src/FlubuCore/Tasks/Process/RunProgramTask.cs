@@ -142,7 +142,11 @@ namespace FlubuCore.Tasks.Process
 
         public IRunProgramTask ChangeAdditionalOptionPrefix(string newPrefix)
         {
-            _additionalOptionPrefix = newPrefix;
+            if (!string.IsNullOrEmpty(newPrefix))
+            {
+                _additionalOptionPrefix = newPrefix;
+            }
+
             return this;
         }
 
