@@ -15,6 +15,8 @@ namespace FlubuCore.Tasks.NetCore
         public DotnetBuildTask()
             : base(StandardDotnetCommands.Build)
         {
+            AddAdditionalOptionPrefix("Build");
+            AddAdditionalOptionPrefix("DotnetBuild");
         }
 
         protected override string Description

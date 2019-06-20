@@ -20,6 +20,7 @@ namespace FlubuCore.Tasks.Git
             ExecutablePath = "git";
             InsertArgument(0, "tag");
             AddPrefixToAdditionalOptionKey(PrefixProcessors.AddDoubleDashPrefixToAdditionalOptionKey);
+            AddAdditionalOptionPrefix("GitTag");
         }
 
         protected override string Description

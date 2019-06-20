@@ -24,6 +24,10 @@ namespace FlubuCore.Tasks.MsSql
         {
             _sqlFiles.AddRange(sqlFiles);
             _sqlCmdExePaths.Add(DefaultSqlCmdExe);
+            AddAdditionalOptionPrefix("SqlCmd");
+            AddAdditionalOptionPrefix("MsSql");
+            AddAdditionalOptionPrefix("Sql");
+            AddAdditionalOptionPrefix("MsSqlCmd");
         }
 
         protected override string Description

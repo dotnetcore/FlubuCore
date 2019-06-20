@@ -16,6 +16,7 @@ namespace FlubuCore.Tasks.Nuget
         {
             _command = command;
             ExecuteWorkingFolder = workingDirectory;
+            AddAdditionalOptionPrefix("Nuget");
         }
 
         /// <summary>

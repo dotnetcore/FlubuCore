@@ -9,6 +9,8 @@ namespace FlubuCore.Tasks.Git
             ExecutablePath = "git";
             AddPrefixToAdditionalOptionKey(PrefixProcessors.AddDoubleDashPrefixToAdditionalOptionKey);
             WithArguments("checkout", branch);
+            AddAdditionalOptionPrefix("GitCheckout");
+            AddAdditionalOptionPrefix("Checkout");
         }
 
         protected override string Description

@@ -21,6 +21,8 @@ namespace FlubuCore.Tasks.Git
              ExecutablePath = "git";
              InsertArgument(0, "rm");
              AddPrefixToAdditionalOptionKey(PrefixProcessors.AddDoubleDashPrefixToAdditionalOptionKey);
+             AddAdditionalOptionPrefix("GitRemove");
+             AddAdditionalOptionPrefix("GitRm");
         }
 
         protected override string Description

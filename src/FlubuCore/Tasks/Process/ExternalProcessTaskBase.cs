@@ -15,6 +15,8 @@ namespace FlubuCore.Tasks.Process
 
         private string _additionalOptionPrefix;
 
+        private List<string> _additionalOptionPrefixes = new List<string>();
+
         // ReSharper disable once InconsistentNaming
 #pragma warning disable SA1300 // Element should begin with upper-case letter
         private List<(string argKey, string argValue, bool valueRequired, bool maskArg)> _arguments { get; } = new List<(string argKey, string argValue, bool valueRequired, bool maskArg)>();
@@ -165,7 +167,7 @@ namespace FlubuCore.Tasks.Process
             return this as TTask;
         }
 
-        public TTask ChangeAdditionalOptionPrefix(string newPrefix)
+        public TTask ChangeDefaultAdditionalOptionPrefix(string newPrefix)
         {
             _additionalOptionPrefix = newPrefix;
             return this as TTask;
@@ -217,9 +219,10 @@ namespace FlubuCore.Tasks.Process
             }
 
             var result = _task
-                .ChangeAdditionalOptionPrefix(_additionalOptionPrefix)
+                .ChangeDefaultAdditionalOptionPrefix(_additionalOptionPrefix)
                 .AddPrefixToAdditionalOptionKey(_prefixToAdditionalOptionKeyFunc)
                 .ChangeAdditionalOptionKeyValueSeperator(_additionalOptionKeyValueSeperator)
+                .AddNewAdditionalOptionPrefix(_additionalOptionPrefixes)
                 .Execute(context);
 
             if (typeof(TResult) == typeof(int))
@@ -264,6 +267,12 @@ namespace FlubuCore.Tasks.Process
         protected TTask ChangeAdditionalOptionKeyValueSeperator(char newSeperator)
         {
             _additionalOptionKeyValueSeperator = newSeperator;
+            return this as TTask;
+        }
+
+        protected TTask AddAdditionalOptionPrefix(string newPrefix)
+        {
+            _additionalOptionPrefixes.Add(newPrefix);
             return this as TTask;
         }
 

@@ -32,6 +32,8 @@ namespace FlubuCore.Tasks.Process
 
         private string _additionalOptionPrefix = "/o:";
 
+        private List<string> _additionalOptionPrefixes = new List<string>();
+
         private char? _additionalOptionKeyValueSeperator = null;
 
         private Func<string, string> _addPrefixToAdditionalOptionKey = null;
@@ -140,7 +142,19 @@ namespace FlubuCore.Tasks.Process
             return this;
         }
 
-        public IRunProgramTask ChangeAdditionalOptionPrefix(string newPrefix)
+        public IRunProgramTask AddNewAdditionalOptionPrefix(string newPrefix)
+        {
+            _additionalOptionPrefixes.Add(newPrefix);
+            return this;
+        }
+
+        public IRunProgramTask AddNewAdditionalOptionPrefix(List<string> newPrefixes)
+        {
+            _additionalOptionPrefixes.AddRange(newPrefixes);
+            return this;
+        }
+
+        public IRunProgramTask ChangeDefaultAdditionalOptionPrefix(string newPrefix)
         {
             if (!string.IsNullOrEmpty(newPrefix))
             {
@@ -159,6 +173,18 @@ namespace FlubuCore.Tasks.Process
         public IRunProgramTask AddPrefixToAdditionalOptionKey(Func<string, string> action)
         {
             _addPrefixToAdditionalOptionKey = action;
+            return this;
+        }
+
+        public IRunProgramTask Executable(string executableFullFilePath)
+        {
+            _programToExecute = executableFullFilePath;
+            return this;
+        }
+
+        public IRunProgramTask ClearArguments()
+        {
+            _arguments.Clear();
             return this;
         }
 
@@ -201,23 +227,7 @@ namespace FlubuCore.Tasks.Process
                 });
 
             string commandArgs = null;
-
-            foreach (var additionalOption in context.Args.AdditionalOptions)
-            {
-                if (additionalOption.StartsWith(_additionalOptionPrefix))
-                {
-                    var option = additionalOption.Remove(0, _additionalOptionPrefix.Length);
-                    var splitOption = option.Split('=');
-                    option = $"{_addPrefixToAdditionalOptionKey?.Invoke(splitOption[0])}={splitOption[1]}";
-
-                    if (_additionalOptionKeyValueSeperator.HasValue)
-                    {
-                        option = option.Replace('=', _additionalOptionKeyValueSeperator.Value);
-                    }
-
-                    _arguments.Add((option, false));
-                }
-            }
+            ProcessAdditionalOptions(context);
 
             foreach (var arg in _arguments)
             {
@@ -236,16 +246,29 @@ namespace FlubuCore.Tasks.Process
             return res;
         }
 
-        public IRunProgramTask Executable(string executableFullFilePath)
+        private void ProcessAdditionalOptions(ITaskContextInternal context)
         {
-            _programToExecute = executableFullFilePath;
-            return this;
-        }
+            _additionalOptionPrefixes.Add(_additionalOptionPrefix);
+            foreach (var additionalOption in context.Args.AdditionalOptions)
+            {
+                foreach (var additionalOptionPrefix in _additionalOptionPrefixes)
+                {
+                    if (additionalOption.StartsWith(additionalOptionPrefix, StringComparison.OrdinalIgnoreCase))
+                    {
+                        var option = additionalOption.Remove(0, additionalOptionPrefix.Length);
+                        var splitOption = option.Split('=');
+                        option = $"{_addPrefixToAdditionalOptionKey?.Invoke(splitOption[0])}={splitOption[1]}";
 
-        public IRunProgramTask ClearArguments()
-        {
-            _arguments.Clear();
-            return this;
+                        if (_additionalOptionKeyValueSeperator.HasValue)
+                        {
+                            option = option.Replace('=', _additionalOptionKeyValueSeperator.Value);
+                        }
+
+                        _arguments.Add((option, false));
+                        break;
+                    }
+                }
+            }
         }
     }
 }

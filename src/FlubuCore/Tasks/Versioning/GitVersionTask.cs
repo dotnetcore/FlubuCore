@@ -12,6 +12,8 @@ namespace FlubuCore.Tasks.Versioning
         {
             ExecutablePath = "gitversion";
             KeepProgramOutput = true;
+            AddAdditionalOptionPrefix("/GitVersion:");
+            AddAdditionalOptionPrefix("/GitVer:");
         }
 
         protected override string Description { get; set; }

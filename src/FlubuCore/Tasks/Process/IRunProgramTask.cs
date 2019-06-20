@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace FlubuCore.Tasks.Process
 {
@@ -29,7 +30,11 @@ namespace FlubuCore.Tasks.Process
         /// <returns></returns>
         string GetErrorOutput();
 
-        IRunProgramTask ChangeAdditionalOptionPrefix(string newPrefix);
+        IRunProgramTask ChangeDefaultAdditionalOptionPrefix(string newPrefix);
+
+        IRunProgramTask AddNewAdditionalOptionPrefix(string newPrefix);
+
+        IRunProgramTask AddNewAdditionalOptionPrefix(List<string> newPrefixes);
 
         IRunProgramTask ChangeAdditionalOptionKeyValueSeperator(char newSeperator);
 

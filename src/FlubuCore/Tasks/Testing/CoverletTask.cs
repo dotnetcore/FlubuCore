@@ -14,6 +14,7 @@ namespace FlubuCore.Tasks.Testing
         {
             ExecutablePath = "coverlet";
             InsertArgument(0, assembly);
+            AddAdditionalOptionPrefix("Coverlet");
         }
 
         protected override string Description

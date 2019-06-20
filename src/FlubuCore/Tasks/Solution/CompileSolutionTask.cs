@@ -38,6 +38,8 @@ namespace FlubuCore.Tasks.Solution
         public CompileSolutionTask(IFlubuEnviromentService enviromentService)
         {
             _enviromentService = enviromentService;
+            AddAdditionalOptionPrefix("Compile");
+            AddAdditionalOptionPrefix("CompileSolution");
         }
 
         /// <inheritdoc />
