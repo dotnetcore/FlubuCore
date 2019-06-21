@@ -26,19 +26,19 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override int DoExecute(ITaskContextInternal context)
         {
-            string program = ExecutablePath;
-
             if (string.IsNullOrEmpty(ExecutablePath))
             {
                 ExecutablePath = context.Properties.GetDotnetExecutable();
+                if (string.IsNullOrEmpty(ExecutablePath))
+                {
+                    context.Fail("Dotnet executable not set!", -1);
+                    return -1;
+                }
             }
 
-            if (string.IsNullOrEmpty(ExecutablePath))
-            {
-                context.Fail("Dotnet executable not set!", -1);
-                return -1;
-            }
-
+            KeepProgramErrorOutput = true;
+            KeepProgramOutput = true;
+            InsertArgument(0, Command);
             return base.DoExecute(context);
         }
     }
