@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.NetCore
 {
@@ -183,7 +184,7 @@ namespace FlubuCore.Tasks.NetCore
             return this;
         }
 
-        protected override void BeforeExecute(ITaskContextInternal context)
+        protected override void BeforeExecute(ITaskContextInternal context, IRunProgramTask runProgramTask)
         {
             var args = GetArguments();
             if (args.Count == 0 || args[0].StartsWith("-"))
@@ -203,6 +204,8 @@ namespace FlubuCore.Tasks.NetCore
                     Configuration(configuration);
                 }
             }
+
+            base.BeforeExecute(context, runProgramTask);
         }
     }
 }

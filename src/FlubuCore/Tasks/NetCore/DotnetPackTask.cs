@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.NetCore
 {
@@ -170,7 +171,7 @@ namespace FlubuCore.Tasks.NetCore
             return this;
         }
 
-        protected override void BeforeExecute(ITaskContextInternal context)
+        protected override void BeforeExecute(ITaskContextInternal context, IRunProgramTask runProgramTask)
         {
             if (!GetArguments().Exists(x => x == "-c" || x == "--configuration"))
             {
@@ -180,6 +181,8 @@ namespace FlubuCore.Tasks.NetCore
                     Configuration(configuration);
                 }
             }
+
+            base.BeforeExecute(context, runProgramTask);
         }
     }
 }

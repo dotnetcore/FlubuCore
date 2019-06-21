@@ -207,7 +207,7 @@ namespace FlubuCore.Tasks.Process
             if (KeepProgramErrorOutput)
                 _task.CaptureErrorOutput();
 
-            BeforeExecute(context);
+            BeforeExecute(context, _task);
 
             var argumentsFlat = ValidateAndGetArgumentsFlat();
 
@@ -274,7 +274,7 @@ namespace FlubuCore.Tasks.Process
             return this as TTask;
         }
 
-        protected virtual void BeforeExecute(ITaskContextInternal context)
+        protected virtual void BeforeExecute(ITaskContextInternal context, IRunProgramTask runProgramTask)
         {
         }
     }

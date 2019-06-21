@@ -38,8 +38,13 @@ namespace FlubuCore.Tasks.NetCore
 
             KeepProgramErrorOutput = true;
             KeepProgramOutput = true;
-            InsertArgument(0, Command);
             return base.DoExecute(context);
+        }
+
+        protected override void BeforeExecute(ITaskContextInternal context, IRunProgramTask runProgramTask)
+        {
+            runProgramTask.WithArguments(Command);
+            base.BeforeExecute(context, runProgramTask);
         }
     }
 }
