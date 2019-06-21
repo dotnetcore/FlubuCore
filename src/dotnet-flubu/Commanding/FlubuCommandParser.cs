@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using FlubuCore.Scripting;
 using McMaster.Extensions.CommandLineUtils;
@@ -62,13 +63,13 @@ namespace DotNet.Cli.Flubu.Commanding
             _parallelTargetExecution = _commandApp.Option("--parallel", "If applied target's are executed in parallel", CommandOptionType.NoValue);
             _targetsToExecute = _commandApp.Option("-tte|--targetsToExecute <TARGETS_TO_EXECUTE>", "Target's that must be executed. Otherwise fails.", CommandOptionType.SingleValue);
             _isDebug = _commandApp.Option("-d|--debug", "Enable debug logging.", CommandOptionType.NoValue);
-            _configurationFile = _commandApp.Option("-cf|--configurationFile", "Path to the Flubu json configuration file. If not specified configuration is read from flubusettings.json ", CommandOptionType.SingleValue);
-            _assemblyDirectories = _commandApp.Option("-ass", "Directory to search assemblies to include automatically in script (Assemblies in subdirectories are also loaded). If not specified assemblies are loaded by default from FlubuLib directory.", CommandOptionType.MultipleValue);
+            _configurationFile = _commandApp.Option("-cf|--configurationFile", $"Path to the Flubu json configuration file. If not specified configuration is read from flubusettings.json {Environment.NewLine}", CommandOptionType.SingleValue);
+            _assemblyDirectories = _commandApp.Option("-ass", $"Directory to search assemblies to include automatically in script (Assemblies in subdirectories are also loaded). If not specified assemblies are loaded by default from FlubuLib directory. {Environment.NewLine}", CommandOptionType.MultipleValue);
             _noDependencies = _commandApp.Option("-nd||--nodeps", "If applied no target dependencies are executed.", CommandOptionType.NoValue);
             _dryRun = _commandApp.Option("--dryRun", "Performs a dry run.", CommandOptionType.NoValue);
-            _noInteractive = _commandApp.Option("--noint", "Disables interactive mode for all task members. Default values are used instead", CommandOptionType.NoValue);
+            _noInteractive = _commandApp.Option("--noint", $"Disables interactive mode for all task members. Default values are used instead. {Environment.NewLine}", CommandOptionType.NoValue);
             _noColor = _commandApp.Option("--noColor", "Disables colored logging", CommandOptionType.NoValue);
-            _commandApp.ExtendedHelpText = "  <Target> help                                 Shows detailed help for specified target.";
+            _commandApp.ExtendedHelpText = $"{Environment.NewLine}  /o:{{external_process_option}} | {Environment.NewLine}  /{{taskName}}:{{external_process_option}}         Adds additional options to executed external process. Example: (/o:configuration=Release)  {Environment.NewLine}{Environment.NewLine} <Target> help                                  Shows detailed help for specified target.{Environment.NewLine}";
 
             _commandApp.OnExecute(() => PrepareDefaultArguments());
 
