@@ -13,8 +13,6 @@ namespace FlubuCore.Tasks.Process
 
         private IRunProgramTask _task;
 
-        private string _additionalOptionPrefix;
-
         private List<string> _additionalOptionPrefixes = new List<string>();
 
         // ReSharper disable once InconsistentNaming
@@ -169,7 +167,7 @@ namespace FlubuCore.Tasks.Process
 
         public TTask ChangeDefaultAdditionalOptionPrefix(string newPrefix)
         {
-            _additionalOptionPrefix = newPrefix;
+            AdditionalOptionPrefix = newPrefix;
             return this as TTask;
         }
 
@@ -219,7 +217,7 @@ namespace FlubuCore.Tasks.Process
             }
 
             var result = _task
-                .ChangeDefaultAdditionalOptionPrefix(_additionalOptionPrefix)
+                .ChangeDefaultAdditionalOptionPrefix(AdditionalOptionPrefix)
                 .AddPrefixToAdditionalOptionKey(_prefixToAdditionalOptionKeyFunc)
                 .ChangeAdditionalOptionKeyValueSeperator(_additionalOptionKeyValueSeperator)
                 .AddNewAdditionalOptionPrefix(_additionalOptionPrefixes)

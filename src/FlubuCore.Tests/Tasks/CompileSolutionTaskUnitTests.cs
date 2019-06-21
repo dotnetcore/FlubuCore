@@ -110,9 +110,15 @@ namespace FlubuCore.Tests.Tasks
             _runProgramTask.Setup(x => x.WithArguments("/maxcpucount:3", false)).Returns(_runProgramTask.Object);
             _runProgramTask.Setup(x => x.CaptureErrorOutput()).Returns(_runProgramTask.Object);
             _runProgramTask.Setup(x => x.CaptureOutput()).Returns(_runProgramTask.Object);
+            _runProgramTask.Setup(x => x.AddNewAdditionalOptionPrefix(It.IsAny<string>()))
+                .Returns(_runProgramTask.Object);
+            _runProgramTask.Setup(x => x.AddNewAdditionalOptionPrefix(It.IsAny<List<string>>()))
+                .Returns(_runProgramTask.Object);
             _runProgramTask.Setup(x => x.AddPrefixToAdditionalOptionKey(It.IsAny<Func<string, string>>()))
                 .Returns(_runProgramTask.Object);
             _runProgramTask.Setup(x => x.ChangeAdditionalOptionKeyValueSeperator(It.IsAny<char>()))
+                .Returns(_runProgramTask.Object);
+            _runProgramTask.Setup(x => x.ChangeDefaultAdditionalOptionPrefix(It.IsAny<string>()))
                 .Returns(_runProgramTask.Object);
         }
     }

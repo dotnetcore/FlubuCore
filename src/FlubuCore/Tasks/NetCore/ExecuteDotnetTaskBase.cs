@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FlubuCore.Context;
 using FlubuCore.Tasks.Process;
+using Microsoft.Extensions.DependencyModel.Resolution;
 
 namespace FlubuCore.Tasks.NetCore
 {
@@ -27,39 +28,18 @@ namespace FlubuCore.Tasks.NetCore
         {
             string program = ExecutablePath;
 
-            if (string.IsNullOrEmpty(program))
+            if (string.IsNullOrEmpty(ExecutablePath))
             {
-                program = context.Properties.GetDotnetExecutable();
+                ExecutablePath = context.Properties.GetDotnetExecutable();
             }
 
-            if (string.IsNullOrEmpty(program))
+            if (string.IsNullOrEmpty(ExecutablePath))
             {
                 context.Fail("Dotnet executable not set!", -1);
                 return -1;
             }
 
-            IRunProgramTask task = context.Tasks().RunProgramTask(program);
-
-            if (NoOutputLog)
-                task.DoNotLogOutput();
-
-            if (DoNotLog)
-                task.NoLog();
-
-            BeforeExecute(context);
-            var argumentsFlat = ValidateAndGetArgumentsFlat();
-
-            task
-                .WithArguments(Command);
-
-            task
-                .WorkingFolder(ExecuteWorkingFolder)
-                .CaptureErrorOutput()
-                .CaptureOutput()
-                .AddPrefixToAdditionalOptionKey(PrefixProcessors.AddDoubleDashPrefixToAdditionalOptionKey)
-                .ExecuteVoid(context);
-
-            return 0;
+            return base.DoExecute(context);
         }
     }
 }
