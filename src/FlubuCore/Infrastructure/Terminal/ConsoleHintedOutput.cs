@@ -7,7 +7,7 @@ namespace FlubuCore.Infrastructure.Terminal
 {
     public class ConsoleHintedInput
     {
-        private readonly IReadOnlyCollection<string> _hintsSource;
+        private readonly IDictionary<char, IReadOnlyCollection<string>> _hintsSourceDictionary;
         private readonly List<string> _commandsHistory = new List<string>();
         private List<Suggestion> _suggestionsForUserInput;
         private int _suggestionPosition;
@@ -16,10 +16,17 @@ namespace FlubuCore.Infrastructure.Terminal
         /// <summary>
         /// Creates new instance of <see cref="ConsoleHintedInput"/> class
         /// </summary>
-        /// <param name="hintsSource">Collection containing input hints</param>
-        public ConsoleHintedInput(IEnumerable<string> hintsSource)
+        /// <param name="hintsSourceDictionary">Collection containing input hints</param>
+        public ConsoleHintedInput(IReadOnlyCollection<string> defaultHints, IDictionary<char, IReadOnlyCollection<string>>  hintsSourceDictionary = null)
         {
-            _hintsSource = hintsSource.ToArray();
+            _hintsSourceDictionary = hintsSourceDictionary;
+
+            if (_hintsSourceDictionary == null)
+            {
+                _hintsSourceDictionary = new Dictionary<char, IReadOnlyCollection<string>>();
+            }
+
+            _hintsSourceDictionary.Add('*', defaultHints);
         }
 
         /// <summary>
@@ -279,15 +286,26 @@ namespace FlubuCore.Infrastructure.Terminal
 
             var splitedUserInput = userInput.Split(' ').Where(x => !string.IsNullOrWhiteSpace(x));
             var lastInput = splitedUserInput.Last();
+            char hintSourceKey;
+            if (_hintsSourceDictionary.ContainsKey(lastInput[0]))
+            {
+                hintSourceKey = lastInput[0];
+                lastInput = lastInput.Substring(1);
+            }
+            else
+            {
+                hintSourceKey = '*';
+            }
 
-            if (_hintsSource.All(item => item.Length < lastInput.Length))
+            var hintSource = _hintsSourceDictionary[hintSourceKey]; 
+            if (hintSource.All(item => item.Length < lastInput.Length))
             {
                 _suggestionsForUserInput = null;
                 return;
             }
 
             //simple case then user's input is equal to start of hint
-            var hints = _hintsSource
+            var hints = hintSource
                 .Where(item => item.Length > lastInput.Length && item.Substring(0, lastInput.Length) == lastInput)
                 .Select(hint => new Suggestion
                 {
@@ -297,7 +315,7 @@ namespace FlubuCore.Infrastructure.Terminal
                 .ToList();
 
             //more complex case: tokenize hint and try to search user input from beginning of tokens
-            foreach (var item in _hintsSource)
+            foreach (var item in hintSource)
             {
                 var parts = item.Split(new[] { ' ', ';', '-', '_' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -314,7 +332,7 @@ namespace FlubuCore.Infrastructure.Terminal
 
             ////try to split user's input into separate char and find all of them into string
 
-            foreach (var item in _hintsSource)
+            foreach (var item in hintSource)
             {
                 var highlightIndexes = new List<int>();
                 var startIndex = 0;
