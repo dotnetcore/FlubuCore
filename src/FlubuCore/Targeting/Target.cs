@@ -57,13 +57,19 @@ namespace FlubuCore.Targeting
 
         public override bool IsTarget { get; } = true;
 
-        protected override bool LogDuration => true;
+        protected override bool LogDuration { get; set; } = true;
 
         protected override string Description { get; set; }
 
         string ITargetInternal.Description
         {
             get { return Description; }
+        }
+
+        public ITargetInternal SetLogDuration(bool logDuration)
+        {
+            LogDuration = logDuration;
+            return this;
         }
 
         /// <summary>

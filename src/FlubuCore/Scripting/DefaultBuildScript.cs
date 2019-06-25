@@ -161,6 +161,8 @@ namespace FlubuCore.Scripting
 
                 source.Add('/', commands2);
                 inputReader = new ConsoleHintedInput(taskSession.TargetTree.GetTargetNames().ToList(), source);
+                taskSession.TargetTree.RunTarget(taskSession, "help.onlyTargets");
+                taskSession.LogInfo(" ");
             }
 
             do

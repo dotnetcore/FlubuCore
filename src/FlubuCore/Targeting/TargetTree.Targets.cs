@@ -15,14 +15,19 @@ namespace FlubuCore.Targeting
         ///     The target for displaying help in the command line.
         /// </summary>
         /// <param name="context">The task context.</param>
-        public void LogTargetsHelp(ITaskContextInternal context)
+        public void LogTargetsWithHelp(ITaskContextInternal context)
         {
             if (context != null && !string.IsNullOrEmpty(context.FlubuHelpText))
             {
                 context.LogInfo(context.FlubuHelpText);
-                context.LogInfo(string.Empty);
             }
 
+            LogTargetsHelp(context);
+        }
+
+        public void LogTargetsHelp(ITaskContextInternal context)
+        {
+            context.DecreaseDepth();
             context.LogInfo("Targets:");
 
             // first sort the targets
@@ -53,6 +58,8 @@ namespace FlubuCore.Targeting
 
                 context.LogInfo(" ");
             }
+
+            context.IncreaseDepth();
         }
 
         public void LogTasksHelp(ITaskContextInternal context)

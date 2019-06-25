@@ -28,6 +28,8 @@ namespace FlubuCore.Targeting
 
         void RemoveLastAddedActionsFromTarget(TargetAction targetAction, int actionCount);
 
+        ITargetInternal SetLogDuration(bool logDuration);
+
         /// <summary>
         ///     Specifies targets on which this target depends on and execute then Synchronus.
         /// </summary>

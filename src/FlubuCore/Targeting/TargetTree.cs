@@ -30,10 +30,18 @@ namespace FlubuCore.Targeting
 
             AddTarget("help")
                 .SetDescription("Displays the available targets in the build")
+                .SetLogDuration(false)
+                .Do(LogTargetsWithHelp);
+
+            AddTarget("help.onlyTargets")
+                .SetDescription("Displays the available targets in the build")
+                .SetLogDuration(false)
+                .SetAsHidden()
                 .Do(LogTargetsHelp);
 
             AddTarget("tasks")
                 .SetDescription("Displays all registered tasks")
+                .SetLogDuration(false)
                 .Do(LogTasksHelp);
         }
 
