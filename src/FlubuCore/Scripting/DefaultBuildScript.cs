@@ -226,8 +226,15 @@ namespace FlubuCore.Scripting
 
                 if (targetsInfo.unknownTarget)
                 {
-                    throw new TargetNotFoundException(
-                        $"Target {string.Join(" and ", targetsInfo.notFoundTargets)} not found.");
+                    var targetNotFoundMsg = $"Target {string.Join(" and ", targetsInfo.notFoundTargets)} not found.";
+                    if (taskSession.Args.InteractiveMode)
+                    {
+                        taskSession.LogInfo(targetNotFoundMsg);
+                    }
+                    else
+                    {
+                        throw new TargetNotFoundException(targetNotFoundMsg);
+                    }
                 }
 
                 AssertAllTargetDependenciesWereExecuted(taskSession);
