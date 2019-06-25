@@ -369,6 +369,14 @@ namespace FlubuCore.Infrastructure.Terminal
                 }
             }
 
+            if (hintSourceKey != '*')
+            {
+                foreach (var hint in hints)
+                {
+                    hint.Value = $"{hintSourceKey}{hint.Value}";
+                }
+            }
+
             _suggestionsForUserInput = hints;
         }
 
