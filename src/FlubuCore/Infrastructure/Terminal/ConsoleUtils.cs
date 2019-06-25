@@ -24,7 +24,7 @@ namespace FlubuCore.Infrastructure.Terminal
 
         public static void WritePrompt()
         {
-            Console.Write(Prompt);
+            Write(Prompt, ConsoleColor.Green);
         }
     }
 }

@@ -46,6 +46,7 @@ namespace FlubuCore.Infrastructure.Terminal
             var wasUserInput = false;
             bool writeSugestionToConsole;
             var cursorPosition = new ConsoleCursorPosition(ConsoleUtils.Prompt.Length, Console.CursorTop, Console.WindowWidth);
+            ClearConsoleLines(cursorPosition.StartTop, cursorPosition.Top);
             while ((input = Console.ReadKey()).Key != ConsoleKey.Enter)
             {
                 writeSugestionToConsole = false;
@@ -193,14 +194,14 @@ namespace FlubuCore.Infrastructure.Terminal
                 var li = fullInput.TrimEnd().LastIndexOf(" ");
                     if (li == -1)
                 {
-                    Console.Write(userInput);
+                    ConsoleUtils.Write(userInput, ConsoleColor.Green);
                     fullInput = userInput;
                 }
                 else
                 {
                     if (!writeSugestionToConsole)
                     {
-                        Console.Write(userInput);
+                        ConsoleUtils.Write(userInput, ConsoleColor.Green);
                         fullInput = userInput;
                     }
                     else
@@ -208,7 +209,7 @@ namespace FlubuCore.Infrastructure.Terminal
                         userInput = userInput.TrimEnd() + " ";
                         fullInput = $"{fullInput.Substring(0, li)} {userInput}";
                         userInput = fullInput;
-                        Console.Write(fullInput);
+                        ConsoleUtils.Write(fullInput, ConsoleColor.Green);
                         cursorPosition = cursorPosition.SetLength(fullInput.Length);
                     }
                 }
