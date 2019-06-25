@@ -172,8 +172,18 @@ namespace FlubuCore.Scripting
                     var commandLine = inputReader.ReadHintedLine();
                     var app = new CommandLineApplication(false);
                     IFlubuCommandParser parser = new FlubuCommandParser(app, null);
-                    var args = parser.Parse(commandLine.Split(' '));
+                    var args = parser.Parse(commandLine.Split(' ')
+                        .Where(x => !string.IsNullOrWhiteSpace(x))
+                        .Select(x => x.Trim()).ToArray());
                     targetsInfo = ParseCmdLineArgs(args.MainCommands, taskSession.TargetTree);
+
+                    if (args.MainCommands[0].Equals("exit", StringComparison.OrdinalIgnoreCase) ||
+                        args.MainCommands[0].Equals("quit", StringComparison.OrdinalIgnoreCase) ||
+                        args.MainCommands[0].Equals("x", StringComparison.OrdinalIgnoreCase) ||
+                        args.MainCommands[0].Equals("q", StringComparison.OrdinalIgnoreCase))
+                    {
+                        break;
+                    }
                 }
 
                 taskSession.Start();
