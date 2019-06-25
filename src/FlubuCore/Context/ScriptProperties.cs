@@ -63,6 +63,23 @@ namespace FlubuCore.Context
             }
         }
 
+        public static List<string> GetPropertiesKeys(IBuildScript buildScript, ITaskSession taskSession)
+        {
+            var buildScriptType = buildScript.GetType();
+            IList<PropertyInfo> props = new List<PropertyInfo>(buildScriptType.GetProperties());
+            List<string> keys = new List<string>();
+            foreach (var property in props)
+            {
+                var attributes = property.GetCustomAttributes<FromArgAttribute>(false).ToList();
+                foreach (var fromArgAttribute in attributes)
+                {
+                    keys.Add(fromArgAttribute.ArgKey);
+                }
+            }
+
+            return keys;
+        }
+
         public static List<string> GetPropertiesHelp(IBuildScript buildScript)
         {
             var buildScriptType = buildScript.GetType();

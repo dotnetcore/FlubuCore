@@ -154,12 +154,9 @@ namespace FlubuCore.Scripting
             {
                 runInTerminalMode = true;
                 var source = new Dictionary<char, IReadOnlyCollection<string>>();
-                var commands2 = new[]
-                {
-                    "lolek",
-                };
+                var propertyKeys = ScriptProperties.GetPropertiesKeys(this, taskSession);
+                source.Add('-', propertyKeys);
 
-                source.Add('/', commands2);
                 inputReader = new ConsoleHintedInput(taskSession.TargetTree.GetTargetNames().ToList(), source);
                 taskSession.TargetTree.RunTarget(taskSession, "help.onlyTargets");
                 taskSession.LogInfo(" ");
@@ -176,6 +173,8 @@ namespace FlubuCore.Scripting
                         .Where(x => !string.IsNullOrWhiteSpace(x))
                         .Select(x => x.Trim()).ToArray());
                     targetsInfo = ParseCmdLineArgs(args.MainCommands, taskSession.TargetTree);
+                    taskSession.ScriptArgs = args.ScriptArguments;
+                    ScriptProperties.SetPropertiesFromScriptArg(this, taskSession);
 
                     if (args.MainCommands[0].Equals("exit", StringComparison.OrdinalIgnoreCase) ||
                         args.MainCommands[0].Equals("quit", StringComparison.OrdinalIgnoreCase) ||
