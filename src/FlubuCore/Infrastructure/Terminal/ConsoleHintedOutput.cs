@@ -17,7 +17,7 @@ namespace FlubuCore.Infrastructure.Terminal
         /// Creates new instance of <see cref="ConsoleHintedInput"/> class
         /// </summary>
         /// <param name="hintsSourceDictionary">Collection containing input hints</param>
-        public ConsoleHintedInput(IReadOnlyCollection<string> defaultHints, IDictionary<char, IReadOnlyCollection<string>>  hintsSourceDictionary = null)
+        public ConsoleHintedInput(IReadOnlyCollection<string> defaultHints, IDictionary<char, IReadOnlyCollection<string>> hintsSourceDictionary = null)
         {
             _hintsSourceDictionary = hintsSourceDictionary;
 
@@ -297,7 +297,7 @@ namespace FlubuCore.Infrastructure.Terminal
                 hintSourceKey = '*';
             }
 
-            var hintSource = _hintsSourceDictionary[hintSourceKey]; 
+            var hintSource = _hintsSourceDictionary[hintSourceKey];
             if (hintSource.All(item => item.Length < lastInput.Length))
             {
                 _suggestionsForUserInput = null;

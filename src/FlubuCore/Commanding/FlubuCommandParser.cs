@@ -1,9 +1,10 @@
 using System;
 using System.Linq;
+using DotNet.Cli.Flubu.Commanding;
 using FlubuCore.Scripting;
 using McMaster.Extensions.CommandLineUtils;
 
-namespace DotNet.Cli.Flubu.Commanding
+namespace FlubuCore.Commanding
 {
     public class FlubuCommandParser : IFlubuCommandParser
     {
@@ -39,6 +40,8 @@ namespace DotNet.Cli.Flubu.Commanding
 
         private CommandOption _noColor;
 
+        private CommandOption _interactiveMode;
+
         public FlubuCommandParser(
             CommandLineApplication commandApp,
             IFlubuConfigurationProvider flubuConfigurationProvider)
@@ -58,8 +61,8 @@ namespace DotNet.Cli.Flubu.Commanding
             _commandApp.Name = "dotnet flubu";
 #endif
             _command = _commandApp.Argument("<Target> [build script arguments]", "The target to execute.", true);
-
             _scriptPath = _commandApp.Option("-s|--script <SCRIPT>", "Build script file to use.", CommandOptionType.SingleValue);
+            _interactiveMode = _commandApp.Option("-i|--interactive", "Run's Flubu core in interactive mode", CommandOptionType.NoValue);
             _parallelTargetExecution = _commandApp.Option("--parallel", "If applied target's are executed in parallel", CommandOptionType.NoValue);
             _targetsToExecute = _commandApp.Option("-tte|--targetsToExecute <TARGETS_TO_EXECUTE>", "Target's that must be executed. Otherwise fails.", CommandOptionType.SingleValue);
             _isDebug = _commandApp.Option("-d|--debug", "Enable debug logging.", CommandOptionType.NoValue);
@@ -69,6 +72,7 @@ namespace DotNet.Cli.Flubu.Commanding
             _dryRun = _commandApp.Option("--dryRun", "Performs a dry run.", CommandOptionType.NoValue);
             _noInteractive = _commandApp.Option("--noint", $"Disables interactive mode for all task members. Default values are used instead. {Environment.NewLine}", CommandOptionType.NoValue);
             _noColor = _commandApp.Option("--noColor", "Disables colored logging", CommandOptionType.NoValue);
+
             _commandApp.ExtendedHelpText = $"{Environment.NewLine}  /o:{{external_process_option}} | {Environment.NewLine}  /{{taskName}}:{{external_process_option}}         Adds additional options to executed external process. Example: (/o:configuration=Release)  {Environment.NewLine}{Environment.NewLine} <Target> help                                  Shows detailed help for specified target.{Environment.NewLine}";
 
             _commandApp.OnExecute(() => PrepareDefaultArguments());
@@ -121,6 +125,11 @@ namespace DotNet.Cli.Flubu.Commanding
             if (_noColor.HasValue())
             {
                 _parsed.DisableColoredLogging = true;
+            }
+
+            if (_interactiveMode.HasValue())
+            {
+                _parsed.InteractiveMode = true;
             }
 
             if (_isDebug.HasValue())

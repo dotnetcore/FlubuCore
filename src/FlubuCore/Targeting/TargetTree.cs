@@ -147,6 +147,11 @@ namespace FlubuCore.Targeting
             return _targets[targetName];
         }
 
+        public IEnumerable<string> GetTargetNames()
+        {
+            return _targets.Select(x => x.Value.TargetName);
+        }
+
         /// <summary>
         ///     Determines whether the specified targets exists.
         /// </summary>

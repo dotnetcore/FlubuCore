@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 #if !NETSTANDARD1_6
 using System.Drawing;
 #endif
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using DotNet.Cli.Flubu.Commanding;
+using FlubuCore.Commanding;
 using FlubuCore.Context;
+using FlubuCore.Infrastructure.Terminal;
 using FlubuCore.IO;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks.NetCore;
 using FlubuCore.WebApi.Client;
+using McMaster.Extensions.CommandLineUtils;
 
 namespace FlubuCore.Scripting
 {
@@ -74,9 +79,9 @@ namespace FlubuCore.Scripting
                 if (!taskSession.Args.RethrowOnException)
                 {
 #if !NETSTANDARD1_6
-                    taskSession.LogError($"ERROR: {e.ToString()}", Color.Red);
+                    taskSession.LogError($"ERROR: {e}", Color.Red);
 #else
-                    taskSession.LogError($"error: {e.ToString()}");
+                    taskSession.LogError($"error: {e}");
 #endif
                 }
 
@@ -93,12 +98,12 @@ namespace FlubuCore.Scripting
         protected abstract void ConfigureTargets(ITaskContext context);
 
         private static (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) ParseCmdLineArgs(
-            ITaskContextInternal context, TargetTree targetTree)
+            List<string> mainCommands, TargetTree targetTree)
         {
-            if (context.Args.MainCommands == null || context.Args.MainCommands.Count == 0) return (null, false, null);
+            if (mainCommands == null || mainCommands.Count == 0) return (null, false, null);
 
-            if (targetTree.HasAllTargets(context.Args.MainCommands, out var notFoundTargets))
-                return (context.Args.MainCommands, false, null);
+            if (targetTree.HasAllTargets(mainCommands, out var notFoundTargets))
+                return (mainCommands, false, null);
 
             return (new List<string> { "help" }, true, notFoundTargets);
         }
@@ -117,71 +122,106 @@ namespace FlubuCore.Scripting
 
             ConfigureTargets(taskSession);
 
-            var targetsInfo = ParseCmdLineArgs(taskSession, taskSession.TargetTree);
-            taskSession.UnknownTarget = targetsInfo.unknownTarget;
-            if (targetsInfo.targetsToRun == null || targetsInfo.targetsToRun.Count == 0)
+            (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) targetsInfo =
+                default((List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets));
+            bool runInTerminalMode;
+            ConsoleHintedInput inputReader = null;
+
+            if (!taskSession.Args.InteractiveMode)
             {
-                var defaultTargets = taskSession.TargetTree.DefaultTargets;
-                targetsInfo.targetsToRun = new List<string>();
-                if (defaultTargets != null && defaultTargets.Count != 0)
+                runInTerminalMode = false;
+
+                targetsInfo = ParseCmdLineArgs(taskSession.Args.MainCommands, taskSession.TargetTree);
+                taskSession.UnknownTarget = targetsInfo.unknownTarget;
+                if (targetsInfo.targetsToRun == null || targetsInfo.targetsToRun.Count == 0)
                 {
-                    foreach (var defaultTarget in defaultTargets)
+                    var defaultTargets = taskSession.TargetTree.DefaultTargets;
+                    targetsInfo.targetsToRun = new List<string>();
+                    if (defaultTargets != null && defaultTargets.Count != 0)
                     {
-                        targetsInfo.targetsToRun.Add(defaultTarget.TargetName);
+                        foreach (var defaultTarget in defaultTargets)
+                        {
+                            targetsInfo.targetsToRun.Add(defaultTarget.TargetName);
+                        }
+                    }
+                    else
+                    {
+                        targetsInfo.targetsToRun.Add("help");
                     }
                 }
-                else
-                {
-                    targetsInfo.targetsToRun.Add("help");
-                }
-            }
-
-            taskSession.Start();
-
-            //// specific target help
-            if (targetsInfo.targetsToRun.Count == 2 &&
-                targetsInfo.targetsToRun[1].Equals("help", StringComparison.OrdinalIgnoreCase))
-            {
-                taskSession.TargetTree.RunTargetHelp(taskSession, targetsInfo.targetsToRun[0]);
-                return;
-            }
-
-            if (targetsInfo.targetsToRun.Count == 1 || !taskSession.Args.ExecuteTargetsInParallel)
-            {
-                if (targetsInfo.targetsToRun[0].Equals("help", StringComparison.OrdinalIgnoreCase))
-                {
-                    taskSession.TargetTree.ScriptArgsHelp = ScriptProperties.GetPropertiesHelp(this);
-                }
-
-                BeforeTargetExecution(taskSession);
-                foreach (var targetToRun in targetsInfo.targetsToRun)
-                {
-                    taskSession.TargetTree.RunTarget(taskSession, targetToRun);
-                }
-
-                AfterTargetExecution(taskSession);
             }
             else
             {
-                taskSession.LogInfo("Running target's in parallel.");
-                var tasks = new List<Task>();
-                BeforeTargetExecution(taskSession);
-                foreach (var targetToRun in targetsInfo.targetsToRun)
+                runInTerminalMode = true;
+                var source = new Dictionary<char, IReadOnlyCollection<string>>();
+                var commands2 = new[]
                 {
-                    tasks.Add(taskSession.TargetTree.RunTargetAsync(taskSession, targetToRun, true));
+                    "lolek",
+                };
+
+                source.Add('/', commands2);
+                inputReader = new ConsoleHintedInput(taskSession.TargetTree.GetTargetNames().ToList(), source);
+            }
+
+            do
+            {
+                if (runInTerminalMode)
+                {
+                    var commandLine = inputReader.ReadHintedLine();
+                    var app = new CommandLineApplication(false);
+                    IFlubuCommandParser parser = new FlubuCommandParser(app, null);
+                    var args = parser.Parse(commandLine.Split(' '));
+                    targetsInfo = ParseCmdLineArgs(args.MainCommands, taskSession.TargetTree);
                 }
 
-                Task.WaitAll(tasks.ToArray());
-                AfterTargetExecution(taskSession);
-            }
+                taskSession.Start();
 
-            if (targetsInfo.unknownTarget)
-            {
-                throw new TargetNotFoundException(
-                    $"Target {string.Join(" and ", targetsInfo.notFoundTargets)} not found.");
-            }
+                //// specific target help
+                if (targetsInfo.targetsToRun.Count == 2 &&
+                    targetsInfo.targetsToRun[1].Equals("help", StringComparison.OrdinalIgnoreCase))
+                {
+                    taskSession.TargetTree.RunTargetHelp(taskSession, targetsInfo.targetsToRun[0]);
+                    return;
+                }
 
-            AssertAllTargetDependenciesWereExecuted(taskSession);
+                if (targetsInfo.targetsToRun.Count == 1 || !taskSession.Args.ExecuteTargetsInParallel)
+                {
+                    if (targetsInfo.targetsToRun[0].Equals("help", StringComparison.OrdinalIgnoreCase))
+                    {
+                        taskSession.TargetTree.ScriptArgsHelp = ScriptProperties.GetPropertiesHelp(this);
+                    }
+
+                    BeforeTargetExecution(taskSession);
+                    foreach (var targetToRun in targetsInfo.targetsToRun)
+                    {
+                        taskSession.TargetTree.RunTarget(taskSession, targetToRun);
+                    }
+
+                    AfterTargetExecution(taskSession);
+                }
+                else
+                {
+                    taskSession.LogInfo("Running target's in parallel.");
+                    var tasks = new List<Task>();
+                    BeforeTargetExecution(taskSession);
+                    foreach (var targetToRun in targetsInfo.targetsToRun)
+                    {
+                        tasks.Add(taskSession.TargetTree.RunTargetAsync(taskSession, targetToRun, true));
+                    }
+
+                    Task.WaitAll(tasks.ToArray());
+                    AfterTargetExecution(taskSession);
+                }
+
+                if (targetsInfo.unknownTarget)
+                {
+                    throw new TargetNotFoundException(
+                        $"Target {string.Join(" and ", targetsInfo.notFoundTargets)} not found.");
+                }
+
+                AssertAllTargetDependenciesWereExecuted(taskSession);
+            }
+            while (runInTerminalMode);
         }
 
         protected virtual void BeforeTargetExecution(ITaskContext context)
