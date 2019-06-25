@@ -30,6 +30,8 @@ namespace FlubuCore.Targeting
 
         ITargetInternal SetLogDuration(bool logDuration);
 
+        ITargetInternal SetLogExecutionInfo(bool logExecutionInfo);
+
         /// <summary>
         ///     Specifies targets on which this target depends on and execute then Synchronus.
         /// </summary>

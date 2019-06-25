@@ -36,6 +36,7 @@ namespace FlubuCore.Targeting
             AddTarget("help.onlyTargets")
                 .SetDescription("Displays the available targets in the build")
                 .SetLogDuration(false)
+                .SetLogExecutionInfo(false)
                 .SetAsHidden()
                 .Do(LogTargetsHelp);
 

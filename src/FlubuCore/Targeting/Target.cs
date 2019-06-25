@@ -23,6 +23,8 @@ namespace FlubuCore.Targeting
 
         private readonly List<(Func<ITaskContext, bool> condition, string failMessage)> _musts = new List<(Func<ITaskContext, bool> condition, string failMessage)>();
 
+        private bool _logExecutionInfo = true;
+
         internal Target(TargetTree targetTree, string targetName, CommandArguments args)
         {
             if (string.IsNullOrEmpty(targetName))
@@ -69,6 +71,12 @@ namespace FlubuCore.Targeting
         public ITargetInternal SetLogDuration(bool logDuration)
         {
             LogDuration = logDuration;
+            return this;
+        }
+
+        public ITargetInternal SetLogExecutionInfo(bool logExecutionInfo)
+        {
+            _logExecutionInfo = logExecutionInfo;
             return this;
         }
 
@@ -409,15 +417,18 @@ namespace FlubuCore.Targeting
                 }
             }
 
-            string message = TaskExecutionMode == TaskExecutionMode.Sync
-                ? $"Executing target {TargetName}"
-                : $"Executing target '{TargetName}' asynchronous.";
+            if (_logExecutionInfo)
+            {
+                string message = TaskExecutionMode == TaskExecutionMode.Sync
+                    ? $"Executing target {TargetName}"
+                    : $"Executing target '{TargetName}' asynchronous.";
 
-#if  !NETSTANDARD1_6
-             context.LogInfo(message, Color.DimGray);
+#if !NETSTANDARD1_6
+                context.LogInfo(message, Color.DimGray);
 #else
              context.LogInfo(message);
 #endif
+            }
 
             context.IncreaseDepth();
             _targetTree.EnsureDependenciesExecuted(context, TargetName);
@@ -449,6 +460,8 @@ namespace FlubuCore.Targeting
 
                         if (_taskGroups[i].Tasks[j].taskExecutionMode == TaskExecutionMode.Sync)
                         {
+                            task.LogTaskExecutionInfo = _logExecutionInfo;
+
                             if (SequentialLogging)
                             {
                                 task.SequentialLogging = SequentialLogging;

@@ -270,7 +270,7 @@ namespace FlubuCore.Tasks
             _sequentialLogs = new List<string>();
             TaskExecuted = true;
 
-            if (!IsTarget)
+            if (!IsTarget && LogTaskExecutionInfo)
             {
                 contextInternal.DecreaseDepth();
 #if !NETSTANDARD1_6
@@ -407,7 +407,7 @@ namespace FlubuCore.Tasks
             _sequentialLogs = new List<string>();
             TaskExecuted = true;
 
-            if (!IsTarget)
+            if (!IsTarget && LogTaskExecutionInfo)
             {
 #if !NETSTANDARD1_6
                 LogSequentially($"Executing task '{TaskName}' asynchronous.", Color.DimGray);
@@ -940,6 +940,8 @@ namespace FlubuCore.Tasks
         public bool SequentialLogging { get; set; }
 
         public virtual bool IsTarget { get; } = false;
+
+        public bool LogTaskExecutionInfo { get; set; } = true;
 
         protected internal bool TaskExecuted { get;  set; }
 
