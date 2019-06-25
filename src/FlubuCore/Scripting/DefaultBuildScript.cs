@@ -155,6 +155,9 @@ namespace FlubuCore.Scripting
                 runInTerminalMode = true;
                 var source = new Dictionary<char, IReadOnlyCollection<string>>();
                 var propertyKeys = ScriptProperties.GetPropertiesKeys(this, taskSession);
+                propertyKeys.Add("--parallel");
+                propertyKeys.Add("--dryrun");
+                propertyKeys.Add("--noColor");
                 source.Add('-', propertyKeys);
 
                 inputReader = new ConsoleHintedInput(taskSession.TargetTree.GetTargetNames().ToList(), source);
