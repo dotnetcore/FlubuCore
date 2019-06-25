@@ -71,9 +71,16 @@ namespace FlubuCore.Context
             foreach (var property in props)
             {
                 var attributes = property.GetCustomAttributes<FromArgAttribute>(false).ToList();
-                foreach (var fromArgAttribute in attributes)
+                if (attributes.Count == 0)
                 {
-                    keys.Add(fromArgAttribute.ArgKey);
+                    keys.Add(property.Name);
+                }
+                else
+                {
+                    foreach (var fromArgAttribute in attributes)
+                    {
+                        keys.Add(fromArgAttribute.ArgKey);
+                    }
                 }
             }
 
