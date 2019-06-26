@@ -287,7 +287,13 @@ namespace FlubuCore.Infrastructure.Terminal
             }
 
             var splitedUserInput = userInput.Split(' ').Where(x => !string.IsNullOrWhiteSpace(x));
+
             var lastInput = splitedUserInput.Last();
+            if (userInput.EndsWith(" "))
+            {
+                lastInput = $"{lastInput} ";
+            }
+
             char hintSourceKey;
             if (_hintsSourceDictionary.ContainsKey(lastInput[0]))
             {
