@@ -228,7 +228,7 @@ namespace FlubuCore.Infrastructure.Terminal
             }
 
             //ClearConsoleLines();
-            //Console.WriteLine(readLine);
+            Console.WriteLine(string.Empty);
             AddCommandToHistory(readLine);
             return readLine;
         }
