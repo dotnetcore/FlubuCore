@@ -183,6 +183,7 @@ namespace FlubuCore.Infrastructure.Terminal
                                 input.KeyChar.ToString());
                         }
 
+                        wasUserInput = true;
                         UpdateSuggestionsForUserInput(userInput);
                         suggestion = GetFirstSuggestion();
                         break;
