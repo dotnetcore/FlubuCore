@@ -1,3 +1,93 @@
+## Next version
+- Added FlubuCore Interactive mode which offers target and options tab completition, history of executed commands, no need to load script for each executed target and more.    
+- Targets: Execute another target within target with AddTarget.
+
+``` C#
+    protected override void ConfigureTargets(ITaskContext context)
+    {
+       var exampleB = context.CreateTarget("TargetB")
+            .Do(Something);
+
+       context.CreateTarget("TargetA")
+           .AddCoreTask(x => x.Build())
+           .AddTarget(exampleB)  //Target is executed in the order it was added
+           .Do(JustAnExample);
+    }
+
+    public void JustAnExample(ITaskContext context)
+    {
+        ...
+    }
+```
+- Target: Add tasks to target with a foreach loop.
+```c#
+  protected override void ConfigureTargets(ITaskContext context)
+  {
+         var solution = context.Properties.Get<VSSolution>(BuildProps.Solution);
+
+         context.CreateTarget("Pack")
+                .ForEach(solution.Projects, (item, target) =>
+                {
+                    target.AddCoreTask(x => x.Pack().Project(item.ProjectName))
+                          .Do(JustAnExample, item);
+                });
+  }
+
+  private void JustAnExample(ITaskContext context, VSProjectInfo vsProjectInfo)
+  {
+        //// Do something.
+  }
+```
+
+- Override existing options or add additional options to tasks through console
+
+<sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Let's say you have target</sup>
+```c#
+context.CreateTarget("Build")`
+    .AddCoreTask(x => x.Build("MySolution.sln").Configuration("Release"); 
+```
+
+<sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and you wan't to build solution in debug configuration.</sup>
+
+<sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You could just write in console</sup>
+
+`flubu build /o:configuration=Debug`
+
+<sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or</sup>
+
+`flubu build /o:c=Debug`
+
+<sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flubu would execute </sup>
+
+`dotnet build MySolution.sln -c Debug`
+- sequentiall logging in asynchronus executed tasks and targets.
+
+```c#
+context.CreateTarget("Test")
+        .SetAsDefault()
+        .SequentialLogging(true)
+        .AddCoreTaskAsync(x => x.Pack())
+        .AddCoreTaskAsync(x => x.Pack())
+        .DependsOnAsync(test2, test3);
+```
+
+- New plugins are available: Gitter and slack plugin.
+- Added Get solution infromation as task context extension
+- Added support for multiple Musts on target
+- Logs have now indentation for better readability.
+- Logs have now timemark (actions that takes more than 2sec).
+- Improved build summary in logs.
+- Loged build finish time and build duration
+- Fixed GitVersionTask
+- Targets: Must now accepts optional error message parameter.
+- UpdateNetCoreTask can now write version quality(version suffix)
+- FetchBuildVersionFromFile can now fetch version quality(version suffix).
+- FetchBuildVersionFromFile improved logging.
+- Added options to set versions in dotnet tasks (dotnet build, dotnet pack, dotnet publish)
+- LoadSoluationTask returns solution information
+- Added WithArgument to IRunProgramTask interface
+- Fixed check of unknown targets.
+
 ## FlubuCore 3.2.1.0
 - Fixed build status
 - Improved message when build script is not found.
