@@ -186,6 +186,14 @@
 </td></tr></table>
 
 <ul>
+<li><a href="https://flubucore.dotnetcore.xyz/override-add-options/">Override existing options or add additional options to tasks through console</a></li>
+</ul>
+<p><code>c#
+  context.CreateTarget("Example")`
+      .AddCoreTask(x =&gt; x.Build("MySolution.sln").Configuration("Release");</code> </p>
+<p><code>flubu build /o:configuration=Debug</code></p>
+<p>flubu would execute <code>dotnet build MySolution.sln -c Debug</code>   </p>
+<ul>
 <li><a href="https://flubucore.dotnetcore.xyz/getting-started#getting-started-net-core">Full .NET Core support including the global CLI tool</a></li>
 </ul>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
@@ -209,8 +217,12 @@
 <p><a href="https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs">Possibility to use FlubuCore tasks in any other .NET application.</a></p>
 </li>
 <li>
-<p>Improved developer experience with FlubuCore custom analyzers.</p>
+<p><a href="https://flubucore.dotnetcore.xyz/build-script-runner-interactive/">FlubuCore interactive mode</a> which offers target tab completition, options tab completition, toogle targets and options, executed commands history and more...  </p>
 </li>
+</ul>
+<p><img alt="FlubuCore interactive mode" src="https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCore_Interactive_mode.gif" /></p>
+<ul>
+<li>Improved developer experience with FlubuCore custom analyzers.</li>
 </ul>
 <p><img alt="FlubuCore analyzers in action" src="https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCoreCustomAnalyzerDemo.png" /></p>
 <h2 id="getting-started"><strong>Getting Started</strong><a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
