@@ -1,5 +1,8 @@
 ## Next version
-- Added FlubuCore Interactive mode which offers target and options tab completition, history of executed commands, no need to load script for each executed target and more.    
+- FlubuCore interactive mode which offers target tab completition, options tab completition, toogle targets and options, executed commands history and more.   
+
+![FlubuCore interactive mode](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCore_Interactive_mode.gif)
+
 - Targets: Execute another target within target with AddTarget.
 
 ``` C#
