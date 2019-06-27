@@ -56,7 +56,7 @@ context.CreateTarget("MyCustomBuildTarget")
      .Do(NuGetPackageReferencingExample);
 ```
 
-* [assembly references and nuget packages are loaded automatically](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Referencing-other-assemblies-in-build-script) when script is used together with project file. When script is executed alone (for example when deploying with FlubuCore script on production environment) references can be added with attributes.
+* [assembly references and nuget packages are loaded automatically](https://flubucore.dotnetcore.xyz/referencing-external-assemblies/) when script is used together with project file. When script is executed alone (for example when deploying with FlubuCore script on production environment) references can be added with attributes.
 
 ```cs
 [NugetPackage("Newtonsoft.json", "11.0.2")]
@@ -124,13 +124,23 @@ context.CreateTarget("Run.Libz")
         .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName3"));
     ```
 
+* [Override existing options or add additional options to tasks through console](https://flubucore.dotnetcore.xyz/override-add-options/)
+
+   ```c#
+  context.CreateTarget("Example")`
+      .AddCoreTask(x => x.Build("MySolution.sln").Configuration("Release"); 
+   ``` 
+
+  `flubu build /o:configuration=Debug`
+
+   flubu would execute `dotnet build MySolution.sln -c Debug`    
+
 * [Full .NET Core support including the global CLI tool](https://flubucore.dotnetcore.xyz/getting-started#getting-started-net-core)
 
     ```
     dotnet tool install --global FlubuCore.GlobalTool
     flubu compile
     ```
-
 * [Possibility to test and debug your build scripts.](https://flubucore.dotnetcore.xyz/Tests-debugging)
 
     ```cs
@@ -140,6 +150,10 @@ context.CreateTarget("Run.Libz")
 * [Easily automate deployments remotely via the FlubuCore Web API.](https://flubucore.dotnetcore.xyz/WebApi/getting-started/)
 
 * [Possibility to use FlubuCore tasks in any other .NET application.](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs)
+
+* [FlubuCore interactive mode](https://flubucore.dotnetcore.xyz/build-script-runner-interactive/) which offers target tab completition, options tab completition, toogle targets and options, executed commands history and more...  
+
+![FlubuCore interactive mode](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCore_Interactive_mode.gif)
 
 * Improved developer experience with FlubuCore custom analyzers.
 
