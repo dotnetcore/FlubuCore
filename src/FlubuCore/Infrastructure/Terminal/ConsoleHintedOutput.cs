@@ -207,7 +207,12 @@ namespace FlubuCore.Infrastructure.Terminal
                     }
                     else
                     {
-                        userInput = userInput.TrimEnd() + " ";
+                        userInput = userInput.TrimEnd();
+                        if (!userInput.StartsWith("-"))
+                        {
+                           userInput = $"{userInput} ";
+                        }
+
                         fullInput = $"{fullInput.Substring(0, li)} {userInput}";
                         userInput = fullInput;
                         ConsoleUtils.Write(fullInput, ConsoleColor.Green);
