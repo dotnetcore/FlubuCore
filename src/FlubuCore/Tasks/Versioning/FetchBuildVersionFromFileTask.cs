@@ -192,7 +192,7 @@ namespace FlubuCore.Tasks.Versioning
                 VersionQuality = versionQuality
             };
 
-            DoLogInfo($"Project version fetched: {buildVersion}");
+            DoLogInfo($"Project version fetched: {buildVersion.Version}");
             return buildVersion;
         }
     }

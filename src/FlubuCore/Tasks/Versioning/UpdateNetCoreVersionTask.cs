@@ -99,12 +99,12 @@ namespace FlubuCore.Tasks.Versioning
                 _version.VersionQuality = context.Properties.GetBuildVersionQuality();
             }
 
-            if (_version == null)
+            if (_version == null || _version.Version == null)
             {
                 throw new TaskExecutionException("Version is not set!", 1);
             }
 
-            DoLogInfo($"Update version to {_version}");
+            DoLogInfo($"Update version to {_version.Version}");
             string newVersion = _version.Version.ToString(3);
             int res = 0;
 
@@ -147,7 +147,7 @@ namespace FlubuCore.Tasks.Versioning
                 {
                     var task = context.Tasks().UpdateXmlFileTask(file);
                     task.AddOrUpdate("Project/PropertyGroup/Version", newVersionWithQuality);
-                    newVersion = _version.Version.ToString(4);
+                    newVersion = _version.Version.ToString();
                     task.AddOrUpdate("Project/PropertyGroup/AssemblyVersion", newVersion);
                     task.AddOrUpdate("Project/PropertyGroup/FileVersion", newVersion);
                     task.Execute(context);
