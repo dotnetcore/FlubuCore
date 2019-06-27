@@ -126,21 +126,14 @@ context.CreateTarget("Run.Libz")
 
 * [Override existing options or add additional options to tasks through console](https://flubucore.dotnetcore.xyz/override-add-options/)
 
-  Let's say you have target
-
-  ```c#
+   ```c#
   context.CreateTarget("Example")`
       .AddCoreTask(x => x.Build("MySolution.sln").Configuration("Release"); 
-   ```
-  and you wan't to build solution in debug configuration.
+   ``` 
 
-  You could just write in console
+  `flubu build /o:configuration=Debug`
 
-    `flubu build /o:configuration=Debug`
-
-   flubu would execute 
-
-    `dotnet build MySolution.sln -c Debug`
+   flubu would execute `dotnet build MySolution.sln -c Debug`    
 
 * [Full .NET Core support including the global CLI tool](https://flubucore.dotnetcore.xyz/getting-started#getting-started-net-core)
 
