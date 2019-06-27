@@ -188,9 +188,12 @@
 <ul>
 <li><a href="https://flubucore.dotnetcore.xyz/override-add-options/">Override existing options or add additional options to tasks through console</a></li>
 </ul>
-<p><code>c#
-  context.CreateTarget("Example")`
-      .AddCoreTask(x =&gt; x.Build("MySolution.sln").Configuration("Release");</code> </p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="s">&quot;Example&quot;</span><span class="p">)</span><span class="err">`</span>
+   <span class="p">.</span><span class="n">AddCoreTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">Build</span><span class="p">(</span><span class="s">&quot;MySolution.sln&quot;</span><span class="p">).</span><span class="n">Configuration</span><span class="p">(</span><span class="s">&quot;Release&quot;</span><span class="p">);</span> 
+</pre></div>
+</td></tr></table>
+
 <p><code>flubu build /o:configuration=Debug</code></p>
 <p>flubu would execute <code>dotnet build MySolution.sln -c Debug</code>   </p>
 <ul>

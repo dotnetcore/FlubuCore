@@ -10,11 +10,13 @@
 <li>Automatic updates</li>
 <li>Manual target execution through FlubuCore web app(deployed together with web api)</li>
 </ul>
-<p>In this getting started tutorial we will:
-- Deploy FlubuCore web api to the server.
-- Write .net deployment script that will deploy mvc example application on the sever. You should go through this tutorial even if you want to use FlubuCore.WebApi for .net core application deployment. There are few small differences between using FlubuCore.WebApi for deploying .net core applications and .net applications. All differences are written in this tutorial.
-- Write build script that will upload deployment package of the example application to the server and execute deployment script that we wrote.
-- Run deployment script through build script remotely.</p>
+<p>In this getting started tutorial we will:</p>
+<ul>
+<li>Deploy FlubuCore web api to the server.</li>
+<li>Write .net deployment script that will deploy mvc example application on the sever. You should go through this tutorial even if you want to use FlubuCore.WebApi for .net core application deployment. There are few small differences between using FlubuCore.WebApi for deploying .net core applications and .net applications. All differences are written in this tutorial.</li>
+<li>Write build script that will upload deployment package of the example application to the server and execute deployment script that we wrote.</li>
+<li>Run deployment script through build script remotely.</li>
+</ul>
 <p><a name="requirements"></a></p>
 <h3 id="requirements"><strong>Requirements</strong><a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h3>
 <ul>
@@ -37,23 +39,27 @@
 <p><a name="Write-deploy-script"></a></p>
 <h3 id="write-deploy-script"><strong>Write deploy script</strong><a class="headerlink" href="#write-deploy-script" title="Permanent link">&para;</a></h3>
 <p>Example .net  deploy script can be found <a href="https://github.com/flubu-core/examples/blob/master/DeployScriptExample/BuildScript/DeployScript.cs">Here</a>. If u want to try the example the best way is to just clone the flubu core examples directory. Deploy script for .net core application would be of course slightly different.</p>
-<p>Example deploy script for .net application will
- - Create iis application pool if it doesnt exists
- - Stop the application pool
- - Unzip package from /packages directory(which will be uploaded to web api with build script)
- - Copy unziped application to new folder where it is/will be hosted.
- - Create web site on iis for example web application
- - Start the application pool</p>
-<p>When you finish writing your deploy script. manually copy it to web api deployed location /scripts folder. Web api can also upload scripts but it is disabled by default for obvious security reason. It should stay disabled in most cases.</p>
+<p>Example deploy script for .net application will</p>
+<ul>
+<li>Create iis application pool if it doesnt exists</li>
+<li>Stop the application pool</li>
+<li>Unzip package from /packages directory(which will be uploaded to web api with build script)</li>
+<li>Copy unziped application to new folder where it is/will be hosted.</li>
+<li>Create web site on iis for example web application</li>
+<li>Start the application pool</li>
+</ul>
+<p>When you finish writing your deploy script manually copy it to web api deployed location /scripts folder. Web api can also upload scripts but it is disabled by default for obvious security reason. It should stay disabled in most cases.</p>
 <p>If needed modify Example DeployScript for your needs.</p>
 <p><a name="Write-build-script"></a></p>
 <h3 id="write-build-script"><strong>Write build script</strong><a class="headerlink" href="#write-build-script" title="Permanent link">&para;</a></h3>
 <p>Example .net build script can be found <a href="https://github.com/flubu-core/examples/blob/master/DeployScriptExample/BuildScript/BuildScript.cs">here</a></p>
-<p>Example .net build script will
- - Get the authentication token
- - Delete old packages from /packages folder on web api.
- - Upload package to web api /packages folder
- - Execute Deployment script in /scripts folder that we manually uploaded</p>
+<p>Example .net build script will</p>
+<ul>
+<li>Get the authentication token</li>
+<li>Delete old packages from /packages folder on web api.</li>
+<li>Upload package to web api /packages folder</li>
+<li>Execute Deployment script in /scripts folder that we manually uploaded</li>
+</ul>
 <p>If needed modify Example BuildScript for your needs.</p>
 <p><a name="Run-deploy-script"></a></p>
 <h3 id="run-deploy-script"><strong>Run deploy script</strong><a class="headerlink" href="#run-deploy-script" title="Permanent link">&para;</a></h3>
