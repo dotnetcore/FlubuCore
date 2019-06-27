@@ -1,12 +1,10 @@
 
 
-When executing script locally it is recomended to run FlubuCore in interactive mode.
+When executing script locally it is recomended to run FlubuCore in interactive mode:`flubu -i`
 
-`flubu -i`
+## **Features**
 
-## Features
-
-Features of interactive mode
+Features in interactive mode
 
 - Target's tab completition with tab key
 - Option's tab completition with tab key
@@ -14,12 +12,10 @@ Features of interactive mode
 - History of executed commans with up and down arrow
 - No need to load script for each executed command
 
-Interactive mode could be run with `flubu -i`
-
-## Demo
+## **Demo**
 ![Interactive mode in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCore_Interactive_mode.gif)
 
-## Hot keys
+## **Hot keys**
 Following hot keys are supported:
 
 - `Enter` Executes entered command

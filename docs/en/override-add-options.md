@@ -13,7 +13,7 @@ Alternativly you can change default prefix on task
         AddCoreTask(x => x.Publish()
             .ChangeDefaultAdditionalOptionPrefix("/p:"));
 ```
-##Example
+## **Example**
 
 Let's say you have target
 ```c#

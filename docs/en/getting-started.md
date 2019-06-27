@@ -12,21 +12,21 @@ Build script project where FlubuCore is referenced must target .NETStandard 1.6 
 #### Installation .NET core
 
 -   Add new project to solution e.g. BuildScript
--   Add **[FlubuCore]** Reference to project with NuGet.
+-   Add **[FlubuCore]** reference to project with NuGet
 
 ##### Or Install with FlubuCore template
 
 - In console navigate where your solution is located.
 - Run `dotnet new -i FlubuCore.Template`
-- Run 'dotnet new FlubuCore'
-- This will add BuildScript.csproj with FlubuCore references and FlubuCore script template.
+- Run `dotnet new FlubuCore`
+- This will add BuildScript.csproj with FlubuCore references and FlubuCore script template
 
 
 <a name="Write-and-run-your-first-build-script-in-.net-core"></a>
-#### Write and run your first build script in .net core
+#### Write and run your first build script in .NET core
 
 
-Add BuildScript.cs file to buildscript projetct and add Following code.
+Add BuildScript.cs file to buildscript projetct and add following code.
 
 Following code adds compile target to flubu commands. Compile target compiles the solution.
 

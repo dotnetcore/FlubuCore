@@ -13,6 +13,7 @@ Web Api supports:
 - Manual target execution through FlubuCore web app(deployed together with web api)
 
 In this getting started tutorial we will:
+
 - Deploy FlubuCore web api to the server.
 - Write .net deployment script that will deploy mvc example application on the sever. You should go through this tutorial even if you want to use FlubuCore.WebApi for .net core application deployment. There are few small differences between using FlubuCore.WebApi for deploying .net core applications and .net applications. All differences are written in this tutorial.
 - Write build script that will upload deployment package of the example application to the server and execute deployment script that we wrote.
@@ -25,6 +26,7 @@ In this getting started tutorial we will:
 
 <a name="Web-api-deployment"></a>
 ### **Web api deployment**
+
 - Get appropriate web api deploy package from https://github.com/flubu-core/flubu.core/releases.
 - Copy web api deployment package to the server where you want to execute flubu script.
 - Unzip the package.
@@ -43,6 +45,7 @@ Some actions might need administration rights like starting / stoping the applic
 Example .net  deploy script can be found [Here](https://github.com/flubu-core/examples/blob/master/DeployScriptExample/BuildScript/DeployScript.cs). If u want to try the example the best way is to just clone the flubu core examples directory. Deploy script for .net core application would be of course slightly different.
 
 Example deploy script for .net application will
+
  - Create iis application pool if it doesnt exists
  - Stop the application pool
  - Unzip package from /packages directory(which will be uploaded to web api with build script)
@@ -50,7 +53,7 @@ Example deploy script for .net application will
  - Create web site on iis for example web application
  - Start the application pool
 
-When you finish writing your deploy script. manually copy it to web api deployed location /scripts folder. Web api can also upload scripts but it is disabled by default for obvious security reason. It should stay disabled in most cases.
+When you finish writing your deploy script manually copy it to web api deployed location /scripts folder. Web api can also upload scripts but it is disabled by default for obvious security reason. It should stay disabled in most cases.
 
 If needed modify Example DeployScript for your needs.
 
@@ -59,6 +62,7 @@ If needed modify Example DeployScript for your needs.
    Example .net build script can be found [here](https://github.com/flubu-core/examples/blob/master/DeployScriptExample/BuildScript/BuildScript.cs)
    
 Example .net build script will
+
  - Get the authentication token
  - Delete old packages from /packages folder on web api.
  - Upload package to web api /packages folder

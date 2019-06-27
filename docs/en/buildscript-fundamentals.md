@@ -42,7 +42,7 @@ protected override void ConfigureTargets(ITaskContext context)
 }
 ```
 
-Target's can also be defined with attribute on method.
+Target's can also be defined with attributes on method.
 
 ```C#
 [Target("targetName", "a", "b")]
@@ -54,7 +54,7 @@ public void Example(ITarget target, string source, string destination)
 }
 ```
 
-You can also pass values to parameter through console arguments, FlubuCore config file.
+You can also pass values to parameter through console arguments or FlubuCore config file.
 
 `Flubu targetName2 -destination=SomeOtherDestination`
 
@@ -72,7 +72,7 @@ context.CreateTarget("Build")
     .AddCoreTask(x => x.Build());
 ```
 
-All Tasks also have following methods
+All Tasks have following methods:
   
 - ``` .OnError((c, ex) => { c.LogInfo("Example");})) ``` - onError can perform some custom action when error occurs on single task
 
@@ -86,7 +86,7 @@ All Tasks also have following methods
 
 - ``` .SetDescription() ``` - Overrides the default help description of the task.
 
-- ``` .ForMember() ``` - pass through console argument to method or property. See [Pass console arguments, settings from json configuration file, environment variables with ForMember to tasks.](#Arguments-pass-through-to-tasks) for more details.
+- ``` .ForMember() ``` - pass through console argument to method or property. See [Pass console arguments, settings from json configuration file, environment variables with ForMember to tasks](#Arguments-pass-through-to-tasks) for more details.
 
 - conditonal task execution with when cluase on single task (see bellow for group of tasks)
 
@@ -135,7 +135,7 @@ private static void CustomCodeExample(ITaskContext context)
 }
 ```
 
-You can also pass arguments to custom code:
+You can also have parameters on methods:
 
 ```C#
 protected override void ConfigureTargets(ITaskContext context)
@@ -157,7 +157,7 @@ private static void CustomCodeExample(ITaskContext context, string arg1, int arg
 
 Target can have dependencies on other targets. All dependenies will be executed before target in the specified order.
 
-When targetC is executed target’s will be executed in the following order: TargetB, TargetA, TargetC
+When targetC is executed target’s will execute in the following order: TargetB, TargetA, TargetC
 
 ```C#
 var targetA = context.CreateTarget("TargetA");
@@ -189,7 +189,7 @@ Example:
         ...
     }
 ```
-following execution order should be taken when  TargetA is executed
+following execution order is taken when  TargetA is executed
 
 1. Build task
 2. TargetB target
@@ -221,7 +221,7 @@ private void Deploy(ITarget target, string deployPath)
 }    
 ```
 
-### Add tasks to target with a foreach loop
+### **Add tasks to target with a foreach loop**
 
 Following example shows how to add multiple tasks to target with a foreach loop
 
@@ -243,6 +243,8 @@ Following example shows how to add multiple tasks to target with a foreach loop
         //// Do something.
   }
 ```
+
+Example will execute Pack task for each project in solution.
 
 <a name="Group-task"></a>
 
@@ -339,9 +341,9 @@ session.CreateTarget("async.example")
 
 The code above will first execute 2 nunit tasks asynchronously and wait for both tasks to finish. Then it will execute SomeCustomMethod synchrounosly. After it is finished code from SomeCustomAsyncMethod2 and SomeCustomAsyncMethod3 will be executed asynchronously.
 
-#### sequentiall logging in asynchronus executed tasks and targets 
+#### sequential logging in asynchronus executed tasks and targets 
 
-Usually logs are not readable when executing more than 1 task asynchronously. That's why FlubuCore offers sequentiall logging in asynchronus tasks. You can enable them with  ` .SequentialLogging(true)` on target. It has to be placed before asynchronus tasks/target dependencies otherwise logs will not be sequentiall.
+Usually logs are not readable when executing more than 1 task asynchronously. That's why FlubuCore offers sequential logging in asynchronus tasks. You can enable them with  ` .SequentialLogging(true)` on target. It has to be placed before asynchronus tasks/target dependencies otherwise logs will not be sequential.
 ```c#
 context.CreateTarget("Test")
         .SetAsDefault()
@@ -502,24 +504,22 @@ Property types that are supported: string, boolean, int, long, decimal, double, 
  * Create file FlubuSettings.json where Flubu runner is located.
  * Add argument key and value to file in json format.
  * For above example json file would look like this:
-
-   `{
-      "sn" : "true",
-      "SomeOtherKey" : "SomeOtherValue"
-    }` 
-
-* It's typical to have different configuration settings for different environments, for example, development, testing, and production. Just create different files FlubuSettings.{Enviroment}.Json and [set enviroment variable](https://andrewlock.net/how-to-set-the-hosting-environment-in-asp-net-core/) 'ASPNETCORE_ENVIRONMENT' on desired machine 
-* You can also create json configuration file by machine name FlubuSettings.{MachineName}.Json. If MachineName in file matches the machine name Flubu will automatically read settings from that file.
+	```json
+	 {
+		"sn" : true,
+		"SomeOtherKey" : "SomeOtherValue"
+	 } 	
+	```
+* It's typical to have different configuration settings for different environments for example development, testing, and production. Just create different json files `FlubuSettings.{Environment}.Json` and [set enviroment variable](https://andrewlock.net/how-to-set-the-hosting-environment-in-asp-net-core/) 'ASPNETCORE_ENVIRONMENT' on desired machine 
+* You can also create json configuration file by machine name `FlubuSettings.{MachineName}.Json`. If MachineName in file matches the machine name Flubu will automatically read settings from that file.
 
 <a name="enviroment-variable"></a>
 
 ### **Passing enviroment variable to build script property**
 
-You can also set script arguments through environment variables. environment variables must have prefix flubu_
+You can also set script arguments through environment variables. environment variables must have prefix `flubu_`
 
-For above example you would add environment variable from windows command line with the following command:
-
-`set flubu_sn=true`
+For above example you would add environment variable from windows command line with the following command: `set flubu_sn=true`
 
 <a name="Arguments-pass-through-to-tasks"></a>
 
@@ -536,9 +536,9 @@ protected override void ConfigureTargets(ITaskContext context)
 }
 ```
 
-* First parameter is the method or property argument will be passed through. values set in method parameters are default values if argument is not specified when running the build script.
+* First parameter is the method or property argument that will be passed through. values set in method parameters are default values if argument is not specified when running the build script.
 * Second parameter is the argument key.
-* Third optional parameter is help that it will be displayed in detailed target help. If parameter is not set then default generated help will be displayed.
+* Third optional parameter is help that will be displayed in detailed target help. If parameter is not set then default generated help will be displayed.
 
  `Dotnet flubu compile -solution=someothersolution.sln`
 

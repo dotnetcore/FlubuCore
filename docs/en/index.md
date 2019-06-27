@@ -129,7 +129,7 @@ public class BuildScript : DefaultBuildScript
 * [Override existing options or add additional options to tasks through console](https://flubucore.dotnetcore.xyz/override-add-options/)
 
    ```c#
-  context.CreateTarget("Example")`
+   context.CreateTarget("Example")`
       .AddCoreTask(x => x.Build("MySolution.sln").Configuration("Release"); 
    ``` 
 
