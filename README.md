@@ -133,7 +133,7 @@ context.CreateTarget("Run.Libz")
 
   `flubu build /o:configuration=Debug`
 
-   flubu would execute `dotnet build MySolution.sln -c Debug`    
+   flubu would execute `dotnet build MySolution.sln --configuration Debug`    
 
 * [Full .NET Core support including the global CLI tool](https://flubucore.dotnetcore.xyz/getting-started#getting-started-net-core)
 
