@@ -163,7 +163,7 @@ namespace FlubuCore.Infrastructure
                 lock (Lock)
                 {
 #if !NETSTANDARD1_6
-                    if (!DisableColloredLogging)
+                    if (!DisableColloredLogging && !string.IsNullOrEmpty(timeMark))
                     {
                         timeMark = timeMark.Pastel(Color.Magenta);
                     }
