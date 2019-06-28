@@ -35,7 +35,7 @@ context.CreateTarget("Example")
       .When(c => c.BuildSystems().Jenkins().IsRunningOnJenkins);
 ```
 
-- [大量常用的内置任务](https://flubucore.dotnetcore.xyz/tasks/)，如运行测试、管理 ISS、创建部署包（deployment packages）、发布 NuGet 包、docker 任务、执行 PowerShell 脚本等。
+- [内置大量常用任务](https://flubucore.dotnetcore.xyz/tasks/)，如运行测试、管理 ISS、创建部署包（deployment packages）、发布 NuGet 包、docker 任务、执行 PowerShell 脚本等。
 
 ```cs
 target
@@ -124,6 +124,17 @@ context.CreateTarget("Run.Tests")
     .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName3"));
 ```
 
+- [通过控制台程序为任务添加额外配置项（additional options），或对现有的配置项进行重写（override）](https://flubucore.dotnetcore.xyz/override-add-options/)
+
+```c#
+context.CreateTarget("Example")`
+    .AddCoreTask(x => x.Build("MySolution.sln").Configuration("Release");
+```
+
+`flubu build /o:configuration=Debug`
+
+flubu 将执行 `dotnet build MySolution.sln -c Debug`
+
 - [完整的 .NET Core 支持，包括全局 CLI 工具](https://flubucore.dotnetcore.xyz/getting-started#getting-started-net-core)
 
 ```
@@ -141,9 +152,13 @@ context.WaitForDebugger();
 
 - [可在其他 .NET 应用程序中使用 FlubuCore 任务](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs)。
 
+- [FlubuCore 交互模式（interactive mode）](https://flubucore.dotnetcore.xyz/build-script-runner-interactive/) 提供有 target 标签自动完成、选项标签自动完成、切换 target 和选项，以及命令执行历史等。
+
+![FlubuCore 交互模式](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCore_Interactive_mode.gif)
+
 - 使用 FlubuCore 自定义分析器（FlubuCore custom analyzers）增强开发体验。
 
-![FlubuCore analyzers in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCoreCustomAnalyzerDemo.png)
+![执行中的 FlubuCore 分析器](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCoreCustomAnalyzerDemo.png)
 
 ## 入门
 
