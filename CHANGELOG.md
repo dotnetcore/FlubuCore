@@ -1,4 +1,4 @@
-## FlubuCore 4.0.2.0
+## FlubuCore 4.0.3.0
 - FlubuCore interactive mode which offers target tab completition, options tab completition, toogle targets and options, executed commands history and more.   
 
 ![FlubuCore interactive mode](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCore_Interactive_mode.gif)
