@@ -17,6 +17,8 @@ namespace FlubuCore.Scripting
             "Build.cs",
             "_Build/Build.cs",
             "Build/Build.cs",
+            "Build/BuildScript.cs",
+            "_Build/BuildScript.cs",
             "_BuildScript/BuildScript.cs",
             "_BuildScripts/BuildScript.cs",
             "BuildScript/BuildScript.cs",
