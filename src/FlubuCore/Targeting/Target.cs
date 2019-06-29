@@ -533,7 +533,6 @@ namespace FlubuCore.Targeting
                 }
                 finally
                 {
-                    context.DecreaseDepth();
                     if (!CleanUpStore.StoreAccessed)
                     {
                         if (_taskGroups[i].CleanupOnCancel)
@@ -546,6 +545,7 @@ namespace FlubuCore.Targeting
                 }
             }
 
+            context.DecreaseDepth();
             return 0;
         }
 

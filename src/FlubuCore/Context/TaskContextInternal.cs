@@ -41,7 +41,10 @@ namespace FlubuCore.Context
 
         public void DecreaseDepth()
         {
-            ExecutionDepth--;
+            if (ExecutionDepth > 0)
+            {
+                ExecutionDepth--;
+            }
         }
 
         public void ResetDepth()

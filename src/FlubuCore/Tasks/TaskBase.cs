@@ -406,17 +406,18 @@ namespace FlubuCore.Tasks
             TaskExecutionMode = TaskExecutionMode.Async;
             _sequentialLogs = new List<string>();
             TaskExecuted = true;
+            ITaskContextInternal contextInternal = (ITaskContextInternal)context;
 
             if (!IsTarget && LogTaskExecutionInfo)
             {
+                contextInternal.DecreaseDepth();
 #if !NETSTANDARD1_6
                 LogSequentially($"Executing task '{TaskName}' asynchronous.", Color.DimGray);
 #else
                 LogSequentially($"Executing task '{TaskName}' asynchronous.");
 #endif
+                contextInternal.IncreaseDepth();
             }
-
-            ITaskContextInternal contextInternal = (ITaskContextInternal)context;
 
             TaskStopwatch.Start();
 
