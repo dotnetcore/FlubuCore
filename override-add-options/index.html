@@ -2,7 +2,7 @@
 <p><code>/o:{external_process_option}</code> </p>
 <p>With <code>/o:</code> FlubuCore adds specified option to all tasks in target's which can be a problem if target execute multiple tasks. So instead of <code>/o:</code>  you can use prefix by task name </p>
 <p><code>/{taskName}:{external_process_option}</code>  </p>
-<p>Alternativly you can change default prefix on task</p>
+<p>Alternatively you can change default prefix on task</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>    <span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="s">&quot;Publish&quot;</span><span class="p">)</span>
@@ -14,12 +14,11 @@
 <h2 id="example"><strong>Example</strong><a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
 <p>Let's say you have target
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="s">&quot;Example&quot;</span><span class="p">)</span><span class="err">`</span>
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="s">&quot;Example&quot;</span><span class="p">)</span><span class="err">`</span>
     <span class="p">.</span><span class="n">AddCoreTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">Build</span><span class="p">(</span><span class="s">&quot;MySolution.sln&quot;</span><span class="p">).</span><span class="n">Configuration</span><span class="p">(</span><span class="s">&quot;Release&quot;</span><span class="p">);</span> 
-<span class="n">and</span> <span class="n">you</span> <span class="n">wan</span><span class="err">&#39;</span><span class="n">t</span> <span class="n">to</span> <span class="n">build</span> <span class="n">solution</span> <span class="k">in</span> <span class="n">debug</span> <span class="n">configuration</span><span class="p">.</span>
 </pre></div>
-</td></tr></table>
+</td></tr></table></p>
+<p>and you wan't to build solution in debug configuration.
 You could just write in console</p>
 <p><code>flubu build /o:configuration=Debug</code></p>
 <p>or
