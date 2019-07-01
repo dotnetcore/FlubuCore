@@ -8,7 +8,8 @@ Features in interactive mode
 
 - Target's tab completition with tab key
 - Option's tab completition with tab key
-- Next / previos target or option with up and down arrow
+- Next / previos target with up and down arrow
+- Next / previos option with up and down arrow
 - History of executed commans with up and down arrow
 - No need to load script for each executed command
 

@@ -6,7 +6,7 @@ With `/o:` FlubuCore adds specified option to all tasks in target's which can be
 
 `/{taskName}:{external_process_option}`  
 
-Alternativly you can change default prefix on task
+Alternatively you can change default prefix on task
 
 ```c#
     context.CreateTarget("Publish")
@@ -19,8 +19,10 @@ Let's say you have target
 ```c#
 context.CreateTarget("Example")`
     .AddCoreTask(x => x.Build("MySolution.sln").Configuration("Release"); 
-and you wan't to build solution in debug configuration.
+
 ```
+
+and you wan't to build solution in debug configuration.
 You could just write in console
 
 `flubu build /o:configuration=Debug`
