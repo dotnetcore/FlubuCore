@@ -36,7 +36,7 @@ Target 可以和添加有 `-parallel` 选项的任务一同执行。
 
 `dotnet flubu {TargetName} help`
 
-It displays all tasks with description that will be executed by target. It also displays which argument(with description) can be passed through to specific task in target.
+这条命令将列出所有描述有执行目标的任务，以及哪些参数可以传递给目标（target）中的特定任务。
 
 ### **默认构建脚本的位置**
 
