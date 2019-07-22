@@ -25,13 +25,13 @@ context.CreateTarget("Example")`
 and you wan't to build solution in debug configuration.
 You could just write in console
 
-`flubu build /o:configuration=Debug`
+`flubu example /o:configuration=Debug`
 
 or
-`flubu build /o:c=Debug`
+`flubu example /o:c=Debug`
 
 or
-`flubu build /build:c=Debug`
+`flubu example /build:c=Debug`
 
 flubu would execute 
 
