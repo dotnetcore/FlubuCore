@@ -215,4 +215,5 @@ Thank's to Comtrade for supporting us.
 
 ## Acknowledgements
 
-Special thanks to [@ironcev](https://github.com/ironcev) for greatly improving readme and for giving some valuable advices.
+* Special thanks to [@ironcev](https://github.com/ironcev) for greatly improving readme and for giving some valuable advices.
+* Special thanks to [@alexinea](https://github.com/https://github.com/alexinea) for translating whole documentation to Chinese.
