@@ -25,20 +25,20 @@ plugins:
  
 nav:
     - 'FlubuCore': 'index.md'
-    - 'Getting started': 'getting-started.md'
-    - 'Build script fundamentals': 'buildscript-fundamentals.md'
-    - 'Build script runner': 'build-script-runner.md'
-    - 'Build script runner interactive mode': 'build-script-runner-interactive.md'
-    - 'Referencing external assemblies in build script': 'referencing-external-assemblies.md'
-    - 'Override existing options or add additional options to tasks through console': 'override-add-options.md'
-    - 'Tasks': 'tasks.md'
-    - 'How to write and use plugins': 'write-plugins.md'
-    - 'Tests and debuging': 'Tests-debugging.md'    
-    - 'Web api' :
-        - 'Getting started' : 'WebApi/getting-started.md'
-    - 'Awesome plugins': 
-        - 'Plugins': 'AwesomePlugins/awesome-plugins.md'
-    - 'Examples' :
+    - '入门': 'getting-started.md'
+    - '构建脚本基础': 'buildscript-fundamentals.md'
+    - '构建脚本运行器': 'build-script-runner.md'
+    - '构建脚本运行器交互模式': 'build-script-runner-interactive.md'
+    - '在构建脚本中引用外部程序集': 'referencing-external-assemblies.md'
+    - '覆盖现有选项或通过控制台向任务添加其他选项': 'override-add-options.md'
+    - '任务': 'tasks.md'
+    - '编写与使用插件': 'write-plugins.md'
+    - '测试与调试': 'Tests-debugging.md'    
+    - 'Web Api' :
+        - '入门' : 'WebApi/getting-started.md'
+    - '插件精选': 
+        - '插件': 'AwesomePlugins/awesome-plugins.md'
+    - '示例' :
         - 'Index' : 'https://github.com/dotnetcore/FlubuCore.Examples'   
   
 
