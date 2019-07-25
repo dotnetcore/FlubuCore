@@ -35,7 +35,7 @@ context.CreateTarget("Example")
       .When(c => c.BuildSystems().Jenkins().IsRunningOnJenkins);
 ```
 
-- [内置大量常用任务](https://flubucore.dotnetcore.xyz/tasks/)，如运行测试、管理 ISS、创建部署包（deployment packages）、发布 NuGet 包、docker 任务、执行 PowerShell 脚本等。
+- [内置大量常用任务](https://flubucore-zh.dotnetcore.xyz/tasks/)，如运行测试、管理 ISS、创建部署包（deployment packages）、发布 NuGet 包、docker 任务、执行 PowerShell 脚本等。
 
 ```cs
 target
@@ -46,7 +46,7 @@ target
                     .Mode(CreateApplicationPoolMode.DoNothingIfExists));
 ```
 
-- [执行自义定代码](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Custom-code)。
+- [执行自义定代码](https://flubucore-zh.dotnetcore.xyz/buildscript-fundamentals#Custom-code)。
 
 ```cs
 context.CreateTarget("MyCustomBuildTarget")
@@ -55,7 +55,7 @@ context.CreateTarget("MyCustomBuildTarget")
      .Do(NuGetPackageReferencingExample);
 ```
 
-- 当脚本与项目文件一起使用时[会自动加载程序集引用和 NuGet 包](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Referencing-other-assemblies-in-build-script)。当脚本单独执行（譬如在生产环境中使用 FlubuCore 脚本进行部署）时，可在特性（attributes）中添加引用（references）。
+- 当脚本与项目文件一起使用时[会自动加载程序集引用和 NuGet 包](https://flubucore-zh.dotnetcore.xyz/buildscript-fundamentals#Referencing-other-assemblies-in-build-script)。当脚本单独执行（譬如在生产环境中使用 FlubuCore 脚本进行部署）时，可在特性（attributes）中添加引用（references）。
 
 ```cs
 [NugetPackage("Newtonsoft.json", "11.0.2")]
@@ -69,7 +69,7 @@ public class BuildScript : DefaultBuildScript
 }
 ```
 
-- [在脚本中轻松运行任何外部程序（external program）或控制台命令（console command）](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Run-any-program)。
+- [在脚本中轻松运行任何外部程序（external program）或控制台命令（console command）](https://flubucore-zh.dotnetcore.xyz/buildscript-fundamentals#Run-any-program)。
 
 ```cs
 context.CreateTarget("Run.Libz")
@@ -79,7 +79,7 @@ context.CreateTarget("Run.Libz")
         .WithArguments("--libz", "Assemblies.libz"));
 ```
 
-- [将命令行参数（command line arguments）、json 配置文件或环境变量（environment variables）的设置传入脚本](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Script-arguments)。
+- [将命令行参数（command line arguments）、json 配置文件或环境变量（environment variables）的设置传入脚本](https://flubucore-zh.dotnetcore.xyz/buildscript-fundamentals#Script-arguments)。
 
 ```cs
 public class SimpleScript : DefaultBuildScript
@@ -100,7 +100,7 @@ public class SimpleScript : DefaultBuildScript
 flubu.exe compile -solution=someOtherSolution.sln -sn=true
 ```
 
-- [通过在 FlubuCore 插件中编写自己的任务来扩展 FlubuCore Fluent Api](https://flubucore.dotnetcore.xyz/write-plugins)。
+- [通过在 FlubuCore 插件中编写自己的任务来扩展 FlubuCore Fluent Api](https://flubucore-zh.dotnetcore.xyz/write-plugins)。
 
 ```cs
 public class ExampleFlubuPluginTask : TaskBase<int, ExampleFlubuPluginTask>
@@ -113,9 +113,9 @@ public class ExampleFlubuPluginTask : TaskBase<int, ExampleFlubuPluginTask>
 }
 ```
 
-- [不断丰富中的 FlubuCore 插件补充着内置任务](https://flubucore.dotnetcore.xyz/AwesomePlugins/awesome-plugins/)。
+- [不断丰富中的 FlubuCore 插件补充着内置任务](https://flubucore-zh.dotnetcore.xyz/AwesomePlugins/awesome-plugins/)。
 
-- [异步执行任务、目标依赖与自定义代码](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Async-execution)。
+- [异步执行任务、目标依赖与自定义代码](https://flubucore-zh.dotnetcore.xyz/buildscript-fundamentals#Async-execution)。
 
 ```cs
 context.CreateTarget("Run.Tests")
@@ -124,7 +124,7 @@ context.CreateTarget("Run.Tests")
     .AddTaskAsync(x => x.NUnitTaskForNunitV3("TestProjectName3"));
 ```
 
-- [通过控制台程序为任务添加额外配置项（additional options），或对现有的配置项进行重写（override）](https://flubucore.dotnetcore.xyz/override-add-options/)
+- [通过控制台程序为任务添加额外配置项（additional options），或对现有的配置项进行重写（override）](https://flubucore-zh.dotnetcore.xyz/override-add-options/)
 
 ```c#
 context.CreateTarget("Example")`
@@ -135,24 +135,24 @@ context.CreateTarget("Example")`
 
 flubu 将执行 `dotnet build MySolution.sln -c Debug`
 
-- [完整的 .NET Core 支持，包括全局 CLI 工具](https://flubucore.dotnetcore.xyz/getting-started#getting-started-net-core)
+- [完整的 .NET Core 支持，包括全局 CLI 工具](https://flubucore-zh.dotnetcore.xyz/getting-started#getting-started-net-core)
 
 ```
 dotnet tool install --global FlubuCore.GlobalTool
 flubu compile
 ```
 
-- [可对构建脚本测试和调试](https://flubucore.dotnetcore.xyz/Tests-debugging)
+- [可对构建脚本测试和调试](https://flubucore-zh.dotnetcore.xyz/Tests-debugging)
 
 ```cs
 context.WaitForDebugger();
 ```
 
-- [透过 FlubuCore Web API 轻松实现远程部署自动化](https://flubucore.dotnetcore.xyz/WebApi/getting-started/)
+- [透过 FlubuCore Web API 轻松实现远程部署自动化](https://flubucore-zh.dotnetcore.xyz/WebApi/getting-started/)
 
 - [可在其他 .NET 应用程序中使用 FlubuCore 任务](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs)。
 
-- [FlubuCore 交互模式（interactive mode）](https://flubucore.dotnetcore.xyz/build-script-runner-interactive/) 提供有 target 标签自动完成、选项标签自动完成、切换 target 和选项，以及命令执行历史等。
+- [FlubuCore 交互模式（interactive mode）](https://flubucore-zh.dotnetcore.xyz/build-script-runner-interactive/) 提供有 target 标签自动完成、选项标签自动完成、切换 target 和选项，以及命令执行历史等。
 
 ![FlubuCore 交互模式](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCore_Interactive_mode.gif)
 
@@ -164,14 +164,14 @@ context.WaitForDebugger();
 
 FlubuCore 用起来非常简单:-) 而且她的文档也非常完整。
 
-[FlubuCore 文档](https://flubucore.dotnetcore.xyz) 中的[入门](https://flubucore.dotnetcore.xyz/getting-started/)一章将帮助你立即设置你的第一个 FlubuCore 构建。
+[FlubuCore 文档](https://flubucore-zh.dotnetcore.xyz) 中的[入门](https://flubucore.dotnetcore.xyz/getting-started/)一章将帮助你立即设置你的第一个 FlubuCore 构建。
 
-可在[构建脚本的原理](https://flubucore.dotnetcore.xyz/buildscript-fundamentals) 一章中查阅 FlubuCore 提供的完整功能列表。
+可在[构建脚本的原理](https://flubucore-zh.dotnetcore.xyz/buildscript-fundamentals) 一章中查阅 FlubuCore 提供的完整功能列表。
 
 一旦你定义了构建与部署脚本（build and deployment scripts），以下 Wiki 张杰将解释如何运行它们：
 
-- 针对 .NET Framework 项目，请使用 [FlubuCore.Runner](https://flubucore.dotnetcore.xyz/getting-started#Installation.net)
-- 针对 .NET Core 项目，请使用 [FlubuCore CLI global tool](https://flubucore.dotnetcore.xyz/getting-started#Installation-.net-core)
+- 针对 .NET Framework 项目，请使用 [FlubuCore.Runner](https://flubucore-zh.dotnetcore.xyz/getting-started#Installation.net)
+- 针对 .NET Core 项目，请使用 [FlubuCore CLI global tool](https://flubucore-zh.dotnetcore.xyz/getting-started#Installation-.net-core)
 
 ## 范例
 
@@ -218,3 +218,4 @@ FlubuCore 路线图请翻阅项目[里程碑](https://github.com/dotnetcore/Flub
 ## 致谢
 
 特别感谢 [@ironcev](https://github.com/ironcev) 对 readme 文件做了大量改进并提供了一系列富有价值的建议。
+特别感谢 [@alexinea](https://github.com/https://github.com/alexinea) 将整个文档翻译成中文。
