@@ -14,5 +14,5 @@
 
 * [FlubuCore.Slack](https://github.com/flubu-core/FlubuCore.Slack) - Plugin for sending message to slack channels.
 
-* [FlubuCore.Chocolatey] (https://github.com/flubu-core/FlubuCore.Chocolatey) - Plugin adds tasks for numerous Chocolatey CLI commands. Chocolatey is a software management solution unlike anything else you've ever experienced on Windows. It focuses on simplicity, security, and scalability. You write a software deployment in PowerShell once for any software (not just installers), then you can deploy it everywhere you have Windows with any solution that can manage systems (configuration management, endpoint management, etc) and track and manage updates of that software over time
+* [FlubuCore.Chocolatey](https://github.com/flubu-core/FlubuCore.Chocolatey) - Plugin adds tasks for numerous Chocolatey CLI commands. Chocolatey is a software management solution unlike anything else you've ever experienced on Windows. It focuses on simplicity, security, and scalability. You write a software deployment in PowerShell once for any software (not just installers), then you can deploy it everywhere you have Windows with any solution that can manage systems (configuration management, endpoint management, etc) and track and manage updates of that software over time.
 

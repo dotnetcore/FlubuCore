@@ -34,6 +34,8 @@ nav:
         - 'Plugins': 'AwesomePlugins/awesome-plugins.md'
     - 'Examples' :
         - 'Index' : 'https://github.com/dotnetcore/FlubuCore.Examples'   
+    - '中文' :
+        - 'Index' : 'https://flubucore-zh.dotnetcore.xyz'   
  
 
 markdown_extensions:
