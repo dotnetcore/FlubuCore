@@ -112,7 +112,7 @@ namespace FlubuCore.Tasks.Versioning
                 string defaultLocations = string.Empty;
                 foreach (var projectVersionFile in _projectVersionFiles)
                 {
-                    defaultLocations = $"{Path.Combine(productRootDir, projectVersionFile)}{Environment.NewLine}";
+                    defaultLocations = $"{defaultLocations}{Path.Combine(productRootDir, projectVersionFile)}{Environment.NewLine}";
                 }
 
                 throw new InvalidOperationException($"Project version file is missing. Set 'ProjectVersionFileName' or use one of the default locations: {Environment.NewLine}{defaultLocations}");
