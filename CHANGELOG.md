@@ -74,7 +74,7 @@ context.CreateTarget("Test")
         .DependsOnAsync(test2, test3);
 ```
 
-- New plugins are available: Gitter and slack plugin.
+- New plugins are available: Chocolatey, Gitter and Slack plugin.
 - Added Get solution infromation as task context extension
 - Added support for multiple Musts on target
 - Logs have now indentation for better readability.
