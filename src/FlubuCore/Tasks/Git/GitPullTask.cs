@@ -9,14 +9,13 @@ namespace FlubuCore.Tasks.Git
     {
         private string _description;
 
-         public GitPullTask()
-         {
-             ExecutablePath = "git";
-             InsertArgument(0, "pull");
-             AddPrefixToAdditionalOptionKey(PrefixProcessors.AddDoubleDashPrefixToAdditionalOptionKey);
-             AddAdditionalOptionPrefix("GitPull");
-             AddAdditionalOptionPrefix("Pull");
-         }
+        public GitPullTask()
+        {
+            ExecutablePath = "git";
+            InsertArgument(0, "pull");
+            AddPrefixToAdditionalOptionKey(PrefixProcessors.AddDoubleDashPrefixToAdditionalOptionKey);
+            AddAdditionalOptionPrefix("Pull");
+        }
 
         protected override string Description
         {

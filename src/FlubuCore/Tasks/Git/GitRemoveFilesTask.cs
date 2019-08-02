@@ -23,6 +23,7 @@ namespace FlubuCore.Tasks.Git
              AddPrefixToAdditionalOptionKey(PrefixProcessors.AddDoubleDashPrefixToAdditionalOptionKey);
              AddAdditionalOptionPrefix("GitRemove");
              AddAdditionalOptionPrefix("GitRm");
+             AddAdditionalOptionPrefix("Rm");
         }
 
         protected override string Description

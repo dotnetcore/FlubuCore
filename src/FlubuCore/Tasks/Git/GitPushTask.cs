@@ -14,7 +14,6 @@ namespace FlubuCore.Tasks.Git
              ExecutablePath = "git";
              InsertArgument(0, "push");
              AddPrefixToAdditionalOptionKey(PrefixProcessors.AddDoubleDashPrefixToAdditionalOptionKey);
-             AddAdditionalOptionPrefix("GitPush");
              AddAdditionalOptionPrefix("Push");
          }
 

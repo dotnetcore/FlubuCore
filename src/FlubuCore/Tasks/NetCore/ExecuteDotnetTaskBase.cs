@@ -11,11 +11,13 @@ namespace FlubuCore.Tasks.NetCore
     {
         public ExecuteDotnetTaskBase(string command)
         {
+            AddAdditionalOptionPrefix(command);
             Command = command;
         }
 
         public ExecuteDotnetTaskBase(StandardDotnetCommands command)
         {
+            AddAdditionalOptionPrefix(command.ToString());
             Command = command.ToString().ToLowerInvariant();
         }
 
