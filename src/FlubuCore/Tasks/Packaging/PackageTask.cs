@@ -102,8 +102,8 @@ namespace FlubuCore.Tasks.Packaging
         }
 
         /// <summary>
-        /// If <c>true</c> zip is optimized by removing duplicated files. When unziped those files are copied to original locations.
-        /// For unziping Unzip task has to be ussed.
+        /// If <c>true</c> zip is optimized by removing duplicated files. When unzipped those files are copied to original locations.
+        /// For unzipping Unzip task has to be used.
         /// </summary>
         /// <returns></returns>
         public PackageTask OptimizeZip()
@@ -113,7 +113,7 @@ namespace FlubuCore.Tasks.Packaging
         }
 
         /// <summary>
-        /// Disables logging of filtered out files and files to be coppied / zipped.
+        /// Disables logging of filtered out files and files to be copied / zipped.
         /// </summary>
         /// <returns></returns>
         public PackageTask DisableLogging()
@@ -123,7 +123,7 @@ namespace FlubuCore.Tasks.Packaging
         }
 
         /// <summary>
-        /// Zip't the package
+        /// Zip's the package
         /// </summary>
         /// <param name="zipFileName">File name of the zip package.</param>
         /// <param name="addVersionPostfix">if <c>true</c> build version number is added to zip file as postfix</param>

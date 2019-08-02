@@ -11,7 +11,7 @@ namespace FlubuCore.Tasks.Git
             ExecutablePath = "git";
             InsertArgument(0, "submodule");
             AddPrefixToAdditionalOptionKey(PrefixProcessors.AddDoubleDashPrefixToAdditionalOptionKey);
-            AddAdditionalOptionPrefix("GitSubmodule");
+            AddAdditionalOptionPrefix("Submodule");
         }
 
         protected override string Description

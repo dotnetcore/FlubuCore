@@ -15,6 +15,12 @@ namespace FlubuCore.Tasks.Process
 
         private List<string> _additionalOptionPrefixes = new List<string>();
 
+        protected ExternalProcessTaskBase()
+        {
+            var name = GetType().Name.Replace("Task", string.Empty);
+            AddAdditionalOptionPrefix(name);
+        }
+
         // ReSharper disable once InconsistentNaming
 #pragma warning disable SA1300 // Element should begin with upper-case letter
         private List<(string argKey, string argValue, bool valueRequired, bool maskArg)> _arguments { get; } = new List<(string argKey, string argValue, bool valueRequired, bool maskArg)>();
@@ -270,6 +276,21 @@ namespace FlubuCore.Tasks.Process
 
         protected TTask AddAdditionalOptionPrefix(string newPrefix)
         {
+            if (string.IsNullOrWhiteSpace(newPrefix))
+            {
+                return this as TTask;
+            }
+
+            if (!newPrefix.StartsWith("/"))
+            {
+                newPrefix = $"/{newPrefix}";
+            }
+
+            if (!newPrefix.EndsWith(":"))
+            {
+                newPrefix = $"{newPrefix}:";
+            }
+
             _additionalOptionPrefixes.Add(newPrefix);
             return this as TTask;
         }
