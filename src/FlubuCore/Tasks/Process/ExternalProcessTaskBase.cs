@@ -26,6 +26,8 @@ namespace FlubuCore.Tasks.Process
         private List<(string argKey, string argValue, bool valueRequired, bool maskArg)> _arguments { get; } = new List<(string argKey, string argValue, bool valueRequired, bool maskArg)>();
 #pragma warning restore SA1300 // Element should begin with upper-case letter
 
+        protected internal virtual List<string> OverridableArguments { get; set; }
+
         /// <summary>
         /// Gets or sets working folder.
         /// </summary>
