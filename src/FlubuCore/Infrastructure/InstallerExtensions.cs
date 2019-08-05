@@ -29,13 +29,13 @@ namespace FlubuCore.Infrastructure
         {
             services
                 .AddSingleton<IFluentInterfaceFactory, FluentInterfaceFactory>()
-                .AddSingleton<ITaskSessionFactory, TaskSessionFactory>()
+                .AddSingleton<IFlubuSessionFactory, FlubuSessionFactory>()
                 .AddSingleton<IFileWrapper, FileWrapper>()
                 .AddSingleton<IPathWrapper, PathWrapper>()
                 .AddSingleton<IDirectoryWrapper, DirectoryWrapper>()
                 .AddSingleton<IBuildPropertiesSession, BuildPropertiesSession>()
                 .AddSingleton<TargetTree>()
-                .AddSingleton<ITaskSession, TaskSession>()
+                .AddSingleton<IFlubuSession, FlubuSession>()
                 .AddSingleton<IFlubuEnviromentService, FlubuEnviromentService>()
                 .AddSingleton<IBuildSystem, BuildSystem>()
                 .AddSingleton<INugetPackageResolver, NugetPackageResolver>()

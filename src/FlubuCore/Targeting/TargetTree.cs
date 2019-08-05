@@ -255,7 +255,7 @@ namespace FlubuCore.Targeting
             DefaultTargets.Add(target);
         }
 
-        public void LogBuildSummary(ITaskSession session)
+        public void LogBuildSummary(IFlubuSession session)
         {
             session.LogInfo(" ");
             foreach (var target in EnumerateExecutedTargets())

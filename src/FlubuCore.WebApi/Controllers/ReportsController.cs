@@ -29,13 +29,13 @@ namespace FlubuCore.WebApi.Controllers
 
         private readonly ITaskFactory _taskFactory;
 
-        private readonly ITaskSession _taskSession;
+        private readonly IFlubuSession _flubuSession;
 
-        public ReportsController(IHostingEnvironment hostingEnvironment, ITaskFactory taskFactory, ITaskSession taskSession)
+        public ReportsController(IHostingEnvironment hostingEnvironment, ITaskFactory taskFactory, IFlubuSession flubuSession)
         {
             _hostingEnvironment = hostingEnvironment;
             _taskFactory = taskFactory;
-            _taskSession = taskSession;
+            _flubuSession = flubuSession;
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace FlubuCore.WebApi.Controllers
                 throw new HttpError(HttpStatusCode.NotFound, "NoReportsFound");
             }
 
-            task.AddDirectoryToPackage(downloadDirectory, dirName, false).ZipPackage(zipFilename, false).Execute(_taskSession);
+            task.AddDirectoryToPackage(downloadDirectory, dirName, false).ZipPackage(zipFilename, false).Execute(_flubuSession);
             string zipPath = Path.Combine(zipDirectory, zipFilename);
 
             Stream fs = System.IO.File.OpenRead(zipPath);

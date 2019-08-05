@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using DotNet.Cli.Flubu.Commanding;
 using DotNet.Cli.Flubu.Infrastructure;
@@ -59,7 +60,7 @@ namespace DotNet.Cli.Flubu
             {
                 _wait = true;
                 Console.WriteLine($"Performing clean up actions:");
-                var taskSession = _provider.GetService<ITaskSession>();
+                var taskSession = _provider.GetService<IFlubuSession>();
                 foreach (var cleanUpAction in CleanUpStore.TaskCleanUpActions)
                 {
                     cleanUpAction.Invoke(taskSession);

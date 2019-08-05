@@ -4,7 +4,7 @@ using FlubuCore.Targeting;
 
 namespace FlubuCore.Context
 {
-    public interface ITaskSession : ITaskContextInternal
+    public interface IFlubuSession : ITaskContextInternal
     {
         bool HasFailed { get; }
 

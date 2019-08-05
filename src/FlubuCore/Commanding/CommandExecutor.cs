@@ -19,7 +19,7 @@ namespace FlubuCore.Commanding
         private readonly CommandArguments _args;
 
         private readonly IScriptLoader _scriptLoader;
-        private readonly ITaskSession _taskSession;
+        private readonly IFlubuSession _flubuSession;
         private readonly IFileWrapper _file;
         private readonly IPathWrapper _path;
 
@@ -28,14 +28,14 @@ namespace FlubuCore.Commanding
         public CommandExecutor(
             CommandArguments args,
             IScriptLoader scriptLoader,
-            ITaskSession taskSession,
+            IFlubuSession flubuSession,
             IFileWrapper file,
             IPathWrapper path,
             ILogger<CommandExecutor> log)
         {
             _args = args;
             _scriptLoader = scriptLoader;
-            _taskSession = taskSession;
+            _flubuSession = flubuSession;
             _file = file;
             _path = path;
             _log = log;
@@ -64,20 +64,19 @@ namespace FlubuCore.Commanding
 
             try
             {
-                var script = await _scriptLoader.FindAndCreateBuildScriptInstanceAsync(_args);
-
-                _taskSession.FlubuHelpText = FlubuHelpText;
-                _taskSession.ScriptArgs = _args.ScriptArguments;
-                var result = script.Run(_taskSession);
-                return result;
+                    var script = await _scriptLoader.FindAndCreateBuildScriptInstanceAsync(_args);
+                    _flubuSession.FlubuHelpText = FlubuHelpText;
+                    _flubuSession.ScriptArgs = _args.ScriptArguments;
+                    var result = script.Run(_flubuSession);
+                    return result;
             }
             catch (TaskExecutionException e)
             {
-                  if (_args.RethrowOnException)
+                if (_args.RethrowOnException)
                     throw;
 
-                 _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{e.ToString()}", null, (t, ex) => t);
-                 return StatusCodes.BuildScriptNotFound;
+                _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{e.ToString()}", null, (t, ex) => t);
+                return StatusCodes.BuildScriptNotFound;
             }
             catch (FlubuException e)
             {

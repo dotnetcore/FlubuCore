@@ -15,7 +15,7 @@ namespace FlubuCore.Tests
 {
     public class ScriptPropertiesSetterTests
     {
-        private readonly ITaskSession _taskSession;
+        private readonly IFlubuSession _flubuSession;
 
         public ScriptPropertiesSetterTests()
         {
@@ -27,19 +27,19 @@ namespace FlubuCore.Tests
                 .AddTransient<IWebApiFluentInterface, WebApiFluentInterface>()
                 .AddSingleton<IHttpClientFactory, HttpClientFactory>()
                 .BuildServiceProvider();
-            _taskSession = new TaskSession(new Mock<ILogger<TaskSession>>().Object, new TargetTree(null, null), new CommandArguments(), new Mock<ITaskFactory>().Object, new FluentInterfaceFactory(sp), null, null);
+            _flubuSession = new FlubuSession(new Mock<ILogger<FlubuSession>>().Object, new TargetTree(null, null), new CommandArguments(), new Mock<ITaskFactory>().Object, new FluentInterfaceFactory(sp), null, null);
         }
 
         [Fact]
         public void SetPropertiesFromArg_DifferentTypes_Succesfull()
         {
             var buildScript = new BuildScriptWithForArguments();
-            _taskSession.ScriptArgs["s"] = "beda";
-            _taskSession.ScriptArgs["l"] = "23";
-            _taskSession.ScriptArgs["sog"] = "true";
-            _taskSession.ScriptArgs["NoAttribute"] = "Noo";
-            _taskSession.ScriptArgs["list"] = "a,b,c";
-            ScriptProperties.SetPropertiesFromScriptArg(buildScript,  _taskSession);
+            _flubuSession.ScriptArgs["s"] = "beda";
+            _flubuSession.ScriptArgs["l"] = "23";
+            _flubuSession.ScriptArgs["sog"] = "true";
+            _flubuSession.ScriptArgs["NoAttribute"] = "Noo";
+            _flubuSession.ScriptArgs["list"] = "a,b,c";
+            ScriptProperties.SetPropertiesFromScriptArg(buildScript,  _flubuSession);
             Assert.Equal("beda", buildScript.SolutionFileName);
             Assert.Equal(23, buildScript.Level);
             Assert.True(buildScript.StayOrGo);

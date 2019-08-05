@@ -35,8 +35,7 @@ namespace FlubuClore.Analyzer
         private static readonly LocalizableString KeyShouldNotStartWithDashDescription =
             "Key should not start with dash.";
 
-        private static string[] _supportedTypes = new string[]
-            { "string", "short", "int", "int16", "int32", "int64", "double", "bool", "boolean", "DateTime", "uint", "ulong", "ushort", "List", "IList", "IEnumerable" };
+        private static string[] _supportedTypes = new string[] { "string", "short", "int", "int16", "int32", "int64", "double", "bool", "boolean", "DateTime", "uint", "ulong", "ushort", "List", "IList", "IEnumerable" };
 
         private static DiagnosticDescriptor _propertyTypeMustBeSupported = new DiagnosticDescriptor(DiagnosticId,
             UnsuportedPropertyTypeTitle, UnsuportedPropertyTypeMessageFormat, Category, DiagnosticSeverity.Error,

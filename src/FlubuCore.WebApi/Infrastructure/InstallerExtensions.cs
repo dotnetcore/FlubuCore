@@ -42,7 +42,7 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddLogging()
                 .AddSingleton<ITimeProvider, TimeProvider>()
                 .AddSingleton<IFluentInterfaceFactory, FluentInterfaceFactory>()
-                .AddSingleton<ITaskSessionFactory, TaskSessionFactory>()
+                .AddSingleton<IFlubuSessionFactory, FlubuSessionFactory>()
                 .AddSingleton<IFileWrapper, FileWrapper>()
                 .AddSingleton<IPathWrapper, PathWrapper>()
                 .AddSingleton<IDirectoryWrapper, DirectoryWrapper>()
@@ -52,7 +52,7 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddSingleton<IBuildSystem, BuildSystem>()
                 .AddScoped<IBuildPropertiesSession, BuildPropertiesSession>()
                 .AddScoped<TargetTree>()
-                .AddScoped<ITaskSession, TaskSession>()
+                .AddScoped<IFlubuSession, FlubuSession>()
                 .AddScoped<ICommandFactory, CommandFactory>()
                 .AddScoped<CommandArguments, CommandArguments>();
 
