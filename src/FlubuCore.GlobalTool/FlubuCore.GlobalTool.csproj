@@ -37,7 +37,7 @@
   <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="2.9.0" />
   <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="2.9.0" />
   <PackageReference Include="NLog.Extensions.Logging" Version="1.1.0" />
-  <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004">
+  <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
     <PrivateAssets>All</PrivateAssets>
   </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
