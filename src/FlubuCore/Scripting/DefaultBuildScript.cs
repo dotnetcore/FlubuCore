@@ -122,15 +122,12 @@ namespace FlubuCore.Scripting
 
             ConfigureTargets(flubuSession);
 
-            (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) targetsInfo =
-                default((List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets));
-            bool runInTerminalMode;
+            var targetsInfo = default((List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets));
+
             ConsoleHintedInput inputReader = null;
 
             if (!flubuSession.Args.InteractiveMode)
             {
-                runInTerminalMode = false;
-
                 targetsInfo = ParseCmdLineArgs(flubuSession.Args.MainCommands, flubuSession.TargetTree);
                 flubuSession.UnknownTarget = targetsInfo.unknownTarget;
                 if (targetsInfo.targetsToRun == null || targetsInfo.targetsToRun.Count == 0)
@@ -152,7 +149,7 @@ namespace FlubuCore.Scripting
             }
             else
             {
-                runInTerminalMode = true;
+                flubuSession.InteractiveMode = true;
                 var source = new Dictionary<char, IReadOnlyCollection<string>>();
                 var propertyKeys = ScriptProperties.GetPropertiesKeys(this, flubuSession);
                 propertyKeys.Add("-parallel");
@@ -167,7 +164,7 @@ namespace FlubuCore.Scripting
 
             do
             {
-                if (runInTerminalMode)
+                if (flubuSession.InteractiveMode)
                 {
                     var commandLine = inputReader.ReadHintedLine();
                     var app = new CommandLineApplication(false);
@@ -176,13 +173,10 @@ namespace FlubuCore.Scripting
                         .Where(x => !string.IsNullOrWhiteSpace(x))
                         .Select(x => x.Trim()).ToArray());
                     targetsInfo = ParseCmdLineArgs(args.MainCommands, flubuSession.TargetTree);
-                    flubuSession.ScriptArgs = args.ScriptArguments;
+                    flubuSession.InteractiveArgs = args;
                     ScriptProperties.SetPropertiesFromScriptArg(this, flubuSession);
 
-                    if (args.MainCommands[0].Equals("exit", StringComparison.OrdinalIgnoreCase) ||
-                        args.MainCommands[0].Equals("quit", StringComparison.OrdinalIgnoreCase) ||
-                        args.MainCommands[0].Equals("x", StringComparison.OrdinalIgnoreCase) ||
-                        args.MainCommands[0].Equals("q", StringComparison.OrdinalIgnoreCase))
+                    if (CommandExecutor.InteractiveExitCommands.Contains(args.MainCommands[0], StringComparer.OrdinalIgnoreCase))
                     {
                         break;
                     }
@@ -242,7 +236,7 @@ namespace FlubuCore.Scripting
 
                 AssertAllTargetDependenciesWereExecuted(flubuSession);
             }
-            while (runInTerminalMode);
+            while (flubuSession.InteractiveMode);
         }
 
         protected virtual void BeforeTargetExecution(ITaskContext context)

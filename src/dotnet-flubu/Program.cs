@@ -24,10 +24,7 @@ namespace DotNet.Cli.Flubu
 
         public static int Main(string[] args)
         {
-            if (args == null)
-            {
-                args = new string[0];
-            }
+            args = new string[] { "-i", "-d" };
 
             Services
                 .AddCoreComponents()
