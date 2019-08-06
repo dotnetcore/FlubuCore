@@ -105,7 +105,6 @@ namespace FlubuCore.Tasks.NetCore
         [ArgKey("-f", "--framework")]
         public DotnetBuildTask Force()
         {
-            WithArguments("--force");
             WithArgumentsKeyFromAttribute();
             return this;
         }
@@ -123,7 +122,7 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
-        /// Set the --version-suffix.
+        /// Set the --version-suffix. Set the value of the $(VersionSuffix) property to use when building the project.
         /// </summary>
         /// <param name="suffix">version suffix e.g. -alpha</param>
         /// <returns></returns>

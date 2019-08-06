@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 using Renci.SshNet.Messages;
 
@@ -47,9 +48,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="framework"></param>
         /// <returns></returns>
+        [ArgKey("-f", "--framework")]
         public DotnetTestTask Framework(string framework)
         {
-            WithArgumentsValueRequired("-f", framework);
+            WithArgumentsKeyFromAttribute(framework);
             return this;
         }
 
@@ -58,9 +60,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="directory"></param>
         /// <returns></returns>
+        [ArgKey("-o", "--output")]
         public DotnetTestTask OutputDirectory(string directory)
         {
-            WithArgumentsValueRequired("-o", directory);
+            WithArgumentsKeyFromAttribute(directory);
             return this;
         }
 
@@ -69,9 +72,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="settingFilePath"></param>
         /// <returns></returns>
+        [ArgKey("--settings")]
         public DotnetTestTask SetSettingFileToUse(string settingFilePath)
         {
-            WithArgumentsValueRequired("--settings", settingFilePath);
+            WithArgumentsKeyFromAttribute(settingFilePath);
             return this;
         }
 
@@ -80,9 +84,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="pathToAdapter"></param>
         /// <returns></returns>
+        [ArgKey("--test-adapter-path")]
         public DotnetTestTask SetTestAdapterPath(string pathToAdapter)
         {
-            WithArgumentsValueRequired("--test-adapter-path", pathToAdapter);
+            WithArgumentsKeyFromAttribute(pathToAdapter);
             return this;
         }
 
@@ -96,9 +101,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="filterExpression"></param>
         /// <returns></returns>
+        [ArgKey("--filter")]
         public DotnetTestTask AddFilter(string filterExpression)
         {
-            WithArgumentsValueRequired("--filter", filterExpression);
+            WithArgumentsKeyFromAttribute(filterExpression);
             return this;
         }
 
@@ -107,9 +113,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
+        [ArgKey("-c", "--configuration")]
         public DotnetTestTask Configuration(string configuration)
         {
-            WithArgumentsValueRequired("-c", configuration);
+            WithArgumentsKeyFromAttribute(configuration);
             return this;
         }
 
@@ -118,9 +125,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="pathToFile"></param>
         /// <returns></returns>
+        [ArgKey("-d", "--diag")]
         public DotnetTestTask VerboseLogs(string pathToFile)
         {
-            WithArgumentsValueRequired("-d", pathToFile);
+            WithArgumentsKeyFromAttribute(pathToFile);
             return this;
         }
 
@@ -128,9 +136,10 @@ namespace FlubuCore.Tasks.NetCore
         /// Do not build project before testing.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--no-build")]
         public DotnetTestTask NoBuild()
         {
-            WithArguments("--no-build");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -139,9 +148,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="verbosity"></param>
         /// <returns></returns>
+        [ArgKey("--verbosity", "-v")]
         public DotnetTestTask Verbosity(VerbosityOptions verbosity)
         {
-            WithArguments("--verbosity", verbosity.ToString().ToLower());
+            WithArgumentsKeyFromAttribute(verbosity.ToString().ToLower());
             return this;
         }
 

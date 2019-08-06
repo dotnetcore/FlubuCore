@@ -1,4 +1,5 @@
 ﻿using FlubuCore.Context;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.NetCore
@@ -38,9 +39,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
+        [ArgKey("-s", "--source")]
         public DotnetRestoreTask AddNugetSouce(string source)
         {
-            WithArguments("-s", source);
+            WithArgumentsKeyFromAttribute(source);
             return this;
         }
 
@@ -48,9 +50,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="runtime"></param>
         /// <returns></returns>
+        [ArgKey("-r", "--runtime")]
         public DotnetRestoreTask AddRuntime(string runtime)
         {
-            WithArguments("-r", runtime);
+            WithArgumentsKeyFromAttribute(runtime);
             return this;
         }
 
@@ -59,9 +62,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="directory"></param>
         /// <returns></returns>
+        [ArgKey("--packages")]
         public DotnetRestoreTask PackagesDirectory(string directory)
         {
-            WithArguments("--pacakges", directory);
+            WithArgumentsKeyFromAttribute(directory);
             return this;
         }
 
@@ -69,9 +73,10 @@ namespace FlubuCore.Tasks.NetCore
         /// Disables restoring multiple projects in parallel.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--disable-parallel")]
         public DotnetRestoreTask DisableParallel()
         {
-            WithArguments("--disable-parallel");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -79,9 +84,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="configFile"></param>
         /// <returns></returns>
+        [ArgKey("--configfile")]
         public DotnetRestoreTask NugetConfigFile(string configFile)
         {
-            WithArguments("--configfile", configFile);
+            WithArgumentsKeyFromAttribute(configFile);
             return this;
         }
 
@@ -89,9 +95,10 @@ namespace FlubuCore.Tasks.NetCore
         /// Do not cache packages and http requests.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--no-cache")]
         public DotnetRestoreTask NoCache()
         {
-            WithArguments("--no-cache");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -99,9 +106,10 @@ namespace FlubuCore.Tasks.NetCore
         /// Treat package source failures as warnings.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--ignore-failed-sources")]
         public DotnetRestoreTask IgnoreFailedSources()
         {
-            WithArguments("--ignore-failed-sources");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -109,9 +117,10 @@ namespace FlubuCore.Tasks.NetCore
         ///  Set this flag to ignore project to project references and only restore the root project
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--no-dependencies")]
         public DotnetRestoreTask NoDependencies()
         {
-            WithArguments("--no-dependencies");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -119,9 +128,10 @@ namespace FlubuCore.Tasks.NetCore
         /// Set this flag to force all dependencies to be resolved even if the last restore was successful. This is equivalent to deleting project.assets.json.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--force")]
         public DotnetRestoreTask Force()
         {
-            WithArguments("--force");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -130,9 +140,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="verbosity"></param>
         /// <returns></returns>
+        [ArgKey("--verbosity", "-v")]
         public DotnetRestoreTask Verbosity(VerbosityOptions verbosity)
         {
-            WithArguments("--verbosity", verbosity.ToString().ToLower());
+            WithArgumentsKeyFromAttribute(verbosity.ToString().ToLower());
             return this;
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.FileSystem;
 using FlubuCore.Tasks.Process;
 
@@ -53,9 +54,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="framework"></param>
         /// <returns></returns>
+        [ArgKey("-f", "--framework")]
         public DotnetCleanTask Framework(string framework)
         {
-            WithArgumentsValueRequired("-f", framework);
+            WithArgumentsKeyFromAttribute(framework);
             return this;
         }
 
@@ -64,9 +66,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
+        [ArgKey("-c", "--configuration")]
         public DotnetCleanTask Configuration(string configuration)
         {
-            WithArgumentsValueRequired("-c", configuration);
+            WithArgumentsKeyFromAttribute(configuration);
             return this;
         }
 
@@ -75,9 +78,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="verbosity"></param>
         /// <returns></returns>
+        [ArgKey("--verbosity", "-v")]
         public DotnetCleanTask Verbosity(VerbosityOptions verbosity)
         {
-            WithArguments("--verbosity", verbosity.ToString().ToLower());
+            WithArgumentsKeyFromAttribute(verbosity.ToString().ToLower());
             return this;
         }
 

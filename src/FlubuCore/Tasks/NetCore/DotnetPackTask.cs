@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.NetCore
@@ -43,13 +44,26 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
+        /// The target runtime to restore packages for.
+        /// </summary>
+        /// <param name="runtime"></param>
+        /// <returns></returns>
+        [ArgKey("--runtime")]
+        public DotnetPackTask Runtime(string runtime)
+        {
+            WithArgumentsKeyFromAttribute(runtime);
+            return this;
+        }
+
+        /// <summary>
         /// Directory in which to place built packages.
         /// </summary>
         /// <param name="directory"></param>
         /// <returns></returns>
+        [ArgKey("-o", "--output")]
         public DotnetPackTask OutputDirectory(string directory)
         {
-            WithArgumentsValueRequired("-o", directory);
+            WithArgumentsKeyFromAttribute(directory);
             return this;
         }
 
@@ -58,9 +72,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
+        [ArgKey("-c", "--configuration")]
         public DotnetPackTask Configuration(string configuration)
         {
-            WithArgumentsValueRequired("-c", configuration);
+            WithArgumentsKeyFromAttribute(configuration);
             return this;
         }
 
@@ -68,9 +83,10 @@ namespace FlubuCore.Tasks.NetCore
         /// Include packages with symbols in addition to regular packages in output directory.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--include-symbols")]
         public DotnetPackTask IncludeSymbols()
         {
-            WithArguments("--include-symbols");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -78,9 +94,10 @@ namespace FlubuCore.Tasks.NetCore
         /// Include PDBs and source files. Source files go into the src folder in the resulting nuget package.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--include-source")]
         public DotnetPackTask IncludeSource()
         {
-            WithArguments("--include-source");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -89,9 +106,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="versionSufix"></param>
         /// <returns></returns>
+        [ArgKey("--version-suffix")]
         public DotnetPackTask VersionSufix(string versionSufix)
         {
-            WithArgumentsValueRequired("--version-suffix", versionSufix);
+            WithArgumentsKeyFromAttribute(versionSufix);
             return this;
         }
 
@@ -101,6 +119,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <param name="version">Version prefix e.g. 1.0.0</param>
         /// <param name="versionSuffix">Version suffix e.g. -alpha</param>
         /// <returns></returns>
+        [ArgKey("/p:PackageVersion=")]
         public DotnetPackTask PackageVersion(string version, string versionSuffix = null)
         {
             if (!string.IsNullOrEmpty(versionSuffix))
@@ -110,11 +129,11 @@ namespace FlubuCore.Tasks.NetCore
                     versionSuffix = versionSuffix.Insert(0, "-");
                 }
 
-                WithArguments($"/p:PackageVersion={version}{versionSuffix}");
+                WithArguments($"{GetFirstKeyFromAttribute()}{version}{versionSuffix}");
             }
             else
             {
-                WithArguments($"/p:PackageVersion={version}");
+                WithArguments($"{GetFirstKeyFromAttribute()}{version}");
             }
 
             return this;
@@ -124,9 +143,10 @@ namespace FlubuCore.Tasks.NetCore
         ///  Skip building the project prior to packing. By default, the project will be built.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--no-build")]
         public DotnetPackTask NoBuild()
         {
-            WithArguments("--no-build");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -134,9 +154,10 @@ namespace FlubuCore.Tasks.NetCore
         /// Set the serviceable flag in the package. For more information, please see https://aka.ms/nupkgservicing.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--serviceable")]
         public DotnetPackTask Servicable()
         {
-            WithArguments("--serviceable");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -144,9 +165,10 @@ namespace FlubuCore.Tasks.NetCore
         ///  Set this flag to ignore project to project references and only restore the root project
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--no-dependencies")]
         public DotnetPackTask NoDependencies()
         {
-            WithArguments("--no-dependencies");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -154,9 +176,10 @@ namespace FlubuCore.Tasks.NetCore
         /// Set this flag to force all dependencies to be resolved even if the last restore was successful. This is equivalent to deleting project.assets.json.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--force")]
         public DotnetPackTask Force()
         {
-            WithArguments("--force");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -165,9 +188,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="verbosity"></param>
         /// <returns></returns>
+        [ArgKey("--verbosity", "-v")]
         public DotnetPackTask Verbosity(VerbosityOptions verbosity)
         {
-            WithArguments("--verbosity", verbosity.ToString().ToLower());
+            WithArgumentsKeyFromAttribute(verbosity.ToString().ToLower());
             return this;
         }
 

@@ -1,4 +1,5 @@
 ﻿using FlubuCore.Context;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.NetCore
@@ -46,9 +47,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="framework"></param>
         /// <returns></returns>
+        [ArgKey("-f", "--framework")]
         public DotnetPublishTask Framework(string framework)
         {
-            WithArgumentsValueRequired("-f", framework);
+            WithArgumentsKeyFromAttribute(framework);
             return this;
         }
 
@@ -57,9 +59,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="runtime"></param>
         /// <returns></returns>
+        [ArgKey("-r", "--runtime")]
         public DotnetPublishTask AddRuntime(string runtime)
         {
-            WithArgumentsValueRequired("-r", runtime);
+            WithArgumentsKeyFromAttribute(runtime);
             return this;
         }
 
@@ -68,9 +71,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="directory"></param>
         /// <returns></returns>
+        [ArgKey("-o", "--output")]
         public DotnetPublishTask OutputDirectory(string directory)
         {
-            WithArgumentsValueRequired("--output", directory);
+            WithArgumentsKeyFromAttribute(directory);
             return this;
         }
 
@@ -79,15 +83,22 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
+        [ArgKey("-c", "--configuration")]
         public DotnetPublishTask Configuration(string configuration)
         {
-            WithArgumentsValueRequired("-c", configuration);
+            WithArgumentsKeyFromAttribute(configuration);
             return this;
         }
 
-        public DotnetPublishTask VersionSufix(string versionSufix)
+        /// <summary>
+        /// Set the --version-suffix. Set the value of the $(VersionSuffix) property to use when building the project.
+        /// </summary>
+        /// <param name="suffix">version suffix e.g. -alpha</param>
+        /// <returns></returns>
+        [ArgKey("--version-suffix")]
+        public DotnetPublishTask VersionSuffix(string suffix)
         {
-            WithArgumentsValueRequired("--version-suffix", versionSufix);
+            WithArgumentsKeyFromAttribute(suffix);
             return this;
         }
 
@@ -97,6 +108,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <param name="version">Version prefix e.g. 1.0.0</param>
         /// <param name="versionSuffix">Version suffix e.g. -alpha</param>
         /// <returns></returns>
+        [ArgKey("/p:Version=")]
         public DotnetPublishTask Version(string version, string versionSuffix = null)
         {
             if (!string.IsNullOrEmpty(versionSuffix))
@@ -106,11 +118,11 @@ namespace FlubuCore.Tasks.NetCore
                     versionSuffix = versionSuffix.Insert(0, "-");
                 }
 
-                WithArguments($"/p:Version={version}{versionSuffix}");
+                WithArguments($"{GetFirstKeyFromAttribute()}{version}{versionSuffix}");
             }
             else
             {
-                WithArguments($"/p:Version={version}");
+                WithArguments($"{GetFirstKeyFromAttribute()}{version}");
             }
 
             return this;
@@ -121,6 +133,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="version"></param>
         /// <returns></returns>
+        [ArgKey("/p:InformationalVersion=")]
         public DotnetPublishTask InformationalVersion(string version)
         {
             WithArguments($"/p:InformationalVersion={version}");
@@ -132,6 +145,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="version"></param>
         /// <returns></returns>
+        [ArgKey("/p:AssemblyVersion==")]
         public DotnetPublishTask AssemblyVersion(string version)
         {
             WithArguments($"/p:AssemblyVersion={version}");
@@ -143,6 +157,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="version"></param>
         /// <returns></returns>
+        [ArgKey("/p:FileVersion=")]
         public DotnetPublishTask FileVersion(string version)
         {
             WithArguments($"/p:FileVersion={version}");
@@ -153,9 +168,10 @@ namespace FlubuCore.Tasks.NetCore
         ///  Set this flag to ignore project to project references and only restore the root project
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--no-dependencies")]
         public DotnetPublishTask NoDependencies()
         {
-            WithArguments("--no-dependencies");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -163,9 +179,10 @@ namespace FlubuCore.Tasks.NetCore
         /// Set this flag to force all dependencies to be resolved even if the last restore was successful. This is equivalent to deleting project.assets.json.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--force")]
         public DotnetPublishTask Force()
         {
-            WithArguments("--force");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -174,9 +191,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="verbosity"></param>
         /// <returns></returns>
+        [ArgKey("--verbosity", "-v")]
         public DotnetPublishTask Verbosity(VerbosityOptions verbosity)
         {
-            WithArguments("--verbosity", verbosity.ToString().ToLower());
+            WithArgumentsKeyFromAttribute(verbosity.ToString().ToLower());
             return this;
         }
 

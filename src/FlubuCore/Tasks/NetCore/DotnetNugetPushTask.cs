@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Tasks.Attributes;
 
 namespace FlubuCore.Tasks.NetCore
 {
@@ -39,24 +40,26 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
-        ///  Specifies the server URL
+        ///  Specifies the server URL (source).
         /// </summary>
         /// <param name="serverUrl"></param>
         /// <returns></returns>
+        [ArgKey("-s", "--source")]
         public DotnetNugetPushTask ServerUrl(string serverUrl)
         {
-            WithArgumentsValueRequired("-s", serverUrl);
+            WithArgumentsKeyFromAttribute(serverUrl);
             return this;
         }
 
         /// <summary>
-        ///  Specifies the symbol server URL. If not specified, nuget.smbsrc.net is used when pushing to nuget.org.
+        ///  Specifies the symbol server URL(symbol source). If not specified, nuget.smbsrc.net is used when pushing to nuget.org.
         /// </summary>
         /// <param name="symbolServerUrl"></param>
         /// <returns></returns>
+        [ArgKey("-ss", "--symbol-source")]
         public DotnetNugetPushTask SymbolServerUrl(string symbolServerUrl)
         {
-            WithArgumentsValueRequired("-ss", symbolServerUrl);
+            WithArgumentsKeyFromAttribute(symbolServerUrl);
             return this;
         }
 
@@ -75,20 +78,22 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="apiKey"></param>
         /// <returns></returns>
+        [ArgKey("-k", "--api-key")]
         public DotnetNugetPushTask ApiKey(string apiKey)
         {
-            WithArgumentsValueRequired("-k", apiKey, true);
+            WithArgumentsKeyFromAttribute(apiKey, true);
             return this;
         }
 
         /// <summary>
         /// The API key for the symbol server.
         /// </summary>
-        /// <param name="symbolApyKey"></param>
+        /// <param name="symbolApiKey"></param>
         /// <returns></returns>
-        public DotnetNugetPushTask SymbolApiKey(string symbolApyKey)
+        [ArgKey("-sk", "--symbol-api-key")]
+        public DotnetNugetPushTask SymbolApiKey(string symbolApiKey)
         {
-            WithArgumentsValueRequired("-sk", symbolApyKey);
+            WithArgumentsKeyFromAttribute(symbolApiKey, true);
             return this;
         }
 
@@ -97,9 +102,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="timeoutInSeconds"></param>
         /// <returns></returns>
+        [ArgKey("-t", "--timeout")]
         public DotnetNugetPushTask Timeout(int timeoutInSeconds)
         {
-            WithArguments("-t", timeoutInSeconds.ToString());
+            WithArgumentsKeyFromAttribute(timeoutInSeconds.ToString());
             return this;
         }
 
