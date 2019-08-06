@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tests.Tasks
@@ -24,15 +25,6 @@ namespace FlubuCore.Tests.Tasks
         {
             WithArgumentsKeyFromAttribute(value);
             return this;
-        }
-
-        private void WithArgumentsKeyFromAttribute(string value, [CallerMemberName] string memberName = "")
-        {
-            var method = GetType().GetRuntimeMethods().FirstOrDefault(x => x.Name == memberName);
-            if (method == null) return;
-
-            var attribute = method.GetCustomAttribute<ArgKey>();
-            WithArguments(attribute.Keys[0], value);
         }
     }
 }

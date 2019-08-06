@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace FlubuCore.Tests.Tasks
+namespace FlubuCore.Tasks.Attributes
 {
     public class ArgKey : Attribute
     {

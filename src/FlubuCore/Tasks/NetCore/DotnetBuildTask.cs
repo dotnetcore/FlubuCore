@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.NetCore
@@ -44,9 +45,10 @@ namespace FlubuCore.Tasks.NetCore
             return this;
         }
 
+        [ArgKey("-f", "--framework")]
         public DotnetBuildTask Framework(string framework)
         {
-            WithArgumentsValueRequired("-f", framework);
+            WithArgumentsKeyFromAttribute(framework);
             return this;
         }
 
@@ -55,9 +57,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="runtime"></param>
         /// <returns></returns>
+        [ArgKey("-r", "--runtime")]
         public DotnetBuildTask AddRuntime(string runtime)
         {
-            WithArgumentsValueRequired("-r", runtime);
+            WithArgumentsKeyFromAttribute(runtime);
             return this;
         }
 
@@ -66,9 +69,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
+        [ArgKey("-c", "--configuration")]
         public DotnetBuildTask Configuration(string configuration)
         {
-            WithArgumentsValueRequired("-c", configuration);
+            WithArgumentsKeyFromAttribute(configuration);
             return this;
         }
 
@@ -76,9 +80,10 @@ namespace FlubuCore.Tasks.NetCore
         ///  Disables incremental build.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--no-incremental")]
         public DotnetBuildTask NoIncrementail()
         {
-            WithArguments("--no-incremental");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -86,9 +91,10 @@ namespace FlubuCore.Tasks.NetCore
         ///  Set this flag to ignore project to project references and only restore the root project
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--no-dependencies")]
         public DotnetBuildTask NoDependencies()
         {
-            WithArguments("--no-dependencies");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -96,9 +102,11 @@ namespace FlubuCore.Tasks.NetCore
         /// Set this flag to force all dependencies to be resolved even if the last restore was successful. This is equivalent to deleting project.assets.json.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("-f", "--framework")]
         public DotnetBuildTask Force()
         {
             WithArguments("--force");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -107,9 +115,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="verbosity"></param>
         /// <returns></returns>
+        [ArgKey("--verbosity", "-v")]
         public DotnetBuildTask Verbosity(VerbosityOptions verbosity)
         {
-            WithArguments("--verbosity", verbosity.ToString().ToLower());
+            WithArgumentsKeyFromAttribute(verbosity.ToString().ToLower());
             return this;
         }
 
@@ -118,9 +127,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="suffix">version suffix e.g. -alpha</param>
         /// <returns></returns>
+        [ArgKey("--version-suffix")]
         public DotnetBuildTask VersionSuffix(string suffix)
         {
-            WithArgumentsValueRequired("--version-suffix", suffix);
+            WithArgumentsKeyFromAttribute(suffix);
             return this;
         }
 
@@ -130,6 +140,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <param name="version">Version prefix e.g. 1.0.0</param>
         /// <param name="versionSuffix">Version suffix e.g. -alpha</param>
         /// <returns></returns>
+        [ArgKey("/p:Version=")]
         public DotnetBuildTask Version(string version, string versionSuffix = null)
         {
             if (!string.IsNullOrEmpty(versionSuffix))
@@ -139,11 +150,11 @@ namespace FlubuCore.Tasks.NetCore
                     versionSuffix = versionSuffix.Insert(0, "-");
                 }
 
-                WithArguments($"/p:Version={version}{versionSuffix}");
+                WithArguments($"{GetFirstKeyFromAttribute()}{version}{versionSuffix}");
             }
             else
             {
-                WithArguments($"/p:Version={version}");
+                WithArguments($"{GetFirstKeyFromAttribute()}{version}");
             }
 
             return this;
@@ -154,9 +165,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="version"></param>
         /// <returns></returns>
+        [ArgKey("/p:InformationalVersion=")]
         public DotnetBuildTask InformationalVersion(string version)
         {
-            WithArguments($"/p:InformationalVersion={version}");
+            WithArguments($"{GetFirstKeyFromAttribute()}{version}");
             return this;
         }
 
@@ -165,9 +177,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="version"></param>
         /// <returns></returns>
+        [ArgKey("/p:AssemblyVersion=")]
         public DotnetBuildTask AssemblyVersion(string version)
         {
-            WithArguments($"/p:AssemblyVersion={version}");
+            WithArguments($"{GetFirstKeyFromAttribute()}{version}");
             return this;
         }
 
@@ -176,9 +189,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="version"></param>
         /// <returns></returns>
+        [ArgKey("/p:FileVersion=")]
         public DotnetBuildTask FileVersion(string version)
         {
-            WithArguments($"/p:FileVersion={version}");
+            WithArguments($"{GetFirstKeyFromAttribute()}{version}");
             return this;
         }
 

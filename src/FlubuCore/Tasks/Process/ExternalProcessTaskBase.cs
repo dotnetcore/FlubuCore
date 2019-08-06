@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using FlubuCore.Context;
+using FlubuCore.Tasks.Attributes;
 
 namespace FlubuCore.Tasks.Process
 {
@@ -116,6 +120,25 @@ namespace FlubuCore.Tasks.Process
             }
 
             return this as TTask;
+        }
+
+        protected void WithArgumentsKeyFromAttribute(bool maskArg = false, [CallerMemberName]string memberName = "")
+        {
+            _arguments.Add((GetFirstKeyFromAttribute(memberName), null, false, maskArg));
+        }
+
+        protected void WithArgumentsKeyFromAttribute(string value, bool maskArg = false, [CallerMemberName]string memberName = "")
+        {
+            _arguments.Add((GetFirstKeyFromAttribute(memberName), value, true, maskArg));
+        }
+
+        protected string GetFirstKeyFromAttribute([CallerMemberName]string memberName = "")
+        {
+            var method = GetType().GetRuntimeMethods().FirstOrDefault(x => x.Name == memberName);
+            if (method == null) return null;
+
+            var attribute = method.GetCustomAttribute<ArgKey>();
+            return attribute.Keys[0];
         }
 
         /// <inheritdoc />
