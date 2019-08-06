@@ -5,18 +5,18 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FlubuCore.Context
 {
-    public class TaskSessionFactory : ITaskSessionFactory
+    public class FlubuSessionFactory : IFlubuSessionFactory
     {
         private readonly IServiceProvider _sp;
 
-        public TaskSessionFactory(IServiceProvider sp)
+        public FlubuSessionFactory(IServiceProvider sp)
         {
             _sp = sp;
         }
 
-        public ITaskSession OpenTaskSession()
+        public IFlubuSession OpenTaskSession()
         {
-            return _sp.GetRequiredService<ITaskSession>();
+            return _sp.GetRequiredService<IFlubuSession>();
         }
     }
 }

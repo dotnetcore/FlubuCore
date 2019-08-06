@@ -39,17 +39,17 @@ namespace FlubuCore.WebApi.Controllers.WebApp
 
         private readonly ITaskFactory _taskFactory;
 
-        private readonly ITaskSession _taskSession;
+        private readonly IFlubuSession _flubuSession;
 
         private readonly IHostingEnvironment _hostingEnvironment;
 
         private readonly IApplicationLifetime _applicationLifetime;
 
-        public UpdateCenterController(IGitHubClient client, ITaskFactory taskFactory, ITaskSession taskSession, IHostingEnvironment hostingEnvironment, IApplicationLifetime applicationLifetime)
+        public UpdateCenterController(IGitHubClient client, ITaskFactory taskFactory, IFlubuSession flubuSession, IHostingEnvironment hostingEnvironment, IApplicationLifetime applicationLifetime)
         {
             _client = client;
             _taskFactory = taskFactory;
-            _taskSession = taskSession;
+            _flubuSession = flubuSession;
             _hostingEnvironment = hostingEnvironment;
             _applicationLifetime = applicationLifetime;
         }
@@ -155,12 +155,12 @@ namespace FlubuCore.WebApi.Controllers.WebApp
             await wc.DownloadFileTaskAsync(asset.BrowserDownloadUrl, filename);
 #endif
             var unzipTask = _taskFactory.Create<UnzipTask>(filename, Path.Combine(rootDir, "Updates/WebApi"));
-            unzipTask.Execute(_taskSession);
+            unzipTask.Execute(_flubuSession);
 
             _taskFactory
                 .Create<UpdateJsonFileTask>(Path.Combine(rootDir, "Updates/WebApi/DeploymentConfig.json"))
                 .Update("DeploymentPath", rootDir)
-                .Update("IsUpdate", "true").Execute(_taskSession);
+                .Update("IsUpdate", "true").Execute(_flubuSession);
 
             return View();
         }

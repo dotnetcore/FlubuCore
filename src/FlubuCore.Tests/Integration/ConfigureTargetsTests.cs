@@ -21,7 +21,7 @@ namespace FlubuCore.Tests.Integration
         [Fact]
         public void ConfigureSimpleTarget()
         {
-            ITaskSession session = _sp.GetRequiredService<ITaskSession>();
+            IFlubuSession session = _sp.GetRequiredService<IFlubuSession>();
 
             SimpleBuildScript bs = new SimpleBuildScript();
             bs.Run(session);
@@ -38,7 +38,7 @@ namespace FlubuCore.Tests.Integration
         [Fact]
         public void ConfigureTargetWithLinuxTasks()
         {
-            ITaskSession session = _sp.GetRequiredService<ITaskSession>();
+            IFlubuSession session = _sp.GetRequiredService<IFlubuSession>();
 
             SimpleBuildScript bs = new SimpleBuildScript();
             bs.Run(session);
@@ -54,7 +54,7 @@ namespace FlubuCore.Tests.Integration
         [Fact]
         public void ConfigureTargetWithIisTasks()
         {
-            ITaskSession session = _sp.GetRequiredService<ITaskSession>();
+            IFlubuSession session = _sp.GetRequiredService<IFlubuSession>();
 
             SimpleBuildScript bs = new SimpleBuildScript();
             bs.Run(session);

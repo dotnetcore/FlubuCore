@@ -15,8 +15,8 @@ namespace FlubuCore.Targeting
         /// Searches methods with Target attribute in specified type and creates targets.
         /// </summary>
         /// <param name="buildScriptType"></param>
-        /// <param name="taskSession"></param>
-        public static void CreateTargetFromMethodAttributes(IBuildScript buildScript, ITaskSession taskSession)
+        /// <param name="flubuSession"></param>
+        public static void CreateTargetFromMethodAttributes(IBuildScript buildScript, IFlubuSession flubuSession)
         {
             #if !NETSTANDARD1_6
             var buildScriptType = buildScript.GetType();
@@ -44,7 +44,7 @@ namespace FlubuCore.Targeting
                         throw new ScriptException($"Failed to create target '{attribute.TargetName}' first parameter in method '{methodInfo.Name}' must be of type '{nameof(ITarget)}'");
                     }
 
-                    var target = taskSession.CreateTarget(attribute.TargetName);
+                    var target = flubuSession.CreateTarget(attribute.TargetName);
                     var attributeParamaters = new List<object>() { target };
 
                     attributeParamaters.AddRange(attribute.MethodParameters);
@@ -69,17 +69,17 @@ namespace FlubuCore.Targeting
                         var paramAttributes = parameter.GetCustomAttributes<FromArgAttribute>(false).ToList();
                         foreach (var fromArgAttribute in paramAttributes)
                         {
-                            if (!taskSession.Args.ScriptArguments.ContainsKey(fromArgAttribute.ArgKey))
+                            if (!flubuSession.Args.ScriptArguments.ContainsKey(fromArgAttribute.ArgKey))
                             {
                                 continue;
                             }
 
-                            attributeParamaters[i] = MethodParameterModifier.ParseValueByType(taskSession.Args.ScriptArguments[fromArgAttribute.ArgKey], parameter.ParameterType);
+                            attributeParamaters[i] = MethodParameterModifier.ParseValueByType(flubuSession.Args.ScriptArguments[fromArgAttribute.ArgKey], parameter.ParameterType);
                         }
 
-                        if (taskSession.Args.ScriptArguments.ContainsKey(parameter.Name))
+                        if (flubuSession.Args.ScriptArguments.ContainsKey(parameter.Name))
                         {
-                            object parsedValue = MethodParameterModifier.ParseValueByType(taskSession.Args.ScriptArguments[parameter.Name], parameter.ParameterType);
+                            object parsedValue = MethodParameterModifier.ParseValueByType(flubuSession.Args.ScriptArguments[parameter.Name], parameter.ParameterType);
                             attributeParamaters[i] = parsedValue;
                         }
                     }

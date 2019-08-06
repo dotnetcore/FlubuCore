@@ -22,7 +22,7 @@ namespace FlubuCore.Tests.Scripting
         private readonly Mock<IScriptAnalyzer> _analyzer = new Mock<IScriptAnalyzer>();
         private readonly Mock<IBuildScriptLocator> _scriptLocator = new Mock<IBuildScriptLocator>();
         private readonly Mock<ILogger<ScriptLoader>> _logger = new Mock<ILogger<ScriptLoader>>();
-        private readonly Mock<ILogger<TaskSession>> _loggerTaskSession = new Mock<ILogger<TaskSession>>();
+        private readonly Mock<ILogger<FlubuSession>> _loggerTaskSession = new Mock<ILogger<FlubuSession>>();
         private readonly Mock<IProjectFileAnalyzer> _projectFileAnalyzer = new Mock<IProjectFileAnalyzer>();
 
         private readonly Mock<INugetPackageResolver> _nugetPackageResolver = new Mock<INugetPackageResolver>();
@@ -74,7 +74,7 @@ namespace FlubuCore.Tests.Scripting
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync(args);
             var provider = new ServiceCollection().BuildServiceProvider();
 
-            t.Run(new TaskSession(
+            t.Run(new FlubuSession(
                 _loggerTaskSession.Object,
                 new TargetTree(provider, new CommandArguments()),
                 new CommandArguments(),
@@ -98,7 +98,7 @@ namespace FlubuCore.Tests.Scripting
                     string.Empty,
                     "public class MyBuildScript : IBuildScript",
                     "{",
-                    "    public int Run(ITaskSession session)",
+                    "    public int Run(IFlubuSession session)",
                     "    {",
                     "        Console.WriteLine(\"11\");",
                     "        return 0;",
@@ -113,7 +113,7 @@ namespace FlubuCore.Tests.Scripting
 
             var provider = new ServiceCollection().BuildServiceProvider();
 
-            t.Run(new TaskSession(
+            t.Run(new FlubuSession(
                 _loggerTaskSession.Object,
                 new TargetTree(provider, new CommandArguments()),
                 new CommandArguments(),
@@ -158,7 +158,7 @@ namespace FlubuCore.Tests.Scripting
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync(args);
             var provider = new ServiceCollection().BuildServiceProvider();
 
-            t.Run(new TaskSession(
+            t.Run(new FlubuSession(
                 _loggerTaskSession.Object,
                 new TargetTree(provider, new CommandArguments()),
                 new CommandArguments(),

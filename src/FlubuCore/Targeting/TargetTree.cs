@@ -27,23 +27,6 @@ namespace FlubuCore.Targeting
         {
             _args = args;
             _provider = provider;
-
-            AddTarget("help")
-                .SetDescription("Displays the available targets in the build")
-                .SetLogDuration(false)
-                .Do(LogTargetsWithHelp);
-
-            AddTarget("help.onlyTargets")
-                .SetDescription("Displays the available targets in the build")
-                .SetLogDuration(false)
-                .SetLogExecutionInfo(false)
-                .SetAsHidden()
-                .Do(LogTargetsHelp);
-
-            AddTarget("tasks")
-                .SetDescription("Displays all registered tasks")
-                .SetLogDuration(false)
-                .Do(LogTasksHelp);
         }
 
         /// <summary>
@@ -141,6 +124,14 @@ namespace FlubuCore.Targeting
                     }
                 }
             }
+        }
+
+        public void ResetTargetTree()
+        {
+            _targets.Clear();
+            _executedTargets.Clear();
+            ResetTargetExecutionInfo();
+            AddDefaultTargets();
         }
 
         public IEnumerable<ITargetInternal> EnumerateExecutedTargets()
@@ -255,7 +246,7 @@ namespace FlubuCore.Targeting
             DefaultTargets.Add(target);
         }
 
-        public void LogBuildSummary(ITaskSession session)
+        public void LogBuildSummary(IFlubuSession session)
         {
             session.LogInfo(" ");
             foreach (var target in EnumerateExecutedTargets())
@@ -313,6 +304,26 @@ namespace FlubuCore.Targeting
                     (int)buildDuration.TotalSeconds));
 #endif
             }
+        }
+
+        private void AddDefaultTargets()
+        {
+            AddTarget("help")
+                .SetDescription("Displays the available targets in the build")
+                .SetLogDuration(false)
+                .Do(LogTargetsWithHelp);
+
+            AddTarget("help.onlyTargets")
+                .SetDescription("Displays the available targets in the build")
+                .SetLogDuration(false)
+                .SetLogExecutionInfo(false)
+                .SetAsHidden()
+                .Do(LogTargetsHelp);
+
+            AddTarget("tasks")
+                .SetDescription("Displays all registered tasks")
+                .SetLogDuration(false)
+                .Do(LogTasksHelp);
         }
     }
 }

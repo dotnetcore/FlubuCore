@@ -57,12 +57,12 @@ namespace FlubuCore.Scripting
             return serviceCollection;
         }
 
-        public ITaskSession CreateTaskSession(BuildScriptArguments buildScriptArguments)
+        public IFlubuSession CreateTaskSession(BuildScriptArguments buildScriptArguments)
         {
             CommandArguments commandArguments = new CommandArguments(buildScriptArguments);
 
-           return new TaskSession(
-                LoggerFactory.CreateLogger<TaskSession>(),
+           return new FlubuSession(
+                LoggerFactory.CreateLogger<FlubuSession>(),
                 new TargetTree(ServiceProvider, commandArguments),
                 commandArguments,
                 new DotnetTaskFactory(ServiceProvider),

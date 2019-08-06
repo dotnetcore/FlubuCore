@@ -20,73 +20,73 @@ namespace FlubuCore.Scripting
 {
     public abstract class DefaultBuildScript : IBuildScript
     {
-        public int Run(ITaskSession taskSession)
+        public int Run(IFlubuSession flubuSession)
         {
             try
             {
-                BeforeBuildExecution(taskSession);
-                RunBuild(taskSession);
-                taskSession.Complete();
-                AfterBuildExecution(taskSession);
+                BeforeBuildExecution(flubuSession);
+                RunBuild(flubuSession);
+                flubuSession.Complete();
+                AfterBuildExecution(flubuSession);
                 return 0;
             }
             catch (TargetNotFoundException e)
             {
-                taskSession.ResetDepth();
-                OnBuildFailed(taskSession, e);
-                AfterBuildExecution(taskSession);
-                if (taskSession.Args.RethrowOnException)
+                flubuSession.ResetDepth();
+                OnBuildFailed(flubuSession, e);
+                AfterBuildExecution(flubuSession);
+                if (flubuSession.Args.RethrowOnException)
                     throw;
 
-                taskSession.LogError(e.Message);
+                flubuSession.LogError(e.Message);
                 return 3;
             }
             catch (WebApiException e)
             {
-                taskSession.ResetDepth();
-                OnBuildFailed(taskSession, e);
-                AfterBuildExecution(taskSession);
-                if (taskSession.Args.RethrowOnException)
+                flubuSession.ResetDepth();
+                OnBuildFailed(flubuSession, e);
+                AfterBuildExecution(flubuSession);
+                if (flubuSession.Args.RethrowOnException)
                     throw;
 
                 return 1;
             }
             catch (FlubuException e)
             {
-                taskSession.ResetDepth();
-                OnBuildFailed(taskSession, e);
+                flubuSession.ResetDepth();
+                OnBuildFailed(flubuSession, e);
 
-                if (!taskSession.Args.RethrowOnException)
+                if (!flubuSession.Args.RethrowOnException)
                 {
 #if !NETSTANDARD1_6
-                    taskSession.LogError($"ERROR: {e.Message}", Color.Red);
+                    flubuSession.LogError($"ERROR: {e.Message}", Color.Red);
 #else
-                    taskSession.LogError($"error: {e.Message}");
+                    flubuSession.LogError($"error: {e.Message}");
 #endif
                 }
 
-                AfterBuildExecution(taskSession);
-                if (taskSession.Args.RethrowOnException)
+                AfterBuildExecution(flubuSession);
+                if (flubuSession.Args.RethrowOnException)
                     throw;
 
                 return 1;
             }
             catch (Exception e)
             {
-                taskSession.ResetDepth();
-                OnBuildFailed(taskSession, e);
+                flubuSession.ResetDepth();
+                OnBuildFailed(flubuSession, e);
 
-                if (!taskSession.Args.RethrowOnException)
+                if (!flubuSession.Args.RethrowOnException)
                 {
 #if !NETSTANDARD1_6
-                    taskSession.LogError($"ERROR: {e}", Color.Red);
+                    flubuSession.LogError($"ERROR: {e}", Color.Red);
 #else
-                    taskSession.LogError($"error: {e}");
+                    flubuSession.LogError($"error: {e}");
 #endif
                 }
 
-                AfterBuildExecution(taskSession);
-                if (taskSession.Args.RethrowOnException)
+                AfterBuildExecution(flubuSession);
+                if (flubuSession.Args.RethrowOnException)
                     throw;
 
                 return 2;
@@ -108,34 +108,31 @@ namespace FlubuCore.Scripting
             return (new List<string> { "help" }, true, notFoundTargets);
         }
 
-        private void RunBuild(ITaskSession taskSession)
+        private void RunBuild(IFlubuSession flubuSession)
         {
-            ConfigureDefaultProps(taskSession);
+            ConfigureDefaultProps(flubuSession);
 
-            ConfigureBuildProperties(taskSession);
+            ConfigureBuildProperties(flubuSession);
 
-            ConfigureDefaultTargets(taskSession);
+            ConfigureDefaultTargets(flubuSession);
 
-            ScriptProperties.SetPropertiesFromScriptArg(this, taskSession);
+            ScriptProperties.SetPropertiesFromScriptArg(this, flubuSession);
 
-            TargetCreator.CreateTargetFromMethodAttributes(this, taskSession);
+            TargetCreator.CreateTargetFromMethodAttributes(this, flubuSession);
 
-            ConfigureTargets(taskSession);
+            ConfigureTargets(flubuSession);
 
-            (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) targetsInfo =
-                default((List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets));
-            bool runInTerminalMode;
+            var targetsInfo = default((List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets));
+
             ConsoleHintedInput inputReader = null;
 
-            if (!taskSession.Args.InteractiveMode)
+            if (!flubuSession.Args.InteractiveMode)
             {
-                runInTerminalMode = false;
-
-                targetsInfo = ParseCmdLineArgs(taskSession.Args.MainCommands, taskSession.TargetTree);
-                taskSession.UnknownTarget = targetsInfo.unknownTarget;
+                targetsInfo = ParseCmdLineArgs(flubuSession.Args.MainCommands, flubuSession.TargetTree);
+                flubuSession.UnknownTarget = targetsInfo.unknownTarget;
                 if (targetsInfo.targetsToRun == null || targetsInfo.targetsToRun.Count == 0)
                 {
-                    var defaultTargets = taskSession.TargetTree.DefaultTargets;
+                    var defaultTargets = flubuSession.TargetTree.DefaultTargets;
                     targetsInfo.targetsToRun = new List<string>();
                     if (defaultTargets != null && defaultTargets.Count != 0)
                     {
@@ -152,22 +149,22 @@ namespace FlubuCore.Scripting
             }
             else
             {
-                runInTerminalMode = true;
+                flubuSession.InteractiveMode = true;
                 var source = new Dictionary<char, IReadOnlyCollection<string>>();
-                var propertyKeys = ScriptProperties.GetPropertiesKeys(this, taskSession);
+                var propertyKeys = ScriptProperties.GetPropertiesKeys(this, flubuSession);
                 propertyKeys.Add("-parallel");
                 propertyKeys.Add("-dryrun");
                 propertyKeys.Add("-noColor");
                 source.Add('-', propertyKeys);
 
-                inputReader = new ConsoleHintedInput(taskSession.TargetTree.GetTargetNames().ToList(), source);
-                taskSession.TargetTree.RunTarget(taskSession, "help.onlyTargets");
-                taskSession.LogInfo(" ");
+                inputReader = new ConsoleHintedInput(flubuSession.TargetTree.GetTargetNames().ToList(), source);
+                flubuSession.TargetTree.RunTarget(flubuSession, "help.onlyTargets");
+                flubuSession.LogInfo(" ");
             }
 
             do
             {
-                if (runInTerminalMode)
+                if (flubuSession.InteractiveMode)
                 {
                     var commandLine = inputReader.ReadHintedLine();
                     var app = new CommandLineApplication(false);
@@ -175,64 +172,61 @@ namespace FlubuCore.Scripting
                     var args = parser.Parse(commandLine.Split(' ')
                         .Where(x => !string.IsNullOrWhiteSpace(x))
                         .Select(x => x.Trim()).ToArray());
-                    targetsInfo = ParseCmdLineArgs(args.MainCommands, taskSession.TargetTree);
-                    taskSession.ScriptArgs = args.ScriptArguments;
-                    ScriptProperties.SetPropertiesFromScriptArg(this, taskSession);
+                    targetsInfo = ParseCmdLineArgs(args.MainCommands, flubuSession.TargetTree);
+                    flubuSession.InteractiveArgs = args;
+                    ScriptProperties.SetPropertiesFromScriptArg(this, flubuSession);
 
-                    if (args.MainCommands[0].Equals("exit", StringComparison.OrdinalIgnoreCase) ||
-                        args.MainCommands[0].Equals("quit", StringComparison.OrdinalIgnoreCase) ||
-                        args.MainCommands[0].Equals("x", StringComparison.OrdinalIgnoreCase) ||
-                        args.MainCommands[0].Equals("q", StringComparison.OrdinalIgnoreCase))
+                    if (CommandExecutor.InteractiveExitCommands.Contains(args.MainCommands[0], StringComparer.OrdinalIgnoreCase))
                     {
                         break;
                     }
                 }
 
-                taskSession.Start();
+                flubuSession.Start();
 
                 //// specific target help
                 if (targetsInfo.targetsToRun.Count == 2 &&
                     targetsInfo.targetsToRun[1].Equals("help", StringComparison.OrdinalIgnoreCase))
                 {
-                    taskSession.TargetTree.RunTargetHelp(taskSession, targetsInfo.targetsToRun[0]);
+                    flubuSession.TargetTree.RunTargetHelp(flubuSession, targetsInfo.targetsToRun[0]);
                     return;
                 }
 
-                if (targetsInfo.targetsToRun.Count == 1 || !taskSession.Args.ExecuteTargetsInParallel)
+                if (targetsInfo.targetsToRun.Count == 1 || !flubuSession.Args.ExecuteTargetsInParallel)
                 {
                     if (targetsInfo.targetsToRun[0].Equals("help", StringComparison.OrdinalIgnoreCase))
                     {
-                        taskSession.TargetTree.ScriptArgsHelp = ScriptProperties.GetPropertiesHelp(this);
+                        flubuSession.TargetTree.ScriptArgsHelp = ScriptProperties.GetPropertiesHelp(this);
                     }
 
-                    BeforeTargetExecution(taskSession);
+                    BeforeTargetExecution(flubuSession);
                     foreach (var targetToRun in targetsInfo.targetsToRun)
                     {
-                        taskSession.TargetTree.RunTarget(taskSession, targetToRun);
+                        flubuSession.TargetTree.RunTarget(flubuSession, targetToRun);
                     }
 
-                    AfterTargetExecution(taskSession);
+                    AfterTargetExecution(flubuSession);
                 }
                 else
                 {
-                    taskSession.LogInfo("Running target's in parallel.");
+                    flubuSession.LogInfo("Running target's in parallel.");
                     var tasks = new List<Task>();
-                    BeforeTargetExecution(taskSession);
+                    BeforeTargetExecution(flubuSession);
                     foreach (var targetToRun in targetsInfo.targetsToRun)
                     {
-                        tasks.Add(taskSession.TargetTree.RunTargetAsync(taskSession, targetToRun, true));
+                        tasks.Add(flubuSession.TargetTree.RunTargetAsync(flubuSession, targetToRun, true));
                     }
 
                     Task.WaitAll(tasks.ToArray());
-                    AfterTargetExecution(taskSession);
+                    AfterTargetExecution(flubuSession);
                 }
 
                 if (targetsInfo.unknownTarget)
                 {
                     var targetNotFoundMsg = $"Target {string.Join(" and ", targetsInfo.notFoundTargets)} not found.";
-                    if (taskSession.Args.InteractiveMode)
+                    if (flubuSession.Args.InteractiveMode)
                     {
-                        taskSession.LogInfo(targetNotFoundMsg);
+                        flubuSession.LogInfo(targetNotFoundMsg);
                     }
                     else
                     {
@@ -240,9 +234,9 @@ namespace FlubuCore.Scripting
                     }
                 }
 
-                AssertAllTargetDependenciesWereExecuted(taskSession);
+                AssertAllTargetDependenciesWereExecuted(flubuSession);
             }
-            while (runInTerminalMode);
+            while (flubuSession.InteractiveMode);
         }
 
         protected virtual void BeforeTargetExecution(ITaskContext context)
@@ -257,19 +251,19 @@ namespace FlubuCore.Scripting
         {
         }
 
-        protected virtual void AfterBuildExecution(ITaskSession session)
+        protected virtual void AfterBuildExecution(IFlubuSession session)
         {
             session.TargetTree.LogBuildSummary(session);
         }
 
-        protected virtual void OnBuildFailed(ITaskSession session, Exception ex)
+        protected virtual void OnBuildFailed(IFlubuSession session, Exception ex)
         {
         }
 
-        private void ConfigureDefaultProps(ITaskSession taskSession)
+        private void ConfigureDefaultProps(IFlubuSession flubuSession)
         {
-            taskSession.SetBuildVersion(new Version(1, 0, 0, 0));
-            taskSession.SetDotnetExecutable(ExecuteDotnetTask.FindDotnetExecutable());
+            flubuSession.SetBuildVersion(new Version(1, 0, 0, 0));
+            flubuSession.SetDotnetExecutable(ExecuteDotnetTask.FindDotnetExecutable());
 
             var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
             OSPlatform platform;
@@ -284,13 +278,13 @@ namespace FlubuCore.Scripting
                 platform = OSPlatform.Windows;
             }
 
-            taskSession.SetOSPlatform(platform);
-            taskSession.SetNodeExecutablePath(IOExtensions.GetNodePath());
-            taskSession.SetProfileFolder(IOExtensions.GetUserProfileFolder());
-            taskSession.SetNpmPath(IOExtensions.GetNpmPath());
-            taskSession.SetBuildDir("build");
-            taskSession.SetOutputDir("output");
-            taskSession.SetProductRootDir(".");
+            flubuSession.SetOSPlatform(platform);
+            flubuSession.SetNodeExecutablePath(IOExtensions.GetNodePath());
+            flubuSession.SetProfileFolder(IOExtensions.GetUserProfileFolder());
+            flubuSession.SetNpmPath(IOExtensions.GetNpmPath());
+            flubuSession.SetBuildDir("build");
+            flubuSession.SetOutputDir("output");
+            flubuSession.SetProductRootDir(".");
 
             if (isWindows)
             {
@@ -298,47 +292,47 @@ namespace FlubuCore.Scripting
             }
         }
 
-        private void ConfigureDefaultTargets(ITaskSession taskSession)
+        private void ConfigureDefaultTargets(IFlubuSession flubuSession)
         {
-            var defaultTagets = taskSession.Properties.GetDefaultTargets();
+            var defaultTagets = flubuSession.Properties.GetDefaultTargets();
 
             switch (defaultTagets)
             {
                 case DefaultTargets.Dotnet:
                 {
-                    ConfigureDefaultDotNetTargets(taskSession);
+                    ConfigureDefaultDotNetTargets(flubuSession);
                     break;
                 }
             }
         }
 
-        private void ConfigureDefaultDotNetTargets(ITaskSession taskSession)
+        private void ConfigureDefaultDotNetTargets(IFlubuSession flubuSession)
         {
-            var loadSolution = taskSession.CreateTarget("load.solution")
+            var loadSolution = flubuSession.CreateTarget("load.solution")
                 .SetDescription("Load & analyze VS solution")
                 .AddTask(x => x.LoadSolutionTask())
                 .SetAsHidden();
 
-            var cleanOutput = taskSession.CreateTarget("clean.output")
+            var cleanOutput = flubuSession.CreateTarget("clean.output")
                 .SetDescription("Clean solution outputs")
                 .AddTask(x => x.CleanOutputTask())
                 .DependsOn(loadSolution);
 
-            var prepareBuildDir = taskSession.CreateTarget("prepare.build.dir")
+            var prepareBuildDir = flubuSession.CreateTarget("prepare.build.dir")
                 .SetDescription("Prepare the build directory")
                 .Do(TargetPrepareBuildDir)
                 .SetAsHidden();
 
-            var fetchBuildVersion = taskSession.CreateTarget("fetch.build.version")
+            var fetchBuildVersion = flubuSession.CreateTarget("fetch.build.version")
                 .SetDescription("Fetch the build version")
                 .SetAsHidden();
 
-            var generateCommonAssInfo = taskSession.CreateTarget("generate.commonassinfo")
+            var generateCommonAssInfo = flubuSession.CreateTarget("generate.commonassinfo")
                 .SetDescription("Generate CommonAssemblyInfo.cs file")
                 .DependsOn(fetchBuildVersion)
                 .AddTask(x => x.GenerateCommonAssemblyInfoTask());
 
-            taskSession.CreateTarget("compile")
+            flubuSession.CreateTarget("compile")
                 .SetDescription("Compile the VS solution")
                 .AddTask(x => x.CompileSolutionTask())
                 .DependsOn(prepareBuildDir, cleanOutput, generateCommonAssInfo);
@@ -351,11 +345,11 @@ namespace FlubuCore.Scripting
             createDirectoryTask.Execute(context);
         }
 
-        private void AssertAllTargetDependenciesWereExecuted(ITaskSession taskSession)
+        private void AssertAllTargetDependenciesWereExecuted(IFlubuSession flubuSession)
         {
-            if (taskSession.Args.TargetsToExecute != null && taskSession.Args.TargetsToExecute.Count > 1)
+            if (flubuSession.Args.TargetsToExecute != null && flubuSession.Args.TargetsToExecute.Count > 1)
             {
-                if (taskSession.Args.TargetsToExecute.Count - 1 != taskSession.TargetTree.DependenciesExecutedCount)
+                if (flubuSession.Args.TargetsToExecute.Count - 1 != flubuSession.TargetTree.DependenciesExecutedCount)
                 {
                     throw new TaskExecutionException("Wrong number of target dependencies were runned.", 3);
                 }
