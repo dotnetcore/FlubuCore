@@ -239,7 +239,7 @@ namespace FlubuCore.Tasks.Process
                 _task.CaptureErrorOutput();
 
             BeforeExecute(context, _task);
-
+            AddOrOverrideArgumentsFromConsole(context);
             var argumentsFlat = ValidateAndGetArgumentsFlat();
 
             foreach (var arg in argumentsFlat)
@@ -322,6 +322,47 @@ namespace FlubuCore.Tasks.Process
 
         protected virtual void BeforeExecute(ITaskContextInternal context, IRunProgramTask runProgramTask)
         {
+        }
+
+        private void AddOrOverrideArgumentsFromConsole(ITaskContext context)
+        {
+            if (context.ScriptArgs.Count == 0)
+            {
+                return;
+            }
+
+            var methods = GetType().GetRuntimeMethods();
+            List<string> overridableArguments = new List<string>();
+            foreach (var methodInfo in methods)
+            {
+                var attribute = methodInfo.GetCustomAttribute<ArgKey>();
+                if (attribute == null)
+                {
+                    continue;
+                }
+
+                overridableArguments.AddRange(attribute.Keys);
+            }
+
+            foreach (var scriptArg in context.ScriptArgs)
+            {
+                var overridableArgument = overridableArguments.FirstOrDefault(x => x.EndsWith(scriptArg.Key));
+                if (overridableArgument == null)
+                {
+                    continue;
+                }
+
+                var argumentToOverride = _arguments.FirstOrDefault(x => x.argKey == scriptArg.Key);
+
+                if (argumentToOverride.argKey == null)
+                {
+                    _arguments.Add((overridableArgument, scriptArg.Value, false, false));
+                }
+                else
+                {
+                    argumentToOverride.argValue = scriptArg.Value;
+                }
+            }
         }
     }
 }
