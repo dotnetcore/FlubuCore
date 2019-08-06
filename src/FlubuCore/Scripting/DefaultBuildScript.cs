@@ -174,6 +174,7 @@ namespace FlubuCore.Scripting
                         .Select(x => x.Trim()).ToArray());
                     targetsInfo = ParseCmdLineArgs(args.MainCommands, flubuSession.TargetTree);
                     flubuSession.InteractiveArgs = args;
+                    flubuSession.ScriptArgs = args.ScriptArguments;
                     ScriptProperties.SetPropertiesFromScriptArg(this, flubuSession);
 
                     if (CommandExecutor.InteractiveExitCommands.Contains(args.MainCommands[0], StringComparer.OrdinalIgnoreCase))
