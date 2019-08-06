@@ -56,6 +56,28 @@ namespace FlubuCore.Tasks.Process
 
         protected virtual string AdditionalOptionPrefix { get; set; } = "/o:";
 
+        /// <inheritdoc />
+        public TTask WithArguments(string arg, bool maskArg)
+        {
+            if (!string.IsNullOrEmpty(arg))
+            {
+                _arguments.Add((arg, null, false, maskArg));
+            }
+
+            return this as TTask;
+        }
+
+        /// <inheritdoc />
+        public TTask WithArguments(params string[] args)
+        {
+            foreach (var arg in args)
+            {
+                _arguments.Add((arg, null, false, false));
+            }
+
+            return this as TTask;
+        }
+
         protected internal List<string> GetArguments()
         {
             var argumentsFlat = new List<string>();
@@ -95,28 +117,6 @@ namespace FlubuCore.Tasks.Process
             if (!string.IsNullOrEmpty(argKey))
             {
                 _arguments.Add((argKey, argValue, true, maskValue));
-            }
-
-            return this as TTask;
-        }
-
-        /// <inheritdoc />
-        public TTask WithArguments(string arg, bool maskArg)
-        {
-            if (!string.IsNullOrEmpty(arg))
-            {
-                _arguments.Add((arg, null, false, maskArg));
-            }
-
-            return this as TTask;
-        }
-
-        /// <inheritdoc />
-        public TTask WithArguments(params string[] args)
-        {
-            foreach (var arg in args)
-            {
-                _arguments.Add((arg, null, false, false));
             }
 
             return this as TTask;
