@@ -98,7 +98,7 @@ namespace FlubuCore.Tests.Scripting
                     string.Empty,
                     "public class MyBuildScript : IBuildScript",
                     "{",
-                    "    public int Run(ITaskSession session)",
+                    "    public int Run(IFlubuSession session)",
                     "    {",
                     "        Console.WriteLine(\"11\");",
                     "        return 0;",

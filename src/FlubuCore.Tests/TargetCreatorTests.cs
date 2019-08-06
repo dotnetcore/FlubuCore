@@ -37,7 +37,7 @@ namespace FlubuCore.Tests
         public void CreateTargetFromMethodAttributes_AddsTargets_Sucesfull()
         {
             TargetCreator.CreateTargetFromMethodAttributes(new BuildScriptWithTargetsFromAttribute(), _flubuSession);
-            Assert.Equal(6, _flubuSession.TargetTree.TargetCount);
+            Assert.Equal(3, _flubuSession.TargetTree.TargetCount);
             Assert.True(_flubuSession.TargetTree.HasTarget("Target1"));
             Assert.True(_flubuSession.TargetTree.HasTarget("Target2"));
             Assert.True(_flubuSession.TargetTree.HasTarget("Target3"));
@@ -47,7 +47,7 @@ namespace FlubuCore.Tests
         public void CreateTargetFromMethodAttributes_NoTargets_Succesfull()
         {
             TargetCreator.CreateTargetFromMethodAttributes(new BuildScriptNoTargetsWithAttribute(), _flubuSession);
-            Assert.Equal(3, _flubuSession.TargetTree.TargetCount);
+            Assert.Equal(0, _flubuSession.TargetTree.TargetCount);
         }
 
         [Fact]
