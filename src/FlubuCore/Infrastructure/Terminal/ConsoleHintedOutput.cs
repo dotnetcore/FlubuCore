@@ -44,12 +44,11 @@ namespace FlubuCore.Infrastructure.Terminal
             var fullInput = string.Empty;
             var readLine = string.Empty;
             var wasUserInput = false;
-            bool writeSugestionToConsole;
             var cursorPosition = new ConsoleCursorPosition(ConsoleUtils.Prompt.Length, Console.CursorTop, Console.WindowWidth);
             ClearConsoleLines(cursorPosition.StartTop, cursorPosition.Top);
             while ((input = Console.ReadKey()).Key != ConsoleKey.Enter)
             {
-                writeSugestionToConsole = false;
+                var writeSugestionToConsole = false;
                 int positionToDelete;
                 switch (input.Key)
                 {
@@ -193,7 +192,7 @@ namespace FlubuCore.Infrastructure.Terminal
 
                 ClearConsoleLines(cursorPosition.StartTop, cursorPosition.Top);
                 var li = fullInput.TrimEnd().LastIndexOf(" ");
-                    if (li == -1)
+                if (li == -1)
                 {
                     ConsoleUtils.Write(userInput, ConsoleColor.Green);
                     fullInput = userInput;
@@ -235,7 +234,7 @@ namespace FlubuCore.Infrastructure.Terminal
             //ClearConsoleLines();
             Console.WriteLine(string.Empty);
             AddCommandToHistory(readLine);
-            return readLine;
+            return fullInput;
         }
 
         private static void WriteSuggestion(Suggestion suggestion, ConsoleColor hintColor)
