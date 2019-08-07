@@ -27,7 +27,7 @@ namespace FlubuCore.Tasks.Process
 
         // ReSharper disable once InconsistentNaming
 #pragma warning disable SA1300 // Element should begin with upper-case letter
-        private List<(string argKey, string argValue, bool valueRequired, bool maskArg)> _arguments { get; } = new List<(string argKey, string argValue, bool valueRequired, bool maskArg)>();
+        private List<Argument> _arguments { get; } = new List<Argument>();
 #pragma warning restore SA1300 // Element should begin with upper-case letter
 
         protected internal virtual List<string> OverridableArguments { get; set; }
@@ -61,7 +61,7 @@ namespace FlubuCore.Tasks.Process
         {
             if (!string.IsNullOrEmpty(arg))
             {
-                _arguments.Add((arg, null, false, maskArg));
+                _arguments.Add(new Argument(arg, null, false, maskArg));
             }
 
             return this as TTask;
@@ -72,7 +72,7 @@ namespace FlubuCore.Tasks.Process
         {
             foreach (var arg in args)
             {
-                _arguments.Add((arg, null, false, false));
+                _arguments.Add(new Argument(arg, null, false, false));
             }
 
             return this as TTask;
@@ -83,11 +83,11 @@ namespace FlubuCore.Tasks.Process
             var argumentsFlat = new List<string>();
             foreach (var arg in _arguments)
             {
-                argumentsFlat.Add(arg.argKey);
+                argumentsFlat.Add(arg.ArgKey);
 
-                if (!string.IsNullOrEmpty(arg.argValue))
+                if (!string.IsNullOrEmpty(arg.ArgValue))
                 {
-                    argumentsFlat.Add(arg.argValue);
+                    argumentsFlat.Add(arg.ArgValue);
                 }
             }
 
@@ -98,7 +98,7 @@ namespace FlubuCore.Tasks.Process
         {
             if (!string.IsNullOrEmpty(arg))
             {
-                 _arguments.Insert(index, (arg, null, false, maskArg));
+                 _arguments.Insert(index, new Argument(arg, null, false, maskArg));
             }
 
             return this as TTask;
@@ -116,7 +116,7 @@ namespace FlubuCore.Tasks.Process
         {
             if (!string.IsNullOrEmpty(argKey))
             {
-                _arguments.Add((argKey, argValue, true, maskValue));
+                _arguments.Add(new Argument(argKey, argValue, true, maskValue));
             }
 
             return this as TTask;
@@ -124,12 +124,12 @@ namespace FlubuCore.Tasks.Process
 
         protected void WithArgumentsKeyFromAttribute(bool maskArg = false, [CallerMemberName]string memberName = "")
         {
-            _arguments.Add((GetFirstKeyFromAttribute(memberName), null, false, maskArg));
+            _arguments.Add(new Argument(GetFirstKeyFromAttribute(memberName), null, false, maskArg));
         }
 
         protected void WithArgumentsKeyFromAttribute(string value, bool maskArg = false, [CallerMemberName]string memberName = "")
         {
-            _arguments.Add((GetFirstKeyFromAttribute(memberName), value, true, maskArg));
+            _arguments.Add(new Argument(GetFirstKeyFromAttribute(memberName), value, true, maskArg));
         }
 
         protected string GetFirstKeyFromAttribute([CallerMemberName]string memberName = "")
@@ -268,19 +268,19 @@ namespace FlubuCore.Tasks.Process
 
             foreach (var arg in _arguments)
             {
-                if (string.IsNullOrEmpty(arg.argValue))
+                if (string.IsNullOrEmpty(arg.ArgValue))
                 {
-                    if (arg.valueRequired)
+                    if (arg.ValueRequired)
                     {
-                        throw new TaskExecutionException($"Argument key {arg.argKey} requires value.", 0);
+                        throw new TaskExecutionException($"Argument key {arg.ArgKey} requires value.", 0);
                     }
 
-                    argumentsFlat.Add((arg.argKey, arg.maskArg));
+                    argumentsFlat.Add((arg.ArgKey, arg.MaskArg));
                 }
                 else
                 {
-                    argumentsFlat.Add((arg.argKey, false));
-                    argumentsFlat.Add((arg.argValue, arg.maskArg));
+                    argumentsFlat.Add((arg.ArgKey, false));
+                    argumentsFlat.Add((arg.ArgValue, arg.MaskArg));
                 }
             }
 
@@ -352,15 +352,15 @@ namespace FlubuCore.Tasks.Process
                     continue;
                 }
 
-                var argumentToOverride = _arguments.FirstOrDefault(x => x.argKey == scriptArg.Key);
+                var argumentToOverride = _arguments.FirstOrDefault(x => x.ArgKey == overridableArgument);
 
-                if (argumentToOverride.argKey == null)
+                if (argumentToOverride == null)
                 {
-                    _arguments.Add((overridableArgument, scriptArg.Value, false, false));
+                    _arguments.Add(new Argument(overridableArgument, scriptArg.Value, false, false));
                 }
                 else
                 {
-                    argumentToOverride.argValue = scriptArg.Value;
+                    argumentToOverride.ArgValue = scriptArg.Value;
                 }
             }
         }
