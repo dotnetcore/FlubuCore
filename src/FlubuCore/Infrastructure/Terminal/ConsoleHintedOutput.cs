@@ -417,7 +417,10 @@ namespace FlubuCore.Infrastructure.Terminal
             {
                 foreach (var hint in hints)
                 {
-                    hint.Value = $"{hintSourceKey}{hint.Value}";
+                    if (!hint.Value.StartsWith(hintSourceKey.ToString()))
+                    {
+                        hint.Value = $"{hintSourceKey}{hint.Value}";
+                    }
                 }
             }
 
