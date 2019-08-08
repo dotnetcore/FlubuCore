@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 #if !NETSTANDARD1_6
 using System.Drawing;
@@ -110,6 +111,8 @@ namespace FlubuCore.Scripting
 
         private void RunBuild(IFlubuSession flubuSession)
         {
+            bool resetTargetTree = false;
+
             ConfigureDefaultProps(flubuSession);
 
             ConfigureBuildProperties(flubuSession);
@@ -173,9 +176,23 @@ namespace FlubuCore.Scripting
                         .Where(x => !string.IsNullOrWhiteSpace(x))
                         .Select(x => x.Trim()).ToArray());
                     targetsInfo = ParseCmdLineArgs(args.MainCommands, flubuSession.TargetTree);
+
                     flubuSession.InteractiveArgs = args;
                     flubuSession.ScriptArgs = args.ScriptArguments;
                     ScriptProperties.SetPropertiesFromScriptArg(this, flubuSession);
+
+                    if (resetTargetTree)
+                    {
+                        flubuSession.TargetTree.ResetTargetTree();
+                        ConfigureDefaultProps(flubuSession);
+                        ConfigureBuildProperties(flubuSession);
+                        ConfigureDefaultTargets(flubuSession);
+                        ScriptProperties.SetPropertiesFromScriptArg(this, flubuSession);
+                        TargetCreator.CreateTargetFromMethodAttributes(this, flubuSession);
+                        ConfigureTargets(flubuSession);
+                    }
+
+                    resetTargetTree = true;
 
                     if (CommandExecutor.InteractiveExitCommands.Contains(args.MainCommands[0], StringComparer.OrdinalIgnoreCase))
                     {
