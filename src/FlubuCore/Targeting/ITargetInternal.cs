@@ -10,6 +10,8 @@ namespace FlubuCore.Targeting
     {
         Dictionary<string, TaskExecutionMode> Dependencies { get; }
 
+        List<TaskGroup> TasksGroups { get; }
+
         string TargetName { get; }
 
         /// <summary>

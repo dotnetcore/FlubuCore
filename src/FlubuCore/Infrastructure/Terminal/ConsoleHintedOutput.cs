@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
+using FlubuCore.Targeting;
+using FlubuCore.Tasks.Attributes;
 
 namespace FlubuCore.Infrastructure.Terminal
 {
     public class ConsoleHintedInput
     {
+        private readonly TargetTree _targetTree;
+
         private readonly IDictionary<char, IReadOnlyCollection<string>> _hintsSourceDictionary;
         private readonly List<string> _commandsHistory = new List<string>();
         private List<Suggestion> _suggestionsForUserInput;
@@ -17,8 +22,9 @@ namespace FlubuCore.Infrastructure.Terminal
         /// Creates new instance of <see cref="ConsoleHintedInput"/> class
         /// </summary>
         /// <param name="hintsSourceDictionary">Collection containing input hints</param>
-        public ConsoleHintedInput(IReadOnlyCollection<string> defaultHints, IDictionary<char, IReadOnlyCollection<string>> hintsSourceDictionary = null)
+        public ConsoleHintedInput(TargetTree targetTree, IReadOnlyCollection<string> defaultHints, IDictionary<char, IReadOnlyCollection<string>> hintsSourceDictionary = null)
         {
+            _targetTree = targetTree;
             _hintsSourceDictionary = hintsSourceDictionary;
 
             if (_hintsSourceDictionary == null)
@@ -44,6 +50,7 @@ namespace FlubuCore.Infrastructure.Terminal
             var fullInput = string.Empty;
             var readLine = string.Empty;
             var wasUserInput = false;
+            var target = string.Empty;
             var cursorPosition = new ConsoleCursorPosition(ConsoleUtils.Prompt.Length, Console.CursorTop, Console.WindowWidth);
             ClearConsoleLines(cursorPosition.StartTop, cursorPosition.Top);
             while ((input = Console.ReadKey()).Key != ConsoleKey.Enter)
@@ -291,7 +298,7 @@ namespace FlubuCore.Infrastructure.Terminal
             }
 
             var splitedUserInput = userInput.Split(' ').Where(x => !string.IsNullOrWhiteSpace(x));
-
+            var targetName = splitedUserInput.First();
             var lastInput = splitedUserInput.Last();
             if (userInput.EndsWith(" "))
             {
@@ -309,7 +316,13 @@ namespace FlubuCore.Infrastructure.Terminal
                 hintSourceKey = '*';
             }
 
-            var hintSource = _hintsSourceDictionary[hintSourceKey];
+            var hintSource = _hintsSourceDictionary[hintSourceKey].ToList();
+
+            if (hintSourceKey == '-')
+            {
+                hintSource.AddRange(GetHintsFromTarget(targetName));
+            }
+
             if (hintSource.All(item => item.Length < lastInput.Length))
             {
                 _suggestionsForUserInput = null;
@@ -409,6 +422,50 @@ namespace FlubuCore.Infrastructure.Terminal
             }
 
             _suggestionsForUserInput = hints;
+        }
+
+        private List<string> GetHintsFromTarget(string targetName)
+        {
+            List<string> targetSpecificHints = new List<string>();
+            if (_targetTree.HasTarget(targetName))
+            {
+                List<ITargetInternal> targets = new List<ITargetInternal>();
+                var mainTarget = _targetTree.GetTarget(targetName);
+                targets.Add(mainTarget);
+
+                AddDependencies(mainTarget, targets);
+
+                foreach (var target in targets)
+                {
+                    foreach (var taskGroup in target.TasksGroups)
+                    {
+                        foreach (var task in taskGroup.Tasks)
+                        {
+                            var type = task.task.GetType();
+                            var methods = type.GetRuntimeMethods();
+                            methods = methods.Where(m => m.GetCustomAttributes(typeof(ArgKey), false).ToList().Count > 0);
+
+                            foreach (var method in methods)
+                            {
+                                var attribute = method.GetCustomAttribute<ArgKey>();
+                                targetSpecificHints.AddRange(attribute.Keys);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return targetSpecificHints.Distinct().ToList();
+        }
+
+        private void AddDependencies(ITargetInternal target, List<ITargetInternal> targets)
+        {
+            foreach (var dependencyName in target.Dependencies)
+            {
+                var dependantTarget = _targetTree.GetTarget(dependencyName.Key);
+                targets.Add(dependantTarget);
+                AddDependencies(dependantTarget, targets);
+            }
         }
 
         private void AddCommandToHistory(string readLine)

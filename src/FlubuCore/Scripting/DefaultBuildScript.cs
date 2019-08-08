@@ -157,7 +157,7 @@ namespace FlubuCore.Scripting
                 propertyKeys.Add("-noColor");
                 source.Add('-', propertyKeys);
 
-                inputReader = new ConsoleHintedInput(flubuSession.TargetTree.GetTargetNames().ToList(), source);
+                inputReader = new ConsoleHintedInput(flubuSession.TargetTree, flubuSession.TargetTree.GetTargetNames().ToList(), source);
                 flubuSession.TargetTree.RunTarget(flubuSession, "help.onlyTargets");
                 flubuSession.LogInfo(" ");
             }
