@@ -300,6 +300,7 @@ namespace FlubuCore.Infrastructure.Terminal
             var splitedUserInput = userInput.Split(' ').Where(x => !string.IsNullOrWhiteSpace(x));
             var targetName = splitedUserInput.First();
             var lastInput = splitedUserInput.Last();
+            char prefix = lastInput[0];
             if (userInput.EndsWith(" "))
             {
                 lastInput = $"{lastInput} ";
@@ -318,9 +319,9 @@ namespace FlubuCore.Infrastructure.Terminal
 
             var hintSource = _hintsSourceDictionary[hintSourceKey].ToList();
 
-            if (hintSourceKey == '-')
+            if (prefix == '-' || prefix == '/')
             {
-                hintSource.AddRange(GetHintsFromTarget(targetName));
+                hintSource.AddRange(GetHintsFromTarget(targetName, prefix));
             }
 
             if (hintSource.All(item => item.Length < lastInput.Length))
@@ -427,7 +428,7 @@ namespace FlubuCore.Infrastructure.Terminal
             _suggestionsForUserInput = hints;
         }
 
-        private List<string> GetHintsFromTarget(string targetName)
+        private List<string> GetHintsFromTarget(string targetName, char prefix)
         {
             List<string> targetSpecificHints = new List<string>();
             if (_targetTree.HasTarget(targetName))
@@ -451,7 +452,16 @@ namespace FlubuCore.Infrastructure.Terminal
                             foreach (var method in methods)
                             {
                                 var attribute = method.GetCustomAttribute<ArgKey>();
-                                targetSpecificHints.AddRange(attribute.Keys);
+
+                                if (attribute == null || attribute.Keys.Length == 0)
+                                {
+                                    continue;
+                                }
+
+                                if (attribute.Keys[0].StartsWith(prefix.ToString()))
+                                {
+                                    targetSpecificHints.AddRange(attribute.Keys);
+                                }
                             }
                         }
                     }
