@@ -479,11 +479,13 @@ namespace FlubuCore.Infrastructure.Terminal
 
                                 if (attribute.Keys[0].StartsWith(prefix.ToString()))
                                 {
+                                    var help = method.GetSummary();
                                     foreach (var key in attribute.Keys)
                                     {
                                         var hint = new Hint()
                                         {
-                                            Name = key
+                                            Name = key,
+                                            Help = help,
                                         };
 
                                         targetSpecificHints.Add(hint);
