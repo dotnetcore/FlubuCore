@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface.Interfaces;
+using FlubuCore.Infrastructure;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks.Process;
 using Moq;
@@ -21,6 +22,7 @@ namespace FlubuCore.Tests.Tasks
             Context.Setup(x => x.Tasks()).Returns(Tasks.Object);
             Context.Setup(x => x.CoreTasks()).Returns(CoreTasks.Object);
             Context.Setup(x => x.Args).Returns(CommandArguments.Object);
+            Context.Setup(x => x.ScriptArgs).Returns(new DictionaryWithDefault<string, string>());
 
             RunProgramTask = new Mock<IRunProgramTask>();
             RunProgramTask.Setup(x => x.WithArguments(It.IsAny<string>(), false)).Returns(RunProgramTask.Object);
