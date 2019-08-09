@@ -12,7 +12,7 @@ namespace FlubuCore.Infrastructure.Terminal
     {
         private readonly TargetTree _targetTree;
 
-        private readonly IDictionary<char, IReadOnlyCollection<string>> _hintsSourceDictionary;
+        private readonly IDictionary<char, IReadOnlyCollection<Hint>> _hintsSourceDictionary;
         private readonly List<string> _commandsHistory = new List<string>();
         private List<Suggestion> _suggestionsForUserInput;
         private int _suggestionPosition;
@@ -22,14 +22,14 @@ namespace FlubuCore.Infrastructure.Terminal
         /// Creates new instance of <see cref="ConsoleHintedInput"/> class
         /// </summary>
         /// <param name="hintsSourceDictionary">Collection containing input hints</param>
-        public ConsoleHintedInput(TargetTree targetTree, IReadOnlyCollection<string> defaultHints, IDictionary<char, IReadOnlyCollection<string>> hintsSourceDictionary = null)
+        public ConsoleHintedInput(TargetTree targetTree, IReadOnlyCollection<Hint> defaultHints, IDictionary<char, IReadOnlyCollection<Hint>> hintsSourceDictionary = null)
         {
             _targetTree = targetTree;
             _hintsSourceDictionary = hintsSourceDictionary;
 
             if (_hintsSourceDictionary == null)
             {
-                _hintsSourceDictionary = new Dictionary<char, IReadOnlyCollection<string>>();
+                _hintsSourceDictionary = new Dictionary<char, IReadOnlyCollection<Hint>>();
             }
 
             _hintsSourceDictionary.Add('*', defaultHints);
@@ -231,6 +231,7 @@ namespace FlubuCore.Infrastructure.Terminal
                     if (suggestion != null && suggestion.Value != userInput && writeSugestionToConsole == false)
                     {
                         WriteSuggestion(suggestion, hintColor);
+                        WriteOnBottomLine(suggestion.Help);
                     }
                 }
 
@@ -287,6 +288,21 @@ namespace FlubuCore.Infrastructure.Terminal
             ConsoleUtils.WritePrompt();
         }
 
+        private static void WriteOnBottomLine(string text)
+        {
+            int x = Console.CursorLeft;
+            int y = Console.CursorTop;
+            var adjustment = Console.CursorTop == (Console.WindowTop + Console.WindowHeight - 1) ? 0 : 1;
+            Console.CursorTop = Console.WindowTop + Console.WindowHeight - adjustment;
+            Console.CursorLeft = 0;
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.CursorLeft = 0;
+            Console.Write(text);
+
+            //// Restore previous position
+            Console.SetCursorPosition(x, y);
+        }
+
         private void UpdateSuggestionsForUserInput(string userInput)
         {
             _suggestionPosition = 0;
@@ -324,7 +340,7 @@ namespace FlubuCore.Infrastructure.Terminal
                 hintSource.AddRange(GetHintsFromTarget(targetName, prefix));
             }
 
-            if (hintSource.All(item => item.Length < lastInput.Length))
+            if (hintSource.All(item => item.Name.Length < lastInput.Length))
             {
                 _suggestionsForUserInput = null;
                 return;
@@ -332,20 +348,21 @@ namespace FlubuCore.Infrastructure.Terminal
 #if NETSTANDARD1_6
             //simple case then user's input is equal to start of hint
             var hints = hintSource
-                .Where(item => item.Length > lastInput.Length && item.Substring(0, lastInput.Length) == lastInput)
+                .Where(item => item.Name.Length > lastInput.Length && item.Name.Substring(0, lastInput.Length) == lastInput)
                 .Select(hint => new Suggestion
                 {
-                    Value = hint,
+                    Value = hint.Name,
                     HighlightIndexes = Enumerable.Range(0, lastInput.Length).ToArray()
                 })
                 .ToList();
 #else
             //simple case then user's input is equal to start of hint
             var hints = hintSource
-                .Where(item => item.Length > lastInput.Length && item.Substring(0, lastInput.Length).Equals(lastInput, StringComparison.OrdinalIgnoreCase))
+                .Where(item => item.Name.Length > lastInput.Length && item.Name.Substring(0, lastInput.Length).Equals(lastInput, StringComparison.OrdinalIgnoreCase))
                 .Select(hint => new Suggestion
                 {
-                    Value = hint,
+                    Value = hint.Name,
+                    Help = hint.Help,
                     HighlightIndexes = Enumerable.Range(0, lastInput.Length).ToArray()
                 })
                 .ToList();
@@ -354,7 +371,7 @@ namespace FlubuCore.Infrastructure.Terminal
             //more complex case: tokenize hint and try to search user input from beginning of tokens
             foreach (var item in hintSource)
             {
-                var parts = item.Split(new[] { ' ', ';', '-', '_' }, StringSplitOptions.RemoveEmptyEntries);
+                var parts = item.Name.Split(new[] { ' ', ';', '-', '_' }, StringSplitOptions.RemoveEmptyEntries);
 
                 string candidate;
              #if NETSTANDARD1_6
@@ -366,8 +383,9 @@ namespace FlubuCore.Infrastructure.Terminal
                 {
                     hints.Add(new Suggestion
                     {
-                        Value = item,
-                        HighlightIndexes = Enumerable.Range(item.IndexOf(candidate, StringComparison.Ordinal), lastInput.Length).ToArray()
+                        Value = item.Name,
+                        Help = item.Help,
+                        HighlightIndexes = Enumerable.Range(item.Name.IndexOf(candidate, StringComparison.Ordinal), lastInput.Length).ToArray()
                     });
                 }
             }
@@ -381,13 +399,13 @@ namespace FlubuCore.Infrastructure.Terminal
                 var found = true;
                 for (var i = 0; i < lastInput.Length; i++)
                 {
-                    if (startIndex >= item.Length)
+                    if (startIndex >= item.Name.Length)
                     {
                         found = false;
                         break;
                     }
 
-                    var substring = item.Substring(startIndex);
+                    var substring = item.Name.Substring(startIndex);
 #if NETSTANDARD1_6
                     var idx = substring.IndexOf(lastInput[i]);
 #else
@@ -408,7 +426,8 @@ namespace FlubuCore.Infrastructure.Terminal
                 {
                     hints.Add(new Suggestion
                     {
-                        Value = item,
+                        Value = item.Name,
+                        Help = item.Help,
                         HighlightIndexes = highlightIndexes.ToArray()
                     });
                 }
@@ -428,9 +447,9 @@ namespace FlubuCore.Infrastructure.Terminal
             _suggestionsForUserInput = hints;
         }
 
-        private List<string> GetHintsFromTarget(string targetName, char prefix)
+        private List<Hint> GetHintsFromTarget(string targetName, char prefix)
         {
-            List<string> targetSpecificHints = new List<string>();
+            List<Hint> targetSpecificHints = new List<Hint>();
             if (_targetTree.HasTarget(targetName))
             {
                 List<ITargetInternal> targets = new List<ITargetInternal>();
@@ -460,7 +479,15 @@ namespace FlubuCore.Infrastructure.Terminal
 
                                 if (attribute.Keys[0].StartsWith(prefix.ToString()))
                                 {
-                                    targetSpecificHints.AddRange(attribute.Keys);
+                                    foreach (var key in attribute.Keys)
+                                    {
+                                        var hint = new Hint()
+                                        {
+                                            Name = key
+                                        };
+
+                                        targetSpecificHints.Add(hint);
+                                    }
                                 }
                             }
                         }
@@ -559,6 +586,8 @@ namespace FlubuCore.Infrastructure.Terminal
         private class Suggestion
         {
             public string Value { get; set; }
+
+            public string Help { get; set; }
 
             public int[] HighlightIndexes { get; set; }
         }

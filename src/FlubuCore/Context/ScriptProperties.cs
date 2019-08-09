@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using FlubuCore.Infrastructure.Terminal;
 using FlubuCore.Scripting;
 
 namespace FlubuCore.Context
@@ -63,23 +64,27 @@ namespace FlubuCore.Context
             }
         }
 
-        public static List<string> GetPropertiesKeys(IBuildScript buildScript, IFlubuSession flubuSession)
+        public static List<Hint> GetPropertiesKeys(IBuildScript buildScript, IFlubuSession flubuSession)
         {
             var buildScriptType = buildScript.GetType();
             IList<PropertyInfo> props = new List<PropertyInfo>(buildScriptType.GetProperties());
-            List<string> keys = new List<string>();
+            List<Hint> keys = new List<Hint>();
             foreach (var property in props)
             {
                 var attributes = property.GetCustomAttributes<FromArgAttribute>(false).ToList();
                 if (attributes.Count == 0)
                 {
-                    keys.Add(property.Name);
+                    keys.Add(new Hint { Name = property.Name });
                 }
                 else
                 {
                     foreach (var fromArgAttribute in attributes)
                     {
-                        keys.Add(fromArgAttribute.ArgKey);
+                        keys.Add(new Hint
+                        {
+                            Name = fromArgAttribute.ArgKey,
+                            Help = fromArgAttribute.Help,
+                        });
                     }
                 }
             }

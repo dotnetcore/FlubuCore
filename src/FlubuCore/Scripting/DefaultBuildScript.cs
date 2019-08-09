@@ -153,14 +153,26 @@ namespace FlubuCore.Scripting
             else
             {
                 flubuSession.InteractiveMode = true;
-                var source = new Dictionary<char, IReadOnlyCollection<string>>();
+                var source = new Dictionary<char, IReadOnlyCollection<Hint>>();
                 var propertyKeys = ScriptProperties.GetPropertiesKeys(this, flubuSession);
-                propertyKeys.Add("-parallel");
-                propertyKeys.Add("-dryrun");
-                propertyKeys.Add("-noColor");
+                propertyKeys.Add(new Hint { Name = "-parallel" });
+                propertyKeys.Add(new Hint { Name = "-dryrun" });
+                propertyKeys.Add(new Hint { Name = "-noColor" });
                 source.Add('-', propertyKeys);
 
-                inputReader = new ConsoleHintedInput(flubuSession.TargetTree, flubuSession.TargetTree.GetTargetNames().ToList(), source);
+                List<Hint> defaultHints = new List<Hint>();
+
+                foreach (var targetName in flubuSession.TargetTree.GetTargetNames())
+                {
+                   var target = flubuSession.TargetTree.GetTarget(targetName);
+                   defaultHints.Add(new Hint
+                   {
+                       Name = target.TargetName,
+                       Help = target.Description
+                   });
+                }
+
+                inputReader = new ConsoleHintedInput(flubuSession.TargetTree, defaultHints, source);
                 flubuSession.TargetTree.RunTarget(flubuSession, "help.onlyTargets");
                 flubuSession.LogInfo(" ");
             }
