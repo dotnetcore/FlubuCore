@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FlubuCore.Context;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 using Newtonsoft.Json;
 
@@ -33,9 +34,10 @@ namespace FlubuCore.Tasks.Versioning
         /// Runs GitVersion with additional diagnostic information (requires git.exe to be installed)
         /// </summary>
         /// <returns></returns>
+        [ArgKey("/diag")]
         public GitVersionTask Diagnostic()
         {
-            WithArguments("/diag");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -44,9 +46,10 @@ namespace FlubuCore.Tasks.Versioning
         /// </summary>
         /// <param name="output"></param>
         /// <returns></returns>
+        [ArgKey("/output")]
         public GitVersionTask Output(GitVersionOutput output)
         {
-            WithArguments("/output", output.ToString().ToLower());
+            WithArgumentsKeyFromAttribute(output.ToString().ToLower());
             return this;
         }
 
@@ -56,9 +59,10 @@ namespace FlubuCore.Tasks.Versioning
         /// </summary>
         /// <param name="variable"></param>
         /// <returns></returns>
+        [ArgKey("/showvariable")]
         public GitVersionTask ShowVariable(string variable)
         {
-            WithArguments("/showvariable");
+            WithArgumentsKeyFromAttribute(variable);
             return this;
         }
 
@@ -67,9 +71,10 @@ namespace FlubuCore.Tasks.Versioning
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
+        [ArgKey("/l")]
         public GitVersionTask LogFile(string path)
         {
-            WithArguments("/l", path);
+            WithArgumentsKeyFromAttribute(path);
             return this;
         }
 
@@ -77,9 +82,10 @@ namespace FlubuCore.Tasks.Versioning
         /// Outputs the effective GitVersion config (defaults + custom from GitVersion.yml) in yaml format.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("/showconfig")]
         public GitVersionTask ShowConfig()
         {
-            WithArguments("/showconfig");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -106,9 +112,10 @@ namespace FlubuCore.Tasks.Versioning
         ///  Bypasses the cache, result will not be written to the cache.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("/nocache")]
         public GitVersionTask NoCache()
         {
-            WithArguments("/nocache");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -116,9 +123,10 @@ namespace FlubuCore.Tasks.Versioning
         ///  Will recursively search for all 'AssemblyInfo.cs' files in the git repo and update them.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("/updateassemblyinfo")]
         public GitVersionTask UpdateAssemblyInfo()
         {
-            WithArguments("/updateassemblyinfo");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -127,9 +135,10 @@ namespace FlubuCore.Tasks.Versioning
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
+        [ArgKey("/updateassemblyinfofilename")]
         public GitVersionTask UpdateAssemblyInfoFilename(string fileName)
         {
-            WithArguments(" /updateassemblyinfofilename", fileName);
+            WithArgumentsKeyFromAttribute(fileName);
             return this;
         }
 
@@ -138,9 +147,10 @@ namespace FlubuCore.Tasks.Versioning
         /// it be created with these attributes: AssemblyFileVersion, AssemblyVersion and AssemblyInformationalVersion
         /// </summary>
         /// <returns></returns>
+        [ArgKey("/ensureassemblyinfo")]
         public GitVersionTask EnsureAssemblyInfo()
         {
-            WithArguments("/ensureassemblyinfo");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -149,9 +159,10 @@ namespace FlubuCore.Tasks.Versioning
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
+        [ArgKey("/url")]
         public GitVersionTask GitUrl(string url)
         {
-            WithArguments("/url", url);
+            WithArgumentsKeyFromAttribute(url);
             return this;
         }
 
@@ -160,9 +171,10 @@ namespace FlubuCore.Tasks.Versioning
         /// </summary>
         /// <param name="branch"></param>
         /// <returns></returns>
+        [ArgKey("/b")]
         public GitVersionTask Branch(string branch)
         {
-            WithArguments("/b", branch);
+            WithArgumentsKeyFromAttribute(branch);
             return this;
         }
 
@@ -171,9 +183,10 @@ namespace FlubuCore.Tasks.Versioning
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
+        [ArgKey("/u")]
         public GitVersionTask Username(string username)
         {
-            WithArguments("/u", username);
+            WithArgumentsKeyFromAttribute(username);
             return this;
         }
 
@@ -182,10 +195,10 @@ namespace FlubuCore.Tasks.Versioning
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>
+        [ArgKey("/p")]
         public GitVersionTask Password(string password)
         {
-            WithArguments("/p");
-            WithArguments(password, true);
+            WithArgumentsKeyFromAttribute(password, true);
             return this;
         }
 
@@ -194,9 +207,10 @@ namespace FlubuCore.Tasks.Versioning
         /// </summary>
         /// <param name="commitId"></param>
         /// <returns></returns>
+        [ArgKey("/c")]
         public GitVersionTask Commit(string commitId)
         {
-            WithArguments("/c", commitId);
+            WithArgumentsKeyFromAttribute(commitId);
             return this;
         }
 
@@ -205,9 +219,10 @@ namespace FlubuCore.Tasks.Versioning
         /// </summary>
         /// <param name="location"></param>
         /// <returns></returns>
+        [ArgKey("/dynamicRepoLocation")]
         public GitVersionTask DynamicRepoLocation(string location)
         {
-            WithArguments("/dynamicRepoLocation", location);
+            WithArgumentsKeyFromAttribute(location);
             return this;
         }
 
@@ -215,9 +230,10 @@ namespace FlubuCore.Tasks.Versioning
         ///  Disables 'git fetch' during version calculation. Might cause GitVersion to not calculate your version as expected.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("/nofetch")]
         public GitVersionTask NoFetch()
         {
-            WithArguments("/nofetch");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -226,9 +242,10 @@ namespace FlubuCore.Tasks.Versioning
         /// </summary>
         /// <param name="executable"></param>
         /// <returns></returns>
+        [ArgKey("/exec")]
         public GitVersionTask Executable(string executable)
         {
-            WithArguments("/exec", executable);
+            WithArgumentsKeyFromAttribute(executable);
             return this;
         }
 
@@ -237,9 +254,10 @@ namespace FlubuCore.Tasks.Versioning
         /// </summary>
         /// <param name="arguments"></param>
         /// <returns></returns>
+        [ArgKey("/execargs")]
         public GitVersionTask ExecutableArguments(string arguments)
         {
-            WithArguments("/execargs", arguments);
+            WithArgumentsKeyFromAttribute(arguments);
             return this;
         }
 
@@ -248,9 +266,10 @@ namespace FlubuCore.Tasks.Versioning
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
+        [ArgKey("/proj")]
         public GitVersionTask MsBuildProject(string file)
         {
-            WithArguments("/proj", file);
+            WithArgumentsKeyFromAttribute(file);
             return this;
         }
 
@@ -259,9 +278,10 @@ namespace FlubuCore.Tasks.Versioning
         /// </summary>
         /// <param name="arguments"></param>
         /// <returns></returns>
+        [ArgKey("/projargs")]
         public GitVersionTask MsBuildProjectArguments(string arguments)
         {
-            WithArguments("/projargs", arguments);
+            WithArgumentsKeyFromAttribute(arguments);
             return this;
         }
 
@@ -270,9 +290,10 @@ namespace FlubuCore.Tasks.Versioning
         /// </summary>
         /// <param name="verbosity"></param>
         /// <returns></returns>
+        [ArgKey("/verbosity")]
         public GitVersionTask Verbosity(string verbosity)
         {
-            WithArguments("/verbosity", verbosity);
+            WithArgumentsKeyFromAttribute(verbosity);
             return this;
         }
 

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using FlubuCore.Context;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.MsSql
@@ -100,9 +101,10 @@ namespace FlubuCore.Tasks.MsSql
         /// </summary>
         /// <param name="server"></param>
         /// <returns></returns>
+        [ArgKey("-S")]
         public SqlCmdTask Server(string server)
         {
-            WithArgumentsValueRequired("-S", server);
+            WithArgumentsKeyFromAttribute(server);
             return this;
         }
 
@@ -111,9 +113,10 @@ namespace FlubuCore.Tasks.MsSql
         /// </summary>
         /// <param name="userName"></param>
         /// <returns></returns>
+        [ArgKey("-U")]
         public SqlCmdTask UserName(string userName)
         {
-            WithArgumentsValueRequired("-U", userName);
+            WithArgumentsKeyFromAttribute(userName);
             return this;
         }
 
@@ -122,9 +125,10 @@ namespace FlubuCore.Tasks.MsSql
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>
+        [ArgKey("-P")]
         public SqlCmdTask Password(string password)
         {
-            WithArgumentsValueRequired("-P", password, true);
+            WithArgumentsKeyFromAttribute(password, true);
             return this;
         }
 
@@ -132,9 +136,10 @@ namespace FlubuCore.Tasks.MsSql
         /// Use trusted connection when connecting to the DB.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("-E")]
         public SqlCmdTask TrustedConnection()
         {
-            WithArguments("-E");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -143,9 +148,10 @@ namespace FlubuCore.Tasks.MsSql
         /// </summary>
         /// <param name="database"></param>
         /// <returns></returns>
+        [ArgKey("-d")]
         public SqlCmdTask Database(string database)
         {
-            WithArgumentsValueRequired("-d", database);
+            WithArgumentsKeyFromAttribute(database);
             return this;
         }
 

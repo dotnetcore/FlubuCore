@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Testing
@@ -37,9 +38,10 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         /// <param name="target"></param>
         /// <returns></returns>
+        [ArgKey("--target")]
         public CoverletTask Target(string target)
         {
-            WithArguments("--target", target);
+            WithArgumentsKeyFromAttribute(target);
             return this;
         }
 
@@ -59,9 +61,10 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         /// <param name="output"></param>
         /// <returns></returns>
+        [ArgKey("--output")]
         public CoverletTask Output(string output)
         {
-            WithArguments("--output", output);
+            WithArgumentsKeyFromAttribute(output);
             return this;
         }
 
@@ -70,9 +73,10 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         /// <param name="verbosity"></param>
         /// <returns></returns>
+        [ArgKey("--verbosity")]
         public CoverletTask Verbosity(string verbosity)
         {
-            WithArguments("--verbosity", verbosity);
+            WithArgumentsKeyFromAttribute(verbosity);
             return this;
         }
 
@@ -81,9 +85,10 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         /// <param name="format"></param>
         /// <returns></returns>
+        [ArgKey("--format")]
         public CoverletTask Format(string format)
         {
-            WithArguments("--format", format);
+            WithArgumentsKeyFromAttribute(format);
             return this;
         }
 
@@ -92,9 +97,10 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         /// <param name="treshold"></param>
         /// <returns></returns>
+        [ArgKey("--treshold")]
         public CoverletTask Treshold(int treshold)
         {
-            WithArguments("--treshold", treshold.ToString());
+            WithArgumentsKeyFromAttribute(treshold.ToString());
             return this;
         }
 
@@ -103,9 +109,10 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         /// <param name="tresholdType"></param>
         /// <returns></returns>
+        [ArgKey("--treshold-type")]
         public CoverletTask TresholdType(string tresholdType)
         {
-            WithArguments("--treshold-type", tresholdType);
+            WithArgumentsKeyFromAttribute(tresholdType);
             return this;
         }
 
@@ -114,9 +121,10 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         /// <param name="tresholdStat"></param>
         /// <returns></returns>
+        [ArgKey("--treshold-stat")]
         public CoverletTask TresholdStat(string tresholdStat)
         {
-            WithArguments("--treshold-stat", tresholdStat);
+            WithArgumentsKeyFromAttribute(tresholdStat);
             return this;
         }
 
@@ -125,9 +133,10 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         /// <param name="exclude"></param>
         /// <returns></returns>
+        [ArgKey("--exclude")]
         public CoverletTask Exclude(string exclude)
         {
-            WithArguments("--exclude", exclude);
+            WithArgumentsKeyFromAttribute(exclude);
             return this;
         }
 
@@ -136,9 +145,10 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         /// <param name="include"></param>
         /// <returns></returns>
+        [ArgKey("--include")]
         public CoverletTask Include(string include)
         {
-            WithArguments("--include");
+            WithArgumentsKeyFromAttribute(include);
             return this;
         }
 
@@ -147,9 +157,10 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         /// <param name="directory"></param>
         /// <returns></returns>
+        [ArgKey("--include-directory")]
         public CoverletTask IncludeDirectory(string directory)
         {
-            WithArguments("--include-directory", directory);
+            WithArgumentsKeyFromAttribute(directory);
             return this;
         }
 
@@ -158,9 +169,10 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
+        [ArgKey("--exclude-by-file")]
         public CoverletTask ExludeByFile(string file)
         {
-            WithArguments("--exclude-by-file", file);
+            WithArgumentsKeyFromAttribute(file);
             return this;
         }
 
@@ -169,9 +181,10 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         /// <param name="exclude"></param>
         /// <returns></returns>
+        [ArgKey("exclude-by-attribute")]
         public CoverletTask ExcludeByAttribute(string exclude)
         {
-            WithArguments("Attributes to exclude from code coverage");
+            WithArgumentsKeyFromAttribute(exclude);
             return this;
         }
 
@@ -179,9 +192,10 @@ namespace FlubuCore.Tasks.Testing
         /// Specifies whether to report code coverage of the test assembly.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--include-test-assembly")]
         public CoverletTask IncludeTestAssembly()
         {
-            WithArguments("--include-test-assembly");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -189,9 +203,10 @@ namespace FlubuCore.Tasks.Testing
         /// Specifies whether to limit code coverage hit reporting to a single hit for each location.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--single-hit")]
         public CoverletTask SingeHit()
         {
-            WithArguments("--single-hit");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -200,9 +215,10 @@ namespace FlubuCore.Tasks.Testing
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
+        [ArgKey("--merge-with")]
         public CoverletTask MergeWith(string path)
         {
-            WithArguments("--merge-with", path);
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
