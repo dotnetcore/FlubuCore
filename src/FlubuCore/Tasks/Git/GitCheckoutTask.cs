@@ -1,4 +1,5 @@
-﻿using FlubuCore.Tasks.Process;
+﻿using FlubuCore.Tasks.Attributes;
+using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Git
 {
@@ -22,9 +23,10 @@ namespace FlubuCore.Tasks.Git
         /// Detach repo.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--detach")]
         public GitCheckoutTask Detach()
         {
-            WithArguments("--detach");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
     }

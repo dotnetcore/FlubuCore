@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Git
@@ -41,9 +42,10 @@ namespace FlubuCore.Tasks.Git
         /// </summary>
         /// <param name="author"></param>
         /// <returns></returns>
+        [ArgKey("--author")]
         public GitCommitTask Author(string author)
         {
-            WithArgumentsValueRequired("--author", author);
+            WithArgumentsKeyFromAttribute(author);
             return this;
         }
 
@@ -52,9 +54,10 @@ namespace FlubuCore.Tasks.Git
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
+        [ArgKey("--message")]
         public GitCommitTask Message(string message)
         {
-            WithArgumentsValueRequired("--message", message);
+            WithArgumentsKeyFromAttribute(message);
             return this;
         }
 
@@ -62,9 +65,10 @@ namespace FlubuCore.Tasks.Git
         /// Tell the command to automatically stage files that have been modified and deleted, but new files you have not told Git about are not affected.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--all")]
         public GitCommitTask CommitAll()
         {
-            WithArguments("--all");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -72,9 +76,10 @@ namespace FlubuCore.Tasks.Git
         /// Do not create a commit, but show a list of paths that are to be committed, paths with local changes that will be left uncommitted and paths that are untracked.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--dry-run")]
         public GitCommitTask DryRun()
         {
-            WithArguments("--dry-run");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -82,9 +87,10 @@ namespace FlubuCore.Tasks.Git
         /// be more verbose.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--verbose")]
         public GitCommitTask Verbose()
         {
-            WithArguments("--verbose");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -92,9 +98,10 @@ namespace FlubuCore.Tasks.Git
         /// be more quiet.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--quiet")]
         public GitCommitTask Quiet()
         {
-            WithArguments("--quit");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 

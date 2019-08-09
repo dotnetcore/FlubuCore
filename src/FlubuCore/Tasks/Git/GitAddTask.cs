@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Git
@@ -52,9 +53,10 @@ namespace FlubuCore.Tasks.Git
         /// Be verbose.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--verbose")]
         public GitAddTask Verbose()
         {
-            WithArguments("--verbose");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -62,9 +64,10 @@ namespace FlubuCore.Tasks.Git
         /// Don’t actually add the file(s), just show if they exist and/or will be ignored.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--dry-run")]
         public GitAddTask DryRun()
         {
-            WithArguments("--dry-run");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -72,9 +75,10 @@ namespace FlubuCore.Tasks.Git
         /// allow adding otherwise ignored files
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--force")]
         public GitAddTask Force()
         {
-            WithArguments("--force");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -82,9 +86,10 @@ namespace FlubuCore.Tasks.Git
         /// just skip files which cannot be added because of errors.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--ignore-errors")]
         public GitAddTask IgnoreErrors()
         {
-            WithArguments("--ignore-errors");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
     }

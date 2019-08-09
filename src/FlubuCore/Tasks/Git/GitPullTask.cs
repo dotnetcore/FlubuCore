@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Git
@@ -36,9 +37,10 @@ namespace FlubuCore.Tasks.Git
         /// force progress reporting.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--progress")]
         public GitPullTask ShowProgress()
         {
-            WithArguments("--progress");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -46,9 +48,10 @@ namespace FlubuCore.Tasks.Git
         /// be more verbose.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--verbose")]
         public GitPullTask Verbose()
         {
-            WithArguments("--verbose");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -56,9 +59,10 @@ namespace FlubuCore.Tasks.Git
         /// be more quiet.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--quiet")]
         public GitPullTask Quiet()
         {
-            WithArguments("--quit");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -66,9 +70,10 @@ namespace FlubuCore.Tasks.Git
         /// create a single commit instead of doing a merge.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--squash")]
         public GitPullTask Squash()
         {
-            WithArguments("--squash");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
     }

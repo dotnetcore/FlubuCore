@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Git
@@ -59,19 +60,21 @@ namespace FlubuCore.Tasks.Git
         /// Be verbose.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--verbose")]
         public GitPushTask Verbose()
         {
             WithArguments("--verbose");
             return this;
         }
 
-           /// <summary>
+        /// <summary>
         /// be more quiet.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--quiet")]
         public GitPushTask Quiet()
         {
-            WithArguments("--quit");
+            WithArguments("--quiet");
             return this;
         }
 
@@ -79,6 +82,7 @@ namespace FlubuCore.Tasks.Git
         /// Do everything except actually send the updates.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--dry-run")]
         public GitPushTask DryRun()
         {
             WithArguments("--dry-run");
@@ -89,6 +93,7 @@ namespace FlubuCore.Tasks.Git
         /// force updates.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--force")]
         public GitPushTask Force()
         {
             WithArguments("--force");

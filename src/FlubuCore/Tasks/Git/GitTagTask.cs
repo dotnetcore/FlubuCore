@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Git
@@ -42,9 +43,10 @@ namespace FlubuCore.Tasks.Git
         /// Delete tag(s).
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--delete")]
         public GitTagTask Delete()
         {
-            WithArguments("--delete");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -52,9 +54,10 @@ namespace FlubuCore.Tasks.Git
         /// annotated tag, needs a message.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--annotate")]
         public GitTagTask Annotate()
         {
-            WithArguments("--annotate");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -63,9 +66,10 @@ namespace FlubuCore.Tasks.Git
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
+        [ArgKey("--message")]
         public GitTagTask Message(string message)
         {
-            WithArgumentsValueRequired("--message", message);
+            WithArgumentsKeyFromAttribute(message);
             return this;
         }
 
@@ -73,9 +77,10 @@ namespace FlubuCore.Tasks.Git
         /// replace the tag if exists.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--force")]
         public GitTagTask Force()
         {
-            WithArguments("--force");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -83,9 +88,10 @@ namespace FlubuCore.Tasks.Git
         /// annotated and GPG-signed tag.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--sign")]
         public GitTagTask GpgSign()
         {
-            WithArguments("--sign");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 

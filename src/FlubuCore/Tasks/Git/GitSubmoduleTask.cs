@@ -1,4 +1,5 @@
-﻿using FlubuCore.Tasks.Process;
+﻿using FlubuCore.Tasks.Attributes;
+using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Git
 {
@@ -31,9 +32,10 @@ namespace FlubuCore.Tasks.Git
         ///     Submodule update command.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("update")]
         public GitSubmoduleTask Update()
         {
-            WithArguments("update");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -41,9 +43,10 @@ namespace FlubuCore.Tasks.Git
         ///     Add --init argument
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--init")]
         public GitSubmoduleTask Init()
         {
-            WithArguments("--init");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -51,9 +54,10 @@ namespace FlubuCore.Tasks.Git
         ///     Add --recursive argument
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--recursive")]
         public GitSubmoduleTask Recursive()
         {
-            WithArguments("--recursive");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -61,9 +65,10 @@ namespace FlubuCore.Tasks.Git
         ///     Add --remote argument
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--remote")]
         public GitSubmoduleTask Remote()
         {
-            WithArguments("--remote");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -71,9 +76,10 @@ namespace FlubuCore.Tasks.Git
         ///     Add --merge argument.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--merge")]
         public GitSubmoduleTask Merge()
         {
-            WithArguments("--merge");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
     }

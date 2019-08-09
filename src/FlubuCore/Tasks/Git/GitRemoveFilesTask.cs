@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Git
@@ -41,21 +42,24 @@ namespace FlubuCore.Tasks.Git
             set { _description = value; }
         }
 
+        [ArgKey("-r")]
         public GitRemoveFilesTask AllowRecursiveRemoval()
         {
-            WithArguments("-r");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
+        [ArgKey("--ignore-unmatch")]
         public GitRemoveFilesTask IgnoreUnmatch()
         {
-            WithArguments("--ignore-unmatch");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
+        [ArgKey("--cached")]
         public GitRemoveFilesTask OnlyRemoveFromTheIndex()
         {
-            WithArguments("--cached");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -63,9 +67,10 @@ namespace FlubuCore.Tasks.Git
         /// override the up-to-date check
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--force")]
         public GitRemoveFilesTask Force()
         {
-            WithArguments("--force");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -73,9 +78,10 @@ namespace FlubuCore.Tasks.Git
         /// be more quiet.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--quiet")]
         public GitRemoveFilesTask Quiet()
         {
-            WithArguments("--quit");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -83,9 +89,10 @@ namespace FlubuCore.Tasks.Git
         /// Do everything except actually send the updates.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--dry-run")]
         public GitRemoveFilesTask DryRun()
         {
-            WithArguments("--dry-run");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 

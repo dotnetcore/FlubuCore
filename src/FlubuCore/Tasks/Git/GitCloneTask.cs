@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Git
@@ -42,9 +43,10 @@ namespace FlubuCore.Tasks.Git
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
+        [ArgKey("--branch")]
         public GitCloneTask Branch(string name)
         {
-            WithArgumentsValueRequired("--branch", name);
+            WithArgumentsKeyFromAttribute(name);
             return this;
         }
 
@@ -52,9 +54,10 @@ namespace FlubuCore.Tasks.Git
         /// force progress reporting.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--progress")]
         public GitCloneTask ShowProgress()
         {
-            WithArguments("--progress");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -62,9 +65,10 @@ namespace FlubuCore.Tasks.Git
         /// be more verbose.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--verbose")]
         public GitCloneTask Verbose()
         {
-            WithArguments("--verbose");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -72,9 +76,10 @@ namespace FlubuCore.Tasks.Git
         /// be more quiet.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--quiet")]
         public GitCloneTask Quiet()
         {
-            WithArguments("--quit");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -82,9 +87,10 @@ namespace FlubuCore.Tasks.Git
         /// don't create a checkout
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--no-checkout")]
         public GitCloneTask NoCheckout()
         {
-            WithArguments("--no-checkout");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -92,9 +98,10 @@ namespace FlubuCore.Tasks.Git
         /// create a bare repository.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--bare")]
         public GitCloneTask CreateBareRepository()
         {
-            WithArguments("--bare");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -102,9 +109,10 @@ namespace FlubuCore.Tasks.Git
         /// setup as shared repository.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("--shared")]
         public GitCloneTask SetupAsSharedRepository()
         {
-            WithArguments("--shared");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
