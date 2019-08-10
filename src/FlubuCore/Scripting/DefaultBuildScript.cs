@@ -16,6 +16,7 @@ using FlubuCore.Targeting;
 using FlubuCore.Tasks.NetCore;
 using FlubuCore.WebApi.Client;
 using McMaster.Extensions.CommandLineUtils;
+using Microsoft.DotNet.Cli.Utils;
 
 namespace FlubuCore.Scripting
 {
@@ -207,10 +208,20 @@ namespace FlubuCore.Scripting
 
                     if (targetsInfo.unknownTarget == true)
                     {
-                        var splitedLine = commandLine.Split(' ').ToList();
-                        var runProgram = flubuSession.Tasks().RunProgramTask(splitedLine.First()).WorkingFolder(".");
-                        splitedLine.RemoveAt(0);
-                        runProgram.WithArguments(splitedLine.ToArray()).Execute(flubuSession);
+                        string command = null;
+                        try
+                        {
+                            var splitedLine = commandLine.Split(' ').ToList();
+                            command = splitedLine.First();
+                            var runProgram = flubuSession.Tasks().RunProgramTask(command).DoNotLogTaskExecutionInfo().WorkingFolder(".");
+                            splitedLine.RemoveAt(0);
+                            runProgram.WithArguments(splitedLine.ToArray()).Execute(flubuSession);
+                        }
+                        catch (CommandUnknownException)
+                        {
+                            flubuSession.LogError($"'{command}' is not recognized as a flubu target, internal or external command, operable program or batch file.");
+                        }
+
                         continue;
                     }
 
