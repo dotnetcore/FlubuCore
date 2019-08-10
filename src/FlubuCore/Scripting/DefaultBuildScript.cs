@@ -189,6 +189,15 @@ namespace FlubuCore.Scripting
                         .Select(x => x.Trim()).ToArray());
                     targetsInfo = ParseCmdLineArgs(args.MainCommands, flubuSession.TargetTree);
 
+                    if (targetsInfo.unknownTarget == true)
+                    {
+                        var splitedLine = commandLine.Split(' ').ToList();
+                        var runProgram = flubuSession.Tasks().RunProgramTask(splitedLine.First()).WorkingFolder(".");
+                        splitedLine.RemoveAt(0);
+                        runProgram.WithArguments(splitedLine.ToArray()).Execute(flubuSession);
+                        continue;
+                    }
+
                     flubuSession.InteractiveArgs = args;
                     flubuSession.ScriptArgs = args.ScriptArguments;
                     ScriptProperties.SetPropertiesFromScriptArg(this, flubuSession);
