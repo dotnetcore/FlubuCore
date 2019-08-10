@@ -45,6 +45,11 @@ namespace FlubuCore.Tasks.Process
         /// <returns></returns>
         string GetErrorOutput();
 
+        /// <summary>
+        /// When applied task execution info is not logged.
+        /// </summary>
+        IRunProgramTask DoNotLogTaskExecutionInfo();
+
         IRunProgramTask ChangeDefaultAdditionalOptionPrefix(string newPrefix);
 
         IRunProgramTask AddNewAdditionalOptionPrefix(string newPrefix);
