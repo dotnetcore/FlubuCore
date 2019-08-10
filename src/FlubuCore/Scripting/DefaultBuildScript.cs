@@ -149,33 +149,40 @@ namespace FlubuCore.Scripting
                         targetsInfo.targetsToRun.Add("help");
                     }
                 }
+
+                ExecuteTarget(flubuSession, targetsInfo);
             }
             else
             {
-                flubuSession.InteractiveMode = true;
-                var source = new Dictionary<char, IReadOnlyCollection<Hint>>();
-                var propertyKeys = ScriptProperties.GetPropertiesKeys(this, flubuSession);
-                propertyKeys.Add(new Hint { Name = "-parallel" });
-                propertyKeys.Add(new Hint { Name = "-dryrun" });
-                propertyKeys.Add(new Hint { Name = "-noColor" });
-                source.Add('-', propertyKeys);
-
-                List<Hint> defaultHints = new List<Hint>();
-
-                foreach (var targetName in flubuSession.TargetTree.GetTargetNames())
-                {
-                   var target = flubuSession.TargetTree.GetTarget(targetName);
-                   defaultHints.Add(new Hint
-                   {
-                       Name = target.TargetName,
-                       Help = target.Description
-                   });
-                }
-
-                inputReader = new ConsoleHintedInput(flubuSession.TargetTree, defaultHints, source);
-                flubuSession.TargetTree.RunTarget(flubuSession, "help.onlyTargets");
-                flubuSession.LogInfo(" ");
+                FlubuInteractiveMode(flubuSession, inputReader, targetsInfo, resetTargetTree);
             }
+        }
+
+        private void FlubuInteractiveMode(IFlubuSession flubuSession, ConsoleHintedInput inputReader, (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) targetsInfo, bool resetTargetTree)
+        {
+            flubuSession.InteractiveMode = true;
+            var source = new Dictionary<char, IReadOnlyCollection<Hint>>();
+            var propertyKeys = ScriptProperties.GetPropertiesKeys(this, flubuSession);
+            propertyKeys.Add(new Hint { Name = "-parallel" });
+            propertyKeys.Add(new Hint { Name = "-dryrun" });
+            propertyKeys.Add(new Hint { Name = "-noColor" });
+            source.Add('-', propertyKeys);
+
+            List<Hint> defaultHints = new List<Hint>();
+
+            foreach (var targetName in flubuSession.TargetTree.GetTargetNames())
+            {
+                var target = flubuSession.TargetTree.GetTarget(targetName);
+                defaultHints.Add(new Hint
+                {
+                    Name = target.TargetName,
+                    Help = target.Description
+                });
+            }
+
+            inputReader = new ConsoleHintedInput(flubuSession.TargetTree, defaultHints, source);
+            flubuSession.TargetTree.RunTarget(flubuSession, "help.onlyTargets");
+            flubuSession.LogInfo(" ");
 
             do
             {
@@ -189,6 +196,15 @@ namespace FlubuCore.Scripting
                         .Select(x => x.Trim()).ToArray());
                     targetsInfo = ParseCmdLineArgs(args.MainCommands, flubuSession.TargetTree);
 
+                    flubuSession.InteractiveArgs = args;
+                    flubuSession.ScriptArgs = args.ScriptArguments;
+                    ScriptProperties.SetPropertiesFromScriptArg(this, flubuSession);
+
+                    if (CommandExecutor.InteractiveExitCommands.Contains(args.MainCommands[0], StringComparer.OrdinalIgnoreCase))
+                    {
+                        break;
+                    }
+
                     if (targetsInfo.unknownTarget == true)
                     {
                         var splitedLine = commandLine.Split(' ').ToList();
@@ -197,10 +213,6 @@ namespace FlubuCore.Scripting
                         runProgram.WithArguments(splitedLine.ToArray()).Execute(flubuSession);
                         continue;
                     }
-
-                    flubuSession.InteractiveArgs = args;
-                    flubuSession.ScriptArgs = args.ScriptArguments;
-                    ScriptProperties.SetPropertiesFromScriptArg(this, flubuSession);
 
                     if (resetTargetTree)
                     {
@@ -214,68 +226,69 @@ namespace FlubuCore.Scripting
                     }
 
                     resetTargetTree = true;
-
-                    if (CommandExecutor.InteractiveExitCommands.Contains(args.MainCommands[0], StringComparer.OrdinalIgnoreCase))
-                    {
-                        break;
-                    }
                 }
 
-                flubuSession.Start();
+                if (ExecuteTarget(flubuSession, targetsInfo)) return;
+            }
+            while (flubuSession.InteractiveMode);
+        }
 
-                //// specific target help
-                if (targetsInfo.targetsToRun.Count == 2 &&
-                    targetsInfo.targetsToRun[1].Equals("help", StringComparison.OrdinalIgnoreCase))
+        private bool ExecuteTarget(IFlubuSession flubuSession, (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) targetsInfo)
+        {
+            flubuSession.Start();
+
+            //// specific target help
+            if (targetsInfo.targetsToRun.Count == 2 &&
+                targetsInfo.targetsToRun[1].Equals("help", StringComparison.OrdinalIgnoreCase))
+            {
+                flubuSession.TargetTree.RunTargetHelp(flubuSession, targetsInfo.targetsToRun[0]);
+                return true;
+            }
+
+            if (targetsInfo.targetsToRun.Count == 1 || !flubuSession.Args.ExecuteTargetsInParallel)
+            {
+                if (targetsInfo.targetsToRun[0].Equals("help", StringComparison.OrdinalIgnoreCase))
                 {
-                    flubuSession.TargetTree.RunTargetHelp(flubuSession, targetsInfo.targetsToRun[0]);
-                    return;
+                    flubuSession.TargetTree.ScriptArgsHelp = ScriptProperties.GetPropertiesHelp(this);
                 }
 
-                if (targetsInfo.targetsToRun.Count == 1 || !flubuSession.Args.ExecuteTargetsInParallel)
+                BeforeTargetExecution(flubuSession);
+                foreach (var targetToRun in targetsInfo.targetsToRun)
                 {
-                    if (targetsInfo.targetsToRun[0].Equals("help", StringComparison.OrdinalIgnoreCase))
-                    {
-                        flubuSession.TargetTree.ScriptArgsHelp = ScriptProperties.GetPropertiesHelp(this);
-                    }
+                    flubuSession.TargetTree.RunTarget(flubuSession, targetToRun);
+                }
 
-                    BeforeTargetExecution(flubuSession);
-                    foreach (var targetToRun in targetsInfo.targetsToRun)
-                    {
-                        flubuSession.TargetTree.RunTarget(flubuSession, targetToRun);
-                    }
+                AfterTargetExecution(flubuSession);
+            }
+            else
+            {
+                flubuSession.LogInfo("Running target's in parallel.");
+                var tasks = new List<Task>();
+                BeforeTargetExecution(flubuSession);
+                foreach (var targetToRun in targetsInfo.targetsToRun)
+                {
+                    tasks.Add(flubuSession.TargetTree.RunTargetAsync(flubuSession, targetToRun, true));
+                }
 
-                    AfterTargetExecution(flubuSession);
+                Task.WaitAll(tasks.ToArray());
+                AfterTargetExecution(flubuSession);
+            }
+
+            if (targetsInfo.unknownTarget)
+            {
+                var targetNotFoundMsg = $"Target {string.Join(" and ", targetsInfo.notFoundTargets)} not found.";
+                if (flubuSession.Args.InteractiveMode)
+                {
+                    flubuSession.LogInfo(targetNotFoundMsg);
                 }
                 else
                 {
-                    flubuSession.LogInfo("Running target's in parallel.");
-                    var tasks = new List<Task>();
-                    BeforeTargetExecution(flubuSession);
-                    foreach (var targetToRun in targetsInfo.targetsToRun)
-                    {
-                        tasks.Add(flubuSession.TargetTree.RunTargetAsync(flubuSession, targetToRun, true));
-                    }
-
-                    Task.WaitAll(tasks.ToArray());
-                    AfterTargetExecution(flubuSession);
+                    throw new TargetNotFoundException(targetNotFoundMsg);
                 }
-
-                if (targetsInfo.unknownTarget)
-                {
-                    var targetNotFoundMsg = $"Target {string.Join(" and ", targetsInfo.notFoundTargets)} not found.";
-                    if (flubuSession.Args.InteractiveMode)
-                    {
-                        flubuSession.LogInfo(targetNotFoundMsg);
-                    }
-                    else
-                    {
-                        throw new TargetNotFoundException(targetNotFoundMsg);
-                    }
-                }
-
-                AssertAllTargetDependenciesWereExecuted(flubuSession);
             }
-            while (flubuSession.InteractiveMode);
+
+            AssertAllTargetDependenciesWereExecuted(flubuSession);
+            return false;
         }
 
         protected virtual void BeforeTargetExecution(ITaskContext context)
