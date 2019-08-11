@@ -5,13 +5,18 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks.Attributes;
+using FlubuCore.Tasks.NetCore;
 
 namespace FlubuCore.Infrastructure.Terminal
 {
     public class ConsoleHintedInput
     {
-        private readonly TargetTree _targetTree;
+        private static Dictionary<string, Type> _supportedExternalProcesses = new Dictionary<string, Type>()
+        {
+            { "dotnet build", typeof(DotnetBuildTask) },
+        };
 
+        private readonly TargetTree _targetTree;
         private readonly IDictionary<char, IReadOnlyCollection<Hint>> _hintsSourceDictionary;
         private readonly List<string> _commandsHistory = new List<string>();
         private List<Suggestion> _suggestionsForUserInput;
@@ -337,7 +342,19 @@ namespace FlubuCore.Infrastructure.Terminal
 
             if (prefix == '-' || prefix == '/')
             {
-                hintSource.AddRange(GetHintsFromTarget(targetName, prefix));
+                var targetHints = GetHintsFromTarget(targetName, prefix);
+                hintSource.AddRange(targetHints);
+
+                if (targetHints?.Count == 0)
+                {
+                    foreach (var externalProcessCommand in _supportedExternalProcesses)
+                    {
+                        if (userInput.StartsWith(externalProcessCommand.Key, StringComparison.OrdinalIgnoreCase))
+                        {
+                            hintSource.AddRange(GetHintsFromTask(prefix, externalProcessCommand.Value));
+                        }
+                    }
+                }
             }
 
             if (hintSource.All(item => item.Name.Length < lastInput.Length))
@@ -465,39 +482,47 @@ namespace FlubuCore.Infrastructure.Terminal
                         foreach (var task in taskGroup.Tasks)
                         {
                             var type = task.task.GetType();
-                            var methods = type.GetRuntimeMethods();
-                            methods = methods.Where(m => m.GetCustomAttributes(typeof(ArgKey), false).ToList().Count > 0);
-
-                            foreach (var method in methods)
-                            {
-                                var attribute = method.GetCustomAttribute<ArgKey>();
-
-                                if (attribute == null || attribute.Keys.Length == 0)
-                                {
-                                    continue;
-                                }
-
-                                if (attribute.Keys[0].StartsWith(prefix.ToString()))
-                                {
-                                    var help = method.GetSummary();
-                                    foreach (var key in attribute.Keys)
-                                    {
-                                        var hint = new Hint()
-                                        {
-                                            Name = key,
-                                            Help = help,
-                                        };
-
-                                        targetSpecificHints.Add(hint);
-                                    }
-                                }
-                            }
+                            targetSpecificHints.AddRange(GetHintsFromTask(prefix, type));
                         }
                     }
                 }
             }
 
             return targetSpecificHints.Distinct().ToList();
+        }
+
+        private List<Hint> GetHintsFromTask(char prefix, Type type)
+        {
+            List<Hint> taskHints = new List<Hint>();
+            var methods = type.GetRuntimeMethods();
+            methods = methods.Where(m => m.GetCustomAttributes(typeof(ArgKey), false).ToList().Count > 0);
+
+            foreach (var method in methods)
+            {
+                var attribute = method.GetCustomAttribute<ArgKey>();
+
+                if (attribute == null || attribute.Keys.Length == 0)
+                {
+                    continue;
+                }
+
+                if (attribute.Keys[0].StartsWith(prefix.ToString()))
+                {
+                    var help = method.GetSummary();
+                    foreach (var key in attribute.Keys)
+                    {
+                        var hint = new Hint()
+                        {
+                            Name = key,
+                            Help = help,
+                        };
+
+                        taskHints.Add(hint);
+                    }
+                }
+            }
+
+            return taskHints;
         }
 
         private void AddDependencies(ITargetInternal target, List<ITargetInternal> targets)
