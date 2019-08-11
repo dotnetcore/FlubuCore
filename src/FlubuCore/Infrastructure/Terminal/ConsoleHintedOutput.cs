@@ -5,7 +5,11 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks.Attributes;
+using FlubuCore.Tasks.Git;
+using FlubuCore.Tasks.MsSql;
 using FlubuCore.Tasks.NetCore;
+using FlubuCore.Tasks.Testing;
+using FlubuCore.Tasks.Versioning;
 
 namespace FlubuCore.Infrastructure.Terminal
 {
@@ -14,6 +18,27 @@ namespace FlubuCore.Infrastructure.Terminal
         private static Dictionary<string, Type> _supportedExternalProcesses = new Dictionary<string, Type>()
         {
             { "dotnet build", typeof(DotnetBuildTask) },
+            { "dotnet clean", typeof(DotnetCleanTask) },
+            { "dotnet pack", typeof(DotnetPackTask) },
+            { "dotnet publish", typeof(DotnetPublishTask) },
+            { "dotnet test", typeof(DotnetTestTask) },
+            { "dotnet restore", typeof(DotnetRestoreTask) },
+            { "dotnet nuget push", typeof(DotnetNugetPushTask) },
+            { "dotnet tool install", typeof(DotnetToolInstall) },
+            { "dotnet tool uninstall", typeof(DotnetToolUninstall) },
+            { "dotnet tool update", typeof(DotnetToolUpdate) },
+            { "gitversion", typeof(GitVersionTask) },
+            { "sqlcmd", typeof(SqlCmdTask) },
+            { "coverlet", typeof(CoverletTask) },
+            { "git add", typeof(GitAddTask) },
+            { "git checkout", typeof(GitCheckoutTask) },
+            { "git clone", typeof(GitCloneTask) },
+            { "git commit", typeof(GitCommitTask) },
+            { "git pull", typeof(GitPullTask) },
+            { "git push", typeof(GitPushTask) },
+            { "git tag", typeof(GitTagTask) },
+            { "git submodule", typeof(GitSubmoduleTask) },
+            { "git rm", typeof(GitRemoveFilesTask) }
         };
 
         private readonly TargetTree _targetTree;
