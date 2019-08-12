@@ -212,7 +212,7 @@ namespace FlubuCore.Scripting
                         string command = null;
                         try
                         {
-                            if (commandLine.Equals("dir"))
+                            if (commandLine.Trim().Equals("dir", StringComparison.OrdinalIgnoreCase))
                             {
                                 DirectoryInfo objDirectoryInfo = new DirectoryInfo(@".");
                                 FileInfo[] allFiles = objDirectoryInfo.GetFiles("*.*", SearchOption.TopDirectoryOnly);
@@ -233,6 +233,22 @@ namespace FlubuCore.Scripting
                             }
 
                             var splitedLine = commandLine.Split(' ').ToList();
+
+                            if (commandLine.Equals("cd.."))
+                            {
+                                Directory.SetCurrentDirectory(Directory.GetCurrentDirectory() + "/..");
+                                continue;
+                            }
+
+                            if (commandLine.StartsWith("cd", StringComparison.OrdinalIgnoreCase))
+                            {
+                                var newPath = Path.GetFullPath(splitedLine[1]);
+                                if (Directory.Exists(newPath))
+                                {
+                                    Directory.SetCurrentDirectory(newPath);
+                                }
+                            }
+
                             command = splitedLine.First();
                             var runProgram = flubuSession.Tasks().RunProgramTask(command).DoNotLogTaskExecutionInfo().WorkingFolder(".");
                             splitedLine.RemoveAt(0);
