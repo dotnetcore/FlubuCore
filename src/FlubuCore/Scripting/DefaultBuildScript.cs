@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 #if !NETSTANDARD1_6
 using System.Drawing;
@@ -211,6 +212,26 @@ namespace FlubuCore.Scripting
                         string command = null;
                         try
                         {
+                            if (commandLine.Equals("dir"))
+                            {
+                                DirectoryInfo objDirectoryInfo = new DirectoryInfo(@".");
+                                FileInfo[] allFiles = objDirectoryInfo.GetFiles("*.*", SearchOption.TopDirectoryOnly);
+                                var directories = objDirectoryInfo.GetDirectories("*.*");
+                                foreach (var directory in directories)
+                                {
+                                    Console.WriteLine($"{directory.LastWriteTime}    <DIR>          {directory.Name}");
+                                }
+
+                                foreach (var entry in allFiles)
+                                {
+                                   Console.WriteLine($"{entry.LastWriteTime}            {entry.Length} {entry.Name}");
+                                }
+
+                                Console.WriteLine(string.Empty);
+
+                                continue;
+                            }
+
                             var splitedLine = commandLine.Split(' ').ToList();
                             command = splitedLine.First();
                             var runProgram = flubuSession.Tasks().RunProgramTask(command).DoNotLogTaskExecutionInfo().WorkingFolder(".");
