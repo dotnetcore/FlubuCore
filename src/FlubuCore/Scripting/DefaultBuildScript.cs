@@ -190,7 +190,7 @@ namespace FlubuCore.Scripting
             {
                 if (flubuSession.InteractiveMode)
                 {
-                    var commandLine = inputReader.ReadHintedLine();
+                    var commandLine = inputReader.ReadHintedLine(Directory.GetCurrentDirectory());
                     var app = new CommandLineApplication(false);
                     IFlubuCommandParser parser = new FlubuCommandParser(app, null);
                     var args = parser.Parse(commandLine.Split(' ')
