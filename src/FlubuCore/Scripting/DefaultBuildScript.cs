@@ -242,11 +242,16 @@ namespace FlubuCore.Scripting
 
                             if (commandLine.StartsWith("cd", StringComparison.OrdinalIgnoreCase))
                             {
-                                var newPath = Path.GetFullPath(splitedLine[1]);
-                                if (Directory.Exists(newPath))
+                                if (splitedLine.Count > 1)
                                 {
-                                    Directory.SetCurrentDirectory(newPath);
+                                    var newPath = Path.GetFullPath(splitedLine[1]);
+                                    if (Directory.Exists(newPath))
+                                    {
+                                        Directory.SetCurrentDirectory(newPath);
+                                    }
                                 }
+
+                                continue;
                             }
 
                             command = splitedLine.First();
