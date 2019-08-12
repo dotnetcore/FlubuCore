@@ -47,6 +47,7 @@ namespace FlubuCore.Infrastructure.Terminal
         private List<Suggestion> _suggestionsForUserInput;
         private int _suggestionPosition;
         private int _historyPosition;
+        private string _currentDirectory;
 
         /// <summary>
         /// Creates new instance of <see cref="ConsoleHintedInput"/> class
@@ -71,17 +72,17 @@ namespace FlubuCore.Infrastructure.Terminal
         /// <param name="inputRegex"></param>
         /// <param name="hintColor"></param>
         /// <returns></returns>
-        public string ReadHintedLine(string inputRegex = ".*", ConsoleColor hintColor = ConsoleColor.DarkGray)
+        public string ReadHintedLine(string currentDirectory, string inputRegex = ".*", ConsoleColor hintColor = ConsoleColor.DarkGray)
         {
             ConsoleKeyInfo input;
-
+            _currentDirectory = currentDirectory;
             Suggestion suggestion = null;
             var userInput = string.Empty;
             var fullInput = string.Empty;
             var readLine = string.Empty;
             var wasUserInput = false;
             var target = string.Empty;
-            var cursorPosition = new ConsoleCursorPosition(ConsoleUtils.Prompt.Length, Console.CursorTop, Console.WindowWidth);
+            var cursorPosition = new ConsoleCursorPosition(currentDirectory.Length + ConsoleUtils.Prompt.Length - 1, Console.CursorTop, Console.WindowWidth);
             ClearConsoleLines(cursorPosition.StartTop, cursorPosition.Top);
             while ((input = Console.ReadKey()).Key != ConsoleKey.Enter)
             {
@@ -90,7 +91,7 @@ namespace FlubuCore.Infrastructure.Terminal
                 switch (input.Key)
                 {
                     case ConsoleKey.Delete:
-                        positionToDelete = cursorPosition.InputLength;
+                        positionToDelete = currentDirectory.Length + cursorPosition.InputLength - 1;
                         if (positionToDelete >= 0 && positionToDelete < userInput.Length)
                         {
                             cursorPosition--;
@@ -306,18 +307,6 @@ namespace FlubuCore.Infrastructure.Terminal
             ConsoleUtils.Write(")", hintColor);
         }
 
-        private static void ClearConsoleLines(int startline, int endline)
-        {
-            for (var i = startline; i <= endline; i++)
-            {
-                Console.SetCursorPosition(0, i);
-                Console.Write(new string(' ', Console.WindowWidth));
-            }
-
-            Console.SetCursorPosition(0, startline);
-            ConsoleUtils.WritePrompt();
-        }
-
         private static void WriteOnBottomLine(string text)
         {
             int x = Console.CursorLeft;
@@ -355,6 +344,19 @@ namespace FlubuCore.Infrastructure.Terminal
             Console.CursorTop = Console.WindowTop + Console.WindowHeight - fromBottom;
             Console.CursorLeft = 0;
             Console.Write(new string(' ', Console.WindowWidth));
+        }
+
+        private void ClearConsoleLines(int startline, int endline)
+        {
+            for (var i = startline; i <= endline; i++)
+            {
+                Console.SetCursorPosition(0, i);
+                Console.Write(new string(' ', Console.WindowWidth));
+            }
+
+            Console.SetCursorPosition(0, startline);
+            ConsoleUtils.WritePrompt(_currentDirectory);
+            Console.SetCursorPosition(_currentDirectory.Length + 1, startline);
         }
 
         private void UpdateSuggestionsForUserInput(string userInput)

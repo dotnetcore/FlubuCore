@@ -22,9 +22,9 @@ namespace FlubuCore.Infrastructure.Terminal
             Console.ForegroundColor = currentColor;
         }
 
-        public static void WritePrompt()
+        public static void WritePrompt(string currentDirectory)
         {
-            Write(Prompt, ConsoleColor.Green);
+            Write($"{currentDirectory}{Prompt}", ConsoleColor.Green);
         }
     }
 }
