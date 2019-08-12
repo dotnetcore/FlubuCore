@@ -322,15 +322,39 @@ namespace FlubuCore.Infrastructure.Terminal
         {
             int x = Console.CursorLeft;
             int y = Console.CursorTop;
-            var adjustment = Console.CursorTop == (Console.WindowTop + Console.WindowHeight - 1) ? 0 : 1;
-            Console.CursorTop = Console.WindowTop + Console.WindowHeight - adjustment;
-            Console.CursorLeft = 0;
-            Console.Write(new string(' ', Console.WindowWidth));
+            int adjustment;
+            if (Console.CursorTop == (Console.WindowTop + Console.WindowHeight - 1))
+            {
+                adjustment = 0;
+            }
+            else
+            {
+                if (Console.CursorTop != (Console.WindowTop + Console.WindowHeight - 3))
+                {
+                    ClearLine(3);
+                }
+
+                if (Console.CursorTop != (Console.WindowTop + Console.WindowHeight - 2))
+                {
+                    ClearLine(2);
+                }
+
+                adjustment = 1;
+            }
+
+            ClearLine(adjustment);
             Console.CursorLeft = 0;
             Console.Write(text);
 
             //// Restore previous position
             Console.SetCursorPosition(x, y);
+        }
+
+        private static void ClearLine(int fromBottom)
+        {
+            Console.CursorTop = Console.WindowTop + Console.WindowHeight - fromBottom;
+            Console.CursorLeft = 0;
+            Console.Write(new string(' ', Console.WindowWidth));
         }
 
         private void UpdateSuggestionsForUserInput(string userInput)
