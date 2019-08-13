@@ -418,7 +418,7 @@ namespace FlubuCore.Infrastructure.Terminal
                 return;
             }
 
-            var splitedUserInput = userInput.Split(' ').Where(x => !string.IsNullOrWhiteSpace(x));
+            var splitedUserInput = userInput.Split(' ').Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
             var targetName = splitedUserInput.First();
             var lastInput = splitedUserInput.Last();
             char prefix = lastInput[0];
@@ -428,7 +428,7 @@ namespace FlubuCore.Infrastructure.Terminal
             }
 
             char hintSourceKey;
-            if (_hintsSourceDictionary.ContainsKey(lastInput[0]))
+            if (splitedUserInput.Count > 1 && _hintsSourceDictionary.ContainsKey(lastInput[0]))
             {
                 hintSourceKey = lastInput[0];
                 lastInput = lastInput.Substring(1);

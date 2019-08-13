@@ -264,6 +264,11 @@ namespace FlubuCore.Scripting
                     flubuSession.ScriptArgs = args.ScriptArguments;
                     ScriptProperties.SetPropertiesFromScriptArg(this, flubuSession);
 
+                    if (args.MainCommands.Count == 0)
+                    {
+                        continue;
+                    }
+
                     if (CommandExecutor.InteractiveExitCommands.Contains(args.MainCommands[0], StringComparer.OrdinalIgnoreCase))
                     {
                         break;
