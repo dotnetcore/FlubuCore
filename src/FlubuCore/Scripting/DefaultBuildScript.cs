@@ -129,7 +129,7 @@ namespace FlubuCore.Scripting
 
             var targetsInfo = default((List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets));
 
-            ConsoleHintedInput inputReader = null;
+            FlubuConsole inputReader = null;
 
             if (!flubuSession.Args.InteractiveMode)
             {
@@ -160,7 +160,7 @@ namespace FlubuCore.Scripting
             }
         }
 
-        private void FlubuInteractiveMode(IFlubuSession flubuSession, ConsoleHintedInput inputReader, (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) targetsInfo, bool resetTargetTree)
+        private void FlubuInteractiveMode(IFlubuSession flubuSession, FlubuConsole flubuConsole, (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) targetsInfo, bool resetTargetTree)
         {
             flubuSession.InteractiveMode = true;
             var source = new Dictionary<char, IReadOnlyCollection<Hint>>();
@@ -182,7 +182,7 @@ namespace FlubuCore.Scripting
                 });
             }
 
-            inputReader = new ConsoleHintedInput(flubuSession.TargetTree, defaultHints, source);
+            flubuConsole = new FlubuConsole(flubuSession.TargetTree, defaultHints, source);
             flubuSession.TargetTree.RunTarget(flubuSession, "help.onlyTargets");
             flubuSession.LogInfo(" ");
 
@@ -190,7 +190,7 @@ namespace FlubuCore.Scripting
             {
                 if (flubuSession.InteractiveMode)
                 {
-                    var commandLine = inputReader.ReadHintedLine(Directory.GetCurrentDirectory());
+                    var commandLine = flubuConsole.ReadLine(Directory.GetCurrentDirectory());
 
                     if (string.IsNullOrEmpty(commandLine))
                     {
@@ -218,48 +218,8 @@ namespace FlubuCore.Scripting
                         string command = null;
                         try
                         {
-                            if (commandLine.Trim().Equals("dir", StringComparison.OrdinalIgnoreCase))
-                            {
-                                DirectoryInfo objDirectoryInfo = new DirectoryInfo(@".");
-                                FileInfo[] allFiles = objDirectoryInfo.GetFiles("*.*", SearchOption.TopDirectoryOnly);
-                                var directories = objDirectoryInfo.GetDirectories("*.*");
-                                foreach (var directory in directories)
-                                {
-                                    Console.WriteLine($"{directory.LastWriteTime}    <DIR>          {directory.Name}");
-                                }
-
-                                foreach (var entry in allFiles)
-                                {
-                                   Console.WriteLine($"{entry.LastWriteTime}            {entry.Length} {entry.Name}");
-                                }
-
-                                Console.WriteLine(string.Empty);
-
-                                continue;
-                            }
-
+                            flubuConsole.ExecuteInternalCommand(commandLine);
                             var splitedLine = commandLine.Split(' ').ToList();
-
-                            if (commandLine.Equals("cd.."))
-                            {
-                                Directory.SetCurrentDirectory(Directory.GetCurrentDirectory() + "/..");
-                                continue;
-                            }
-
-                            if (commandLine.StartsWith("cd", StringComparison.OrdinalIgnoreCase))
-                            {
-                                if (splitedLine.Count > 1)
-                                {
-                                    var newPath = Path.GetFullPath(splitedLine[1]);
-                                    if (Directory.Exists(newPath))
-                                    {
-                                        Directory.SetCurrentDirectory(newPath);
-                                    }
-                                }
-
-                                continue;
-                            }
-
                             command = splitedLine.First();
                             var runProgram = flubuSession.Tasks().RunProgramTask(command).DoNotLogTaskExecutionInfo().WorkingFolder(".");
                             splitedLine.RemoveAt(0);

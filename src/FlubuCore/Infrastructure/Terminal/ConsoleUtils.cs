@@ -8,18 +8,18 @@ namespace FlubuCore.Infrastructure.Terminal
 
         public static void WriteLine(string line, ConsoleColor color)
         {
-            var currentColor = Console.ForegroundColor;
-            Console.ForegroundColor = color;
-            Console.WriteLine(line);
-            Console.ForegroundColor = currentColor;
+            var currentColor = System.Console.ForegroundColor;
+            System.Console.ForegroundColor = color;
+            System.Console.WriteLine(line);
+            System.Console.ForegroundColor = currentColor;
         }
 
         public static void Write(string line, ConsoleColor color)
         {
-            var currentColor = Console.ForegroundColor;
-            Console.ForegroundColor = color;
-            Console.Write(line);
-            Console.ForegroundColor = currentColor;
+            var currentColor = System.Console.ForegroundColor;
+            System.Console.ForegroundColor = color;
+            System.Console.Write(line);
+            System.Console.ForegroundColor = currentColor;
         }
 
         public static void WritePrompt(string currentDirectory)

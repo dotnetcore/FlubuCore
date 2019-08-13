@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -13,7 +14,7 @@ using FlubuCore.Tasks.Versioning;
 
 namespace FlubuCore.Infrastructure.Terminal
 {
-    public class ConsoleHintedInput
+    public class FlubuConsole
     {
         private static Dictionary<string, Type> _supportedExternalProcesses = new Dictionary<string, Type>()
         {
@@ -50,10 +51,10 @@ namespace FlubuCore.Infrastructure.Terminal
         private string _currentDirectory;
 
         /// <summary>
-        /// Creates new instance of <see cref="ConsoleHintedInput"/> class
+        /// Creates new instance of <see cref="FlubuConsole"/> class
         /// </summary>
         /// <param name="hintsSourceDictionary">Collection containing input hints</param>
-        public ConsoleHintedInput(TargetTree targetTree, IReadOnlyCollection<Hint> defaultHints, IDictionary<char, IReadOnlyCollection<Hint>> hintsSourceDictionary = null)
+        public FlubuConsole(TargetTree targetTree, IReadOnlyCollection<Hint> defaultHints, IDictionary<char, IReadOnlyCollection<Hint>> hintsSourceDictionary = null)
         {
             _targetTree = targetTree;
             _hintsSourceDictionary = hintsSourceDictionary;
@@ -67,12 +68,54 @@ namespace FlubuCore.Infrastructure.Terminal
         }
 
         /// <summary>
-        /// Reads input from user using hints. Commands history is supported
+        /// Execute flubu internal command.
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns>Return's true</returns>
+        public void ExecuteInternalCommand(string commandLine)
+        {
+            if (commandLine.Trim().Equals("dir", StringComparison.OrdinalIgnoreCase))
+            {
+                DirectoryInfo objDirectoryInfo = new DirectoryInfo(@".");
+                FileInfo[] allFiles = objDirectoryInfo.GetFiles("*.*", SearchOption.TopDirectoryOnly);
+                var directories = objDirectoryInfo.GetDirectories("*.*");
+                foreach (var directory in directories)
+                {
+                    Console.WriteLine($"{directory.LastWriteTime}    <DIR>          {directory.Name}");
+                }
+
+                foreach (var entry in allFiles)
+                {
+                    Console.WriteLine($"{entry.LastWriteTime}            {entry.Length} {entry.Name}");
+                }
+
+                Console.WriteLine(string.Empty);
+            }
+            else if (commandLine.Equals("cd.."))
+            {
+                Directory.SetCurrentDirectory(Directory.GetCurrentDirectory() + "/..");
+            }
+            else if (commandLine.StartsWith("cd", StringComparison.OrdinalIgnoreCase))
+            {
+                var splitedLine = commandLine.Split(' ').ToList();
+                if (splitedLine.Count > 1)
+                {
+                    var newPath = Path.GetFullPath(splitedLine[1]);
+                    if (Directory.Exists(newPath))
+                    {
+                        Directory.SetCurrentDirectory(newPath);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Reads input from user using hints. Commands history is supported.
         /// </summary>
         /// <param name="inputRegex"></param>
         /// <param name="hintColor"></param>
         /// <returns></returns>
-        public string ReadHintedLine(string currentDirectory, string inputRegex = ".*", ConsoleColor hintColor = ConsoleColor.DarkGray)
+        public string ReadLine(string currentDirectory, string inputRegex = ".*", ConsoleColor hintColor = ConsoleColor.DarkGray)
         {
             ConsoleKeyInfo input;
             _currentDirectory = currentDirectory;

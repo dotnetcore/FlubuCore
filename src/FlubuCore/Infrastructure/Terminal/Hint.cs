@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FlubuCore.Infrastructure.Terminal
+﻿namespace FlubuCore.Infrastructure.Terminal
 {
     public class Hint
     {
