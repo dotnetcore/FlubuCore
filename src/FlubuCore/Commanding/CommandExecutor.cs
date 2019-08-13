@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
 using FlubuCore.Infrastructure.Terminal;
-using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
 using McMaster.Extensions.CommandLineUtils;
@@ -193,8 +191,10 @@ namespace FlubuCore.Commanding
                         }
                         catch (CommandUnknownException)
                         {
-                            _flubuSession.LogError(
-                                $"'{command}' is not recognized as a internal or external command, operable program or batch file.");
+                            _flubuSession.LogError($"'{command}' is not recognized as a internal or external command, operable program or batch file.");
+                        }
+                        catch (TaskExecutionException)
+                        {
                         }
                     }
                     else

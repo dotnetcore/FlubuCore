@@ -289,6 +289,9 @@ namespace FlubuCore.Scripting
                         {
                             flubuSession.LogError($"'{command}' is not recognized as a flubu target, internal or external command, operable program or batch file.");
                         }
+                        catch (TaskExecutionException)
+                        {
+                        }
 
                         continue;
                     }
@@ -307,7 +310,13 @@ namespace FlubuCore.Scripting
                     resetTargetTree = true;
                 }
 
-                if (ExecuteTarget(flubuSession, targetsInfo)) return;
+                try
+                {
+                    if (ExecuteTarget(flubuSession, targetsInfo)) return;
+                }
+                catch (TaskExecutionException)
+                {
+                }
             }
             while (flubuSession.InteractiveMode);
         }
