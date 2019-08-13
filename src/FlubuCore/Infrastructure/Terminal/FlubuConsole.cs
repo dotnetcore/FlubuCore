@@ -72,7 +72,7 @@ namespace FlubuCore.Infrastructure.Terminal
         /// </summary>
         /// <param name="line"></param>
         /// <returns>Return's true</returns>
-        public void ExecuteInternalCommand(string commandLine)
+        public bool ExecuteInternalCommand(string commandLine)
         {
             if (commandLine.Trim().Equals("dir", StringComparison.OrdinalIgnoreCase))
             {
@@ -107,6 +107,12 @@ namespace FlubuCore.Infrastructure.Terminal
                     }
                 }
             }
+            else
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
