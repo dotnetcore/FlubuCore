@@ -313,6 +313,14 @@ namespace FlubuCore.Infrastructure.Terminal
                         WriteSuggestion(suggestion, hintColor);
                         WriteOnBottomLine(suggestion.Help);
                     }
+                    else
+                    {
+                        WriteOnBottomLine(string.Empty);
+                    }
+                }
+                else
+                {
+                    WriteOnBottomLine(string.Empty);
                 }
 
                 Console.CursorLeft = cursorPosition.Left;
