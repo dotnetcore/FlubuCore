@@ -369,18 +369,19 @@ namespace FlubuCore.Infrastructure.Terminal
             int x = Console.CursorLeft;
             int y = Console.CursorTop;
             int adjustment;
-            if (Console.CursorTop == (Console.WindowTop + Console.WindowHeight - 1))
+            int window = Console.WindowTop + Console.WindowHeight;
+            if (Console.CursorTop == (window - 1))
             {
                 adjustment = 0;
             }
             else
             {
-                if (Console.CursorTop != (Console.WindowTop + Console.WindowHeight - 3))
+                if (Console.CursorTop != (window - 3) && Console.CursorTop != (window - 2))
                 {
                     ClearLine(3);
                 }
 
-                if (Console.CursorTop != (Console.WindowTop + Console.WindowHeight - 2))
+                if (Console.CursorTop != (window - 2))
                 {
                     ClearLine(2);
                 }
@@ -400,7 +401,7 @@ namespace FlubuCore.Infrastructure.Terminal
         {
             Console.CursorTop = Console.WindowTop + Console.WindowHeight - fromBottom;
             Console.CursorLeft = 0;
-            Console.Write(new string(' ', Console.WindowWidth));
+            Console.Write(new string(' ', Console.WindowWidth - 1));
         }
 
         private void ClearConsoleLines(int startline, int endline)
