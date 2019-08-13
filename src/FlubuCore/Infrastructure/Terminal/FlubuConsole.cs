@@ -428,6 +428,12 @@ namespace FlubuCore.Infrastructure.Terminal
             }
 
             var splitedUserInput = userInput.Split(' ').Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+            if (splitedUserInput.Count == 0)
+            {
+                _suggestionsForUserInput = null;
+                return;
+            }
+
             var targetName = splitedUserInput.First();
             var lastInput = splitedUserInput.Last();
             char prefix = lastInput[0];
