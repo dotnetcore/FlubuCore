@@ -155,9 +155,8 @@ context.CreateTarget("Run.Libz")
 
 ![FlubuCore interactive mode](https://raw.githubusercontent.com/dotnetcore/flubu.core/master/assets/FlubuCore_Interactive_mode.gif)
 
-* [With FlubuCore interactive mode](https://flubucore.dotnetcore.xyz/build-script-runner-interactive/) it is also possible to execute external commands and operable programs. For some of them flubu flubu offers tab completion with help out of the box 
+* [In FlubuCore interactive mode](https://flubucore.dotnetcore.xyz/build-script-runner-interactive/) it is also possible to execute external commands and operable programs. For some of them FlubuCore offers tab completion with help out of the box(such as dotnet, git..)
 
-![FlubuCore interactive mode](https://raw.githubusercontent.com/dotnetcore/flubu.core/master/assets/FlubuCore_Interactive_mode_external_process.gif)
 
 * Improved developer experience with FlubuCore custom analyzers.
 
