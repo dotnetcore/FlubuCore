@@ -1,3 +1,46 @@
+## FlubuCore 4.1.0.0
+- Interactive mode: Option to execute external processes such as dotnet, git, docker... 
+ 
+- Options completion in interactive mode for tasks that run's external process
+
+currently tab completion is available for all dotnet commands, most of git commands, coverlet, sqlcmd, gitversion.
+It is planned that all docker, azure, npm, octopus commands will support tab completion in near feature.
+![FlubuCore interactive mode](https://raw.githubusercontent.com/dotnetcore/flubu.core/master/assets/FlubuCore_Interactive_mode_external_process.gif)
+
+
+- Interactive mode: help for targets and options
+
+![FlubuCore interactive mode](https://raw.githubusercontent.com/dotnetcore/flubu.core/master/assets/FlubuCore_Interactive_mode.gif)
+
+- interactive mode: reload or load another script
+
+You can load new script with following commands in interactive mode:
+`load -s=newscript.cs`
+`l -s=newscript cs`
+
+You can reload script with the following command:
+`reload`
+`r`
+
+- Override existing options or add additional options to tasks through console improvements
+
+Let's say you have target (this is just simple dummy example)
+
+context.CreateTarget("Example")`
+    .AddCoreTask(x => x.Build("MySolution.sln").Configuration("Release"); 
+    .AddCoreTask)x => x.Pack("ExampleProject");
+You could just write in console
+
+flubu build -c=Debug
+
+flubu would execute
+
+dotnet build MySolution.sln -c Debug
+
+- interactive mode: navigation between folders 
+- fixed terminal entered command. Flubu executed sugestion instead of actually entered command 
+- FetchBuildVersionFromFile: Fixed default locations output
+- Fixed additional options prefixes
 ## FlubuCore 4.0.3.0
 - FlubuCore interactive mode which offers target tab completition, options tab completition, toogle targets and options, executed commands history and more.   
 
