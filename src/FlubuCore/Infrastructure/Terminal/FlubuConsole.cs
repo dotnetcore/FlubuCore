@@ -63,6 +63,7 @@ namespace FlubuCore.Infrastructure.Terminal
         private int _suggestionPosition;
         private int _historyPosition;
         private string _currentDirectory;
+        private Suggestion _lastSuggestion;
 
         /// <summary>
         /// Creates new instance of <see cref="FlubuConsole"/> class
@@ -326,10 +327,20 @@ namespace FlubuCore.Infrastructure.Terminal
                     {
                         WriteSuggestion(suggestion, hintColor);
                         WriteOnBottomLine(suggestion.Help);
+                        _lastSuggestion = suggestion;
                     }
                     else
                     {
-                        WriteOnBottomLine(string.Empty);
+                        var splitedUserInput = userInput.Split(' ');
+                        var toCheck = splitedUserInput.Last().Split('=').First();
+                        if (toCheck.Equals(_lastSuggestion.Value))
+                        {
+                            WriteOnBottomLine(_lastSuggestion.Help);
+                        }
+                        else
+                        {
+                            WriteOnBottomLine(string.Empty);
+                        }
                     }
                 }
                 else
