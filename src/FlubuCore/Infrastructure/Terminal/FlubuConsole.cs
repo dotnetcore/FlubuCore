@@ -333,7 +333,7 @@ namespace FlubuCore.Infrastructure.Terminal
                     {
                         var splitedUserInput = userInput.Split(' ');
                         var toCheck = splitedUserInput.Last().Split('=').First();
-                        if (toCheck.Equals(_lastSuggestion.Value))
+                        if (_lastSuggestion != null && toCheck.Equals(_lastSuggestion.Value))
                         {
                             WriteOnBottomLine(_lastSuggestion.Help);
                         }
