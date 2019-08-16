@@ -42,6 +42,20 @@ namespace FlubuCore.Infrastructure.Terminal
             { "git rm", typeof(GitRemoveFilesTask) }
         };
 
+        private static List<Hint> _dotnetCommands = new List<Hint>
+        {
+            new Hint { Name = "dotnet build", Help = "The dotnet build command builds the project and its dependencies into a set of binaries.", OnlySimpleSearh = true },
+            new Hint { Name = "dotnet test", Help = "The dotnet test command is used to execute unit tests in a given project.", OnlySimpleSearh = true },
+            new Hint { Name = "dotnet pack", Help = "The dotnet pack command builds the project and creates NuGet packages.", OnlySimpleSearh = true },
+            new Hint { Name = "dotnet publish", Help = "Packs the application and its dependencies into a folder for deployment to a hosting system.", OnlySimpleSearh = true },
+            new Hint { Name = "dotnet restore", Help = "The dotnet restore command uses NuGet to restore dependencies as well as project-specific tools that are specified in the project file.", OnlySimpleSearh = true },
+            new Hint { Name = "dotnet nuget push", Help = "The dotnet nuget push command pushes a package to the server and publishes it.", OnlySimpleSearh = true },
+            new Hint { Name = "dotnet clean", Help = "The dotnet clean command cleans the output of the previous build.", OnlySimpleSearh = true },
+            new Hint { Name = "dotnet tool install", Help = "The dotnet tool install command provides a way for you to install .NET Core Global Tools on your machine. ", OnlySimpleSearh = true },
+            new Hint { Name = "dotnet tool uninstall", Help = "Uninstalls the specified .NET Core Global Tool from your machine.", OnlySimpleSearh = true },
+            new Hint { Name = "dotnet tool update", Help = "Updates the specified .NET Core Global Tool on your machine.", OnlySimpleSearh = true },
+        };
+
         private readonly TargetTree _targetTree;
         private readonly IDictionary<char, IReadOnlyCollection<Hint>> _hintsSourceDictionary;
         private readonly List<string> _commandsHistory = new List<string>();
@@ -442,7 +456,7 @@ namespace FlubuCore.Infrastructure.Terminal
                 lastInput = $"{lastInput} ";
             }
 
-            char hintSourceKey;
+            char? hintSourceKey = null;
             if (splitedUserInput.Count > 1 && _hintsSourceDictionary.ContainsKey(lastInput[0]))
             {
                 hintSourceKey = lastInput[0];
@@ -450,10 +464,36 @@ namespace FlubuCore.Infrastructure.Terminal
             }
             else
             {
-                hintSourceKey = '*';
+                if (!splitedUserInput[0].Equals("dotnet", StringComparison.OrdinalIgnoreCase))
+                {
+                    hintSourceKey = '*';
+                }
             }
 
-            var hintSource = _hintsSourceDictionary[hintSourceKey].ToList();
+            List<Hint> hintSource = null;
+            if (hintSourceKey.HasValue)
+            {
+                hintSource = _hintsSourceDictionary[hintSourceKey.Value].ToList();
+            }
+
+            if (hintSourceKey == '*')
+            {
+                if (splitedUserInput.Count == 1)
+                {
+                    hintSource.AddRange(_dotnetCommands);
+                }
+
+                if (splitedUserInput.Count == 2 && splitedUserInput[0].Equals("dotnet", StringComparison.OrdinalIgnoreCase))
+                {
+                    hintSource.AddRange(_dotnetCommands);
+                }
+            }
+
+            if (hintSource == null)
+            {
+                _suggestionsForUserInput = null;
+                return;
+            }
 
             if (prefix == '-' || prefix == '/')
             {
@@ -526,6 +566,11 @@ namespace FlubuCore.Infrastructure.Terminal
 
             foreach (var item in hintSource)
             {
+                if (item.OnlySimpleSearh)
+                {
+                    continue;
+                }
+
                 var highlightIndexes = new List<int>();
                 var startIndex = 0;
                 var found = true;
