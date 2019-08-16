@@ -50,7 +50,7 @@ namespace FlubuCore.Tasks.Git
         }
 
         /// <summary>
-        /// Use the given as the commit message.
+        /// Use the given <msg> as the commit message.
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
