@@ -153,7 +153,7 @@ context.CreateTarget("Run.Libz")
 
 * [FlubuCore interactive mode](https://flubucore.dotnetcore.xyz/build-script-runner-interactive/) which offers target tab completition, options tab completition, toogle targets/options, executed commands history and more. 
 
-![FlubuCore interactive mode](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCore_Interactive_mode.gif)
+![FlubuCore interactive mode](https://raw.githubusercontent.com/dotnetcore/flubu.core/master/assets/FlubuCore_Interactive_mode.gif)
 
 * Improved developer experience with FlubuCore custom analyzers.
 
