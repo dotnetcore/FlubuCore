@@ -2,10 +2,9 @@
 
 In .NET you run flubu build scripts with console application flubu.exe. Add Flubu.Runner nuget to get the console application.
 
-In .NET core you run flubu build scripts with dotnet command line tool or global tool. Add FlubuCore nuget. You also have to add dotnet-flubu as dotnet cli tool reference to project. How to add it as dotnet cli tool see getting started section.
+In .NET core you run flubu build scripts with dotnet command line tool or global tool. How to install tools see [Getting started section]
 
 ### **Usage**
-
 
 .NET core usage: `dotnet flubu {TargetToExecute} {Flubu options} {build script arguments}`
 
@@ -53,3 +52,5 @@ It displays all tasks with description that will be executed by target. It also 
 - “buildscripts/buildscript.cs”
 
 - “buildscripts/deployscript.cs”
+
+[Getting started section]: getting-started.md

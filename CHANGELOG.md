@@ -1,4 +1,4 @@
-## FlubuCore 4.1.1.0
+## FlubuCore 4.1.2.0
 - Interactive mode: Option to execute external processes such as dotnet, git, docker... 
  
 - Options completion in interactive mode for tasks that run's external process
