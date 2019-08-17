@@ -155,8 +155,6 @@ context.CreateTarget("Run.Libz")
 
 ![FlubuCore interactive mode](https://raw.githubusercontent.com/dotnetcore/flubu.core/master/assets/FlubuCore_Interactive_mode_full.gif)
 
-* [In FlubuCore interactive mode](https://flubucore.dotnetcore.xyz/build-script-runner-interactive/) 
-
 * Improved developer experience with FlubuCore custom analyzers.
 
 ![FlubuCore analyzers in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCoreCustomAnalyzerDemo.png)
