@@ -80,6 +80,16 @@ namespace FlubuCore.Infrastructure.Terminal
             }
 
             _hintsSourceDictionary.Add('*', defaultHints);
+
+            if (!_hintsSourceDictionary.ContainsKey('-'))
+            {
+                _hintsSourceDictionary.Add('-', new List<Hint>());
+            }
+
+            if (!_hintsSourceDictionary.ContainsKey('/'))
+            {
+                _hintsSourceDictionary.Add('/', new List<Hint>());
+            }
         }
 
         /// <summary>

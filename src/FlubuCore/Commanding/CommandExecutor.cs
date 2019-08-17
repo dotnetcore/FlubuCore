@@ -155,7 +155,7 @@ namespace FlubuCore.Commanding
             {
                 try
                 {
-                    var flubuConsole = new FlubuConsole(null, new List<Hint>());
+                    var flubuConsole = new FlubuConsole(_flubuSession.TargetTree, new List<Hint>());
                     var commandLine = flubuConsole.ReadLine(Directory.GetCurrentDirectory());
 
                     var splitedLine = commandLine.Split(' ').ToList();
