@@ -25,17 +25,18 @@ You can reload script with the following command:
 - Override existing options or add additional options to tasks through console improvements
 
 Let's say you have target (this is just simple dummy example)
-
+```c#
 context.CreateTarget("Example")`
     .AddCoreTask(x => x.Build("MySolution.sln").Configuration("Release"); 
     .AddCoreTask)x => x.Pack("ExampleProject");
 You could just write in console
+```
 
-flubu build -c=Debug
+`flubu build -c=Debug`
 
 flubu would execute
 
-dotnet build MySolution.sln -c Debug
+`dotnet build MySolution.sln -c Debug`
 
 - interactive mode: navigation between folders 
 - fixed terminal entered command. Flubu executed sugestion instead of actually entered command 
