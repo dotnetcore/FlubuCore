@@ -84,7 +84,7 @@ namespace FlubuCore.Commanding
 
             try
             {
-                int result;
+                int result = 0;
                 do
                 {
                     IBuildScript script = null;
@@ -115,7 +115,10 @@ namespace FlubuCore.Commanding
                     _flubuSession.ScriptArgs = _args.ScriptArguments;
                     _flubuSession.TargetTree.ResetTargetTree();
                     //// ReSharper disable once PossibleNullReferenceException
-                    result = script.Run(_flubuSession);
+                    if (script != null)
+                    {
+                        result = script.Run(_flubuSession);
+                    }
                 }
                 while (_flubuSession.InteractiveMode && ReloadCommands.Contains(_flubuSession.InteractiveArgs.MainCommands[0], StringComparer.OrdinalIgnoreCase));
 
@@ -157,6 +160,11 @@ namespace FlubuCore.Commanding
                 {
                     var flubuConsole = new FlubuConsole(_flubuSession.TargetTree, new List<Hint>());
                     var commandLine = flubuConsole.ReadLine(Directory.GetCurrentDirectory());
+
+                    if (string.IsNullOrEmpty(commandLine))
+                    {
+                        continue;
+                    }
 
                     var splitedLine = commandLine.Split(' ').ToList();
 
