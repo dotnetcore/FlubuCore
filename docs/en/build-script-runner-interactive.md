@@ -8,13 +8,25 @@ Features in interactive mode
 
 - Target's tab completition with tab key
 - Option's tab completition with tab key
+- Target help displayed at the bottom of console
+- Option help displayed at the bottom of console
+- execute external commands and operable programs. For some of them FlubuCore offers tab completion with help out of the box(such as dotnet, git..)
 - Next / previos target with up and down arrow
 - Next / previos option with up and down arrow
 - History of executed commans with up and down arrow
 - No need to load script for each executed command
+- reload or load another script
+- Navigation beatwen folders
+
 
 ## **Demo**
-![Interactive mode in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCore_Interactive_mode.gif)
+![Interactive mode in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCore_Interactive_mode_full.gif)
+
+## **Internal commands**
+
+- `Cd` change directory.
+- `l|load -s={script}` Load another FlubuCore script.
+- `r|reload` Reload currently loaded script.
 
 ## **Hot keys**
 Following hot keys are supported:
