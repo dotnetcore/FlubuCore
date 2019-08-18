@@ -27,6 +27,7 @@ Features in interactive mode
 - `Cd` change directory.
 - `l|load -s={script}` Load another FlubuCore script.
 - `r|reload` Reload currently loaded script.
+- `e|q|exit|quit` Exit Flubu Core interactive mode.
 
 ## **Hot keys**
 Following hot keys are supported:
