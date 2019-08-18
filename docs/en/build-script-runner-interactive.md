@@ -10,7 +10,8 @@ Features in interactive mode
 - Option's tab completition with tab key
 - Target help displayed at the bottom of console
 - Option help displayed at the bottom of console
-- execute external commands and operable programs. For some of them FlubuCore offers tab completion with help out of the box(such as dotnet, git..)
+- Execute external commands. Meaning if you run FlubuCore interactive mode in powershell all powershell commands are available in FlubuCore interactive mode.
+- Execute external processes. For some of them FlubuCore offers tab completion with help out of the box(such as dotnet, git..)
 - Next / previos target with up and down arrow
 - Next / previos option with up and down arrow
 - History of executed commans with up and down arrow
