@@ -114,7 +114,7 @@ context.CreateTarget("Run.Libz")
     ```
 * [Growing list of FlubuCore plugins complements built in tasks.](https://flubucore.dotnetcore.xyz/AwesomePlugins/awesome-plugins/)
 
-* [Asynchronous execution of tasks, target dependencies and custom code.](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Async-execution)
+* [Asynchronous or parallel execution of tasks, target dependencies and custom code.](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Async-execution)
 
     ```cs
     context.CreateTarget("Run.Tests")
