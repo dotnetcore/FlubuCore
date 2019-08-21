@@ -1,6 +1,6 @@
 
 
-When executing flubu script or any other processes locally in console it is recomended to run FlubuCore in interactive mode it gives you some really nice features which are listed in the [features section.](#features) To start FlubuCore interactive mode just execute command `flubu -i` in your favorite console. 
+When executing flubu script or any other process locally in console it is recomended to run FlubuCore in interactive mode it gives you some really nice features which are listed in the [features section.](#features) To start FlubuCore interactive mode just execute command `flubu -i` in your favorite console. 
 
 ## **Demo**
 ![Interactive mode in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCore_Interactive_mode_full.gif)
