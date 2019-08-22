@@ -3,10 +3,6 @@
 ## Getting started .NET core
 -------
 <a name="Requirements-.net-core"></a>
-#### Requirements .NET core
-
-
-Build script project where FlubuCore is referenced must target .NETStandard 1.6 or greater.
 
 <a name="Installation-.net-core"></a>
 #### Installation .NET core
@@ -84,7 +80,7 @@ project.json:
 - Run `flubu compile` where build script is located. It will compile your solution.
 
 This is very basic build script just for you to see how simple it is to get you started. FlubuCore has to offer a lot of nice features. Read more about them at [Build script fundamentals] 
-alternatively you can take a look at [.net core examples] and see most of main features in action.
+alternatively you can take a look at [.net core examples] and see most of main features in action. It is also recomended that you take a look at [FlubuCore interactive mode](build-script-runner-interactive.md) and [Override options in task through console](override-add-options.md) sections.
 
 ## Getting started .NET
 -------

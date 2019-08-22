@@ -5,7 +5,7 @@ Each build script should inherit from DefaulBuildScript class. Two abstact metho
 
 - ConfigureTargets: Here you can create new targets that will perform specific work.
 
-- ConfigureBuildProperties: Here you can set various build properties which can be shared between multiple tasks and custom code.
+- ConfigureBuildProperties: Here you can set various build properties which can be shared between multiple tasks and your custom csharp code.
 
 Empty build script example
 
@@ -27,7 +27,7 @@ public class BuildScript : DefaultBuildScript
 ## **Targets**
 -------
 
-Targets are used to perform specific work in a specific order. A target can for example execute flubu built in tasks like a task for compiling the solution or it can execute some custom code. Target can also have dependencies on other targets.
+Targets are used to perform specific work in a specific order. A target can for example execute flubu built in tasks like a task for compiling the solution or it can execute some custom csharp code. Target can also have dependencies on other targets.
 
 ### **Create a new Target**
 
@@ -74,11 +74,11 @@ context.CreateTarget("Build")
 
 All Tasks have following methods:
   
-- ``` .OnError((c, ex) => { c.LogInfo("Example");})) ``` - onError can perform some custom action when error occurs on single task
+- ``` .OnError((c, ex) => { c.LogInfo("Example");})) ``` - onError can perform some custom action when error occurs on specific task.
 
 - ``` .Retry(5, 1000) ``` - Retry mechanism. You can apply specific condition when retry mechanism will retry task.
 
-- ``` .Finally(c => { c.LogInfo("Example");})) ``` - Finally block acts just like finally in try catch
+- ``` .Finally(c => { c.LogInfo("Example");})) ``` - Finally block acts just like finally in try catch.
 
 - ``` .DoNotFailOnError() ``` - script does not fail in case of exception. You can apply specific condition when task will not fail. 
 
@@ -135,7 +135,7 @@ private static void CustomCodeExample(ITaskContext context)
 }
 ```
 
-You can also have parameters on methods:
+You can also have parameters in methods:
 
 ```C#
 protected override void ConfigureTargets(ITaskContext context)
@@ -303,11 +303,11 @@ context.CreateTarget("Example")
 
 <a name="Async-execution"></a>
 
-### **Async execution of tasks, customCode and dependencies**
+### **Asynchronus or parallel execution of tasks, customCode and dependencies**
 
 <ul>
 <li>
-Tasks can be executed asynchrounously with AddTaskAsync or AddCoreTaskAsync method.
+Tasks can be executed asynchrounously or in parallel with AddTaskAsync or AddCoreTaskAsync method.
 
 </li>
 <li>
@@ -319,7 +319,7 @@ Dependencies can be executed asynchrounosly with DependsOnAsync method.
 
 </li>
 </ul>
-Following target executes 3 tasks asynchorunusly.
+Following target executes 3 tasks in parallel.
 
 ```C#
 session.CreateTarget("run.tests")
@@ -339,11 +339,11 @@ session.CreateTarget("async.example")
     .DoAsync(SomeCustomAsyncMethod3);
 ```
 
-The code above will first execute 2 nunit tasks asynchronously and wait for both tasks to finish. Then it will execute SomeCustomMethod synchrounosly. After it is finished code from SomeCustomAsyncMethod2 and SomeCustomAsyncMethod3 will be executed asynchronously.
+The code above will first execute 2 nunit tasks asynchronously and wait for both tasks to finish. Then it will execute SomeCustomMethod synchrounosly. After it is finished code from SomeCustomAsyncMethod2 and SomeCustomAsyncMethod3 will be executed in parallel.
 
 #### sequential logging in asynchronus executed tasks and targets 
 
-Usually logs are not readable when executing more than 1 task asynchronously. That's why FlubuCore offers sequential logging in asynchronus tasks. You can enable them with  ` .SequentialLogging(true)` on target. It has to be placed before asynchronus tasks/target dependencies otherwise logs will not be sequential.
+Usually logs are not readable when executing more than 1 task asynchronously or in parallel. That's why FlubuCore offers sequential logging in asynchronus tasks. You can enable them with  ` .SequentialLogging(true)` on target. It has to be placed before asynchronus tasks/target dependencies otherwise logs will not be sequential.
 ```c#
 context.CreateTarget("Test")
         .SetAsDefault()
@@ -352,7 +352,7 @@ context.CreateTarget("Test")
         .AddCoreTaskAsync(x => x.Pack())
         .DependsOnAsync(test2, test3);
 ```
-Target executed in parallel have sequential logging on by default.
+Target executed in parallel with FlubuCore runner have sequential logging on by default.
 
 `flubu target1 target2 --parallel`
 
@@ -361,8 +361,8 @@ Target executed in parallel have sequential logging on by default.
 ### **Other features**
 
 #### Target features
--   SetAsDefault method: When applied to target that target is runned by default if no target is specified when running the script with runner.
--   SetAsHidden method: When applied to target that target is not shown in help and it can only be run as other target dependecie.
+- SetAsDefault method: When applied to target that target is runned by default if no target is specified when running the script with runner.
+- SetAsHidden method: When applied to target that target is not shown in help and it can only be run as other target dependency.
 - Must method: Condition in must will have to be meet otherwise target execution will fail before any task get executed.
 
 
@@ -602,4 +602,4 @@ protected override void AfterBuildExecution(ITaskSession session)
 
 ## **Partial and base class in script**
 
-Partial and base classes are loaded automatically if they are located in the same directory as buildscript. Otherwise they have to be added with Include attribute. 
+Partial and base classes are loaded automatically if they are located in the same directory as buildscript. Otherwise they have to be added with [Include attribute](../referencing-external-assemblies#adding-other-cs-files-to-script). 

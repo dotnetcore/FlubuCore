@@ -130,7 +130,7 @@ context.CreateTarget("Run.Libz")
       .AddCoreTask(x => x.Build("MySolution.sln").Configuration("Release"); 
    ``` 
 
-  `flubu build --configuration=Debug`
+  `flubu example --configuration=Debug`
 
    flubu would execute `dotnet build MySolution.sln --configuration Debug`    
 

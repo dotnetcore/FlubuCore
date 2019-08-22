@@ -135,7 +135,7 @@ context.CreateTarget("Example")`
    .AddCoreTask(x => x.Build("MySolution.sln").Configuration("Release");
 ```
 
-`flubu build /o:configuration=Debug`
+`flubu example --configuration=Debug`
 
 flubu 将执行 `dotnet build MySolution.sln -c Debug`
 
@@ -158,7 +158,7 @@ flubu 将执行 `dotnet build MySolution.sln -c Debug`
 
 - [FlubuCore 交互模式（interactive mode）](https://flubucore.dotnetcore.xyz/build-script-runner-interactive/) 提供有 target 标签自动完成、选项标签自动完成、切换 target 和选项，以及命令执行历史等。
 
-![FlubuCore 交互模式](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCore_Interactive_mode.gif)
+![FlubuCore 交互模式](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCore_Interactive_mode_full.gif)
 
 - 使用 FlubuCore 自定义分析器（FlubuCore custom analyzers）增强开发体验。
 

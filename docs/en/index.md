@@ -129,14 +129,14 @@ public class BuildScript : DefaultBuildScript
 * [Override existing options or add additional options to tasks through console](https://flubucore.dotnetcore.xyz/override-add-options/)
 
    ```c#
-   context.CreateTarget("Example")`
+  context.CreateTarget("Example")`
       .AddCoreTask(x => x.Build("MySolution.sln").Configuration("Release"); 
    ``` 
 
-  `flubu build /o:configuration=Debug`
+  `flubu example --configuration=Debug`
 
-   flubu would execute `dotnet build MySolution.sln -c Debug`   
-
+   flubu would execute `dotnet build MySolution.sln --configuration Debug`
+   
 * [Full .NET Core support including the global CLI tool](https://flubucore.dotnetcore.xyz/getting-started#getting-started-net-core)
 
 ```
@@ -154,9 +154,9 @@ public class BuildScript : DefaultBuildScript
 
 * [Possibility to use FlubuCore tasks in any other .NET application.](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs)
 
-* [FlubuCore interactive mode](https://flubucore.dotnetcore.xyz/build-script-runner-interactive/) which offers target tab completition, options tab completition, toogle targets and options, executed commands history and more...  
+* [FlubuCore interactive mode](https://flubucore.dotnetcore.xyz/build-script-runner-interactive/) which offers target tab completition, options tab completition, toogle targets/options, executed commands history. It is also possible to execute external commands and operable programs. For some of them FlubuCore offers tab completion with help out of the box(such as dotnet, git..)  
 
-![FlubuCore interactive mode](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCore_Interactive_mode.gif)
+![FlubuCore interactive mode](https://raw.githubusercontent.com/dotnetcore/flubu.core/master/assets/FlubuCore_Interactive_mode_full.gif)
 
 * Improved developer experience with FlubuCore custom analyzers.
 

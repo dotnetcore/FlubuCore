@@ -49,7 +49,7 @@ Following hot keys are supported:
 ## External processes tab completion list
 
 List of external processes for which tab completion of options/switches is available in FlubuCore interactive mode. 
-it is planned that all docker, octopus, azure, npm and chocolatey commands will be also supported in the near feature.
+it is planned that all docker, octopus, azure, npm and chocolatey commands will also be supported in the near feature.
 
 - dotnet build
 - dotnet test

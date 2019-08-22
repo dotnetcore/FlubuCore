@@ -2,14 +2,15 @@
 
 FlubuCore loads all assemblies references and nuget packages automatically from build script csproj. Csproj must be at on of the location specified [here](https://github.com/flubu-core/flubu.core/blob/master/FlubuCore/Scripting/Analysis/ProjectFileAnalyzer.cs) If not assembly and nuget references will not be loaded automatically when executing script.
 
-Note: You can also disable referencing assemblies and nuget packages from build script by adding attribute to build script.
+!!! Note
+	You can also disable referencing assemblies and nuget packages from build script by adding attribute to build script.
 
-```C#
-[DisableLoadScriptReferencesAutomatically]
-public class BuildScript : DefaultBuildScript
-{
-}
-```
+	```C#
+	[DisableLoadScriptReferencesAutomatically]
+	public class BuildScript : DefaultBuildScript
+	{
+	}
+	```
 
 Alternatively when you are running scripts without csproj(for example deploy scripts) external references can be added  with directives in three ways:
 
@@ -101,7 +102,8 @@ alternatively you can put ass key into flubusettings.json file:
 
 ## **Adding other .cs files to script**
 
-On the build script class you have to add attribute:
+Other .cs files have to be added through attribute they are not automatically loaded from buildscript project file.
+Exception are build script base classes and partial classes they are loaded automatically.
 
 ```C#
 [Include(@".\BuildHelper.cs")]
