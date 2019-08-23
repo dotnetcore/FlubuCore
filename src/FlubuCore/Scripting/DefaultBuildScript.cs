@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -292,9 +293,16 @@ namespace FlubuCore.Scripting
                         }
                         catch (CommandUnknownException)
                         {
-                            flubuSession.LogError($"'{command}' is not recognized as a flubu target, internal or external command, operable program or batch file.");
+                            flubuSession.LogError(
+                                $"'{command}' is not recognized as a flubu target, internal or external command, operable program or batch file.");
                         }
                         catch (TaskExecutionException)
+                        {
+                        }
+                        catch (ArgumentException)
+                        {
+                        }
+                        catch (Win32Exception)
                         {
                         }
 

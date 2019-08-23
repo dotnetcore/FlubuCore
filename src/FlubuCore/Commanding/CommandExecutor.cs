@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -202,6 +203,12 @@ namespace FlubuCore.Commanding
                             _flubuSession.LogError($"'{command}' is not recognized as a internal or external command, operable program or batch file.");
                         }
                         catch (TaskExecutionException)
+                        {
+                        }
+                        catch (ArgumentException)
+                        {
+                        }
+                        catch (Win32Exception)
                         {
                         }
                     }
