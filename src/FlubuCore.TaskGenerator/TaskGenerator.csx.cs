@@ -118,6 +118,7 @@ namespace {task.Namespace}
             foreach (var method in task.Methods)
             {
                 methods = $@"{methods}{WriteSummary(method.MethodSummary)}
+        [ArgKey(""{method.Argument.ArgumentKey}"")]
         public {task.TaskName} {method.MethodName}({WriteParameter(method.Argument?.Parameter)})
         {{
             {WriteArgument(method.Argument)}
@@ -156,11 +157,11 @@ namespace {task.Namespace}
             {
                 string parameterName = ParameterName(argument.Parameter.ParameterName);
 
-                return $"WithArgumentsValueRequired(\"{argument.ArgumentKey}\", {parameterName}.ToString());";
+                return $"WithArgumentsKeyFromAttribute({parameterName}.ToString());";
             }
             else
             {
-                return $"WithArguments(\"{argument.ArgumentKey}\");";
+                return $"WithArgumentsKeyFromAttribute()";
             }
         }
 
