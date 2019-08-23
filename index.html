@@ -188,14 +188,11 @@
 <ul>
 <li><a href="https://flubucore.dotnetcore.xyz/override-add-options/">Override existing options or add additional options to tasks through console</a></li>
 </ul>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="s">&quot;Example&quot;</span><span class="p">)</span><span class="err">`</span>
-   <span class="p">.</span><span class="n">AddCoreTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">Build</span><span class="p">(</span><span class="s">&quot;MySolution.sln&quot;</span><span class="p">).</span><span class="n">Configuration</span><span class="p">(</span><span class="s">&quot;Release&quot;</span><span class="p">);</span> 
-</pre></div>
-</td></tr></table>
-
-<p><code>flubu build /o:configuration=Debug</code></p>
-<p>flubu would execute <code>dotnet build MySolution.sln -c Debug</code>   </p>
+<p><code>c#
+  context.CreateTarget("Example")`
+      .AddCoreTask(x =&gt; x.Build("MySolution.sln").Configuration("Release");</code> </p>
+<p><code>flubu example --configuration=Debug</code></p>
+<p>flubu would execute <code>dotnet build MySolution.sln --configuration Debug</code></p>
 <ul>
 <li><a href="https://flubucore.dotnetcore.xyz/getting-started#getting-started-net-core">Full .NET Core support including the global CLI tool</a></li>
 </ul>
@@ -220,10 +217,10 @@
 <p><a href="https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs">Possibility to use FlubuCore tasks in any other .NET application.</a></p>
 </li>
 <li>
-<p><a href="https://flubucore.dotnetcore.xyz/build-script-runner-interactive/">FlubuCore interactive mode</a> which offers target tab completition, options tab completition, toogle targets and options, executed commands history and more...  </p>
+<p><a href="https://flubucore.dotnetcore.xyz/build-script-runner-interactive/">FlubuCore interactive mode</a> which offers target tab completition, options tab completition, toogle targets/options, executed commands history. It is also possible to execute external commands and operable programs. For some of them FlubuCore offers tab completion with help displayed at the bottom of console out of the box(such as dotnet, git..)  </p>
 </li>
 </ul>
-<p><img alt="FlubuCore interactive mode" src="https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCore_Interactive_mode.gif" /></p>
+<p><img alt="FlubuCore interactive mode" src="https://raw.githubusercontent.com/dotnetcore/flubu.core/master/assets/FlubuCore_Interactive_mode_full.gif" /></p>
 <ul>
 <li>Improved developer experience with FlubuCore custom analyzers.</li>
 </ul>
