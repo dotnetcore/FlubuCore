@@ -216,18 +216,13 @@ namespace FlubuCore.Infrastructure.Terminal
                         userInput = userInput + " ";
                         wasUserInput = true;
                         cursorPosition++;
-                        ////if (suggestion != null)
-                        ////{
-                        ////    userInput = suggestion.Value + ' ';
-                        ////}
-                        ////else if (Regex.IsMatch(input.KeyChar.ToString(), inputRegex))
-                        ////{
-                        ////    cursorPosition++;
-                        ////    userInput = userInput.Insert(cursorPosition.InputLength - 1, input.KeyChar.ToString());
-                        ////    UpdateSuggestionsForUserInput(userInput);
-                        ////    suggestion = GetFirstSuggestion();
-                        ////    cursorPosition = cursorPosition.SetLength(userInput.Length);
-                        ////}
+
+                        if (userInput.StartsWith(InternalCommands.Cd))
+                        {
+                            UpdateDirectorySuggestionsForUserInput(userInput);
+                            suggestion = GetFirstSuggestion();
+                        }
+
                         break;
                     case ConsoleKey.UpArrow:
                         if (!wasUserInput)
@@ -295,7 +290,16 @@ namespace FlubuCore.Infrastructure.Terminal
                         }
 
                         wasUserInput = true;
-                        UpdateSuggestionsForUserInput(userInput);
+
+                        if (userInput.StartsWith(InternalCommands.Cd))
+                        {
+                            UpdateDirectorySuggestionsForUserInput(userInput);
+                        }
+                        else
+                        {
+                            UpdateSuggestionsForUserInput(userInput);
+                        }
+
                         suggestion = GetFirstSuggestion();
                         break;
                 }
@@ -304,7 +308,7 @@ namespace FlubuCore.Infrastructure.Terminal
 
                 ClearConsoleLines(cursorPosition.StartTop, cursorPosition.Top);
                 var li = fullInput.TrimEnd().LastIndexOf(" ");
-                if (li == -1)
+                if (li == -1 && !fullInput.StartsWith(InternalCommands.Cd, StringComparison.OrdinalIgnoreCase))
                 {
                     ConsoleUtils.Write(userInput, ConsoleColor.Green);
                     fullInput = userInput;
@@ -318,16 +322,7 @@ namespace FlubuCore.Infrastructure.Terminal
                     }
                     else
                     {
-                        userInput = userInput.TrimEnd();
-                        if (!userInput.StartsWith("-"))
-                        {
-                           userInput = $"{userInput} ";
-                        }
-
-                        fullInput = $"{fullInput.Substring(0, li)} {userInput}";
-                        userInput = fullInput;
-                        ConsoleUtils.Write(fullInput, ConsoleColor.Green);
-                        cursorPosition = cursorPosition.SetLength(fullInput.Length);
+                        userInput = WriteSugestionAsUserInput(userInput, li, ref fullInput, ref cursorPosition);
                     }
                 }
 
@@ -366,6 +361,42 @@ namespace FlubuCore.Infrastructure.Terminal
             Console.WriteLine(string.Empty);
             AddCommandToHistory(readLine);
             return fullInput;
+        }
+
+        private static string WriteSugestionAsUserInput(string userInput, int li, ref string fullInput,
+            ref ConsoleCursorPosition cursorPosition)
+        {
+            userInput = userInput.TrimEnd();
+            if (li == -1)
+            {
+                li = fullInput.Length - 1;
+            }
+
+            if (!userInput.StartsWith("-") && !fullInput.StartsWith(InternalCommands.Cd, StringComparison.OrdinalIgnoreCase))
+            {
+                userInput = $" {userInput} ";
+            }
+            else
+            {
+                if (fullInput.Contains("\\"))
+                {
+                    li = li + fullInput.Split(' ').Last().Split('\\').First().Length + 2;
+                }
+                else if (fullInput.Contains("/"))
+                {
+                    li = li + fullInput.Split(' ').Last().Split('/').First().Length + 2;
+                }
+                else
+                {
+                    userInput = $" {userInput}";
+                }
+            }
+
+            fullInput = $"{fullInput.Substring(0, li)}{userInput}";
+            userInput = fullInput;
+            ConsoleUtils.Write(fullInput, ConsoleColor.Green);
+            cursorPosition = cursorPosition.SetLength(fullInput.Length);
+            return userInput;
         }
 
         private static void WriteSuggestion(Suggestion suggestion, ConsoleColor hintColor)
@@ -533,6 +564,48 @@ namespace FlubuCore.Infrastructure.Terminal
                 }
             }
 
+            GetSuggestionFromHints(hintSource, lastInput, hintSourceKey);
+        }
+
+        private void UpdateDirectorySuggestionsForUserInput(string userInput)
+        {
+            var splitedUserInput = userInput.Split(' ').ToList();
+            if (splitedUserInput.Count == 0 || splitedUserInput.Count > 2)
+            {
+                _suggestionsForUserInput = null;
+                return;
+            }
+
+            var directoryInput = splitedUserInput.Last();
+            var searchPath = ".";
+
+            var splitedDirectories = directoryInput.Split('\\', '/');
+            if (splitedDirectories.Length > 1)
+            {
+                string tmp = string.Empty;
+                for (int i = 0; i < splitedDirectories.Length - 1; i++)
+                {
+                    tmp = $"{tmp}/{splitedDirectories[i]}";
+                }
+
+                searchPath = $"{searchPath}{tmp}";
+            }
+
+            if (!Directory.Exists(searchPath))
+            {
+                _suggestionsForUserInput = null;
+            }
+
+            DirectoryInfo objDirectoryInfo = new DirectoryInfo(searchPath);
+            var directories = objDirectoryInfo.GetDirectories("*.*");
+            List<Hint> hintSource = new List<Hint>();
+            hintSource.AddRange(directories.Select(d => new Hint() { Name = d.Name, OnlySimpleSearh = true }));
+            var lastInput = splitedDirectories.Last();
+            GetSuggestionFromHints(hintSource, lastInput, '*');
+        }
+
+        private void GetSuggestionFromHints(List<Hint> hintSource, string lastInput, char? hintSourceKey)
+        {
             if (hintSource.All(item => item.Name.Length < lastInput.Length))
             {
                 _suggestionsForUserInput = null;
@@ -551,7 +624,8 @@ namespace FlubuCore.Infrastructure.Terminal
 #else
             //simple case then user's input is equal to start of hint
             var hints = hintSource
-                .Where(item => item.Name.Length > lastInput.Length && item.Name.Substring(0, lastInput.Length).Equals(lastInput, StringComparison.OrdinalIgnoreCase))
+                .Where(item => item.Name.Length > lastInput.Length && item.Name.Substring(0, lastInput.Length)
+                                   .Equals(lastInput, StringComparison.OrdinalIgnoreCase))
                 .Select(hint => new Suggestion
                 {
                     Value = hint.Name,
@@ -567,18 +641,21 @@ namespace FlubuCore.Infrastructure.Terminal
                 var parts = item.Name.Split(new[] { ' ', ';', '-', '_' }, StringSplitOptions.RemoveEmptyEntries);
 
                 string candidate;
-             #if NETSTANDARD1_6
-                candidate = parts.FirstOrDefault(part => part.Length >= lastInput.Length && part.Substring(0, lastInput.Length) == lastInput);
-             #else
-                candidate = parts.FirstOrDefault(part => part.Length >= lastInput.Length && part.Substring(0, lastInput.Length).Equals(lastInput, StringComparison.InvariantCultureIgnoreCase));
-             #endif
+#if NETSTANDARD1_6
+                candidate =
+ parts.FirstOrDefault(part => part.Length >= lastInput.Length && part.Substring(0, lastInput.Length) == lastInput);
+#else
+                candidate = parts.FirstOrDefault(part => part.Length >= lastInput.Length && part.Substring(0, lastInput.Length)
+                                                             .Equals(lastInput, StringComparison.InvariantCultureIgnoreCase));
+#endif
                 if (candidate != null)
                 {
                     hints.Add(new Suggestion
                     {
                         Value = item.Name,
                         Help = item.Help,
-                        HighlightIndexes = Enumerable.Range(item.Name.IndexOf(candidate, StringComparison.Ordinal), lastInput.Length).ToArray()
+                        HighlightIndexes = Enumerable
+                            .Range(item.Name.IndexOf(candidate, StringComparison.Ordinal), lastInput.Length).ToArray()
                     });
                 }
             }
@@ -608,7 +685,7 @@ namespace FlubuCore.Infrastructure.Terminal
                     var idx = substring.IndexOf(lastInput[i]);
 #else
                     var idx = substring.IndexOf(lastInput[i].ToString(), StringComparison.OrdinalIgnoreCase);
- #endif
+#endif
                     if (idx < 0)
                     {
                         //no such symbol in the hints source item
