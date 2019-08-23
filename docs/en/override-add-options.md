@@ -1,4 +1,4 @@
-FlubuCore offers you to add or override options in tasks that run external processes. 
+FlubuCore offers you to add or override options in **all** tasks that run external processes. 
 
 Let's say you have target
 ```c#
