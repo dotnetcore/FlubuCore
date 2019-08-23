@@ -60,6 +60,7 @@ Here you can find list of FlubuCore built in tasks with short description. Each 
 |DotnetNugetPushTask|Pushes the nuget package to the nuget server.
 |DotnetTestTask|Runs tests using a test runner specified in the project.json / csproj.
 |DotnetCleanTask| Cleans the output of a project.
+|DotnetToolTask| All dotnet tool commands.
 |DotnetEfTasks| Various entity framework tasks.
 |UpdateNetCoreVersionTask| Updates the version in csproj / project.json file
 |CoverletTask| Coverlet is a cross platform code coverage library for .NET Core, with support for line, branch and method coverage [[ Documentation |https://github.com/tonerdo/coverlet]].

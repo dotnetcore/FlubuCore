@@ -141,7 +141,7 @@ context.CreateTarget("Run.Libz")
     flubu compile
     ```
     
-* [FlubuCore interactive mode](https://flubucore.dotnetcore.xyz/build-script-runner-interactive/) which offers target tab completition, options tab completition, toogle targets/options, executed commands history. It is also possible to execute external commands and operable programs. For some of them FlubuCore offers tab completion with help out of the box(such as dotnet, git..)
+* [FlubuCore interactive mode](https://flubucore.dotnetcore.xyz/build-script-runner-interactive/) which offers target tab completition, options tab completition, toogle targets/options, executed commands history. It is also possible to execute external commands and operable programs. For some of them FlubuCore offers tab completion with help displayed at the bottom of console out of the box(such as dotnet, git..)
 
 ![FlubuCore interactive mode](https://raw.githubusercontent.com/dotnetcore/flubu.core/master/assets/FlubuCore_Interactive_mode_full.gif)
 
