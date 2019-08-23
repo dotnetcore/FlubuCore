@@ -19,7 +19,7 @@ flubu would execute
 !!! info "Note"
 	option keys are the same as in external processes. short versions of options keys also work. So in above example `-c=debug` would also work.
 	
-	Tab completion for all external process options also work in [Interactive mode](build-script-runner-interactive.md)
+	FlubuCore also support tab completion for all options in tasks that run's external processes in [Interactive mode](build-script-runner-interactive.md)
 
 <br/>
 
