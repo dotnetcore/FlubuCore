@@ -36,6 +36,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace {task.Namespace}
@@ -161,7 +162,7 @@ namespace {task.Namespace}
             }
             else
             {
-                return $"WithArgumentsKeyFromAttribute()";
+                return $"WithArgumentsKeyFromAttribute();";
             }
         }
 
