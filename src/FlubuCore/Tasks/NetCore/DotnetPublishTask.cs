@@ -71,7 +71,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="directory"></param>
         /// <returns></returns>
-        [ArgKey("-o", "--output")]
+        [ArgKey("--output", "-o")]
         public DotnetPublishTask OutputDirectory(string directory)
         {
             WithArgumentsKeyFromAttribute(directory);
@@ -195,6 +195,39 @@ namespace FlubuCore.Tasks.NetCore
         public DotnetPublishTask Verbosity(VerbosityOptions verbosity)
         {
             WithArgumentsKeyFromAttribute(verbosity.ToString().ToLower());
+            return this;
+        }
+
+        /// <summary>
+        ///  Publish the .NET Core runtime with your application so the runtime doesn't need to be installed on the target machine.
+        /// </summary>
+        /// <returns></returns>
+        [ArgKey("--self-contained")]
+        public DotnetPublishTask SelfContained()
+        {
+            WithArgumentsKeyFromAttribute();
+            return this;
+        }
+
+        /// <summary>
+        ///  Do not build the project before publishing. Implies --no-restore.
+        /// </summary>
+        /// <returns></returns>
+        [ArgKey("--no-build")]
+        public DotnetPublishTask NoBuild()
+        {
+            WithArgumentsKeyFromAttribute();
+            return this;
+        }
+
+        /// <summary>
+        ///  Do not restore the project before building.
+        /// </summary>
+        /// <returns></returns>
+        [ArgKey("--no-restore")]
+        public DotnetPublishTask NoRestore()
+        {
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
