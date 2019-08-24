@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Checkpoint
@@ -20,7 +21,7 @@ private string _checkpoint;
         public DockerCheckpointCreateTask(string container,  string checkpoint)
         {
             ExecutablePath = "docker";
-            WithArguments("checkpoint create");
+            WithArgumentsKeyFromAttribute();
 _container = container;
 _checkpoint = checkpoint;
 
@@ -31,18 +32,20 @@ _checkpoint = checkpoint;
         /// <summary>
         /// Use a custom checkpoint storage directory
         /// </summary>
+        [ArgKey("checkpoint-dir")]
         public DockerCheckpointCreateTask CheckpointDir(string checkpointDir)
         {
-            WithArgumentsValueRequired("checkpoint-dir", checkpointDir.ToString());
+            WithArgumentsKeyFromAttribute(checkpointDir.ToString());
             return this;
         }
 
         /// <summary>
         /// Leave the container running after checkpoint
         /// </summary>
+        [ArgKey("leave-running")]
         public DockerCheckpointCreateTask LeaveRunning()
         {
-            WithArguments("leave-running");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

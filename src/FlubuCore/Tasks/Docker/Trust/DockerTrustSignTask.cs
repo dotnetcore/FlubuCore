@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Trust
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Trust
         public DockerTrustSignTask(string image)
         {
             ExecutablePath = "docker";
-            WithArguments("trust sign");
+            WithArgumentsKeyFromAttribute();
 _image = image;
 
         }
@@ -29,9 +30,10 @@ _image = image;
         /// <summary>
         /// Sign a locally tagged image
         /// </summary>
+        [ArgKey("local")]
         public DockerTrustSignTask Local()
         {
-            WithArguments("local");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

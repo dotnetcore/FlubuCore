@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Node
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Node
         public DockerNodeRmTask(params string[] node)
         {
             ExecutablePath = "docker";
-            WithArguments("node rm");
+            WithArgumentsKeyFromAttribute();
 _node = node;
 
         }
@@ -29,9 +30,10 @@ _node = node;
         /// <summary>
         /// Force remove a node from the swarm
         /// </summary>
+        [ArgKey("force")]
         public DockerNodeRmTask Force()
         {
-            WithArguments("force");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Stack
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Stack
         public DockerStackPsTask(string stack)
         {
             ExecutablePath = "docker";
-            WithArguments("stack ps");
+            WithArgumentsKeyFromAttribute();
 _stack = stack;
 
         }
@@ -29,45 +30,60 @@ _stack = stack;
         /// <summary>
         /// Filter output based on conditions provided
         /// </summary>
+        [ArgKey("filter")]
         public DockerStackPsTask Filter(string filter)
         {
-            WithArgumentsValueRequired("filter", filter.ToString());
+            WithArgumentsKeyFromAttribute(filter.ToString());
             return this;
         }
 
         /// <summary>
         /// Pretty-print tasks using a Go template
         /// </summary>
+        [ArgKey("format")]
         public DockerStackPsTask Format(string format)
         {
-            WithArgumentsValueRequired("format", format.ToString());
+            WithArgumentsKeyFromAttribute(format.ToString());
+            return this;
+        }
+
+        /// <summary>
+        /// Kubernetes namespace to use
+        /// </summary>
+        [ArgKey("namespace")]
+        public DockerStackPsTask Namespace(string @namespace)
+        {
+            WithArgumentsKeyFromAttribute(@namespace.ToString());
             return this;
         }
 
         /// <summary>
         /// Do not map IDs to Names
         /// </summary>
+        [ArgKey("no-resolve")]
         public DockerStackPsTask NoResolve()
         {
-            WithArguments("no-resolve");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Do not truncate output
         /// </summary>
+        [ArgKey("no-trunc")]
         public DockerStackPsTask NoTrunc()
         {
-            WithArguments("no-trunc");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Only display task IDs
         /// </summary>
+        [ArgKey("quiet")]
         public DockerStackPsTask Quiet()
         {
-            WithArguments("quiet");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

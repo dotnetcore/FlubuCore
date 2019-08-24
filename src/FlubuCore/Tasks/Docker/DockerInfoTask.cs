@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker
@@ -18,7 +19,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerInfoTask()
         {
             ExecutablePath = "docker";
-            WithArguments("info");
+            WithArgumentsKeyFromAttribute();
 
         }
 
@@ -27,9 +28,10 @@ namespace FlubuCore.Tasks.Docker
         /// <summary>
         /// Format the output using the given Go template
         /// </summary>
+        [ArgKey("format")]
         public DockerInfoTask Format(string format)
         {
-            WithArgumentsValueRequired("format", format.ToString());
+            WithArgumentsKeyFromAttribute(format.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

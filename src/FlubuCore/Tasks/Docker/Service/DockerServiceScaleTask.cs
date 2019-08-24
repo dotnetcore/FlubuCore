@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Service
@@ -18,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Service
         public DockerServiceScaleTask()
         {
             ExecutablePath = "docker";
-            WithArguments("service scale");
+            WithArgumentsKeyFromAttribute();
 
         }
 
@@ -28,9 +29,10 @@ namespace FlubuCore.Tasks.Docker.Service
         /// Exit immediately instead of waiting for the service to converge
 
         /// </summary>
+        [ArgKey("detach")]
         public DockerServiceScaleTask Detach()
         {
-            WithArguments("detach");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

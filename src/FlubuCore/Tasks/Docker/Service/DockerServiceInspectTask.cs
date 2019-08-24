@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Service
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Service
         public DockerServiceInspectTask(params string[] service)
         {
             ExecutablePath = "docker";
-            WithArguments("service inspect");
+            WithArgumentsKeyFromAttribute();
 _service = service;
 
         }
@@ -29,18 +30,20 @@ _service = service;
         /// <summary>
         /// Format the output using the given Go template
         /// </summary>
+        [ArgKey("format")]
         public DockerServiceInspectTask Format(string format)
         {
-            WithArgumentsValueRequired("format", format.ToString());
+            WithArgumentsKeyFromAttribute(format.ToString());
             return this;
         }
 
         /// <summary>
         /// Print the information in a human friendly format
         /// </summary>
+        [ArgKey("pretty")]
         public DockerServiceInspectTask Pretty()
         {
-            WithArguments("pretty");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

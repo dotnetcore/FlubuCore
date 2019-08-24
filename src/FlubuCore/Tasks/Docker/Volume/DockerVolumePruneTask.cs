@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Volume
@@ -18,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Volume
         public DockerVolumePruneTask()
         {
             ExecutablePath = "docker";
-            WithArguments("volume prune");
+            WithArgumentsKeyFromAttribute();
 
         }
 
@@ -27,18 +28,20 @@ namespace FlubuCore.Tasks.Docker.Volume
         /// <summary>
         /// Provide filter values (e.g. 'label=<label>')
         /// </summary>
+        [ArgKey("filter")]
         public DockerVolumePruneTask Filter(string filter)
         {
-            WithArgumentsValueRequired("filter", filter.ToString());
+            WithArgumentsKeyFromAttribute(filter.ToString());
             return this;
         }
 
         /// <summary>
         /// Do not prompt for confirmation
         /// </summary>
+        [ArgKey("force")]
         public DockerVolumePruneTask Force()
         {
-            WithArguments("force");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

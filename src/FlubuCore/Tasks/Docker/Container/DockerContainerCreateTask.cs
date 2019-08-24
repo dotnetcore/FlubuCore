@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Container
@@ -21,7 +22,7 @@ private string[] _arg;
         public DockerContainerCreateTask(string image,  string command,  params string[] arg)
         {
             ExecutablePath = "docker";
-            WithArguments("container create");
+            WithArgumentsKeyFromAttribute();
 _image = image;
 _command = command;
 _arg = arg;
@@ -33,18 +34,20 @@ _arg = arg;
         /// <summary>
         /// Add a custom host-to-IP mapping (host:ip)
         /// </summary>
+        [ArgKey("add-host")]
         public DockerContainerCreateTask AddHost(string addHost)
         {
-            WithArgumentsValueRequired("add-host", addHost.ToString());
+            WithArgumentsKeyFromAttribute(addHost.ToString());
             return this;
         }
 
         /// <summary>
         /// Attach to STDIN, STDOUT or STDERR
         /// </summary>
+        [ArgKey("attach")]
         public DockerContainerCreateTask Attach(string attach)
         {
-            WithArgumentsValueRequired("attach", attach.ToString());
+            WithArgumentsKeyFromAttribute(attach.ToString());
             return this;
         }
 
@@ -52,315 +55,370 @@ _arg = arg;
         /// Block IO (relative weight), between 10 and 1000, or 0 to disable (default 0)
 
         /// </summary>
+        [ArgKey("blkio-weight")]
         public DockerContainerCreateTask BlkioWeight(string blkioWeight)
         {
-            WithArgumentsValueRequired("blkio-weight", blkioWeight.ToString());
+            WithArgumentsKeyFromAttribute(blkioWeight.ToString());
             return this;
         }
 
         /// <summary>
         /// Block IO weight (relative device weight)
         /// </summary>
+        [ArgKey("blkio-weight-device")]
         public DockerContainerCreateTask BlkioWeightDevice(string blkioWeightDevice)
         {
-            WithArgumentsValueRequired("blkio-weight-device", blkioWeightDevice.ToString());
+            WithArgumentsKeyFromAttribute(blkioWeightDevice.ToString());
             return this;
         }
 
         /// <summary>
         /// Add Linux capabilities
         /// </summary>
+        [ArgKey("cap-add")]
         public DockerContainerCreateTask CapAdd(string capAdd)
         {
-            WithArgumentsValueRequired("cap-add", capAdd.ToString());
+            WithArgumentsKeyFromAttribute(capAdd.ToString());
             return this;
         }
 
         /// <summary>
         /// Drop Linux capabilities
         /// </summary>
+        [ArgKey("cap-drop")]
         public DockerContainerCreateTask CapDrop(string capDrop)
         {
-            WithArgumentsValueRequired("cap-drop", capDrop.ToString());
+            WithArgumentsKeyFromAttribute(capDrop.ToString());
             return this;
         }
 
         /// <summary>
         /// Optional parent cgroup for the container
         /// </summary>
+        [ArgKey("cgroup-parent")]
         public DockerContainerCreateTask CgroupParent(string cgroupParent)
         {
-            WithArgumentsValueRequired("cgroup-parent", cgroupParent.ToString());
+            WithArgumentsKeyFromAttribute(cgroupParent.ToString());
             return this;
         }
 
         /// <summary>
         /// Write the container ID to the file
         /// </summary>
+        [ArgKey("cidfile")]
         public DockerContainerCreateTask Cidfile(string cidfile)
         {
-            WithArgumentsValueRequired("cidfile", cidfile.ToString());
+            WithArgumentsKeyFromAttribute(cidfile.ToString());
             return this;
         }
 
         /// <summary>
         /// CPU count (Windows only)
         /// </summary>
+        [ArgKey("cpu-count")]
         public DockerContainerCreateTask CpuCount(long cpuCount)
         {
-            WithArgumentsValueRequired("cpu-count", cpuCount.ToString());
+            WithArgumentsKeyFromAttribute(cpuCount.ToString());
             return this;
         }
 
         /// <summary>
         /// CPU percent (Windows only)
         /// </summary>
+        [ArgKey("cpu-percent")]
         public DockerContainerCreateTask CpuPercent(long cpuPercent)
         {
-            WithArgumentsValueRequired("cpu-percent", cpuPercent.ToString());
+            WithArgumentsKeyFromAttribute(cpuPercent.ToString());
             return this;
         }
 
         /// <summary>
         /// Limit CPU CFS (Completely Fair Scheduler) period
         /// </summary>
+        [ArgKey("cpu-period")]
         public DockerContainerCreateTask CpuPeriod(long cpuPeriod)
         {
-            WithArgumentsValueRequired("cpu-period", cpuPeriod.ToString());
+            WithArgumentsKeyFromAttribute(cpuPeriod.ToString());
             return this;
         }
 
         /// <summary>
         /// Limit CPU CFS (Completely Fair Scheduler) quota
         /// </summary>
+        [ArgKey("cpu-quota")]
         public DockerContainerCreateTask CpuQuota(long cpuQuota)
         {
-            WithArgumentsValueRequired("cpu-quota", cpuQuota.ToString());
+            WithArgumentsKeyFromAttribute(cpuQuota.ToString());
             return this;
         }
 
         /// <summary>
         /// Limit CPU real-time period in microseconds
         /// </summary>
+        [ArgKey("cpu-rt-period")]
         public DockerContainerCreateTask CpuRtPeriod(long cpuRtPeriod)
         {
-            WithArgumentsValueRequired("cpu-rt-period", cpuRtPeriod.ToString());
+            WithArgumentsKeyFromAttribute(cpuRtPeriod.ToString());
             return this;
         }
 
         /// <summary>
         /// Limit CPU real-time runtime in microseconds
         /// </summary>
+        [ArgKey("cpu-rt-runtime")]
         public DockerContainerCreateTask CpuRtRuntime(long cpuRtRuntime)
         {
-            WithArgumentsValueRequired("cpu-rt-runtime", cpuRtRuntime.ToString());
+            WithArgumentsKeyFromAttribute(cpuRtRuntime.ToString());
             return this;
         }
 
         /// <summary>
         /// CPU shares (relative weight)
         /// </summary>
+        [ArgKey("cpu-shares")]
         public DockerContainerCreateTask CpuShares(long cpuShares)
         {
-            WithArgumentsValueRequired("cpu-shares", cpuShares.ToString());
+            WithArgumentsKeyFromAttribute(cpuShares.ToString());
             return this;
         }
 
         /// <summary>
         /// Number of CPUs
         /// </summary>
+        [ArgKey("cpus")]
         public DockerContainerCreateTask Cpus(decimal cpus)
         {
-            WithArgumentsValueRequired("cpus", cpus.ToString());
+            WithArgumentsKeyFromAttribute(cpus.ToString());
             return this;
         }
 
         /// <summary>
         /// CPUs in which to allow execution (0-3, 0,1)
         /// </summary>
+        [ArgKey("cpuset-cpus")]
         public DockerContainerCreateTask CpusetCpus(string cpusetCpus)
         {
-            WithArgumentsValueRequired("cpuset-cpus", cpusetCpus.ToString());
+            WithArgumentsKeyFromAttribute(cpusetCpus.ToString());
             return this;
         }
 
         /// <summary>
         /// MEMs in which to allow execution (0-3, 0,1)
         /// </summary>
+        [ArgKey("cpuset-mems")]
         public DockerContainerCreateTask CpusetMems(string cpusetMems)
         {
-            WithArgumentsValueRequired("cpuset-mems", cpusetMems.ToString());
+            WithArgumentsKeyFromAttribute(cpusetMems.ToString());
             return this;
         }
 
         /// <summary>
         /// Add a host device to the container
         /// </summary>
+        [ArgKey("device")]
         public DockerContainerCreateTask Device(string device)
         {
-            WithArgumentsValueRequired("device", device.ToString());
+            WithArgumentsKeyFromAttribute(device.ToString());
             return this;
         }
 
         /// <summary>
         /// Add a rule to the cgroup allowed devices list
         /// </summary>
+        [ArgKey("device-cgroup-rule")]
         public DockerContainerCreateTask DeviceCgroupRule(string deviceCgroupRule)
         {
-            WithArgumentsValueRequired("device-cgroup-rule", deviceCgroupRule.ToString());
+            WithArgumentsKeyFromAttribute(deviceCgroupRule.ToString());
             return this;
         }
 
         /// <summary>
         /// Limit read rate (bytes per second) from a device
         /// </summary>
+        [ArgKey("device-read-bps")]
         public DockerContainerCreateTask DeviceReadBps(string deviceReadBps)
         {
-            WithArgumentsValueRequired("device-read-bps", deviceReadBps.ToString());
+            WithArgumentsKeyFromAttribute(deviceReadBps.ToString());
             return this;
         }
 
         /// <summary>
         /// Limit read rate (IO per second) from a device
         /// </summary>
+        [ArgKey("device-read-iops")]
         public DockerContainerCreateTask DeviceReadIops(string deviceReadIops)
         {
-            WithArgumentsValueRequired("device-read-iops", deviceReadIops.ToString());
+            WithArgumentsKeyFromAttribute(deviceReadIops.ToString());
             return this;
         }
 
         /// <summary>
         /// Limit write rate (bytes per second) to a device
         /// </summary>
+        [ArgKey("device-write-bps")]
         public DockerContainerCreateTask DeviceWriteBps(string deviceWriteBps)
         {
-            WithArgumentsValueRequired("device-write-bps", deviceWriteBps.ToString());
+            WithArgumentsKeyFromAttribute(deviceWriteBps.ToString());
             return this;
         }
 
         /// <summary>
         /// Limit write rate (IO per second) to a device
         /// </summary>
+        [ArgKey("device-write-iops")]
         public DockerContainerCreateTask DeviceWriteIops(string deviceWriteIops)
         {
-            WithArgumentsValueRequired("device-write-iops", deviceWriteIops.ToString());
+            WithArgumentsKeyFromAttribute(deviceWriteIops.ToString());
             return this;
         }
 
         /// <summary>
         /// Skip image verification
         /// </summary>
+        [ArgKey("disable-content-trust")]
         public DockerContainerCreateTask DisableContentTrust()
         {
-            WithArguments("disable-content-trust");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Set custom DNS servers
         /// </summary>
+        [ArgKey("dns")]
         public DockerContainerCreateTask Dns(string dns)
         {
-            WithArgumentsValueRequired("dns", dns.ToString());
+            WithArgumentsKeyFromAttribute(dns.ToString());
             return this;
         }
 
         /// <summary>
         /// Set DNS options
         /// </summary>
+        [ArgKey("dns-opt")]
         public DockerContainerCreateTask DnsOpt(string dnsOpt)
         {
-            WithArgumentsValueRequired("dns-opt", dnsOpt.ToString());
+            WithArgumentsKeyFromAttribute(dnsOpt.ToString());
             return this;
         }
 
         /// <summary>
         /// Set DNS options
         /// </summary>
+        [ArgKey("dns-option")]
         public DockerContainerCreateTask DnsOption(string dnsOption)
         {
-            WithArgumentsValueRequired("dns-option", dnsOption.ToString());
+            WithArgumentsKeyFromAttribute(dnsOption.ToString());
             return this;
         }
 
         /// <summary>
         /// Set custom DNS search domains
         /// </summary>
+        [ArgKey("dns-search")]
         public DockerContainerCreateTask DnsSearch(string dnsSearch)
         {
-            WithArgumentsValueRequired("dns-search", dnsSearch.ToString());
+            WithArgumentsKeyFromAttribute(dnsSearch.ToString());
+            return this;
+        }
+
+        /// <summary>
+        /// Container NIS domain name
+        /// </summary>
+        [ArgKey("domainname")]
+        public DockerContainerCreateTask Domainname(string domainname)
+        {
+            WithArgumentsKeyFromAttribute(domainname.ToString());
             return this;
         }
 
         /// <summary>
         /// Overwrite the default ENTRYPOINT of the image
         /// </summary>
+        [ArgKey("entrypoint")]
         public DockerContainerCreateTask Entrypoint(string entrypoint)
         {
-            WithArgumentsValueRequired("entrypoint", entrypoint.ToString());
+            WithArgumentsKeyFromAttribute(entrypoint.ToString());
             return this;
         }
 
         /// <summary>
         /// Set environment variables
         /// </summary>
+        [ArgKey("env")]
         public DockerContainerCreateTask Env(string env)
         {
-            WithArgumentsValueRequired("env", env.ToString());
+            WithArgumentsKeyFromAttribute(env.ToString());
             return this;
         }
 
         /// <summary>
         /// Read in a file of environment variables
         /// </summary>
+        [ArgKey("env-file")]
         public DockerContainerCreateTask EnvFile(string envFile)
         {
-            WithArgumentsValueRequired("env-file", envFile.ToString());
+            WithArgumentsKeyFromAttribute(envFile.ToString());
             return this;
         }
 
         /// <summary>
         /// Expose a port or a range of ports
         /// </summary>
+        [ArgKey("expose")]
         public DockerContainerCreateTask Expose(string expose)
         {
-            WithArgumentsValueRequired("expose", expose.ToString());
+            WithArgumentsKeyFromAttribute(expose.ToString());
+            return this;
+        }
+
+        /// <summary>
+        /// GPU devices to add to the container ('all' to pass all GPUs)
+        /// </summary>
+        [ArgKey("gpus")]
+        public DockerContainerCreateTask Gpus(string gpus)
+        {
+            WithArgumentsKeyFromAttribute(gpus.ToString());
             return this;
         }
 
         /// <summary>
         /// Add additional groups to join
         /// </summary>
+        [ArgKey("group-add")]
         public DockerContainerCreateTask GroupAdd(string groupAdd)
         {
-            WithArgumentsValueRequired("group-add", groupAdd.ToString());
+            WithArgumentsKeyFromAttribute(groupAdd.ToString());
             return this;
         }
 
         /// <summary>
         /// Command to run to check health
         /// </summary>
+        [ArgKey("health-cmd")]
         public DockerContainerCreateTask HealthCmd(string healthCmd)
         {
-            WithArgumentsValueRequired("health-cmd", healthCmd.ToString());
+            WithArgumentsKeyFromAttribute(healthCmd.ToString());
             return this;
         }
 
         /// <summary>
         /// Time between running the check (ms|s|m|h) (default 0s)
         /// </summary>
+        [ArgKey("health-interval")]
         public DockerContainerCreateTask HealthInterval(string healthInterval)
         {
-            WithArgumentsValueRequired("health-interval", healthInterval.ToString());
+            WithArgumentsKeyFromAttribute(healthInterval.ToString());
             return this;
         }
 
         /// <summary>
         /// Consecutive failures needed to report unhealthy
         /// </summary>
+        [ArgKey("health-retries")]
         public DockerContainerCreateTask HealthRetries(int healthRetries)
         {
-            WithArgumentsValueRequired("health-retries", healthRetries.ToString());
+            WithArgumentsKeyFromAttribute(healthRetries.ToString());
             return this;
         }
 
@@ -368,9 +426,10 @@ _arg = arg;
         /// Start period for the container to initialize before starting health-retries countdown (ms|s|m|h) (default 0s)
 
         /// </summary>
+        [ArgKey("health-start-period")]
         public DockerContainerCreateTask HealthStartPeriod(string healthStartPeriod)
         {
-            WithArgumentsValueRequired("health-start-period", healthStartPeriod.ToString());
+            WithArgumentsKeyFromAttribute(healthStartPeriod.ToString());
             return this;
         }
 
@@ -378,27 +437,30 @@ _arg = arg;
         /// Maximum time to allow one check to run (ms|s|m|h) (default 0s)
 
         /// </summary>
+        [ArgKey("health-timeout")]
         public DockerContainerCreateTask HealthTimeout(string healthTimeout)
         {
-            WithArgumentsValueRequired("health-timeout", healthTimeout.ToString());
+            WithArgumentsKeyFromAttribute(healthTimeout.ToString());
             return this;
         }
 
         /// <summary>
         /// Print usage
         /// </summary>
+        [ArgKey("help")]
         public DockerContainerCreateTask Help()
         {
-            WithArguments("help");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Container host name
         /// </summary>
+        [ArgKey("hostname")]
         public DockerContainerCreateTask Hostname(string hostname)
         {
-            WithArgumentsValueRequired("hostname", hostname.ToString());
+            WithArgumentsKeyFromAttribute(hostname.ToString());
             return this;
         }
 
@@ -406,18 +468,20 @@ _arg = arg;
         /// Run an init inside the container that forwards signals and reaps processes
 
         /// </summary>
+        [ArgKey("init")]
         public DockerContainerCreateTask Init()
         {
-            WithArguments("init");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Keep STDIN open even if not attached
         /// </summary>
+        [ArgKey("interactive")]
         public DockerContainerCreateTask Interactive()
         {
-            WithArguments("interactive");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -425,144 +489,160 @@ _arg = arg;
         /// Maximum IO bandwidth limit for the system drive (Windows only)
 
         /// </summary>
+        [ArgKey("io-maxbandwidth")]
         public DockerContainerCreateTask IoMaxbandwidth(string ioMaxbandwidth)
         {
-            WithArgumentsValueRequired("io-maxbandwidth", ioMaxbandwidth.ToString());
+            WithArgumentsKeyFromAttribute(ioMaxbandwidth.ToString());
             return this;
         }
 
         /// <summary>
         /// Maximum IOps limit for the system drive (Windows only)
         /// </summary>
+        [ArgKey("io-maxiops")]
         public DockerContainerCreateTask IoMaxiops(ulong ioMaxiops)
         {
-            WithArgumentsValueRequired("io-maxiops", ioMaxiops.ToString());
+            WithArgumentsKeyFromAttribute(ioMaxiops.ToString());
             return this;
         }
 
         /// <summary>
         /// IPv4 address (e.g., 172.30.100.104)
         /// </summary>
+        [ArgKey("ip")]
         public DockerContainerCreateTask Ip(string ip)
         {
-            WithArgumentsValueRequired("ip", ip.ToString());
+            WithArgumentsKeyFromAttribute(ip.ToString());
             return this;
         }
 
         /// <summary>
         /// IPv6 address (e.g., 2001:db8::33)
         /// </summary>
+        [ArgKey("ip6")]
         public DockerContainerCreateTask Ip6(string ip6)
         {
-            WithArgumentsValueRequired("ip6", ip6.ToString());
+            WithArgumentsKeyFromAttribute(ip6.ToString());
             return this;
         }
 
         /// <summary>
         /// IPC mode to use
         /// </summary>
+        [ArgKey("ipc")]
         public DockerContainerCreateTask Ipc(string ipc)
         {
-            WithArgumentsValueRequired("ipc", ipc.ToString());
+            WithArgumentsKeyFromAttribute(ipc.ToString());
             return this;
         }
 
         /// <summary>
         /// Container isolation technology
         /// </summary>
+        [ArgKey("isolation")]
         public DockerContainerCreateTask Isolation(string isolation)
         {
-            WithArgumentsValueRequired("isolation", isolation.ToString());
+            WithArgumentsKeyFromAttribute(isolation.ToString());
             return this;
         }
 
         /// <summary>
         /// Kernel memory limit
         /// </summary>
+        [ArgKey("kernel-memory")]
         public DockerContainerCreateTask KernelMemory(string kernelMemory)
         {
-            WithArgumentsValueRequired("kernel-memory", kernelMemory.ToString());
+            WithArgumentsKeyFromAttribute(kernelMemory.ToString());
             return this;
         }
 
         /// <summary>
         /// Set meta data on a container
         /// </summary>
+        [ArgKey("label")]
         public DockerContainerCreateTask Label(string label)
         {
-            WithArgumentsValueRequired("label", label.ToString());
+            WithArgumentsKeyFromAttribute(label.ToString());
             return this;
         }
 
         /// <summary>
         /// Read in a line delimited file of labels
         /// </summary>
+        [ArgKey("label-file")]
         public DockerContainerCreateTask LabelFile(string labelFile)
         {
-            WithArgumentsValueRequired("label-file", labelFile.ToString());
+            WithArgumentsKeyFromAttribute(labelFile.ToString());
             return this;
         }
 
         /// <summary>
         /// Add link to another container
         /// </summary>
+        [ArgKey("link")]
         public DockerContainerCreateTask Link(string link)
         {
-            WithArgumentsValueRequired("link", link.ToString());
+            WithArgumentsKeyFromAttribute(link.ToString());
             return this;
         }
 
         /// <summary>
         /// Container IPv4/IPv6 link-local addresses
         /// </summary>
+        [ArgKey("link-local-ip")]
         public DockerContainerCreateTask LinkLocalIp(string linkLocalIp)
         {
-            WithArgumentsValueRequired("link-local-ip", linkLocalIp.ToString());
+            WithArgumentsKeyFromAttribute(linkLocalIp.ToString());
             return this;
         }
 
         /// <summary>
         /// Logging driver for the container
         /// </summary>
+        [ArgKey("log-driver")]
         public DockerContainerCreateTask LogDriver(string logDriver)
         {
-            WithArgumentsValueRequired("log-driver", logDriver.ToString());
+            WithArgumentsKeyFromAttribute(logDriver.ToString());
             return this;
         }
 
         /// <summary>
         /// Log driver options
         /// </summary>
+        [ArgKey("log-opt")]
         public DockerContainerCreateTask LogOpt(string logOpt)
         {
-            WithArgumentsValueRequired("log-opt", logOpt.ToString());
+            WithArgumentsKeyFromAttribute(logOpt.ToString());
             return this;
         }
 
         /// <summary>
         /// Container MAC address (e.g., 92:d0:c6:0a:29:33)
         /// </summary>
+        [ArgKey("mac-address")]
         public DockerContainerCreateTask MacAddress(string macAddress)
         {
-            WithArgumentsValueRequired("mac-address", macAddress.ToString());
+            WithArgumentsKeyFromAttribute(macAddress.ToString());
             return this;
         }
 
         /// <summary>
         /// Memory limit
         /// </summary>
+        [ArgKey("memory")]
         public DockerContainerCreateTask Memory(string memory)
         {
-            WithArgumentsValueRequired("memory", memory.ToString());
+            WithArgumentsKeyFromAttribute(memory.ToString());
             return this;
         }
 
         /// <summary>
         /// Memory soft limit
         /// </summary>
+        [ArgKey("memory-reservation")]
         public DockerContainerCreateTask MemoryReservation(string memoryReservation)
         {
-            WithArgumentsValueRequired("memory-reservation", memoryReservation.ToString());
+            WithArgumentsKeyFromAttribute(memoryReservation.ToString());
             return this;
         }
 
@@ -570,333 +650,370 @@ _arg = arg;
         /// Swap limit equal to memory plus swap: '-1' to enable unlimited swap
 
         /// </summary>
+        [ArgKey("memory-swap")]
         public DockerContainerCreateTask MemorySwap(string memorySwap)
         {
-            WithArgumentsValueRequired("memory-swap", memorySwap.ToString());
+            WithArgumentsKeyFromAttribute(memorySwap.ToString());
             return this;
         }
 
         /// <summary>
         /// Tune container memory swappiness (0 to 100)
         /// </summary>
+        [ArgKey("memory-swappiness")]
         public DockerContainerCreateTask MemorySwappiness(long memorySwappiness)
         {
-            WithArgumentsValueRequired("memory-swappiness", memorySwappiness.ToString());
+            WithArgumentsKeyFromAttribute(memorySwappiness.ToString());
             return this;
         }
 
         /// <summary>
         /// Attach a filesystem mount to the container
         /// </summary>
+        [ArgKey("mount")]
         public DockerContainerCreateTask Mount(string mount)
         {
-            WithArgumentsValueRequired("mount", mount.ToString());
+            WithArgumentsKeyFromAttribute(mount.ToString());
             return this;
         }
 
         /// <summary>
         /// Assign a name to the container
         /// </summary>
+        [ArgKey("name")]
         public DockerContainerCreateTask Name(string name)
         {
-            WithArgumentsValueRequired("name", name.ToString());
+            WithArgumentsKeyFromAttribute(name.ToString());
             return this;
         }
 
         /// <summary>
         /// Connect a container to a network
         /// </summary>
+        [ArgKey("net")]
         public DockerContainerCreateTask Net(string net)
         {
-            WithArgumentsValueRequired("net", net.ToString());
+            WithArgumentsKeyFromAttribute(net.ToString());
             return this;
         }
 
         /// <summary>
         /// Add network-scoped alias for the container
         /// </summary>
+        [ArgKey("net-alias")]
         public DockerContainerCreateTask NetAlias(string netAlias)
         {
-            WithArgumentsValueRequired("net-alias", netAlias.ToString());
+            WithArgumentsKeyFromAttribute(netAlias.ToString());
             return this;
         }
 
         /// <summary>
         /// Connect a container to a network
         /// </summary>
+        [ArgKey("network")]
         public DockerContainerCreateTask Network(string network)
         {
-            WithArgumentsValueRequired("network", network.ToString());
+            WithArgumentsKeyFromAttribute(network.ToString());
             return this;
         }
 
         /// <summary>
         /// Add network-scoped alias for the container
         /// </summary>
+        [ArgKey("network-alias")]
         public DockerContainerCreateTask NetworkAlias(string networkAlias)
         {
-            WithArgumentsValueRequired("network-alias", networkAlias.ToString());
+            WithArgumentsKeyFromAttribute(networkAlias.ToString());
             return this;
         }
 
         /// <summary>
         /// Disable any container-specified HEALTHCHECK
         /// </summary>
+        [ArgKey("no-healthcheck")]
         public DockerContainerCreateTask NoHealthcheck()
         {
-            WithArguments("no-healthcheck");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Disable OOM Killer
         /// </summary>
+        [ArgKey("oom-kill-disable")]
         public DockerContainerCreateTask OomKillDisable()
         {
-            WithArguments("oom-kill-disable");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Tune host's OOM preferences (-1000 to 1000)
         /// </summary>
+        [ArgKey("oom-score-adj")]
         public DockerContainerCreateTask OomScoreAdj(int oomScoreAdj)
         {
-            WithArgumentsValueRequired("oom-score-adj", oomScoreAdj.ToString());
+            WithArgumentsKeyFromAttribute(oomScoreAdj.ToString());
             return this;
         }
 
         /// <summary>
         /// PID namespace to use
         /// </summary>
+        [ArgKey("pid")]
         public DockerContainerCreateTask Pid(string pid)
         {
-            WithArgumentsValueRequired("pid", pid.ToString());
+            WithArgumentsKeyFromAttribute(pid.ToString());
             return this;
         }
 
         /// <summary>
         /// Tune container pids limit (set -1 for unlimited)
         /// </summary>
+        [ArgKey("pids-limit")]
         public DockerContainerCreateTask PidsLimit(long pidsLimit)
         {
-            WithArgumentsValueRequired("pids-limit", pidsLimit.ToString());
+            WithArgumentsKeyFromAttribute(pidsLimit.ToString());
             return this;
         }
 
         /// <summary>
         /// Set platform if server is multi-platform capable
         /// </summary>
+        [ArgKey("platform")]
         public DockerContainerCreateTask Platform(string platform)
         {
-            WithArgumentsValueRequired("platform", platform.ToString());
+            WithArgumentsKeyFromAttribute(platform.ToString());
             return this;
         }
 
         /// <summary>
         /// Give extended privileges to this container
         /// </summary>
+        [ArgKey("privileged")]
         public DockerContainerCreateTask Privileged()
         {
-            WithArguments("privileged");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Publish a container's port(s) to the host
         /// </summary>
+        [ArgKey("publish")]
         public DockerContainerCreateTask Publish(string publish)
         {
-            WithArgumentsValueRequired("publish", publish.ToString());
+            WithArgumentsKeyFromAttribute(publish.ToString());
             return this;
         }
 
         /// <summary>
         /// Publish all exposed ports to random ports
         /// </summary>
+        [ArgKey("publish-all")]
         public DockerContainerCreateTask PublishAll()
         {
-            WithArguments("publish-all");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Mount the container's root filesystem as read only
         /// </summary>
+        [ArgKey("read-only")]
         public DockerContainerCreateTask ReadOnly()
         {
-            WithArguments("read-only");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Restart policy to apply when a container exits
         /// </summary>
+        [ArgKey("restart")]
         public DockerContainerCreateTask Restart(string restart)
         {
-            WithArgumentsValueRequired("restart", restart.ToString());
+            WithArgumentsKeyFromAttribute(restart.ToString());
             return this;
         }
 
         /// <summary>
         /// Automatically remove the container when it exits
         /// </summary>
+        [ArgKey("rm")]
         public DockerContainerCreateTask Rm()
         {
-            WithArguments("rm");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Runtime to use for this container
         /// </summary>
+        [ArgKey("runtime")]
         public DockerContainerCreateTask Runtime(string runtime)
         {
-            WithArgumentsValueRequired("runtime", runtime.ToString());
+            WithArgumentsKeyFromAttribute(runtime.ToString());
             return this;
         }
 
         /// <summary>
         /// Security Options
         /// </summary>
+        [ArgKey("security-opt")]
         public DockerContainerCreateTask SecurityOpt(string securityOpt)
         {
-            WithArgumentsValueRequired("security-opt", securityOpt.ToString());
+            WithArgumentsKeyFromAttribute(securityOpt.ToString());
             return this;
         }
 
         /// <summary>
         /// Size of /dev/shm
         /// </summary>
+        [ArgKey("shm-size")]
         public DockerContainerCreateTask ShmSize(string shmSize)
         {
-            WithArgumentsValueRequired("shm-size", shmSize.ToString());
+            WithArgumentsKeyFromAttribute(shmSize.ToString());
             return this;
         }
 
         /// <summary>
         /// Signal to stop a container
         /// </summary>
+        [ArgKey("stop-signal")]
         public DockerContainerCreateTask StopSignal(string stopSignal)
         {
-            WithArgumentsValueRequired("stop-signal", stopSignal.ToString());
+            WithArgumentsKeyFromAttribute(stopSignal.ToString());
             return this;
         }
 
         /// <summary>
         /// Timeout (in seconds) to stop a container
         /// </summary>
+        [ArgKey("stop-timeout")]
         public DockerContainerCreateTask StopTimeout(int stopTimeout)
         {
-            WithArgumentsValueRequired("stop-timeout", stopTimeout.ToString());
+            WithArgumentsKeyFromAttribute(stopTimeout.ToString());
             return this;
         }
 
         /// <summary>
         /// Storage driver options for the container
         /// </summary>
+        [ArgKey("storage-opt")]
         public DockerContainerCreateTask StorageOpt(string storageOpt)
         {
-            WithArgumentsValueRequired("storage-opt", storageOpt.ToString());
+            WithArgumentsKeyFromAttribute(storageOpt.ToString());
             return this;
         }
 
         /// <summary>
         /// Sysctl options
         /// </summary>
+        [ArgKey("sysctl")]
         public DockerContainerCreateTask Sysctl(string sysctl)
         {
-            WithArgumentsValueRequired("sysctl", sysctl.ToString());
+            WithArgumentsKeyFromAttribute(sysctl.ToString());
             return this;
         }
 
         /// <summary>
         /// Mount a tmpfs directory
         /// </summary>
+        [ArgKey("tmpfs")]
         public DockerContainerCreateTask Tmpfs(string tmpfs)
         {
-            WithArgumentsValueRequired("tmpfs", tmpfs.ToString());
+            WithArgumentsKeyFromAttribute(tmpfs.ToString());
             return this;
         }
 
         /// <summary>
         /// Allocate a pseudo-TTY
         /// </summary>
+        [ArgKey("tty")]
         public DockerContainerCreateTask Tty()
         {
-            WithArguments("tty");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Ulimit options
         /// </summary>
+        [ArgKey("ulimit")]
         public DockerContainerCreateTask Ulimit(string ulimit)
         {
-            WithArgumentsValueRequired("ulimit", ulimit.ToString());
+            WithArgumentsKeyFromAttribute(ulimit.ToString());
             return this;
         }
 
         /// <summary>
         /// Username or UID (format: <name|uid>[:<group|gid>])
         /// </summary>
+        [ArgKey("user")]
         public DockerContainerCreateTask User(string user)
         {
-            WithArgumentsValueRequired("user", user.ToString());
+            WithArgumentsKeyFromAttribute(user.ToString());
             return this;
         }
 
         /// <summary>
         /// User namespace to use
         /// </summary>
+        [ArgKey("userns")]
         public DockerContainerCreateTask Userns(string userns)
         {
-            WithArgumentsValueRequired("userns", userns.ToString());
+            WithArgumentsKeyFromAttribute(userns.ToString());
             return this;
         }
 
         /// <summary>
         /// UTS namespace to use
         /// </summary>
+        [ArgKey("uts")]
         public DockerContainerCreateTask Uts(string uts)
         {
-            WithArgumentsValueRequired("uts", uts.ToString());
+            WithArgumentsKeyFromAttribute(uts.ToString());
             return this;
         }
 
         /// <summary>
         /// Bind mount a volume
         /// </summary>
+        [ArgKey("volume")]
         public DockerContainerCreateTask Volume(string volume)
         {
-            WithArgumentsValueRequired("volume", volume.ToString());
+            WithArgumentsKeyFromAttribute(volume.ToString());
             return this;
         }
 
         /// <summary>
         /// Optional volume driver for the container
         /// </summary>
+        [ArgKey("volume-driver")]
         public DockerContainerCreateTask VolumeDriver(string volumeDriver)
         {
-            WithArgumentsValueRequired("volume-driver", volumeDriver.ToString());
+            WithArgumentsKeyFromAttribute(volumeDriver.ToString());
             return this;
         }
 
         /// <summary>
         /// Mount volumes from the specified container(s)
         /// </summary>
+        [ArgKey("volumes-from")]
         public DockerContainerCreateTask VolumesFrom(string volumesFrom)
         {
-            WithArgumentsValueRequired("volumes-from", volumesFrom.ToString());
+            WithArgumentsKeyFromAttribute(volumesFrom.ToString());
             return this;
         }
 
         /// <summary>
         /// Working directory inside the container
         /// </summary>
+        [ArgKey("workdir")]
         public DockerContainerCreateTask Workdir(string workdir)
         {
-            WithArgumentsValueRequired("workdir", workdir.ToString());
+            WithArgumentsKeyFromAttribute(workdir.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

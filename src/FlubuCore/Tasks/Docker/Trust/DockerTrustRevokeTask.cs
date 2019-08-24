@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Trust
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Trust
         public DockerTrustRevokeTask(string image)
         {
             ExecutablePath = "docker";
-            WithArguments("trust revoke");
+            WithArgumentsKeyFromAttribute();
 _image = image;
 
         }
@@ -29,9 +30,10 @@ _image = image;
         /// <summary>
         /// Do not prompt for confirmation
         /// </summary>
+        [ArgKey("yes")]
         public DockerTrustRevokeTask Yes()
         {
-            WithArguments("yes");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

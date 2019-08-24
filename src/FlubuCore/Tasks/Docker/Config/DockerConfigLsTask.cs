@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Config
@@ -18,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Config
         public DockerConfigLsTask()
         {
             ExecutablePath = "docker";
-            WithArguments("config ls");
+            WithArgumentsKeyFromAttribute();
 
         }
 
@@ -27,27 +28,30 @@ namespace FlubuCore.Tasks.Docker.Config
         /// <summary>
         /// Filter output based on conditions provided
         /// </summary>
+        [ArgKey("filter")]
         public DockerConfigLsTask Filter(string filter)
         {
-            WithArgumentsValueRequired("filter", filter.ToString());
+            WithArgumentsKeyFromAttribute(filter.ToString());
             return this;
         }
 
         /// <summary>
         /// Pretty-print configs using a Go template
         /// </summary>
+        [ArgKey("format")]
         public DockerConfigLsTask Format(string format)
         {
-            WithArgumentsValueRequired("format", format.ToString());
+            WithArgumentsKeyFromAttribute(format.ToString());
             return this;
         }
 
         /// <summary>
         /// Only display IDs
         /// </summary>
+        [ArgKey("quiet")]
         public DockerConfigLsTask Quiet()
         {
-            WithArguments("quiet");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

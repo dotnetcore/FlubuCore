@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Network
@@ -20,7 +21,7 @@ private string _container;
         public DockerNetworkDisconnectTask(string network,  string container)
         {
             ExecutablePath = "docker";
-            WithArguments("network disconnect");
+            WithArgumentsKeyFromAttribute();
 _network = network;
 _container = container;
 
@@ -31,9 +32,10 @@ _container = container;
         /// <summary>
         /// Force the container to disconnect from a network
         /// </summary>
+        [ArgKey("force")]
         public DockerNetworkDisconnectTask Force()
         {
-            WithArguments("force");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Plugin
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Plugin
         public DockerPluginEnableTask(string plugin)
         {
             ExecutablePath = "docker";
-            WithArguments("plugin enable");
+            WithArgumentsKeyFromAttribute();
 _plugin = plugin;
 
         }
@@ -29,9 +30,10 @@ _plugin = plugin;
         /// <summary>
         /// HTTP client timeout (in seconds)
         /// </summary>
+        [ArgKey("timeout")]
         public DockerPluginEnableTask Timeout(int timeout)
         {
-            WithArgumentsValueRequired("timeout", timeout.ToString());
+            WithArgumentsKeyFromAttribute(timeout.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

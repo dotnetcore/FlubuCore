@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker
@@ -18,7 +19,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerEventsTask()
         {
             ExecutablePath = "docker";
-            WithArguments("events");
+            WithArgumentsKeyFromAttribute();
 
         }
 
@@ -27,36 +28,40 @@ namespace FlubuCore.Tasks.Docker
         /// <summary>
         /// Filter output based on conditions provided
         /// </summary>
+        [ArgKey("filter")]
         public DockerEventsTask Filter(string filter)
         {
-            WithArgumentsValueRequired("filter", filter.ToString());
+            WithArgumentsKeyFromAttribute(filter.ToString());
             return this;
         }
 
         /// <summary>
         /// Format the output using the given Go template
         /// </summary>
+        [ArgKey("format")]
         public DockerEventsTask Format(string format)
         {
-            WithArgumentsValueRequired("format", format.ToString());
+            WithArgumentsKeyFromAttribute(format.ToString());
             return this;
         }
 
         /// <summary>
         /// Show all events created since timestamp
         /// </summary>
+        [ArgKey("since")]
         public DockerEventsTask Since(string since)
         {
-            WithArgumentsValueRequired("since", since.ToString());
+            WithArgumentsKeyFromAttribute(since.ToString());
             return this;
         }
 
         /// <summary>
         /// Stream events until this timestamp
         /// </summary>
+        [ArgKey("until")]
         public DockerEventsTask Until(string until)
         {
-            WithArgumentsValueRequired("until", until.ToString());
+            WithArgumentsKeyFromAttribute(until.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

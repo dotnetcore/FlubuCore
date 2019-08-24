@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Container
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Container
         public DockerContainerStatsTask(params string[] container)
         {
             ExecutablePath = "docker";
-            WithArguments("container stats");
+            WithArgumentsKeyFromAttribute();
 _container = container;
 
         }
@@ -29,36 +30,40 @@ _container = container;
         /// <summary>
         /// Show all containers (default shows just running)
         /// </summary>
+        [ArgKey("all")]
         public DockerContainerStatsTask All()
         {
-            WithArguments("all");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Pretty-print images using a Go template
         /// </summary>
+        [ArgKey("format")]
         public DockerContainerStatsTask Format(string format)
         {
-            WithArgumentsValueRequired("format", format.ToString());
+            WithArgumentsKeyFromAttribute(format.ToString());
             return this;
         }
 
         /// <summary>
         /// Disable streaming stats and only pull the first result
         /// </summary>
+        [ArgKey("no-stream")]
         public DockerContainerStatsTask NoStream()
         {
-            WithArguments("no-stream");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Do not truncate output
         /// </summary>
+        [ArgKey("no-trunc")]
         public DockerContainerStatsTask NoTrunc()
         {
-            WithArguments("no-trunc");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

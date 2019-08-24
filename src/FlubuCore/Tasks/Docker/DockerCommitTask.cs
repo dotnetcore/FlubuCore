@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker
@@ -20,7 +21,7 @@ private string _repository;
         public DockerCommitTask(string container,  string repository)
         {
             ExecutablePath = "docker";
-            WithArguments("commit");
+            WithArgumentsKeyFromAttribute();
 _container = container;
 _repository = repository;
 
@@ -31,36 +32,40 @@ _repository = repository;
         /// <summary>
         /// Author (e.g., "John Hannibal Smith <hannibal@a-team.com>")
         /// </summary>
+        [ArgKey("author")]
         public DockerCommitTask Author(string author)
         {
-            WithArgumentsValueRequired("author", author.ToString());
+            WithArgumentsKeyFromAttribute(author.ToString());
             return this;
         }
 
         /// <summary>
         /// Apply Dockerfile instruction to the created image
         /// </summary>
+        [ArgKey("change")]
         public DockerCommitTask Change(string change)
         {
-            WithArgumentsValueRequired("change", change.ToString());
+            WithArgumentsKeyFromAttribute(change.ToString());
             return this;
         }
 
         /// <summary>
         /// Commit message
         /// </summary>
+        [ArgKey("message")]
         public DockerCommitTask Message(string message)
         {
-            WithArgumentsValueRequired("message", message.ToString());
+            WithArgumentsKeyFromAttribute(message.ToString());
             return this;
         }
 
         /// <summary>
         /// Pause container during commit
         /// </summary>
+        [ArgKey("pause")]
         public DockerCommitTask Pause()
         {
-            WithArguments("pause");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

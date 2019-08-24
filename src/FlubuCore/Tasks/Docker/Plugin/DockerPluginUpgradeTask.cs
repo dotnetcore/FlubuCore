@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Plugin
@@ -20,7 +21,7 @@ private string _remote;
         public DockerPluginUpgradeTask(string plugin,  string remote)
         {
             ExecutablePath = "docker";
-            WithArguments("plugin upgrade");
+            WithArgumentsKeyFromAttribute();
 _plugin = plugin;
 _remote = remote;
 
@@ -31,18 +32,20 @@ _remote = remote;
         /// <summary>
         /// Skip image verification
         /// </summary>
+        [ArgKey("disable-content-trust")]
         public DockerPluginUpgradeTask DisableContentTrust()
         {
-            WithArguments("disable-content-trust");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Grant all permissions necessary to run the plugin
         /// </summary>
+        [ArgKey("grant-all-permissions")]
         public DockerPluginUpgradeTask GrantAllPermissions()
         {
-            WithArguments("grant-all-permissions");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -50,9 +53,10 @@ _remote = remote;
         /// Do not check if specified remote plugin matches existing plugin image
 
         /// </summary>
+        [ArgKey("skip-remote-check")]
         public DockerPluginUpgradeTask SkipRemoteCheck()
         {
-            WithArguments("skip-remote-check");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

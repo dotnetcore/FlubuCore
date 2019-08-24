@@ -27,6 +27,11 @@ namespace FlubuCore.Context.FluentInterface.Docker
                 return new DockerStackPsTask(stack);
             }
 
+            public DockerStackRmTask StackRm(params string[] stack)
+            {
+                return new DockerStackRmTask(stack);
+            }
+
             public DockerStackServicesTask StackServices(string stack)
             {
                 return new DockerStackServicesTask(stack);

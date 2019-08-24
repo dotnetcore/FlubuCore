@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Swarm
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         public DockerSwarmJoinTask(string host)
         {
             ExecutablePath = "docker";
-            WithArguments("swarm join");
+            WithArgumentsKeyFromAttribute();
 _host = host;
 
         }
@@ -29,18 +30,20 @@ _host = host;
         /// <summary>
         /// Advertised address (format: <ip|interface>[:port])
         /// </summary>
+        [ArgKey("advertise-addr")]
         public DockerSwarmJoinTask AdvertiseAddr(string advertiseAddr)
         {
-            WithArgumentsValueRequired("advertise-addr", advertiseAddr.ToString());
+            WithArgumentsKeyFromAttribute(advertiseAddr.ToString());
             return this;
         }
 
         /// <summary>
         /// Availability of the node ("active"|"pause"|"drain")
         /// </summary>
+        [ArgKey("availability")]
         public DockerSwarmJoinTask Availability(string availability)
         {
-            WithArgumentsValueRequired("availability", availability.ToString());
+            WithArgumentsKeyFromAttribute(availability.ToString());
             return this;
         }
 
@@ -48,27 +51,30 @@ _host = host;
         /// Address or interface to use for data path traffic (format: <ip|interface>)
 
         /// </summary>
+        [ArgKey("data-path-addr")]
         public DockerSwarmJoinTask DataPathAddr(string dataPathAddr)
         {
-            WithArgumentsValueRequired("data-path-addr", dataPathAddr.ToString());
+            WithArgumentsKeyFromAttribute(dataPathAddr.ToString());
             return this;
         }
 
         /// <summary>
         /// Listen address (format: <ip|interface>[:port])
         /// </summary>
+        [ArgKey("listen-addr")]
         public DockerSwarmJoinTask ListenAddr(string listenAddr)
         {
-            WithArgumentsValueRequired("listen-addr", listenAddr.ToString());
+            WithArgumentsKeyFromAttribute(listenAddr.ToString());
             return this;
         }
 
         /// <summary>
         /// Token for entry into the swarm
         /// </summary>
+        [ArgKey("token")]
         public DockerSwarmJoinTask Token(string token)
         {
-            WithArgumentsValueRequired("token", token.ToString());
+            WithArgumentsKeyFromAttribute(token.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

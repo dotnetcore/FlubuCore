@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Swarm
@@ -18,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         public DockerSwarmCaTask()
         {
             ExecutablePath = "docker";
-            WithArguments("swarm ca");
+            WithArgumentsKeyFromAttribute();
 
         }
 
@@ -28,9 +29,10 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// Path to the PEM-formatted root CA certificate to use for the new cluster
 
         /// </summary>
+        [ArgKey("ca-cert")]
         public DockerSwarmCaTask CaCert(string caCert)
         {
-            WithArgumentsValueRequired("ca-cert", caCert.ToString());
+            WithArgumentsKeyFromAttribute(caCert.ToString());
             return this;
         }
 
@@ -38,18 +40,20 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// Path to the PEM-formatted root CA key to use for the new cluster
 
         /// </summary>
+        [ArgKey("ca-key")]
         public DockerSwarmCaTask CaKey(string caKey)
         {
-            WithArgumentsValueRequired("ca-key", caKey.ToString());
+            WithArgumentsKeyFromAttribute(caKey.ToString());
             return this;
         }
 
         /// <summary>
         /// Validity period for node certificates (ns|us|ms|s|m|h)
         /// </summary>
+        [ArgKey("cert-expiry")]
         public DockerSwarmCaTask CertExpiry(string certExpiry)
         {
-            WithArgumentsValueRequired("cert-expiry", certExpiry.ToString());
+            WithArgumentsKeyFromAttribute(certExpiry.ToString());
             return this;
         }
 
@@ -57,27 +61,30 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// Exit immediately instead of waiting for the root rotation to converge
 
         /// </summary>
+        [ArgKey("detach")]
         public DockerSwarmCaTask Detach()
         {
-            WithArguments("detach");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Specifications of one or more certificate signing endpoints
         /// </summary>
+        [ArgKey("external-ca")]
         public DockerSwarmCaTask ExternalCa(string externalCa)
         {
-            WithArgumentsValueRequired("external-ca", externalCa.ToString());
+            WithArgumentsKeyFromAttribute(externalCa.ToString());
             return this;
         }
 
         /// <summary>
         /// Suppress progress output
         /// </summary>
+        [ArgKey("quiet")]
         public DockerSwarmCaTask Quiet()
         {
-            WithArguments("quiet");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -85,9 +92,10 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// Rotate the swarm CA - if no certificate or key are provided, new ones will be generated
 
         /// </summary>
+        [ArgKey("rotate")]
         public DockerSwarmCaTask Rotate()
         {
-            WithArguments("rotate");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

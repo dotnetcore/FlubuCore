@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Plugin
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Plugin
         public DockerPluginDisableTask(string plugin)
         {
             ExecutablePath = "docker";
-            WithArguments("plugin disable");
+            WithArgumentsKeyFromAttribute();
 _plugin = plugin;
 
         }
@@ -29,9 +30,10 @@ _plugin = plugin;
         /// <summary>
         /// Force the disable of an active plugin
         /// </summary>
+        [ArgKey("force")]
         public DockerPluginDisableTask Force()
         {
-            WithArguments("force");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

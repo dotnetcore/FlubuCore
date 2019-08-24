@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Volume
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Volume
         public DockerVolumeCreateTask(string volume)
         {
             ExecutablePath = "docker";
-            WithArguments("volume create");
+            WithArgumentsKeyFromAttribute();
 _volume = volume;
 
         }
@@ -29,36 +30,40 @@ _volume = volume;
         /// <summary>
         /// Specify volume driver name
         /// </summary>
+        [ArgKey("driver")]
         public DockerVolumeCreateTask Driver(string driver)
         {
-            WithArgumentsValueRequired("driver", driver.ToString());
+            WithArgumentsKeyFromAttribute(driver.ToString());
             return this;
         }
 
         /// <summary>
         /// Set metadata for a volume
         /// </summary>
+        [ArgKey("label")]
         public DockerVolumeCreateTask Label(string label)
         {
-            WithArgumentsValueRequired("label", label.ToString());
+            WithArgumentsKeyFromAttribute(label.ToString());
             return this;
         }
 
         /// <summary>
         /// Specify volume name
         /// </summary>
+        [ArgKey("name")]
         public DockerVolumeCreateTask Name(string name)
         {
-            WithArgumentsValueRequired("name", name.ToString());
+            WithArgumentsKeyFromAttribute(name.ToString());
             return this;
         }
 
         /// <summary>
         /// Set driver specific options
         /// </summary>
+        [ArgKey("opt")]
         public DockerVolumeCreateTask Opt(string opt)
         {
-            WithArgumentsValueRequired("opt", opt.ToString());
+            WithArgumentsKeyFromAttribute(opt.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

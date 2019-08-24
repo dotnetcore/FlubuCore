@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Plugin
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Plugin
         public DockerPluginPushTask(string plugin)
         {
             ExecutablePath = "docker";
-            WithArguments("plugin push");
+            WithArgumentsKeyFromAttribute();
 _plugin = plugin;
 
         }
@@ -29,9 +30,10 @@ _plugin = plugin;
         /// <summary>
         /// Skip image signing
         /// </summary>
+        [ArgKey("disable-content-trust")]
         public DockerPluginPushTask DisableContentTrust()
         {
-            WithArguments("disable-content-trust");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

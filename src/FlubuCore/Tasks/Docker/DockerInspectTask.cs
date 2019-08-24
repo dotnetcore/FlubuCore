@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerInspectTask(params string[] name)
         {
             ExecutablePath = "docker";
-            WithArguments("inspect");
+            WithArgumentsKeyFromAttribute();
 _name = name;
 
         }
@@ -29,27 +30,30 @@ _name = name;
         /// <summary>
         /// Format the output using the given Go template
         /// </summary>
+        [ArgKey("format")]
         public DockerInspectTask Format(string format)
         {
-            WithArgumentsValueRequired("format", format.ToString());
+            WithArgumentsKeyFromAttribute(format.ToString());
             return this;
         }
 
         /// <summary>
         /// Display total file sizes if the type is container
         /// </summary>
+        [ArgKey("size")]
         public DockerInspectTask Size()
         {
-            WithArguments("size");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Return JSON for specified type
         /// </summary>
+        [ArgKey("type")]
         public DockerInspectTask Type(string type)
         {
-            WithArgumentsValueRequired("type", type.ToString());
+            WithArgumentsKeyFromAttribute(type.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

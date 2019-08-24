@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Image
@@ -18,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Image
         public DockerImageLoadTask()
         {
             ExecutablePath = "docker";
-            WithArguments("image load");
+            WithArgumentsKeyFromAttribute();
 
         }
 
@@ -27,18 +28,20 @@ namespace FlubuCore.Tasks.Docker.Image
         /// <summary>
         /// Read from tar archive file, instead of STDIN
         /// </summary>
+        [ArgKey("input")]
         public DockerImageLoadTask Input(string input)
         {
-            WithArgumentsValueRequired("input", input.ToString());
+            WithArgumentsKeyFromAttribute(input.ToString());
             return this;
         }
 
         /// <summary>
         /// Suppress the load output
         /// </summary>
+        [ArgKey("quiet")]
         public DockerImageLoadTask Quiet()
         {
-            WithArguments("quiet");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

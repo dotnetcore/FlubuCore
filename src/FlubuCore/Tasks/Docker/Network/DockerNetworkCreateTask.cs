@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Network
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Network
         public DockerNetworkCreateTask(string network)
         {
             ExecutablePath = "docker";
-            WithArguments("network create");
+            WithArgumentsKeyFromAttribute();
 _network = network;
 
         }
@@ -29,144 +30,160 @@ _network = network;
         /// <summary>
         /// Enable manual container attachment
         /// </summary>
+        [ArgKey("attachable")]
         public DockerNetworkCreateTask Attachable()
         {
-            WithArguments("attachable");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Auxiliary IPv4 or IPv6 addresses used by Network driver
         /// </summary>
+        [ArgKey("aux-address")]
         public DockerNetworkCreateTask AuxAddress(string auxAddress)
         {
-            WithArgumentsValueRequired("aux-address", auxAddress.ToString());
+            WithArgumentsKeyFromAttribute(auxAddress.ToString());
             return this;
         }
 
         /// <summary>
         /// The network from which copying the configuration
         /// </summary>
+        [ArgKey("config-from")]
         public DockerNetworkCreateTask ConfigFrom(string configFrom)
         {
-            WithArgumentsValueRequired("config-from", configFrom.ToString());
+            WithArgumentsKeyFromAttribute(configFrom.ToString());
             return this;
         }
 
         /// <summary>
         /// Create a configuration only network
         /// </summary>
+        [ArgKey("config-only")]
         public DockerNetworkCreateTask ConfigOnly()
         {
-            WithArguments("config-only");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Driver to manage the Network
         /// </summary>
+        [ArgKey("driver")]
         public DockerNetworkCreateTask Driver(string driver)
         {
-            WithArgumentsValueRequired("driver", driver.ToString());
+            WithArgumentsKeyFromAttribute(driver.ToString());
             return this;
         }
 
         /// <summary>
         /// IPv4 or IPv6 Gateway for the master subnet
         /// </summary>
+        [ArgKey("gateway")]
         public DockerNetworkCreateTask Gateway(string gateway)
         {
-            WithArgumentsValueRequired("gateway", gateway.ToString());
+            WithArgumentsKeyFromAttribute(gateway.ToString());
             return this;
         }
 
         /// <summary>
         /// Create swarm routing-mesh network
         /// </summary>
+        [ArgKey("ingress")]
         public DockerNetworkCreateTask Ingress()
         {
-            WithArguments("ingress");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Restrict external access to the network
         /// </summary>
+        [ArgKey("internal")]
         public DockerNetworkCreateTask Internal()
         {
-            WithArguments("internal");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Allocate container ip from a sub-range
         /// </summary>
+        [ArgKey("ip-range")]
         public DockerNetworkCreateTask IpRange(string ipRange)
         {
-            WithArgumentsValueRequired("ip-range", ipRange.ToString());
+            WithArgumentsKeyFromAttribute(ipRange.ToString());
             return this;
         }
 
         /// <summary>
         /// IP Address Management Driver
         /// </summary>
+        [ArgKey("ipam-driver")]
         public DockerNetworkCreateTask IpamDriver(string ipamDriver)
         {
-            WithArgumentsValueRequired("ipam-driver", ipamDriver.ToString());
+            WithArgumentsKeyFromAttribute(ipamDriver.ToString());
             return this;
         }
 
         /// <summary>
         /// Set IPAM driver specific options
         /// </summary>
+        [ArgKey("ipam-opt")]
         public DockerNetworkCreateTask IpamOpt(string ipamOpt)
         {
-            WithArgumentsValueRequired("ipam-opt", ipamOpt.ToString());
+            WithArgumentsKeyFromAttribute(ipamOpt.ToString());
             return this;
         }
 
         /// <summary>
         /// Enable IPv6 networking
         /// </summary>
+        [ArgKey("ipv6")]
         public DockerNetworkCreateTask Ipv6()
         {
-            WithArguments("ipv6");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Set metadata on a network
         /// </summary>
+        [ArgKey("label")]
         public DockerNetworkCreateTask Label(string label)
         {
-            WithArgumentsValueRequired("label", label.ToString());
+            WithArgumentsKeyFromAttribute(label.ToString());
             return this;
         }
 
         /// <summary>
         /// Set driver specific options
         /// </summary>
+        [ArgKey("opt")]
         public DockerNetworkCreateTask Opt(string opt)
         {
-            WithArgumentsValueRequired("opt", opt.ToString());
+            WithArgumentsKeyFromAttribute(opt.ToString());
             return this;
         }
 
         /// <summary>
         /// Control the network's scope
         /// </summary>
+        [ArgKey("scope")]
         public DockerNetworkCreateTask Scope(string scope)
         {
-            WithArgumentsValueRequired("scope", scope.ToString());
+            WithArgumentsKeyFromAttribute(scope.ToString());
             return this;
         }
 
         /// <summary>
         /// Subnet in CIDR format that represents a network segment
         /// </summary>
+        [ArgKey("subnet")]
         public DockerNetworkCreateTask Subnet(string subnet)
         {
-            WithArgumentsValueRequired("subnet", subnet.ToString());
+            WithArgumentsKeyFromAttribute(subnet.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

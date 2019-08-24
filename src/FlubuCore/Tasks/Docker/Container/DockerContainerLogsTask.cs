@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Container
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Container
         public DockerContainerLogsTask(string container)
         {
             ExecutablePath = "docker";
-            WithArguments("container logs");
+            WithArgumentsKeyFromAttribute();
 _container = container;
 
         }
@@ -29,18 +30,20 @@ _container = container;
         /// <summary>
         /// Show extra details provided to logs
         /// </summary>
+        [ArgKey("details")]
         public DockerContainerLogsTask Details()
         {
-            WithArguments("details");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Follow log output
         /// </summary>
+        [ArgKey("follow")]
         public DockerContainerLogsTask Follow()
         {
-            WithArguments("follow");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -48,27 +51,30 @@ _container = container;
         /// Show logs since timestamp (e.g. 2013-01-02T13:23:37) or relative (e.g. 42m for 42 minutes)
 
         /// </summary>
+        [ArgKey("since")]
         public DockerContainerLogsTask Since(string since)
         {
-            WithArgumentsValueRequired("since", since.ToString());
+            WithArgumentsKeyFromAttribute(since.ToString());
             return this;
         }
 
         /// <summary>
         /// Number of lines to show from the end of the logs
         /// </summary>
+        [ArgKey("tail")]
         public DockerContainerLogsTask Tail(string tail)
         {
-            WithArgumentsValueRequired("tail", tail.ToString());
+            WithArgumentsKeyFromAttribute(tail.ToString());
             return this;
         }
 
         /// <summary>
         /// Show timestamps
         /// </summary>
+        [ArgKey("timestamps")]
         public DockerContainerLogsTask Timestamps()
         {
-            WithArguments("timestamps");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -76,9 +82,10 @@ _container = container;
         /// Show logs before a timestamp (e.g. 2013-01-02T13:23:37) or relative (e.g. 42m for 42 minutes)
 
         /// </summary>
+        [ArgKey("until")]
         public DockerContainerLogsTask Until(string until)
         {
-            WithArgumentsValueRequired("until", until.ToString());
+            WithArgumentsKeyFromAttribute(until.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

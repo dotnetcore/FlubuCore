@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Service
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Service
         public DockerServiceLogsTask(string service)
         {
             ExecutablePath = "docker";
-            WithArguments("service logs");
+            WithArgumentsKeyFromAttribute();
 _service = service;
 
         }
@@ -29,54 +30,60 @@ _service = service;
         /// <summary>
         /// Show extra details provided to logs
         /// </summary>
+        [ArgKey("details")]
         public DockerServiceLogsTask Details()
         {
-            WithArguments("details");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Follow log output
         /// </summary>
+        [ArgKey("follow")]
         public DockerServiceLogsTask Follow()
         {
-            WithArguments("follow");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Do not map IDs to Names in output
         /// </summary>
+        [ArgKey("no-resolve")]
         public DockerServiceLogsTask NoResolve()
         {
-            WithArguments("no-resolve");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Do not include task IDs in output
         /// </summary>
+        [ArgKey("no-task-ids")]
         public DockerServiceLogsTask NoTaskIds()
         {
-            WithArguments("no-task-ids");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Do not truncate output
         /// </summary>
+        [ArgKey("no-trunc")]
         public DockerServiceLogsTask NoTrunc()
         {
-            WithArguments("no-trunc");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Do not neatly format logs
         /// </summary>
+        [ArgKey("raw")]
         public DockerServiceLogsTask Raw()
         {
-            WithArguments("raw");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -84,27 +91,30 @@ _service = service;
         /// Show logs since timestamp (e.g. 2013-01-02T13:23:37) or relative (e.g. 42m for 42 minutes)
 
         /// </summary>
+        [ArgKey("since")]
         public DockerServiceLogsTask Since(string since)
         {
-            WithArgumentsValueRequired("since", since.ToString());
+            WithArgumentsKeyFromAttribute(since.ToString());
             return this;
         }
 
         /// <summary>
         /// Number of lines to show from the end of the logs
         /// </summary>
+        [ArgKey("tail")]
         public DockerServiceLogsTask Tail(string tail)
         {
-            WithArgumentsValueRequired("tail", tail.ToString());
+            WithArgumentsKeyFromAttribute(tail.ToString());
             return this;
         }
 
         /// <summary>
         /// Show timestamps
         /// </summary>
+        [ArgKey("timestamps")]
         public DockerServiceLogsTask Timestamps()
         {
-            WithArguments("timestamps");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

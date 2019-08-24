@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Container
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Container
         public DockerContainerUpdateTask(params string[] container)
         {
             ExecutablePath = "docker";
-            WithArguments("container update");
+            WithArgumentsKeyFromAttribute();
 _container = container;
 
         }
@@ -30,108 +31,120 @@ _container = container;
         /// Block IO (relative weight), between 10 and 1000, or 0 to disable (default 0)
 
         /// </summary>
+        [ArgKey("blkio-weight")]
         public DockerContainerUpdateTask BlkioWeight(string blkioWeight)
         {
-            WithArgumentsValueRequired("blkio-weight", blkioWeight.ToString());
+            WithArgumentsKeyFromAttribute(blkioWeight.ToString());
             return this;
         }
 
         /// <summary>
         /// Limit CPU CFS (Completely Fair Scheduler) period
         /// </summary>
+        [ArgKey("cpu-period")]
         public DockerContainerUpdateTask CpuPeriod(long cpuPeriod)
         {
-            WithArgumentsValueRequired("cpu-period", cpuPeriod.ToString());
+            WithArgumentsKeyFromAttribute(cpuPeriod.ToString());
             return this;
         }
 
         /// <summary>
         /// Limit CPU CFS (Completely Fair Scheduler) quota
         /// </summary>
+        [ArgKey("cpu-quota")]
         public DockerContainerUpdateTask CpuQuota(long cpuQuota)
         {
-            WithArgumentsValueRequired("cpu-quota", cpuQuota.ToString());
+            WithArgumentsKeyFromAttribute(cpuQuota.ToString());
             return this;
         }
 
         /// <summary>
         /// Limit the CPU real-time period in microseconds
         /// </summary>
+        [ArgKey("cpu-rt-period")]
         public DockerContainerUpdateTask CpuRtPeriod(long cpuRtPeriod)
         {
-            WithArgumentsValueRequired("cpu-rt-period", cpuRtPeriod.ToString());
+            WithArgumentsKeyFromAttribute(cpuRtPeriod.ToString());
             return this;
         }
 
         /// <summary>
         /// Limit the CPU real-time runtime in microseconds
         /// </summary>
+        [ArgKey("cpu-rt-runtime")]
         public DockerContainerUpdateTask CpuRtRuntime(long cpuRtRuntime)
         {
-            WithArgumentsValueRequired("cpu-rt-runtime", cpuRtRuntime.ToString());
+            WithArgumentsKeyFromAttribute(cpuRtRuntime.ToString());
             return this;
         }
 
         /// <summary>
         /// CPU shares (relative weight)
         /// </summary>
+        [ArgKey("cpu-shares")]
         public DockerContainerUpdateTask CpuShares(long cpuShares)
         {
-            WithArgumentsValueRequired("cpu-shares", cpuShares.ToString());
+            WithArgumentsKeyFromAttribute(cpuShares.ToString());
             return this;
         }
 
         /// <summary>
         /// Number of CPUs
         /// </summary>
+        [ArgKey("cpus")]
         public DockerContainerUpdateTask Cpus(decimal cpus)
         {
-            WithArgumentsValueRequired("cpus", cpus.ToString());
+            WithArgumentsKeyFromAttribute(cpus.ToString());
             return this;
         }
 
         /// <summary>
         /// CPUs in which to allow execution (0-3, 0,1)
         /// </summary>
+        [ArgKey("cpuset-cpus")]
         public DockerContainerUpdateTask CpusetCpus(string cpusetCpus)
         {
-            WithArgumentsValueRequired("cpuset-cpus", cpusetCpus.ToString());
+            WithArgumentsKeyFromAttribute(cpusetCpus.ToString());
             return this;
         }
 
         /// <summary>
         /// MEMs in which to allow execution (0-3, 0,1)
         /// </summary>
+        [ArgKey("cpuset-mems")]
         public DockerContainerUpdateTask CpusetMems(string cpusetMems)
         {
-            WithArgumentsValueRequired("cpuset-mems", cpusetMems.ToString());
+            WithArgumentsKeyFromAttribute(cpusetMems.ToString());
             return this;
         }
 
         /// <summary>
         /// Kernel memory limit
         /// </summary>
+        [ArgKey("kernel-memory")]
         public DockerContainerUpdateTask KernelMemory(string kernelMemory)
         {
-            WithArgumentsValueRequired("kernel-memory", kernelMemory.ToString());
+            WithArgumentsKeyFromAttribute(kernelMemory.ToString());
             return this;
         }
 
         /// <summary>
         /// Memory limit
         /// </summary>
+        [ArgKey("memory")]
         public DockerContainerUpdateTask Memory(string memory)
         {
-            WithArgumentsValueRequired("memory", memory.ToString());
+            WithArgumentsKeyFromAttribute(memory.ToString());
             return this;
         }
 
         /// <summary>
         /// Memory soft limit
         /// </summary>
+        [ArgKey("memory-reservation")]
         public DockerContainerUpdateTask MemoryReservation(string memoryReservation)
         {
-            WithArgumentsValueRequired("memory-reservation", memoryReservation.ToString());
+            WithArgumentsKeyFromAttribute(memoryReservation.ToString());
             return this;
         }
 
@@ -139,18 +152,30 @@ _container = container;
         /// Swap limit equal to memory plus swap: '-1' to enable unlimited swap
 
         /// </summary>
+        [ArgKey("memory-swap")]
         public DockerContainerUpdateTask MemorySwap(string memorySwap)
         {
-            WithArgumentsValueRequired("memory-swap", memorySwap.ToString());
+            WithArgumentsKeyFromAttribute(memorySwap.ToString());
+            return this;
+        }
+
+        /// <summary>
+        /// Tune container pids limit (set -1 for unlimited)
+        /// </summary>
+        [ArgKey("pids-limit")]
+        public DockerContainerUpdateTask PidsLimit(long pidsLimit)
+        {
+            WithArgumentsKeyFromAttribute(pidsLimit.ToString());
             return this;
         }
 
         /// <summary>
         /// Restart policy to apply when a container exits
         /// </summary>
+        [ArgKey("restart")]
         public DockerContainerUpdateTask Restart(string restart)
         {
-            WithArgumentsValueRequired("restart", restart.ToString());
+            WithArgumentsKeyFromAttribute(restart.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

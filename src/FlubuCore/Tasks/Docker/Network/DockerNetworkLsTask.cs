@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Network
@@ -18,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Network
         public DockerNetworkLsTask()
         {
             ExecutablePath = "docker";
-            WithArguments("network ls");
+            WithArgumentsKeyFromAttribute();
 
         }
 
@@ -27,36 +28,40 @@ namespace FlubuCore.Tasks.Docker.Network
         /// <summary>
         /// Provide filter values (e.g. 'driver=bridge')
         /// </summary>
+        [ArgKey("filter")]
         public DockerNetworkLsTask Filter(string filter)
         {
-            WithArgumentsValueRequired("filter", filter.ToString());
+            WithArgumentsKeyFromAttribute(filter.ToString());
             return this;
         }
 
         /// <summary>
         /// Pretty-print networks using a Go template
         /// </summary>
+        [ArgKey("format")]
         public DockerNetworkLsTask Format(string format)
         {
-            WithArgumentsValueRequired("format", format.ToString());
+            WithArgumentsKeyFromAttribute(format.ToString());
             return this;
         }
 
         /// <summary>
         /// Do not truncate the output
         /// </summary>
+        [ArgKey("no-trunc")]
         public DockerNetworkLsTask NoTrunc()
         {
-            WithArguments("no-trunc");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Only display network IDs
         /// </summary>
+        [ArgKey("quiet")]
         public DockerNetworkLsTask Quiet()
         {
-            WithArguments("quiet");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

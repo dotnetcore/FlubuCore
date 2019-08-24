@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerBuildTask(string pathOrURL)
         {
             ExecutablePath = "docker";
-            WithArguments("build");
+            WithArgumentsKeyFromAttribute();
 _pathOrURL = pathOrURL;
 
         }
@@ -29,153 +30,170 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Add a custom host-to-IP mapping (host:ip)
         /// </summary>
+        [ArgKey("add-host")]
         public DockerBuildTask AddHost(string addHost)
         {
-            WithArgumentsValueRequired("add-host", addHost.ToString());
+            WithArgumentsKeyFromAttribute(addHost.ToString());
             return this;
         }
 
         /// <summary>
         /// Set build-time variables
         /// </summary>
+        [ArgKey("build-arg")]
         public DockerBuildTask BuildArg(string buildArg)
         {
-            WithArgumentsValueRequired("build-arg", buildArg.ToString());
+            WithArgumentsKeyFromAttribute(buildArg.ToString());
             return this;
         }
 
         /// <summary>
         /// Images to consider as cache sources
         /// </summary>
+        [ArgKey("cache-from")]
         public DockerBuildTask CacheFrom(string cacheFrom)
         {
-            WithArgumentsValueRequired("cache-from", cacheFrom.ToString());
+            WithArgumentsKeyFromAttribute(cacheFrom.ToString());
             return this;
         }
 
         /// <summary>
         /// Optional parent cgroup for the container
         /// </summary>
+        [ArgKey("cgroup-parent")]
         public DockerBuildTask CgroupParent(string cgroupParent)
         {
-            WithArgumentsValueRequired("cgroup-parent", cgroupParent.ToString());
+            WithArgumentsKeyFromAttribute(cgroupParent.ToString());
             return this;
         }
 
         /// <summary>
         /// Compress the build context using gzip
         /// </summary>
+        [ArgKey("compress")]
         public DockerBuildTask Compress()
         {
-            WithArguments("compress");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Limit the CPU CFS (Completely Fair Scheduler) period
         /// </summary>
+        [ArgKey("cpu-period")]
         public DockerBuildTask CpuPeriod(long cpuPeriod)
         {
-            WithArgumentsValueRequired("cpu-period", cpuPeriod.ToString());
+            WithArgumentsKeyFromAttribute(cpuPeriod.ToString());
             return this;
         }
 
         /// <summary>
         /// Limit the CPU CFS (Completely Fair Scheduler) quota
         /// </summary>
+        [ArgKey("cpu-quota")]
         public DockerBuildTask CpuQuota(long cpuQuota)
         {
-            WithArgumentsValueRequired("cpu-quota", cpuQuota.ToString());
+            WithArgumentsKeyFromAttribute(cpuQuota.ToString());
             return this;
         }
 
         /// <summary>
         /// CPU shares (relative weight)
         /// </summary>
+        [ArgKey("cpu-shares")]
         public DockerBuildTask CpuShares(long cpuShares)
         {
-            WithArgumentsValueRequired("cpu-shares", cpuShares.ToString());
+            WithArgumentsKeyFromAttribute(cpuShares.ToString());
             return this;
         }
 
         /// <summary>
         /// CPUs in which to allow execution (0-3, 0,1)
         /// </summary>
+        [ArgKey("cpuset-cpus")]
         public DockerBuildTask CpusetCpus(string cpusetCpus)
         {
-            WithArgumentsValueRequired("cpuset-cpus", cpusetCpus.ToString());
+            WithArgumentsKeyFromAttribute(cpusetCpus.ToString());
             return this;
         }
 
         /// <summary>
         /// MEMs in which to allow execution (0-3, 0,1)
         /// </summary>
+        [ArgKey("cpuset-mems")]
         public DockerBuildTask CpusetMems(string cpusetMems)
         {
-            WithArgumentsValueRequired("cpuset-mems", cpusetMems.ToString());
+            WithArgumentsKeyFromAttribute(cpusetMems.ToString());
             return this;
         }
 
         /// <summary>
         /// Skip image verification
         /// </summary>
+        [ArgKey("disable-content-trust")]
         public DockerBuildTask DisableContentTrust()
         {
-            WithArguments("disable-content-trust");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Name of the Dockerfile (Default is 'PATH/Dockerfile')
         /// </summary>
+        [ArgKey("file")]
         public DockerBuildTask File(string file)
         {
-            WithArgumentsValueRequired("file", file.ToString());
+            WithArgumentsKeyFromAttribute(file.ToString());
             return this;
         }
 
         /// <summary>
         /// Always remove intermediate containers
         /// </summary>
+        [ArgKey("force-rm")]
         public DockerBuildTask ForceRm()
         {
-            WithArguments("force-rm");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Write the image ID to the file
         /// </summary>
+        [ArgKey("iidfile")]
         public DockerBuildTask Iidfile(string iidfile)
         {
-            WithArgumentsValueRequired("iidfile", iidfile.ToString());
+            WithArgumentsKeyFromAttribute(iidfile.ToString());
             return this;
         }
 
         /// <summary>
         /// Container isolation technology
         /// </summary>
+        [ArgKey("isolation")]
         public DockerBuildTask Isolation(string isolation)
         {
-            WithArgumentsValueRequired("isolation", isolation.ToString());
+            WithArgumentsKeyFromAttribute(isolation.ToString());
             return this;
         }
 
         /// <summary>
         /// Set metadata for an image
         /// </summary>
+        [ArgKey("label")]
         public DockerBuildTask Label(string label)
         {
-            WithArgumentsValueRequired("label", label.ToString());
+            WithArgumentsKeyFromAttribute(label.ToString());
             return this;
         }
 
         /// <summary>
         /// Memory limit
         /// </summary>
+        [ArgKey("memory")]
         public DockerBuildTask Memory(string memory)
         {
-            WithArgumentsValueRequired("memory", memory.ToString());
+            WithArgumentsKeyFromAttribute(memory.ToString());
             return this;
         }
 
@@ -183,9 +201,10 @@ _pathOrURL = pathOrURL;
         /// Swap limit equal to memory plus swap: '-1' to enable unlimited swap
 
         /// </summary>
+        [ArgKey("memory-swap")]
         public DockerBuildTask MemorySwap(string memorySwap)
         {
-            WithArgumentsValueRequired("memory-swap", memorySwap.ToString());
+            WithArgumentsKeyFromAttribute(memorySwap.ToString());
             return this;
         }
 
@@ -193,117 +212,173 @@ _pathOrURL = pathOrURL;
         /// Set the networking mode for the RUN instructions during build
 
         /// </summary>
+        [ArgKey("network")]
         public DockerBuildTask Network(string network)
         {
-            WithArgumentsValueRequired("network", network.ToString());
+            WithArgumentsKeyFromAttribute(network.ToString());
             return this;
         }
 
         /// <summary>
         /// Do not use cache when building the image
         /// </summary>
+        [ArgKey("no-cache")]
         public DockerBuildTask NoCache()
         {
-            WithArguments("no-cache");
+            WithArgumentsKeyFromAttribute();
+            return this;
+        }
+
+        /// <summary>
+        /// Output destination (format: type=local,dest=path)
+        /// </summary>
+        [ArgKey("output")]
+        public DockerBuildTask Output(string output)
+        {
+            WithArgumentsKeyFromAttribute(output.ToString());
             return this;
         }
 
         /// <summary>
         /// Set platform if server is multi-platform capable
         /// </summary>
+        [ArgKey("platform")]
         public DockerBuildTask Platform(string platform)
         {
-            WithArgumentsValueRequired("platform", platform.ToString());
+            WithArgumentsKeyFromAttribute(platform.ToString());
+            return this;
+        }
+
+        /// <summary>
+        /// Set type of progress output (auto, plain, tty). Use plain to show container output
+
+        /// </summary>
+        [ArgKey("progress")]
+        public DockerBuildTask Progress(string progress)
+        {
+            WithArgumentsKeyFromAttribute(progress.ToString());
             return this;
         }
 
         /// <summary>
         /// Always attempt to pull a newer version of the image
         /// </summary>
+        [ArgKey("pull")]
         public DockerBuildTask Pull()
         {
-            WithArguments("pull");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Suppress the build output and print image ID on success
         /// </summary>
+        [ArgKey("quiet")]
         public DockerBuildTask Quiet()
         {
-            WithArguments("quiet");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Remove intermediate containers after a successful build
         /// </summary>
+        [ArgKey("rm")]
         public DockerBuildTask Rm()
         {
-            WithArguments("rm");
+            WithArgumentsKeyFromAttribute();
+            return this;
+        }
+
+        /// <summary>
+        /// Secret file to expose to the build (only if BuildKit enabled): id=mysecret,src=/local/secret
+
+        /// </summary>
+        [ArgKey("secret")]
+        public DockerBuildTask Secret(string secret)
+        {
+            WithArgumentsKeyFromAttribute(secret.ToString());
             return this;
         }
 
         /// <summary>
         /// Security options
         /// </summary>
+        [ArgKey("security-opt")]
         public DockerBuildTask SecurityOpt(string securityOpt)
         {
-            WithArgumentsValueRequired("security-opt", securityOpt.ToString());
+            WithArgumentsKeyFromAttribute(securityOpt.ToString());
             return this;
         }
 
         /// <summary>
         /// Size of /dev/shm
         /// </summary>
+        [ArgKey("shm-size")]
         public DockerBuildTask ShmSize(string shmSize)
         {
-            WithArgumentsValueRequired("shm-size", shmSize.ToString());
+            WithArgumentsKeyFromAttribute(shmSize.ToString());
             return this;
         }
 
         /// <summary>
         /// Squash newly built layers into a single new layer
         /// </summary>
+        [ArgKey("squash")]
         public DockerBuildTask Squash()
         {
-            WithArguments("squash");
+            WithArgumentsKeyFromAttribute();
+            return this;
+        }
+
+        /// <summary>
+        /// SSH agent socket or keys to expose to the build (only if BuildKit enabled) (format: default|<id>[=<socket>|<key>[,<key>]])
+
+        /// </summary>
+        [ArgKey("ssh")]
+        public DockerBuildTask Ssh(string ssh)
+        {
+            WithArgumentsKeyFromAttribute(ssh.ToString());
             return this;
         }
 
         /// <summary>
         /// Stream attaches to server to negotiate build context
         /// </summary>
+        [ArgKey("stream")]
         public DockerBuildTask Stream()
         {
-            WithArguments("stream");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Name and optionally a tag in the 'name:tag' format
         /// </summary>
+        [ArgKey("tag")]
         public DockerBuildTask Tag(string tag)
         {
-            WithArgumentsValueRequired("tag", tag.ToString());
+            WithArgumentsKeyFromAttribute(tag.ToString());
             return this;
         }
 
         /// <summary>
         /// Set the target build stage to build.
         /// </summary>
+        [ArgKey("target")]
         public DockerBuildTask Target(string target)
         {
-            WithArgumentsValueRequired("target", target.ToString());
+            WithArgumentsKeyFromAttribute(target.ToString());
             return this;
         }
 
         /// <summary>
         /// Ulimit options
         /// </summary>
+        [ArgKey("ulimit")]
         public DockerBuildTask Ulimit(string ulimit)
         {
-            WithArgumentsValueRequired("ulimit", ulimit.ToString());
+            WithArgumentsKeyFromAttribute(ulimit.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

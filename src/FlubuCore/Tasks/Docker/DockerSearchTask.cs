@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerSearchTask(string term)
         {
             ExecutablePath = "docker";
-            WithArguments("search");
+            WithArgumentsKeyFromAttribute();
 _term = term;
 
         }
@@ -29,54 +30,60 @@ _term = term;
         /// <summary>
         /// Only show automated builds
         /// </summary>
+        [ArgKey("automated")]
         public DockerSearchTask Automated()
         {
-            WithArguments("automated");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Filter output based on conditions provided
         /// </summary>
+        [ArgKey("filter")]
         public DockerSearchTask Filter(string filter)
         {
-            WithArgumentsValueRequired("filter", filter.ToString());
+            WithArgumentsKeyFromAttribute(filter.ToString());
             return this;
         }
 
         /// <summary>
         /// Pretty-print search using a Go template
         /// </summary>
+        [ArgKey("format")]
         public DockerSearchTask Format(string format)
         {
-            WithArgumentsValueRequired("format", format.ToString());
+            WithArgumentsKeyFromAttribute(format.ToString());
             return this;
         }
 
         /// <summary>
         /// Max number of search results
         /// </summary>
+        [ArgKey("limit")]
         public DockerSearchTask Limit(int limit)
         {
-            WithArgumentsValueRequired("limit", limit.ToString());
+            WithArgumentsKeyFromAttribute(limit.ToString());
             return this;
         }
 
         /// <summary>
         /// Don't truncate output
         /// </summary>
+        [ArgKey("no-trunc")]
         public DockerSearchTask NoTrunc()
         {
-            WithArguments("no-trunc");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Only displays with at least x stars
         /// </summary>
+        [ArgKey("stars")]
         public DockerSearchTask Stars(uint stars)
         {
-            WithArgumentsValueRequired("stars", stars.ToString());
+            WithArgumentsKeyFromAttribute(stars.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

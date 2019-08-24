@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.System
@@ -18,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.System
         public DockerSystemPruneTask()
         {
             ExecutablePath = "docker";
-            WithArguments("system prune");
+            WithArgumentsKeyFromAttribute();
 
         }
 
@@ -27,36 +28,40 @@ namespace FlubuCore.Tasks.Docker.System
         /// <summary>
         /// Remove all unused images not just dangling ones
         /// </summary>
+        [ArgKey("all")]
         public DockerSystemPruneTask All()
         {
-            WithArguments("all");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Provide filter values (e.g. 'label=<key>=<value>')
         /// </summary>
+        [ArgKey("filter")]
         public DockerSystemPruneTask Filter(string filter)
         {
-            WithArgumentsValueRequired("filter", filter.ToString());
+            WithArgumentsKeyFromAttribute(filter.ToString());
             return this;
         }
 
         /// <summary>
         /// Do not prompt for confirmation
         /// </summary>
+        [ArgKey("force")]
         public DockerSystemPruneTask Force()
         {
-            WithArguments("force");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Prune volumes
         /// </summary>
+        [ArgKey("volumes")]
         public DockerSystemPruneTask Volumes()
         {
-            WithArguments("volumes");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

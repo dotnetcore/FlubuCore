@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Stack
@@ -18,18 +19,39 @@ namespace FlubuCore.Tasks.Docker.Stack
         public DockerStackLsTask()
         {
             ExecutablePath = "docker";
-            WithArguments("stack ls");
+            WithArgumentsKeyFromAttribute();
 
         }
 
         protected override string Description { get; set; }
         
         /// <summary>
+        /// List stacks from all Kubernetes namespaces
+        /// </summary>
+        [ArgKey("all-namespaces")]
+        public DockerStackLsTask AllNamespaces()
+        {
+            WithArgumentsKeyFromAttribute();
+            return this;
+        }
+
+        /// <summary>
         /// Pretty-print stacks using a Go template
         /// </summary>
+        [ArgKey("format")]
         public DockerStackLsTask Format(string format)
         {
-            WithArgumentsValueRequired("format", format.ToString());
+            WithArgumentsKeyFromAttribute(format.ToString());
+            return this;
+        }
+
+        /// <summary>
+        /// Kubernetes namespaces to use
+        /// </summary>
+        [ArgKey("namespace")]
+        public DockerStackLsTask Namespace(string @namespace)
+        {
+            WithArgumentsKeyFromAttribute(@namespace.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

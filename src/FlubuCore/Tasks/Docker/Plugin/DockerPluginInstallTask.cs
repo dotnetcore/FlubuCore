@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Plugin
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Plugin
         public DockerPluginInstallTask(string plugin)
         {
             ExecutablePath = "docker";
-            WithArguments("plugin install");
+            WithArgumentsKeyFromAttribute();
 _plugin = plugin;
 
         }
@@ -29,36 +30,40 @@ _plugin = plugin;
         /// <summary>
         /// Local name for plugin
         /// </summary>
+        [ArgKey("alias")]
         public DockerPluginInstallTask Alias(string alias)
         {
-            WithArgumentsValueRequired("alias", alias.ToString());
+            WithArgumentsKeyFromAttribute(alias.ToString());
             return this;
         }
 
         /// <summary>
         /// Do not enable the plugin on install
         /// </summary>
+        [ArgKey("disable")]
         public DockerPluginInstallTask Disable()
         {
-            WithArguments("disable");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Skip image verification
         /// </summary>
+        [ArgKey("disable-content-trust")]
         public DockerPluginInstallTask DisableContentTrust()
         {
-            WithArguments("disable-content-trust");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Grant all permissions necessary to run the plugin
         /// </summary>
+        [ArgKey("grant-all-permissions")]
         public DockerPluginInstallTask GrantAllPermissions()
         {
-            WithArguments("grant-all-permissions");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

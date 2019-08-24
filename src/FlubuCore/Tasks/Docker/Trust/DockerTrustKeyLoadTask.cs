@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Trust
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Trust
         public DockerTrustKeyLoadTask(string keyfile)
         {
             ExecutablePath = "docker";
-            WithArguments("trust key load");
+            WithArgumentsKeyFromAttribute();
 _keyfile = keyfile;
 
         }
@@ -29,9 +30,10 @@ _keyfile = keyfile;
         /// <summary>
         /// Name for the loaded key
         /// </summary>
+        [ArgKey("name")]
         public DockerTrustKeyLoadTask Name(string name)
         {
-            WithArgumentsValueRequired("name", name.ToString());
+            WithArgumentsKeyFromAttribute(name.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

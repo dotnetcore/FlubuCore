@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Node
@@ -20,7 +21,7 @@ private string[] _node;
         public DockerNodeInspectTask(string self,  params string[] node)
         {
             ExecutablePath = "docker";
-            WithArguments("node inspect");
+            WithArgumentsKeyFromAttribute();
 _self = self;
 _node = node;
 
@@ -31,18 +32,20 @@ _node = node;
         /// <summary>
         /// Format the output using the given Go template
         /// </summary>
+        [ArgKey("format")]
         public DockerNodeInspectTask Format(string format)
         {
-            WithArgumentsValueRequired("format", format.ToString());
+            WithArgumentsKeyFromAttribute(format.ToString());
             return this;
         }
 
         /// <summary>
         /// Print the information in a human friendly format
         /// </summary>
+        [ArgKey("pretty")]
         public DockerNodeInspectTask Pretty()
         {
-            WithArguments("pretty");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

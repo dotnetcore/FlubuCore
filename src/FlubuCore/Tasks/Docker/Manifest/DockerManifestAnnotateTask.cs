@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Manifest
@@ -20,7 +21,7 @@ private string _manifest;
         public DockerManifestAnnotateTask(string manifest_list,  string manifest)
         {
             ExecutablePath = "docker";
-            WithArguments("manifest annotate");
+            WithArgumentsKeyFromAttribute();
 _manifest_list = manifest_list;
 _manifest = manifest;
 
@@ -31,36 +32,40 @@ _manifest = manifest;
         /// <summary>
         /// Set architecture
         /// </summary>
+        [ArgKey("arch")]
         public DockerManifestAnnotateTask Arch(string arch)
         {
-            WithArgumentsValueRequired("arch", arch.ToString());
+            WithArgumentsKeyFromAttribute(arch.ToString());
             return this;
         }
 
         /// <summary>
         /// Set operating system
         /// </summary>
+        [ArgKey("os")]
         public DockerManifestAnnotateTask Os(string os)
         {
-            WithArgumentsValueRequired("os", os.ToString());
+            WithArgumentsKeyFromAttribute(os.ToString());
             return this;
         }
 
         /// <summary>
         /// Set operating system feature
         /// </summary>
+        [ArgKey("os-features")]
         public DockerManifestAnnotateTask OsFeatures(string osFeatures)
         {
-            WithArgumentsValueRequired("os-features", osFeatures.ToString());
+            WithArgumentsKeyFromAttribute(osFeatures.ToString());
             return this;
         }
 
         /// <summary>
         /// Set architecture variant
         /// </summary>
+        [ArgKey("variant")]
         public DockerManifestAnnotateTask Variant(string variant)
         {
-            WithArgumentsValueRequired("variant", variant.ToString());
+            WithArgumentsKeyFromAttribute(variant.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

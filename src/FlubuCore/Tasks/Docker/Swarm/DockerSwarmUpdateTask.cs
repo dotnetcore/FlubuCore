@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Swarm
@@ -18,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         public DockerSwarmUpdateTask()
         {
             ExecutablePath = "docker";
-            WithArguments("swarm update");
+            WithArgumentsKeyFromAttribute();
 
         }
 
@@ -27,63 +28,70 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Change manager autolocking setting (true|false)
         /// </summary>
+        [ArgKey("autolock")]
         public DockerSwarmUpdateTask Autolock()
         {
-            WithArguments("autolock");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Validity period for node certificates (ns|us|ms|s|m|h)
         /// </summary>
+        [ArgKey("cert-expiry")]
         public DockerSwarmUpdateTask CertExpiry(string certExpiry)
         {
-            WithArgumentsValueRequired("cert-expiry", certExpiry.ToString());
+            WithArgumentsKeyFromAttribute(certExpiry.ToString());
             return this;
         }
 
         /// <summary>
         /// Dispatcher heartbeat period (ns|us|ms|s|m|h)
         /// </summary>
+        [ArgKey("dispatcher-heartbeat")]
         public DockerSwarmUpdateTask DispatcherHeartbeat(string dispatcherHeartbeat)
         {
-            WithArgumentsValueRequired("dispatcher-heartbeat", dispatcherHeartbeat.ToString());
+            WithArgumentsKeyFromAttribute(dispatcherHeartbeat.ToString());
             return this;
         }
 
         /// <summary>
         /// Specifications of one or more certificate signing endpoints
         /// </summary>
+        [ArgKey("external-ca")]
         public DockerSwarmUpdateTask ExternalCa(string externalCa)
         {
-            WithArgumentsValueRequired("external-ca", externalCa.ToString());
+            WithArgumentsKeyFromAttribute(externalCa.ToString());
             return this;
         }
 
         /// <summary>
         /// Number of additional Raft snapshots to retain
         /// </summary>
+        [ArgKey("max-snapshots")]
         public DockerSwarmUpdateTask MaxSnapshots(ulong maxSnapshots)
         {
-            WithArgumentsValueRequired("max-snapshots", maxSnapshots.ToString());
+            WithArgumentsKeyFromAttribute(maxSnapshots.ToString());
             return this;
         }
 
         /// <summary>
         /// Number of log entries between Raft snapshots
         /// </summary>
+        [ArgKey("snapshot-interval")]
         public DockerSwarmUpdateTask SnapshotInterval(ulong snapshotInterval)
         {
-            WithArgumentsValueRequired("snapshot-interval", snapshotInterval.ToString());
+            WithArgumentsKeyFromAttribute(snapshotInterval.ToString());
             return this;
         }
 
         /// <summary>
         /// Task history retention limit
         /// </summary>
+        [ArgKey("task-history-limit")]
         public DockerSwarmUpdateTask TaskHistoryLimit(long taskHistoryLimit)
         {
-            WithArgumentsValueRequired("task-history-limit", taskHistoryLimit.ToString());
+            WithArgumentsKeyFromAttribute(taskHistoryLimit.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

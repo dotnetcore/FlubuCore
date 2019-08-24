@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerRmTask(params string[] container)
         {
             ExecutablePath = "docker";
-            WithArguments("rm");
+            WithArgumentsKeyFromAttribute();
 _container = container;
 
         }
@@ -29,27 +30,30 @@ _container = container;
         /// <summary>
         /// Force the removal of a running container (uses SIGKILL)
         /// </summary>
+        [ArgKey("force")]
         public DockerRmTask Force()
         {
-            WithArguments("force");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Remove the specified link
         /// </summary>
+        [ArgKey("link")]
         public DockerRmTask Link()
         {
-            WithArguments("link");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Remove the volumes associated with the container
         /// </summary>
+        [ArgKey("volumes")]
         public DockerRmTask Volumes()
         {
-            WithArguments("volumes");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.System
@@ -18,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.System
         public DockerSystemDfTask()
         {
             ExecutablePath = "docker";
-            WithArguments("system df");
+            WithArgumentsKeyFromAttribute();
 
         }
 
@@ -27,18 +28,20 @@ namespace FlubuCore.Tasks.Docker.System
         /// <summary>
         /// Pretty-print images using a Go template
         /// </summary>
+        [ArgKey("format")]
         public DockerSystemDfTask Format(string format)
         {
-            WithArgumentsValueRequired("format", format.ToString());
+            WithArgumentsKeyFromAttribute(format.ToString());
             return this;
         }
 
         /// <summary>
         /// Show detailed information on space usage
         /// </summary>
+        [ArgKey("verbose")]
         public DockerSystemDfTask Verbose()
         {
-            WithArguments("verbose");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

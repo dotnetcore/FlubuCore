@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Manifest
@@ -20,7 +21,7 @@ private string _manifest;
         public DockerManifestInspectTask(string manifest_list,  string manifest)
         {
             ExecutablePath = "docker";
-            WithArguments("manifest inspect");
+            WithArgumentsKeyFromAttribute();
 _manifest_list = manifest_list;
 _manifest = manifest;
 
@@ -29,20 +30,22 @@ _manifest = manifest;
         protected override string Description { get; set; }
         
         /// <summary>
-        /// allow communication with an insecure registry
+        /// Allow communication with an insecure registry
         /// </summary>
+        [ArgKey("insecure")]
         public DockerManifestInspectTask Insecure()
         {
-            WithArguments("insecure");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Output additional info including layers and platform
         /// </summary>
+        [ArgKey("verbose")]
         public DockerManifestInspectTask Verbose()
         {
-            WithArguments("verbose");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

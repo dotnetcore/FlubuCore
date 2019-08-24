@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerRmiTask(params string[] image)
         {
             ExecutablePath = "docker";
-            WithArguments("rmi");
+            WithArgumentsKeyFromAttribute();
 _image = image;
 
         }
@@ -29,18 +30,20 @@ _image = image;
         /// <summary>
         /// Force removal of the image
         /// </summary>
+        [ArgKey("force")]
         public DockerRmiTask Force()
         {
-            WithArguments("force");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Do not delete untagged parents
         /// </summary>
+        [ArgKey("no-prune")]
         public DockerRmiTask NoPrune()
         {
-            WithArguments("no-prune");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

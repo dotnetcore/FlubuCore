@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Image
@@ -18,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Image
         public DockerImagePruneTask()
         {
             ExecutablePath = "docker";
-            WithArguments("image prune");
+            WithArgumentsKeyFromAttribute();
 
         }
 
@@ -27,27 +28,30 @@ namespace FlubuCore.Tasks.Docker.Image
         /// <summary>
         /// Remove all unused images, not just dangling ones
         /// </summary>
+        [ArgKey("all")]
         public DockerImagePruneTask All()
         {
-            WithArguments("all");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Provide filter values (e.g. 'until=<timestamp>')
         /// </summary>
+        [ArgKey("filter")]
         public DockerImagePruneTask Filter(string filter)
         {
-            WithArgumentsValueRequired("filter", filter.ToString());
+            WithArgumentsKeyFromAttribute(filter.ToString());
             return this;
         }
 
         /// <summary>
         /// Do not prompt for confirmation
         /// </summary>
+        [ArgKey("force")]
         public DockerImagePruneTask Force()
         {
-            WithArguments("force");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

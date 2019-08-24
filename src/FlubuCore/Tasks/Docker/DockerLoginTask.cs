@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerLoginTask(string server)
         {
             ExecutablePath = "docker";
-            WithArguments("login");
+            WithArgumentsKeyFromAttribute();
 _server = server;
 
         }
@@ -29,27 +30,30 @@ _server = server;
         /// <summary>
         /// Password
         /// </summary>
+        [ArgKey("password")]
         public DockerLoginTask Password(string password)
         {
-            WithArgumentsValueRequired("password", password.ToString());
+            WithArgumentsKeyFromAttribute(password.ToString());
             return this;
         }
 
         /// <summary>
         /// Take the password from stdin
         /// </summary>
+        [ArgKey("password-stdin")]
         public DockerLoginTask PasswordStdin()
         {
-            WithArguments("password-stdin");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Username
         /// </summary>
+        [ArgKey("username")]
         public DockerLoginTask Username(string username)
         {
-            WithArgumentsValueRequired("username", username.ToString());
+            WithArgumentsKeyFromAttribute(username.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

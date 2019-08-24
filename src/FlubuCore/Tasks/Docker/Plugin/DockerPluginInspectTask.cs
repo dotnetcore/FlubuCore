@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Plugin
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Plugin
         public DockerPluginInspectTask(params string[] plugin)
         {
             ExecutablePath = "docker";
-            WithArguments("plugin inspect");
+            WithArgumentsKeyFromAttribute();
 _plugin = plugin;
 
         }
@@ -29,9 +30,10 @@ _plugin = plugin;
         /// <summary>
         /// Format the output using the given Go template
         /// </summary>
+        [ArgKey("format")]
         public DockerPluginInspectTask Format(string format)
         {
-            WithArgumentsValueRequired("format", format.ToString());
+            WithArgumentsKeyFromAttribute(format.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

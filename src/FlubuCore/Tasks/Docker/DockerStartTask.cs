@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerStartTask(params string[] container)
         {
             ExecutablePath = "docker";
-            WithArguments("start");
+            WithArgumentsKeyFromAttribute();
 _container = container;
 
         }
@@ -29,45 +30,50 @@ _container = container;
         /// <summary>
         /// Attach STDOUT/STDERR and forward signals
         /// </summary>
+        [ArgKey("attach")]
         public DockerStartTask Attach()
         {
-            WithArguments("attach");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Restore from this checkpoint
         /// </summary>
+        [ArgKey("checkpoint")]
         public DockerStartTask Checkpoint(string checkpoint)
         {
-            WithArgumentsValueRequired("checkpoint", checkpoint.ToString());
+            WithArgumentsKeyFromAttribute(checkpoint.ToString());
             return this;
         }
 
         /// <summary>
         /// Use a custom checkpoint storage directory
         /// </summary>
+        [ArgKey("checkpoint-dir")]
         public DockerStartTask CheckpointDir(string checkpointDir)
         {
-            WithArgumentsValueRequired("checkpoint-dir", checkpointDir.ToString());
+            WithArgumentsKeyFromAttribute(checkpointDir.ToString());
             return this;
         }
 
         /// <summary>
         /// Override the key sequence for detaching a container
         /// </summary>
+        [ArgKey("detach-keys")]
         public DockerStartTask DetachKeys(string detachKeys)
         {
-            WithArgumentsValueRequired("detach-keys", detachKeys.ToString());
+            WithArgumentsKeyFromAttribute(detachKeys.ToString());
             return this;
         }
 
         /// <summary>
         /// Attach container's STDIN
         /// </summary>
+        [ArgKey("interactive")]
         public DockerStartTask Interactive()
         {
-            WithArguments("interactive");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

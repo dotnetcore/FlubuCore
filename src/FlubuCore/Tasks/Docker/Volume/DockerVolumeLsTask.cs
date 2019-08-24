@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Volume
@@ -18,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Volume
         public DockerVolumeLsTask()
         {
             ExecutablePath = "docker";
-            WithArguments("volume ls");
+            WithArgumentsKeyFromAttribute();
 
         }
 
@@ -27,27 +28,30 @@ namespace FlubuCore.Tasks.Docker.Volume
         /// <summary>
         /// Provide filter values (e.g. 'dangling=true')
         /// </summary>
+        [ArgKey("filter")]
         public DockerVolumeLsTask Filter(string filter)
         {
-            WithArgumentsValueRequired("filter", filter.ToString());
+            WithArgumentsKeyFromAttribute(filter.ToString());
             return this;
         }
 
         /// <summary>
         /// Pretty-print volumes using a Go template
         /// </summary>
+        [ArgKey("format")]
         public DockerVolumeLsTask Format(string format)
         {
-            WithArgumentsValueRequired("format", format.ToString());
+            WithArgumentsKeyFromAttribute(format.ToString());
             return this;
         }
 
         /// <summary>
         /// Only display volume names
         /// </summary>
+        [ArgKey("quiet")]
         public DockerVolumeLsTask Quiet()
         {
-            WithArguments("quiet");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

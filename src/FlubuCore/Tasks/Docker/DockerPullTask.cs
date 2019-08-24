@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerPullTask(string name)
         {
             ExecutablePath = "docker";
-            WithArguments("pull");
+            WithArgumentsKeyFromAttribute();
 _name = name;
 
         }
@@ -29,27 +30,40 @@ _name = name;
         /// <summary>
         /// Download all tagged images in the repository
         /// </summary>
+        [ArgKey("all-tags")]
         public DockerPullTask AllTags()
         {
-            WithArguments("all-tags");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Skip image verification
         /// </summary>
+        [ArgKey("disable-content-trust")]
         public DockerPullTask DisableContentTrust()
         {
-            WithArguments("disable-content-trust");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Set platform if server is multi-platform capable
         /// </summary>
+        [ArgKey("platform")]
         public DockerPullTask Platform(string platform)
         {
-            WithArgumentsValueRequired("platform", platform.ToString());
+            WithArgumentsKeyFromAttribute(platform.ToString());
+            return this;
+        }
+
+        /// <summary>
+        /// Suppress verbose output
+        /// </summary>
+        [ArgKey("quiet")]
+        public DockerPullTask Quiet()
+        {
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

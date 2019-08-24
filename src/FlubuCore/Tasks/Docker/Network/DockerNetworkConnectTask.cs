@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Network
@@ -20,7 +21,7 @@ private string _container;
         public DockerNetworkConnectTask(string network,  string container)
         {
             ExecutablePath = "docker";
-            WithArguments("network connect");
+            WithArgumentsKeyFromAttribute();
 _network = network;
 _container = container;
 
@@ -31,45 +32,60 @@ _container = container;
         /// <summary>
         /// Add network-scoped alias for the container
         /// </summary>
+        [ArgKey("alias")]
         public DockerNetworkConnectTask Alias(string alias)
         {
-            WithArgumentsValueRequired("alias", alias.ToString());
+            WithArgumentsKeyFromAttribute(alias.ToString());
+            return this;
+        }
+
+        /// <summary>
+        /// driver options for the network
+        /// </summary>
+        [ArgKey("driver-opt")]
+        public DockerNetworkConnectTask DriverOpt(string driverOpt)
+        {
+            WithArgumentsKeyFromAttribute(driverOpt.ToString());
             return this;
         }
 
         /// <summary>
         /// IPv4 address (e.g., 172.30.100.104)
         /// </summary>
+        [ArgKey("ip")]
         public DockerNetworkConnectTask Ip(string ip)
         {
-            WithArgumentsValueRequired("ip", ip.ToString());
+            WithArgumentsKeyFromAttribute(ip.ToString());
             return this;
         }
 
         /// <summary>
         /// IPv6 address (e.g., 2001:db8::33)
         /// </summary>
+        [ArgKey("ip6")]
         public DockerNetworkConnectTask Ip6(string ip6)
         {
-            WithArgumentsValueRequired("ip6", ip6.ToString());
+            WithArgumentsKeyFromAttribute(ip6.ToString());
             return this;
         }
 
         /// <summary>
         /// Add link to another container
         /// </summary>
+        [ArgKey("link")]
         public DockerNetworkConnectTask Link(string link)
         {
-            WithArgumentsValueRequired("link", link.ToString());
+            WithArgumentsKeyFromAttribute(link.ToString());
             return this;
         }
 
         /// <summary>
         /// Add a link-local address for the container
         /// </summary>
+        [ArgKey("link-local-ip")]
         public DockerNetworkConnectTask LinkLocalIp(string linkLocalIp)
         {
-            WithArgumentsValueRequired("link-local-ip", linkLocalIp.ToString());
+            WithArgumentsKeyFromAttribute(linkLocalIp.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

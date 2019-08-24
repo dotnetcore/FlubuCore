@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Trust
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Trust
         public DockerTrustKeyGenerateTask(string name)
         {
             ExecutablePath = "docker";
-            WithArguments("trust key generate");
+            WithArgumentsKeyFromAttribute();
 _name = name;
 
         }
@@ -29,9 +30,10 @@ _name = name;
         /// <summary>
         /// Directory to generate key in, defaults to current directory
         /// </summary>
+        [ArgKey("dir")]
         public DockerTrustKeyGenerateTask Dir(string dir)
         {
-            WithArgumentsValueRequired("dir", dir.ToString());
+            WithArgumentsKeyFromAttribute(dir.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

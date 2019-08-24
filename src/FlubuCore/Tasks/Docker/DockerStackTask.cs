@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker
@@ -18,7 +19,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerStackTask()
         {
             ExecutablePath = "docker";
-            WithArguments("stack");
+            WithArgumentsKeyFromAttribute();
 
         }
 
@@ -27,18 +28,20 @@ namespace FlubuCore.Tasks.Docker
         /// <summary>
         /// Kubernetes config file
         /// </summary>
+        [ArgKey("kubeconfig")]
         public DockerStackTask Kubeconfig(string kubeconfig)
         {
-            WithArgumentsValueRequired("kubeconfig", kubeconfig.ToString());
+            WithArgumentsKeyFromAttribute(kubeconfig.ToString());
             return this;
         }
 
         /// <summary>
-        /// Kubernetes namespace to use
+        /// Orchestrator to use (swarm|kubernetes|all)
         /// </summary>
-        public DockerStackTask Namespace(string @namespace)
+        [ArgKey("orchestrator")]
+        public DockerStackTask Orchestrator(string orchestrator)
         {
-            WithArgumentsValueRequired("namespace", @namespace.ToString());
+            WithArgumentsKeyFromAttribute(orchestrator.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

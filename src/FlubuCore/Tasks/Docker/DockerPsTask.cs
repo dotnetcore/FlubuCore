@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker
@@ -18,7 +19,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerPsTask()
         {
             ExecutablePath = "docker";
-            WithArguments("ps");
+            WithArgumentsKeyFromAttribute();
 
         }
 
@@ -27,72 +28,80 @@ namespace FlubuCore.Tasks.Docker
         /// <summary>
         /// Show all containers (default shows just running)
         /// </summary>
+        [ArgKey("all")]
         public DockerPsTask All()
         {
-            WithArguments("all");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Filter output based on conditions provided
         /// </summary>
+        [ArgKey("filter")]
         public DockerPsTask Filter(string filter)
         {
-            WithArgumentsValueRequired("filter", filter.ToString());
+            WithArgumentsKeyFromAttribute(filter.ToString());
             return this;
         }
 
         /// <summary>
         /// Pretty-print containers using a Go template
         /// </summary>
+        [ArgKey("format")]
         public DockerPsTask Format(string format)
         {
-            WithArgumentsValueRequired("format", format.ToString());
+            WithArgumentsKeyFromAttribute(format.ToString());
             return this;
         }
 
         /// <summary>
         /// Show n last created containers (includes all states)
         /// </summary>
+        [ArgKey("last")]
         public DockerPsTask Last(int last)
         {
-            WithArgumentsValueRequired("last", last.ToString());
+            WithArgumentsKeyFromAttribute(last.ToString());
             return this;
         }
 
         /// <summary>
         /// Show the latest created container (includes all states)
         /// </summary>
+        [ArgKey("latest")]
         public DockerPsTask Latest()
         {
-            WithArguments("latest");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Don't truncate output
         /// </summary>
+        [ArgKey("no-trunc")]
         public DockerPsTask NoTrunc()
         {
-            WithArguments("no-trunc");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Only display numeric IDs
         /// </summary>
+        [ArgKey("quiet")]
         public DockerPsTask Quiet()
         {
-            WithArguments("quiet");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Display total file sizes
         /// </summary>
+        [ArgKey("size")]
         public DockerPsTask Size()
         {
-            WithArguments("size");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

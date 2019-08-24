@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Network
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Network
         public DockerNetworkInspectTask(params string[] network)
         {
             ExecutablePath = "docker";
-            WithArguments("network inspect");
+            WithArgumentsKeyFromAttribute();
 _network = network;
 
         }
@@ -29,18 +30,20 @@ _network = network;
         /// <summary>
         /// Format the output using the given Go template
         /// </summary>
+        [ArgKey("format")]
         public DockerNetworkInspectTask Format(string format)
         {
-            WithArgumentsValueRequired("format", format.ToString());
+            WithArgumentsKeyFromAttribute(format.ToString());
             return this;
         }
 
         /// <summary>
         /// Verbose output for diagnostics
         /// </summary>
+        [ArgKey("verbose")]
         public DockerNetworkInspectTask Verbose()
         {
-            WithArguments("verbose");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Secret
@@ -20,7 +21,7 @@ private string _file;
         public DockerSecretCreateTask(string secret,  string file)
         {
             ExecutablePath = "docker";
-            WithArguments("secret create");
+            WithArgumentsKeyFromAttribute();
 _secret = secret;
 _file = file;
 
@@ -31,27 +32,30 @@ _file = file;
         /// <summary>
         /// Secret driver
         /// </summary>
+        [ArgKey("driver")]
         public DockerSecretCreateTask Driver(string driver)
         {
-            WithArgumentsValueRequired("driver", driver.ToString());
+            WithArgumentsKeyFromAttribute(driver.ToString());
             return this;
         }
 
         /// <summary>
         /// Secret labels
         /// </summary>
+        [ArgKey("label")]
         public DockerSecretCreateTask Label(string label)
         {
-            WithArgumentsValueRequired("label", label.ToString());
+            WithArgumentsKeyFromAttribute(label.ToString());
             return this;
         }
 
         /// <summary>
         /// Template driver
         /// </summary>
+        [ArgKey("template-driver")]
         public DockerSecretCreateTask TemplateDriver(string templateDriver)
         {
-            WithArgumentsValueRequired("template-driver", templateDriver.ToString());
+            WithArgumentsKeyFromAttribute(templateDriver.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

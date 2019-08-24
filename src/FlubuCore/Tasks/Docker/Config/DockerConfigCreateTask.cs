@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Config
@@ -20,7 +21,7 @@ private string _file;
         public DockerConfigCreateTask(string config,  string file)
         {
             ExecutablePath = "docker";
-            WithArguments("config create");
+            WithArgumentsKeyFromAttribute();
 _config = config;
 _file = file;
 
@@ -31,18 +32,20 @@ _file = file;
         /// <summary>
         /// Config labels
         /// </summary>
+        [ArgKey("label")]
         public DockerConfigCreateTask Label(string label)
         {
-            WithArgumentsValueRequired("label", label.ToString());
+            WithArgumentsKeyFromAttribute(label.ToString());
             return this;
         }
 
         /// <summary>
         /// Template driver
         /// </summary>
+        [ArgKey("template-driver")]
         public DockerConfigCreateTask TemplateDriver(string templateDriver)
         {
-            WithArgumentsValueRequired("template-driver", templateDriver.ToString());
+            WithArgumentsKeyFromAttribute(templateDriver.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

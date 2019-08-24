@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Image
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Image
         public DockerImageHistoryTask(string image)
         {
             ExecutablePath = "docker";
-            WithArguments("image history");
+            WithArgumentsKeyFromAttribute();
 _image = image;
 
         }
@@ -29,36 +30,40 @@ _image = image;
         /// <summary>
         /// Pretty-print images using a Go template
         /// </summary>
+        [ArgKey("format")]
         public DockerImageHistoryTask Format(string format)
         {
-            WithArgumentsValueRequired("format", format.ToString());
+            WithArgumentsKeyFromAttribute(format.ToString());
             return this;
         }
 
         /// <summary>
         /// Print sizes and dates in human readable format
         /// </summary>
+        [ArgKey("human")]
         public DockerImageHistoryTask Human()
         {
-            WithArguments("human");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Don't truncate output
         /// </summary>
+        [ArgKey("no-trunc")]
         public DockerImageHistoryTask NoTrunc()
         {
-            WithArguments("no-trunc");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Only show numeric IDs
         /// </summary>
+        [ArgKey("quiet")]
         public DockerImageHistoryTask Quiet()
         {
-            WithArguments("quiet");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

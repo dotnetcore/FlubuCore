@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Image
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Image
         public DockerImageLsTask(string repository)
         {
             ExecutablePath = "docker";
-            WithArguments("image ls");
+            WithArgumentsKeyFromAttribute();
 _repository = repository;
 
         }
@@ -29,54 +30,60 @@ _repository = repository;
         /// <summary>
         /// Show all images (default hides intermediate images)
         /// </summary>
+        [ArgKey("all")]
         public DockerImageLsTask All()
         {
-            WithArguments("all");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Show digests
         /// </summary>
+        [ArgKey("digests")]
         public DockerImageLsTask Digests()
         {
-            WithArguments("digests");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Filter output based on conditions provided
         /// </summary>
+        [ArgKey("filter")]
         public DockerImageLsTask Filter(string filter)
         {
-            WithArgumentsValueRequired("filter", filter.ToString());
+            WithArgumentsKeyFromAttribute(filter.ToString());
             return this;
         }
 
         /// <summary>
         /// Pretty-print images using a Go template
         /// </summary>
+        [ArgKey("format")]
         public DockerImageLsTask Format(string format)
         {
-            WithArgumentsValueRequired("format", format.ToString());
+            WithArgumentsKeyFromAttribute(format.ToString());
             return this;
         }
 
         /// <summary>
         /// Don't truncate output
         /// </summary>
+        [ArgKey("no-trunc")]
         public DockerImageLsTask NoTrunc()
         {
-            WithArguments("no-trunc");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Only show numeric IDs
         /// </summary>
+        [ArgKey("quiet")]
         public DockerImageLsTask Quiet()
         {
-            WithArguments("quiet");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

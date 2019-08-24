@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Trust
@@ -21,7 +22,7 @@ private string[] _repository;
         public DockerTrustSignerAddTask(string options,  string name,  params string[] repository)
         {
             ExecutablePath = "docker";
-            WithArguments("trust signer add");
+            WithArgumentsKeyFromAttribute();
 _options = options;
 _name = name;
 _repository = repository;
@@ -33,9 +34,10 @@ _repository = repository;
         /// <summary>
         /// Path to the signer's public key file
         /// </summary>
+        [ArgKey("key")]
         public DockerTrustSignerAddTask Key(string key)
         {
-            WithArgumentsValueRequired("key", key.ToString());
+            WithArgumentsKeyFromAttribute(key.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

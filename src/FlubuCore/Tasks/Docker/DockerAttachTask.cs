@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerAttachTask(string container)
         {
             ExecutablePath = "docker";
-            WithArguments("attach");
+            WithArgumentsKeyFromAttribute();
 _container = container;
 
         }
@@ -29,27 +30,30 @@ _container = container;
         /// <summary>
         /// Override the key sequence for detaching a container
         /// </summary>
+        [ArgKey("detach-keys")]
         public DockerAttachTask DetachKeys(string detachKeys)
         {
-            WithArgumentsValueRequired("detach-keys", detachKeys.ToString());
+            WithArgumentsKeyFromAttribute(detachKeys.ToString());
             return this;
         }
 
         /// <summary>
         /// Do not attach STDIN
         /// </summary>
+        [ArgKey("no-stdin")]
         public DockerAttachTask NoStdin()
         {
-            WithArguments("no-stdin");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Proxy all received signals to the process
         /// </summary>
+        [ArgKey("sig-proxy")]
         public DockerAttachTask SigProxy()
         {
-            WithArguments("sig-proxy");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

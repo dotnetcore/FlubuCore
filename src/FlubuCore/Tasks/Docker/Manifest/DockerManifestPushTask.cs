@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Manifest
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Manifest
         public DockerManifestPushTask(string manifest_list)
         {
             ExecutablePath = "docker";
-            WithArguments("manifest push");
+            WithArgumentsKeyFromAttribute();
 _manifest_list = manifest_list;
 
         }
@@ -29,18 +30,20 @@ _manifest_list = manifest_list;
         /// <summary>
         /// Allow push to an insecure registry
         /// </summary>
+        [ArgKey("insecure")]
         public DockerManifestPushTask Insecure()
         {
-            WithArguments("insecure");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Remove the local manifest list after push
         /// </summary>
+        [ArgKey("purge")]
         public DockerManifestPushTask Purge()
         {
-            WithArguments("purge");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

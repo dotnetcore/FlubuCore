@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker
@@ -21,7 +22,7 @@ private string[] _arg;
         public DockerExecTask(string container,  string command,  params string[] arg)
         {
             ExecutablePath = "docker";
-            WithArguments("exec");
+            WithArgumentsKeyFromAttribute();
 _container = container;
 _command = command;
 _arg = arg;
@@ -33,72 +34,80 @@ _arg = arg;
         /// <summary>
         /// Detached mode: run command in the background
         /// </summary>
+        [ArgKey("detach")]
         public DockerExecTask Detach()
         {
-            WithArguments("detach");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Override the key sequence for detaching a container
         /// </summary>
+        [ArgKey("detach-keys")]
         public DockerExecTask DetachKeys(string detachKeys)
         {
-            WithArgumentsValueRequired("detach-keys", detachKeys.ToString());
+            WithArgumentsKeyFromAttribute(detachKeys.ToString());
             return this;
         }
 
         /// <summary>
         /// Set environment variables
         /// </summary>
+        [ArgKey("env")]
         public DockerExecTask Env(string env)
         {
-            WithArgumentsValueRequired("env", env.ToString());
+            WithArgumentsKeyFromAttribute(env.ToString());
             return this;
         }
 
         /// <summary>
         /// Keep STDIN open even if not attached
         /// </summary>
+        [ArgKey("interactive")]
         public DockerExecTask Interactive()
         {
-            WithArguments("interactive");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Give extended privileges to the command
         /// </summary>
+        [ArgKey("privileged")]
         public DockerExecTask Privileged()
         {
-            WithArguments("privileged");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Allocate a pseudo-TTY
         /// </summary>
+        [ArgKey("tty")]
         public DockerExecTask Tty()
         {
-            WithArguments("tty");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Username or UID (format: <name|uid>[:<group|gid>])
         /// </summary>
+        [ArgKey("user")]
         public DockerExecTask User(string user)
         {
-            WithArgumentsValueRequired("user", user.ToString());
+            WithArgumentsKeyFromAttribute(user.ToString());
             return this;
         }
 
         /// <summary>
         /// Working directory inside the container
         /// </summary>
+        [ArgKey("workdir")]
         public DockerExecTask Workdir(string workdir)
         {
-            WithArgumentsValueRequired("workdir", workdir.ToString());
+            WithArgumentsKeyFromAttribute(workdir.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

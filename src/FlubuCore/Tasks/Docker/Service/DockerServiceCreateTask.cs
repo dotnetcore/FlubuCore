@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Service
@@ -21,7 +22,7 @@ private string[] _arg;
         public DockerServiceCreateTask(string image,  string command,  params string[] arg)
         {
             ExecutablePath = "docker";
-            WithArguments("service create");
+            WithArgumentsKeyFromAttribute();
 _image = image;
 _command = command;
 _arg = arg;
@@ -33,36 +34,40 @@ _arg = arg;
         /// <summary>
         /// Specify configurations to expose to the service
         /// </summary>
+        [ArgKey("config")]
         public DockerServiceCreateTask Config(string config)
         {
-            WithArgumentsValueRequired("config", config.ToString());
+            WithArgumentsKeyFromAttribute(config.ToString());
             return this;
         }
 
         /// <summary>
         /// Placement constraints
         /// </summary>
+        [ArgKey("constraint")]
         public DockerServiceCreateTask Constraint(string constraint)
         {
-            WithArgumentsValueRequired("constraint", constraint.ToString());
+            WithArgumentsKeyFromAttribute(constraint.ToString());
             return this;
         }
 
         /// <summary>
         /// Container labels
         /// </summary>
+        [ArgKey("container-label")]
         public DockerServiceCreateTask ContainerLabel(string containerLabel)
         {
-            WithArgumentsValueRequired("container-label", containerLabel.ToString());
+            WithArgumentsKeyFromAttribute(containerLabel.ToString());
             return this;
         }
 
         /// <summary>
         /// Credential spec for managed service account (Windows only)
         /// </summary>
+        [ArgKey("credential-spec")]
         public DockerServiceCreateTask CredentialSpec(string credentialSpec)
         {
-            WithArgumentsValueRequired("credential-spec", credentialSpec.ToString());
+            WithArgumentsKeyFromAttribute(credentialSpec.ToString());
             return this;
         }
 
@@ -70,117 +75,130 @@ _arg = arg;
         /// Exit immediately instead of waiting for the service to converge
 
         /// </summary>
+        [ArgKey("detach")]
         public DockerServiceCreateTask Detach()
         {
-            WithArguments("detach");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Set custom DNS servers
         /// </summary>
+        [ArgKey("dns")]
         public DockerServiceCreateTask Dns(string dns)
         {
-            WithArgumentsValueRequired("dns", dns.ToString());
+            WithArgumentsKeyFromAttribute(dns.ToString());
             return this;
         }
 
         /// <summary>
         /// Set DNS options
         /// </summary>
+        [ArgKey("dns-option")]
         public DockerServiceCreateTask DnsOption(string dnsOption)
         {
-            WithArgumentsValueRequired("dns-option", dnsOption.ToString());
+            WithArgumentsKeyFromAttribute(dnsOption.ToString());
             return this;
         }
 
         /// <summary>
         /// Set custom DNS search domains
         /// </summary>
+        [ArgKey("dns-search")]
         public DockerServiceCreateTask DnsSearch(string dnsSearch)
         {
-            WithArgumentsValueRequired("dns-search", dnsSearch.ToString());
+            WithArgumentsKeyFromAttribute(dnsSearch.ToString());
             return this;
         }
 
         /// <summary>
         /// Endpoint mode (vip or dnsrr)
         /// </summary>
+        [ArgKey("endpoint-mode")]
         public DockerServiceCreateTask EndpointMode(string endpointMode)
         {
-            WithArgumentsValueRequired("endpoint-mode", endpointMode.ToString());
+            WithArgumentsKeyFromAttribute(endpointMode.ToString());
             return this;
         }
 
         /// <summary>
         /// Overwrite the default ENTRYPOINT of the image
         /// </summary>
+        [ArgKey("entrypoint")]
         public DockerServiceCreateTask Entrypoint(string entrypoint)
         {
-            WithArgumentsValueRequired("entrypoint", entrypoint.ToString());
+            WithArgumentsKeyFromAttribute(entrypoint.ToString());
             return this;
         }
 
         /// <summary>
         /// Set environment variables
         /// </summary>
+        [ArgKey("env")]
         public DockerServiceCreateTask Env(string env)
         {
-            WithArgumentsValueRequired("env", env.ToString());
+            WithArgumentsKeyFromAttribute(env.ToString());
             return this;
         }
 
         /// <summary>
         /// Read in a file of environment variables
         /// </summary>
+        [ArgKey("env-file")]
         public DockerServiceCreateTask EnvFile(string envFile)
         {
-            WithArgumentsValueRequired("env-file", envFile.ToString());
+            WithArgumentsKeyFromAttribute(envFile.ToString());
             return this;
         }
 
         /// <summary>
         /// User defined resources
         /// </summary>
+        [ArgKey("generic-resource")]
         public DockerServiceCreateTask GenericResource(string genericResource)
         {
-            WithArgumentsValueRequired("generic-resource", genericResource.ToString());
+            WithArgumentsKeyFromAttribute(genericResource.ToString());
             return this;
         }
 
         /// <summary>
         /// Set one or more supplementary user groups for the container
         /// </summary>
+        [ArgKey("group")]
         public DockerServiceCreateTask Group(string group)
         {
-            WithArgumentsValueRequired("group", group.ToString());
+            WithArgumentsKeyFromAttribute(group.ToString());
             return this;
         }
 
         /// <summary>
         /// Command to run to check health
         /// </summary>
+        [ArgKey("health-cmd")]
         public DockerServiceCreateTask HealthCmd(string healthCmd)
         {
-            WithArgumentsValueRequired("health-cmd", healthCmd.ToString());
+            WithArgumentsKeyFromAttribute(healthCmd.ToString());
             return this;
         }
 
         /// <summary>
         /// Time between running the check (ms|s|m|h)
         /// </summary>
+        [ArgKey("health-interval")]
         public DockerServiceCreateTask HealthInterval(string healthInterval)
         {
-            WithArgumentsValueRequired("health-interval", healthInterval.ToString());
+            WithArgumentsKeyFromAttribute(healthInterval.ToString());
             return this;
         }
 
         /// <summary>
         /// Consecutive failures needed to report unhealthy
         /// </summary>
+        [ArgKey("health-retries")]
         public DockerServiceCreateTask HealthRetries(int healthRetries)
         {
-            WithArgumentsValueRequired("health-retries", healthRetries.ToString());
+            WithArgumentsKeyFromAttribute(healthRetries.ToString());
             return this;
         }
 
@@ -188,135 +206,161 @@ _arg = arg;
         /// Start period for the container to initialize before counting retries towards unstable (ms|s|m|h)
 
         /// </summary>
+        [ArgKey("health-start-period")]
         public DockerServiceCreateTask HealthStartPeriod(string healthStartPeriod)
         {
-            WithArgumentsValueRequired("health-start-period", healthStartPeriod.ToString());
+            WithArgumentsKeyFromAttribute(healthStartPeriod.ToString());
             return this;
         }
 
         /// <summary>
         /// Maximum time to allow one check to run (ms|s|m|h)
         /// </summary>
+        [ArgKey("health-timeout")]
         public DockerServiceCreateTask HealthTimeout(string healthTimeout)
         {
-            WithArgumentsValueRequired("health-timeout", healthTimeout.ToString());
+            WithArgumentsKeyFromAttribute(healthTimeout.ToString());
             return this;
         }
 
         /// <summary>
         /// Set one or more custom host-to-IP mappings (host:ip)
         /// </summary>
+        [ArgKey("host")]
         public DockerServiceCreateTask Host(string host)
         {
-            WithArgumentsValueRequired("host", host.ToString());
+            WithArgumentsKeyFromAttribute(host.ToString());
             return this;
         }
 
         /// <summary>
         /// Container hostname
         /// </summary>
+        [ArgKey("hostname")]
         public DockerServiceCreateTask Hostname(string hostname)
         {
-            WithArgumentsValueRequired("hostname", hostname.ToString());
+            WithArgumentsKeyFromAttribute(hostname.ToString());
+            return this;
+        }
+
+        /// <summary>
+        /// Use an init inside each service container to forward signals and reap processes
+
+        /// </summary>
+        [ArgKey("init")]
+        public DockerServiceCreateTask Init()
+        {
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Service container isolation mode
         /// </summary>
+        [ArgKey("isolation")]
         public DockerServiceCreateTask Isolation(string isolation)
         {
-            WithArgumentsValueRequired("isolation", isolation.ToString());
+            WithArgumentsKeyFromAttribute(isolation.ToString());
             return this;
         }
 
         /// <summary>
         /// Service labels
         /// </summary>
+        [ArgKey("label")]
         public DockerServiceCreateTask Label(string label)
         {
-            WithArgumentsValueRequired("label", label.ToString());
+            WithArgumentsKeyFromAttribute(label.ToString());
             return this;
         }
 
         /// <summary>
         /// Limit CPUs
         /// </summary>
+        [ArgKey("limit-cpu")]
         public DockerServiceCreateTask LimitCpu(decimal limitCpu)
         {
-            WithArgumentsValueRequired("limit-cpu", limitCpu.ToString());
+            WithArgumentsKeyFromAttribute(limitCpu.ToString());
             return this;
         }
 
         /// <summary>
         /// Limit Memory
         /// </summary>
+        [ArgKey("limit-memory")]
         public DockerServiceCreateTask LimitMemory(string limitMemory)
         {
-            WithArgumentsValueRequired("limit-memory", limitMemory.ToString());
+            WithArgumentsKeyFromAttribute(limitMemory.ToString());
             return this;
         }
 
         /// <summary>
         /// Logging driver for service
         /// </summary>
+        [ArgKey("log-driver")]
         public DockerServiceCreateTask LogDriver(string logDriver)
         {
-            WithArgumentsValueRequired("log-driver", logDriver.ToString());
+            WithArgumentsKeyFromAttribute(logDriver.ToString());
             return this;
         }
 
         /// <summary>
         /// Logging driver options
         /// </summary>
+        [ArgKey("log-opt")]
         public DockerServiceCreateTask LogOpt(string logOpt)
         {
-            WithArgumentsValueRequired("log-opt", logOpt.ToString());
+            WithArgumentsKeyFromAttribute(logOpt.ToString());
             return this;
         }
 
         /// <summary>
         /// Service mode (replicated or global)
         /// </summary>
+        [ArgKey("mode")]
         public DockerServiceCreateTask Mode(string mode)
         {
-            WithArgumentsValueRequired("mode", mode.ToString());
+            WithArgumentsKeyFromAttribute(mode.ToString());
             return this;
         }
 
         /// <summary>
         /// Attach a filesystem mount to the service
         /// </summary>
+        [ArgKey("mount")]
         public DockerServiceCreateTask Mount(string mount)
         {
-            WithArgumentsValueRequired("mount", mount.ToString());
+            WithArgumentsKeyFromAttribute(mount.ToString());
             return this;
         }
 
         /// <summary>
         /// Service name
         /// </summary>
+        [ArgKey("name")]
         public DockerServiceCreateTask Name(string name)
         {
-            WithArgumentsValueRequired("name", name.ToString());
+            WithArgumentsKeyFromAttribute(name.ToString());
             return this;
         }
 
         /// <summary>
         /// Network attachments
         /// </summary>
+        [ArgKey("network")]
         public DockerServiceCreateTask Network(string network)
         {
-            WithArgumentsValueRequired("network", network.ToString());
+            WithArgumentsKeyFromAttribute(network.ToString());
             return this;
         }
 
         /// <summary>
         /// Disable any container-specified HEALTHCHECK
         /// </summary>
+        [ArgKey("no-healthcheck")]
         public DockerServiceCreateTask NoHealthcheck()
         {
-            WithArguments("no-healthcheck");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -324,72 +368,90 @@ _arg = arg;
         /// Do not query the registry to resolve image digest and supported platforms
 
         /// </summary>
+        [ArgKey("no-resolve-image")]
         public DockerServiceCreateTask NoResolveImage()
         {
-            WithArguments("no-resolve-image");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Add a placement preference
         /// </summary>
+        [ArgKey("placement-pref")]
         public DockerServiceCreateTask PlacementPref(string placementPref)
         {
-            WithArgumentsValueRequired("placement-pref", placementPref.ToString());
+            WithArgumentsKeyFromAttribute(placementPref.ToString());
             return this;
         }
 
         /// <summary>
         /// Publish a port as a node port
         /// </summary>
+        [ArgKey("publish")]
         public DockerServiceCreateTask Publish(string publish)
         {
-            WithArgumentsValueRequired("publish", publish.ToString());
+            WithArgumentsKeyFromAttribute(publish.ToString());
             return this;
         }
 
         /// <summary>
         /// Suppress progress output
         /// </summary>
+        [ArgKey("quiet")]
         public DockerServiceCreateTask Quiet()
         {
-            WithArguments("quiet");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Mount the container's root filesystem as read only
         /// </summary>
+        [ArgKey("read-only")]
         public DockerServiceCreateTask ReadOnly()
         {
-            WithArguments("read-only");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Number of tasks
         /// </summary>
+        [ArgKey("replicas")]
         public DockerServiceCreateTask Replicas(uint replicas)
         {
-            WithArgumentsValueRequired("replicas", replicas.ToString());
+            WithArgumentsKeyFromAttribute(replicas.ToString());
+            return this;
+        }
+
+        /// <summary>
+        /// Maximum number of tasks per node (default 0 = unlimited)
+        /// </summary>
+        [ArgKey("replicas-max-per-node")]
+        public DockerServiceCreateTask ReplicasMaxPerNode(ulong replicasMaxPerNode)
+        {
+            WithArgumentsKeyFromAttribute(replicasMaxPerNode.ToString());
             return this;
         }
 
         /// <summary>
         /// Reserve CPUs
         /// </summary>
+        [ArgKey("reserve-cpu")]
         public DockerServiceCreateTask ReserveCpu(decimal reserveCpu)
         {
-            WithArgumentsValueRequired("reserve-cpu", reserveCpu.ToString());
+            WithArgumentsKeyFromAttribute(reserveCpu.ToString());
             return this;
         }
 
         /// <summary>
         /// Reserve Memory
         /// </summary>
+        [ArgKey("reserve-memory")]
         public DockerServiceCreateTask ReserveMemory(string reserveMemory)
         {
-            WithArgumentsValueRequired("reserve-memory", reserveMemory.ToString());
+            WithArgumentsKeyFromAttribute(reserveMemory.ToString());
             return this;
         }
 
@@ -397,45 +459,50 @@ _arg = arg;
         /// Restart when condition is met ("none"|"on-failure"|"any") (default "any")
 
         /// </summary>
+        [ArgKey("restart-condition")]
         public DockerServiceCreateTask RestartCondition(string restartCondition)
         {
-            WithArgumentsValueRequired("restart-condition", restartCondition.ToString());
+            WithArgumentsKeyFromAttribute(restartCondition.ToString());
             return this;
         }
 
         /// <summary>
         /// Delay between restart attempts (ns|us|ms|s|m|h) (default 5s)
         /// </summary>
+        [ArgKey("restart-delay")]
         public DockerServiceCreateTask RestartDelay(string restartDelay)
         {
-            WithArgumentsValueRequired("restart-delay", restartDelay.ToString());
+            WithArgumentsKeyFromAttribute(restartDelay.ToString());
             return this;
         }
 
         /// <summary>
         /// Maximum number of restarts before giving up
         /// </summary>
+        [ArgKey("restart-max-attempts")]
         public DockerServiceCreateTask RestartMaxAttempts(uint restartMaxAttempts)
         {
-            WithArgumentsValueRequired("restart-max-attempts", restartMaxAttempts.ToString());
+            WithArgumentsKeyFromAttribute(restartMaxAttempts.ToString());
             return this;
         }
 
         /// <summary>
         /// Window used to evaluate the restart policy (ns|us|ms|s|m|h)
         /// </summary>
+        [ArgKey("restart-window")]
         public DockerServiceCreateTask RestartWindow(string restartWindow)
         {
-            WithArgumentsValueRequired("restart-window", restartWindow.ToString());
+            WithArgumentsKeyFromAttribute(restartWindow.ToString());
             return this;
         }
 
         /// <summary>
         /// Delay between task rollbacks (ns|us|ms|s|m|h) (default 0s)
         /// </summary>
+        [ArgKey("rollback-delay")]
         public DockerServiceCreateTask RollbackDelay(string rollbackDelay)
         {
-            WithArgumentsValueRequired("rollback-delay", rollbackDelay.ToString());
+            WithArgumentsKeyFromAttribute(rollbackDelay.ToString());
             return this;
         }
 
@@ -443,18 +510,20 @@ _arg = arg;
         /// Action on rollback failure ("pause"|"continue") (default "pause")
 
         /// </summary>
+        [ArgKey("rollback-failure-action")]
         public DockerServiceCreateTask RollbackFailureAction(string rollbackFailureAction)
         {
-            WithArgumentsValueRequired("rollback-failure-action", rollbackFailureAction.ToString());
+            WithArgumentsKeyFromAttribute(rollbackFailureAction.ToString());
             return this;
         }
 
         /// <summary>
         /// Failure rate to tolerate during a rollback (default 0)
         /// </summary>
+        [ArgKey("rollback-max-failure-ratio")]
         public DockerServiceCreateTask RollbackMaxFailureRatio(float rollbackMaxFailureRatio)
         {
-            WithArgumentsValueRequired("rollback-max-failure-ratio", rollbackMaxFailureRatio.ToString());
+            WithArgumentsKeyFromAttribute(rollbackMaxFailureRatio.ToString());
             return this;
         }
 
@@ -462,9 +531,10 @@ _arg = arg;
         /// Duration after each task rollback to monitor for failure (ns|us|ms|s|m|h) (default 5s)
 
         /// </summary>
+        [ArgKey("rollback-monitor")]
         public DockerServiceCreateTask RollbackMonitor(string rollbackMonitor)
         {
-            WithArgumentsValueRequired("rollback-monitor", rollbackMonitor.ToString());
+            WithArgumentsKeyFromAttribute(rollbackMonitor.ToString());
             return this;
         }
 
@@ -472,9 +542,10 @@ _arg = arg;
         /// Rollback order ("start-first"|"stop-first") (default "stop-first")
 
         /// </summary>
+        [ArgKey("rollback-order")]
         public DockerServiceCreateTask RollbackOrder(string rollbackOrder)
         {
-            WithArgumentsValueRequired("rollback-order", rollbackOrder.ToString());
+            WithArgumentsKeyFromAttribute(rollbackOrder.ToString());
             return this;
         }
 
@@ -482,18 +553,20 @@ _arg = arg;
         /// Maximum number of tasks rolled back simultaneously (0 to roll back all at once)
 
         /// </summary>
+        [ArgKey("rollback-parallelism")]
         public DockerServiceCreateTask RollbackParallelism(ulong rollbackParallelism)
         {
-            WithArgumentsValueRequired("rollback-parallelism", rollbackParallelism.ToString());
+            WithArgumentsKeyFromAttribute(rollbackParallelism.ToString());
             return this;
         }
 
         /// <summary>
         /// Specify secrets to expose to the service
         /// </summary>
+        [ArgKey("secret")]
         public DockerServiceCreateTask Secret(string secret)
         {
-            WithArgumentsValueRequired("secret", secret.ToString());
+            WithArgumentsKeyFromAttribute(secret.ToString());
             return this;
         }
 
@@ -501,36 +574,50 @@ _arg = arg;
         /// Time to wait before force killing a container (ns|us|ms|s|m|h) (default 10s)
 
         /// </summary>
+        [ArgKey("stop-grace-period")]
         public DockerServiceCreateTask StopGracePeriod(string stopGracePeriod)
         {
-            WithArgumentsValueRequired("stop-grace-period", stopGracePeriod.ToString());
+            WithArgumentsKeyFromAttribute(stopGracePeriod.ToString());
             return this;
         }
 
         /// <summary>
         /// Signal to stop the container
         /// </summary>
+        [ArgKey("stop-signal")]
         public DockerServiceCreateTask StopSignal(string stopSignal)
         {
-            WithArgumentsValueRequired("stop-signal", stopSignal.ToString());
+            WithArgumentsKeyFromAttribute(stopSignal.ToString());
+            return this;
+        }
+
+        /// <summary>
+        /// Sysctl options
+        /// </summary>
+        [ArgKey("sysctl")]
+        public DockerServiceCreateTask Sysctl(string sysctl)
+        {
+            WithArgumentsKeyFromAttribute(sysctl.ToString());
             return this;
         }
 
         /// <summary>
         /// Allocate a pseudo-TTY
         /// </summary>
+        [ArgKey("tty")]
         public DockerServiceCreateTask Tty()
         {
-            WithArguments("tty");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Delay between updates (ns|us|ms|s|m|h) (default 0s)
         /// </summary>
+        [ArgKey("update-delay")]
         public DockerServiceCreateTask UpdateDelay(string updateDelay)
         {
-            WithArgumentsValueRequired("update-delay", updateDelay.ToString());
+            WithArgumentsKeyFromAttribute(updateDelay.ToString());
             return this;
         }
 
@@ -538,18 +625,20 @@ _arg = arg;
         /// Action on update failure ("pause"|"continue"|"rollback") (default "pause")
 
         /// </summary>
+        [ArgKey("update-failure-action")]
         public DockerServiceCreateTask UpdateFailureAction(string updateFailureAction)
         {
-            WithArgumentsValueRequired("update-failure-action", updateFailureAction.ToString());
+            WithArgumentsKeyFromAttribute(updateFailureAction.ToString());
             return this;
         }
 
         /// <summary>
         /// Failure rate to tolerate during an update (default 0)
         /// </summary>
+        [ArgKey("update-max-failure-ratio")]
         public DockerServiceCreateTask UpdateMaxFailureRatio(float updateMaxFailureRatio)
         {
-            WithArgumentsValueRequired("update-max-failure-ratio", updateMaxFailureRatio.ToString());
+            WithArgumentsKeyFromAttribute(updateMaxFailureRatio.ToString());
             return this;
         }
 
@@ -557,9 +646,10 @@ _arg = arg;
         /// Duration after each task update to monitor for failure (ns|us|ms|s|m|h) (default 5s)
 
         /// </summary>
+        [ArgKey("update-monitor")]
         public DockerServiceCreateTask UpdateMonitor(string updateMonitor)
         {
-            WithArgumentsValueRequired("update-monitor", updateMonitor.ToString());
+            WithArgumentsKeyFromAttribute(updateMonitor.ToString());
             return this;
         }
 
@@ -567,9 +657,10 @@ _arg = arg;
         /// Update order ("start-first"|"stop-first") (default "stop-first")
 
         /// </summary>
+        [ArgKey("update-order")]
         public DockerServiceCreateTask UpdateOrder(string updateOrder)
         {
-            WithArgumentsValueRequired("update-order", updateOrder.ToString());
+            WithArgumentsKeyFromAttribute(updateOrder.ToString());
             return this;
         }
 
@@ -577,36 +668,40 @@ _arg = arg;
         /// Maximum number of tasks updated simultaneously (0 to update all at once)
 
         /// </summary>
+        [ArgKey("update-parallelism")]
         public DockerServiceCreateTask UpdateParallelism(ulong updateParallelism)
         {
-            WithArgumentsValueRequired("update-parallelism", updateParallelism.ToString());
+            WithArgumentsKeyFromAttribute(updateParallelism.ToString());
             return this;
         }
 
         /// <summary>
         /// Username or UID (format: <name|uid>[:<group|gid>])
         /// </summary>
+        [ArgKey("user")]
         public DockerServiceCreateTask User(string user)
         {
-            WithArgumentsValueRequired("user", user.ToString());
+            WithArgumentsKeyFromAttribute(user.ToString());
             return this;
         }
 
         /// <summary>
         /// Send registry authentication details to swarm agents
         /// </summary>
+        [ArgKey("with-registry-auth")]
         public DockerServiceCreateTask WithRegistryAuth()
         {
-            WithArguments("with-registry-auth");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Working directory inside the container
         /// </summary>
+        [ArgKey("workdir")]
         public DockerServiceCreateTask Workdir(string workdir)
         {
-            WithArgumentsValueRequired("workdir", workdir.ToString());
+            WithArgumentsKeyFromAttribute(workdir.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

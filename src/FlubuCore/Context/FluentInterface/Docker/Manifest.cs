@@ -17,9 +17,9 @@ namespace FlubuCore.Context.FluentInterface.Docker
                 return new DockerManifestAnnotateTask(manifest_list,  manifest);
             }
 
-            public DockerManifestCreateTask ManifestCreate(string manfest_list ,  params string[] manifest)
+            public DockerManifestCreateTask ManifestCreate(string manifest_list ,  params string[] manifest)
             {
-                return new DockerManifestCreateTask(manfest_list,  manifest);
+                return new DockerManifestCreateTask(manifest_list,  manifest);
             }
 
             public DockerManifestInspectTask ManifestInspect(string manifest_list ,  string manifest)

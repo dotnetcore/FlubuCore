@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Container
@@ -20,7 +21,7 @@ private string _repository;
         public DockerContainerCommitTask(string container,  string repository)
         {
             ExecutablePath = "docker";
-            WithArguments("container commit");
+            WithArgumentsKeyFromAttribute();
 _container = container;
 _repository = repository;
 
@@ -31,36 +32,40 @@ _repository = repository;
         /// <summary>
         /// Author (e.g., "John Hannibal Smith <hannibal@a-team.com>")
         /// </summary>
+        [ArgKey("author")]
         public DockerContainerCommitTask Author(string author)
         {
-            WithArgumentsValueRequired("author", author.ToString());
+            WithArgumentsKeyFromAttribute(author.ToString());
             return this;
         }
 
         /// <summary>
         /// Apply Dockerfile instruction to the created image
         /// </summary>
+        [ArgKey("change")]
         public DockerContainerCommitTask Change(string change)
         {
-            WithArgumentsValueRequired("change", change.ToString());
+            WithArgumentsKeyFromAttribute(change.ToString());
             return this;
         }
 
         /// <summary>
         /// Commit message
         /// </summary>
+        [ArgKey("message")]
         public DockerContainerCommitTask Message(string message)
         {
-            WithArgumentsValueRequired("message", message.ToString());
+            WithArgumentsKeyFromAttribute(message.ToString());
             return this;
         }
 
         /// <summary>
         /// Pause container during commit
         /// </summary>
+        [ArgKey("pause")]
         public DockerContainerCommitTask Pause()
         {
-            WithArguments("pause");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

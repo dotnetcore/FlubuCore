@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Swarm
@@ -18,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         public DockerSwarmLeaveTask()
         {
             ExecutablePath = "docker";
-            WithArguments("swarm leave");
+            WithArgumentsKeyFromAttribute();
 
         }
 
@@ -27,9 +28,10 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Force this node to leave the swarm, ignoring warnings
         /// </summary>
+        [ArgKey("force")]
         public DockerSwarmLeaveTask Force()
         {
-            WithArguments("force");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

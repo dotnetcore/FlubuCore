@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Image
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Image
         public DockerImageInspectTask(params string[] image)
         {
             ExecutablePath = "docker";
-            WithArguments("image inspect");
+            WithArgumentsKeyFromAttribute();
 _image = image;
 
         }
@@ -29,9 +30,10 @@ _image = image;
         /// <summary>
         /// Format the output using the given Go template
         /// </summary>
+        [ArgKey("format")]
         public DockerImageInspectTask Format(string format)
         {
-            WithArgumentsValueRequired("format", format.ToString());
+            WithArgumentsKeyFromAttribute(format.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

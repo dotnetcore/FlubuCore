@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Node
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Node
         public DockerNodeUpdateTask(string node)
         {
             ExecutablePath = "docker";
-            WithArguments("node update");
+            WithArgumentsKeyFromAttribute();
 _node = node;
 
         }
@@ -29,36 +30,40 @@ _node = node;
         /// <summary>
         /// Availability of the node ("active"|"pause"|"drain")
         /// </summary>
+        [ArgKey("availability")]
         public DockerNodeUpdateTask Availability(string availability)
         {
-            WithArgumentsValueRequired("availability", availability.ToString());
+            WithArgumentsKeyFromAttribute(availability.ToString());
             return this;
         }
 
         /// <summary>
         /// Add or update a node label (key=value)
         /// </summary>
+        [ArgKey("label-add")]
         public DockerNodeUpdateTask LabelAdd(string labelAdd)
         {
-            WithArgumentsValueRequired("label-add", labelAdd.ToString());
+            WithArgumentsKeyFromAttribute(labelAdd.ToString());
             return this;
         }
 
         /// <summary>
         /// Remove a node label if exists
         /// </summary>
+        [ArgKey("label-rm")]
         public DockerNodeUpdateTask LabelRm(string labelRm)
         {
-            WithArgumentsValueRequired("label-rm", labelRm.ToString());
+            WithArgumentsKeyFromAttribute(labelRm.ToString());
             return this;
         }
 
         /// <summary>
         /// Role of the node ("worker"|"manager")
         /// </summary>
+        [ArgKey("role")]
         public DockerNodeUpdateTask Role(string role)
         {
-            WithArgumentsValueRequired("role", role.ToString());
+            WithArgumentsKeyFromAttribute(role.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

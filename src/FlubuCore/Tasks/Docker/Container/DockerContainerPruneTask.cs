@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Container
@@ -18,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Container
         public DockerContainerPruneTask()
         {
             ExecutablePath = "docker";
-            WithArguments("container prune");
+            WithArgumentsKeyFromAttribute();
 
         }
 
@@ -27,18 +28,20 @@ namespace FlubuCore.Tasks.Docker.Container
         /// <summary>
         /// Provide filter values (e.g. 'until=<timestamp>')
         /// </summary>
+        [ArgKey("filter")]
         public DockerContainerPruneTask Filter(string filter)
         {
-            WithArgumentsValueRequired("filter", filter.ToString());
+            WithArgumentsKeyFromAttribute(filter.ToString());
             return this;
         }
 
         /// <summary>
         /// Do not prompt for confirmation
         /// </summary>
+        [ArgKey("force")]
         public DockerContainerPruneTask Force()
         {
-            WithArguments("force");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

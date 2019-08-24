@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Stack
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Stack
         public DockerStackDeployTask(string stack)
         {
             ExecutablePath = "docker";
-            WithArguments("stack deploy");
+            WithArgumentsKeyFromAttribute();
 _stack = stack;
 
         }
@@ -29,27 +30,40 @@ _stack = stack;
         /// <summary>
         /// Path to a Distributed Application Bundle file
         /// </summary>
+        [ArgKey("bundle-file")]
         public DockerStackDeployTask BundleFile(string bundleFile)
         {
-            WithArgumentsValueRequired("bundle-file", bundleFile.ToString());
+            WithArgumentsKeyFromAttribute(bundleFile.ToString());
             return this;
         }
 
         /// <summary>
-        /// Path to a Compose file
+        /// Path to a Compose file, or "-" to read from stdin
         /// </summary>
+        [ArgKey("compose-file")]
         public DockerStackDeployTask ComposeFile(string composeFile)
         {
-            WithArgumentsValueRequired("compose-file", composeFile.ToString());
+            WithArgumentsKeyFromAttribute(composeFile.ToString());
+            return this;
+        }
+
+        /// <summary>
+        /// Kubernetes namespace to use
+        /// </summary>
+        [ArgKey("namespace")]
+        public DockerStackDeployTask Namespace(string @namespace)
+        {
+            WithArgumentsKeyFromAttribute(@namespace.ToString());
             return this;
         }
 
         /// <summary>
         /// Prune services that are no longer referenced
         /// </summary>
+        [ArgKey("prune")]
         public DockerStackDeployTask Prune()
         {
-            WithArguments("prune");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -57,18 +71,20 @@ _stack = stack;
         /// Query the registry to resolve image digest and supported platforms ("always"|"changed"|"never")
 
         /// </summary>
+        [ArgKey("resolve-image")]
         public DockerStackDeployTask ResolveImage(string resolveImage)
         {
-            WithArgumentsValueRequired("resolve-image", resolveImage.ToString());
+            WithArgumentsKeyFromAttribute(resolveImage.ToString());
             return this;
         }
 
         /// <summary>
         /// Send registry authentication details to Swarm agents
         /// </summary>
+        [ArgKey("with-registry-auth")]
         public DockerStackDeployTask WithRegistryAuth()
         {
-            WithArguments("with-registry-auth");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

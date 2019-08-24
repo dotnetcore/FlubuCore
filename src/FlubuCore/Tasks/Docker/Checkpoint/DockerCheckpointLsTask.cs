@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Checkpoint
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Checkpoint
         public DockerCheckpointLsTask(string container)
         {
             ExecutablePath = "docker";
-            WithArguments("checkpoint ls");
+            WithArgumentsKeyFromAttribute();
 _container = container;
 
         }
@@ -29,9 +30,10 @@ _container = container;
         /// <summary>
         /// Use a custom checkpoint storage directory
         /// </summary>
+        [ArgKey("checkpoint-dir")]
         public DockerCheckpointLsTask CheckpointDir(string checkpointDir)
         {
-            WithArgumentsValueRequired("checkpoint-dir", checkpointDir.ToString());
+            WithArgumentsKeyFromAttribute(checkpointDir.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

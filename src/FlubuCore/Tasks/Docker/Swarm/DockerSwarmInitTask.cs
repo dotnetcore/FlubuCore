@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Swarm
@@ -18,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         public DockerSwarmInitTask()
         {
             ExecutablePath = "docker";
-            WithArguments("swarm init");
+            WithArgumentsKeyFromAttribute();
 
         }
 
@@ -27,9 +28,10 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Advertised address (format: <ip|interface>[:port])
         /// </summary>
+        [ArgKey("advertise-addr")]
         public DockerSwarmInitTask AdvertiseAddr(string advertiseAddr)
         {
-            WithArgumentsValueRequired("advertise-addr", advertiseAddr.ToString());
+            WithArgumentsKeyFromAttribute(advertiseAddr.ToString());
             return this;
         }
 
@@ -37,27 +39,30 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// Enable manager autolocking (requiring an unlock key to start a stopped manager)
 
         /// </summary>
+        [ArgKey("autolock")]
         public DockerSwarmInitTask Autolock()
         {
-            WithArguments("autolock");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Availability of the node ("active"|"pause"|"drain")
         /// </summary>
+        [ArgKey("availability")]
         public DockerSwarmInitTask Availability(string availability)
         {
-            WithArgumentsValueRequired("availability", availability.ToString());
+            WithArgumentsKeyFromAttribute(availability.ToString());
             return this;
         }
 
         /// <summary>
         /// Validity period for node certificates (ns|us|ms|s|m|h)
         /// </summary>
+        [ArgKey("cert-expiry")]
         public DockerSwarmInitTask CertExpiry(string certExpiry)
         {
-            WithArgumentsValueRequired("cert-expiry", certExpiry.ToString());
+            WithArgumentsKeyFromAttribute(certExpiry.ToString());
             return this;
         }
 
@@ -65,72 +70,111 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// Address or interface to use for data path traffic (format: <ip|interface>)
 
         /// </summary>
+        [ArgKey("data-path-addr")]
         public DockerSwarmInitTask DataPathAddr(string dataPathAddr)
         {
-            WithArgumentsValueRequired("data-path-addr", dataPathAddr.ToString());
+            WithArgumentsKeyFromAttribute(dataPathAddr.ToString());
+            return this;
+        }
+
+        /// <summary>
+        /// Port number to use for data path traffic (1024 - 49151). If no value is set or is set to 0, the default port (4789) is used.
+
+        /// </summary>
+        [ArgKey("data-path-port")]
+        public DockerSwarmInitTask DataPathPort(uint dataPathPort)
+        {
+            WithArgumentsKeyFromAttribute(dataPathPort.ToString());
+            return this;
+        }
+
+        /// <summary>
+        /// default address pool in CIDR format
+        /// </summary>
+        [ArgKey("default-addr-pool")]
+        public DockerSwarmInitTask DefaultAddrPool(string defaultAddrPool)
+        {
+            WithArgumentsKeyFromAttribute(defaultAddrPool.ToString());
+            return this;
+        }
+
+        /// <summary>
+        /// default address pool subnet mask length
+        /// </summary>
+        [ArgKey("default-addr-pool-mask-length")]
+        public DockerSwarmInitTask DefaultAddrPoolMaskLength(uint defaultAddrPoolMaskLength)
+        {
+            WithArgumentsKeyFromAttribute(defaultAddrPoolMaskLength.ToString());
             return this;
         }
 
         /// <summary>
         /// Dispatcher heartbeat period (ns|us|ms|s|m|h)
         /// </summary>
+        [ArgKey("dispatcher-heartbeat")]
         public DockerSwarmInitTask DispatcherHeartbeat(string dispatcherHeartbeat)
         {
-            WithArgumentsValueRequired("dispatcher-heartbeat", dispatcherHeartbeat.ToString());
+            WithArgumentsKeyFromAttribute(dispatcherHeartbeat.ToString());
             return this;
         }
 
         /// <summary>
         /// Specifications of one or more certificate signing endpoints
         /// </summary>
+        [ArgKey("external-ca")]
         public DockerSwarmInitTask ExternalCa(string externalCa)
         {
-            WithArgumentsValueRequired("external-ca", externalCa.ToString());
+            WithArgumentsKeyFromAttribute(externalCa.ToString());
             return this;
         }
 
         /// <summary>
         /// Force create a new cluster from current state
         /// </summary>
+        [ArgKey("force-new-cluster")]
         public DockerSwarmInitTask ForceNewCluster()
         {
-            WithArguments("force-new-cluster");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
         /// <summary>
         /// Listen address (format: <ip|interface>[:port])
         /// </summary>
+        [ArgKey("listen-addr")]
         public DockerSwarmInitTask ListenAddr(string listenAddr)
         {
-            WithArgumentsValueRequired("listen-addr", listenAddr.ToString());
+            WithArgumentsKeyFromAttribute(listenAddr.ToString());
             return this;
         }
 
         /// <summary>
         /// Number of additional Raft snapshots to retain
         /// </summary>
+        [ArgKey("max-snapshots")]
         public DockerSwarmInitTask MaxSnapshots(ulong maxSnapshots)
         {
-            WithArgumentsValueRequired("max-snapshots", maxSnapshots.ToString());
+            WithArgumentsKeyFromAttribute(maxSnapshots.ToString());
             return this;
         }
 
         /// <summary>
         /// Number of log entries between Raft snapshots
         /// </summary>
+        [ArgKey("snapshot-interval")]
         public DockerSwarmInitTask SnapshotInterval(ulong snapshotInterval)
         {
-            WithArgumentsValueRequired("snapshot-interval", snapshotInterval.ToString());
+            WithArgumentsKeyFromAttribute(snapshotInterval.ToString());
             return this;
         }
 
         /// <summary>
         /// Task history retention limit
         /// </summary>
+        [ArgKey("task-history-limit")]
         public DockerSwarmInitTask TaskHistoryLimit(long taskHistoryLimit)
         {
-            WithArgumentsValueRequired("task-history-limit", taskHistoryLimit.ToString());
+            WithArgumentsKeyFromAttribute(taskHistoryLimit.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

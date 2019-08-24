@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Volume
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Volume
         public DockerVolumeRmTask(params string[] volume)
         {
             ExecutablePath = "docker";
-            WithArguments("volume rm");
+            WithArgumentsKeyFromAttribute();
 _volume = volume;
 
         }
@@ -29,9 +30,10 @@ _volume = volume;
         /// <summary>
         /// Force the removal of one or more volumes
         /// </summary>
+        [ArgKey("force")]
         public DockerVolumeRmTask Force()
         {
-            WithArguments("force");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)

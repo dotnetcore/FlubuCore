@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Docker.Container
@@ -19,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Container
         public DockerContainerExportTask(string container)
         {
             ExecutablePath = "docker";
-            WithArguments("container export");
+            WithArgumentsKeyFromAttribute();
 _container = container;
 
         }
@@ -29,9 +30,10 @@ _container = container;
         /// <summary>
         /// Write to a file, instead of STDOUT
         /// </summary>
+        [ArgKey("output")]
         public DockerContainerExportTask Output(string output)
         {
-            WithArgumentsValueRequired("output", output.ToString());
+            WithArgumentsKeyFromAttribute(output.ToString());
             return this;
         }
         protected override int DoExecute(ITaskContextInternal context)
