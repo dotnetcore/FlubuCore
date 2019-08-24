@@ -156,13 +156,66 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
+        ///  The logger to use for test results. See https://aka.ms/vstest-report for more information on logger arguments.
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <returns></returns>
+        [ArgKey("--logger")]
+        public DotnetTestTask Logger(string logger)
+        {
+            WithArgumentsKeyFromAttribute(logger);
+            return this;
+        }
+
+        /// <summary>
         /// The directory where the test results are going to be placed. The specified directory will be created if it does not exist.
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
+        [ArgKey("--results-directory", "r")]
         public DotnetTestTask ResultDirectory(string path)
         {
-            WithArguments("-r", path);
+            WithArgumentsKeyFromAttribute(path);
+            return this;
+        }
+
+        [ArgKey("--collect")]
+        public DotnetTestTask Collect(string dataCollectorName)
+        {
+            WithArgumentsKeyFromAttribute(dataCollectorName);
+            return this;
+        }
+
+        /// <summary>
+        /// Run the tests in blame mode. This option is helpful in isolating a problematic test causing the test host to crash.
+        /// </summary>
+        /// <returns></returns>
+        [ArgKey("--blame")]
+        public DotnetTestTask Blame()
+        {
+            WithArgumentsKeyFromAttribute();
+            return this;
+        }
+
+        /// <summary>
+        ///  Do not restore the project before building.
+        /// </summary>
+        /// <returns></returns>
+        [ArgKey("--no-restore")]
+        public DotnetTestTask NoRestore()
+        {
+            WithArgumentsKeyFromAttribute();
+            return this;
+        }
+
+        /// <summary>
+        /// List the discovered tests instead of running the tests.
+        /// </summary>
+        /// <returns></returns>
+        [ArgKey("--list-tests")]
+        public DotnetTestTask ListTests()
+        {
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
