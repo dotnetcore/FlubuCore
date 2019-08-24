@@ -109,6 +109,50 @@ namespace FlubuCore.Tasks.NetCore
             return this;
         }
 
+        /// <summary>
+        /// If a symbols package exists, it will not be pushed to a symbols server.
+        /// </summary>
+        /// <returns></returns>
+        [ArgKey("--no-symbols")]
+        public DotnetNugetPushTask NoSymbols()
+        {
+            WithArgumentsKeyFromAttribute();
+            return this;
+        }
+
+        /// <summary>
+        /// Disable buffering when pushing to an HTTP(S) server to decrease memory usage.
+        /// </summary>
+        /// <returns></returns>
+        [ArgKey("--disable-buffering")]
+        public DotnetNugetPushTask DisableBuffering()
+        {
+            WithArgumentsKeyFromAttribute();
+            return this;
+        }
+
+        /// <summary>
+        ///  Does not append "api/v2/package" to the source URL.
+        /// </summary>
+        /// <returns></returns>
+        [ArgKey("--no-service-endpoint")]
+        public DotnetNugetPushTask NoServiceEndpoint()
+        {
+            WithArgumentsKeyFromAttribute();
+            return this;
+        }
+
+        /// <summary>
+        /// Allow the command to block and require manual action for operations like authentication.
+        /// </summary>
+        /// <returns></returns>
+        [ArgKey("--interactive")]
+        public DotnetNugetPushTask Interactive()
+        {
+            WithArgumentsKeyFromAttribute();
+            return this;
+        }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             _packagePath.MustNotBeNullOrEmpty("packagePath (path to .nupkg) must not be null or empty.");

@@ -125,3 +125,6 @@ src/FlubuCore.WebApi.Updater/bin/
 src/FlubuCore.WebApi/bin/
 src/FlubuCore/bin/
 site/
+src/FlubuCore.TaskGenerator.Tests/obj/
+src/FlubuCore.TaskGenerator/obj/
+src/FlubuCore.TaskGenerator/bin/
