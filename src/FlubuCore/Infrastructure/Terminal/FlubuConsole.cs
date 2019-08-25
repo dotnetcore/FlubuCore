@@ -99,7 +99,7 @@ namespace FlubuCore.Infrastructure.Terminal
         /// <returns>Return's true</returns>
         public bool ExecuteInternalCommand(string commandLine)
         {
-            if (commandLine.Trim().Equals("dir", StringComparison.OrdinalIgnoreCase))
+            if (commandLine.Trim().Equals(InternalCommands.Dir, StringComparison.OrdinalIgnoreCase))
             {
                 DirectoryInfo objDirectoryInfo = new DirectoryInfo(@".");
                 FileInfo[] allFiles = objDirectoryInfo.GetFiles("*.*", SearchOption.TopDirectoryOnly);
@@ -120,7 +120,7 @@ namespace FlubuCore.Infrastructure.Terminal
             {
                 Directory.SetCurrentDirectory(Directory.GetCurrentDirectory() + "/..");
             }
-            else if (commandLine.StartsWith("cd", StringComparison.OrdinalIgnoreCase))
+            else if (commandLine.StartsWith(InternalCommands.Cd, StringComparison.OrdinalIgnoreCase))
             {
                 var splitedLine = commandLine.Split(' ').ToList();
                 if (splitedLine.Count > 1)
@@ -131,6 +131,11 @@ namespace FlubuCore.Infrastructure.Terminal
                         Directory.SetCurrentDirectory(newPath);
                     }
                 }
+            }
+            else if (commandLine.StartsWith(InternalCommands.Cls, StringComparison.OrdinalIgnoreCase))
+            {
+                Console.Clear();
+                ConsoleUtils.WritePrompt(Directory.GetCurrentDirectory());
             }
             else
             {
@@ -357,7 +362,6 @@ namespace FlubuCore.Infrastructure.Terminal
                 Console.CursorTop = cursorPosition.Top;
             }
 
-            //ClearConsoleLines();
             Console.WriteLine(string.Empty);
             AddCommandToHistory(readLine);
             return fullInput;
