@@ -11,6 +11,7 @@ using FlubuCore.Tasks.MsSql;
 using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Testing;
 using FlubuCore.Tasks.Versioning;
+using NuGet.Packaging;
 
 namespace FlubuCore.Infrastructure.Terminal
 {
@@ -560,6 +561,9 @@ namespace FlubuCore.Infrastructure.Terminal
 
                 if (targetHints?.Count == 0)
                 {
+                    var allProcesses = new Dictionary<string, Type>();
+                    allProcesses.AddRange(_supportedExternalProcesses);
+                    allProcesses.AddRange(DockerCommands.SupportedExternalProcesses);
                     foreach (var externalProcessCommand in _supportedExternalProcesses)
                     {
                         if (userInput.StartsWith(externalProcessCommand.Key, StringComparison.OrdinalIgnoreCase))
