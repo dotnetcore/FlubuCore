@@ -36,8 +36,8 @@ namespace FlubuCore.TaskGenerator
             string parameterName = ParameterName(parameter.ParameterName);
             string parameterType = parameter.AsParams ? $"{parameter.ParameterType}[]" : parameter.ParameterType;
             string prms = parameter.AsParams ? "params " : string.Empty;
-            string optional = parameter.IsOptional ? $" = {parameter.OptionalValue}" : string.Empty;
-            return $"{prms}{parameterType} {parameterName}";
+            string optional = parameter.IsOptional && !parameter.AsParams ? $" = {parameter.OptionalValue}" : string.Empty;
+            return $"{prms}{parameterType} {parameterName}{optional}";
         }
 
         protected internal virtual string ParameterName(string parameterName)
