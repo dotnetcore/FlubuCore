@@ -18,7 +18,7 @@ namespace FlubuCore.Tasks.Docker.Context
 private string _file;
 
         
-        public DockerContextExportTask(string context,  string file)
+        public DockerContextExportTask(string context,  string file = null)
         {
             ExecutablePath = "docker";
             WithArguments("context export");

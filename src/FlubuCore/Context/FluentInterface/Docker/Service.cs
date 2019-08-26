@@ -12,7 +12,7 @@ namespace FlubuCore.Context.FluentInterface.Docker
     public class Service
     {  
         
-            public DockerServiceCreateTask ServiceCreate(string image ,  string command ,  params string[] arg)
+            public DockerServiceCreateTask ServiceCreate(string image ,  string command = null ,  params string[] arg)
             {
                 return new DockerServiceCreateTask(image,  command,  arg);
             }

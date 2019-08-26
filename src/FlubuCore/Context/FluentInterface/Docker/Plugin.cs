@@ -52,7 +52,7 @@ namespace FlubuCore.Context.FluentInterface.Docker
                 return new DockerPluginRmTask(plugin);
             }
 
-            public DockerPluginUpgradeTask PluginUpgrade(string plugin ,  string remote)
+            public DockerPluginUpgradeTask PluginUpgrade(string plugin ,  string remote = null)
             {
                 return new DockerPluginUpgradeTask(plugin,  remote);
             }

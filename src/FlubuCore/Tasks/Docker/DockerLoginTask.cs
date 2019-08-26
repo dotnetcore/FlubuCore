@@ -17,7 +17,7 @@ namespace FlubuCore.Tasks.Docker
         private string _server;
 
         
-        public DockerLoginTask(string server)
+        public DockerLoginTask(string server = null)
         {
             ExecutablePath = "docker";
             WithArguments("login");

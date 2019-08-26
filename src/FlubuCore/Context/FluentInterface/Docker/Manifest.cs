@@ -22,7 +22,7 @@ namespace FlubuCore.Context.FluentInterface.Docker
                 return new DockerManifestCreateTask(manifest_list,  manifest);
             }
 
-            public DockerManifestInspectTask ManifestInspect(string manifest_list ,  string manifest)
+            public DockerManifestInspectTask ManifestInspect(string manifest_list,  string manifest)
             {
                 return new DockerManifestInspectTask(manifest_list,  manifest);
             }

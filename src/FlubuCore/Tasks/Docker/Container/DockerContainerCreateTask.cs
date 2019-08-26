@@ -19,7 +19,7 @@ private string _command;
 private string[] _arg;
 
         
-        public DockerContainerCreateTask(string image,  string command,  params string[] arg)
+        public DockerContainerCreateTask(string image,  string command = null,  params string[] arg)
         {
             ExecutablePath = "docker";
             WithArguments("container create");

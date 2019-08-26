@@ -17,7 +17,7 @@ namespace FlubuCore.Tasks.Docker.Volume
         private string _volume;
 
         
-        public DockerVolumeCreateTask(string volume)
+        public DockerVolumeCreateTask(string volume = null)
         {
             ExecutablePath = "docker";
             WithArguments("volume create");

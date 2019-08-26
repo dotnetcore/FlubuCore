@@ -12,7 +12,7 @@ namespace FlubuCore.Context.FluentInterface.Docker
     public class Secret
     {  
         
-            public DockerSecretCreateTask SecretCreate(string secret ,  string file)
+            public DockerSecretCreateTask SecretCreate(string secret ,  string file = null)
             {
                 return new DockerSecretCreateTask(secret,  file);
             }

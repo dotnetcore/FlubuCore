@@ -22,7 +22,7 @@ namespace FlubuCore.Context.FluentInterface.Docker
                 return new DockerImageHistoryTask(image);
             }
 
-            public DockerImageImportTask ImageImport(string file ,  string repository)
+            public DockerImageImportTask ImageImport(string file ,  string repository = null)
             {
                 return new DockerImageImportTask(file,  repository);
             }
@@ -37,7 +37,7 @@ namespace FlubuCore.Context.FluentInterface.Docker
                 return new DockerImageLoadTask();
             }
 
-            public DockerImageLsTask ImageLs(string repository)
+            public DockerImageLsTask ImageLs(string repository = null)
             {
                 return new DockerImageLsTask(repository);
             }

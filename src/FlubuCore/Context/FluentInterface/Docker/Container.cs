@@ -17,12 +17,12 @@ namespace FlubuCore.Context.FluentInterface.Docker
                 return new DockerContainerAttachTask(container);
             }
 
-            public DockerContainerCommitTask ContainerCommit(string container ,  string repository)
+            public DockerContainerCommitTask ContainerCommit(string container ,  string repository = null)
             {
                 return new DockerContainerCommitTask(container,  repository);
             }
 
-            public DockerContainerCreateTask ContainerCreate(string image ,  string command ,  params string[] arg)
+            public DockerContainerCreateTask ContainerCreate(string image ,  string command = null ,  params string[] arg)
             {
                 return new DockerContainerCreateTask(image,  command,  arg);
             }
@@ -72,7 +72,7 @@ namespace FlubuCore.Context.FluentInterface.Docker
                 return new DockerContainerRmTask(container);
             }
 
-            public DockerContainerRunTask ContainerRun(string image ,  string command ,  params string[] arg)
+            public DockerContainerRunTask ContainerRun(string image ,  string command = null ,  params string[] arg)
             {
                 return new DockerContainerRunTask(image,  command,  arg);
             }

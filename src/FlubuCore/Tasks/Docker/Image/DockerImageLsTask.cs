@@ -17,7 +17,7 @@ namespace FlubuCore.Tasks.Docker.Image
         private string _repository;
 
         
-        public DockerImageLsTask(string repository)
+        public DockerImageLsTask(string repository = null)
         {
             ExecutablePath = "docker";
             WithArguments("image ls");

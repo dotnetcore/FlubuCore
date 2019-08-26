@@ -17,7 +17,7 @@ namespace FlubuCore.Context.FluentInterface.Docker
                 return new DockerContextCreateTask(context);
             }
 
-            public DockerContextExportTask ContextExport(string context ,  string file)
+            public DockerContextExportTask ContextExport(string context ,  string file = null)
             {
                 return new DockerContextExportTask(context,  file);
             }

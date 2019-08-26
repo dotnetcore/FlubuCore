@@ -18,7 +18,7 @@ namespace FlubuCore.Tasks.Docker.Plugin
 private string _remote;
 
         
-        public DockerPluginUpgradeTask(string plugin,  string remote)
+        public DockerPluginUpgradeTask(string plugin,  string remote = null)
         {
             ExecutablePath = "docker";
             WithArguments("plugin upgrade");

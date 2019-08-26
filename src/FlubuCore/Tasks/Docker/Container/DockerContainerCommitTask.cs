@@ -18,7 +18,7 @@ namespace FlubuCore.Tasks.Docker.Container
 private string _repository;
 
         
-        public DockerContainerCommitTask(string container,  string repository)
+        public DockerContainerCommitTask(string container,  string repository = null)
         {
             ExecutablePath = "docker";
             WithArguments("container commit");

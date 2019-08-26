@@ -18,7 +18,7 @@ namespace FlubuCore.Tasks.Docker.Secret
 private string _file;
 
         
-        public DockerSecretCreateTask(string secret,  string file)
+        public DockerSecretCreateTask(string secret,  string file = null)
         {
             ExecutablePath = "docker";
             WithArguments("secret create");

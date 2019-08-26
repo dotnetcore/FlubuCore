@@ -18,7 +18,7 @@ namespace FlubuCore.Tasks.Docker
 private string _repository;
 
         
-        public DockerImportTask(string file,  string repository)
+        public DockerImportTask(string file,  string repository = null)
         {
             ExecutablePath = "docker";
             WithArguments("import");

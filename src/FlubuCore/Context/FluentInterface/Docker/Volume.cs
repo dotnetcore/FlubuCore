@@ -12,7 +12,7 @@ namespace FlubuCore.Context.FluentInterface.Docker
     public class Volume
     {  
         
-            public DockerVolumeCreateTask VolumeCreate(string volume)
+            public DockerVolumeCreateTask VolumeCreate(string volume = null)
             {
                 return new DockerVolumeCreateTask(volume);
             }

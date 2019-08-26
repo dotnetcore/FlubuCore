@@ -37,7 +37,7 @@ _context = context;
             WithArgumentsKeyFromAttribute(defaultStackOrchestrator.ToString());
             return this;
         }
-        
+
         /// <summary>
         /// Description of the context
         /// </summary>
