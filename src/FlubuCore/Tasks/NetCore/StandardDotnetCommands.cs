@@ -11,5 +11,6 @@
         Pack,
         Clean,
         Tool,
+        MsBuild
     }
 }

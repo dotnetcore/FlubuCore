@@ -122,14 +122,14 @@ namespace FlubuCore.Tasks.Process
             return this as TTask;
         }
 
-        protected void WithArgumentsKeyFromAttribute(bool maskArg = false, [CallerMemberName]string memberName = "")
+        protected virtual void WithArgumentsKeyFromAttribute(bool maskArg = false, [CallerMemberName]string memberName = "")
         {
             _arguments.Add(new Argument(GetFirstKeyFromAttribute(memberName), null, false, maskArg));
         }
 
-        protected void WithArgumentsKeyFromAttribute(string value, bool maskArg = false, [CallerMemberName]string memberName = "")
+        protected virtual void WithArgumentsKeyFromAttribute(string value, bool maskArg = false, string separator = null, [CallerMemberName]string memberName = "")
         {
-            _arguments.Add(new Argument(GetFirstKeyFromAttribute(memberName), value, true, maskArg));
+            _arguments.Add(new Argument(GetFirstKeyFromAttribute(memberName), value, true, maskArg, separator));
         }
 
         protected string GetFirstKeyFromAttribute([CallerMemberName]string memberName = "")
@@ -279,8 +279,15 @@ namespace FlubuCore.Tasks.Process
                 }
                 else
                 {
-                    argumentsFlat.Add((arg.ArgKey, false));
-                    argumentsFlat.Add((arg.ArgValue, arg.MaskArg));
+                    if (string.IsNullOrWhiteSpace(arg.Separator))
+                    {
+                        argumentsFlat.Add((arg.ArgKey, false));
+                        argumentsFlat.Add((arg.ArgValue, arg.MaskArg));
+                    }
+                    else
+                    {
+                        argumentsFlat.Add(($"{arg.ArgKey}{arg.Separator}{arg.ArgValue}", arg.MaskArg));
+                    }
                 }
             }
 

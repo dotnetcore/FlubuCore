@@ -131,6 +131,7 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddTask<DotnetRestoreTask>()
                 .AddTask<DotnetTestTask>()
                 .AddTask<DotnetBuildTask>()
+                .AddTask<DotnetMsBuildTask>()
                 .AddTask<DotnetPublishTask>()
                 .AddTask<DotnetPackTask>()
                 .AddTask<DotnetCleanTask>()

@@ -80,6 +80,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         DotnetCleanTask Clean();
 
         /// <summary>
+        /// Builds the specified targets in the project file.
+        /// </summary>
+        /// <returns></returns>
+        DotnetMsBuildTask MsBuild();
+
+        /// <summary>
         /// Pushes the nuget package to nuget server.
         /// </summary>
         /// <param name="packagePath">Path to .nupkg file</param>

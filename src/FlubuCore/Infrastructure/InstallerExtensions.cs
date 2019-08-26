@@ -71,6 +71,7 @@ namespace FlubuCore.Infrastructure
                 .AddTask<DotnetRestoreTask>()
                 .AddTask<DotnetTestTask>()
                 .AddTask<DotnetBuildTask>()
+                .AddTask<DotnetMsBuildTask>()
                 .AddTask<DotnetPublishTask>()
                 .AddTask<DotnetPackTask>()
                 .AddTask<DotnetCleanTask>()

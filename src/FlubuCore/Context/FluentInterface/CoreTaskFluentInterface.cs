@@ -112,6 +112,11 @@ namespace FlubuCore.Context.FluentInterface
             return Context.CreateTask<DotnetCleanTask>();
         }
 
+        public DotnetMsBuildTask MsBuild()
+        {
+            return Context.CreateTask<DotnetMsBuildTask>();
+        }
+
         public DotnetNugetPushTask NugetPush(string packagePath)
         {
             return Context.CreateTask<DotnetNugetPushTask>(packagePath);
