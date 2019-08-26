@@ -72,7 +72,10 @@ namespace FlubuCore.Tasks.Process
         {
             foreach (var arg in args)
             {
-                _arguments.Add(new Argument(arg, null, false, false));
+                if (!string.IsNullOrEmpty(arg))
+                {
+                    _arguments.Add(new Argument(arg, null, false, false));
+                }
             }
 
             return this as TTask;
