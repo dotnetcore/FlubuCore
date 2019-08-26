@@ -5,6 +5,25 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.Tasks.Docker;
+using FlubuCore.Tasks.Docker.Builder;
+using FlubuCore.Tasks.Docker.Checkpoint;
+using FlubuCore.Tasks.Docker.Config;
+using FlubuCore.Tasks.Docker.Container;
+using FlubuCore.Tasks.Docker.Context;
+using FlubuCore.Tasks.Docker.Engine;
+using FlubuCore.Tasks.Docker.Image;
+using FlubuCore.Tasks.Docker.Manifest;
+using FlubuCore.Tasks.Docker.Network;
+using FlubuCore.Tasks.Docker.Node;
+using FlubuCore.Tasks.Docker.Plugin;
+using FlubuCore.Tasks.Docker.Secret;
+using FlubuCore.Tasks.Docker.Service;
+using FlubuCore.Tasks.Docker.Stack;
+using FlubuCore.Tasks.Docker.Swarm;
+using FlubuCore.Tasks.Docker.System;
+using FlubuCore.Tasks.Docker.Trust;
+using FlubuCore.Tasks.Docker.Volume;
 
 namespace FlubuCore.Infrastructure.Terminal
 {
