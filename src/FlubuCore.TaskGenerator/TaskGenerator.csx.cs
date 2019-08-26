@@ -122,7 +122,7 @@ namespace {task.Namespace}
         [ArgKey(""{method.Argument.ArgumentKeyPrefix}{method.Argument.ArgumentKey}"")]
         public {task.TaskName} {method.MethodName}({WriteParameter(method.Argument?.Parameter)})
         {{
-            {WriteArgument(method.Argument)}
+            {WriteArgumentKeyFromAttribute(method.Argument)}
             return this;
         }}" + Environment.NewLine;
             }
@@ -148,6 +148,25 @@ namespace {task.Namespace}
         }
 
         protected internal virtual string WriteArgument(Argument argument)
+        {
+            if (argument == null)
+            {
+                return string.Empty;
+            }
+
+            if (argument.HasArgumentValue)
+            {
+                string parameterName = ParameterName(argument.Parameter.ParameterName);
+
+                return $"WithArgumentsValueRequired(\"{argument.ArgumentKey}\", {parameterName}.ToString());";
+            }
+            else
+            {
+                return $"WithArguments(\"{argument.ArgumentKey}\");";
+            }
+        }
+
+        protected internal virtual string WriteArgumentKeyFromAttribute(Argument argument)
         {
             if (argument == null)
             {
