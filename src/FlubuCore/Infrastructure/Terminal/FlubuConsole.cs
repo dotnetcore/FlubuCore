@@ -564,7 +564,7 @@ namespace FlubuCore.Infrastructure.Terminal
                     var allProcesses = new Dictionary<string, Type>();
                     allProcesses.AddRange(_supportedExternalProcesses);
                     allProcesses.AddRange(DockerCommands.SupportedExternalProcesses);
-                    foreach (var externalProcessCommand in _supportedExternalProcesses)
+                    foreach (var externalProcessCommand in allProcesses)
                     {
                         if (userInput.StartsWith(externalProcessCommand.Key, StringComparison.OrdinalIgnoreCase))
                         {
