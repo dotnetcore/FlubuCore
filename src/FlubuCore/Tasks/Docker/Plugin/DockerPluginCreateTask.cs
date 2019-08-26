@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Plugin
         public DockerPluginCreateTask(params string[] plugin)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("plugin create");
 _plugin = plugin;
 
         }
@@ -30,7 +30,7 @@ _plugin = plugin;
         /// <summary>
         /// Compress the context using gzip
         /// </summary>
-        [ArgKey("compress")]
+        [ArgKey("--compress")]
         public DockerPluginCreateTask Compress()
         {
             WithArgumentsKeyFromAttribute();

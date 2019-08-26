@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Volume
         public DockerVolumeRmTask(params string[] volume)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("volume rm");
 _volume = volume;
 
         }
@@ -30,7 +30,7 @@ _volume = volume;
         /// <summary>
         /// Force the removal of one or more volumes
         /// </summary>
-        [ArgKey("force")]
+        [ArgKey("--force")]
         public DockerVolumeRmTask Force()
         {
             WithArgumentsKeyFromAttribute();

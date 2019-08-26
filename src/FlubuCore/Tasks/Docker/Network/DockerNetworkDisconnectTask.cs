@@ -21,7 +21,7 @@ private string _container;
         public DockerNetworkDisconnectTask(string network,  string container)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("network disconnect");
 _network = network;
 _container = container;
 
@@ -32,7 +32,7 @@ _container = container;
         /// <summary>
         /// Force the container to disconnect from a network
         /// </summary>
-        [ArgKey("force")]
+        [ArgKey("--force")]
         public DockerNetworkDisconnectTask Force()
         {
             WithArgumentsKeyFromAttribute();

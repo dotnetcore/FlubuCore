@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Secret
         public DockerSecretLsTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("secret ls");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker.Secret
         /// <summary>
         /// Filter output based on conditions provided
         /// </summary>
-        [ArgKey("filter")]
+        [ArgKey("--filter")]
         public DockerSecretLsTask Filter(string filter)
         {
             WithArgumentsKeyFromAttribute(filter.ToString());
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker.Secret
         /// <summary>
         /// Pretty-print secrets using a Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerSecretLsTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -48,7 +48,7 @@ namespace FlubuCore.Tasks.Docker.Secret
         /// <summary>
         /// Only display IDs
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerSecretLsTask Quiet()
         {
             WithArgumentsKeyFromAttribute();

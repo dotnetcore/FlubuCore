@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Plugin
         public DockerPluginRmTask(params string[] plugin)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("plugin rm");
 _plugin = plugin;
 
         }
@@ -30,7 +30,7 @@ _plugin = plugin;
         /// <summary>
         /// Force the removal of an active plugin
         /// </summary>
-        [ArgKey("force")]
+        [ArgKey("--force")]
         public DockerPluginRmTask Force()
         {
             WithArgumentsKeyFromAttribute();

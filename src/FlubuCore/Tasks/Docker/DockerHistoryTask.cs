@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerHistoryTask(string image)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("history");
 _image = image;
 
         }
@@ -30,7 +30,7 @@ _image = image;
         /// <summary>
         /// Pretty-print images using a Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerHistoryTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -40,7 +40,7 @@ _image = image;
         /// <summary>
         /// Print sizes and dates in human readable format
         /// </summary>
-        [ArgKey("human")]
+        [ArgKey("--human")]
         public DockerHistoryTask Human()
         {
             WithArgumentsKeyFromAttribute();
@@ -50,7 +50,7 @@ _image = image;
         /// <summary>
         /// Don't truncate output
         /// </summary>
-        [ArgKey("no-trunc")]
+        [ArgKey("--no-trunc")]
         public DockerHistoryTask NoTrunc()
         {
             WithArgumentsKeyFromAttribute();
@@ -60,7 +60,7 @@ _image = image;
         /// <summary>
         /// Only show numeric IDs
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerHistoryTask Quiet()
         {
             WithArgumentsKeyFromAttribute();

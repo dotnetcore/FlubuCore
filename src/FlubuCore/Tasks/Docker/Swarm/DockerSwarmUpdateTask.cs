@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         public DockerSwarmUpdateTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("swarm update");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Change manager autolocking setting (true|false)
         /// </summary>
-        [ArgKey("autolock")]
+        [ArgKey("--autolock")]
         public DockerSwarmUpdateTask Autolock()
         {
             WithArgumentsKeyFromAttribute();
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Validity period for node certificates (ns|us|ms|s|m|h)
         /// </summary>
-        [ArgKey("cert-expiry")]
+        [ArgKey("--cert-expiry")]
         public DockerSwarmUpdateTask CertExpiry(string certExpiry)
         {
             WithArgumentsKeyFromAttribute(certExpiry.ToString());
@@ -48,7 +48,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Dispatcher heartbeat period (ns|us|ms|s|m|h)
         /// </summary>
-        [ArgKey("dispatcher-heartbeat")]
+        [ArgKey("--dispatcher-heartbeat")]
         public DockerSwarmUpdateTask DispatcherHeartbeat(string dispatcherHeartbeat)
         {
             WithArgumentsKeyFromAttribute(dispatcherHeartbeat.ToString());
@@ -58,7 +58,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Specifications of one or more certificate signing endpoints
         /// </summary>
-        [ArgKey("external-ca")]
+        [ArgKey("--external-ca")]
         public DockerSwarmUpdateTask ExternalCa(string externalCa)
         {
             WithArgumentsKeyFromAttribute(externalCa.ToString());
@@ -68,7 +68,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Number of additional Raft snapshots to retain
         /// </summary>
-        [ArgKey("max-snapshots")]
+        [ArgKey("--max-snapshots")]
         public DockerSwarmUpdateTask MaxSnapshots(ulong maxSnapshots)
         {
             WithArgumentsKeyFromAttribute(maxSnapshots.ToString());
@@ -78,7 +78,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Number of log entries between Raft snapshots
         /// </summary>
-        [ArgKey("snapshot-interval")]
+        [ArgKey("--snapshot-interval")]
         public DockerSwarmUpdateTask SnapshotInterval(ulong snapshotInterval)
         {
             WithArgumentsKeyFromAttribute(snapshotInterval.ToString());
@@ -88,7 +88,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Task history retention limit
         /// </summary>
-        [ArgKey("task-history-limit")]
+        [ArgKey("--task-history-limit")]
         public DockerSwarmUpdateTask TaskHistoryLimit(long taskHistoryLimit)
         {
             WithArgumentsKeyFromAttribute(taskHistoryLimit.ToString());

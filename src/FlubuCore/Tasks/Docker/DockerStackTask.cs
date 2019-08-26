@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerStackTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("stack");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker
         /// <summary>
         /// Kubernetes config file
         /// </summary>
-        [ArgKey("kubeconfig")]
+        [ArgKey("--kubeconfig")]
         public DockerStackTask Kubeconfig(string kubeconfig)
         {
             WithArgumentsKeyFromAttribute(kubeconfig.ToString());
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker
         /// <summary>
         /// Orchestrator to use (swarm|kubernetes|all)
         /// </summary>
-        [ArgKey("orchestrator")]
+        [ArgKey("--orchestrator")]
         public DockerStackTask Orchestrator(string orchestrator)
         {
             WithArgumentsKeyFromAttribute(orchestrator.ToString());

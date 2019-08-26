@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Stack
         public DockerStackPsTask(string stack)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("stack ps");
 _stack = stack;
 
         }
@@ -30,7 +30,7 @@ _stack = stack;
         /// <summary>
         /// Filter output based on conditions provided
         /// </summary>
-        [ArgKey("filter")]
+        [ArgKey("--filter")]
         public DockerStackPsTask Filter(string filter)
         {
             WithArgumentsKeyFromAttribute(filter.ToString());
@@ -40,7 +40,7 @@ _stack = stack;
         /// <summary>
         /// Pretty-print tasks using a Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerStackPsTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -50,7 +50,7 @@ _stack = stack;
         /// <summary>
         /// Kubernetes namespace to use
         /// </summary>
-        [ArgKey("namespace")]
+        [ArgKey("--namespace")]
         public DockerStackPsTask Namespace(string @namespace)
         {
             WithArgumentsKeyFromAttribute(@namespace.ToString());
@@ -60,7 +60,7 @@ _stack = stack;
         /// <summary>
         /// Do not map IDs to Names
         /// </summary>
-        [ArgKey("no-resolve")]
+        [ArgKey("--no-resolve")]
         public DockerStackPsTask NoResolve()
         {
             WithArgumentsKeyFromAttribute();
@@ -70,7 +70,7 @@ _stack = stack;
         /// <summary>
         /// Do not truncate output
         /// </summary>
-        [ArgKey("no-trunc")]
+        [ArgKey("--no-trunc")]
         public DockerStackPsTask NoTrunc()
         {
             WithArgumentsKeyFromAttribute();
@@ -80,7 +80,7 @@ _stack = stack;
         /// <summary>
         /// Only display task IDs
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerStackPsTask Quiet()
         {
             WithArgumentsKeyFromAttribute();

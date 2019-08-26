@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerSearchTask(string term)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("search");
 _term = term;
 
         }
@@ -30,7 +30,7 @@ _term = term;
         /// <summary>
         /// Only show automated builds
         /// </summary>
-        [ArgKey("automated")]
+        [ArgKey("--automated")]
         public DockerSearchTask Automated()
         {
             WithArgumentsKeyFromAttribute();
@@ -40,7 +40,7 @@ _term = term;
         /// <summary>
         /// Filter output based on conditions provided
         /// </summary>
-        [ArgKey("filter")]
+        [ArgKey("--filter")]
         public DockerSearchTask Filter(string filter)
         {
             WithArgumentsKeyFromAttribute(filter.ToString());
@@ -50,7 +50,7 @@ _term = term;
         /// <summary>
         /// Pretty-print search using a Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerSearchTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -60,7 +60,7 @@ _term = term;
         /// <summary>
         /// Max number of search results
         /// </summary>
-        [ArgKey("limit")]
+        [ArgKey("--limit")]
         public DockerSearchTask Limit(int limit)
         {
             WithArgumentsKeyFromAttribute(limit.ToString());
@@ -70,7 +70,7 @@ _term = term;
         /// <summary>
         /// Don't truncate output
         /// </summary>
-        [ArgKey("no-trunc")]
+        [ArgKey("--no-trunc")]
         public DockerSearchTask NoTrunc()
         {
             WithArgumentsKeyFromAttribute();
@@ -80,7 +80,7 @@ _term = term;
         /// <summary>
         /// Only displays with at least x stars
         /// </summary>
-        [ArgKey("stars")]
+        [ArgKey("--stars")]
         public DockerSearchTask Stars(uint stars)
         {
             WithArgumentsKeyFromAttribute(stars.ToString());

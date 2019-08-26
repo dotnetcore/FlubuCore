@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         public DockerSwarmJoinTokenTask(string worker)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("swarm join-token");
 _worker = worker;
 
         }
@@ -30,7 +30,7 @@ _worker = worker;
         /// <summary>
         /// Only display token
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerSwarmJoinTokenTask Quiet()
         {
             WithArgumentsKeyFromAttribute();
@@ -40,7 +40,7 @@ _worker = worker;
         /// <summary>
         /// Rotate join token
         /// </summary>
-        [ArgKey("rotate")]
+        [ArgKey("--rotate")]
         public DockerSwarmJoinTokenTask Rotate()
         {
             WithArgumentsKeyFromAttribute();

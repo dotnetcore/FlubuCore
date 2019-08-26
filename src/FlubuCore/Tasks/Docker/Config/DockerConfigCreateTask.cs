@@ -21,7 +21,7 @@ private string _file;
         public DockerConfigCreateTask(string config,  string file)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("config create");
 _config = config;
 _file = file;
 
@@ -32,7 +32,7 @@ _file = file;
         /// <summary>
         /// Config labels
         /// </summary>
-        [ArgKey("label")]
+        [ArgKey("--label")]
         public DockerConfigCreateTask Label(string label)
         {
             WithArgumentsKeyFromAttribute(label.ToString());
@@ -42,7 +42,7 @@ _file = file;
         /// <summary>
         /// Template driver
         /// </summary>
-        [ArgKey("template-driver")]
+        [ArgKey("--template-driver")]
         public DockerConfigCreateTask TemplateDriver(string templateDriver)
         {
             WithArgumentsKeyFromAttribute(templateDriver.ToString());

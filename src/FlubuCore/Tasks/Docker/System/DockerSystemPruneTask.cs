@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.System
         public DockerSystemPruneTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("system prune");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker.System
         /// <summary>
         /// Remove all unused images not just dangling ones
         /// </summary>
-        [ArgKey("all")]
+        [ArgKey("--all")]
         public DockerSystemPruneTask All()
         {
             WithArgumentsKeyFromAttribute();
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker.System
         /// <summary>
         /// Provide filter values (e.g. 'label=<key>=<value>')
         /// </summary>
-        [ArgKey("filter")]
+        [ArgKey("--filter")]
         public DockerSystemPruneTask Filter(string filter)
         {
             WithArgumentsKeyFromAttribute(filter.ToString());
@@ -48,7 +48,7 @@ namespace FlubuCore.Tasks.Docker.System
         /// <summary>
         /// Do not prompt for confirmation
         /// </summary>
-        [ArgKey("force")]
+        [ArgKey("--force")]
         public DockerSystemPruneTask Force()
         {
             WithArgumentsKeyFromAttribute();
@@ -58,7 +58,7 @@ namespace FlubuCore.Tasks.Docker.System
         /// <summary>
         /// Prune volumes
         /// </summary>
-        [ArgKey("volumes")]
+        [ArgKey("--volumes")]
         public DockerSystemPruneTask Volumes()
         {
             WithArgumentsKeyFromAttribute();

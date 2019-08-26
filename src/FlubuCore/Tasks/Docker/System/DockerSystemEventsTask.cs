@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.System
         public DockerSystemEventsTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("system events");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker.System
         /// <summary>
         /// Filter output based on conditions provided
         /// </summary>
-        [ArgKey("filter")]
+        [ArgKey("--filter")]
         public DockerSystemEventsTask Filter(string filter)
         {
             WithArgumentsKeyFromAttribute(filter.ToString());
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker.System
         /// <summary>
         /// Format the output using the given Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerSystemEventsTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -48,7 +48,7 @@ namespace FlubuCore.Tasks.Docker.System
         /// <summary>
         /// Show all events created since timestamp
         /// </summary>
-        [ArgKey("since")]
+        [ArgKey("--since")]
         public DockerSystemEventsTask Since(string since)
         {
             WithArgumentsKeyFromAttribute(since.ToString());
@@ -58,7 +58,7 @@ namespace FlubuCore.Tasks.Docker.System
         /// <summary>
         /// Stream events until this timestamp
         /// </summary>
-        [ArgKey("until")]
+        [ArgKey("--until")]
         public DockerSystemEventsTask Until(string until)
         {
             WithArgumentsKeyFromAttribute(until.ToString());

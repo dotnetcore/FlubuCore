@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerExportTask(string container)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("export");
 _container = container;
 
         }
@@ -30,7 +30,7 @@ _container = container;
         /// <summary>
         /// Write to a file, instead of STDOUT
         /// </summary>
-        [ArgKey("output")]
+        [ArgKey("--output")]
         public DockerExportTask Output(string output)
         {
             WithArgumentsKeyFromAttribute(output.ToString());

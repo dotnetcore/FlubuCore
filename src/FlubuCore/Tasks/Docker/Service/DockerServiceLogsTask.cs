@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Service
         public DockerServiceLogsTask(string service)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("service logs");
 _service = service;
 
         }
@@ -30,7 +30,7 @@ _service = service;
         /// <summary>
         /// Show extra details provided to logs
         /// </summary>
-        [ArgKey("details")]
+        [ArgKey("--details")]
         public DockerServiceLogsTask Details()
         {
             WithArgumentsKeyFromAttribute();
@@ -40,7 +40,7 @@ _service = service;
         /// <summary>
         /// Follow log output
         /// </summary>
-        [ArgKey("follow")]
+        [ArgKey("--follow")]
         public DockerServiceLogsTask Follow()
         {
             WithArgumentsKeyFromAttribute();
@@ -50,7 +50,7 @@ _service = service;
         /// <summary>
         /// Do not map IDs to Names in output
         /// </summary>
-        [ArgKey("no-resolve")]
+        [ArgKey("--no-resolve")]
         public DockerServiceLogsTask NoResolve()
         {
             WithArgumentsKeyFromAttribute();
@@ -60,7 +60,7 @@ _service = service;
         /// <summary>
         /// Do not include task IDs in output
         /// </summary>
-        [ArgKey("no-task-ids")]
+        [ArgKey("--no-task-ids")]
         public DockerServiceLogsTask NoTaskIds()
         {
             WithArgumentsKeyFromAttribute();
@@ -70,7 +70,7 @@ _service = service;
         /// <summary>
         /// Do not truncate output
         /// </summary>
-        [ArgKey("no-trunc")]
+        [ArgKey("--no-trunc")]
         public DockerServiceLogsTask NoTrunc()
         {
             WithArgumentsKeyFromAttribute();
@@ -80,7 +80,7 @@ _service = service;
         /// <summary>
         /// Do not neatly format logs
         /// </summary>
-        [ArgKey("raw")]
+        [ArgKey("--raw")]
         public DockerServiceLogsTask Raw()
         {
             WithArgumentsKeyFromAttribute();
@@ -91,7 +91,7 @@ _service = service;
         /// Show logs since timestamp (e.g. 2013-01-02T13:23:37) or relative (e.g. 42m for 42 minutes)
 
         /// </summary>
-        [ArgKey("since")]
+        [ArgKey("--since")]
         public DockerServiceLogsTask Since(string since)
         {
             WithArgumentsKeyFromAttribute(since.ToString());
@@ -101,7 +101,7 @@ _service = service;
         /// <summary>
         /// Number of lines to show from the end of the logs
         /// </summary>
-        [ArgKey("tail")]
+        [ArgKey("--tail")]
         public DockerServiceLogsTask Tail(string tail)
         {
             WithArgumentsKeyFromAttribute(tail.ToString());
@@ -111,7 +111,7 @@ _service = service;
         /// <summary>
         /// Show timestamps
         /// </summary>
-        [ArgKey("timestamps")]
+        [ArgKey("--timestamps")]
         public DockerServiceLogsTask Timestamps()
         {
             WithArgumentsKeyFromAttribute();

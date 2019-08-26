@@ -21,7 +21,7 @@ private string[] _manifest;
         public DockerManifestCreateTask(string manifest_list,  params string[] manifest)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("manifest create");
 _manifest_list = manifest_list;
 _manifest = manifest;
 
@@ -32,7 +32,7 @@ _manifest = manifest;
         /// <summary>
         /// Amend an existing manifest list
         /// </summary>
-        [ArgKey("amend")]
+        [ArgKey("--amend")]
         public DockerManifestCreateTask Amend()
         {
             WithArgumentsKeyFromAttribute();
@@ -42,7 +42,7 @@ _manifest = manifest;
         /// <summary>
         /// Allow communication with an insecure registry
         /// </summary>
-        [ArgKey("insecure")]
+        [ArgKey("--insecure")]
         public DockerManifestCreateTask Insecure()
         {
             WithArgumentsKeyFromAttribute();

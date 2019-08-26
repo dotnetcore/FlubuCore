@@ -21,7 +21,7 @@ private string _container;
         public DockerNetworkConnectTask(string network,  string container)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("network connect");
 _network = network;
 _container = container;
 
@@ -32,7 +32,7 @@ _container = container;
         /// <summary>
         /// Add network-scoped alias for the container
         /// </summary>
-        [ArgKey("alias")]
+        [ArgKey("--alias")]
         public DockerNetworkConnectTask Alias(string alias)
         {
             WithArgumentsKeyFromAttribute(alias.ToString());
@@ -42,7 +42,7 @@ _container = container;
         /// <summary>
         /// driver options for the network
         /// </summary>
-        [ArgKey("driver-opt")]
+        [ArgKey("--driver-opt")]
         public DockerNetworkConnectTask DriverOpt(string driverOpt)
         {
             WithArgumentsKeyFromAttribute(driverOpt.ToString());
@@ -52,7 +52,7 @@ _container = container;
         /// <summary>
         /// IPv4 address (e.g., 172.30.100.104)
         /// </summary>
-        [ArgKey("ip")]
+        [ArgKey("--ip")]
         public DockerNetworkConnectTask Ip(string ip)
         {
             WithArgumentsKeyFromAttribute(ip.ToString());
@@ -62,7 +62,7 @@ _container = container;
         /// <summary>
         /// IPv6 address (e.g., 2001:db8::33)
         /// </summary>
-        [ArgKey("ip6")]
+        [ArgKey("--ip6")]
         public DockerNetworkConnectTask Ip6(string ip6)
         {
             WithArgumentsKeyFromAttribute(ip6.ToString());
@@ -72,7 +72,7 @@ _container = container;
         /// <summary>
         /// Add link to another container
         /// </summary>
-        [ArgKey("link")]
+        [ArgKey("--link")]
         public DockerNetworkConnectTask Link(string link)
         {
             WithArgumentsKeyFromAttribute(link.ToString());
@@ -82,7 +82,7 @@ _container = container;
         /// <summary>
         /// Add a link-local address for the container
         /// </summary>
-        [ArgKey("link-local-ip")]
+        [ArgKey("--link-local-ip")]
         public DockerNetworkConnectTask LinkLocalIp(string linkLocalIp)
         {
             WithArgumentsKeyFromAttribute(linkLocalIp.ToString());

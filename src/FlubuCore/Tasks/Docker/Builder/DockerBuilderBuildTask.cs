@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Builder
         public DockerBuilderBuildTask(string pathOrURL)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("builder build");
 _pathOrURL = pathOrURL;
 
         }
@@ -30,7 +30,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Add a custom host-to-IP mapping (host:ip)
         /// </summary>
-        [ArgKey("add-host")]
+        [ArgKey("--add-host")]
         public DockerBuilderBuildTask AddHost(string addHost)
         {
             WithArgumentsKeyFromAttribute(addHost.ToString());
@@ -40,7 +40,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Set build-time variables
         /// </summary>
-        [ArgKey("build-arg")]
+        [ArgKey("--build-arg")]
         public DockerBuilderBuildTask BuildArg(string buildArg)
         {
             WithArgumentsKeyFromAttribute(buildArg.ToString());
@@ -50,7 +50,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Images to consider as cache sources
         /// </summary>
-        [ArgKey("cache-from")]
+        [ArgKey("--cache-from")]
         public DockerBuilderBuildTask CacheFrom(string cacheFrom)
         {
             WithArgumentsKeyFromAttribute(cacheFrom.ToString());
@@ -60,7 +60,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Optional parent cgroup for the container
         /// </summary>
-        [ArgKey("cgroup-parent")]
+        [ArgKey("--cgroup-parent")]
         public DockerBuilderBuildTask CgroupParent(string cgroupParent)
         {
             WithArgumentsKeyFromAttribute(cgroupParent.ToString());
@@ -70,7 +70,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Compress the build context using gzip
         /// </summary>
-        [ArgKey("compress")]
+        [ArgKey("--compress")]
         public DockerBuilderBuildTask Compress()
         {
             WithArgumentsKeyFromAttribute();
@@ -80,7 +80,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Limit the CPU CFS (Completely Fair Scheduler) period
         /// </summary>
-        [ArgKey("cpu-period")]
+        [ArgKey("--cpu-period")]
         public DockerBuilderBuildTask CpuPeriod(long cpuPeriod)
         {
             WithArgumentsKeyFromAttribute(cpuPeriod.ToString());
@@ -90,7 +90,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Limit the CPU CFS (Completely Fair Scheduler) quota
         /// </summary>
-        [ArgKey("cpu-quota")]
+        [ArgKey("--cpu-quota")]
         public DockerBuilderBuildTask CpuQuota(long cpuQuota)
         {
             WithArgumentsKeyFromAttribute(cpuQuota.ToString());
@@ -100,7 +100,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// CPU shares (relative weight)
         /// </summary>
-        [ArgKey("cpu-shares")]
+        [ArgKey("--cpu-shares")]
         public DockerBuilderBuildTask CpuShares(long cpuShares)
         {
             WithArgumentsKeyFromAttribute(cpuShares.ToString());
@@ -110,7 +110,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// CPUs in which to allow execution (0-3, 0,1)
         /// </summary>
-        [ArgKey("cpuset-cpus")]
+        [ArgKey("--cpuset-cpus")]
         public DockerBuilderBuildTask CpusetCpus(string cpusetCpus)
         {
             WithArgumentsKeyFromAttribute(cpusetCpus.ToString());
@@ -120,7 +120,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// MEMs in which to allow execution (0-3, 0,1)
         /// </summary>
-        [ArgKey("cpuset-mems")]
+        [ArgKey("--cpuset-mems")]
         public DockerBuilderBuildTask CpusetMems(string cpusetMems)
         {
             WithArgumentsKeyFromAttribute(cpusetMems.ToString());
@@ -130,7 +130,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Skip image verification
         /// </summary>
-        [ArgKey("disable-content-trust")]
+        [ArgKey("--disable-content-trust")]
         public DockerBuilderBuildTask DisableContentTrust()
         {
             WithArgumentsKeyFromAttribute();
@@ -140,7 +140,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Name of the Dockerfile (Default is 'PATH/Dockerfile')
         /// </summary>
-        [ArgKey("file")]
+        [ArgKey("--file")]
         public DockerBuilderBuildTask File(string file)
         {
             WithArgumentsKeyFromAttribute(file.ToString());
@@ -150,7 +150,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Always remove intermediate containers
         /// </summary>
-        [ArgKey("force-rm")]
+        [ArgKey("--force-rm")]
         public DockerBuilderBuildTask ForceRm()
         {
             WithArgumentsKeyFromAttribute();
@@ -160,7 +160,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Write the image ID to the file
         /// </summary>
-        [ArgKey("iidfile")]
+        [ArgKey("--iidfile")]
         public DockerBuilderBuildTask Iidfile(string iidfile)
         {
             WithArgumentsKeyFromAttribute(iidfile.ToString());
@@ -170,7 +170,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Container isolation technology
         /// </summary>
-        [ArgKey("isolation")]
+        [ArgKey("--isolation")]
         public DockerBuilderBuildTask Isolation(string isolation)
         {
             WithArgumentsKeyFromAttribute(isolation.ToString());
@@ -180,7 +180,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Set metadata for an image
         /// </summary>
-        [ArgKey("label")]
+        [ArgKey("--label")]
         public DockerBuilderBuildTask Label(string label)
         {
             WithArgumentsKeyFromAttribute(label.ToString());
@@ -190,7 +190,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Memory limit
         /// </summary>
-        [ArgKey("memory")]
+        [ArgKey("--memory")]
         public DockerBuilderBuildTask Memory(string memory)
         {
             WithArgumentsKeyFromAttribute(memory.ToString());
@@ -201,7 +201,7 @@ _pathOrURL = pathOrURL;
         /// Swap limit equal to memory plus swap: '-1' to enable unlimited swap
 
         /// </summary>
-        [ArgKey("memory-swap")]
+        [ArgKey("--memory-swap")]
         public DockerBuilderBuildTask MemorySwap(string memorySwap)
         {
             WithArgumentsKeyFromAttribute(memorySwap.ToString());
@@ -212,7 +212,7 @@ _pathOrURL = pathOrURL;
         /// Set the networking mode for the RUN instructions during build
 
         /// </summary>
-        [ArgKey("network")]
+        [ArgKey("--network")]
         public DockerBuilderBuildTask Network(string network)
         {
             WithArgumentsKeyFromAttribute(network.ToString());
@@ -222,7 +222,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Do not use cache when building the image
         /// </summary>
-        [ArgKey("no-cache")]
+        [ArgKey("--no-cache")]
         public DockerBuilderBuildTask NoCache()
         {
             WithArgumentsKeyFromAttribute();
@@ -232,7 +232,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Output destination (format: type=local,dest=path)
         /// </summary>
-        [ArgKey("output")]
+        [ArgKey("--output")]
         public DockerBuilderBuildTask Output(string output)
         {
             WithArgumentsKeyFromAttribute(output.ToString());
@@ -242,7 +242,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Set platform if server is multi-platform capable
         /// </summary>
-        [ArgKey("platform")]
+        [ArgKey("--platform")]
         public DockerBuilderBuildTask Platform(string platform)
         {
             WithArgumentsKeyFromAttribute(platform.ToString());
@@ -253,7 +253,7 @@ _pathOrURL = pathOrURL;
         /// Set type of progress output (auto, plain, tty). Use plain to show container output
 
         /// </summary>
-        [ArgKey("progress")]
+        [ArgKey("--progress")]
         public DockerBuilderBuildTask Progress(string progress)
         {
             WithArgumentsKeyFromAttribute(progress.ToString());
@@ -263,7 +263,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Always attempt to pull a newer version of the image
         /// </summary>
-        [ArgKey("pull")]
+        [ArgKey("--pull")]
         public DockerBuilderBuildTask Pull()
         {
             WithArgumentsKeyFromAttribute();
@@ -273,7 +273,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Suppress the build output and print image ID on success
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerBuilderBuildTask Quiet()
         {
             WithArgumentsKeyFromAttribute();
@@ -283,7 +283,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Remove intermediate containers after a successful build
         /// </summary>
-        [ArgKey("rm")]
+        [ArgKey("--rm")]
         public DockerBuilderBuildTask Rm()
         {
             WithArgumentsKeyFromAttribute();
@@ -294,7 +294,7 @@ _pathOrURL = pathOrURL;
         /// Secret file to expose to the build (only if BuildKit enabled): id=mysecret,src=/local/secret
 
         /// </summary>
-        [ArgKey("secret")]
+        [ArgKey("--secret")]
         public DockerBuilderBuildTask Secret(string secret)
         {
             WithArgumentsKeyFromAttribute(secret.ToString());
@@ -304,7 +304,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Security options
         /// </summary>
-        [ArgKey("security-opt")]
+        [ArgKey("--security-opt")]
         public DockerBuilderBuildTask SecurityOpt(string securityOpt)
         {
             WithArgumentsKeyFromAttribute(securityOpt.ToString());
@@ -314,7 +314,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Size of /dev/shm
         /// </summary>
-        [ArgKey("shm-size")]
+        [ArgKey("--shm-size")]
         public DockerBuilderBuildTask ShmSize(string shmSize)
         {
             WithArgumentsKeyFromAttribute(shmSize.ToString());
@@ -324,7 +324,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Squash newly built layers into a single new layer
         /// </summary>
-        [ArgKey("squash")]
+        [ArgKey("--squash")]
         public DockerBuilderBuildTask Squash()
         {
             WithArgumentsKeyFromAttribute();
@@ -335,7 +335,7 @@ _pathOrURL = pathOrURL;
         /// SSH agent socket or keys to expose to the build (only if BuildKit enabled) (format: default|<id>[=<socket>|<key>[,<key>]])
 
         /// </summary>
-        [ArgKey("ssh")]
+        [ArgKey("--ssh")]
         public DockerBuilderBuildTask Ssh(string ssh)
         {
             WithArgumentsKeyFromAttribute(ssh.ToString());
@@ -345,7 +345,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Stream attaches to server to negotiate build context
         /// </summary>
-        [ArgKey("stream")]
+        [ArgKey("--stream")]
         public DockerBuilderBuildTask Stream()
         {
             WithArgumentsKeyFromAttribute();
@@ -355,7 +355,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Name and optionally a tag in the 'name:tag' format
         /// </summary>
-        [ArgKey("tag")]
+        [ArgKey("--tag")]
         public DockerBuilderBuildTask Tag(string tag)
         {
             WithArgumentsKeyFromAttribute(tag.ToString());
@@ -365,7 +365,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Set the target build stage to build.
         /// </summary>
-        [ArgKey("target")]
+        [ArgKey("--target")]
         public DockerBuilderBuildTask Target(string target)
         {
             WithArgumentsKeyFromAttribute(target.ToString());
@@ -375,7 +375,7 @@ _pathOrURL = pathOrURL;
         /// <summary>
         /// Ulimit options
         /// </summary>
-        [ArgKey("ulimit")]
+        [ArgKey("--ulimit")]
         public DockerBuilderBuildTask Ulimit(string ulimit)
         {
             WithArgumentsKeyFromAttribute(ulimit.ToString());

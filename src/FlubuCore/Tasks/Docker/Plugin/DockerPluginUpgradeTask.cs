@@ -21,7 +21,7 @@ private string _remote;
         public DockerPluginUpgradeTask(string plugin,  string remote)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("plugin upgrade");
 _plugin = plugin;
 _remote = remote;
 
@@ -32,7 +32,7 @@ _remote = remote;
         /// <summary>
         /// Skip image verification
         /// </summary>
-        [ArgKey("disable-content-trust")]
+        [ArgKey("--disable-content-trust")]
         public DockerPluginUpgradeTask DisableContentTrust()
         {
             WithArgumentsKeyFromAttribute();
@@ -42,7 +42,7 @@ _remote = remote;
         /// <summary>
         /// Grant all permissions necessary to run the plugin
         /// </summary>
-        [ArgKey("grant-all-permissions")]
+        [ArgKey("--grant-all-permissions")]
         public DockerPluginUpgradeTask GrantAllPermissions()
         {
             WithArgumentsKeyFromAttribute();
@@ -53,7 +53,7 @@ _remote = remote;
         /// Do not check if specified remote plugin matches existing plugin image
 
         /// </summary>
-        [ArgKey("skip-remote-check")]
+        [ArgKey("--skip-remote-check")]
         public DockerPluginUpgradeTask SkipRemoteCheck()
         {
             WithArgumentsKeyFromAttribute();

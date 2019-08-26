@@ -21,7 +21,7 @@ private string[] _node;
         public DockerNodeInspectTask(string self,  params string[] node)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("node inspect");
 _self = self;
 _node = node;
 
@@ -32,7 +32,7 @@ _node = node;
         /// <summary>
         /// Format the output using the given Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerNodeInspectTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -42,7 +42,7 @@ _node = node;
         /// <summary>
         /// Print the information in a human friendly format
         /// </summary>
-        [ArgKey("pretty")]
+        [ArgKey("--pretty")]
         public DockerNodeInspectTask Pretty()
         {
             WithArgumentsKeyFromAttribute();

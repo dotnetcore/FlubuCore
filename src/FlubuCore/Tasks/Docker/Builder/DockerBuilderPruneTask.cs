@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Builder
         public DockerBuilderPruneTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("builder prune");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker.Builder
         /// <summary>
         /// Remove all unused images, not just dangling ones
         /// </summary>
-        [ArgKey("all")]
+        [ArgKey("--all")]
         public DockerBuilderPruneTask All()
         {
             WithArgumentsKeyFromAttribute();
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker.Builder
         /// <summary>
         /// Provide filter values (e.g. 'unused-for=24h')
         /// </summary>
-        [ArgKey("filter")]
+        [ArgKey("--filter")]
         public DockerBuilderPruneTask Filter(string filter)
         {
             WithArgumentsKeyFromAttribute(filter.ToString());
@@ -48,7 +48,7 @@ namespace FlubuCore.Tasks.Docker.Builder
         /// <summary>
         /// Do not prompt for confirmation
         /// </summary>
-        [ArgKey("force")]
+        [ArgKey("--force")]
         public DockerBuilderPruneTask Force()
         {
             WithArgumentsKeyFromAttribute();
@@ -58,7 +58,7 @@ namespace FlubuCore.Tasks.Docker.Builder
         /// <summary>
         /// Amount of disk space to keep for cache
         /// </summary>
-        [ArgKey("keep-storage")]
+        [ArgKey("--keep-storage")]
         public DockerBuilderPruneTask KeepStorage(string keepStorage)
         {
             WithArgumentsKeyFromAttribute(keepStorage.ToString());

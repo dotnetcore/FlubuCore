@@ -21,7 +21,7 @@ private string _file;
         public DockerSecretCreateTask(string secret,  string file)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("secret create");
 _secret = secret;
 _file = file;
 
@@ -32,7 +32,7 @@ _file = file;
         /// <summary>
         /// Secret driver
         /// </summary>
-        [ArgKey("driver")]
+        [ArgKey("--driver")]
         public DockerSecretCreateTask Driver(string driver)
         {
             WithArgumentsKeyFromAttribute(driver.ToString());
@@ -42,7 +42,7 @@ _file = file;
         /// <summary>
         /// Secret labels
         /// </summary>
-        [ArgKey("label")]
+        [ArgKey("--label")]
         public DockerSecretCreateTask Label(string label)
         {
             WithArgumentsKeyFromAttribute(label.ToString());
@@ -52,7 +52,7 @@ _file = file;
         /// <summary>
         /// Template driver
         /// </summary>
-        [ArgKey("template-driver")]
+        [ArgKey("--template-driver")]
         public DockerSecretCreateTask TemplateDriver(string templateDriver)
         {
             WithArgumentsKeyFromAttribute(templateDriver.ToString());

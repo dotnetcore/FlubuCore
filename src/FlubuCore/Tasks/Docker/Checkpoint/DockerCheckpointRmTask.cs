@@ -21,7 +21,7 @@ private string _checkpoint;
         public DockerCheckpointRmTask(string container,  string checkpoint)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("checkpoint rm");
 _container = container;
 _checkpoint = checkpoint;
 
@@ -32,7 +32,7 @@ _checkpoint = checkpoint;
         /// <summary>
         /// Use a custom checkpoint storage directory
         /// </summary>
-        [ArgKey("checkpoint-dir")]
+        [ArgKey("--checkpoint-dir")]
         public DockerCheckpointRmTask CheckpointDir(string checkpointDir)
         {
             WithArgumentsKeyFromAttribute(checkpointDir.ToString());

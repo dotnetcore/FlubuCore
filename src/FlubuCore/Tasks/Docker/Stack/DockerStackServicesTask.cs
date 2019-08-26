@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Stack
         public DockerStackServicesTask(string stack)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("stack services");
 _stack = stack;
 
         }
@@ -30,7 +30,7 @@ _stack = stack;
         /// <summary>
         /// Filter output based on conditions provided
         /// </summary>
-        [ArgKey("filter")]
+        [ArgKey("--filter")]
         public DockerStackServicesTask Filter(string filter)
         {
             WithArgumentsKeyFromAttribute(filter.ToString());
@@ -40,7 +40,7 @@ _stack = stack;
         /// <summary>
         /// Pretty-print services using a Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerStackServicesTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -50,7 +50,7 @@ _stack = stack;
         /// <summary>
         /// Kubernetes namespace to use
         /// </summary>
-        [ArgKey("namespace")]
+        [ArgKey("--namespace")]
         public DockerStackServicesTask Namespace(string @namespace)
         {
             WithArgumentsKeyFromAttribute(@namespace.ToString());
@@ -60,7 +60,7 @@ _stack = stack;
         /// <summary>
         /// Only display IDs
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerStackServicesTask Quiet()
         {
             WithArgumentsKeyFromAttribute();

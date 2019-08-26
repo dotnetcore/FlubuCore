@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Context
         public DockerContextUpdateTask(string context)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("context update");
 _context = context;
 
         }
@@ -31,17 +31,17 @@ _context = context;
         /// Default orchestrator for stack operations to use with this context (swarm|kubernetes|all)
 
         /// </summary>
-        [ArgKey("default-stack-orchestrator")]
+        [ArgKey("--default-stack-orchestrator")]
         public DockerContextUpdateTask DefaultStackOrchestrator(string defaultStackOrchestrator)
         {
             WithArgumentsKeyFromAttribute(defaultStackOrchestrator.ToString());
             return this;
         }
-
+        
         /// <summary>
         /// Description of the context
         /// </summary>
-        [ArgKey("description")]
+        [ArgKey("--description")]
         public DockerContextUpdateTask DockerDescription(string description)
         {
             WithArgumentsKeyFromAttribute(description.ToString());
@@ -51,7 +51,7 @@ _context = context;
         /// <summary>
         /// set the docker endpoint
         /// </summary>
-        [ArgKey("docker")]
+        [ArgKey("--docker")]
         public DockerContextUpdateTask Docker(string docker)
         {
             WithArgumentsKeyFromAttribute(docker.ToString());
@@ -61,7 +61,7 @@ _context = context;
         /// <summary>
         /// set the kubernetes endpoint
         /// </summary>
-        [ArgKey("kubernetes")]
+        [ArgKey("--kubernetes")]
         public DockerContextUpdateTask Kubernetes(string kubernetes)
         {
             WithArgumentsKeyFromAttribute(kubernetes.ToString());

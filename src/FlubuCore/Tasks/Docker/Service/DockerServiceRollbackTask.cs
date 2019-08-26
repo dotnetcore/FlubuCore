@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Service
         public DockerServiceRollbackTask(string service)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("service rollback");
 _service = service;
 
         }
@@ -31,7 +31,7 @@ _service = service;
         /// Exit immediately instead of waiting for the service to converge
 
         /// </summary>
-        [ArgKey("detach")]
+        [ArgKey("--detach")]
         public DockerServiceRollbackTask Detach()
         {
             WithArgumentsKeyFromAttribute();
@@ -41,7 +41,7 @@ _service = service;
         /// <summary>
         /// Suppress progress output
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerServiceRollbackTask Quiet()
         {
             WithArgumentsKeyFromAttribute();

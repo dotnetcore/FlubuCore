@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Container
         public DockerContainerRestartTask(params string[] container)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("container restart");
 _container = container;
 
         }
@@ -30,7 +30,7 @@ _container = container;
         /// <summary>
         /// Seconds to wait for stop before killing the container
         /// </summary>
-        [ArgKey("time")]
+        [ArgKey("--time")]
         public DockerContainerRestartTask Time(int time)
         {
             WithArgumentsKeyFromAttribute(time.ToString());

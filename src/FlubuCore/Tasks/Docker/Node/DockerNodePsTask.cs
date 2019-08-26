@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Node
         public DockerNodePsTask(params string[] node)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("node ps");
 _node = node;
 
         }
@@ -30,7 +30,7 @@ _node = node;
         /// <summary>
         /// Filter output based on conditions provided
         /// </summary>
-        [ArgKey("filter")]
+        [ArgKey("--filter")]
         public DockerNodePsTask Filter(string filter)
         {
             WithArgumentsKeyFromAttribute(filter.ToString());
@@ -40,7 +40,7 @@ _node = node;
         /// <summary>
         /// Pretty-print tasks using a Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerNodePsTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -50,7 +50,7 @@ _node = node;
         /// <summary>
         /// Do not map IDs to Names
         /// </summary>
-        [ArgKey("no-resolve")]
+        [ArgKey("--no-resolve")]
         public DockerNodePsTask NoResolve()
         {
             WithArgumentsKeyFromAttribute();
@@ -60,7 +60,7 @@ _node = node;
         /// <summary>
         /// Do not truncate output
         /// </summary>
-        [ArgKey("no-trunc")]
+        [ArgKey("--no-trunc")]
         public DockerNodePsTask NoTrunc()
         {
             WithArgumentsKeyFromAttribute();
@@ -70,7 +70,7 @@ _node = node;
         /// <summary>
         /// Only display task IDs
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerNodePsTask Quiet()
         {
             WithArgumentsKeyFromAttribute();

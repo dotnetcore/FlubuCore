@@ -22,7 +22,7 @@ private string[] _arg;
         public DockerContainerRunTask(string image,  string command,  params string[] arg)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("container run");
 _image = image;
 _command = command;
 _arg = arg;
@@ -34,7 +34,7 @@ _arg = arg;
         /// <summary>
         /// Add a custom host-to-IP mapping (host:ip)
         /// </summary>
-        [ArgKey("add-host")]
+        [ArgKey("--add-host")]
         public DockerContainerRunTask AddHost(string addHost)
         {
             WithArgumentsKeyFromAttribute(addHost.ToString());
@@ -44,7 +44,7 @@ _arg = arg;
         /// <summary>
         /// Attach to STDIN, STDOUT or STDERR
         /// </summary>
-        [ArgKey("attach")]
+        [ArgKey("--attach")]
         public DockerContainerRunTask Attach(string attach)
         {
             WithArgumentsKeyFromAttribute(attach.ToString());
@@ -55,7 +55,7 @@ _arg = arg;
         /// Block IO (relative weight), between 10 and 1000, or 0 to disable (default 0)
 
         /// </summary>
-        [ArgKey("blkio-weight")]
+        [ArgKey("--blkio-weight")]
         public DockerContainerRunTask BlkioWeight(string blkioWeight)
         {
             WithArgumentsKeyFromAttribute(blkioWeight.ToString());
@@ -65,7 +65,7 @@ _arg = arg;
         /// <summary>
         /// Block IO weight (relative device weight)
         /// </summary>
-        [ArgKey("blkio-weight-device")]
+        [ArgKey("--blkio-weight-device")]
         public DockerContainerRunTask BlkioWeightDevice(string blkioWeightDevice)
         {
             WithArgumentsKeyFromAttribute(blkioWeightDevice.ToString());
@@ -75,7 +75,7 @@ _arg = arg;
         /// <summary>
         /// Add Linux capabilities
         /// </summary>
-        [ArgKey("cap-add")]
+        [ArgKey("--cap-add")]
         public DockerContainerRunTask CapAdd(string capAdd)
         {
             WithArgumentsKeyFromAttribute(capAdd.ToString());
@@ -85,7 +85,7 @@ _arg = arg;
         /// <summary>
         /// Drop Linux capabilities
         /// </summary>
-        [ArgKey("cap-drop")]
+        [ArgKey("--cap-drop")]
         public DockerContainerRunTask CapDrop(string capDrop)
         {
             WithArgumentsKeyFromAttribute(capDrop.ToString());
@@ -95,7 +95,7 @@ _arg = arg;
         /// <summary>
         /// Optional parent cgroup for the container
         /// </summary>
-        [ArgKey("cgroup-parent")]
+        [ArgKey("--cgroup-parent")]
         public DockerContainerRunTask CgroupParent(string cgroupParent)
         {
             WithArgumentsKeyFromAttribute(cgroupParent.ToString());
@@ -105,7 +105,7 @@ _arg = arg;
         /// <summary>
         /// Write the container ID to the file
         /// </summary>
-        [ArgKey("cidfile")]
+        [ArgKey("--cidfile")]
         public DockerContainerRunTask Cidfile(string cidfile)
         {
             WithArgumentsKeyFromAttribute(cidfile.ToString());
@@ -115,7 +115,7 @@ _arg = arg;
         /// <summary>
         /// CPU count (Windows only)
         /// </summary>
-        [ArgKey("cpu-count")]
+        [ArgKey("--cpu-count")]
         public DockerContainerRunTask CpuCount(long cpuCount)
         {
             WithArgumentsKeyFromAttribute(cpuCount.ToString());
@@ -125,7 +125,7 @@ _arg = arg;
         /// <summary>
         /// CPU percent (Windows only)
         /// </summary>
-        [ArgKey("cpu-percent")]
+        [ArgKey("--cpu-percent")]
         public DockerContainerRunTask CpuPercent(long cpuPercent)
         {
             WithArgumentsKeyFromAttribute(cpuPercent.ToString());
@@ -135,7 +135,7 @@ _arg = arg;
         /// <summary>
         /// Limit CPU CFS (Completely Fair Scheduler) period
         /// </summary>
-        [ArgKey("cpu-period")]
+        [ArgKey("--cpu-period")]
         public DockerContainerRunTask CpuPeriod(long cpuPeriod)
         {
             WithArgumentsKeyFromAttribute(cpuPeriod.ToString());
@@ -145,7 +145,7 @@ _arg = arg;
         /// <summary>
         /// Limit CPU CFS (Completely Fair Scheduler) quota
         /// </summary>
-        [ArgKey("cpu-quota")]
+        [ArgKey("--cpu-quota")]
         public DockerContainerRunTask CpuQuota(long cpuQuota)
         {
             WithArgumentsKeyFromAttribute(cpuQuota.ToString());
@@ -155,7 +155,7 @@ _arg = arg;
         /// <summary>
         /// Limit CPU real-time period in microseconds
         /// </summary>
-        [ArgKey("cpu-rt-period")]
+        [ArgKey("--cpu-rt-period")]
         public DockerContainerRunTask CpuRtPeriod(long cpuRtPeriod)
         {
             WithArgumentsKeyFromAttribute(cpuRtPeriod.ToString());
@@ -165,7 +165,7 @@ _arg = arg;
         /// <summary>
         /// Limit CPU real-time runtime in microseconds
         /// </summary>
-        [ArgKey("cpu-rt-runtime")]
+        [ArgKey("--cpu-rt-runtime")]
         public DockerContainerRunTask CpuRtRuntime(long cpuRtRuntime)
         {
             WithArgumentsKeyFromAttribute(cpuRtRuntime.ToString());
@@ -175,7 +175,7 @@ _arg = arg;
         /// <summary>
         /// CPU shares (relative weight)
         /// </summary>
-        [ArgKey("cpu-shares")]
+        [ArgKey("--cpu-shares")]
         public DockerContainerRunTask CpuShares(long cpuShares)
         {
             WithArgumentsKeyFromAttribute(cpuShares.ToString());
@@ -185,7 +185,7 @@ _arg = arg;
         /// <summary>
         /// Number of CPUs
         /// </summary>
-        [ArgKey("cpus")]
+        [ArgKey("--cpus")]
         public DockerContainerRunTask Cpus(decimal cpus)
         {
             WithArgumentsKeyFromAttribute(cpus.ToString());
@@ -195,7 +195,7 @@ _arg = arg;
         /// <summary>
         /// CPUs in which to allow execution (0-3, 0,1)
         /// </summary>
-        [ArgKey("cpuset-cpus")]
+        [ArgKey("--cpuset-cpus")]
         public DockerContainerRunTask CpusetCpus(string cpusetCpus)
         {
             WithArgumentsKeyFromAttribute(cpusetCpus.ToString());
@@ -205,7 +205,7 @@ _arg = arg;
         /// <summary>
         /// MEMs in which to allow execution (0-3, 0,1)
         /// </summary>
-        [ArgKey("cpuset-mems")]
+        [ArgKey("--cpuset-mems")]
         public DockerContainerRunTask CpusetMems(string cpusetMems)
         {
             WithArgumentsKeyFromAttribute(cpusetMems.ToString());
@@ -215,7 +215,7 @@ _arg = arg;
         /// <summary>
         /// Run container in background and print container ID
         /// </summary>
-        [ArgKey("detach")]
+        [ArgKey("--detach")]
         public DockerContainerRunTask Detach()
         {
             WithArgumentsKeyFromAttribute();
@@ -225,7 +225,7 @@ _arg = arg;
         /// <summary>
         /// Override the key sequence for detaching a container
         /// </summary>
-        [ArgKey("detach-keys")]
+        [ArgKey("--detach-keys")]
         public DockerContainerRunTask DetachKeys(string detachKeys)
         {
             WithArgumentsKeyFromAttribute(detachKeys.ToString());
@@ -235,7 +235,7 @@ _arg = arg;
         /// <summary>
         /// Add a host device to the container
         /// </summary>
-        [ArgKey("device")]
+        [ArgKey("--device")]
         public DockerContainerRunTask Device(string device)
         {
             WithArgumentsKeyFromAttribute(device.ToString());
@@ -245,7 +245,7 @@ _arg = arg;
         /// <summary>
         /// Add a rule to the cgroup allowed devices list
         /// </summary>
-        [ArgKey("device-cgroup-rule")]
+        [ArgKey("--device-cgroup-rule")]
         public DockerContainerRunTask DeviceCgroupRule(string deviceCgroupRule)
         {
             WithArgumentsKeyFromAttribute(deviceCgroupRule.ToString());
@@ -255,7 +255,7 @@ _arg = arg;
         /// <summary>
         /// Limit read rate (bytes per second) from a device
         /// </summary>
-        [ArgKey("device-read-bps")]
+        [ArgKey("--device-read-bps")]
         public DockerContainerRunTask DeviceReadBps(string deviceReadBps)
         {
             WithArgumentsKeyFromAttribute(deviceReadBps.ToString());
@@ -265,7 +265,7 @@ _arg = arg;
         /// <summary>
         /// Limit read rate (IO per second) from a device
         /// </summary>
-        [ArgKey("device-read-iops")]
+        [ArgKey("--device-read-iops")]
         public DockerContainerRunTask DeviceReadIops(string deviceReadIops)
         {
             WithArgumentsKeyFromAttribute(deviceReadIops.ToString());
@@ -275,7 +275,7 @@ _arg = arg;
         /// <summary>
         /// Limit write rate (bytes per second) to a device
         /// </summary>
-        [ArgKey("device-write-bps")]
+        [ArgKey("--device-write-bps")]
         public DockerContainerRunTask DeviceWriteBps(string deviceWriteBps)
         {
             WithArgumentsKeyFromAttribute(deviceWriteBps.ToString());
@@ -285,7 +285,7 @@ _arg = arg;
         /// <summary>
         /// Limit write rate (IO per second) to a device
         /// </summary>
-        [ArgKey("device-write-iops")]
+        [ArgKey("--device-write-iops")]
         public DockerContainerRunTask DeviceWriteIops(string deviceWriteIops)
         {
             WithArgumentsKeyFromAttribute(deviceWriteIops.ToString());
@@ -295,7 +295,7 @@ _arg = arg;
         /// <summary>
         /// Skip image verification
         /// </summary>
-        [ArgKey("disable-content-trust")]
+        [ArgKey("--disable-content-trust")]
         public DockerContainerRunTask DisableContentTrust()
         {
             WithArgumentsKeyFromAttribute();
@@ -305,7 +305,7 @@ _arg = arg;
         /// <summary>
         /// Set custom DNS servers
         /// </summary>
-        [ArgKey("dns")]
+        [ArgKey("--dns")]
         public DockerContainerRunTask Dns(string dns)
         {
             WithArgumentsKeyFromAttribute(dns.ToString());
@@ -315,7 +315,7 @@ _arg = arg;
         /// <summary>
         /// Set DNS options
         /// </summary>
-        [ArgKey("dns-opt")]
+        [ArgKey("--dns-opt")]
         public DockerContainerRunTask DnsOpt(string dnsOpt)
         {
             WithArgumentsKeyFromAttribute(dnsOpt.ToString());
@@ -325,7 +325,7 @@ _arg = arg;
         /// <summary>
         /// Set DNS options
         /// </summary>
-        [ArgKey("dns-option")]
+        [ArgKey("--dns-option")]
         public DockerContainerRunTask DnsOption(string dnsOption)
         {
             WithArgumentsKeyFromAttribute(dnsOption.ToString());
@@ -335,7 +335,7 @@ _arg = arg;
         /// <summary>
         /// Set custom DNS search domains
         /// </summary>
-        [ArgKey("dns-search")]
+        [ArgKey("--dns-search")]
         public DockerContainerRunTask DnsSearch(string dnsSearch)
         {
             WithArgumentsKeyFromAttribute(dnsSearch.ToString());
@@ -345,7 +345,7 @@ _arg = arg;
         /// <summary>
         /// Container NIS domain name
         /// </summary>
-        [ArgKey("domainname")]
+        [ArgKey("--domainname")]
         public DockerContainerRunTask Domainname(string domainname)
         {
             WithArgumentsKeyFromAttribute(domainname.ToString());
@@ -355,7 +355,7 @@ _arg = arg;
         /// <summary>
         /// Overwrite the default ENTRYPOINT of the image
         /// </summary>
-        [ArgKey("entrypoint")]
+        [ArgKey("--entrypoint")]
         public DockerContainerRunTask Entrypoint(string entrypoint)
         {
             WithArgumentsKeyFromAttribute(entrypoint.ToString());
@@ -365,7 +365,7 @@ _arg = arg;
         /// <summary>
         /// Set environment variables
         /// </summary>
-        [ArgKey("env")]
+        [ArgKey("--env")]
         public DockerContainerRunTask Env(string env)
         {
             WithArgumentsKeyFromAttribute(env.ToString());
@@ -375,7 +375,7 @@ _arg = arg;
         /// <summary>
         /// Read in a file of environment variables
         /// </summary>
-        [ArgKey("env-file")]
+        [ArgKey("--env-file")]
         public DockerContainerRunTask EnvFile(string envFile)
         {
             WithArgumentsKeyFromAttribute(envFile.ToString());
@@ -385,7 +385,7 @@ _arg = arg;
         /// <summary>
         /// Expose a port or a range of ports
         /// </summary>
-        [ArgKey("expose")]
+        [ArgKey("--expose")]
         public DockerContainerRunTask Expose(string expose)
         {
             WithArgumentsKeyFromAttribute(expose.ToString());
@@ -395,7 +395,7 @@ _arg = arg;
         /// <summary>
         /// GPU devices to add to the container ('all' to pass all GPUs)
         /// </summary>
-        [ArgKey("gpus")]
+        [ArgKey("--gpus")]
         public DockerContainerRunTask Gpus(string gpus)
         {
             WithArgumentsKeyFromAttribute(gpus.ToString());
@@ -405,7 +405,7 @@ _arg = arg;
         /// <summary>
         /// Add additional groups to join
         /// </summary>
-        [ArgKey("group-add")]
+        [ArgKey("--group-add")]
         public DockerContainerRunTask GroupAdd(string groupAdd)
         {
             WithArgumentsKeyFromAttribute(groupAdd.ToString());
@@ -415,7 +415,7 @@ _arg = arg;
         /// <summary>
         /// Command to run to check health
         /// </summary>
-        [ArgKey("health-cmd")]
+        [ArgKey("--health-cmd")]
         public DockerContainerRunTask HealthCmd(string healthCmd)
         {
             WithArgumentsKeyFromAttribute(healthCmd.ToString());
@@ -425,7 +425,7 @@ _arg = arg;
         /// <summary>
         /// Time between running the check (ms|s|m|h) (default 0s)
         /// </summary>
-        [ArgKey("health-interval")]
+        [ArgKey("--health-interval")]
         public DockerContainerRunTask HealthInterval(string healthInterval)
         {
             WithArgumentsKeyFromAttribute(healthInterval.ToString());
@@ -435,7 +435,7 @@ _arg = arg;
         /// <summary>
         /// Consecutive failures needed to report unhealthy
         /// </summary>
-        [ArgKey("health-retries")]
+        [ArgKey("--health-retries")]
         public DockerContainerRunTask HealthRetries(int healthRetries)
         {
             WithArgumentsKeyFromAttribute(healthRetries.ToString());
@@ -446,7 +446,7 @@ _arg = arg;
         /// Start period for the container to initialize before starting health-retries countdown (ms|s|m|h) (default 0s)
 
         /// </summary>
-        [ArgKey("health-start-period")]
+        [ArgKey("--health-start-period")]
         public DockerContainerRunTask HealthStartPeriod(string healthStartPeriod)
         {
             WithArgumentsKeyFromAttribute(healthStartPeriod.ToString());
@@ -457,7 +457,7 @@ _arg = arg;
         /// Maximum time to allow one check to run (ms|s|m|h) (default 0s)
 
         /// </summary>
-        [ArgKey("health-timeout")]
+        [ArgKey("--health-timeout")]
         public DockerContainerRunTask HealthTimeout(string healthTimeout)
         {
             WithArgumentsKeyFromAttribute(healthTimeout.ToString());
@@ -467,7 +467,7 @@ _arg = arg;
         /// <summary>
         /// Print usage
         /// </summary>
-        [ArgKey("help")]
+        [ArgKey("--help")]
         public DockerContainerRunTask Help()
         {
             WithArgumentsKeyFromAttribute();
@@ -477,7 +477,7 @@ _arg = arg;
         /// <summary>
         /// Container host name
         /// </summary>
-        [ArgKey("hostname")]
+        [ArgKey("--hostname")]
         public DockerContainerRunTask Hostname(string hostname)
         {
             WithArgumentsKeyFromAttribute(hostname.ToString());
@@ -488,7 +488,7 @@ _arg = arg;
         /// Run an init inside the container that forwards signals and reaps processes
 
         /// </summary>
-        [ArgKey("init")]
+        [ArgKey("--init")]
         public DockerContainerRunTask Init()
         {
             WithArgumentsKeyFromAttribute();
@@ -498,7 +498,7 @@ _arg = arg;
         /// <summary>
         /// Keep STDIN open even if not attached
         /// </summary>
-        [ArgKey("interactive")]
+        [ArgKey("--interactive")]
         public DockerContainerRunTask Interactive()
         {
             WithArgumentsKeyFromAttribute();
@@ -509,7 +509,7 @@ _arg = arg;
         /// Maximum IO bandwidth limit for the system drive (Windows only)
 
         /// </summary>
-        [ArgKey("io-maxbandwidth")]
+        [ArgKey("--io-maxbandwidth")]
         public DockerContainerRunTask IoMaxbandwidth(string ioMaxbandwidth)
         {
             WithArgumentsKeyFromAttribute(ioMaxbandwidth.ToString());
@@ -519,7 +519,7 @@ _arg = arg;
         /// <summary>
         /// Maximum IOps limit for the system drive (Windows only)
         /// </summary>
-        [ArgKey("io-maxiops")]
+        [ArgKey("--io-maxiops")]
         public DockerContainerRunTask IoMaxiops(ulong ioMaxiops)
         {
             WithArgumentsKeyFromAttribute(ioMaxiops.ToString());
@@ -529,7 +529,7 @@ _arg = arg;
         /// <summary>
         /// IPv4 address (e.g., 172.30.100.104)
         /// </summary>
-        [ArgKey("ip")]
+        [ArgKey("--ip")]
         public DockerContainerRunTask Ip(string ip)
         {
             WithArgumentsKeyFromAttribute(ip.ToString());
@@ -539,7 +539,7 @@ _arg = arg;
         /// <summary>
         /// IPv6 address (e.g., 2001:db8::33)
         /// </summary>
-        [ArgKey("ip6")]
+        [ArgKey("--ip6")]
         public DockerContainerRunTask Ip6(string ip6)
         {
             WithArgumentsKeyFromAttribute(ip6.ToString());
@@ -549,7 +549,7 @@ _arg = arg;
         /// <summary>
         /// IPC mode to use
         /// </summary>
-        [ArgKey("ipc")]
+        [ArgKey("--ipc")]
         public DockerContainerRunTask Ipc(string ipc)
         {
             WithArgumentsKeyFromAttribute(ipc.ToString());
@@ -559,7 +559,7 @@ _arg = arg;
         /// <summary>
         /// Container isolation technology
         /// </summary>
-        [ArgKey("isolation")]
+        [ArgKey("--isolation")]
         public DockerContainerRunTask Isolation(string isolation)
         {
             WithArgumentsKeyFromAttribute(isolation.ToString());
@@ -569,7 +569,7 @@ _arg = arg;
         /// <summary>
         /// Kernel memory limit
         /// </summary>
-        [ArgKey("kernel-memory")]
+        [ArgKey("--kernel-memory")]
         public DockerContainerRunTask KernelMemory(string kernelMemory)
         {
             WithArgumentsKeyFromAttribute(kernelMemory.ToString());
@@ -579,7 +579,7 @@ _arg = arg;
         /// <summary>
         /// Set meta data on a container
         /// </summary>
-        [ArgKey("label")]
+        [ArgKey("--label")]
         public DockerContainerRunTask Label(string label)
         {
             WithArgumentsKeyFromAttribute(label.ToString());
@@ -589,7 +589,7 @@ _arg = arg;
         /// <summary>
         /// Read in a line delimited file of labels
         /// </summary>
-        [ArgKey("label-file")]
+        [ArgKey("--label-file")]
         public DockerContainerRunTask LabelFile(string labelFile)
         {
             WithArgumentsKeyFromAttribute(labelFile.ToString());
@@ -599,7 +599,7 @@ _arg = arg;
         /// <summary>
         /// Add link to another container
         /// </summary>
-        [ArgKey("link")]
+        [ArgKey("--link")]
         public DockerContainerRunTask Link(string link)
         {
             WithArgumentsKeyFromAttribute(link.ToString());
@@ -609,7 +609,7 @@ _arg = arg;
         /// <summary>
         /// Container IPv4/IPv6 link-local addresses
         /// </summary>
-        [ArgKey("link-local-ip")]
+        [ArgKey("--link-local-ip")]
         public DockerContainerRunTask LinkLocalIp(string linkLocalIp)
         {
             WithArgumentsKeyFromAttribute(linkLocalIp.ToString());
@@ -619,7 +619,7 @@ _arg = arg;
         /// <summary>
         /// Logging driver for the container
         /// </summary>
-        [ArgKey("log-driver")]
+        [ArgKey("--log-driver")]
         public DockerContainerRunTask LogDriver(string logDriver)
         {
             WithArgumentsKeyFromAttribute(logDriver.ToString());
@@ -629,7 +629,7 @@ _arg = arg;
         /// <summary>
         /// Log driver options
         /// </summary>
-        [ArgKey("log-opt")]
+        [ArgKey("--log-opt")]
         public DockerContainerRunTask LogOpt(string logOpt)
         {
             WithArgumentsKeyFromAttribute(logOpt.ToString());
@@ -639,7 +639,7 @@ _arg = arg;
         /// <summary>
         /// Container MAC address (e.g., 92:d0:c6:0a:29:33)
         /// </summary>
-        [ArgKey("mac-address")]
+        [ArgKey("--mac-address")]
         public DockerContainerRunTask MacAddress(string macAddress)
         {
             WithArgumentsKeyFromAttribute(macAddress.ToString());
@@ -649,7 +649,7 @@ _arg = arg;
         /// <summary>
         /// Memory limit
         /// </summary>
-        [ArgKey("memory")]
+        [ArgKey("--memory")]
         public DockerContainerRunTask Memory(string memory)
         {
             WithArgumentsKeyFromAttribute(memory.ToString());
@@ -659,7 +659,7 @@ _arg = arg;
         /// <summary>
         /// Memory soft limit
         /// </summary>
-        [ArgKey("memory-reservation")]
+        [ArgKey("--memory-reservation")]
         public DockerContainerRunTask MemoryReservation(string memoryReservation)
         {
             WithArgumentsKeyFromAttribute(memoryReservation.ToString());
@@ -670,7 +670,7 @@ _arg = arg;
         /// Swap limit equal to memory plus swap: '-1' to enable unlimited swap
 
         /// </summary>
-        [ArgKey("memory-swap")]
+        [ArgKey("--memory-swap")]
         public DockerContainerRunTask MemorySwap(string memorySwap)
         {
             WithArgumentsKeyFromAttribute(memorySwap.ToString());
@@ -680,7 +680,7 @@ _arg = arg;
         /// <summary>
         /// Tune container memory swappiness (0 to 100)
         /// </summary>
-        [ArgKey("memory-swappiness")]
+        [ArgKey("--memory-swappiness")]
         public DockerContainerRunTask MemorySwappiness(long memorySwappiness)
         {
             WithArgumentsKeyFromAttribute(memorySwappiness.ToString());
@@ -690,7 +690,7 @@ _arg = arg;
         /// <summary>
         /// Attach a filesystem mount to the container
         /// </summary>
-        [ArgKey("mount")]
+        [ArgKey("--mount")]
         public DockerContainerRunTask Mount(string mount)
         {
             WithArgumentsKeyFromAttribute(mount.ToString());
@@ -700,7 +700,7 @@ _arg = arg;
         /// <summary>
         /// Assign a name to the container
         /// </summary>
-        [ArgKey("name")]
+        [ArgKey("--name")]
         public DockerContainerRunTask Name(string name)
         {
             WithArgumentsKeyFromAttribute(name.ToString());
@@ -710,7 +710,7 @@ _arg = arg;
         /// <summary>
         /// Connect a container to a network
         /// </summary>
-        [ArgKey("net")]
+        [ArgKey("--net")]
         public DockerContainerRunTask Net(string net)
         {
             WithArgumentsKeyFromAttribute(net.ToString());
@@ -720,7 +720,7 @@ _arg = arg;
         /// <summary>
         /// Add network-scoped alias for the container
         /// </summary>
-        [ArgKey("net-alias")]
+        [ArgKey("--net-alias")]
         public DockerContainerRunTask NetAlias(string netAlias)
         {
             WithArgumentsKeyFromAttribute(netAlias.ToString());
@@ -730,7 +730,7 @@ _arg = arg;
         /// <summary>
         /// Connect a container to a network
         /// </summary>
-        [ArgKey("network")]
+        [ArgKey("--network")]
         public DockerContainerRunTask Network(string network)
         {
             WithArgumentsKeyFromAttribute(network.ToString());
@@ -740,7 +740,7 @@ _arg = arg;
         /// <summary>
         /// Add network-scoped alias for the container
         /// </summary>
-        [ArgKey("network-alias")]
+        [ArgKey("--network-alias")]
         public DockerContainerRunTask NetworkAlias(string networkAlias)
         {
             WithArgumentsKeyFromAttribute(networkAlias.ToString());
@@ -750,7 +750,7 @@ _arg = arg;
         /// <summary>
         /// Disable any container-specified HEALTHCHECK
         /// </summary>
-        [ArgKey("no-healthcheck")]
+        [ArgKey("--no-healthcheck")]
         public DockerContainerRunTask NoHealthcheck()
         {
             WithArgumentsKeyFromAttribute();
@@ -760,7 +760,7 @@ _arg = arg;
         /// <summary>
         /// Disable OOM Killer
         /// </summary>
-        [ArgKey("oom-kill-disable")]
+        [ArgKey("--oom-kill-disable")]
         public DockerContainerRunTask OomKillDisable()
         {
             WithArgumentsKeyFromAttribute();
@@ -770,7 +770,7 @@ _arg = arg;
         /// <summary>
         /// Tune host's OOM preferences (-1000 to 1000)
         /// </summary>
-        [ArgKey("oom-score-adj")]
+        [ArgKey("--oom-score-adj")]
         public DockerContainerRunTask OomScoreAdj(int oomScoreAdj)
         {
             WithArgumentsKeyFromAttribute(oomScoreAdj.ToString());
@@ -780,7 +780,7 @@ _arg = arg;
         /// <summary>
         /// PID namespace to use
         /// </summary>
-        [ArgKey("pid")]
+        [ArgKey("--pid")]
         public DockerContainerRunTask Pid(string pid)
         {
             WithArgumentsKeyFromAttribute(pid.ToString());
@@ -790,7 +790,7 @@ _arg = arg;
         /// <summary>
         /// Tune container pids limit (set -1 for unlimited)
         /// </summary>
-        [ArgKey("pids-limit")]
+        [ArgKey("--pids-limit")]
         public DockerContainerRunTask PidsLimit(long pidsLimit)
         {
             WithArgumentsKeyFromAttribute(pidsLimit.ToString());
@@ -800,7 +800,7 @@ _arg = arg;
         /// <summary>
         /// Set platform if server is multi-platform capable
         /// </summary>
-        [ArgKey("platform")]
+        [ArgKey("--platform")]
         public DockerContainerRunTask Platform(string platform)
         {
             WithArgumentsKeyFromAttribute(platform.ToString());
@@ -810,7 +810,7 @@ _arg = arg;
         /// <summary>
         /// Give extended privileges to this container
         /// </summary>
-        [ArgKey("privileged")]
+        [ArgKey("--privileged")]
         public DockerContainerRunTask Privileged()
         {
             WithArgumentsKeyFromAttribute();
@@ -820,7 +820,7 @@ _arg = arg;
         /// <summary>
         /// Publish a container's port(s) to the host
         /// </summary>
-        [ArgKey("publish")]
+        [ArgKey("--publish")]
         public DockerContainerRunTask Publish(string publish)
         {
             WithArgumentsKeyFromAttribute(publish.ToString());
@@ -830,7 +830,7 @@ _arg = arg;
         /// <summary>
         /// Publish all exposed ports to random ports
         /// </summary>
-        [ArgKey("publish-all")]
+        [ArgKey("--publish-all")]
         public DockerContainerRunTask PublishAll()
         {
             WithArgumentsKeyFromAttribute();
@@ -840,7 +840,7 @@ _arg = arg;
         /// <summary>
         /// Mount the container's root filesystem as read only
         /// </summary>
-        [ArgKey("read-only")]
+        [ArgKey("--read-only")]
         public DockerContainerRunTask ReadOnly()
         {
             WithArgumentsKeyFromAttribute();
@@ -850,7 +850,7 @@ _arg = arg;
         /// <summary>
         /// Restart policy to apply when a container exits
         /// </summary>
-        [ArgKey("restart")]
+        [ArgKey("--restart")]
         public DockerContainerRunTask Restart(string restart)
         {
             WithArgumentsKeyFromAttribute(restart.ToString());
@@ -860,7 +860,7 @@ _arg = arg;
         /// <summary>
         /// Automatically remove the container when it exits
         /// </summary>
-        [ArgKey("rm")]
+        [ArgKey("--rm")]
         public DockerContainerRunTask Rm()
         {
             WithArgumentsKeyFromAttribute();
@@ -870,7 +870,7 @@ _arg = arg;
         /// <summary>
         /// Runtime to use for this container
         /// </summary>
-        [ArgKey("runtime")]
+        [ArgKey("--runtime")]
         public DockerContainerRunTask Runtime(string runtime)
         {
             WithArgumentsKeyFromAttribute(runtime.ToString());
@@ -880,7 +880,7 @@ _arg = arg;
         /// <summary>
         /// Security Options
         /// </summary>
-        [ArgKey("security-opt")]
+        [ArgKey("--security-opt")]
         public DockerContainerRunTask SecurityOpt(string securityOpt)
         {
             WithArgumentsKeyFromAttribute(securityOpt.ToString());
@@ -890,7 +890,7 @@ _arg = arg;
         /// <summary>
         /// Size of /dev/shm
         /// </summary>
-        [ArgKey("shm-size")]
+        [ArgKey("--shm-size")]
         public DockerContainerRunTask ShmSize(string shmSize)
         {
             WithArgumentsKeyFromAttribute(shmSize.ToString());
@@ -900,7 +900,7 @@ _arg = arg;
         /// <summary>
         /// Proxy received signals to the process
         /// </summary>
-        [ArgKey("sig-proxy")]
+        [ArgKey("--sig-proxy")]
         public DockerContainerRunTask SigProxy()
         {
             WithArgumentsKeyFromAttribute();
@@ -910,7 +910,7 @@ _arg = arg;
         /// <summary>
         /// Signal to stop a container
         /// </summary>
-        [ArgKey("stop-signal")]
+        [ArgKey("--stop-signal")]
         public DockerContainerRunTask StopSignal(string stopSignal)
         {
             WithArgumentsKeyFromAttribute(stopSignal.ToString());
@@ -920,7 +920,7 @@ _arg = arg;
         /// <summary>
         /// Timeout (in seconds) to stop a container
         /// </summary>
-        [ArgKey("stop-timeout")]
+        [ArgKey("--stop-timeout")]
         public DockerContainerRunTask StopTimeout(int stopTimeout)
         {
             WithArgumentsKeyFromAttribute(stopTimeout.ToString());
@@ -930,7 +930,7 @@ _arg = arg;
         /// <summary>
         /// Storage driver options for the container
         /// </summary>
-        [ArgKey("storage-opt")]
+        [ArgKey("--storage-opt")]
         public DockerContainerRunTask StorageOpt(string storageOpt)
         {
             WithArgumentsKeyFromAttribute(storageOpt.ToString());
@@ -940,7 +940,7 @@ _arg = arg;
         /// <summary>
         /// Sysctl options
         /// </summary>
-        [ArgKey("sysctl")]
+        [ArgKey("--sysctl")]
         public DockerContainerRunTask Sysctl(string sysctl)
         {
             WithArgumentsKeyFromAttribute(sysctl.ToString());
@@ -950,7 +950,7 @@ _arg = arg;
         /// <summary>
         /// Mount a tmpfs directory
         /// </summary>
-        [ArgKey("tmpfs")]
+        [ArgKey("--tmpfs")]
         public DockerContainerRunTask Tmpfs(string tmpfs)
         {
             WithArgumentsKeyFromAttribute(tmpfs.ToString());
@@ -960,7 +960,7 @@ _arg = arg;
         /// <summary>
         /// Allocate a pseudo-TTY
         /// </summary>
-        [ArgKey("tty")]
+        [ArgKey("--tty")]
         public DockerContainerRunTask Tty()
         {
             WithArgumentsKeyFromAttribute();
@@ -970,7 +970,7 @@ _arg = arg;
         /// <summary>
         /// Ulimit options
         /// </summary>
-        [ArgKey("ulimit")]
+        [ArgKey("--ulimit")]
         public DockerContainerRunTask Ulimit(string ulimit)
         {
             WithArgumentsKeyFromAttribute(ulimit.ToString());
@@ -980,7 +980,7 @@ _arg = arg;
         /// <summary>
         /// Username or UID (format: <name|uid>[:<group|gid>])
         /// </summary>
-        [ArgKey("user")]
+        [ArgKey("--user")]
         public DockerContainerRunTask User(string user)
         {
             WithArgumentsKeyFromAttribute(user.ToString());
@@ -990,7 +990,7 @@ _arg = arg;
         /// <summary>
         /// User namespace to use
         /// </summary>
-        [ArgKey("userns")]
+        [ArgKey("--userns")]
         public DockerContainerRunTask Userns(string userns)
         {
             WithArgumentsKeyFromAttribute(userns.ToString());
@@ -1000,7 +1000,7 @@ _arg = arg;
         /// <summary>
         /// UTS namespace to use
         /// </summary>
-        [ArgKey("uts")]
+        [ArgKey("--uts")]
         public DockerContainerRunTask Uts(string uts)
         {
             WithArgumentsKeyFromAttribute(uts.ToString());
@@ -1010,7 +1010,7 @@ _arg = arg;
         /// <summary>
         /// Bind mount a volume
         /// </summary>
-        [ArgKey("volume")]
+        [ArgKey("--volume")]
         public DockerContainerRunTask Volume(string volume)
         {
             WithArgumentsKeyFromAttribute(volume.ToString());
@@ -1020,7 +1020,7 @@ _arg = arg;
         /// <summary>
         /// Optional volume driver for the container
         /// </summary>
-        [ArgKey("volume-driver")]
+        [ArgKey("--volume-driver")]
         public DockerContainerRunTask VolumeDriver(string volumeDriver)
         {
             WithArgumentsKeyFromAttribute(volumeDriver.ToString());
@@ -1030,7 +1030,7 @@ _arg = arg;
         /// <summary>
         /// Mount volumes from the specified container(s)
         /// </summary>
-        [ArgKey("volumes-from")]
+        [ArgKey("--volumes-from")]
         public DockerContainerRunTask VolumesFrom(string volumesFrom)
         {
             WithArgumentsKeyFromAttribute(volumesFrom.ToString());
@@ -1040,7 +1040,7 @@ _arg = arg;
         /// <summary>
         /// Working directory inside the container
         /// </summary>
-        [ArgKey("workdir")]
+        [ArgKey("--workdir")]
         public DockerContainerRunTask Workdir(string workdir)
         {
             WithArgumentsKeyFromAttribute(workdir.ToString());

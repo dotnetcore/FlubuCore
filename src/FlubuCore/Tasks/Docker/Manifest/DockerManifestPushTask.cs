@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Manifest
         public DockerManifestPushTask(string manifest_list)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("manifest push");
 _manifest_list = manifest_list;
 
         }
@@ -30,7 +30,7 @@ _manifest_list = manifest_list;
         /// <summary>
         /// Allow push to an insecure registry
         /// </summary>
-        [ArgKey("insecure")]
+        [ArgKey("--insecure")]
         public DockerManifestPushTask Insecure()
         {
             WithArgumentsKeyFromAttribute();
@@ -40,7 +40,7 @@ _manifest_list = manifest_list;
         /// <summary>
         /// Remove the local manifest list after push
         /// </summary>
-        [ArgKey("purge")]
+        [ArgKey("--purge")]
         public DockerManifestPushTask Purge()
         {
             WithArgumentsKeyFromAttribute();

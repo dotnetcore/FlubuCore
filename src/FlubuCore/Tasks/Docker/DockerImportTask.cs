@@ -21,7 +21,7 @@ private string _repository;
         public DockerImportTask(string file,  string repository)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("import");
 _file = file;
 _repository = repository;
 
@@ -32,7 +32,7 @@ _repository = repository;
         /// <summary>
         /// Apply Dockerfile instruction to the created image
         /// </summary>
-        [ArgKey("change")]
+        [ArgKey("--change")]
         public DockerImportTask Change(string change)
         {
             WithArgumentsKeyFromAttribute(change.ToString());
@@ -42,7 +42,7 @@ _repository = repository;
         /// <summary>
         /// Set commit message for imported image
         /// </summary>
-        [ArgKey("message")]
+        [ArgKey("--message")]
         public DockerImportTask Message(string message)
         {
             WithArgumentsKeyFromAttribute(message.ToString());
@@ -52,7 +52,7 @@ _repository = repository;
         /// <summary>
         /// Set platform if server is multi-platform capable
         /// </summary>
-        [ArgKey("platform")]
+        [ArgKey("--platform")]
         public DockerImportTask Platform(string platform)
         {
             WithArgumentsKeyFromAttribute(platform.ToString());

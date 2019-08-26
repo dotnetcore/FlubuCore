@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Container
         public DockerContainerStartTask(params string[] container)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("container start");
 _container = container;
 
         }
@@ -30,7 +30,7 @@ _container = container;
         /// <summary>
         /// Attach STDOUT/STDERR and forward signals
         /// </summary>
-        [ArgKey("attach")]
+        [ArgKey("--attach")]
         public DockerContainerStartTask Attach()
         {
             WithArgumentsKeyFromAttribute();
@@ -40,7 +40,7 @@ _container = container;
         /// <summary>
         /// Restore from this checkpoint
         /// </summary>
-        [ArgKey("checkpoint")]
+        [ArgKey("--checkpoint")]
         public DockerContainerStartTask Checkpoint(string checkpoint)
         {
             WithArgumentsKeyFromAttribute(checkpoint.ToString());
@@ -50,7 +50,7 @@ _container = container;
         /// <summary>
         /// Use a custom checkpoint storage directory
         /// </summary>
-        [ArgKey("checkpoint-dir")]
+        [ArgKey("--checkpoint-dir")]
         public DockerContainerStartTask CheckpointDir(string checkpointDir)
         {
             WithArgumentsKeyFromAttribute(checkpointDir.ToString());
@@ -60,7 +60,7 @@ _container = container;
         /// <summary>
         /// Override the key sequence for detaching a container
         /// </summary>
-        [ArgKey("detach-keys")]
+        [ArgKey("--detach-keys")]
         public DockerContainerStartTask DetachKeys(string detachKeys)
         {
             WithArgumentsKeyFromAttribute(detachKeys.ToString());
@@ -70,7 +70,7 @@ _container = container;
         /// <summary>
         /// Attach container's STDIN
         /// </summary>
-        [ArgKey("interactive")]
+        [ArgKey("--interactive")]
         public DockerContainerStartTask Interactive()
         {
             WithArgumentsKeyFromAttribute();

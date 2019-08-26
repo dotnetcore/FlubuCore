@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Node
         public DockerNodeUpdateTask(string node)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("node update");
 _node = node;
 
         }
@@ -30,7 +30,7 @@ _node = node;
         /// <summary>
         /// Availability of the node ("active"|"pause"|"drain")
         /// </summary>
-        [ArgKey("availability")]
+        [ArgKey("--availability")]
         public DockerNodeUpdateTask Availability(string availability)
         {
             WithArgumentsKeyFromAttribute(availability.ToString());
@@ -40,7 +40,7 @@ _node = node;
         /// <summary>
         /// Add or update a node label (key=value)
         /// </summary>
-        [ArgKey("label-add")]
+        [ArgKey("--label-add")]
         public DockerNodeUpdateTask LabelAdd(string labelAdd)
         {
             WithArgumentsKeyFromAttribute(labelAdd.ToString());
@@ -50,7 +50,7 @@ _node = node;
         /// <summary>
         /// Remove a node label if exists
         /// </summary>
-        [ArgKey("label-rm")]
+        [ArgKey("--label-rm")]
         public DockerNodeUpdateTask LabelRm(string labelRm)
         {
             WithArgumentsKeyFromAttribute(labelRm.ToString());
@@ -60,7 +60,7 @@ _node = node;
         /// <summary>
         /// Role of the node ("worker"|"manager")
         /// </summary>
-        [ArgKey("role")]
+        [ArgKey("--role")]
         public DockerNodeUpdateTask Role(string role)
         {
             WithArgumentsKeyFromAttribute(role.ToString());

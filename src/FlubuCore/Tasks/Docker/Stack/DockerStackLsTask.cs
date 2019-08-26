@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Stack
         public DockerStackLsTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("stack ls");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker.Stack
         /// <summary>
         /// List stacks from all Kubernetes namespaces
         /// </summary>
-        [ArgKey("all-namespaces")]
+        [ArgKey("--all-namespaces")]
         public DockerStackLsTask AllNamespaces()
         {
             WithArgumentsKeyFromAttribute();
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker.Stack
         /// <summary>
         /// Pretty-print stacks using a Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerStackLsTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -48,7 +48,7 @@ namespace FlubuCore.Tasks.Docker.Stack
         /// <summary>
         /// Kubernetes namespaces to use
         /// </summary>
-        [ArgKey("namespace")]
+        [ArgKey("--namespace")]
         public DockerStackLsTask Namespace(string @namespace)
         {
             WithArgumentsKeyFromAttribute(@namespace.ToString());

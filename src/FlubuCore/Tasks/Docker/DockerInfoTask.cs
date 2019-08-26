@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerInfoTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("info");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker
         /// <summary>
         /// Format the output using the given Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerInfoTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());

@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Stack
         public DockerStackRmTask(params string[] stack)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("stack rm");
 _stack = stack;
 
         }
@@ -30,7 +30,7 @@ _stack = stack;
         /// <summary>
         /// Kubernetes namespace to use
         /// </summary>
-        [ArgKey("namespace")]
+        [ArgKey("--namespace")]
         public DockerStackRmTask Namespace(string @namespace)
         {
             WithArgumentsKeyFromAttribute(@namespace.ToString());

@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Node
         public DockerNodeRmTask(params string[] node)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("node rm");
 _node = node;
 
         }
@@ -30,7 +30,7 @@ _node = node;
         /// <summary>
         /// Force remove a node from the swarm
         /// </summary>
-        [ArgKey("force")]
+        [ArgKey("--force")]
         public DockerNodeRmTask Force()
         {
             WithArgumentsKeyFromAttribute();

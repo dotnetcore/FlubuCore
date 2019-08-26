@@ -21,7 +21,7 @@ private string[] _repository;
         public DockerTrustSignerRemoveTask(string name,  params string[] repository)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("trust signer remove");
 _name = name;
 _repository = repository;
 
@@ -33,7 +33,7 @@ _repository = repository;
         /// Do not prompt for confirmation before removing the most recent signer
 
         /// </summary>
-        [ArgKey("force")]
+        [ArgKey("--force")]
         public DockerTrustSignerRemoveTask Force()
         {
             WithArgumentsKeyFromAttribute();

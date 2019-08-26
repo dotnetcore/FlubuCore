@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Stack
         public DockerStackDeployTask(string stack)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("stack deploy");
 _stack = stack;
 
         }
@@ -30,7 +30,7 @@ _stack = stack;
         /// <summary>
         /// Path to a Distributed Application Bundle file
         /// </summary>
-        [ArgKey("bundle-file")]
+        [ArgKey("--bundle-file")]
         public DockerStackDeployTask BundleFile(string bundleFile)
         {
             WithArgumentsKeyFromAttribute(bundleFile.ToString());
@@ -40,7 +40,7 @@ _stack = stack;
         /// <summary>
         /// Path to a Compose file, or "-" to read from stdin
         /// </summary>
-        [ArgKey("compose-file")]
+        [ArgKey("--compose-file")]
         public DockerStackDeployTask ComposeFile(string composeFile)
         {
             WithArgumentsKeyFromAttribute(composeFile.ToString());
@@ -50,7 +50,7 @@ _stack = stack;
         /// <summary>
         /// Kubernetes namespace to use
         /// </summary>
-        [ArgKey("namespace")]
+        [ArgKey("--namespace")]
         public DockerStackDeployTask Namespace(string @namespace)
         {
             WithArgumentsKeyFromAttribute(@namespace.ToString());
@@ -60,7 +60,7 @@ _stack = stack;
         /// <summary>
         /// Prune services that are no longer referenced
         /// </summary>
-        [ArgKey("prune")]
+        [ArgKey("--prune")]
         public DockerStackDeployTask Prune()
         {
             WithArgumentsKeyFromAttribute();
@@ -71,7 +71,7 @@ _stack = stack;
         /// Query the registry to resolve image digest and supported platforms ("always"|"changed"|"never")
 
         /// </summary>
-        [ArgKey("resolve-image")]
+        [ArgKey("--resolve-image")]
         public DockerStackDeployTask ResolveImage(string resolveImage)
         {
             WithArgumentsKeyFromAttribute(resolveImage.ToString());
@@ -81,7 +81,7 @@ _stack = stack;
         /// <summary>
         /// Send registry authentication details to Swarm agents
         /// </summary>
-        [ArgKey("with-registry-auth")]
+        [ArgKey("--with-registry-auth")]
         public DockerStackDeployTask WithRegistryAuth()
         {
             WithArgumentsKeyFromAttribute();

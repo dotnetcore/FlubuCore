@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Network
         public DockerNetworkCreateTask(string network)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("network create");
 _network = network;
 
         }
@@ -30,7 +30,7 @@ _network = network;
         /// <summary>
         /// Enable manual container attachment
         /// </summary>
-        [ArgKey("attachable")]
+        [ArgKey("--attachable")]
         public DockerNetworkCreateTask Attachable()
         {
             WithArgumentsKeyFromAttribute();
@@ -40,7 +40,7 @@ _network = network;
         /// <summary>
         /// Auxiliary IPv4 or IPv6 addresses used by Network driver
         /// </summary>
-        [ArgKey("aux-address")]
+        [ArgKey("--aux-address")]
         public DockerNetworkCreateTask AuxAddress(string auxAddress)
         {
             WithArgumentsKeyFromAttribute(auxAddress.ToString());
@@ -50,7 +50,7 @@ _network = network;
         /// <summary>
         /// The network from which copying the configuration
         /// </summary>
-        [ArgKey("config-from")]
+        [ArgKey("--config-from")]
         public DockerNetworkCreateTask ConfigFrom(string configFrom)
         {
             WithArgumentsKeyFromAttribute(configFrom.ToString());
@@ -60,7 +60,7 @@ _network = network;
         /// <summary>
         /// Create a configuration only network
         /// </summary>
-        [ArgKey("config-only")]
+        [ArgKey("--config-only")]
         public DockerNetworkCreateTask ConfigOnly()
         {
             WithArgumentsKeyFromAttribute();
@@ -70,7 +70,7 @@ _network = network;
         /// <summary>
         /// Driver to manage the Network
         /// </summary>
-        [ArgKey("driver")]
+        [ArgKey("--driver")]
         public DockerNetworkCreateTask Driver(string driver)
         {
             WithArgumentsKeyFromAttribute(driver.ToString());
@@ -80,7 +80,7 @@ _network = network;
         /// <summary>
         /// IPv4 or IPv6 Gateway for the master subnet
         /// </summary>
-        [ArgKey("gateway")]
+        [ArgKey("--gateway")]
         public DockerNetworkCreateTask Gateway(string gateway)
         {
             WithArgumentsKeyFromAttribute(gateway.ToString());
@@ -90,7 +90,7 @@ _network = network;
         /// <summary>
         /// Create swarm routing-mesh network
         /// </summary>
-        [ArgKey("ingress")]
+        [ArgKey("--ingress")]
         public DockerNetworkCreateTask Ingress()
         {
             WithArgumentsKeyFromAttribute();
@@ -100,7 +100,7 @@ _network = network;
         /// <summary>
         /// Restrict external access to the network
         /// </summary>
-        [ArgKey("internal")]
+        [ArgKey("--internal")]
         public DockerNetworkCreateTask Internal()
         {
             WithArgumentsKeyFromAttribute();
@@ -110,7 +110,7 @@ _network = network;
         /// <summary>
         /// Allocate container ip from a sub-range
         /// </summary>
-        [ArgKey("ip-range")]
+        [ArgKey("--ip-range")]
         public DockerNetworkCreateTask IpRange(string ipRange)
         {
             WithArgumentsKeyFromAttribute(ipRange.ToString());
@@ -120,7 +120,7 @@ _network = network;
         /// <summary>
         /// IP Address Management Driver
         /// </summary>
-        [ArgKey("ipam-driver")]
+        [ArgKey("--ipam-driver")]
         public DockerNetworkCreateTask IpamDriver(string ipamDriver)
         {
             WithArgumentsKeyFromAttribute(ipamDriver.ToString());
@@ -130,7 +130,7 @@ _network = network;
         /// <summary>
         /// Set IPAM driver specific options
         /// </summary>
-        [ArgKey("ipam-opt")]
+        [ArgKey("--ipam-opt")]
         public DockerNetworkCreateTask IpamOpt(string ipamOpt)
         {
             WithArgumentsKeyFromAttribute(ipamOpt.ToString());
@@ -140,7 +140,7 @@ _network = network;
         /// <summary>
         /// Enable IPv6 networking
         /// </summary>
-        [ArgKey("ipv6")]
+        [ArgKey("--ipv6")]
         public DockerNetworkCreateTask Ipv6()
         {
             WithArgumentsKeyFromAttribute();
@@ -150,7 +150,7 @@ _network = network;
         /// <summary>
         /// Set metadata on a network
         /// </summary>
-        [ArgKey("label")]
+        [ArgKey("--label")]
         public DockerNetworkCreateTask Label(string label)
         {
             WithArgumentsKeyFromAttribute(label.ToString());
@@ -160,7 +160,7 @@ _network = network;
         /// <summary>
         /// Set driver specific options
         /// </summary>
-        [ArgKey("opt")]
+        [ArgKey("--opt")]
         public DockerNetworkCreateTask Opt(string opt)
         {
             WithArgumentsKeyFromAttribute(opt.ToString());
@@ -170,7 +170,7 @@ _network = network;
         /// <summary>
         /// Control the network's scope
         /// </summary>
-        [ArgKey("scope")]
+        [ArgKey("--scope")]
         public DockerNetworkCreateTask Scope(string scope)
         {
             WithArgumentsKeyFromAttribute(scope.ToString());
@@ -180,7 +180,7 @@ _network = network;
         /// <summary>
         /// Subnet in CIDR format that represents a network segment
         /// </summary>
-        [ArgKey("subnet")]
+        [ArgKey("--subnet")]
         public DockerNetworkCreateTask Subnet(string subnet)
         {
             WithArgumentsKeyFromAttribute(subnet.ToString());

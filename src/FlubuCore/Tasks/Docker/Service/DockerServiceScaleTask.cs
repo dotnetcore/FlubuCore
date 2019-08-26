@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Service
         public DockerServiceScaleTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("service scale");
 
         }
 
@@ -29,7 +29,7 @@ namespace FlubuCore.Tasks.Docker.Service
         /// Exit immediately instead of waiting for the service to converge
 
         /// </summary>
-        [ArgKey("detach")]
+        [ArgKey("--detach")]
         public DockerServiceScaleTask Detach()
         {
             WithArgumentsKeyFromAttribute();

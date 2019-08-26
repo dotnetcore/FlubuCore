@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Plugin
         public DockerPluginInstallTask(string plugin)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("plugin install");
 _plugin = plugin;
 
         }
@@ -30,7 +30,7 @@ _plugin = plugin;
         /// <summary>
         /// Local name for plugin
         /// </summary>
-        [ArgKey("alias")]
+        [ArgKey("--alias")]
         public DockerPluginInstallTask Alias(string alias)
         {
             WithArgumentsKeyFromAttribute(alias.ToString());
@@ -40,7 +40,7 @@ _plugin = plugin;
         /// <summary>
         /// Do not enable the plugin on install
         /// </summary>
-        [ArgKey("disable")]
+        [ArgKey("--disable")]
         public DockerPluginInstallTask Disable()
         {
             WithArgumentsKeyFromAttribute();
@@ -50,7 +50,7 @@ _plugin = plugin;
         /// <summary>
         /// Skip image verification
         /// </summary>
-        [ArgKey("disable-content-trust")]
+        [ArgKey("--disable-content-trust")]
         public DockerPluginInstallTask DisableContentTrust()
         {
             WithArgumentsKeyFromAttribute();
@@ -60,7 +60,7 @@ _plugin = plugin;
         /// <summary>
         /// Grant all permissions necessary to run the plugin
         /// </summary>
-        [ArgKey("grant-all-permissions")]
+        [ArgKey("--grant-all-permissions")]
         public DockerPluginInstallTask GrantAllPermissions()
         {
             WithArgumentsKeyFromAttribute();

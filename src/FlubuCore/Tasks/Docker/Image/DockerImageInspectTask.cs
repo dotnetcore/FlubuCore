@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Image
         public DockerImageInspectTask(params string[] image)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("image inspect");
 _image = image;
 
         }
@@ -30,7 +30,7 @@ _image = image;
         /// <summary>
         /// Format the output using the given Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerImageInspectTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());

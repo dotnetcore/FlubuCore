@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Container
         public DockerContainerLsTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("container ls");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker.Container
         /// <summary>
         /// Show all containers (default shows just running)
         /// </summary>
-        [ArgKey("all")]
+        [ArgKey("--all")]
         public DockerContainerLsTask All()
         {
             WithArgumentsKeyFromAttribute();
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker.Container
         /// <summary>
         /// Filter output based on conditions provided
         /// </summary>
-        [ArgKey("filter")]
+        [ArgKey("--filter")]
         public DockerContainerLsTask Filter(string filter)
         {
             WithArgumentsKeyFromAttribute(filter.ToString());
@@ -48,7 +48,7 @@ namespace FlubuCore.Tasks.Docker.Container
         /// <summary>
         /// Pretty-print containers using a Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerContainerLsTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -58,7 +58,7 @@ namespace FlubuCore.Tasks.Docker.Container
         /// <summary>
         /// Show n last created containers (includes all states)
         /// </summary>
-        [ArgKey("last")]
+        [ArgKey("--last")]
         public DockerContainerLsTask Last(int last)
         {
             WithArgumentsKeyFromAttribute(last.ToString());
@@ -68,7 +68,7 @@ namespace FlubuCore.Tasks.Docker.Container
         /// <summary>
         /// Show the latest created container (includes all states)
         /// </summary>
-        [ArgKey("latest")]
+        [ArgKey("--latest")]
         public DockerContainerLsTask Latest()
         {
             WithArgumentsKeyFromAttribute();
@@ -78,7 +78,7 @@ namespace FlubuCore.Tasks.Docker.Container
         /// <summary>
         /// Don't truncate output
         /// </summary>
-        [ArgKey("no-trunc")]
+        [ArgKey("--no-trunc")]
         public DockerContainerLsTask NoTrunc()
         {
             WithArgumentsKeyFromAttribute();
@@ -88,7 +88,7 @@ namespace FlubuCore.Tasks.Docker.Container
         /// <summary>
         /// Only display numeric IDs
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerContainerLsTask Quiet()
         {
             WithArgumentsKeyFromAttribute();
@@ -98,7 +98,7 @@ namespace FlubuCore.Tasks.Docker.Container
         /// <summary>
         /// Display total file sizes
         /// </summary>
-        [ArgKey("size")]
+        [ArgKey("--size")]
         public DockerContainerLsTask Size()
         {
             WithArgumentsKeyFromAttribute();

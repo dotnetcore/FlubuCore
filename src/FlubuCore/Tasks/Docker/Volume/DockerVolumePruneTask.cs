@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Volume
         public DockerVolumePruneTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("volume prune");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker.Volume
         /// <summary>
         /// Provide filter values (e.g. 'label=<label>')
         /// </summary>
-        [ArgKey("filter")]
+        [ArgKey("--filter")]
         public DockerVolumePruneTask Filter(string filter)
         {
             WithArgumentsKeyFromAttribute(filter.ToString());
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker.Volume
         /// <summary>
         /// Do not prompt for confirmation
         /// </summary>
-        [ArgKey("force")]
+        [ArgKey("--force")]
         public DockerVolumePruneTask Force()
         {
             WithArgumentsKeyFromAttribute();

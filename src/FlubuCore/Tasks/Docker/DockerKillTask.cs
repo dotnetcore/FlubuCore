@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerKillTask(params string[] container)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("kill");
 _container = container;
 
         }
@@ -30,7 +30,7 @@ _container = container;
         /// <summary>
         /// Signal to send to the container
         /// </summary>
-        [ArgKey("signal")]
+        [ArgKey("--signal")]
         public DockerKillTask Signal(string signal)
         {
             WithArgumentsKeyFromAttribute(signal.ToString());

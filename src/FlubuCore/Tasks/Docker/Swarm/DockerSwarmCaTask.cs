@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         public DockerSwarmCaTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("swarm ca");
 
         }
 
@@ -29,7 +29,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// Path to the PEM-formatted root CA certificate to use for the new cluster
 
         /// </summary>
-        [ArgKey("ca-cert")]
+        [ArgKey("--ca-cert")]
         public DockerSwarmCaTask CaCert(string caCert)
         {
             WithArgumentsKeyFromAttribute(caCert.ToString());
@@ -40,7 +40,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// Path to the PEM-formatted root CA key to use for the new cluster
 
         /// </summary>
-        [ArgKey("ca-key")]
+        [ArgKey("--ca-key")]
         public DockerSwarmCaTask CaKey(string caKey)
         {
             WithArgumentsKeyFromAttribute(caKey.ToString());
@@ -50,7 +50,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Validity period for node certificates (ns|us|ms|s|m|h)
         /// </summary>
-        [ArgKey("cert-expiry")]
+        [ArgKey("--cert-expiry")]
         public DockerSwarmCaTask CertExpiry(string certExpiry)
         {
             WithArgumentsKeyFromAttribute(certExpiry.ToString());
@@ -61,7 +61,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// Exit immediately instead of waiting for the root rotation to converge
 
         /// </summary>
-        [ArgKey("detach")]
+        [ArgKey("--detach")]
         public DockerSwarmCaTask Detach()
         {
             WithArgumentsKeyFromAttribute();
@@ -71,7 +71,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Specifications of one or more certificate signing endpoints
         /// </summary>
-        [ArgKey("external-ca")]
+        [ArgKey("--external-ca")]
         public DockerSwarmCaTask ExternalCa(string externalCa)
         {
             WithArgumentsKeyFromAttribute(externalCa.ToString());
@@ -81,7 +81,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Suppress progress output
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerSwarmCaTask Quiet()
         {
             WithArgumentsKeyFromAttribute();
@@ -92,7 +92,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// Rotate the swarm CA - if no certificate or key are provided, new ones will be generated
 
         /// </summary>
-        [ArgKey("rotate")]
+        [ArgKey("--rotate")]
         public DockerSwarmCaTask Rotate()
         {
             WithArgumentsKeyFromAttribute();

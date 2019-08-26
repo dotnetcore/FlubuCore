@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerLoadTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("load");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker
         /// <summary>
         /// Read from tar archive file, instead of STDIN
         /// </summary>
-        [ArgKey("input")]
+        [ArgKey("--input")]
         public DockerLoadTask Input(string input)
         {
             WithArgumentsKeyFromAttribute(input.ToString());
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker
         /// <summary>
         /// Suppress the load output
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerLoadTask Quiet()
         {
             WithArgumentsKeyFromAttribute();

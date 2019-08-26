@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         public DockerSwarmUnlockKeyTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("swarm unlock-key");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Only display token
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerSwarmUnlockKeyTask Quiet()
         {
             WithArgumentsKeyFromAttribute();
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Rotate unlock key
         /// </summary>
-        [ArgKey("rotate")]
+        [ArgKey("--rotate")]
         public DockerSwarmUnlockKeyTask Rotate()
         {
             WithArgumentsKeyFromAttribute();

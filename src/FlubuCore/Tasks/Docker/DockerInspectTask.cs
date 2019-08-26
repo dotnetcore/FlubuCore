@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerInspectTask(params string[] name)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("inspect");
 _name = name;
 
         }
@@ -30,7 +30,7 @@ _name = name;
         /// <summary>
         /// Format the output using the given Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerInspectTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -40,7 +40,7 @@ _name = name;
         /// <summary>
         /// Display total file sizes if the type is container
         /// </summary>
-        [ArgKey("size")]
+        [ArgKey("--size")]
         public DockerInspectTask Size()
         {
             WithArgumentsKeyFromAttribute();
@@ -50,7 +50,7 @@ _name = name;
         /// <summary>
         /// Return JSON for specified type
         /// </summary>
-        [ArgKey("type")]
+        [ArgKey("--type")]
         public DockerInspectTask Type(string type)
         {
             WithArgumentsKeyFromAttribute(type.ToString());

@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Trust
         public DockerTrustRevokeTask(string image)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("trust revoke");
 _image = image;
 
         }
@@ -30,7 +30,7 @@ _image = image;
         /// <summary>
         /// Do not prompt for confirmation
         /// </summary>
-        [ArgKey("yes")]
+        [ArgKey("--yes")]
         public DockerTrustRevokeTask Yes()
         {
             WithArgumentsKeyFromAttribute();

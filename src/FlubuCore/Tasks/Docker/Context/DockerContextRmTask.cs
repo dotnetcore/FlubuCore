@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Context
         public DockerContextRmTask(params string[] context)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("context rm");
 _context = context;
 
         }
@@ -30,7 +30,7 @@ _context = context;
         /// <summary>
         /// Force the removal of a context in use
         /// </summary>
-        [ArgKey("force")]
+        [ArgKey("--force")]
         public DockerContextRmTask Force()
         {
             WithArgumentsKeyFromAttribute();

@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Context
         public DockerContextInspectTask(params string[] context)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("context inspect");
 _context = context;
 
         }
@@ -30,7 +30,7 @@ _context = context;
         /// <summary>
         /// Format the output using the given Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerContextInspectTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());

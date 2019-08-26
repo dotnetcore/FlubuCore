@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerLogsTask(string container)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("logs");
 _container = container;
 
         }
@@ -30,7 +30,7 @@ _container = container;
         /// <summary>
         /// Show extra details provided to logs
         /// </summary>
-        [ArgKey("details")]
+        [ArgKey("--details")]
         public DockerLogsTask Details()
         {
             WithArgumentsKeyFromAttribute();
@@ -40,7 +40,7 @@ _container = container;
         /// <summary>
         /// Follow log output
         /// </summary>
-        [ArgKey("follow")]
+        [ArgKey("--follow")]
         public DockerLogsTask Follow()
         {
             WithArgumentsKeyFromAttribute();
@@ -51,7 +51,7 @@ _container = container;
         /// Show logs since timestamp (e.g. 2013-01-02T13:23:37) or relative (e.g. 42m for 42 minutes)
 
         /// </summary>
-        [ArgKey("since")]
+        [ArgKey("--since")]
         public DockerLogsTask Since(string since)
         {
             WithArgumentsKeyFromAttribute(since.ToString());
@@ -61,7 +61,7 @@ _container = container;
         /// <summary>
         /// Number of lines to show from the end of the logs
         /// </summary>
-        [ArgKey("tail")]
+        [ArgKey("--tail")]
         public DockerLogsTask Tail(string tail)
         {
             WithArgumentsKeyFromAttribute(tail.ToString());
@@ -71,7 +71,7 @@ _container = container;
         /// <summary>
         /// Show timestamps
         /// </summary>
-        [ArgKey("timestamps")]
+        [ArgKey("--timestamps")]
         public DockerLogsTask Timestamps()
         {
             WithArgumentsKeyFromAttribute();
@@ -82,7 +82,7 @@ _container = container;
         /// Show logs before a timestamp (e.g. 2013-01-02T13:23:37) or relative (e.g. 42m for 42 minutes)
 
         /// </summary>
-        [ArgKey("until")]
+        [ArgKey("--until")]
         public DockerLogsTask Until(string until)
         {
             WithArgumentsKeyFromAttribute(until.ToString());

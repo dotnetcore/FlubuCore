@@ -21,7 +21,7 @@ private string _repository;
         public DockerCommitTask(string container,  string repository)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("commit");
 _container = container;
 _repository = repository;
 
@@ -32,7 +32,7 @@ _repository = repository;
         /// <summary>
         /// Author (e.g., "John Hannibal Smith <hannibal@a-team.com>")
         /// </summary>
-        [ArgKey("author")]
+        [ArgKey("--author")]
         public DockerCommitTask Author(string author)
         {
             WithArgumentsKeyFromAttribute(author.ToString());
@@ -42,7 +42,7 @@ _repository = repository;
         /// <summary>
         /// Apply Dockerfile instruction to the created image
         /// </summary>
-        [ArgKey("change")]
+        [ArgKey("--change")]
         public DockerCommitTask Change(string change)
         {
             WithArgumentsKeyFromAttribute(change.ToString());
@@ -52,7 +52,7 @@ _repository = repository;
         /// <summary>
         /// Commit message
         /// </summary>
-        [ArgKey("message")]
+        [ArgKey("--message")]
         public DockerCommitTask Message(string message)
         {
             WithArgumentsKeyFromAttribute(message.ToString());
@@ -62,7 +62,7 @@ _repository = repository;
         /// <summary>
         /// Pause container during commit
         /// </summary>
-        [ArgKey("pause")]
+        [ArgKey("--pause")]
         public DockerCommitTask Pause()
         {
             WithArgumentsKeyFromAttribute();

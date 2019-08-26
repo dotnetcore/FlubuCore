@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Container
         public DockerContainerStopTask(params string[] container)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("container stop");
 _container = container;
 
         }
@@ -30,7 +30,7 @@ _container = container;
         /// <summary>
         /// Seconds to wait for stop before killing it
         /// </summary>
-        [ArgKey("time")]
+        [ArgKey("--time")]
         public DockerContainerStopTask Time(int time)
         {
             WithArgumentsKeyFromAttribute(time.ToString());

@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Plugin
         public DockerPluginPushTask(string plugin)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("plugin push");
 _plugin = plugin;
 
         }
@@ -30,7 +30,7 @@ _plugin = plugin;
         /// <summary>
         /// Skip image signing
         /// </summary>
-        [ArgKey("disable-content-trust")]
+        [ArgKey("--disable-content-trust")]
         public DockerPluginPushTask DisableContentTrust()
         {
             WithArgumentsKeyFromAttribute();

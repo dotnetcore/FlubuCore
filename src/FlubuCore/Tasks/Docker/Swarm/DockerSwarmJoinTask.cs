@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         public DockerSwarmJoinTask(string host)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("swarm join");
 _host = host;
 
         }
@@ -30,7 +30,7 @@ _host = host;
         /// <summary>
         /// Advertised address (format: <ip|interface>[:port])
         /// </summary>
-        [ArgKey("advertise-addr")]
+        [ArgKey("--advertise-addr")]
         public DockerSwarmJoinTask AdvertiseAddr(string advertiseAddr)
         {
             WithArgumentsKeyFromAttribute(advertiseAddr.ToString());
@@ -40,7 +40,7 @@ _host = host;
         /// <summary>
         /// Availability of the node ("active"|"pause"|"drain")
         /// </summary>
-        [ArgKey("availability")]
+        [ArgKey("--availability")]
         public DockerSwarmJoinTask Availability(string availability)
         {
             WithArgumentsKeyFromAttribute(availability.ToString());
@@ -51,7 +51,7 @@ _host = host;
         /// Address or interface to use for data path traffic (format: <ip|interface>)
 
         /// </summary>
-        [ArgKey("data-path-addr")]
+        [ArgKey("--data-path-addr")]
         public DockerSwarmJoinTask DataPathAddr(string dataPathAddr)
         {
             WithArgumentsKeyFromAttribute(dataPathAddr.ToString());
@@ -61,7 +61,7 @@ _host = host;
         /// <summary>
         /// Listen address (format: <ip|interface>[:port])
         /// </summary>
-        [ArgKey("listen-addr")]
+        [ArgKey("--listen-addr")]
         public DockerSwarmJoinTask ListenAddr(string listenAddr)
         {
             WithArgumentsKeyFromAttribute(listenAddr.ToString());
@@ -71,7 +71,7 @@ _host = host;
         /// <summary>
         /// Token for entry into the swarm
         /// </summary>
-        [ArgKey("token")]
+        [ArgKey("--token")]
         public DockerSwarmJoinTask Token(string token)
         {
             WithArgumentsKeyFromAttribute(token.ToString());

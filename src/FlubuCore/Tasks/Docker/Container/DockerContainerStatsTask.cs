@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Container
         public DockerContainerStatsTask(params string[] container)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("container stats");
 _container = container;
 
         }
@@ -30,7 +30,7 @@ _container = container;
         /// <summary>
         /// Show all containers (default shows just running)
         /// </summary>
-        [ArgKey("all")]
+        [ArgKey("--all")]
         public DockerContainerStatsTask All()
         {
             WithArgumentsKeyFromAttribute();
@@ -40,7 +40,7 @@ _container = container;
         /// <summary>
         /// Pretty-print images using a Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerContainerStatsTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -50,7 +50,7 @@ _container = container;
         /// <summary>
         /// Disable streaming stats and only pull the first result
         /// </summary>
-        [ArgKey("no-stream")]
+        [ArgKey("--no-stream")]
         public DockerContainerStatsTask NoStream()
         {
             WithArgumentsKeyFromAttribute();
@@ -60,7 +60,7 @@ _container = container;
         /// <summary>
         /// Do not truncate output
         /// </summary>
-        [ArgKey("no-trunc")]
+        [ArgKey("--no-trunc")]
         public DockerContainerStatsTask NoTrunc()
         {
             WithArgumentsKeyFromAttribute();

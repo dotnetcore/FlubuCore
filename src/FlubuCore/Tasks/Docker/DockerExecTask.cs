@@ -22,7 +22,7 @@ private string[] _arg;
         public DockerExecTask(string container,  string command,  params string[] arg)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("exec");
 _container = container;
 _command = command;
 _arg = arg;
@@ -34,7 +34,7 @@ _arg = arg;
         /// <summary>
         /// Detached mode: run command in the background
         /// </summary>
-        [ArgKey("detach")]
+        [ArgKey("--detach")]
         public DockerExecTask Detach()
         {
             WithArgumentsKeyFromAttribute();
@@ -44,7 +44,7 @@ _arg = arg;
         /// <summary>
         /// Override the key sequence for detaching a container
         /// </summary>
-        [ArgKey("detach-keys")]
+        [ArgKey("--detach-keys")]
         public DockerExecTask DetachKeys(string detachKeys)
         {
             WithArgumentsKeyFromAttribute(detachKeys.ToString());
@@ -54,7 +54,7 @@ _arg = arg;
         /// <summary>
         /// Set environment variables
         /// </summary>
-        [ArgKey("env")]
+        [ArgKey("--env")]
         public DockerExecTask Env(string env)
         {
             WithArgumentsKeyFromAttribute(env.ToString());
@@ -64,7 +64,7 @@ _arg = arg;
         /// <summary>
         /// Keep STDIN open even if not attached
         /// </summary>
-        [ArgKey("interactive")]
+        [ArgKey("--interactive")]
         public DockerExecTask Interactive()
         {
             WithArgumentsKeyFromAttribute();
@@ -74,7 +74,7 @@ _arg = arg;
         /// <summary>
         /// Give extended privileges to the command
         /// </summary>
-        [ArgKey("privileged")]
+        [ArgKey("--privileged")]
         public DockerExecTask Privileged()
         {
             WithArgumentsKeyFromAttribute();
@@ -84,7 +84,7 @@ _arg = arg;
         /// <summary>
         /// Allocate a pseudo-TTY
         /// </summary>
-        [ArgKey("tty")]
+        [ArgKey("--tty")]
         public DockerExecTask Tty()
         {
             WithArgumentsKeyFromAttribute();
@@ -94,7 +94,7 @@ _arg = arg;
         /// <summary>
         /// Username or UID (format: <name|uid>[:<group|gid>])
         /// </summary>
-        [ArgKey("user")]
+        [ArgKey("--user")]
         public DockerExecTask User(string user)
         {
             WithArgumentsKeyFromAttribute(user.ToString());
@@ -104,7 +104,7 @@ _arg = arg;
         /// <summary>
         /// Working directory inside the container
         /// </summary>
-        [ArgKey("workdir")]
+        [ArgKey("--workdir")]
         public DockerExecTask Workdir(string workdir)
         {
             WithArgumentsKeyFromAttribute(workdir.ToString());

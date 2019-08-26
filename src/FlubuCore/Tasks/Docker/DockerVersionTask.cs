@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerVersionTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("version");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker
         /// <summary>
         /// Format the output using the given Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerVersionTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker
         /// <summary>
         /// Kubernetes config file
         /// </summary>
-        [ArgKey("kubeconfig")]
+        [ArgKey("--kubeconfig")]
         public DockerVersionTask Kubeconfig(string kubeconfig)
         {
             WithArgumentsKeyFromAttribute(kubeconfig.ToString());

@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Plugin
         public DockerPluginLsTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("plugin ls");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker.Plugin
         /// <summary>
         /// Provide filter values (e.g. 'enabled=true')
         /// </summary>
-        [ArgKey("filter")]
+        [ArgKey("--filter")]
         public DockerPluginLsTask Filter(string filter)
         {
             WithArgumentsKeyFromAttribute(filter.ToString());
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker.Plugin
         /// <summary>
         /// Pretty-print plugins using a Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerPluginLsTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -48,7 +48,7 @@ namespace FlubuCore.Tasks.Docker.Plugin
         /// <summary>
         /// Don't truncate output
         /// </summary>
-        [ArgKey("no-trunc")]
+        [ArgKey("--no-trunc")]
         public DockerPluginLsTask NoTrunc()
         {
             WithArgumentsKeyFromAttribute();
@@ -58,7 +58,7 @@ namespace FlubuCore.Tasks.Docker.Plugin
         /// <summary>
         /// Only display plugin IDs
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerPluginLsTask Quiet()
         {
             WithArgumentsKeyFromAttribute();

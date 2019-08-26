@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Service
         public DockerServiceInspectTask(params string[] service)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("service inspect");
 _service = service;
 
         }
@@ -30,7 +30,7 @@ _service = service;
         /// <summary>
         /// Format the output using the given Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerServiceInspectTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -40,7 +40,7 @@ _service = service;
         /// <summary>
         /// Print the information in a human friendly format
         /// </summary>
-        [ArgKey("pretty")]
+        [ArgKey("--pretty")]
         public DockerServiceInspectTask Pretty()
         {
             WithArgumentsKeyFromAttribute();

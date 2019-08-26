@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Trust
         public DockerTrustKeyLoadTask(string keyfile)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("trust key load");
 _keyfile = keyfile;
 
         }
@@ -30,7 +30,7 @@ _keyfile = keyfile;
         /// <summary>
         /// Name for the loaded key
         /// </summary>
-        [ArgKey("name")]
+        [ArgKey("--name")]
         public DockerTrustKeyLoadTask Name(string name)
         {
             WithArgumentsKeyFromAttribute(name.ToString());

@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Service
         public DockerServiceUpdateTask(string service)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("service update");
 _service = service;
 
         }
@@ -30,7 +30,7 @@ _service = service;
         /// <summary>
         /// Service command args
         /// </summary>
-        [ArgKey("args")]
+        [ArgKey("--args")]
         public DockerServiceUpdateTask Args(string args)
         {
             WithArgumentsKeyFromAttribute(args.ToString());
@@ -40,7 +40,7 @@ _service = service;
         /// <summary>
         /// Add or update a config file on a service
         /// </summary>
-        [ArgKey("config-add")]
+        [ArgKey("--config-add")]
         public DockerServiceUpdateTask ConfigAdd(string configAdd)
         {
             WithArgumentsKeyFromAttribute(configAdd.ToString());
@@ -50,7 +50,7 @@ _service = service;
         /// <summary>
         /// Remove a configuration file
         /// </summary>
-        [ArgKey("config-rm")]
+        [ArgKey("--config-rm")]
         public DockerServiceUpdateTask ConfigRm(string configRm)
         {
             WithArgumentsKeyFromAttribute(configRm.ToString());
@@ -60,7 +60,7 @@ _service = service;
         /// <summary>
         /// Add or update a placement constraint
         /// </summary>
-        [ArgKey("constraint-add")]
+        [ArgKey("--constraint-add")]
         public DockerServiceUpdateTask ConstraintAdd(string constraintAdd)
         {
             WithArgumentsKeyFromAttribute(constraintAdd.ToString());
@@ -70,7 +70,7 @@ _service = service;
         /// <summary>
         /// Remove a constraint
         /// </summary>
-        [ArgKey("constraint-rm")]
+        [ArgKey("--constraint-rm")]
         public DockerServiceUpdateTask ConstraintRm(string constraintRm)
         {
             WithArgumentsKeyFromAttribute(constraintRm.ToString());
@@ -80,7 +80,7 @@ _service = service;
         /// <summary>
         /// Add or update a container label
         /// </summary>
-        [ArgKey("container-label-add")]
+        [ArgKey("--container-label-add")]
         public DockerServiceUpdateTask ContainerLabelAdd(string containerLabelAdd)
         {
             WithArgumentsKeyFromAttribute(containerLabelAdd.ToString());
@@ -90,7 +90,7 @@ _service = service;
         /// <summary>
         /// Remove a container label by its key
         /// </summary>
-        [ArgKey("container-label-rm")]
+        [ArgKey("--container-label-rm")]
         public DockerServiceUpdateTask ContainerLabelRm(string containerLabelRm)
         {
             WithArgumentsKeyFromAttribute(containerLabelRm.ToString());
@@ -100,7 +100,7 @@ _service = service;
         /// <summary>
         /// Credential spec for managed service account (Windows only)
         /// </summary>
-        [ArgKey("credential-spec")]
+        [ArgKey("--credential-spec")]
         public DockerServiceUpdateTask CredentialSpec(string credentialSpec)
         {
             WithArgumentsKeyFromAttribute(credentialSpec.ToString());
@@ -111,7 +111,7 @@ _service = service;
         /// Exit immediately instead of waiting for the service to converge
 
         /// </summary>
-        [ArgKey("detach")]
+        [ArgKey("--detach")]
         public DockerServiceUpdateTask Detach()
         {
             WithArgumentsKeyFromAttribute();
@@ -121,7 +121,7 @@ _service = service;
         /// <summary>
         /// Add or update a custom DNS server
         /// </summary>
-        [ArgKey("dns-add")]
+        [ArgKey("--dns-add")]
         public DockerServiceUpdateTask DnsAdd(string dnsAdd)
         {
             WithArgumentsKeyFromAttribute(dnsAdd.ToString());
@@ -131,7 +131,7 @@ _service = service;
         /// <summary>
         /// Add or update a DNS option
         /// </summary>
-        [ArgKey("dns-option-add")]
+        [ArgKey("--dns-option-add")]
         public DockerServiceUpdateTask DnsOptionAdd(string dnsOptionAdd)
         {
             WithArgumentsKeyFromAttribute(dnsOptionAdd.ToString());
@@ -141,7 +141,7 @@ _service = service;
         /// <summary>
         /// Remove a DNS option
         /// </summary>
-        [ArgKey("dns-option-rm")]
+        [ArgKey("--dns-option-rm")]
         public DockerServiceUpdateTask DnsOptionRm(string dnsOptionRm)
         {
             WithArgumentsKeyFromAttribute(dnsOptionRm.ToString());
@@ -151,7 +151,7 @@ _service = service;
         /// <summary>
         /// Remove a custom DNS server
         /// </summary>
-        [ArgKey("dns-rm")]
+        [ArgKey("--dns-rm")]
         public DockerServiceUpdateTask DnsRm(string dnsRm)
         {
             WithArgumentsKeyFromAttribute(dnsRm.ToString());
@@ -161,7 +161,7 @@ _service = service;
         /// <summary>
         /// Add or update a custom DNS search domain
         /// </summary>
-        [ArgKey("dns-search-add")]
+        [ArgKey("--dns-search-add")]
         public DockerServiceUpdateTask DnsSearchAdd(string dnsSearchAdd)
         {
             WithArgumentsKeyFromAttribute(dnsSearchAdd.ToString());
@@ -171,7 +171,7 @@ _service = service;
         /// <summary>
         /// Remove a DNS search domain
         /// </summary>
-        [ArgKey("dns-search-rm")]
+        [ArgKey("--dns-search-rm")]
         public DockerServiceUpdateTask DnsSearchRm(string dnsSearchRm)
         {
             WithArgumentsKeyFromAttribute(dnsSearchRm.ToString());
@@ -181,7 +181,7 @@ _service = service;
         /// <summary>
         /// Endpoint mode (vip or dnsrr)
         /// </summary>
-        [ArgKey("endpoint-mode")]
+        [ArgKey("--endpoint-mode")]
         public DockerServiceUpdateTask EndpointMode(string endpointMode)
         {
             WithArgumentsKeyFromAttribute(endpointMode.ToString());
@@ -191,7 +191,7 @@ _service = service;
         /// <summary>
         /// Overwrite the default ENTRYPOINT of the image
         /// </summary>
-        [ArgKey("entrypoint")]
+        [ArgKey("--entrypoint")]
         public DockerServiceUpdateTask Entrypoint(string entrypoint)
         {
             WithArgumentsKeyFromAttribute(entrypoint.ToString());
@@ -201,7 +201,7 @@ _service = service;
         /// <summary>
         /// Add or update an environment variable
         /// </summary>
-        [ArgKey("env-add")]
+        [ArgKey("--env-add")]
         public DockerServiceUpdateTask EnvAdd(string envAdd)
         {
             WithArgumentsKeyFromAttribute(envAdd.ToString());
@@ -211,7 +211,7 @@ _service = service;
         /// <summary>
         /// Remove an environment variable
         /// </summary>
-        [ArgKey("env-rm")]
+        [ArgKey("--env-rm")]
         public DockerServiceUpdateTask EnvRm(string envRm)
         {
             WithArgumentsKeyFromAttribute(envRm.ToString());
@@ -221,7 +221,7 @@ _service = service;
         /// <summary>
         /// Force update even if no changes require it
         /// </summary>
-        [ArgKey("force")]
+        [ArgKey("--force")]
         public DockerServiceUpdateTask Force()
         {
             WithArgumentsKeyFromAttribute();
@@ -231,7 +231,7 @@ _service = service;
         /// <summary>
         /// Add a Generic resource
         /// </summary>
-        [ArgKey("generic-resource-add")]
+        [ArgKey("--generic-resource-add")]
         public DockerServiceUpdateTask GenericResourceAdd(string genericResourceAdd)
         {
             WithArgumentsKeyFromAttribute(genericResourceAdd.ToString());
@@ -241,7 +241,7 @@ _service = service;
         /// <summary>
         /// Remove a Generic resource
         /// </summary>
-        [ArgKey("generic-resource-rm")]
+        [ArgKey("--generic-resource-rm")]
         public DockerServiceUpdateTask GenericResourceRm(string genericResourceRm)
         {
             WithArgumentsKeyFromAttribute(genericResourceRm.ToString());
@@ -251,7 +251,7 @@ _service = service;
         /// <summary>
         /// Add an additional supplementary user group to the container
         /// </summary>
-        [ArgKey("group-add")]
+        [ArgKey("--group-add")]
         public DockerServiceUpdateTask GroupAdd(string groupAdd)
         {
             WithArgumentsKeyFromAttribute(groupAdd.ToString());
@@ -262,7 +262,7 @@ _service = service;
         /// Remove a previously added supplementary user group from the container
 
         /// </summary>
-        [ArgKey("group-rm")]
+        [ArgKey("--group-rm")]
         public DockerServiceUpdateTask GroupRm(string groupRm)
         {
             WithArgumentsKeyFromAttribute(groupRm.ToString());
@@ -272,7 +272,7 @@ _service = service;
         /// <summary>
         /// Command to run to check health
         /// </summary>
-        [ArgKey("health-cmd")]
+        [ArgKey("--health-cmd")]
         public DockerServiceUpdateTask HealthCmd(string healthCmd)
         {
             WithArgumentsKeyFromAttribute(healthCmd.ToString());
@@ -282,7 +282,7 @@ _service = service;
         /// <summary>
         /// Time between running the check (ms|s|m|h)
         /// </summary>
-        [ArgKey("health-interval")]
+        [ArgKey("--health-interval")]
         public DockerServiceUpdateTask HealthInterval(string healthInterval)
         {
             WithArgumentsKeyFromAttribute(healthInterval.ToString());
@@ -292,7 +292,7 @@ _service = service;
         /// <summary>
         /// Consecutive failures needed to report unhealthy
         /// </summary>
-        [ArgKey("health-retries")]
+        [ArgKey("--health-retries")]
         public DockerServiceUpdateTask HealthRetries(int healthRetries)
         {
             WithArgumentsKeyFromAttribute(healthRetries.ToString());
@@ -303,7 +303,7 @@ _service = service;
         /// Start period for the container to initialize before counting retries towards unstable (ms|s|m|h)
 
         /// </summary>
-        [ArgKey("health-start-period")]
+        [ArgKey("--health-start-period")]
         public DockerServiceUpdateTask HealthStartPeriod(string healthStartPeriod)
         {
             WithArgumentsKeyFromAttribute(healthStartPeriod.ToString());
@@ -313,7 +313,7 @@ _service = service;
         /// <summary>
         /// Maximum time to allow one check to run (ms|s|m|h)
         /// </summary>
-        [ArgKey("health-timeout")]
+        [ArgKey("--health-timeout")]
         public DockerServiceUpdateTask HealthTimeout(string healthTimeout)
         {
             WithArgumentsKeyFromAttribute(healthTimeout.ToString());
@@ -323,7 +323,7 @@ _service = service;
         /// <summary>
         /// Add a custom host-to-IP mapping (host:ip)
         /// </summary>
-        [ArgKey("host-add")]
+        [ArgKey("--host-add")]
         public DockerServiceUpdateTask HostAdd(string hostAdd)
         {
             WithArgumentsKeyFromAttribute(hostAdd.ToString());
@@ -333,7 +333,7 @@ _service = service;
         /// <summary>
         /// Remove a custom host-to-IP mapping (host:ip)
         /// </summary>
-        [ArgKey("host-rm")]
+        [ArgKey("--host-rm")]
         public DockerServiceUpdateTask HostRm(string hostRm)
         {
             WithArgumentsKeyFromAttribute(hostRm.ToString());
@@ -343,7 +343,7 @@ _service = service;
         /// <summary>
         /// Container hostname
         /// </summary>
-        [ArgKey("hostname")]
+        [ArgKey("--hostname")]
         public DockerServiceUpdateTask Hostname(string hostname)
         {
             WithArgumentsKeyFromAttribute(hostname.ToString());
@@ -353,7 +353,7 @@ _service = service;
         /// <summary>
         /// Service image tag
         /// </summary>
-        [ArgKey("image")]
+        [ArgKey("--image")]
         public DockerServiceUpdateTask Image(string image)
         {
             WithArgumentsKeyFromAttribute(image.ToString());
@@ -364,7 +364,7 @@ _service = service;
         /// Use an init inside each service container to forward signals and reap processes
 
         /// </summary>
-        [ArgKey("init")]
+        [ArgKey("--init")]
         public DockerServiceUpdateTask Init()
         {
             WithArgumentsKeyFromAttribute();
@@ -374,7 +374,7 @@ _service = service;
         /// <summary>
         /// Service container isolation mode
         /// </summary>
-        [ArgKey("isolation")]
+        [ArgKey("--isolation")]
         public DockerServiceUpdateTask Isolation(string isolation)
         {
             WithArgumentsKeyFromAttribute(isolation.ToString());
@@ -384,7 +384,7 @@ _service = service;
         /// <summary>
         /// Add or update a service label
         /// </summary>
-        [ArgKey("label-add")]
+        [ArgKey("--label-add")]
         public DockerServiceUpdateTask LabelAdd(string labelAdd)
         {
             WithArgumentsKeyFromAttribute(labelAdd.ToString());
@@ -394,7 +394,7 @@ _service = service;
         /// <summary>
         /// Remove a label by its key
         /// </summary>
-        [ArgKey("label-rm")]
+        [ArgKey("--label-rm")]
         public DockerServiceUpdateTask LabelRm(string labelRm)
         {
             WithArgumentsKeyFromAttribute(labelRm.ToString());
@@ -404,7 +404,7 @@ _service = service;
         /// <summary>
         /// Limit CPUs
         /// </summary>
-        [ArgKey("limit-cpu")]
+        [ArgKey("--limit-cpu")]
         public DockerServiceUpdateTask LimitCpu(decimal limitCpu)
         {
             WithArgumentsKeyFromAttribute(limitCpu.ToString());
@@ -414,7 +414,7 @@ _service = service;
         /// <summary>
         /// Limit Memory
         /// </summary>
-        [ArgKey("limit-memory")]
+        [ArgKey("--limit-memory")]
         public DockerServiceUpdateTask LimitMemory(string limitMemory)
         {
             WithArgumentsKeyFromAttribute(limitMemory.ToString());
@@ -424,7 +424,7 @@ _service = service;
         /// <summary>
         /// Logging driver for service
         /// </summary>
-        [ArgKey("log-driver")]
+        [ArgKey("--log-driver")]
         public DockerServiceUpdateTask LogDriver(string logDriver)
         {
             WithArgumentsKeyFromAttribute(logDriver.ToString());
@@ -434,7 +434,7 @@ _service = service;
         /// <summary>
         /// Logging driver options
         /// </summary>
-        [ArgKey("log-opt")]
+        [ArgKey("--log-opt")]
         public DockerServiceUpdateTask LogOpt(string logOpt)
         {
             WithArgumentsKeyFromAttribute(logOpt.ToString());
@@ -444,7 +444,7 @@ _service = service;
         /// <summary>
         /// Add or update a mount on a service
         /// </summary>
-        [ArgKey("mount-add")]
+        [ArgKey("--mount-add")]
         public DockerServiceUpdateTask MountAdd(string mountAdd)
         {
             WithArgumentsKeyFromAttribute(mountAdd.ToString());
@@ -454,7 +454,7 @@ _service = service;
         /// <summary>
         /// Remove a mount by its target path
         /// </summary>
-        [ArgKey("mount-rm")]
+        [ArgKey("--mount-rm")]
         public DockerServiceUpdateTask MountRm(string mountRm)
         {
             WithArgumentsKeyFromAttribute(mountRm.ToString());
@@ -464,7 +464,7 @@ _service = service;
         /// <summary>
         /// Add a network
         /// </summary>
-        [ArgKey("network-add")]
+        [ArgKey("--network-add")]
         public DockerServiceUpdateTask NetworkAdd(string networkAdd)
         {
             WithArgumentsKeyFromAttribute(networkAdd.ToString());
@@ -474,7 +474,7 @@ _service = service;
         /// <summary>
         /// Remove a network
         /// </summary>
-        [ArgKey("network-rm")]
+        [ArgKey("--network-rm")]
         public DockerServiceUpdateTask NetworkRm(string networkRm)
         {
             WithArgumentsKeyFromAttribute(networkRm.ToString());
@@ -484,7 +484,7 @@ _service = service;
         /// <summary>
         /// Disable any container-specified HEALTHCHECK
         /// </summary>
-        [ArgKey("no-healthcheck")]
+        [ArgKey("--no-healthcheck")]
         public DockerServiceUpdateTask NoHealthcheck()
         {
             WithArgumentsKeyFromAttribute();
@@ -495,7 +495,7 @@ _service = service;
         /// Do not query the registry to resolve image digest and supported platforms
 
         /// </summary>
-        [ArgKey("no-resolve-image")]
+        [ArgKey("--no-resolve-image")]
         public DockerServiceUpdateTask NoResolveImage()
         {
             WithArgumentsKeyFromAttribute();
@@ -505,7 +505,7 @@ _service = service;
         /// <summary>
         /// Add a placement preference
         /// </summary>
-        [ArgKey("placement-pref-add")]
+        [ArgKey("--placement-pref-add")]
         public DockerServiceUpdateTask PlacementPrefAdd(string placementPrefAdd)
         {
             WithArgumentsKeyFromAttribute(placementPrefAdd.ToString());
@@ -515,7 +515,7 @@ _service = service;
         /// <summary>
         /// Remove a placement preference
         /// </summary>
-        [ArgKey("placement-pref-rm")]
+        [ArgKey("--placement-pref-rm")]
         public DockerServiceUpdateTask PlacementPrefRm(string placementPrefRm)
         {
             WithArgumentsKeyFromAttribute(placementPrefRm.ToString());
@@ -525,7 +525,7 @@ _service = service;
         /// <summary>
         /// Add or update a published port
         /// </summary>
-        [ArgKey("publish-add")]
+        [ArgKey("--publish-add")]
         public DockerServiceUpdateTask PublishAdd(string publishAdd)
         {
             WithArgumentsKeyFromAttribute(publishAdd.ToString());
@@ -535,7 +535,7 @@ _service = service;
         /// <summary>
         /// Remove a published port by its target port
         /// </summary>
-        [ArgKey("publish-rm")]
+        [ArgKey("--publish-rm")]
         public DockerServiceUpdateTask PublishRm(string publishRm)
         {
             WithArgumentsKeyFromAttribute(publishRm.ToString());
@@ -545,7 +545,7 @@ _service = service;
         /// <summary>
         /// Suppress progress output
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerServiceUpdateTask Quiet()
         {
             WithArgumentsKeyFromAttribute();
@@ -555,7 +555,7 @@ _service = service;
         /// <summary>
         /// Mount the container's root filesystem as read only
         /// </summary>
-        [ArgKey("read-only")]
+        [ArgKey("--read-only")]
         public DockerServiceUpdateTask ReadOnly()
         {
             WithArgumentsKeyFromAttribute();
@@ -565,7 +565,7 @@ _service = service;
         /// <summary>
         /// Number of tasks
         /// </summary>
-        [ArgKey("replicas")]
+        [ArgKey("--replicas")]
         public DockerServiceUpdateTask Replicas(uint replicas)
         {
             WithArgumentsKeyFromAttribute(replicas.ToString());
@@ -575,7 +575,7 @@ _service = service;
         /// <summary>
         /// Maximum number of tasks per node (default 0 = unlimited)
         /// </summary>
-        [ArgKey("replicas-max-per-node")]
+        [ArgKey("--replicas-max-per-node")]
         public DockerServiceUpdateTask ReplicasMaxPerNode(ulong replicasMaxPerNode)
         {
             WithArgumentsKeyFromAttribute(replicasMaxPerNode.ToString());
@@ -585,7 +585,7 @@ _service = service;
         /// <summary>
         /// Reserve CPUs
         /// </summary>
-        [ArgKey("reserve-cpu")]
+        [ArgKey("--reserve-cpu")]
         public DockerServiceUpdateTask ReserveCpu(decimal reserveCpu)
         {
             WithArgumentsKeyFromAttribute(reserveCpu.ToString());
@@ -595,7 +595,7 @@ _service = service;
         /// <summary>
         /// Reserve Memory
         /// </summary>
-        [ArgKey("reserve-memory")]
+        [ArgKey("--reserve-memory")]
         public DockerServiceUpdateTask ReserveMemory(string reserveMemory)
         {
             WithArgumentsKeyFromAttribute(reserveMemory.ToString());
@@ -605,7 +605,7 @@ _service = service;
         /// <summary>
         /// Restart when condition is met ("none"|"on-failure"|"any")
         /// </summary>
-        [ArgKey("restart-condition")]
+        [ArgKey("--restart-condition")]
         public DockerServiceUpdateTask RestartCondition(string restartCondition)
         {
             WithArgumentsKeyFromAttribute(restartCondition.ToString());
@@ -615,7 +615,7 @@ _service = service;
         /// <summary>
         /// Delay between restart attempts (ns|us|ms|s|m|h)
         /// </summary>
-        [ArgKey("restart-delay")]
+        [ArgKey("--restart-delay")]
         public DockerServiceUpdateTask RestartDelay(string restartDelay)
         {
             WithArgumentsKeyFromAttribute(restartDelay.ToString());
@@ -625,7 +625,7 @@ _service = service;
         /// <summary>
         /// Maximum number of restarts before giving up
         /// </summary>
-        [ArgKey("restart-max-attempts")]
+        [ArgKey("--restart-max-attempts")]
         public DockerServiceUpdateTask RestartMaxAttempts(uint restartMaxAttempts)
         {
             WithArgumentsKeyFromAttribute(restartMaxAttempts.ToString());
@@ -635,7 +635,7 @@ _service = service;
         /// <summary>
         /// Window used to evaluate the restart policy (ns|us|ms|s|m|h)
         /// </summary>
-        [ArgKey("restart-window")]
+        [ArgKey("--restart-window")]
         public DockerServiceUpdateTask RestartWindow(string restartWindow)
         {
             WithArgumentsKeyFromAttribute(restartWindow.ToString());
@@ -645,7 +645,7 @@ _service = service;
         /// <summary>
         /// Rollback to previous specification
         /// </summary>
-        [ArgKey("rollback")]
+        [ArgKey("--rollback")]
         public DockerServiceUpdateTask Rollback()
         {
             WithArgumentsKeyFromAttribute();
@@ -655,7 +655,7 @@ _service = service;
         /// <summary>
         /// Delay between task rollbacks (ns|us|ms|s|m|h)
         /// </summary>
-        [ArgKey("rollback-delay")]
+        [ArgKey("--rollback-delay")]
         public DockerServiceUpdateTask RollbackDelay(string rollbackDelay)
         {
             WithArgumentsKeyFromAttribute(rollbackDelay.ToString());
@@ -665,7 +665,7 @@ _service = service;
         /// <summary>
         /// Action on rollback failure ("pause"|"continue")
         /// </summary>
-        [ArgKey("rollback-failure-action")]
+        [ArgKey("--rollback-failure-action")]
         public DockerServiceUpdateTask RollbackFailureAction(string rollbackFailureAction)
         {
             WithArgumentsKeyFromAttribute(rollbackFailureAction.ToString());
@@ -675,7 +675,7 @@ _service = service;
         /// <summary>
         /// Failure rate to tolerate during a rollback
         /// </summary>
-        [ArgKey("rollback-max-failure-ratio")]
+        [ArgKey("--rollback-max-failure-ratio")]
         public DockerServiceUpdateTask RollbackMaxFailureRatio(float rollbackMaxFailureRatio)
         {
             WithArgumentsKeyFromAttribute(rollbackMaxFailureRatio.ToString());
@@ -686,7 +686,7 @@ _service = service;
         /// Duration after each task rollback to monitor for failure (ns|us|ms|s|m|h)
 
         /// </summary>
-        [ArgKey("rollback-monitor")]
+        [ArgKey("--rollback-monitor")]
         public DockerServiceUpdateTask RollbackMonitor(string rollbackMonitor)
         {
             WithArgumentsKeyFromAttribute(rollbackMonitor.ToString());
@@ -696,7 +696,7 @@ _service = service;
         /// <summary>
         /// Rollback order ("start-first"|"stop-first")
         /// </summary>
-        [ArgKey("rollback-order")]
+        [ArgKey("--rollback-order")]
         public DockerServiceUpdateTask RollbackOrder(string rollbackOrder)
         {
             WithArgumentsKeyFromAttribute(rollbackOrder.ToString());
@@ -707,7 +707,7 @@ _service = service;
         /// Maximum number of tasks rolled back simultaneously (0 to roll back all at once)
 
         /// </summary>
-        [ArgKey("rollback-parallelism")]
+        [ArgKey("--rollback-parallelism")]
         public DockerServiceUpdateTask RollbackParallelism(ulong rollbackParallelism)
         {
             WithArgumentsKeyFromAttribute(rollbackParallelism.ToString());
@@ -717,7 +717,7 @@ _service = service;
         /// <summary>
         /// Add or update a secret on a service
         /// </summary>
-        [ArgKey("secret-add")]
+        [ArgKey("--secret-add")]
         public DockerServiceUpdateTask SecretAdd(string secretAdd)
         {
             WithArgumentsKeyFromAttribute(secretAdd.ToString());
@@ -727,7 +727,7 @@ _service = service;
         /// <summary>
         /// Remove a secret
         /// </summary>
-        [ArgKey("secret-rm")]
+        [ArgKey("--secret-rm")]
         public DockerServiceUpdateTask SecretRm(string secretRm)
         {
             WithArgumentsKeyFromAttribute(secretRm.ToString());
@@ -738,7 +738,7 @@ _service = service;
         /// Time to wait before force killing a container (ns|us|ms|s|m|h)
 
         /// </summary>
-        [ArgKey("stop-grace-period")]
+        [ArgKey("--stop-grace-period")]
         public DockerServiceUpdateTask StopGracePeriod(string stopGracePeriod)
         {
             WithArgumentsKeyFromAttribute(stopGracePeriod.ToString());
@@ -748,7 +748,7 @@ _service = service;
         /// <summary>
         /// Signal to stop the container
         /// </summary>
-        [ArgKey("stop-signal")]
+        [ArgKey("--stop-signal")]
         public DockerServiceUpdateTask StopSignal(string stopSignal)
         {
             WithArgumentsKeyFromAttribute(stopSignal.ToString());
@@ -758,7 +758,7 @@ _service = service;
         /// <summary>
         /// Add or update a Sysctl option
         /// </summary>
-        [ArgKey("sysctl-add")]
+        [ArgKey("--sysctl-add")]
         public DockerServiceUpdateTask SysctlAdd(string sysctlAdd)
         {
             WithArgumentsKeyFromAttribute(sysctlAdd.ToString());
@@ -768,7 +768,7 @@ _service = service;
         /// <summary>
         /// Remove a Sysctl option
         /// </summary>
-        [ArgKey("sysctl-rm")]
+        [ArgKey("--sysctl-rm")]
         public DockerServiceUpdateTask SysctlRm(string sysctlRm)
         {
             WithArgumentsKeyFromAttribute(sysctlRm.ToString());
@@ -778,7 +778,7 @@ _service = service;
         /// <summary>
         /// Allocate a pseudo-TTY
         /// </summary>
-        [ArgKey("tty")]
+        [ArgKey("--tty")]
         public DockerServiceUpdateTask Tty()
         {
             WithArgumentsKeyFromAttribute();
@@ -788,7 +788,7 @@ _service = service;
         /// <summary>
         /// Delay between updates (ns|us|ms|s|m|h)
         /// </summary>
-        [ArgKey("update-delay")]
+        [ArgKey("--update-delay")]
         public DockerServiceUpdateTask UpdateDelay(string updateDelay)
         {
             WithArgumentsKeyFromAttribute(updateDelay.ToString());
@@ -798,7 +798,7 @@ _service = service;
         /// <summary>
         /// Action on update failure ("pause"|"continue"|"rollback")
         /// </summary>
-        [ArgKey("update-failure-action")]
+        [ArgKey("--update-failure-action")]
         public DockerServiceUpdateTask UpdateFailureAction(string updateFailureAction)
         {
             WithArgumentsKeyFromAttribute(updateFailureAction.ToString());
@@ -808,7 +808,7 @@ _service = service;
         /// <summary>
         /// Failure rate to tolerate during an update
         /// </summary>
-        [ArgKey("update-max-failure-ratio")]
+        [ArgKey("--update-max-failure-ratio")]
         public DockerServiceUpdateTask UpdateMaxFailureRatio(float updateMaxFailureRatio)
         {
             WithArgumentsKeyFromAttribute(updateMaxFailureRatio.ToString());
@@ -819,7 +819,7 @@ _service = service;
         /// Duration after each task update to monitor for failure (ns|us|ms|s|m|h)
 
         /// </summary>
-        [ArgKey("update-monitor")]
+        [ArgKey("--update-monitor")]
         public DockerServiceUpdateTask UpdateMonitor(string updateMonitor)
         {
             WithArgumentsKeyFromAttribute(updateMonitor.ToString());
@@ -829,7 +829,7 @@ _service = service;
         /// <summary>
         /// Update order ("start-first"|"stop-first")
         /// </summary>
-        [ArgKey("update-order")]
+        [ArgKey("--update-order")]
         public DockerServiceUpdateTask UpdateOrder(string updateOrder)
         {
             WithArgumentsKeyFromAttribute(updateOrder.ToString());
@@ -840,7 +840,7 @@ _service = service;
         /// Maximum number of tasks updated simultaneously (0 to update all at once)
 
         /// </summary>
-        [ArgKey("update-parallelism")]
+        [ArgKey("--update-parallelism")]
         public DockerServiceUpdateTask UpdateParallelism(ulong updateParallelism)
         {
             WithArgumentsKeyFromAttribute(updateParallelism.ToString());
@@ -850,7 +850,7 @@ _service = service;
         /// <summary>
         /// Username or UID (format: <name|uid>[:<group|gid>])
         /// </summary>
-        [ArgKey("user")]
+        [ArgKey("--user")]
         public DockerServiceUpdateTask User(string user)
         {
             WithArgumentsKeyFromAttribute(user.ToString());
@@ -860,7 +860,7 @@ _service = service;
         /// <summary>
         /// Send registry authentication details to swarm agents
         /// </summary>
-        [ArgKey("with-registry-auth")]
+        [ArgKey("--with-registry-auth")]
         public DockerServiceUpdateTask WithRegistryAuth()
         {
             WithArgumentsKeyFromAttribute();
@@ -870,7 +870,7 @@ _service = service;
         /// <summary>
         /// Working directory inside the container
         /// </summary>
-        [ArgKey("workdir")]
+        [ArgKey("--workdir")]
         public DockerServiceUpdateTask Workdir(string workdir)
         {
             WithArgumentsKeyFromAttribute(workdir.ToString());

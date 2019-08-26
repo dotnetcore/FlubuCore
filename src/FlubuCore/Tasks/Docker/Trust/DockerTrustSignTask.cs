@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Trust
         public DockerTrustSignTask(string image)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("trust sign");
 _image = image;
 
         }
@@ -30,7 +30,7 @@ _image = image;
         /// <summary>
         /// Sign a locally tagged image
         /// </summary>
-        [ArgKey("local")]
+        [ArgKey("--local")]
         public DockerTrustSignTask Local()
         {
             WithArgumentsKeyFromAttribute();

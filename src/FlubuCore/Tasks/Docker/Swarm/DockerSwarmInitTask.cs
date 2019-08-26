@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         public DockerSwarmInitTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("swarm init");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Advertised address (format: <ip|interface>[:port])
         /// </summary>
-        [ArgKey("advertise-addr")]
+        [ArgKey("--advertise-addr")]
         public DockerSwarmInitTask AdvertiseAddr(string advertiseAddr)
         {
             WithArgumentsKeyFromAttribute(advertiseAddr.ToString());
@@ -39,7 +39,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// Enable manager autolocking (requiring an unlock key to start a stopped manager)
 
         /// </summary>
-        [ArgKey("autolock")]
+        [ArgKey("--autolock")]
         public DockerSwarmInitTask Autolock()
         {
             WithArgumentsKeyFromAttribute();
@@ -49,7 +49,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Availability of the node ("active"|"pause"|"drain")
         /// </summary>
-        [ArgKey("availability")]
+        [ArgKey("--availability")]
         public DockerSwarmInitTask Availability(string availability)
         {
             WithArgumentsKeyFromAttribute(availability.ToString());
@@ -59,7 +59,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Validity period for node certificates (ns|us|ms|s|m|h)
         /// </summary>
-        [ArgKey("cert-expiry")]
+        [ArgKey("--cert-expiry")]
         public DockerSwarmInitTask CertExpiry(string certExpiry)
         {
             WithArgumentsKeyFromAttribute(certExpiry.ToString());
@@ -70,7 +70,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// Address or interface to use for data path traffic (format: <ip|interface>)
 
         /// </summary>
-        [ArgKey("data-path-addr")]
+        [ArgKey("--data-path-addr")]
         public DockerSwarmInitTask DataPathAddr(string dataPathAddr)
         {
             WithArgumentsKeyFromAttribute(dataPathAddr.ToString());
@@ -81,7 +81,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// Port number to use for data path traffic (1024 - 49151). If no value is set or is set to 0, the default port (4789) is used.
 
         /// </summary>
-        [ArgKey("data-path-port")]
+        [ArgKey("--data-path-port")]
         public DockerSwarmInitTask DataPathPort(uint dataPathPort)
         {
             WithArgumentsKeyFromAttribute(dataPathPort.ToString());
@@ -91,7 +91,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// default address pool in CIDR format
         /// </summary>
-        [ArgKey("default-addr-pool")]
+        [ArgKey("--default-addr-pool")]
         public DockerSwarmInitTask DefaultAddrPool(string defaultAddrPool)
         {
             WithArgumentsKeyFromAttribute(defaultAddrPool.ToString());
@@ -101,7 +101,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// default address pool subnet mask length
         /// </summary>
-        [ArgKey("default-addr-pool-mask-length")]
+        [ArgKey("--default-addr-pool-mask-length")]
         public DockerSwarmInitTask DefaultAddrPoolMaskLength(uint defaultAddrPoolMaskLength)
         {
             WithArgumentsKeyFromAttribute(defaultAddrPoolMaskLength.ToString());
@@ -111,7 +111,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Dispatcher heartbeat period (ns|us|ms|s|m|h)
         /// </summary>
-        [ArgKey("dispatcher-heartbeat")]
+        [ArgKey("--dispatcher-heartbeat")]
         public DockerSwarmInitTask DispatcherHeartbeat(string dispatcherHeartbeat)
         {
             WithArgumentsKeyFromAttribute(dispatcherHeartbeat.ToString());
@@ -121,7 +121,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Specifications of one or more certificate signing endpoints
         /// </summary>
-        [ArgKey("external-ca")]
+        [ArgKey("--external-ca")]
         public DockerSwarmInitTask ExternalCa(string externalCa)
         {
             WithArgumentsKeyFromAttribute(externalCa.ToString());
@@ -131,7 +131,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Force create a new cluster from current state
         /// </summary>
-        [ArgKey("force-new-cluster")]
+        [ArgKey("--force-new-cluster")]
         public DockerSwarmInitTask ForceNewCluster()
         {
             WithArgumentsKeyFromAttribute();
@@ -141,7 +141,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Listen address (format: <ip|interface>[:port])
         /// </summary>
-        [ArgKey("listen-addr")]
+        [ArgKey("--listen-addr")]
         public DockerSwarmInitTask ListenAddr(string listenAddr)
         {
             WithArgumentsKeyFromAttribute(listenAddr.ToString());
@@ -151,7 +151,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Number of additional Raft snapshots to retain
         /// </summary>
-        [ArgKey("max-snapshots")]
+        [ArgKey("--max-snapshots")]
         public DockerSwarmInitTask MaxSnapshots(ulong maxSnapshots)
         {
             WithArgumentsKeyFromAttribute(maxSnapshots.ToString());
@@ -161,7 +161,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Number of log entries between Raft snapshots
         /// </summary>
-        [ArgKey("snapshot-interval")]
+        [ArgKey("--snapshot-interval")]
         public DockerSwarmInitTask SnapshotInterval(ulong snapshotInterval)
         {
             WithArgumentsKeyFromAttribute(snapshotInterval.ToString());
@@ -171,7 +171,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Task history retention limit
         /// </summary>
-        [ArgKey("task-history-limit")]
+        [ArgKey("--task-history-limit")]
         public DockerSwarmInitTask TaskHistoryLimit(long taskHistoryLimit)
         {
             WithArgumentsKeyFromAttribute(taskHistoryLimit.ToString());

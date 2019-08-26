@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Trust
         public DockerTrustInspectTask(params string[] image)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("trust inspect");
 _image = image;
 
         }
@@ -30,7 +30,7 @@ _image = image;
         /// <summary>
         /// Print the information in a human friendly format
         /// </summary>
-        [ArgKey("pretty")]
+        [ArgKey("--pretty")]
         public DockerTrustInspectTask Pretty()
         {
             WithArgumentsKeyFromAttribute();

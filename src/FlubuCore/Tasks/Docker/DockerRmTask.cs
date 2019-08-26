@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerRmTask(params string[] container)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("rm");
 _container = container;
 
         }
@@ -30,7 +30,7 @@ _container = container;
         /// <summary>
         /// Force the removal of a running container (uses SIGKILL)
         /// </summary>
-        [ArgKey("force")]
+        [ArgKey("--force")]
         public DockerRmTask Force()
         {
             WithArgumentsKeyFromAttribute();
@@ -40,7 +40,7 @@ _container = container;
         /// <summary>
         /// Remove the specified link
         /// </summary>
-        [ArgKey("link")]
+        [ArgKey("--link")]
         public DockerRmTask Link()
         {
             WithArgumentsKeyFromAttribute();
@@ -50,7 +50,7 @@ _container = container;
         /// <summary>
         /// Remove the volumes associated with the container
         /// </summary>
-        [ArgKey("volumes")]
+        [ArgKey("--volumes")]
         public DockerRmTask Volumes()
         {
             WithArgumentsKeyFromAttribute();

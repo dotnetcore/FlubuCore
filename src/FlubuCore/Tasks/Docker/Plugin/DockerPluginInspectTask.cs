@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Plugin
         public DockerPluginInspectTask(params string[] plugin)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("plugin inspect");
 _plugin = plugin;
 
         }
@@ -30,7 +30,7 @@ _plugin = plugin;
         /// <summary>
         /// Format the output using the given Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerPluginInspectTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());

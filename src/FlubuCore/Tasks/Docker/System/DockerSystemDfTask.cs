@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.System
         public DockerSystemDfTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("system df");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker.System
         /// <summary>
         /// Pretty-print images using a Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerSystemDfTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker.System
         /// <summary>
         /// Show detailed information on space usage
         /// </summary>
-        [ArgKey("verbose")]
+        [ArgKey("--verbose")]
         public DockerSystemDfTask Verbose()
         {
             WithArgumentsKeyFromAttribute();

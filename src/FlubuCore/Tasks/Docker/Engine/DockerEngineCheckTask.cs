@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         public DockerEngineCheckTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("engine check");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         /// <summary>
         /// override default location of containerd endpoint
         /// </summary>
-        [ArgKey("containerd")]
+        [ArgKey("--containerd")]
         public DockerEngineCheckTask Containerd(string containerd)
         {
             WithArgumentsKeyFromAttribute(containerd.ToString());
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         /// <summary>
         /// Report downgrades (default omits older versions)
         /// </summary>
-        [ArgKey("downgrades")]
+        [ArgKey("--downgrades")]
         public DockerEngineCheckTask Downgrades()
         {
             WithArgumentsKeyFromAttribute();
@@ -49,7 +49,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         /// Specify engine image (default uses the same image as currently running)
 
         /// </summary>
-        [ArgKey("engine-image")]
+        [ArgKey("--engine-image")]
         public DockerEngineCheckTask EngineImage(string engineImage)
         {
             WithArgumentsKeyFromAttribute(engineImage.ToString());
@@ -59,7 +59,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         /// <summary>
         /// Pretty-print updates using a Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerEngineCheckTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -69,7 +69,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         /// <summary>
         /// Include pre-release versions
         /// </summary>
-        [ArgKey("pre-releases")]
+        [ArgKey("--pre-releases")]
         public DockerEngineCheckTask PreReleases()
         {
             WithArgumentsKeyFromAttribute();
@@ -79,7 +79,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         /// <summary>
         /// Only display available versions
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerEngineCheckTask Quiet()
         {
             WithArgumentsKeyFromAttribute();
@@ -90,7 +90,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         /// Override the existing location where engine images are pulled
 
         /// </summary>
-        [ArgKey("registry-prefix")]
+        [ArgKey("--registry-prefix")]
         public DockerEngineCheckTask RegistryPrefix(string registryPrefix)
         {
             WithArgumentsKeyFromAttribute(registryPrefix.ToString());
@@ -100,7 +100,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         /// <summary>
         /// Report available upgrades
         /// </summary>
-        [ArgKey("upgrades")]
+        [ArgKey("--upgrades")]
         public DockerEngineCheckTask Upgrades()
         {
             WithArgumentsKeyFromAttribute();

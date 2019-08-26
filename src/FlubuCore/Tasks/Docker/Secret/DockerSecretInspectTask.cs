@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Secret
         public DockerSecretInspectTask(params string[] secret)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("secret inspect");
 _secret = secret;
 
         }
@@ -30,7 +30,7 @@ _secret = secret;
         /// <summary>
         /// Format the output using the given Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerSecretInspectTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -40,7 +40,7 @@ _secret = secret;
         /// <summary>
         /// Print the information in a human friendly format
         /// </summary>
-        [ArgKey("pretty")]
+        [ArgKey("--pretty")]
         public DockerSecretInspectTask Pretty()
         {
             WithArgumentsKeyFromAttribute();

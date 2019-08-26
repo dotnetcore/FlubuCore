@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Volume
         public DockerVolumeCreateTask(string volume)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("volume create");
 _volume = volume;
 
         }
@@ -30,7 +30,7 @@ _volume = volume;
         /// <summary>
         /// Specify volume driver name
         /// </summary>
-        [ArgKey("driver")]
+        [ArgKey("--driver")]
         public DockerVolumeCreateTask Driver(string driver)
         {
             WithArgumentsKeyFromAttribute(driver.ToString());
@@ -40,7 +40,7 @@ _volume = volume;
         /// <summary>
         /// Set metadata for a volume
         /// </summary>
-        [ArgKey("label")]
+        [ArgKey("--label")]
         public DockerVolumeCreateTask Label(string label)
         {
             WithArgumentsKeyFromAttribute(label.ToString());
@@ -50,7 +50,7 @@ _volume = volume;
         /// <summary>
         /// Specify volume name
         /// </summary>
-        [ArgKey("name")]
+        [ArgKey("--name")]
         public DockerVolumeCreateTask Name(string name)
         {
             WithArgumentsKeyFromAttribute(name.ToString());
@@ -60,7 +60,7 @@ _volume = volume;
         /// <summary>
         /// Set driver specific options
         /// </summary>
-        [ArgKey("opt")]
+        [ArgKey("--opt")]
         public DockerVolumeCreateTask Opt(string opt)
         {
             WithArgumentsKeyFromAttribute(opt.ToString());

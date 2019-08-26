@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FlubuCore.WebApi.Client</name>
+    </assembly>
+    <members>
+        <member name="M:FlubuCore.WebApi.Client.IWebApiClient.ExecuteScriptAsync(FlubuCore.WebApi.Model.ExecuteScriptRequest)">
+            <summary>
+            Executes specified flubu scrip on flubu web api server.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FlubuCore.WebApi.Client.IWebApiClient.UploadPackageAsync(FlubuCore.WebApi.Model.UploadPackageRequest)">
+            <summary>
+            Upload's sprecified packages to flubu web api server.
+            </summary>
+            <param name="request"></param>
+            <returns>List of uploaded packages(files).</returns>
+        </member>
+        <member name="M:FlubuCore.WebApi.Client.IWebApiClient.DeletePackagesAsync(FlubuCore.WebApi.Model.CleanPackagesDirectoryRequest)">
+            <summary>
+            Cleanes packages directory on flubu web api server.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FlubuCore.WebApi.Client.IWebApiClient.GetTokenAsync(FlubuCore.WebApi.Model.GetTokenRequest)">
+            <summary>
+            Get's the access token for flubu web api server.
+            </summary>
+            <param name="request"></param>
+            <returns>The access token</returns>
+        </member>
+        <member name="M:FlubuCore.WebApi.Client.IWebApiClient.DownloadReportsAsync(FlubuCore.WebApi.Model.DownloadReportsRequest)">
+            <summary>
+            Download reports(compressed in zip file) from flubu web api server.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FlubuCore.WebApi.Client.IWebApiClient.CleanReportsDirectoryAsync(FlubuCore.WebApi.Model.CleanReportsDirectoryRequest)">
+            <summary>
+            Deletes all reports(cleans directory on flubu web api server).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FlubuCore.WebApi.Client.IWebApiClient.ExecuteAsync``1(System.Func{FlubuCore.WebApi.Client.IWebApiClient,System.Threading.Tasks.Task{``0}})">
+            <summary>
+            Executes specified web api method and handles <see cref="T:FlubuCore.WebApi.Client.WebApiException"/> all errors.
+            </summary>
+            <typeparam name="T">The response data</typeparam>
+            <param name="action"></param>
+            <param name="statusCodeToHandle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FlubuCore.WebApi.Client.IWebApiClient.ExecuteAsync``1(System.Func{FlubuCore.WebApi.Client.IWebApiClient,System.Threading.Tasks.Task{``0}},System.Net.HttpStatusCode[])">
+            <summary>
+            Executes specified web api method and handles <see cref="T:FlubuCore.WebApi.Client.WebApiException"/> with specified HttpStatusCode. If WebException with other status code has occured exception is retrown.
+            </summary>
+            <typeparam name="T">The response data</typeparam>
+            <param name="action"></param>
+            <param name="statusCodesToHandle">HttpStatusCodes to handle.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FlubuCore.WebApi.Client.IWebApiClient.ExecuteAsync(System.Func{FlubuCore.WebApi.Client.IWebApiClient,System.Threading.Tasks.Task},System.Net.HttpStatusCode)">
+            <summary>
+            Executes specified web api method and handles <see cref="T:FlubuCore.WebApi.Client.WebApiException"/> with specified HttpStatusCode. If WebException with other status code has occured exception is retrown.
+            </summary>
+            <param name="action"></param>
+            <param name="statusCodeToHandle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FlubuCore.WebApi.Client.IWebApiClient.ExecuteAsync(System.Func{FlubuCore.WebApi.Client.IWebApiClient,System.Threading.Tasks.Task},System.Net.HttpStatusCode[])">
+            <summary>
+            Executes specified web api method and handles <see cref="T:FlubuCore.WebApi.Client.WebApiException"/> with specified HttpStatusCode. If WebException with other status code has occured exception is retrown.
+            </summary>
+            <param name="action"></param>
+            <param name="statusCodesToHandle">HttpStatusCodes to handle.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FlubuCore.WebApi.Client.IWebApiClient.HandleErrors``1(FlubuCore.WebApi.Client.Response{``0})">
+            <summary>
+            Handles errors in execute method
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="response"></param>
+        </member>
+        <member name="M:FlubuCore.WebApi.Client.WebApiClient.ExecuteAsync``1(System.Func{FlubuCore.WebApi.Client.IWebApiClient,System.Threading.Tasks.Task{``0}})">
+            <summary>
+            Executes specified web api method and handles <see cref="T:FlubuCore.WebApi.Client.WebApiException"/> with specified HttpStatusCode. If WebException with other status code has occured exception is retrown.
+            </summary>
+            <typeparam name="T">The response data</typeparam>
+            <param name="action"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FlubuCore.WebApi.Client.WebApiClient.ExecuteAsync``1(System.Func{FlubuCore.WebApi.Client.IWebApiClient,System.Threading.Tasks.Task{``0}},System.Net.HttpStatusCode[])">
+            <summary>
+            Executes specified web api method and handles <see cref="T:FlubuCore.WebApi.Client.WebApiException"/> <see cref="T:System.TimeoutException"/> with specified HttpStatusCodes. If WebException with other status code has occured exception is rethrown.
+            </summary>
+            <typeparam name="T">The response data</typeparam>
+            <param name="action"></param>
+            <param name="statusCodesToHandle">HttpStatusCodes to handle.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FlubuCore.WebApi.Client.WebApiClient.ExecuteAsync(System.Func{FlubuCore.WebApi.Client.IWebApiClient,System.Threading.Tasks.Task},System.Net.HttpStatusCode)">
+            <summary>
+            Executes specified web api method and handles <see cref="T:FlubuCore.WebApi.Client.WebApiException"/> with specified HttpStatusCode. If WebException with other status code has occured exception is rethrown.
+            </summary>
+            <param name="action"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FlubuCore.WebApi.Client.WebApiClient.ExecuteAsync(System.Func{FlubuCore.WebApi.Client.IWebApiClient,System.Threading.Tasks.Task},System.Net.HttpStatusCode[])">
+            <summary>
+            Executes specified web api method and handles <see cref="T:FlubuCore.WebApi.Client.WebApiException"/> with specified HttpStatusCode. If WebException with other status code has occured exception is rethrown.
+            </summary>
+            <param name="action"></param>
+            <param name="statusCodesToHandle">HttpStatusCodes to handle.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FlubuCore.WebApi.Client.WebApiClient.HandleErrors``1(FlubuCore.WebApi.Client.Response{``0})">
+            <summary>
+            Handles errors in execute method
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="response"></param>
+        </member>
+    </members>
+</doc>

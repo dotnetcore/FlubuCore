@@ -21,7 +21,7 @@ private string _file;
         public DockerContextExportTask(string context,  string file)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("context export");
 _context = context;
 _file = file;
 
@@ -32,7 +32,7 @@ _file = file;
         /// <summary>
         /// Export as a kubeconfig file
         /// </summary>
-        [ArgKey("kubeconfig")]
+        [ArgKey("--kubeconfig")]
         public DockerContextExportTask Kubeconfig()
         {
             WithArgumentsKeyFromAttribute();

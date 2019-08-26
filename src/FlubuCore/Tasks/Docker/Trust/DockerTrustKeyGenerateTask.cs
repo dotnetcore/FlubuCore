@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Trust
         public DockerTrustKeyGenerateTask(string name)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("trust key generate");
 _name = name;
 
         }
@@ -30,7 +30,7 @@ _name = name;
         /// <summary>
         /// Directory to generate key in, defaults to current directory
         /// </summary>
-        [ArgKey("dir")]
+        [ArgKey("--dir")]
         public DockerTrustKeyGenerateTask Dir(string dir)
         {
             WithArgumentsKeyFromAttribute(dir.ToString());

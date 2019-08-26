@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Checkpoint
         public DockerCheckpointLsTask(string container)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("checkpoint ls");
 _container = container;
 
         }
@@ -30,7 +30,7 @@ _container = container;
         /// <summary>
         /// Use a custom checkpoint storage directory
         /// </summary>
-        [ArgKey("checkpoint-dir")]
+        [ArgKey("--checkpoint-dir")]
         public DockerCheckpointLsTask CheckpointDir(string checkpointDir)
         {
             WithArgumentsKeyFromAttribute(checkpointDir.ToString());

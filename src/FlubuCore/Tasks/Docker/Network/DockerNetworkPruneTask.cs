@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Network
         public DockerNetworkPruneTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("network prune");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker.Network
         /// <summary>
         /// Provide filter values (e.g. 'until=<timestamp>')
         /// </summary>
-        [ArgKey("filter")]
+        [ArgKey("--filter")]
         public DockerNetworkPruneTask Filter(string filter)
         {
             WithArgumentsKeyFromAttribute(filter.ToString());
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker.Network
         /// <summary>
         /// Do not prompt for confirmation
         /// </summary>
-        [ArgKey("force")]
+        [ArgKey("--force")]
         public DockerNetworkPruneTask Force()
         {
             WithArgumentsKeyFromAttribute();

@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerAttachTask(string container)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("attach");
 _container = container;
 
         }
@@ -30,7 +30,7 @@ _container = container;
         /// <summary>
         /// Override the key sequence for detaching a container
         /// </summary>
-        [ArgKey("detach-keys")]
+        [ArgKey("--detach-keys")]
         public DockerAttachTask DetachKeys(string detachKeys)
         {
             WithArgumentsKeyFromAttribute(detachKeys.ToString());
@@ -40,7 +40,7 @@ _container = container;
         /// <summary>
         /// Do not attach STDIN
         /// </summary>
-        [ArgKey("no-stdin")]
+        [ArgKey("--no-stdin")]
         public DockerAttachTask NoStdin()
         {
             WithArgumentsKeyFromAttribute();
@@ -50,7 +50,7 @@ _container = container;
         /// <summary>
         /// Proxy all received signals to the process
         /// </summary>
-        [ArgKey("sig-proxy")]
+        [ArgKey("--sig-proxy")]
         public DockerAttachTask SigProxy()
         {
             WithArgumentsKeyFromAttribute();

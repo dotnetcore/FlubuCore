@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerLoginTask(string server)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("login");
 _server = server;
 
         }
@@ -30,7 +30,7 @@ _server = server;
         /// <summary>
         /// Password
         /// </summary>
-        [ArgKey("password")]
+        [ArgKey("--password")]
         public DockerLoginTask Password(string password)
         {
             WithArgumentsKeyFromAttribute(password.ToString());
@@ -40,7 +40,7 @@ _server = server;
         /// <summary>
         /// Take the password from stdin
         /// </summary>
-        [ArgKey("password-stdin")]
+        [ArgKey("--password-stdin")]
         public DockerLoginTask PasswordStdin()
         {
             WithArgumentsKeyFromAttribute();
@@ -50,7 +50,7 @@ _server = server;
         /// <summary>
         /// Username
         /// </summary>
-        [ArgKey("username")]
+        [ArgKey("--username")]
         public DockerLoginTask Username(string username)
         {
             WithArgumentsKeyFromAttribute(username.ToString());

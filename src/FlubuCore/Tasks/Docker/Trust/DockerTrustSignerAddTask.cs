@@ -22,7 +22,7 @@ private string[] _repository;
         public DockerTrustSignerAddTask(string options,  string name,  params string[] repository)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("trust signer add");
 _options = options;
 _name = name;
 _repository = repository;
@@ -34,7 +34,7 @@ _repository = repository;
         /// <summary>
         /// Path to the signer's public key file
         /// </summary>
-        [ArgKey("key")]
+        [ArgKey("--key")]
         public DockerTrustSignerAddTask Key(string key)
         {
             WithArgumentsKeyFromAttribute(key.ToString());

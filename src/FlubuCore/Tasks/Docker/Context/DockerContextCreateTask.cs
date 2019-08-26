@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Context
         public DockerContextCreateTask(string context)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("context create");
 _context = context;
 
         }
@@ -31,7 +31,7 @@ _context = context;
         /// Default orchestrator for stack operations to use with this context (swarm|kubernetes|all)
 
         /// </summary>
-        [ArgKey("default-stack-orchestrator")]
+        [ArgKey("--default-stack-orchestrator")]
         public DockerContextCreateTask DefaultStackOrchestrator(string defaultStackOrchestrator)
         {
             WithArgumentsKeyFromAttribute(defaultStackOrchestrator.ToString());
@@ -41,7 +41,7 @@ _context = context;
         /// <summary>
         /// Description of the context
         /// </summary>
-        [ArgKey("description")]
+        [ArgKey("--description")]
         public DockerContextCreateTask DockerDescription(string description)
         {
             WithArgumentsKeyFromAttribute(description.ToString());
@@ -51,7 +51,7 @@ _context = context;
         /// <summary>
         /// set the docker endpoint
         /// </summary>
-        [ArgKey("docker")]
+        [ArgKey("--docker")]
         public DockerContextCreateTask Docker(string docker)
         {
             WithArgumentsKeyFromAttribute(docker.ToString());
@@ -61,7 +61,7 @@ _context = context;
         /// <summary>
         /// create context from a named context
         /// </summary>
-        [ArgKey("from")]
+        [ArgKey("--from")]
         public DockerContextCreateTask From(string from)
         {
             WithArgumentsKeyFromAttribute(from.ToString());
@@ -71,7 +71,7 @@ _context = context;
         /// <summary>
         /// set the kubernetes endpoint
         /// </summary>
-        [ArgKey("kubernetes")]
+        [ArgKey("--kubernetes")]
         public DockerContextCreateTask Kubernetes(string kubernetes)
         {
             WithArgumentsKeyFromAttribute(kubernetes.ToString());

@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Volume
         public DockerVolumeInspectTask(params string[] volume)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("volume inspect");
 _volume = volume;
 
         }
@@ -30,7 +30,7 @@ _volume = volume;
         /// <summary>
         /// Format the output using the given Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerVolumeInspectTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());

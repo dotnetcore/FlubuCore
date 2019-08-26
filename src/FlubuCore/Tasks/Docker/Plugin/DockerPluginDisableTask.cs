@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Plugin
         public DockerPluginDisableTask(string plugin)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("plugin disable");
 _plugin = plugin;
 
         }
@@ -30,7 +30,7 @@ _plugin = plugin;
         /// <summary>
         /// Force the disable of an active plugin
         /// </summary>
-        [ArgKey("force")]
+        [ArgKey("--force")]
         public DockerPluginDisableTask Force()
         {
             WithArgumentsKeyFromAttribute();

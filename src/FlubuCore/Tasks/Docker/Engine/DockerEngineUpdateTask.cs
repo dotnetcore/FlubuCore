@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         public DockerEngineUpdateTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("engine update");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         /// <summary>
         /// override default location of containerd endpoint
         /// </summary>
-        [ArgKey("containerd")]
+        [ArgKey("--containerd")]
         public DockerEngineUpdateTask Containerd(string containerd)
         {
             WithArgumentsKeyFromAttribute(containerd.ToString());
@@ -39,7 +39,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         /// Specify engine image (default uses the same image as currently running)
 
         /// </summary>
-        [ArgKey("engine-image")]
+        [ArgKey("--engine-image")]
         public DockerEngineUpdateTask EngineImage(string engineImage)
         {
             WithArgumentsKeyFromAttribute(engineImage.ToString());
@@ -49,7 +49,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         /// <summary>
         /// Override the current location where engine images are pulled
         /// </summary>
-        [ArgKey("registry-prefix")]
+        [ArgKey("--registry-prefix")]
         public DockerEngineUpdateTask RegistryPrefix(string registryPrefix)
         {
             WithArgumentsKeyFromAttribute(registryPrefix.ToString());
@@ -59,7 +59,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         /// <summary>
         /// Specify engine version
         /// </summary>
-        [ArgKey("version")]
+        [ArgKey("--version")]
         public DockerEngineUpdateTask Version(string version)
         {
             WithArgumentsKeyFromAttribute(version.ToString());

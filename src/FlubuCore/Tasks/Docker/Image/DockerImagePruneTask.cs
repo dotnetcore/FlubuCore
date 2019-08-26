@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Image
         public DockerImagePruneTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("image prune");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker.Image
         /// <summary>
         /// Remove all unused images, not just dangling ones
         /// </summary>
-        [ArgKey("all")]
+        [ArgKey("--all")]
         public DockerImagePruneTask All()
         {
             WithArgumentsKeyFromAttribute();
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker.Image
         /// <summary>
         /// Provide filter values (e.g. 'until=<timestamp>')
         /// </summary>
-        [ArgKey("filter")]
+        [ArgKey("--filter")]
         public DockerImagePruneTask Filter(string filter)
         {
             WithArgumentsKeyFromAttribute(filter.ToString());
@@ -48,7 +48,7 @@ namespace FlubuCore.Tasks.Docker.Image
         /// <summary>
         /// Do not prompt for confirmation
         /// </summary>
-        [ArgKey("force")]
+        [ArgKey("--force")]
         public DockerImagePruneTask Force()
         {
             WithArgumentsKeyFromAttribute();

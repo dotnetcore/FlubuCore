@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Network
         public DockerNetworkInspectTask(params string[] network)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("network inspect");
 _network = network;
 
         }
@@ -30,7 +30,7 @@ _network = network;
         /// <summary>
         /// Format the output using the given Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerNetworkInspectTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -40,7 +40,7 @@ _network = network;
         /// <summary>
         /// Verbose output for diagnostics
         /// </summary>
-        [ArgKey("verbose")]
+        [ArgKey("--verbose")]
         public DockerNetworkInspectTask Verbose()
         {
             WithArgumentsKeyFromAttribute();

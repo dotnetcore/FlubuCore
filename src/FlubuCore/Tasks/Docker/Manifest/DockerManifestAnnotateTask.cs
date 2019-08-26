@@ -21,7 +21,7 @@ private string _manifest;
         public DockerManifestAnnotateTask(string manifest_list,  string manifest)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("manifest annotate");
 _manifest_list = manifest_list;
 _manifest = manifest;
 
@@ -32,7 +32,7 @@ _manifest = manifest;
         /// <summary>
         /// Set architecture
         /// </summary>
-        [ArgKey("arch")]
+        [ArgKey("--arch")]
         public DockerManifestAnnotateTask Arch(string arch)
         {
             WithArgumentsKeyFromAttribute(arch.ToString());
@@ -42,7 +42,7 @@ _manifest = manifest;
         /// <summary>
         /// Set operating system
         /// </summary>
-        [ArgKey("os")]
+        [ArgKey("--os")]
         public DockerManifestAnnotateTask Os(string os)
         {
             WithArgumentsKeyFromAttribute(os.ToString());
@@ -52,7 +52,7 @@ _manifest = manifest;
         /// <summary>
         /// Set operating system feature
         /// </summary>
-        [ArgKey("os-features")]
+        [ArgKey("--os-features")]
         public DockerManifestAnnotateTask OsFeatures(string osFeatures)
         {
             WithArgumentsKeyFromAttribute(osFeatures.ToString());
@@ -62,7 +62,7 @@ _manifest = manifest;
         /// <summary>
         /// Set architecture variant
         /// </summary>
-        [ArgKey("variant")]
+        [ArgKey("--variant")]
         public DockerManifestAnnotateTask Variant(string variant)
         {
             WithArgumentsKeyFromAttribute(variant.ToString());

@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerImagesTask(string repository)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("images");
 _repository = repository;
 
         }
@@ -30,7 +30,7 @@ _repository = repository;
         /// <summary>
         /// Show all images (default hides intermediate images)
         /// </summary>
-        [ArgKey("all")]
+        [ArgKey("--all")]
         public DockerImagesTask All()
         {
             WithArgumentsKeyFromAttribute();
@@ -40,7 +40,7 @@ _repository = repository;
         /// <summary>
         /// Show digests
         /// </summary>
-        [ArgKey("digests")]
+        [ArgKey("--digests")]
         public DockerImagesTask Digests()
         {
             WithArgumentsKeyFromAttribute();
@@ -50,7 +50,7 @@ _repository = repository;
         /// <summary>
         /// Filter output based on conditions provided
         /// </summary>
-        [ArgKey("filter")]
+        [ArgKey("--filter")]
         public DockerImagesTask Filter(string filter)
         {
             WithArgumentsKeyFromAttribute(filter.ToString());
@@ -60,7 +60,7 @@ _repository = repository;
         /// <summary>
         /// Pretty-print images using a Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerImagesTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -70,7 +70,7 @@ _repository = repository;
         /// <summary>
         /// Don't truncate output
         /// </summary>
-        [ArgKey("no-trunc")]
+        [ArgKey("--no-trunc")]
         public DockerImagesTask NoTrunc()
         {
             WithArgumentsKeyFromAttribute();
@@ -80,7 +80,7 @@ _repository = repository;
         /// <summary>
         /// Only show numeric IDs
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerImagesTask Quiet()
         {
             WithArgumentsKeyFromAttribute();

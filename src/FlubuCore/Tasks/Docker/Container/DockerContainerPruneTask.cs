@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Container
         public DockerContainerPruneTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("container prune");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker.Container
         /// <summary>
         /// Provide filter values (e.g. 'until=<timestamp>')
         /// </summary>
-        [ArgKey("filter")]
+        [ArgKey("--filter")]
         public DockerContainerPruneTask Filter(string filter)
         {
             WithArgumentsKeyFromAttribute(filter.ToString());
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker.Container
         /// <summary>
         /// Do not prompt for confirmation
         /// </summary>
-        [ArgKey("force")]
+        [ArgKey("--force")]
         public DockerContainerPruneTask Force()
         {
             WithArgumentsKeyFromAttribute();

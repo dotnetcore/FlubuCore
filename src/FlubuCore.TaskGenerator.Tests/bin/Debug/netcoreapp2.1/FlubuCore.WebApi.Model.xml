@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FlubuCore.WebApi.Model</name>
+    </assembly>
+    <members>
+        <member name="P:FlubuCore.WebApi.Model.CleanPackagesDirectoryRequest.SubDirectoryToDelete">
+            <summary>
+            if <see cref="P:FlubuCore.WebApi.Model.CleanPackagesDirectoryRequest.SubDirectoryToDelete"/>  is not set root directory 'packages' and subfolders are cleaned.
+            If it is set then  specified sub directory is cleaned 'Pacakges\{UploadToSubDirectory}'.
+            </summary>
+        </member>
+        <member name="P:FlubuCore.WebApi.Model.CleanReportsDirectoryRequest.SubDirectoryToDelete">
+            <summary>
+            if <see cref="P:FlubuCore.WebApi.Model.CleanReportsDirectoryRequest.SubDirectoryToDelete"/>  is not set root directory 'Reports' and subfolders are cleaned.
+            If it is set then  specified sub directory is cleaned 'Reports\{UploadToSubDirectory}'.
+            </summary>
+        </member>
+        <member name="P:FlubuCore.WebApi.Model.DownloadReportsRequest.DownloadFromSubDirectory">
+            <summary>
+            if <see cref="P:FlubuCore.WebApi.Model.DownloadReportsRequest.DownloadFromSubDirectory"/>  is not set whole root directory 'reports' on flubu server is packaged into zip and downloaded.
+            If it is set then reports in specified subdirectory are zipped and downloaded 'Reports\{DownloadFromSubDirectory}'.
+            </summary>
+        </member>
+        <member name="F:FlubuCore.WebApi.Model.ErrorCodes.BadRequest">
+            <summary>
+            Occures when request validation has failed.
+            </summary>
+        </member>
+        <member name="F:FlubuCore.WebApi.Model.ErrorCodes.NotFound">
+            <summary>
+            Occures when resource is not found.
+            </summary>
+        </member>
+        <member name="F:FlubuCore.WebApi.Model.ErrorCodes.ScriptNotFound">
+            <summary>
+            Occures when script is not found.
+            </summary>
+        </member>
+        <member name="F:FlubuCore.WebApi.Model.ErrorCodes.Forbiden">
+            <summary>
+            Occures when user doesnt have access to specific resource;
+            </summary>
+        </member>
+        <member name="P:FlubuCore.WebApi.Model.ErrorModel.StatusCode">
+            <summary>
+            Http status code of the error.
+            </summary>
+        </member>
+        <member name="P:FlubuCore.WebApi.Model.ErrorModel.ErrorCode">
+            <summary>
+            The error code
+            </summary>
+        </member>
+        <member name="P:FlubuCore.WebApi.Model.ErrorModel.ErrorMessage">
+            <summary>
+            The error message
+            </summary>
+        </member>
+        <member name="P:FlubuCore.WebApi.Model.ErrorModel.StackTrace">
+            <summary>
+            Stack trace of the exception
+            </summary>
+        </member>
+        <member name="P:FlubuCore.WebApi.Model.ErrorModel.Logs">
+            <summary>
+            Flubu web api logs
+            </summary>
+        </member>
+        <member name="P:FlubuCore.WebApi.Model.ErrorModel.ValidationErrors">
+            <summary>
+            Validation errors.
+            </summary>
+        </member>
+        <member name="P:FlubuCore.WebApi.Model.ExecuteScriptRequest.TargetToExecute">
+            <summary>
+            Target to execute.
+            ErrorCodes: notempty_error
+            </summary>
+        </member>
+        <member name="P:FlubuCore.WebApi.Model.ExecuteScriptRequest.ScriptFileName">
+            <summary>
+            Filename of the script to be executed.
+            </summary>
+        </member>
+        <member name="P:FlubuCore.WebApi.Model.ExecuteScriptRequest.ScriptArguments">
+            <summary>
+            The script arguments.
+            </summary>
+        </member>
+        <member name="P:FlubuCore.WebApi.Model.ExecuteScriptResponse.Logs">
+            <summary>
+            Flubu web api Server logs.
+            </summary>
+        </member>
+        <member name="P:FlubuCore.WebApi.Model.GetTokenRequest.Username">
+            <summary>
+            The username.
+            </summary>
+        </member>
+        <member name="P:FlubuCore.WebApi.Model.GetTokenRequest.Password">
+            <summary>
+            The password
+            </summary>
+        </member>
+        <member name="P:FlubuCore.WebApi.Model.GetTokenResponse.Token">
+            <summary>
+            Authentication token.
+            </summary>
+        </member>
+        <member name="P:FlubuCore.WebApi.Model.GetTokenResponse.ExpiresIn">
+            <summary>
+            Time in seconds authentication token expires in.
+            </summary>
+        </member>
+        <member name="P:FlubuCore.WebApi.Model.UploadPackageRequest.DirectoryPath">
+            <summary>
+            The relative or absolute path to the directory to search. This string is not case-sensitive.
+            </summary>
+        </member>
+        <member name="P:FlubuCore.WebApi.Model.UploadPackageRequest.PackageSearchPattern">
+            <summary>
+            The search string to match against the names of files in DirectoryPath.This parameter
+            can contain a combination of valid literal path and wildcard (such as * and ?) characters, but doesn't support regular expressions.
+            </summary>
+        </member>
+        <member name="P:FlubuCore.WebApi.Model.UploadPackageRequest.UploadToSubDirectory">
+            <summary>
+            if <see cref="P:FlubuCore.WebApi.Model.UploadPackageRequest.UploadToSubDirectory"/>  is not set it is uploaded to the root directory 'packages'.
+            If it is set then package is uploaded to specified sub directory 'Pacakges\{UploadToSubDirectory}'.
+            </summary>
+        </member>
+        <member name="P:FlubuCore.WebApi.Model.UploadScriptRequest.FilePath">
+            <summary>
+            Path to the script file to be uploaded.
+            </summary>
+        </member>
+    </members>
+</doc>

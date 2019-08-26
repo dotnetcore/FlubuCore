@@ -21,7 +21,7 @@ private string _checkpoint;
         public DockerCheckpointCreateTask(string container,  string checkpoint)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("checkpoint create");
 _container = container;
 _checkpoint = checkpoint;
 
@@ -32,7 +32,7 @@ _checkpoint = checkpoint;
         /// <summary>
         /// Use a custom checkpoint storage directory
         /// </summary>
-        [ArgKey("checkpoint-dir")]
+        [ArgKey("--checkpoint-dir")]
         public DockerCheckpointCreateTask CheckpointDir(string checkpointDir)
         {
             WithArgumentsKeyFromAttribute(checkpointDir.ToString());
@@ -42,7 +42,7 @@ _checkpoint = checkpoint;
         /// <summary>
         /// Leave the container running after checkpoint
         /// </summary>
-        [ArgKey("leave-running")]
+        [ArgKey("--leave-running")]
         public DockerCheckpointCreateTask LeaveRunning()
         {
             WithArgumentsKeyFromAttribute();

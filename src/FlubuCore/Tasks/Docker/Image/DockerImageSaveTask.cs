@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Image
         public DockerImageSaveTask(params string[] image)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("image save");
 _image = image;
 
         }
@@ -30,7 +30,7 @@ _image = image;
         /// <summary>
         /// Write to a file, instead of STDOUT
         /// </summary>
-        [ArgKey("output")]
+        [ArgKey("--output")]
         public DockerImageSaveTask Output(string output)
         {
             WithArgumentsKeyFromAttribute(output.ToString());

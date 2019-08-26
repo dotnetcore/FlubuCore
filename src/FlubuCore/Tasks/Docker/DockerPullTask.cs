@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerPullTask(string name)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("pull");
 _name = name;
 
         }
@@ -30,7 +30,7 @@ _name = name;
         /// <summary>
         /// Download all tagged images in the repository
         /// </summary>
-        [ArgKey("all-tags")]
+        [ArgKey("--all-tags")]
         public DockerPullTask AllTags()
         {
             WithArgumentsKeyFromAttribute();
@@ -40,7 +40,7 @@ _name = name;
         /// <summary>
         /// Skip image verification
         /// </summary>
-        [ArgKey("disable-content-trust")]
+        [ArgKey("--disable-content-trust")]
         public DockerPullTask DisableContentTrust()
         {
             WithArgumentsKeyFromAttribute();
@@ -50,7 +50,7 @@ _name = name;
         /// <summary>
         /// Set platform if server is multi-platform capable
         /// </summary>
-        [ArgKey("platform")]
+        [ArgKey("--platform")]
         public DockerPullTask Platform(string platform)
         {
             WithArgumentsKeyFromAttribute(platform.ToString());
@@ -60,7 +60,7 @@ _name = name;
         /// <summary>
         /// Suppress verbose output
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerPullTask Quiet()
         {
             WithArgumentsKeyFromAttribute();

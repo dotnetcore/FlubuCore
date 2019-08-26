@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerRmiTask(params string[] image)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("rmi");
 _image = image;
 
         }
@@ -30,7 +30,7 @@ _image = image;
         /// <summary>
         /// Force removal of the image
         /// </summary>
-        [ArgKey("force")]
+        [ArgKey("--force")]
         public DockerRmiTask Force()
         {
             WithArgumentsKeyFromAttribute();
@@ -40,7 +40,7 @@ _image = image;
         /// <summary>
         /// Do not delete untagged parents
         /// </summary>
-        [ArgKey("no-prune")]
+        [ArgKey("--no-prune")]
         public DockerRmiTask NoPrune()
         {
             WithArgumentsKeyFromAttribute();

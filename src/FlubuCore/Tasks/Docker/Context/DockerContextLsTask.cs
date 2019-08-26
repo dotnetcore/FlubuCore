@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Context
         public DockerContextLsTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("context ls");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker.Context
         /// <summary>
         /// Pretty-print contexts using a Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerContextLsTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker.Context
         /// <summary>
         /// Only show context names
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerContextLsTask Quiet()
         {
             WithArgumentsKeyFromAttribute();

@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         public DockerEngineActivateTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("engine activate");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         /// <summary>
         /// override default location of containerd endpoint
         /// </summary>
-        [ArgKey("containerd")]
+        [ArgKey("--containerd")]
         public DockerEngineActivateTask Containerd(string containerd)
         {
             WithArgumentsKeyFromAttribute(containerd.ToString());
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         /// <summary>
         /// only display license information and exit
         /// </summary>
-        [ArgKey("display-only")]
+        [ArgKey("--display-only")]
         public DockerEngineActivateTask DisplayOnly()
         {
             WithArgumentsKeyFromAttribute();
@@ -48,7 +48,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         /// <summary>
         /// Specify engine image
         /// </summary>
-        [ArgKey("engine-image")]
+        [ArgKey("--engine-image")]
         public DockerEngineActivateTask EngineImage(string engineImage)
         {
             WithArgumentsKeyFromAttribute(engineImage.ToString());
@@ -58,7 +58,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         /// <summary>
         /// Pretty-print licenses using a Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerEngineActivateTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -68,7 +68,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         /// <summary>
         /// License File
         /// </summary>
-        [ArgKey("license")]
+        [ArgKey("--license")]
         public DockerEngineActivateTask License(string license)
         {
             WithArgumentsKeyFromAttribute(license.ToString());
@@ -78,7 +78,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         /// <summary>
         /// Only display available licenses by ID
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerEngineActivateTask Quiet()
         {
             WithArgumentsKeyFromAttribute();
@@ -88,7 +88,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         /// <summary>
         /// Override the default location where engine images are pulled
         /// </summary>
-        [ArgKey("registry-prefix")]
+        [ArgKey("--registry-prefix")]
         public DockerEngineActivateTask RegistryPrefix(string registryPrefix)
         {
             WithArgumentsKeyFromAttribute(registryPrefix.ToString());
@@ -99,7 +99,7 @@ namespace FlubuCore.Tasks.Docker.Engine
         /// Specify engine version (default is to use currently running version)
 
         /// </summary>
-        [ArgKey("version")]
+        [ArgKey("--version")]
         public DockerEngineActivateTask Version(string version)
         {
             WithArgumentsKeyFromAttribute(version.ToString());

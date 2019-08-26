@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         public DockerSwarmLeaveTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("swarm leave");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker.Swarm
         /// <summary>
         /// Force this node to leave the swarm, ignoring warnings
         /// </summary>
-        [ArgKey("force")]
+        [ArgKey("--force")]
         public DockerSwarmLeaveTask Force()
         {
             WithArgumentsKeyFromAttribute();

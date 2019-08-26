@@ -19,7 +19,7 @@ namespace FlubuCore.Tasks.Docker
         public DockerPsTask()
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("ps");
 
         }
 
@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Docker
         /// <summary>
         /// Show all containers (default shows just running)
         /// </summary>
-        [ArgKey("all")]
+        [ArgKey("--all")]
         public DockerPsTask All()
         {
             WithArgumentsKeyFromAttribute();
@@ -38,7 +38,7 @@ namespace FlubuCore.Tasks.Docker
         /// <summary>
         /// Filter output based on conditions provided
         /// </summary>
-        [ArgKey("filter")]
+        [ArgKey("--filter")]
         public DockerPsTask Filter(string filter)
         {
             WithArgumentsKeyFromAttribute(filter.ToString());
@@ -48,7 +48,7 @@ namespace FlubuCore.Tasks.Docker
         /// <summary>
         /// Pretty-print containers using a Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerPsTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -58,7 +58,7 @@ namespace FlubuCore.Tasks.Docker
         /// <summary>
         /// Show n last created containers (includes all states)
         /// </summary>
-        [ArgKey("last")]
+        [ArgKey("--last")]
         public DockerPsTask Last(int last)
         {
             WithArgumentsKeyFromAttribute(last.ToString());
@@ -68,7 +68,7 @@ namespace FlubuCore.Tasks.Docker
         /// <summary>
         /// Show the latest created container (includes all states)
         /// </summary>
-        [ArgKey("latest")]
+        [ArgKey("--latest")]
         public DockerPsTask Latest()
         {
             WithArgumentsKeyFromAttribute();
@@ -78,7 +78,7 @@ namespace FlubuCore.Tasks.Docker
         /// <summary>
         /// Don't truncate output
         /// </summary>
-        [ArgKey("no-trunc")]
+        [ArgKey("--no-trunc")]
         public DockerPsTask NoTrunc()
         {
             WithArgumentsKeyFromAttribute();
@@ -88,7 +88,7 @@ namespace FlubuCore.Tasks.Docker
         /// <summary>
         /// Only display numeric IDs
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerPsTask Quiet()
         {
             WithArgumentsKeyFromAttribute();
@@ -98,7 +98,7 @@ namespace FlubuCore.Tasks.Docker
         /// <summary>
         /// Display total file sizes
         /// </summary>
-        [ArgKey("size")]
+        [ArgKey("--size")]
         public DockerPsTask Size()
         {
             WithArgumentsKeyFromAttribute();

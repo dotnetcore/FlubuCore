@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Plugin
         public DockerPluginEnableTask(string plugin)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("plugin enable");
 _plugin = plugin;
 
         }
@@ -30,7 +30,7 @@ _plugin = plugin;
         /// <summary>
         /// HTTP client timeout (in seconds)
         /// </summary>
-        [ArgKey("timeout")]
+        [ArgKey("--timeout")]
         public DockerPluginEnableTask Timeout(int timeout)
         {
             WithArgumentsKeyFromAttribute(timeout.ToString());

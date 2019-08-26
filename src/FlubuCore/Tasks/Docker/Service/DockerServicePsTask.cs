@@ -20,7 +20,7 @@ namespace FlubuCore.Tasks.Docker.Service
         public DockerServicePsTask(params string[] service)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("service ps");
 _service = service;
 
         }
@@ -30,7 +30,7 @@ _service = service;
         /// <summary>
         /// Filter output based on conditions provided
         /// </summary>
-        [ArgKey("filter")]
+        [ArgKey("--filter")]
         public DockerServicePsTask Filter(string filter)
         {
             WithArgumentsKeyFromAttribute(filter.ToString());
@@ -40,7 +40,7 @@ _service = service;
         /// <summary>
         /// Pretty-print tasks using a Go template
         /// </summary>
-        [ArgKey("format")]
+        [ArgKey("--format")]
         public DockerServicePsTask Format(string format)
         {
             WithArgumentsKeyFromAttribute(format.ToString());
@@ -50,7 +50,7 @@ _service = service;
         /// <summary>
         /// Do not map IDs to Names
         /// </summary>
-        [ArgKey("no-resolve")]
+        [ArgKey("--no-resolve")]
         public DockerServicePsTask NoResolve()
         {
             WithArgumentsKeyFromAttribute();
@@ -60,7 +60,7 @@ _service = service;
         /// <summary>
         /// Do not truncate output
         /// </summary>
-        [ArgKey("no-trunc")]
+        [ArgKey("--no-trunc")]
         public DockerServicePsTask NoTrunc()
         {
             WithArgumentsKeyFromAttribute();
@@ -70,7 +70,7 @@ _service = service;
         /// <summary>
         /// Only display task IDs
         /// </summary>
-        [ArgKey("quiet")]
+        [ArgKey("--quiet")]
         public DockerServicePsTask Quiet()
         {
             WithArgumentsKeyFromAttribute();

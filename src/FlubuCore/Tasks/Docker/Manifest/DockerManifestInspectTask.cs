@@ -21,7 +21,7 @@ private string _manifest;
         public DockerManifestInspectTask(string manifest_list,  string manifest)
         {
             ExecutablePath = "docker";
-            WithArgumentsKeyFromAttribute();
+            WithArguments("manifest inspect");
 _manifest_list = manifest_list;
 _manifest = manifest;
 
@@ -32,7 +32,7 @@ _manifest = manifest;
         /// <summary>
         /// Allow communication with an insecure registry
         /// </summary>
-        [ArgKey("insecure")]
+        [ArgKey("--insecure")]
         public DockerManifestInspectTask Insecure()
         {
             WithArgumentsKeyFromAttribute();
@@ -42,7 +42,7 @@ _manifest = manifest;
         /// <summary>
         /// Output additional info including layers and platform
         /// </summary>
-        [ArgKey("verbose")]
+        [ArgKey("--verbose")]
         public DockerManifestInspectTask Verbose()
         {
             WithArgumentsKeyFromAttribute();
