@@ -119,7 +119,7 @@ namespace {task.Namespace}
             foreach (var method in task.Methods)
             {
                 methods = $@"{methods}{WriteSummary(method.MethodSummary)}
-        [ArgKey(""{method.Argument.ArgumentKey}"")]
+        [ArgKey(""{method.Argument.ArgumentKeyPrefix}{method.Argument.ArgumentKey}"")]
         public {task.TaskName} {method.MethodName}({WriteParameter(method.Argument?.Parameter)})
         {{
             {WriteArgument(method.Argument)}

@@ -8,6 +8,8 @@ namespace FlubuCore.TaskGenerator.Models
     {
         public string ArgumentKey { get; set; }
 
+        public string ArgumentKeyPrefix { get; set; } = string.Empty;
+
         public bool HasArgumentValue { get; set; }
 
         public Parameter Parameter { get; set; }
