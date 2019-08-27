@@ -84,6 +84,7 @@ namespace FlubuCore.Context
                         {
                             Name = fromArgAttribute.ArgKey,
                             Help = fromArgAttribute.Help,
+                            HintColor = ConsoleColor.DarkCyan
                         });
                     }
                 }

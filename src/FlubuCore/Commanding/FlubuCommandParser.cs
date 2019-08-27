@@ -69,7 +69,7 @@ namespace FlubuCore.Commanding
             _configurationFile = _commandApp.Option("-cf|--configurationFile", $"Path to the Flubu json configuration file. If not specified configuration is read from flubusettings.json {Environment.NewLine}", CommandOptionType.SingleValue);
             _assemblyDirectories = _commandApp.Option("-ass", $"Directory to search assemblies to include automatically in script (Assemblies in subdirectories are also loaded). If not specified assemblies are loaded by default from FlubuLib directory. {Environment.NewLine}", CommandOptionType.MultipleValue);
             _noDependencies = _commandApp.Option("-nd||--nodeps", "If applied no target dependencies are executed.", CommandOptionType.NoValue);
-            _dryRun = _commandApp.Option("--dryRun", "Performs a dry run.", CommandOptionType.NoValue);
+            _dryRun = _commandApp.Option("--dryRun", "Performs a dry run of the specified target.", CommandOptionType.NoValue);
             _noInteractive = _commandApp.Option("--noint", $"Disables interactive mode for all task members. Default values are used instead. {Environment.NewLine}", CommandOptionType.NoValue);
             _noColor = _commandApp.Option("--noColor", "Disables colored logging", CommandOptionType.NoValue);
 

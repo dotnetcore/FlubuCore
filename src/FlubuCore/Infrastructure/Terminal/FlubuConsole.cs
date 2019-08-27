@@ -98,9 +98,8 @@ namespace FlubuCore.Infrastructure.Terminal
         /// Reads input from user using hints. Commands history is supported.
         /// </summary>
         /// <param name="inputRegex"></param>
-        /// <param name="hintColor"></param>
         /// <returns></returns>
-        public string ReadLine(string currentDirectory, string inputRegex = ".*", ConsoleColor hintColor = ConsoleColor.DarkGray)
+        public string ReadLine(string currentDirectory, string inputRegex = ".*")
         {
             ConsoleKeyInfo input;
             _currentDirectory = currentDirectory;
@@ -284,7 +283,7 @@ namespace FlubuCore.Infrastructure.Terminal
                 {
                     if (suggestion != null && suggestion.Value != userInput && writeSugestionToConsole == false)
                     {
-                        WriteSuggestion(suggestion, hintColor);
+                        WriteSuggestion(suggestion);
                         WriteOnBottomLine(suggestion.Help);
                         _lastSuggestion = suggestion;
                     }
@@ -352,18 +351,18 @@ namespace FlubuCore.Infrastructure.Terminal
             return userInput;
         }
 
-        private static void WriteSuggestion(Suggestion suggestion, ConsoleColor hintColor)
+        private static void WriteSuggestion(Suggestion suggestion)
         {
             if (suggestion.HighlightIndexes == null || !suggestion.HighlightIndexes.Any())
             {
-                ConsoleUtils.Write($" ({suggestion.Value})", hintColor);
+                ConsoleUtils.Write($" ({suggestion.Value})", suggestion.SuggestionColor);
                 return;
             }
 
             var orderedIndexes = suggestion.HighlightIndexes.OrderBy(v => v).ToArray();
             var idx = 0;
 
-            ConsoleUtils.Write(" (", hintColor);
+            ConsoleUtils.Write(" (", suggestion.SuggestionColor);
             for (var i = 0; i < suggestion.Value.Length; i++)
             {
                 ConsoleColor color;
@@ -374,13 +373,13 @@ namespace FlubuCore.Infrastructure.Terminal
                 }
                 else
                 {
-                    color = hintColor;
+                    color = suggestion.SuggestionColor;
                 }
 
                 ConsoleUtils.Write(suggestion.Value[i].ToString(), color);
             }
 
-            ConsoleUtils.Write(")", hintColor);
+            ConsoleUtils.Write(")", suggestion.SuggestionColor);
         }
 
         private static void WriteOnBottomLine(string text)
@@ -561,6 +560,8 @@ namespace FlubuCore.Infrastructure.Terminal
                 .Select(hint => new Suggestion
                 {
                     Value = hint.Name,
+                    Help = hint.Help,
+                    SuggestionColor = hint.HintColor,
                     HighlightIndexes = Enumerable.Range(0, lastInput.Length).ToArray()
                 })
                 .ToList();
@@ -573,6 +574,7 @@ namespace FlubuCore.Infrastructure.Terminal
                 {
                     Value = hint.Name,
                     Help = hint.Help,
+                    SuggestionColor = hint.HintColor,
                     HighlightIndexes = Enumerable.Range(0, lastInput.Length).ToArray()
                 })
                 .ToList();
@@ -597,6 +599,7 @@ namespace FlubuCore.Infrastructure.Terminal
                     {
                         Value = item.Name,
                         Help = item.Help,
+                        SuggestionColor = item.HintColor,
                         HighlightIndexes = Enumerable
                             .Range(item.Name.IndexOf(candidate, StringComparison.Ordinal), lastInput.Length).ToArray()
                     });
@@ -646,6 +649,7 @@ namespace FlubuCore.Infrastructure.Terminal
                     {
                         Value = item.Name,
                         Help = item.Help,
+                        SuggestionColor = item.HintColor,
                         HighlightIndexes = highlightIndexes.ToArray()
                     });
                 }
@@ -852,6 +856,8 @@ namespace FlubuCore.Infrastructure.Terminal
             public string Value { get; set; }
 
             public string Help { get; set; }
+
+            public ConsoleColor SuggestionColor { get; set; }
 
             public int[] HighlightIndexes { get; set; }
         }

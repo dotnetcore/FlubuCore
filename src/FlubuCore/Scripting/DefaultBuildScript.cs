@@ -222,9 +222,10 @@ namespace FlubuCore.Scripting
             flubuSession.InteractiveMode = true;
             var source = new Dictionary<char, IReadOnlyCollection<Hint>>();
             var propertyKeys = ScriptProperties.GetPropertiesKeys(this, flubuSession);
-            propertyKeys.Add(new Hint { Name = "-parallel" });
-            propertyKeys.Add(new Hint { Name = "-dryrun" });
-            propertyKeys.Add(new Hint { Name = "-noColor" });
+            propertyKeys.Add(new Hint { Name = "--parallel", Help = "If applied target's are executed in parallel.", HintColor = ConsoleColor.Magenta });
+            propertyKeys.Add(new Hint { Name = "--dryrun", Help = "Performs a dry run of the specified target.", HintColor = ConsoleColor.Magenta });
+            propertyKeys.Add(new Hint { Name = "--noColor", Help = "Disables colored logging.", HintColor = ConsoleColor.Magenta });
+            propertyKeys.Add(new Hint { Name = "--nodeps", Help = "If applied no target dependencies are executed..", HintColor = ConsoleColor.Magenta });
             source.Add('-', propertyKeys);
 
             List<Hint> defaultHints = new List<Hint>();
