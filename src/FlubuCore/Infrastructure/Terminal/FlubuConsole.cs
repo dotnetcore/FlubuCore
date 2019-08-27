@@ -20,12 +20,11 @@ namespace FlubuCore.Infrastructure.Terminal
     {
         private static readonly IDictionary<string, IReadOnlyCollection<Hint>> _commandsHintsSourceDictionary = new Dictionary<string, IReadOnlyCollection<Hint>>();
 
-        private static readonly Dictionary<string, Type> _allSupportedExternalProcessesForOptionSuggestions = new Dictionary<string, Type>();
+        private static readonly Dictionary<string, Type> _allSupportedExternalProcessesForOptionHints = new Dictionary<string, Type>();
 
         private readonly TargetTree _targetTree;
-        private readonly IDictionary<char, IReadOnlyCollection<Hint>> _hintsSourceDictionary;
-
         private readonly List<string> _commandsHistory = new List<string>();
+        private IDictionary<char, IReadOnlyCollection<Hint>> _hintsSourceDictionary;
         private List<Suggestion> _suggestionsForUserInput;
         private int _suggestionPosition;
         private int _historyPosition;
@@ -39,37 +38,7 @@ namespace FlubuCore.Infrastructure.Terminal
         public FlubuConsole(TargetTree targetTree, IReadOnlyCollection<Hint> defaultHints, IDictionary<char, IReadOnlyCollection<Hint>> hintsSourceDictionary = null)
         {
             _targetTree = targetTree;
-            _hintsSourceDictionary = hintsSourceDictionary;
-
-            if (_hintsSourceDictionary == null)
-            {
-                _hintsSourceDictionary = new Dictionary<char, IReadOnlyCollection<Hint>>();
-            }
-
-            _hintsSourceDictionary.Add('*', defaultHints);
-
-            if (!_hintsSourceDictionary.ContainsKey('-'))
-            {
-                _hintsSourceDictionary.Add('-', new List<Hint>());
-            }
-
-            if (!_hintsSourceDictionary.ContainsKey('/'))
-            {
-                _hintsSourceDictionary.Add('/', new List<Hint>());
-            }
-
-            if (_commandsHintsSourceDictionary.Count == 0)
-            {
-                _commandsHintsSourceDictionary.Add(GitCommands.GitCommandHints);
-                _commandsHintsSourceDictionary.Add(DotnetCommands.DotnetCommandHints);
-            }
-
-            if (_allSupportedExternalProcessesForOptionSuggestions.Count == 0)
-            {
-                _allSupportedExternalProcessesForOptionSuggestions.AddRange(DotnetCommands.SupportedExternalProcesses);
-                _allSupportedExternalProcessesForOptionSuggestions.AddRange(DockerCommands.SupportedExternalProcesses);
-                _allSupportedExternalProcessesForOptionSuggestions.AddRange(GitCommands.SupportedExternalProcesses);
-            }
+            InitializeHints(defaultHints, hintsSourceDictionary);
         }
 
         /// <summary>
@@ -96,9 +65,9 @@ namespace FlubuCore.Infrastructure.Terminal
 
                 Console.WriteLine(string.Empty);
             }
-            else if (commandLine.Equals("cd.."))
+            else if (commandLine.Equals(InternalCommands.CdBack, StringComparison.OrdinalIgnoreCase))
             {
-                Directory.SetCurrentDirectory(Directory.GetCurrentDirectory() + "/..");
+                Directory.SetCurrentDirectory(Path.Combine(Directory.GetCurrentDirectory(), "/.."));
             }
             else if (commandLine.StartsWith(InternalCommands.Cd, StringComparison.OrdinalIgnoreCase))
             {
@@ -525,7 +494,7 @@ namespace FlubuCore.Infrastructure.Terminal
 
                 if (targetHints?.Count == 0)
                 {
-                    foreach (var externalProcessCommand in _allSupportedExternalProcessesForOptionSuggestions)
+                    foreach (var externalProcessCommand in _allSupportedExternalProcessesForOptionHints)
                     {
                         if (userInput.StartsWith(externalProcessCommand.Key, StringComparison.OrdinalIgnoreCase))
                         {
@@ -837,6 +806,41 @@ namespace FlubuCore.Infrastructure.Terminal
             }
 
             return _suggestionsForUserInput[_suggestionPosition];
+        }
+
+        private void InitializeHints(IReadOnlyCollection<Hint> defaultHints, IDictionary<char, IReadOnlyCollection<Hint>> hintsSourceDictionary)
+        {
+            _hintsSourceDictionary = hintsSourceDictionary;
+
+            if (_hintsSourceDictionary == null)
+            {
+                _hintsSourceDictionary = new Dictionary<char, IReadOnlyCollection<Hint>>();
+            }
+
+            _hintsSourceDictionary.Add('*', defaultHints);
+
+            if (!_hintsSourceDictionary.ContainsKey('-'))
+            {
+                _hintsSourceDictionary.Add('-', new List<Hint>());
+            }
+
+            if (!_hintsSourceDictionary.ContainsKey('/'))
+            {
+                _hintsSourceDictionary.Add('/', new List<Hint>());
+            }
+
+            if (_commandsHintsSourceDictionary.Count == 0)
+            {
+                _commandsHintsSourceDictionary.Add(GitCommands.GitCommandHints);
+                _commandsHintsSourceDictionary.Add(DotnetCommands.DotnetCommandHints);
+            }
+
+            if (_allSupportedExternalProcessesForOptionHints.Count == 0)
+            {
+                _allSupportedExternalProcessesForOptionHints.AddRange(DotnetCommands.SupportedExternalProcesses);
+                _allSupportedExternalProcessesForOptionHints.AddRange(DockerCommands.SupportedExternalProcesses);
+                _allSupportedExternalProcessesForOptionHints.AddRange(GitCommands.SupportedExternalProcesses);
+            }
         }
 
         private class Suggestion
