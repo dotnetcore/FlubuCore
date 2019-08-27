@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using FlubuCore.Infrastructure.Terminal.Commands;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Git;
@@ -17,50 +18,13 @@ namespace FlubuCore.Infrastructure.Terminal
 {
     public class FlubuConsole
     {
-        private static Dictionary<string, Type> _supportedExternalProcesses = new Dictionary<string, Type>()
-        {
-            { "dotnet build", typeof(DotnetBuildTask) },
-            { "dotnet clean", typeof(DotnetCleanTask) },
-            { "dotnet pack", typeof(DotnetPackTask) },
-            { "dotnet publish", typeof(DotnetPublishTask) },
-            { "dotnet test", typeof(DotnetTestTask) },
-            { "dotnet restore", typeof(DotnetRestoreTask) },
-            { "dotnet nuget push", typeof(DotnetNugetPushTask) },
-            { "dotnet msbuild", typeof(DotnetMsBuildTask) },
-            { "dotnet tool install", typeof(DotnetToolInstall) },
-            { "dotnet tool uninstall", typeof(DotnetToolUninstall) },
-            { "dotnet tool update", typeof(DotnetToolUpdate) },
-            { "gitversion", typeof(GitVersionTask) },
-            { "sqlcmd", typeof(SqlCmdTask) },
-            { "coverlet", typeof(CoverletTask) },
-            { "git add", typeof(GitAddTask) },
-            { "git checkout", typeof(GitCheckoutTask) },
-            { "git clone", typeof(GitCloneTask) },
-            { "git commit", typeof(GitCommitTask) },
-            { "git pull", typeof(GitPullTask) },
-            { "git push", typeof(GitPushTask) },
-            { "git tag", typeof(GitTagTask) },
-            { "git submodule", typeof(GitSubmoduleTask) },
-            { "git rm", typeof(GitRemoveFilesTask) }
-        };
+        private static readonly IDictionary<string, IReadOnlyCollection<Hint>> _commandsHintsSourceDictionary = new Dictionary<string, IReadOnlyCollection<Hint>>();
 
-        private static List<Hint> _dotnetCommands = new List<Hint>
-        {
-            new Hint { Name = "dotnet build", Help = "The dotnet build command builds the project and its dependencies into a set of binaries.", OnlySimpleSearh = true },
-            new Hint { Name = "dotnet test", Help = "The dotnet test command is used to execute unit tests in a given project.", OnlySimpleSearh = true },
-            new Hint { Name = "dotnet pack", Help = "The dotnet pack command builds the project and creates NuGet packages.", OnlySimpleSearh = true },
-            new Hint { Name = "dotnet publish", Help = "Packs the application and its dependencies into a folder for deployment to a hosting system.", OnlySimpleSearh = true },
-            new Hint { Name = "dotnet restore", Help = "The dotnet restore command uses NuGet to restore dependencies as well as project-specific tools that are specified in the project file.", OnlySimpleSearh = true },
-            new Hint { Name = "dotnet nuget push", Help = "The dotnet nuget push command pushes a package to the server and publishes it.", OnlySimpleSearh = true },
-            new Hint { Name = "dotnet clean", Help = "The dotnet clean command cleans the output of the previous build.", OnlySimpleSearh = true },
-            new Hint { Name = "dotnet msbuild", Help = "Builds the specified targets in the project file.", OnlySimpleSearh = true },
-            new Hint { Name = "dotnet tool install", Help = "The dotnet tool install command provides a way for you to install .NET Core Global Tools on your machine. ", OnlySimpleSearh = true },
-            new Hint { Name = "dotnet tool uninstall", Help = "Uninstalls the specified .NET Core Global Tool from your machine.", OnlySimpleSearh = true },
-            new Hint { Name = "dotnet tool update", Help = "Updates the specified .NET Core Global Tool on your machine.", OnlySimpleSearh = true },
-        };
+        private static readonly Dictionary<string, Type> _allSupportedExternalProcessesForOptionSuggestions = new Dictionary<string, Type>();
 
         private readonly TargetTree _targetTree;
         private readonly IDictionary<char, IReadOnlyCollection<Hint>> _hintsSourceDictionary;
+
         private readonly List<string> _commandsHistory = new List<string>();
         private List<Suggestion> _suggestionsForUserInput;
         private int _suggestionPosition;
@@ -69,7 +33,7 @@ namespace FlubuCore.Infrastructure.Terminal
         private Suggestion _lastSuggestion;
 
         /// <summary>
-        /// Creates new instance of <see cref="FlubuConsole"/> class
+        /// Creates new instance of <see cref="FlubuConsole"/> class.
         /// </summary>
         /// <param name="hintsSourceDictionary">Collection containing input hints</param>
         public FlubuConsole(TargetTree targetTree, IReadOnlyCollection<Hint> defaultHints, IDictionary<char, IReadOnlyCollection<Hint>> hintsSourceDictionary = null)
@@ -92,6 +56,18 @@ namespace FlubuCore.Infrastructure.Terminal
             if (!_hintsSourceDictionary.ContainsKey('/'))
             {
                 _hintsSourceDictionary.Add('/', new List<Hint>());
+            }
+
+            if (_commandsHintsSourceDictionary.Count == 0)
+            {
+                _commandsHintsSourceDictionary.Add(GitCommands.GitCommandHints);
+            }
+
+            if (_allSupportedExternalProcessesForOptionSuggestions.Count == 0)
+            {
+                _allSupportedExternalProcessesForOptionSuggestions.AddRange(DotnetCommands.SupportedExternalProcesses);
+                _allSupportedExternalProcessesForOptionSuggestions.AddRange(DockerCommands.SupportedExternalProcesses);
+                _allSupportedExternalProcessesForOptionSuggestions.AddRange(GitCommands.SupportedExternalProcesses);
             }
         }
 
@@ -507,9 +483,10 @@ namespace FlubuCore.Infrastructure.Terminal
                 return;
             }
 
-            var targetName = splitedUserInput.First();
+            var rootCommand = splitedUserInput.First();
             var lastInput = splitedUserInput.Last();
             char prefix = lastInput[0];
+            List<Hint> hintSource = new List<Hint>();
             if (userInput.EndsWith(" "))
             {
                 lastInput = $"{lastInput} ";
@@ -521,6 +498,10 @@ namespace FlubuCore.Infrastructure.Terminal
                 hintSourceKey = lastInput[0];
                 lastInput = lastInput.Substring(1);
             }
+            else if (_commandsHintsSourceDictionary.ContainsKey(rootCommand) && splitedUserInput.Count < 3)
+            {
+                hintSource.AddRange(_commandsHintsSourceDictionary[rootCommand]);
+            }
             else
             {
                 if (!splitedUserInput[0].Equals("dotnet", StringComparison.OrdinalIgnoreCase))
@@ -529,42 +510,32 @@ namespace FlubuCore.Infrastructure.Terminal
                 }
             }
 
-            List<Hint> hintSource = null;
             if (hintSourceKey.HasValue)
             {
-                hintSource = _hintsSourceDictionary[hintSourceKey.Value].ToList();
+                hintSource.AddRange(_hintsSourceDictionary[hintSourceKey.Value].ToList());
             }
 
             if (hintSourceKey == '*')
             {
                 if (splitedUserInput.Count == 1)
                 {
-                    hintSource.AddRange(_dotnetCommands);
+                    hintSource.AddRange(DotnetCommands.Commands);
                 }
 
                 if (splitedUserInput.Count == 2 && splitedUserInput[0].Equals("dotnet", StringComparison.OrdinalIgnoreCase))
                 {
-                    hintSource.AddRange(_dotnetCommands);
+                    hintSource.AddRange(DotnetCommands.Commands);
                 }
-            }
-
-            if (hintSource == null)
-            {
-                _suggestionsForUserInput = null;
-                return;
             }
 
             if (prefix == '-' || prefix == '/')
             {
-                var targetHints = GetHintsFromTarget(targetName, prefix);
+                var targetHints = GetHintsFromTarget(rootCommand, prefix);
                 hintSource.AddRange(targetHints);
 
                 if (targetHints?.Count == 0)
                 {
-                    var allProcesses = new Dictionary<string, Type>();
-                    allProcesses.AddRange(_supportedExternalProcesses);
-                    allProcesses.AddRange(DockerCommands.SupportedExternalProcesses);
-                    foreach (var externalProcessCommand in allProcesses)
+                    foreach (var externalProcessCommand in _allSupportedExternalProcessesForOptionSuggestions)
                     {
                         if (userInput.StartsWith(externalProcessCommand.Key, StringComparison.OrdinalIgnoreCase))
                         {
