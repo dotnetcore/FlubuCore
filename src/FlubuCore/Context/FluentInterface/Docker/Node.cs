@@ -12,30 +12,55 @@ namespace FlubuCore.Context.FluentInterface.Docker
     public class Node
     {  
         
+            
+        /// <summary>
+        /// Display detailed information on one or more nodes
+        /// </summary>
             public DockerNodeInspectTask NodeInspect(string self ,  params string[] node)
             {
                 return new DockerNodeInspectTask(self,  node);
             }
 
+
+            
+        /// <summary>
+        /// List nodes in the swarm
+        /// </summary>
             public DockerNodeLsTask NodeLs()
             {
                 return new DockerNodeLsTask();
             }
 
+
+            
+        /// <summary>
+        /// List tasks running on one or more nodes, defaults to current node
+        /// </summary>
             public DockerNodePsTask NodePs(params string[] node)
             {
                 return new DockerNodePsTask(node);
             }
 
+
+            
+        /// <summary>
+        /// Remove one or more nodes from the swarm
+        /// </summary>
             public DockerNodeRmTask NodeRm(params string[] node)
             {
                 return new DockerNodeRmTask(node);
             }
 
+
+            
+        /// <summary>
+        /// Update a node
+        /// </summary>
             public DockerNodeUpdateTask NodeUpdate(string node)
             {
                 return new DockerNodeUpdateTask(node);
             }
+
         
     }
 }

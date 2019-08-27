@@ -18,9 +18,9 @@ namespace FlubuCore.Infrastructure.Terminal
 {
     public class FlubuConsole
     {
-        private static readonly IDictionary<string, IReadOnlyCollection<Hint>> _commandsHintsSourceDictionary = new Dictionary<string, IReadOnlyCollection<Hint>>();
+        private static readonly IDictionary<string, IReadOnlyCollection<Hint>> _commandsHintsSourceDictionary = new Dictionary<string, IReadOnlyCollection<Hint>>(StringComparer.OrdinalIgnoreCase);
 
-        private static readonly Dictionary<string, Type> _allSupportedExternalProcessesForOptionHints = new Dictionary<string, Type>();
+        private static readonly Dictionary<string, Type> _allSupportedExternalProcessesForOptionHints = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
 
         private readonly TargetTree _targetTree;
         private readonly List<string> _commandsHistory = new List<string>();
@@ -833,6 +833,7 @@ namespace FlubuCore.Infrastructure.Terminal
             {
                 _commandsHintsSourceDictionary.Add(GitCommands.GitCommandHints);
                 _commandsHintsSourceDictionary.Add(DotnetCommands.DotnetCommandHints);
+                _commandsHintsSourceDictionary.Add(DockerCommands.GitCommandHints);
             }
 
             if (_allSupportedExternalProcessesForOptionHints.Count == 0)

@@ -12,30 +12,55 @@ namespace FlubuCore.Context.FluentInterface.Docker
     public class Stack
     {  
         
+            
+        /// <summary>
+        /// Deploy a new stack or update an existing stack
+        /// </summary>
             public DockerStackDeployTask StackDeploy(string stack)
             {
                 return new DockerStackDeployTask(stack);
             }
 
+
+            
+        /// <summary>
+        /// List stacks
+        /// </summary>
             public DockerStackLsTask StackLs()
             {
                 return new DockerStackLsTask();
             }
 
+
+            
+        /// <summary>
+        /// List the tasks in the stack
+        /// </summary>
             public DockerStackPsTask StackPs(string stack)
             {
                 return new DockerStackPsTask(stack);
             }
 
+
+            
+        /// <summary>
+        /// Remove one or more stacks
+        /// </summary>
             public DockerStackRmTask StackRm(params string[] stack)
             {
                 return new DockerStackRmTask(stack);
             }
 
+
+            
+        /// <summary>
+        /// List the services in the stack
+        /// </summary>
             public DockerStackServicesTask StackServices(string stack)
             {
                 return new DockerStackServicesTask(stack);
             }
+
         
     }
 }

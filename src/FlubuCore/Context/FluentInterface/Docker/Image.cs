@@ -12,60 +12,115 @@ namespace FlubuCore.Context.FluentInterface.Docker
     public class Image
     {  
         
+            
+        /// <summary>
+        /// Build an image from a Dockerfile
+        /// </summary>
             public DockerImageBuildTask ImageBuild(string pathOrURL)
             {
                 return new DockerImageBuildTask(pathOrURL);
             }
 
+
+            
+        /// <summary>
+        /// Show the history of an image
+        /// </summary>
             public DockerImageHistoryTask ImageHistory(string image)
             {
                 return new DockerImageHistoryTask(image);
             }
 
+
+            
+        /// <summary>
+        /// Import the contents from a tarball to create a filesystem image
+        /// </summary>
             public DockerImageImportTask ImageImport(string file ,  string repository = null)
             {
                 return new DockerImageImportTask(file,  repository);
             }
 
+
+            
+        /// <summary>
+        /// Display detailed information on one or more images
+        /// </summary>
             public DockerImageInspectTask ImageInspect(params string[] image)
             {
                 return new DockerImageInspectTask(image);
             }
 
+
+            
+        /// <summary>
+        /// Load an image from a tar archive or STDIN
+        /// </summary>
             public DockerImageLoadTask ImageLoad()
             {
                 return new DockerImageLoadTask();
             }
 
+
+            
+        /// <summary>
+        /// List images
+        /// </summary>
             public DockerImageLsTask ImageLs(string repository = null)
             {
                 return new DockerImageLsTask(repository);
             }
 
+
+            
+        /// <summary>
+        /// Remove unused images
+        /// </summary>
             public DockerImagePruneTask ImagePrune()
             {
                 return new DockerImagePruneTask();
             }
 
+
+            
+        /// <summary>
+        /// Pull an image or a repository from a registry
+        /// </summary>
             public DockerImagePullTask ImagePull(string name)
             {
                 return new DockerImagePullTask(name);
             }
 
+
+            
+        /// <summary>
+        /// Push an image or a repository to a registry
+        /// </summary>
             public DockerImagePushTask ImagePush(string name)
             {
                 return new DockerImagePushTask(name);
             }
 
+
+            
+        /// <summary>
+        /// Remove one or more images
+        /// </summary>
             public DockerImageRmTask ImageRm(params string[] image)
             {
                 return new DockerImageRmTask(image);
             }
 
+
+            
+        /// <summary>
+        /// Save one or more images to a tar archive (streamed to STDOUT by default)
+        /// </summary>
             public DockerImageSaveTask ImageSave(params string[] image)
             {
                 return new DockerImageSaveTask(image);
             }
+
         
     }
 }

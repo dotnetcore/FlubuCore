@@ -12,35 +12,65 @@ namespace FlubuCore.Context.FluentInterface.Docker
     public class Network
     {  
         
+            
+        /// <summary>
+        /// Connect a container to a network
+        /// </summary>
             public DockerNetworkConnectTask NetworkConnect(string network ,  string container)
             {
                 return new DockerNetworkConnectTask(network,  container);
             }
 
+
+            
+        /// <summary>
+        /// Create a network
+        /// </summary>
             public DockerNetworkCreateTask NetworkCreate(string network)
             {
                 return new DockerNetworkCreateTask(network);
             }
 
+
+            
+        /// <summary>
+        /// Disconnect a container from a network
+        /// </summary>
             public DockerNetworkDisconnectTask NetworkDisconnect(string network ,  string container)
             {
                 return new DockerNetworkDisconnectTask(network,  container);
             }
 
+
+            
+        /// <summary>
+        /// Display detailed information on one or more networks
+        /// </summary>
             public DockerNetworkInspectTask NetworkInspect(params string[] network)
             {
                 return new DockerNetworkInspectTask(network);
             }
 
+
+            
+        /// <summary>
+        /// List networks
+        /// </summary>
             public DockerNetworkLsTask NetworkLs()
             {
                 return new DockerNetworkLsTask();
             }
 
+
+            
+        /// <summary>
+        /// Remove all unused networks
+        /// </summary>
             public DockerNetworkPruneTask NetworkPrune()
             {
                 return new DockerNetworkPruneTask();
             }
+
         
     }
 }

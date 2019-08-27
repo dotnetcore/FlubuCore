@@ -12,35 +12,65 @@ namespace FlubuCore.Context.FluentInterface.Docker
     public class Context
     {  
         
+            
+        /// <summary>
+        /// Create a context
+        /// </summary>
             public DockerContextCreateTask ContextCreate(string context)
             {
                 return new DockerContextCreateTask(context);
             }
 
+
+            
+        /// <summary>
+        /// Export a context to a tar or kubeconfig file
+        /// </summary>
             public DockerContextExportTask ContextExport(string context ,  string file = null)
             {
                 return new DockerContextExportTask(context,  file);
             }
 
+
+            
+        /// <summary>
+        /// Display detailed information on one or more contexts
+        /// </summary>
             public DockerContextInspectTask ContextInspect(params string[] context)
             {
                 return new DockerContextInspectTask(context);
             }
 
+
+            
+        /// <summary>
+        /// List contexts
+        /// </summary>
             public DockerContextLsTask ContextLs()
             {
                 return new DockerContextLsTask();
             }
 
+
+            
+        /// <summary>
+        /// Remove one or more contexts
+        /// </summary>
             public DockerContextRmTask ContextRm(params string[] context)
             {
                 return new DockerContextRmTask(context);
             }
 
+
+            
+        /// <summary>
+        /// Update a context
+        /// </summary>
             public DockerContextUpdateTask ContextUpdate(string context)
             {
                 return new DockerContextUpdateTask(context);
             }
+
         
     }
 }

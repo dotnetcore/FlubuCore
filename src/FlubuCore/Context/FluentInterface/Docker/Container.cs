@@ -12,90 +12,175 @@ namespace FlubuCore.Context.FluentInterface.Docker
     public class Container
     {  
         
+            
+        /// <summary>
+        /// Attach local standard input, output, and error streams to a running container
+        /// </summary>
             public DockerContainerAttachTask ContainerAttach(string container)
             {
                 return new DockerContainerAttachTask(container);
             }
 
+
+            
+        /// <summary>
+        /// Create a new image from a container's changes
+        /// </summary>
             public DockerContainerCommitTask ContainerCommit(string container ,  string repository = null)
             {
                 return new DockerContainerCommitTask(container,  repository);
             }
 
+
+            
+        /// <summary>
+        /// Create a new container
+        /// </summary>
             public DockerContainerCreateTask ContainerCreate(string image ,  string command = null ,  params string[] arg)
             {
                 return new DockerContainerCreateTask(image,  command,  arg);
             }
 
+
+            
+        /// <summary>
+        /// Run a command in a running container
+        /// </summary>
             public DockerContainerExecTask ContainerExec(string container ,  string command ,  params string[] arg)
             {
                 return new DockerContainerExecTask(container,  command,  arg);
             }
 
+
+            
+        /// <summary>
+        /// Export a container's filesystem as a tar archive
+        /// </summary>
             public DockerContainerExportTask ContainerExport(string container)
             {
                 return new DockerContainerExportTask(container);
             }
 
+
+            
+        /// <summary>
+        /// Display detailed information on one or more containers
+        /// </summary>
             public DockerContainerInspectTask ContainerInspect(params string[] container)
             {
                 return new DockerContainerInspectTask(container);
             }
 
+
+            
+        /// <summary>
+        /// Kill one or more running containers
+        /// </summary>
             public DockerContainerKillTask ContainerKill(params string[] container)
             {
                 return new DockerContainerKillTask(container);
             }
 
+
+            
+        /// <summary>
+        /// Fetch the logs of a container
+        /// </summary>
             public DockerContainerLogsTask ContainerLogs(string container)
             {
                 return new DockerContainerLogsTask(container);
             }
 
+
+            
+        /// <summary>
+        /// List containers
+        /// </summary>
             public DockerContainerLsTask ContainerLs()
             {
                 return new DockerContainerLsTask();
             }
 
+
+            
+        /// <summary>
+        /// Remove all stopped containers
+        /// </summary>
             public DockerContainerPruneTask ContainerPrune()
             {
                 return new DockerContainerPruneTask();
             }
 
+
+            
+        /// <summary>
+        /// Restart one or more containers
+        /// </summary>
             public DockerContainerRestartTask ContainerRestart(params string[] container)
             {
                 return new DockerContainerRestartTask(container);
             }
 
+
+            
+        /// <summary>
+        /// Remove one or more containers
+        /// </summary>
             public DockerContainerRmTask ContainerRm(params string[] container)
             {
                 return new DockerContainerRmTask(container);
             }
 
+
+            
+        /// <summary>
+        /// Run a command in a new container
+        /// </summary>
             public DockerContainerRunTask ContainerRun(string image ,  string command = null ,  params string[] arg)
             {
                 return new DockerContainerRunTask(image,  command,  arg);
             }
 
+
+            
+        /// <summary>
+        /// Start one or more stopped containers
+        /// </summary>
             public DockerContainerStartTask ContainerStart(params string[] container)
             {
                 return new DockerContainerStartTask(container);
             }
 
+
+            
+        /// <summary>
+        /// Display a live stream of container(s) resource usage statistics
+        /// </summary>
             public DockerContainerStatsTask ContainerStats(params string[] container)
             {
                 return new DockerContainerStatsTask(container);
             }
 
+
+            
+        /// <summary>
+        /// Stop one or more running containers
+        /// </summary>
             public DockerContainerStopTask ContainerStop(params string[] container)
             {
                 return new DockerContainerStopTask(container);
             }
 
+
+            
+        /// <summary>
+        /// Update configuration of one or more containers
+        /// </summary>
             public DockerContainerUpdateTask ContainerUpdate(params string[] container)
             {
                 return new DockerContainerUpdateTask(container);
             }
+
         
     }
 }

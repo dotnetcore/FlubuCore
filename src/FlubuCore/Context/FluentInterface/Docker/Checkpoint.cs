@@ -12,20 +12,35 @@ namespace FlubuCore.Context.FluentInterface.Docker
     public class Checkpoint
     {  
         
+            
+        /// <summary>
+        /// Create a checkpoint from a running container
+        /// </summary>
             public DockerCheckpointCreateTask CheckpointCreate(string container ,  string checkpoint)
             {
                 return new DockerCheckpointCreateTask(container,  checkpoint);
             }
 
+
+            
+        /// <summary>
+        /// List checkpoints for a container
+        /// </summary>
             public DockerCheckpointLsTask CheckpointLs(string container)
             {
                 return new DockerCheckpointLsTask(container);
             }
 
+
+            
+        /// <summary>
+        /// Remove a checkpoint
+        /// </summary>
             public DockerCheckpointRmTask CheckpointRm(string container ,  string checkpoint)
             {
                 return new DockerCheckpointRmTask(container,  checkpoint);
             }
+
         
     }
 }

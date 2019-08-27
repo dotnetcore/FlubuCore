@@ -12,40 +12,75 @@ namespace FlubuCore.Context.FluentInterface.Docker
     public class Trust
     {  
         
+            
+        /// <summary>
+        /// Return low-level information about keys and signatures
+        /// </summary>
             public DockerTrustInspectTask TrustInspect(params string[] image)
             {
                 return new DockerTrustInspectTask(image);
             }
 
+
+            
+        /// <summary>
+        /// Generate and load a signing key-pair
+        /// </summary>
             public DockerTrustKeyGenerateTask TrustKeyGenerate(string name)
             {
                 return new DockerTrustKeyGenerateTask(name);
             }
 
+
+            
+        /// <summary>
+        /// Load a private key file for signing
+        /// </summary>
             public DockerTrustKeyLoadTask TrustKeyLoad(string keyfile)
             {
                 return new DockerTrustKeyLoadTask(keyfile);
             }
 
+
+            
+        /// <summary>
+        /// Remove trust for an image
+        /// </summary>
             public DockerTrustRevokeTask TrustRevoke(string image)
             {
                 return new DockerTrustRevokeTask(image);
             }
 
+
+            
+        /// <summary>
+        /// Sign an image
+        /// </summary>
             public DockerTrustSignTask TrustSign(string image)
             {
                 return new DockerTrustSignTask(image);
             }
 
+
+            
+        /// <summary>
+        /// Add a signer
+        /// </summary>
             public DockerTrustSignerAddTask TrustSignerAdd(string options ,  string name ,  params string[] repository)
             {
                 return new DockerTrustSignerAddTask(options,  name,  repository);
             }
 
+
+            
+        /// <summary>
+        /// Remove a signer
+        /// </summary>
             public DockerTrustSignerRemoveTask TrustSignerRemove(string name ,  params string[] repository)
             {
                 return new DockerTrustSignerRemoveTask(name,  repository);
             }
+
         
     }
 }

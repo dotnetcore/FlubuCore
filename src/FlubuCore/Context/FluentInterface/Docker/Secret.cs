@@ -12,20 +12,35 @@ namespace FlubuCore.Context.FluentInterface.Docker
     public class Secret
     {  
         
+            
+        /// <summary>
+        /// Create a secret from a file or STDIN as content
+        /// </summary>
             public DockerSecretCreateTask SecretCreate(string secret ,  string file = null)
             {
                 return new DockerSecretCreateTask(secret,  file);
             }
 
+
+            
+        /// <summary>
+        /// Display detailed information on one or more secrets
+        /// </summary>
             public DockerSecretInspectTask SecretInspect(params string[] secret)
             {
                 return new DockerSecretInspectTask(secret);
             }
 
+
+            
+        /// <summary>
+        /// List secrets
+        /// </summary>
             public DockerSecretLsTask SecretLs()
             {
                 return new DockerSecretLsTask();
             }
+
         
     }
 }

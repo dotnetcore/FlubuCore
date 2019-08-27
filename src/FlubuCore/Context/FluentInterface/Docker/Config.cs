@@ -12,20 +12,35 @@ namespace FlubuCore.Context.FluentInterface.Docker
     public class Config
     {  
         
+            
+        /// <summary>
+        /// Create a config from a file or STDIN
+        /// </summary>
             public DockerConfigCreateTask ConfigCreate(string config ,  string file)
             {
                 return new DockerConfigCreateTask(config,  file);
             }
 
+
+            
+        /// <summary>
+        /// Display detailed information on one or more configs
+        /// </summary>
             public DockerConfigInspectTask ConfigInspect(params string[] config)
             {
                 return new DockerConfigInspectTask(config);
             }
 
+
+            
+        /// <summary>
+        /// List configs
+        /// </summary>
             public DockerConfigLsTask ConfigLs()
             {
                 return new DockerConfigLsTask();
             }
+
         
     }
 }

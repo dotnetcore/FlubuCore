@@ -12,50 +12,95 @@ namespace FlubuCore.Context.FluentInterface.Docker
     public class Plugin
     {  
         
+            
+        /// <summary>
+        /// Create a plugin from a rootfs and configuration. Plugin data directory must contain config.json and rootfs directory.
+        /// </summary>
             public DockerPluginCreateTask PluginCreate(params string[] plugin)
             {
                 return new DockerPluginCreateTask(plugin);
             }
 
+
+            
+        /// <summary>
+        /// Disable a plugin
+        /// </summary>
             public DockerPluginDisableTask PluginDisable(string plugin)
             {
                 return new DockerPluginDisableTask(plugin);
             }
 
+
+            
+        /// <summary>
+        /// Enable a plugin
+        /// </summary>
             public DockerPluginEnableTask PluginEnable(string plugin)
             {
                 return new DockerPluginEnableTask(plugin);
             }
 
+
+            
+        /// <summary>
+        /// Display detailed information on one or more plugins
+        /// </summary>
             public DockerPluginInspectTask PluginInspect(params string[] plugin)
             {
                 return new DockerPluginInspectTask(plugin);
             }
 
+
+            
+        /// <summary>
+        /// Install a plugin
+        /// </summary>
             public DockerPluginInstallTask PluginInstall(string plugin)
             {
                 return new DockerPluginInstallTask(plugin);
             }
 
+
+            
+        /// <summary>
+        /// List plugins
+        /// </summary>
             public DockerPluginLsTask PluginLs()
             {
                 return new DockerPluginLsTask();
             }
 
+
+            
+        /// <summary>
+        /// Push a plugin to a registry
+        /// </summary>
             public DockerPluginPushTask PluginPush(string plugin)
             {
                 return new DockerPluginPushTask(plugin);
             }
 
+
+            
+        /// <summary>
+        /// Remove one or more plugins
+        /// </summary>
             public DockerPluginRmTask PluginRm(params string[] plugin)
             {
                 return new DockerPluginRmTask(plugin);
             }
 
+
+            
+        /// <summary>
+        /// Upgrade an existing plugin
+        /// </summary>
             public DockerPluginUpgradeTask PluginUpgrade(string plugin ,  string remote = null)
             {
                 return new DockerPluginUpgradeTask(plugin,  remote);
             }
+
         
     }
 }

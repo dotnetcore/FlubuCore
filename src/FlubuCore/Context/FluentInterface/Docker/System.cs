@@ -12,25 +12,45 @@ namespace FlubuCore.Context.FluentInterface.Docker
     public class System
     {  
         
+            
+        /// <summary>
+        /// Show docker disk usage
+        /// </summary>
             public DockerSystemDfTask SystemDf()
             {
                 return new DockerSystemDfTask();
             }
 
+
+            
+        /// <summary>
+        /// Get real time events from the server
+        /// </summary>
             public DockerSystemEventsTask SystemEvents()
             {
                 return new DockerSystemEventsTask();
             }
 
+
+            
+        /// <summary>
+        /// Display system-wide information
+        /// </summary>
             public DockerSystemInfoTask SystemInfo()
             {
                 return new DockerSystemInfoTask();
             }
 
+
+            
+        /// <summary>
+        /// Remove unused data
+        /// </summary>
             public DockerSystemPruneTask SystemPrune()
             {
                 return new DockerSystemPruneTask();
             }
+
         
     }
 }
