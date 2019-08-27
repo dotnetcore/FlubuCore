@@ -6,6 +6,8 @@ namespace FlubuCore.TaskGenerator.Models.Extensions
     {
         public string TaskName { get; set; }
 
+        public string TaskDescription { get; set; }
+
         public string MethodName { get; set; }
 
         public List<Parameter> Parameters { get; set; } = new List<Parameter>();
