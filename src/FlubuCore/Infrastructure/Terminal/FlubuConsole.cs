@@ -61,6 +61,7 @@ namespace FlubuCore.Infrastructure.Terminal
             if (_commandsHintsSourceDictionary.Count == 0)
             {
                 _commandsHintsSourceDictionary.Add(GitCommands.GitCommandHints);
+                _commandsHintsSourceDictionary.Add(DotnetCommands.DotnetCommandHints);
             }
 
             if (_allSupportedExternalProcessesForOptionSuggestions.Count == 0)
@@ -504,27 +505,16 @@ namespace FlubuCore.Infrastructure.Terminal
             }
             else
             {
-                if (!splitedUserInput[0].Equals("dotnet", StringComparison.OrdinalIgnoreCase))
-                {
-                    hintSourceKey = '*';
-                }
+                hintSourceKey = '*';
             }
 
             if (hintSourceKey.HasValue)
             {
                 hintSource.AddRange(_hintsSourceDictionary[hintSourceKey.Value].ToList());
-            }
 
-            if (hintSourceKey == '*')
-            {
-                if (splitedUserInput.Count == 1)
+                if (hintSourceKey == '*' && splitedUserInput.Count == 1)
                 {
-                    hintSource.AddRange(DotnetCommands.Commands);
-                }
-
-                if (splitedUserInput.Count == 2 && splitedUserInput[0].Equals("dotnet", StringComparison.OrdinalIgnoreCase))
-                {
-                    hintSource.AddRange(DotnetCommands.Commands);
+                    hintSource.Add(DotnetCommands.RootCommandHint);
                 }
             }
 
