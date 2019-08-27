@@ -60,7 +60,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="directory"></param>
         /// <returns></returns>
-        [ArgKey("-o", "--output")]
+        [ArgKey("--output", "-o")]
         public DotnetPackTask OutputDirectory(string directory)
         {
             WithArgumentsKeyFromAttribute(directory);
@@ -72,7 +72,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        [ArgKey("-c", "--configuration")]
+        [ArgKey("--configuration", "-c")]
         public DotnetPackTask Configuration(string configuration)
         {
             WithArgumentsKeyFromAttribute(configuration);

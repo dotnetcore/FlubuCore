@@ -50,7 +50,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="framework"></param>
         /// <returns></returns>
-        [ArgKey("-f", "--framework")]
+        [ArgKey("--framework", "-f")]
         public DotnetBuildTask Framework(string framework)
         {
             WithArgumentsKeyFromAttribute(framework);
@@ -62,7 +62,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="runtime"></param>
         /// <returns></returns>
-        [ArgKey("-r", "--runtime")]
+        [ArgKey("--runtime", "-r")]
         public DotnetBuildTask AddRuntime(string runtime)
         {
             WithArgumentsKeyFromAttribute(runtime);
@@ -74,7 +74,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        [ArgKey("-c", "--configuration")]
+        [ArgKey("--configuration", "-c")]
         public DotnetBuildTask Configuration(string configuration)
         {
             WithArgumentsKeyFromAttribute(configuration);
@@ -107,7 +107,7 @@ namespace FlubuCore.Tasks.NetCore
         /// Set this flag to force all dependencies to be resolved even if the last restore was successful. This is equivalent to deleting project.assets.json.
         /// </summary>
         /// <returns></returns>
-        [ArgKey("-f", "--framework")]
+        [ArgKey("--force")]
         public DotnetBuildTask Force()
         {
             WithArgumentsKeyFromAttribute();

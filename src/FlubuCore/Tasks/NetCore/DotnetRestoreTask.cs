@@ -39,7 +39,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        [ArgKey("-s", "--source")]
+        [ArgKey("--source", "-s")]
         public DotnetRestoreTask AddNugetSouce(string source)
         {
             WithArgumentsKeyFromAttribute(source);
@@ -50,7 +50,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="runtime"></param>
         /// <returns></returns>
-        [ArgKey("-r", "--runtime")]
+        [ArgKey("--runtime", "-r")]
         public DotnetRestoreTask AddRuntime(string runtime)
         {
             WithArgumentsKeyFromAttribute(runtime);

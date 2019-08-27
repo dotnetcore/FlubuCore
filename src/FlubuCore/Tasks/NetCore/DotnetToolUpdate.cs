@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Tasks.Attributes;
 
 namespace FlubuCore.Tasks.NetCore
 {
@@ -33,9 +34,10 @@ namespace FlubuCore.Tasks.NetCore
         /// Update user wide as global tool.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("-g")]
         public DotnetToolUpdate Global()
         {
-            WithArguments("-g");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -44,9 +46,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
+        [ArgKey("--tool-path")]
         public DotnetToolUpdate ToolInstallationPath(string path)
         {
-            WithArgumentsValueRequired("--tool-path", path);
+            WithArgumentsKeyFromAttribute(path);
             return this;
         }
 
@@ -55,9 +58,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="pathToFile"></param>
         /// <returns></returns>
+        [ArgKey("--configfile")]
         public DotnetToolUpdate NugetConfigFile(string pathToFile)
         {
-            WithArgumentsValueRequired("--configfile", pathToFile);
+            WithArgumentsKeyFromAttribute(pathToFile);
             return this;
         }
 
@@ -68,7 +72,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetToolUpdate AddNugetSource(string source)
         {
-            WithArgumentsValueRequired("--add-source", source);
+            WithArgumentsKeyFromAttribute(source);
             return this;
         }
 
@@ -77,9 +81,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="framework"></param>
         /// <returns></returns>
+        [ArgKey("--framework")]
         public DotnetToolUpdate Framework(string framework)
         {
-            WithArgumentsValueRequired("--framework", framework);
+            WithArgumentsKeyFromAttribute(framework);
             return this;
         }
 
@@ -88,9 +93,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="verbosity"></param>
         /// <returns></returns>
+        [ArgKey("--verbosity")]
         public DotnetToolUpdate Verbosity(VerbosityOptions verbosity)
         {
-            WithArgumentsValueRequired("--verbosity", verbosity.ToString().ToLower());
+            WithArgumentsKeyFromAttribute(verbosity.ToString().ToLower());
             return this;
         }
 

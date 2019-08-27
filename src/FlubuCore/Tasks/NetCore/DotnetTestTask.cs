@@ -48,7 +48,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="framework"></param>
         /// <returns></returns>
-        [ArgKey("-f", "--framework")]
+        [ArgKey("--framework", "-f")]
         public DotnetTestTask Framework(string framework)
         {
             WithArgumentsKeyFromAttribute(framework);
@@ -60,7 +60,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="directory"></param>
         /// <returns></returns>
-        [ArgKey("-o", "--output")]
+        [ArgKey("--output", "-o")]
         public DotnetTestTask OutputDirectory(string directory)
         {
             WithArgumentsKeyFromAttribute(directory);
@@ -113,7 +113,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        [ArgKey("-c", "--configuration")]
+        [ArgKey("--configuration", "-c")]
         public DotnetTestTask Configuration(string configuration)
         {
             WithArgumentsKeyFromAttribute(configuration);
@@ -125,7 +125,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="pathToFile"></param>
         /// <returns></returns>
-        [ArgKey("-d", "--diag")]
+        [ArgKey("--diag", "-d")]
         public DotnetTestTask VerboseLogs(string pathToFile)
         {
             WithArgumentsKeyFromAttribute(pathToFile);

@@ -47,7 +47,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="framework"></param>
         /// <returns></returns>
-        [ArgKey("-f", "--framework")]
+        [ArgKey("--framework", "-f")]
         public DotnetPublishTask Framework(string framework)
         {
             WithArgumentsKeyFromAttribute(framework);
@@ -59,7 +59,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="runtime"></param>
         /// <returns></returns>
-        [ArgKey("-r", "--runtime")]
+        [ArgKey("--runtime", "-r")]
         public DotnetPublishTask AddRuntime(string runtime)
         {
             WithArgumentsKeyFromAttribute(runtime);
@@ -83,7 +83,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        [ArgKey("-c", "--configuration")]
+        [ArgKey("--configuration", "-c")]
         public DotnetPublishTask Configuration(string configuration)
         {
             WithArgumentsKeyFromAttribute(configuration);

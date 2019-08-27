@@ -54,7 +54,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="framework"></param>
         /// <returns></returns>
-        [ArgKey("-f", "--framework")]
+        [ArgKey("--framework", "-f")]
         public DotnetCleanTask Framework(string framework)
         {
             WithArgumentsKeyFromAttribute(framework);
@@ -66,7 +66,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        [ArgKey("-c", "--configuration")]
+        [ArgKey("--configuration", "-c")]
         public DotnetCleanTask Configuration(string configuration)
         {
             WithArgumentsKeyFromAttribute(configuration);

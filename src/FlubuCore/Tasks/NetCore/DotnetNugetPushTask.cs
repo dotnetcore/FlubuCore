@@ -44,7 +44,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="serverUrl"></param>
         /// <returns></returns>
-        [ArgKey("-s", "--source")]
+        [ArgKey("--source", "-s")]
         public DotnetNugetPushTask ServerUrl(string serverUrl)
         {
             WithArgumentsKeyFromAttribute(serverUrl);
@@ -56,7 +56,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="symbolServerUrl"></param>
         /// <returns></returns>
-        [ArgKey("-ss", "--symbol-source")]
+        [ArgKey("--symbol-source", "-ss")]
         public DotnetNugetPushTask SymbolServerUrl(string symbolServerUrl)
         {
             WithArgumentsKeyFromAttribute(symbolServerUrl);
@@ -78,7 +78,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="apiKey"></param>
         /// <returns></returns>
-        [ArgKey("-k", "--api-key")]
+        [ArgKey("--api-key", "-k")]
         public DotnetNugetPushTask ApiKey(string apiKey)
         {
             WithArgumentsKeyFromAttribute(apiKey, true);
@@ -90,7 +90,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="symbolApiKey"></param>
         /// <returns></returns>
-        [ArgKey("-sk", "--symbol-api-key")]
+        [ArgKey("--symbol-api-key", "-sk")]
         public DotnetNugetPushTask SymbolApiKey(string symbolApiKey)
         {
             WithArgumentsKeyFromAttribute(symbolApiKey, true);
@@ -102,7 +102,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="timeoutInSeconds"></param>
         /// <returns></returns>
-        [ArgKey("-t", "--timeout")]
+        [ArgKey("--timeout", "-t")]
         public DotnetNugetPushTask Timeout(int timeoutInSeconds)
         {
             WithArgumentsKeyFromAttribute(timeoutInSeconds.ToString());

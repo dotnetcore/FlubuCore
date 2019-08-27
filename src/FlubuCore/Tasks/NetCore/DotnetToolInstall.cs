@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Tasks.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace FlubuCore.Tasks.NetCore
@@ -36,9 +37,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="version">The version</param>
         /// <returns></returns>
+        [ArgKey("--version")]
         public DotnetToolInstall NugetPackageVersion(string version)
         {
-            WithArgumentsValueRequired("--version", version);
+            WithArgumentsKeyFromAttribute(version);
             return this;
         }
 
@@ -46,9 +48,10 @@ namespace FlubuCore.Tasks.NetCore
         ///  Install user wide as global tool.
         /// </summary>
         /// <returns></returns>
+        [ArgKey("-g")]
         public DotnetToolInstall Global()
         {
-            WithArguments("-g");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -57,9 +60,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
+        [ArgKey("--tool-path")]
         public DotnetToolInstall ToolInstallationPath(string path)
         {
-            WithArgumentsValueRequired("--tool-path", path);
+            WithArgumentsKeyFromAttribute(path);
             return this;
         }
 
@@ -68,9 +72,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="pathToFile"></param>
         /// <returns></returns>
+        [ArgKey("--configfile")]
         public DotnetToolInstall NugetConfigFile(string pathToFile)
         {
-            WithArgumentsValueRequired("--configfile", pathToFile);
+            WithArgumentsKeyFromAttribute(pathToFile);
             return this;
         }
 
@@ -79,9 +84,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
+        [ArgKey("--add-source")]
         public DotnetToolInstall AddNugetSource(string source)
         {
-            WithArgumentsValueRequired("--add-source", source);
+            WithArgumentsKeyFromAttribute(source);
             return this;
         }
 
@@ -90,9 +96,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="framework"></param>
         /// <returns></returns>
+        [ArgKey("--framework")]
         public DotnetToolInstall Framework(string framework)
         {
-            WithArgumentsValueRequired("--framework", framework);
+            WithArgumentsKeyFromAttribute(framework);
             return this;
         }
 
@@ -101,9 +108,10 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="verbosity"></param>
         /// <returns></returns>
+        [ArgKey("--verbosity")]
         public DotnetToolInstall Verbosity(VerbosityOptions verbosity)
         {
-            WithArguments("--verbosity", verbosity.ToString().ToLower());
+            WithArgumentsKeyFromAttribute(verbosity.ToString());
             return this;
         }
 

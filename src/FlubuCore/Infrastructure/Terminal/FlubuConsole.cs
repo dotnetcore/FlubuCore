@@ -714,16 +714,14 @@ namespace FlubuCore.Infrastructure.Terminal
                 if (attribute.Keys[0].StartsWith(prefix.ToString()))
                 {
                     var help = method.GetSummary();
-                    foreach (var key in attribute.Keys)
-                    {
-                        var hint = new Hint()
-                        {
-                            Name = key,
-                            Help = help,
-                        };
 
-                        taskHints.Add(hint);
-                    }
+                    var hint = new Hint()
+                    {
+                        Name = attribute.Keys[0],
+                        Help = help,
+                    };
+
+                    taskHints.Add(hint);
                 }
             }
 
