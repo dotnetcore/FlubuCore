@@ -34,7 +34,8 @@ namespace FlubuCore.Infrastructure.Terminal.Commands
 {{
     public static class {id}Commands
     {{  
-        {WriteSupportedExternalProcesses(tasks)}      
+        {WriteSupportedExternalProcesses(tasks)}{Environment.NewLine}{Environment.NewLine}     
+        {WriteCommandHints(id, tasks)}
     }}
 }}
 ");
@@ -51,7 +52,7 @@ namespace FlubuCore.Infrastructure.Terminal.Commands
             }
 
             dictionary = $"{dictionary}}};";
-          
+            
             return dictionary;
         }
 
@@ -62,10 +63,10 @@ namespace FlubuCore.Infrastructure.Terminal.Commands
 
             foreach (var task in tasks)
             {
-                commandHints = $@"{commandHints} new Hint {{ Name = ""{{task.Constructor.Arguments[0].ArgumentKey}}"", Help = ""{task.TaskDescription}"" }},{Environment.NewLine}";
+                commandHints = $@"{commandHints} new Hint {{ Name = ""{task.Constructor.Arguments[0].ArgumentKey}"", Help = ""{task.TaskDescription}"" }},{Environment.NewLine}";
             }
 
-            commandHints = $"{commandHints}}};";
+            commandHints = $"{commandHints}}});";
 
             return commandHints;
         }
