@@ -479,7 +479,10 @@ namespace FlubuCore.Infrastructure.Terminal
 
             if (hintSourceKey.HasValue)
             {
-                hintSource.AddRange(_hintsSourceDictionary[hintSourceKey.Value].ToList());
+                if (!_commandsHintsSourceDictionary.ContainsKey(rootCommand))
+                {
+                    hintSource.AddRange(_hintsSourceDictionary[hintSourceKey.Value].ToList());
+                }
 
                 if (hintSourceKey == '*' && splitedUserInput.Count == 1)
                 {
