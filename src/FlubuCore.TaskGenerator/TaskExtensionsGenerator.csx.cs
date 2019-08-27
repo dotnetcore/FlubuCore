@@ -66,10 +66,12 @@ namespace {extensions.Namespace}
             foreach (var method in task)
             {
                 methods = $@"{methods}
+            {WriteSummary(method.TaskDescription)}
             public {method.TaskName} {method.MethodName}({WriteParameters(method.Parameters)})
             {{
                 return new {method.TaskName}({WriteParams(method.Parameters)});
             }}
+
 ";
             }
 

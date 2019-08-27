@@ -50,5 +50,18 @@ namespace FlubuCore.TaskGenerator
 
             return parameterName;
         }
+
+        protected internal virtual string WriteSummary(string summary)
+        {
+            if (string.IsNullOrEmpty(summary))
+            {
+                return null;
+            }
+
+            return $@"
+        /// <summary>
+        /// {summary}
+        /// </summary>";
+        }
     }
 }

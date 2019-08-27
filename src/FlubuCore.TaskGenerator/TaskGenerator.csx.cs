@@ -214,19 +214,6 @@ namespace {task.Namespace}
             return fields;
         }
 
-        protected internal virtual string WriteSummary(string summary)
-        {
-            if (string.IsNullOrEmpty(summary))
-            {
-                return null;
-            }
-
-            return $@"
-        /// <summary>
-        /// {summary}
-        /// </summary>";
-        }
-
         protected internal virtual string WriteDoExecuteMethod(Task task)
         {
             var constructor = task.Constructor;
