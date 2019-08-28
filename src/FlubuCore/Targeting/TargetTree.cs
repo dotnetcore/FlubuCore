@@ -248,14 +248,12 @@ namespace FlubuCore.Targeting
 
         public void LogBuildSummary(IFlubuSession session)
         {
-            session.LogInfo(" ");
             foreach (var target in EnumerateExecutedTargets())
             {
                 var targt = target as Target;
 
                 if (targt?.TaskStopwatch.ElapsedTicks > 0)
                 {
-                    targt.LogFinishedStatus();
                     foreach (var buildSummaryExtra in BuildSummaryExtras)
                     {
                         if (buildSummaryExtra.targetName != target.TargetName)

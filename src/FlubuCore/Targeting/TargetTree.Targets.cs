@@ -55,8 +55,6 @@ namespace FlubuCore.Targeting
                 {
                     context.LogInfo($"  {argHelp}");
                 }
-
-                context.LogInfo(" ");
             }
 
             context.IncreaseDepth();
