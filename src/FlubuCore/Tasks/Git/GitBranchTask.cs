@@ -6,15 +6,12 @@ using FlubuCore.Tasks.Process;
 
 namespace FlubuCore.Tasks.Git
 {
-    public class GitBranchTask : ExternalProcessTaskBase<int, GitCommitTask>
+    public class GitBranchTask : ExternalProcessTaskBase<int, GitBranchTask>
     {
-        private readonly List<string> _files;
-
         private string _description;
 
         public GitBranchTask()
         {
-            _files = new List<string>();
             ExecutablePath = "git";
             InsertArgument(0, "branch");
             AddPrefixToAdditionalOptionKey(PrefixProcessors.AddDoubleDashPrefixToAdditionalOptionKey);

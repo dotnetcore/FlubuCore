@@ -37,6 +37,11 @@ namespace FlubuCore.Context.FluentInterface
              return Context.CreateTask<GitPushTask>();
         }
 
+        public GitMergeTask GitMerge()
+        {
+            return Context.CreateTask<GitMergeTask>();
+        }
+
         public GitRemoveFilesTask RemoveFile(string file)
         {
              return Context.CreateTask<GitRemoveFilesTask>(file);
@@ -60,6 +65,11 @@ namespace FlubuCore.Context.FluentInterface
         public GitSubmoduleTask PullSubmodules()
         {
             return Submodule().Update().Remote().Merge();
+        }
+
+        public GitBranchTask GitBranch()
+        {
+            return Context.CreateTask<GitBranchTask>();
         }
     }
 }
