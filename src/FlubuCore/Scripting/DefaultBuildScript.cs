@@ -159,7 +159,7 @@ namespace FlubuCore.Scripting
             }
         }
 
-        private bool ExecuteTarget(IFlubuSession flubuSession, (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) targetsInfo)
+        private void ExecuteTarget(IFlubuSession flubuSession, (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) targetsInfo)
         {
             flubuSession.Start();
 
@@ -168,7 +168,7 @@ namespace FlubuCore.Scripting
                 targetsInfo.targetsToRun[1].Equals("help", StringComparison.OrdinalIgnoreCase))
             {
                 flubuSession.TargetTree.RunTargetHelp(flubuSession, targetsInfo.targetsToRun[0]);
-                return true;
+                return;
             }
 
             if (targetsInfo.targetsToRun.Count == 1 || !flubuSession.Args.ExecuteTargetsInParallel)
@@ -214,7 +214,6 @@ namespace FlubuCore.Scripting
             }
 
             AssertAllTargetDependenciesWereExecuted(flubuSession);
-            return false;
         }
 
         private void FlubuInteractiveMode(IFlubuSession flubuSession, (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) targetsInfo, bool resetTargetTree)
@@ -326,7 +325,8 @@ namespace FlubuCore.Scripting
 
                 try
                 {
-                    if (ExecuteTarget(flubuSession, targetsInfo)) return;
+                    ExecuteTarget(flubuSession, targetsInfo);
+                    flubuSession.LogInfo(" ");
                 }
                 catch (TaskExecutionException)
                 {
