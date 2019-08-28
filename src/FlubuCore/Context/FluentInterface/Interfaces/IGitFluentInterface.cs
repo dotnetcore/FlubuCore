@@ -51,6 +51,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         GitTagTask Tag(string name);
 
         /// <summary>
+        /// git-branch - List, create, or delete branches.
+        /// </summary>
+        /// <returns></returns>
+        GitBranchTask GitBranch();
+
+        /// <summary>
         /// Remove files from the index, or from the working tree and the index. git rm will not remove a file from just your working directory.
         /// </summary>
         /// <param name="file">Files to remove. Fileglobs (e.g. *.c) can be given to remove all matching files.</param>

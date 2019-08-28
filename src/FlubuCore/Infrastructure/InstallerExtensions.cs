@@ -81,6 +81,7 @@ namespace FlubuCore.Infrastructure
                 .AddTask<GitPullTask>()
                 .AddTask<GitCommitTask>()
                 .AddTask<GitPushTask>()
+                .AddTask<GitBranchTask>()
                 .AddTask<DockerStopTask>()
                 .AddTask<T4TemplateTask>()
                 .AddTask<TouchFileTask>()

@@ -181,7 +181,7 @@ namespace FlubuCore.Tasks.Git
         }
 
         /// <summary>
-        /// When editing the commit message, start the editor with the contents in the given file. The commit.template configuration variable is often used to give this option implicitly to the command. 
+        /// When editing the commit message, start the editor with the contents in the given file. The commit.template configuration variable is often used to give this option implicitly to the command.
         /// </summary>
         /// <returns></returns>
         [ArgKey("--template", "-t")]

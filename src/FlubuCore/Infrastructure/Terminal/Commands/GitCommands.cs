@@ -16,6 +16,7 @@ namespace FlubuCore.Infrastructure.Terminal.Commands
             { "git pull", typeof(GitPullTask) },
             { "git push", typeof(GitPushTask) },
             { "git tag", typeof(GitTagTask) },
+            { "git branch", typeof(GitBranchTask) },
             { "git submodule", typeof(GitSubmoduleTask) },
             { "git rm", typeof(GitRemoveFilesTask) }
         };
@@ -30,6 +31,7 @@ namespace FlubuCore.Infrastructure.Terminal.Commands
            new Hint() { Name = "tag", Help = "Add a tag reference in refs/tags/, unless -d/-l/-v is given to delete, list or verify tags." },
            new Hint() { Name = "submodule", Help = "Initialize, update or inspect submodules." },
            new Hint() { Name = "rm", Help = "Remove files from the index, or from the working tree and the index." },
+           new Hint() { Name = "branch", Help = "List, create, or delete branches" },
            new Hint() { Name = "push", Help = "Updates remote refs using local refs, while sending objects necessary to complete the given refs." },
        });
     }

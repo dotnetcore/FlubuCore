@@ -77,7 +77,7 @@ namespace FlubuCore.Tasks.Git
         }
 
         /// <summary>
-        /// Create a new orphan branch, named <new_branch>, started from <start_point> and switch to it. 
+        /// Create a new orphan branch, named <new_branch>, started from <start_point> and switch to it.
         /// </summary>
         /// <returns></returns>
         [ArgKey("---orphan")]
