@@ -36,5 +36,7 @@ namespace FlubuCore.Context
         TeamFoundation TeamFoundationServer();
 
         Travis Travis();
+
+        AzurePipelines AzurePipelines();
     }
 }

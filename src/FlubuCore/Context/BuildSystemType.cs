@@ -17,6 +17,7 @@ namespace FlubuCore.Context
         TeamCity,
         TFS,
         TravisCI,
+        AzurePipelines,
         LocalBuild
     }
 }

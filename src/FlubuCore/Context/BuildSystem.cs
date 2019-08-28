@@ -68,6 +68,11 @@ namespace FlubuCore.Context
                     return BuildSystemType.TravisCI;
                 }
 
+                if (BuildServers.AzurePipelines.RunningOnAzurePipelines || BuildServers.AzurePipelines.RunningOnAzurePipelinesHosted)
+                {
+                    return BuildSystemType.AzurePipelines;
+                }
+
                 return BuildSystemType.LocalBuild;
             }
         }
@@ -125,6 +130,11 @@ namespace FlubuCore.Context
         public Travis Travis()
         {
             return new Travis();
+        }
+
+        public AzurePipelines AzurePipelines()
+        {
+            return new AzurePipelines();
         }
     }
 }
