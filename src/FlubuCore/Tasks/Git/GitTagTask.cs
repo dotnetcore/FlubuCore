@@ -43,7 +43,7 @@ namespace FlubuCore.Tasks.Git
         /// Delete tag(s).
         /// </summary>
         /// <returns></returns>
-        [ArgKey("--delete")]
+        [ArgKey("--delete", "-d")]
         public GitTagTask Delete()
         {
             WithArgumentsKeyFromAttribute();
@@ -54,7 +54,7 @@ namespace FlubuCore.Tasks.Git
         /// annotated tag, needs a message.
         /// </summary>
         /// <returns></returns>
-        [ArgKey("--annotate")]
+        [ArgKey("--annotate", "-a")]
         public GitTagTask Annotate()
         {
             WithArgumentsKeyFromAttribute();
@@ -66,7 +66,7 @@ namespace FlubuCore.Tasks.Git
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        [ArgKey("--message")]
+        [ArgKey("--message", "-m")]
         public GitTagTask Message(string message)
         {
             WithArgumentsKeyFromAttribute(message);
@@ -77,7 +77,7 @@ namespace FlubuCore.Tasks.Git
         /// replace the tag if exists.
         /// </summary>
         /// <returns></returns>
-        [ArgKey("--force")]
+        [ArgKey("--force", "-f")]
         public GitTagTask Force()
         {
             WithArgumentsKeyFromAttribute();

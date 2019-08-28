@@ -72,7 +72,7 @@ namespace FlubuCore.Tasks.Git
         }
 
         /// <summary>
-        /// allow adding otherwise ignored files
+        /// allow adding otherwise ignored files.
         /// </summary>
         /// <returns></returns>
         [ArgKey("--force", "-f")]

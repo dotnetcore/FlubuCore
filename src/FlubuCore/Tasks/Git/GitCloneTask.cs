@@ -65,7 +65,7 @@ namespace FlubuCore.Tasks.Git
         /// be more verbose.
         /// </summary>
         /// <returns></returns>
-        [ArgKey("--verbose")]
+        [ArgKey("--verbose", "-v")]
         public GitCloneTask Verbose()
         {
             WithArgumentsKeyFromAttribute();
@@ -76,7 +76,7 @@ namespace FlubuCore.Tasks.Git
         /// be more quiet.
         /// </summary>
         /// <returns></returns>
-        [ArgKey("--quiet")]
+        [ArgKey("--quiet", "-q")]
         public GitCloneTask Quiet()
         {
             WithArgumentsKeyFromAttribute();
