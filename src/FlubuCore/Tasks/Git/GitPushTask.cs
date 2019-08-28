@@ -60,10 +60,10 @@ namespace FlubuCore.Tasks.Git
         /// Be verbose.
         /// </summary>
         /// <returns></returns>
-        [ArgKey("--verbose")]
+        [ArgKey("--verbose", "-v")]
         public GitPushTask Verbose()
         {
-            WithArguments("--verbose");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -71,10 +71,10 @@ namespace FlubuCore.Tasks.Git
         /// be more quiet.
         /// </summary>
         /// <returns></returns>
-        [ArgKey("--quiet")]
+        [ArgKey("--quiet", "-q")]
         public GitPushTask Quiet()
         {
-            WithArguments("--quiet");
+           WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -82,10 +82,10 @@ namespace FlubuCore.Tasks.Git
         /// Do everything except actually send the updates.
         /// </summary>
         /// <returns></returns>
-        [ArgKey("--dry-run")]
+        [ArgKey("--dry-run", "-n")]
         public GitPushTask DryRun()
         {
-            WithArguments("--dry-run");
+            WithArgumentsKeyFromAttribute();
             return this;
         }
 
@@ -93,10 +93,65 @@ namespace FlubuCore.Tasks.Git
         /// force updates.
         /// </summary>
         /// <returns></returns>
-        [ArgKey("--force")]
+        [ArgKey("--force", "-f")]
         public GitPushTask Force()
         {
-            WithArguments("--force");
+           WithArgumentsKeyFromAttribute();
+           return this;
+        }
+
+        /// <summary>
+        /// All refs under refs/tags are pushed.
+        /// </summary>
+        /// <returns></returns>
+        [ArgKey("--tags")]
+        public GitPushTask Tags()
+        {
+           WithArgumentsKeyFromAttribute();
+           return this;
+        }
+
+        /// <summary>
+        /// Push all the refs that would be pushed without this option, and also push annotated tags in refs/tags that are missing from the remote but are pointing at commit-ish that are reachable from the refs being pushed.
+        /// </summary>
+        /// <returns></returns>
+        [ArgKey("--follow-tags")]
+        public GitPushTask FollowTags()
+        {
+            WithArgumentsKeyFromAttribute();
+            return this;
+        }
+
+        [ArgKey("--delete", "-d")]
+        public GitPushTask Delete()
+        {
+            WithArgumentsKeyFromAttribute();
+            return this;
+        }
+
+        [ArgKey("--force-with-lease")]
+        public GitPushTask ForceWithLease(string refName = null)
+        {
+            if (string.IsNullOrEmpty(refName))
+            {
+                WithArgumentsKeyFromAttribute();
+            }
+            else
+            {
+                WithArgumentsKeyFromAttribute(refName);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// For every branch that is up to date or successfully pushed, add upstream (tracking) reference, used by argument-less git-pull[1] and other commands.
+        /// </summary>
+        /// <returns></returns>
+        [ArgKey("--set-upstream", "-u")]
+        public GitPushTask SetUpstream()
+        {
+            WithArgumentsKeyFromAttribute();
             return this;
         }
     }
