@@ -20,7 +20,7 @@ namespace FlubuCore.Packaging
 
         private readonly bool _logFiles = true;
 
-        private IFileFilter _filter;
+        private IFilter _filter;
 
         public ZipProcessor(
             ITaskContextInternal taskContext,
@@ -108,7 +108,7 @@ namespace FlubuCore.Packaging
             return zippedPackageDef;
         }
 
-        public void SetFilter(IFileFilter filter)
+        public void SetFileFilter(IFilter filter)
         {
             _filter = filter;
         }

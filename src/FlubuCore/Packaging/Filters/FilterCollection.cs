@@ -1,24 +1,31 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using NuGet.Packaging;
 
 namespace FlubuCore.Packaging
 {
-    public class FilterCollection : IFileFilter
+    public class FilterCollection : IFilter
     {
-        private List<IFileFilter> _filters = new List<IFileFilter>();
+        private ICollection<IFilter> _filters = new List<IFilter>();
 
-        public FilterCollection Add(IFileFilter filter)
+        public FilterCollection Add(IFilter filter)
         {
             _filters.Add(filter);
             return this;
         }
 
-        public bool IsPassedThrough(string fileName)
+        public FilterCollection AddRange(IEnumerable<IFilter> filter)
         {
-            foreach (IFileFilter filter in _filters)
+            _filters.AddRange(filter);
+            return this;
+        }
+
+        public bool IsPassedThrough(string path)
+        {
+            foreach (IFilter filter in _filters)
             {
-                if (!filter.IsPassedThrough(fileName))
+                if (!filter.IsPassedThrough(path))
                 {
                     return false;
                 }

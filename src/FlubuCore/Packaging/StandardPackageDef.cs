@@ -34,24 +34,24 @@ namespace FlubuCore.Packaging
 
         public StandardPackageDef AddFolderSource(string id, FullPath directoryName, bool recursive)
         {
-            DirectorySource source = new DirectorySource(_taskContext, _fileLister, id, directoryName, recursive);
+            DirectorySource source = new DirectorySource(_taskContext, _fileLister, id, directoryName, recursive, null);
             AddFilesSource(source);
             return this;
         }
 
-        public StandardPackageDef AddFolderSource(string id, FullPath directoryName, bool recursive, IFileFilter filter)
+        public StandardPackageDef AddFolderSource(string id, FullPath directoryName, bool recursive, IFilter filter)
         {
-            DirectorySource source = new DirectorySource(_taskContext, _fileLister, id, directoryName, recursive);
-            source.SetFilter(filter);
+            DirectorySource source = new DirectorySource(_taskContext, _fileLister, id, directoryName, recursive, null);
+            source.SetFileFilter(filter);
             AddFilesSource(source);
             return this;
         }
 
         public StandardPackageDef AddWebFolderSource(string id, FullPath directoryName, bool recursive)
         {
-            DirectorySource source = new DirectorySource(_taskContext, _fileLister, id, directoryName, recursive);
-            source.SetFilter(new NegativeFilter(
-                    new RegexFileFilter(@"^.*\.(svc|asax|config|aspx|ascx|css|js|gif|png|jpg|jpeg|Master|eot|svg|ttf|woff|cshtml|swf|html|ico|txt|xml|json)$")));
+            DirectorySource source = new DirectorySource(_taskContext, _fileLister, id, directoryName, recursive, null);
+            source.SetFileFilter(new NegativeFilter(
+                    new RegexFilter(@"^.*\.(svc|asax|config|aspx|ascx|css|js|gif|png|jpg|jpeg|Master|eot|svg|ttf|woff|cshtml|swf|html|ico|txt|xml|json)$")));
             AddFilesSource(source);
             return this;
         }

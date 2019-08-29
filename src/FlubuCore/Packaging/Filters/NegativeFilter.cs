@@ -1,21 +1,21 @@
 namespace FlubuCore.Packaging
 {
-    public class NegativeFilter : IFileFilter
+    public class NegativeFilter : IFilter
     {
-        private readonly IFileFilter _filter;
+        private readonly IFilter _filter;
 
         /// <summary>
         /// Neagatives given filter.
         /// </summary>
         /// <param name="filter">Filter to be negatived.</param>
-        public NegativeFilter(IFileFilter filter)
+        public NegativeFilter(IFilter filter)
         {
             _filter = filter;
         }
 
-        public bool IsPassedThrough(string fileName)
+        public bool IsPassedThrough(string path)
         {
-            return !_filter.IsPassedThrough(fileName);
+            return !_filter.IsPassedThrough(path);
         }
     }
 }

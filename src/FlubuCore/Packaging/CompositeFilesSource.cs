@@ -8,7 +8,7 @@ namespace FlubuCore.Packaging
     {
         private readonly Dictionary<string, IFilesSource> _filesSources = new Dictionary<string, IFilesSource>();
 
-        private IFileFilter _filter;
+        private IFilter _filter;
 
         public CompositeFilesSource(string id)
         {
@@ -37,7 +37,7 @@ namespace FlubuCore.Packaging
             return allFiles;
         }
 
-        public void SetFilter(IFileFilter filter)
+        public void SetFileFilter(IFilter filter)
         {
             _filter = filter;
         }

@@ -20,7 +20,7 @@ namespace FlubuCore.Packaging
         private Dictionary<string, CopyProcessorTransformation> _transformations =
             new Dictionary<string, CopyProcessorTransformation>();
 
-        private IFileFilter _filter;
+        private IFilter _filter;
 
         private bool _logFiles;
 
@@ -79,7 +79,7 @@ namespace FlubuCore.Packaging
             return (IPackageDef)ProcessPrivate(packageDef, true);
         }
 
-        public void SetFilter(IFileFilter filter)
+        public void SetFileFilter(IFilter filter)
         {
             _filter = filter;
         }

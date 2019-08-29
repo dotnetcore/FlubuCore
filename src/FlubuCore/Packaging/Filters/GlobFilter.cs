@@ -7,7 +7,7 @@ using Microsoft.Extensions.FileSystemGlobbing;
 
 namespace FlubuCore.Packaging.Filters
 {
-    public class GlobFilter : IFileFilter
+    public class GlobFilter : IFilter
     {
         private Glob _glob;
 
@@ -16,9 +16,9 @@ namespace FlubuCore.Packaging.Filters
            _glob = Glob.Parse(pattern);
         }
 
-        public bool IsPassedThrough(string fileName)
+        public bool IsPassedThrough(string path)
         {
-           return !_glob.IsMatch(fileName);
+           return !_glob.IsMatch(path);
         }
     }
 }

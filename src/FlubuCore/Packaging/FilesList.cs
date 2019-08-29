@@ -9,7 +9,7 @@ namespace FlubuCore.Packaging
 
         private List<PackagedFileInfo> _files = new List<PackagedFileInfo>();
 
-        private IFileFilter _filter;
+        private IFilter _filter;
 
         public FilesList(string id)
         {
@@ -36,7 +36,7 @@ namespace FlubuCore.Packaging
             return _files;
         }
 
-        public void SetFilter(IFileFilter filter)
+        public void SetFileFilter(IFilter filter)
         {
             _filter = filter;
         }

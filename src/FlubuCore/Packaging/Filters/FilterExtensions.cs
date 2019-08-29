@@ -2,7 +2,7 @@
 {
     public static class FilterExtensions
     {
-        public static IFileFilter NegateFilter(this IFileFilter fileFilter)
+        public static IFilter NegateFilter(this IFilter fileFilter)
         {
             return new NegativeFilter(fileFilter);
         }

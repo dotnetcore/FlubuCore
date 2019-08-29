@@ -4,6 +4,7 @@ using System.IO;
 using FlubuCore.Context;
 using FlubuCore.IO;
 using FlubuCore.Packaging;
+using FlubuCore.Packaging.Filters;
 
 namespace FlubuCore.Tasks.Packaging
 {
@@ -72,7 +73,7 @@ namespace FlubuCore.Tasks.Packaging
         /// <param name="recursive">If <c>true</c> subfolders in the source directory are also added. Otherwise not.</param>
         /// <param name="fileFilters"></param>
         /// <returns></returns>
-        public PackageTask AddDirectoryToPackage(string sourceDirectoryPath, string destinationDirectory, bool recursive = false, params IFileFilter[] fileFilters)
+        public PackageTask AddDirectoryToPackage(string sourceDirectoryPath, string destinationDirectory, bool recursive = false, params IFilter[] fileFilters)
         {
             SourcePackagingInfo directoryToPackage = new SourcePackagingInfo(
                 SourceType.Directory,
@@ -80,11 +81,32 @@ namespace FlubuCore.Tasks.Packaging
                 destinationDirectory)
             { Recursive = recursive };
 
-            foreach (var filter in fileFilters)
-            {
-                directoryToPackage.FileFilters.Add(filter);
-            }
+            directoryToPackage.FileFilters.AddRange(fileFilters);
 
+            _sourcePackagingInfos.Add(directoryToPackage);
+            return this;
+        }
+
+        /// <summary>
+        /// Add's directory to the package.
+        /// </summary>
+        /// <param name="sourceDirectoryPath">Path of the source directory to be copied.</param>
+        /// <param name="destinationDirectory">Name of the directory that the source directory will be copied to.</param>
+        /// <param name="filterOptions">Apply filtering options for directories and files inside directories.</param>
+        /// <returns></returns>
+        public PackageTask AddDirectoryToPackage(string sourceDirectoryPath, string destinationDirectory, Action<FilterOptions> filterOptions)
+        {
+            FilterOptions fo = new FilterOptions();
+            filterOptions.Invoke(fo);
+
+            SourcePackagingInfo directoryToPackage = new SourcePackagingInfo(
+                    SourceType.Directory,
+                    sourceDirectoryPath,
+                    destinationDirectory)
+                { Recursive = fo.Recursive };
+
+            directoryToPackage.FileFilters.AddRange(fo.FileFilters);
+            directoryToPackage.DirectoryFilters.AddRange(fo.DirectoryFilters);
             _sourcePackagingInfos.Add(directoryToPackage);
             return this;
         }
@@ -171,8 +193,8 @@ namespace FlubuCore.Tasks.Packaging
                 {
                     var sourceFullPath = new FullPath(sourceToPackage.SourcePath);
                     sourceId = sourceFullPath.GetHashCode().ToString();
-                    DirectorySource directorySource = new DirectorySource(context, directoryFilesLister, sourceId, sourceFullPath, sourceToPackage.Recursive);
-                    directorySource.SetFilter(sourceToPackage.FileFilters);
+                    DirectorySource directorySource = new DirectorySource(context, directoryFilesLister, sourceId, sourceFullPath, sourceToPackage.Recursive, sourceToPackage.DirectoryFilters);
+                    directorySource.SetFileFilter(sourceToPackage.FileFilters);
                     packageDef.AddFilesSource(directorySource);
                 }
                 else

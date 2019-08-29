@@ -21,7 +21,7 @@ namespace FlubuCore.Packaging
             IDirectoryFilesLister directoryFilesLister,
             string id,
             FullPath directoryName)
-            : this(taskContext, directoryFilesLister, id, directoryName, true)
+            : this(taskContext, directoryFilesLister, id, directoryName, true, null)
         {
             _taskContext = taskContext;
         }
@@ -31,12 +31,14 @@ namespace FlubuCore.Packaging
             IDirectoryFilesLister directoryFilesLister,
             string id,
             FullPath directoryName,
-            bool recursive)
+            bool recursive,
+            IFilter filter)
         {
             _taskContext = taskContext;
             _directoryFilesLister = directoryFilesLister;
             _id = id;
             _recursive = recursive;
+            DirectoryFilter = filter;
             _directoryPath = directoryName;
         }
 
@@ -45,7 +47,9 @@ namespace FlubuCore.Packaging
             get { return _id; }
         }
 
-        private IFileFilter Filter { get; set; }
+        private IFilter FileFilter { get; set; }
+
+        private IFilter DirectoryFilter { get; set; }
 
         public static DirectorySource NoFilterSource(
            ITaskContextInternal taskContext,
@@ -54,7 +58,7 @@ namespace FlubuCore.Packaging
            FullPath directoryName,
            bool recursive)
         {
-            return new DirectorySource(taskContext, directoryFilesLister, id, directoryName, recursive);
+            return new DirectorySource(taskContext, directoryFilesLister, id, directoryName, recursive, null);
         }
 
         public static DirectorySource WebFilterSource(
@@ -64,9 +68,9 @@ namespace FlubuCore.Packaging
             FullPath directoryName,
             bool recursive)
         {
-            DirectorySource source = new DirectorySource(taskContext, directoryFilesLister, id, directoryName, recursive);
-            source.SetFilter(new NegativeFilter(
-                    new RegexFileFilter(@"^.*\.(svc|asax|config|aspx|ascx|css|js|gif|PNG)$")));
+            DirectorySource source = new DirectorySource(taskContext, directoryFilesLister, id, directoryName, recursive, null);
+            source.SetFileFilter(new NegativeFilter(
+                    new RegexFilter(@"^.*\.(svc|asax|config|aspx|ascx|css|js|gif|PNG)$")));
 
             return source;
         }
@@ -77,12 +81,12 @@ namespace FlubuCore.Packaging
 
             foreach (string fileName in _directoryFilesLister.ListFiles(
                 _directoryPath.ToString(),
-                _recursive))
+                _recursive, DirectoryFilter))
             {
                 FileFullPath fileNameFullPath = new FileFullPath(fileName);
                 LocalPath debasedFileName = fileNameFullPath.ToFullPath().DebasePath(_directoryPath);
 
-                if (!LoggingHelper.LogIfFilteredOut(fileName, Filter, _taskContext, true))
+                if (!LoggingHelper.LogIfFilteredOut(fileName, FileFilter, _taskContext, true))
                 {
                     continue;
                 }
@@ -94,9 +98,14 @@ namespace FlubuCore.Packaging
             return files;
         }
 
-        public void SetFilter(IFileFilter filter)
+        public void SetFileFilter(IFilter filter)
         {
-            Filter = filter;
+            FileFilter = filter;
+        }
+
+        public void SetDirectoryFilter(IFilter filter)
+        {
+            DirectoryFilter = filter;
         }
     }
 }

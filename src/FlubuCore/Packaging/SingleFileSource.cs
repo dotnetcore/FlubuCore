@@ -27,7 +27,7 @@ namespace FlubuCore.Packaging
             return files;
         }
 
-        public void SetFilter(IFileFilter filter)
+        public void SetFileFilter(IFilter filter)
         {
         }
     }

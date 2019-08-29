@@ -4,6 +4,6 @@ namespace FlubuCore.Packaging
 {
     public interface IDirectoryFilesLister
     {
-        IEnumerable<string> ListFiles(string directoryName, bool recursive);
+        IEnumerable<string> ListFiles(string directoryName, bool recursive, IFilter filter);
     }
 }

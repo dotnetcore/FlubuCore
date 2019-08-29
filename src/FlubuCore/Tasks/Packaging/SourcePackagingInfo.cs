@@ -15,6 +15,7 @@ namespace FlubuCore.Tasks.Packaging
             SourceType = sourceType;
             DestinationPath = new LocalPath(destinationPath);
             FileFilters = new FilterCollection();
+            DirectoryFilters = new FilterCollection();
         }
 
         public SourceType SourceType { get; set; }
@@ -24,6 +25,8 @@ namespace FlubuCore.Tasks.Packaging
         public LocalPath DestinationPath { get; set; }
 
         public FilterCollection FileFilters { get; set; }
+
+        public FilterCollection DirectoryFilters { get; set; }
 
         public bool Recursive { get; set; }
     }

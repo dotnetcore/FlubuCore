@@ -93,7 +93,7 @@ namespace FlubuCore.Tests.Tasks
         }
 
         [Fact]
-        public void PackagingWithRegexFiltersTest()
+        public void PackagingWithRegexFileFiltersTest()
         {
             Directory.CreateDirectory("tmp");
             Directory.CreateDirectory(@"tmp/Test");
@@ -115,8 +115,8 @@ namespace FlubuCore.Tests.Tasks
             }
 
             new PackageTask(@"tmp/output")
-                .AddDirectoryToPackage(@"tmp/Test", "test", false, new RegexFileFilter(@".fln"))
-                .AddDirectoryToPackage(@"tmp/Test2", "test2", false, new RegexFileFilter(@".bl"))
+                .AddDirectoryToPackage(@"tmp/Test", "test", false, new RegexFilter(@".fln"))
+                .AddDirectoryToPackage(@"tmp/Test2", "test2", false, new RegexFilter(@".bl"))
                 .ZipPackage(@"test.zip", false)
                 .ExecuteVoid(Context);
 
@@ -129,7 +129,7 @@ namespace FlubuCore.Tests.Tasks
         }
 
         [Fact]
-        public void PackagingWithGlobFiltersTest()
+        public void PackagingWithGlobFileFiltersTest()
         {
             Directory.CreateDirectory("tmp");
             Directory.CreateDirectory(@"tmp/Test");
@@ -161,6 +161,45 @@ namespace FlubuCore.Tests.Tasks
                 Assert.Equal(2, archive.Entries.Count);
                 Assert.Equal($"test{_seperator}test.txt", archive.Entries[0].FullName);
                 Assert.Equal($"test2{_seperator}test2.txt", archive.Entries[1].FullName);
+            }
+        }
+
+        [Fact]
+        public void PackagingWithGlobDirectoryFiltersTest()
+        {
+            Directory.CreateDirectory("tmp");
+            Directory.CreateDirectory(@"tmp/Test");
+            using (File.Create(@"tmp/Test/test.txt"))
+            {
+            }
+
+            using (File.Create(@"tmp/Test/some.fln"))
+            {
+            }
+
+            Directory.CreateDirectory(@"tmp/Test2");
+            using (File.Create(@"tmp/Test2/test2.txt"))
+            {
+            }
+
+            using (File.Create(@"tmp/Test2/fas.bl"))
+            {
+            }
+
+            new PackageTask(@"tmp/output")
+                .AddDirectoryToPackage(@"tmp", "test", options =>
+                {
+                    options.Recursive = true;
+                    options.AddDirectoryFilterGlob("**/Test");
+                })
+                .ZipPackage(@"test.zip", false)
+                .ExecuteVoid(Context);
+
+            using (ZipArchive archive = ZipFile.OpenRead("tmp/output/test.zip"))
+            {
+                Assert.Equal(2, archive.Entries.Count);
+                Assert.Equal($"test{_seperator}Test2{_seperator}fas.bl", archive.Entries[0].FullName);
+                Assert.Equal($"test{_seperator}Test2{_seperator}test2.txt", archive.Entries[1].FullName);
             }
         }
 

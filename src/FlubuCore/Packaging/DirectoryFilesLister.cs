@@ -5,28 +5,32 @@ namespace FlubuCore.Packaging
 {
     public class DirectoryFilesLister : IDirectoryFilesLister
     {
-        public IEnumerable<string> ListFiles(string directoryName, bool recursive)
+        public IEnumerable<string> ListFiles(string directoryName, bool recursive, IFilter filter)
         {
             List<string> files = new List<string>();
-            ListFilesPrivate(directoryName, files, recursive);
+            ListFilesPrivate(directoryName, files, recursive, filter);
             return files;
         }
 
         private static void ListFilesPrivate(
             string directoryName,
             List<string> files,
-            bool recursive)
+            bool recursive,
+            IFilter filter)
         {
-            foreach (string file in Directory.GetFiles(directoryName))
+            if (filter == null || filter.IsPassedThrough(directoryName))
             {
-                files.Add(file);
+                foreach (string file in Directory.GetFiles(directoryName))
+                {
+                    files.Add(file);
+                }
             }
 
             if (recursive)
             {
                 foreach (string directory in Directory.GetDirectories(directoryName))
                 {
-                    ListFilesPrivate(directory, files, recursive);
+                    ListFilesPrivate(directory, files, recursive, filter);
                 }
             }
         }
