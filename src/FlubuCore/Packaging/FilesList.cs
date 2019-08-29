@@ -30,7 +30,7 @@ namespace FlubuCore.Packaging
         {
             if (_filter != null)
             {
-                return _files.FindAll(x => _filter.IsPassedThrough(x.FileFullPath.ToString()));
+                return _files.FindAll(x => _filter.IsPassedThrough(x.LocalPath.ToString()));
             }
 
             return _files;

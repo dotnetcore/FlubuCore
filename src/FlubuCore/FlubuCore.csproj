@@ -58,6 +58,7 @@
     <Content Include="flubureadme.txt" Pack="true" PackageCopyToOutput="true" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="DotNet.Glob" Version="3.0.5" />
     <PackageReference Include="FlubuCore.Analyzers" Version="1.0.3" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.3.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="2.9.0" />

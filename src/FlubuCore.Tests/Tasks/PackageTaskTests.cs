@@ -4,6 +4,7 @@ using System.IO.Compression;
 using System.Linq;
 using FlubuCore.Context;
 using FlubuCore.Packaging;
+using FlubuCore.Packaging.Filters;
 using FlubuCore.Tasks.Packaging;
 using Xunit;
 
@@ -14,7 +15,7 @@ namespace FlubuCore.Tests.Tasks
     {
          private static char _seperator = Path.DirectorySeparatorChar;
 
-        private readonly FlubuTestFixture _fixture;
+         private readonly FlubuTestFixture _fixture;
 
         public PackageTaskTests(FlubuTestFixture fixture)
             : base(fixture.LoggerFactory)
@@ -92,7 +93,7 @@ namespace FlubuCore.Tests.Tasks
         }
 
         [Fact]
-        public void PackagingWithFiltersTest()
+        public void PackagingWithRegexFiltersTest()
         {
             Directory.CreateDirectory("tmp");
             Directory.CreateDirectory(@"tmp/Test");
@@ -116,6 +117,42 @@ namespace FlubuCore.Tests.Tasks
             new PackageTask(@"tmp/output")
                 .AddDirectoryToPackage(@"tmp/Test", "test", false, new RegexFileFilter(@".fln"))
                 .AddDirectoryToPackage(@"tmp/Test2", "test2", false, new RegexFileFilter(@".bl"))
+                .ZipPackage(@"test.zip", false)
+                .ExecuteVoid(Context);
+
+            using (ZipArchive archive = ZipFile.OpenRead("tmp/output/test.zip"))
+            {
+                Assert.Equal(2, archive.Entries.Count);
+                Assert.Equal($"test{_seperator}test.txt", archive.Entries[0].FullName);
+                Assert.Equal($"test2{_seperator}test2.txt", archive.Entries[1].FullName);
+            }
+        }
+
+        [Fact]
+        public void PackagingWithGlobFiltersTest()
+        {
+            Directory.CreateDirectory("tmp");
+            Directory.CreateDirectory(@"tmp/Test");
+            using (File.Create(@"tmp/Test/test.txt"))
+            {
+            }
+
+            using (File.Create(@"tmp/Test/some.fln"))
+            {
+            }
+
+            Directory.CreateDirectory(@"tmp/Test2");
+            using (File.Create(@"tmp/Test2/test2.txt"))
+            {
+            }
+
+            using (File.Create(@"tmp/Test2/fas.bl"))
+            {
+            }
+
+            new PackageTask(@"tmp/output")
+                .AddDirectoryToPackage(@"tmp/Test", "test", false, new GlobFilter(@"**\*.fln"))
+                .AddDirectoryToPackage(@"tmp/Test2", "test2", false, new GlobFilter(@"**\*.bl"))
                 .ZipPackage(@"test.zip", false)
                 .ExecuteVoid(Context);
 

@@ -72,7 +72,7 @@ namespace FlubuCore.Tasks.Packaging
         /// <param name="recursive">If <c>true</c> subfolders in the source directory are also added. Otherwise not.</param>
         /// <param name="fileFilters"></param>
         /// <returns></returns>
-        public PackageTask AddDirectoryToPackage(string sourceDirectoryPath, string destinationDirectory, bool recursive, params IFileFilter[] fileFilters)
+        public PackageTask AddDirectoryToPackage(string sourceDirectoryPath, string destinationDirectory, bool recursive = false, params IFileFilter[] fileFilters)
         {
             SourcePackagingInfo directoryToPackage = new SourcePackagingInfo(
                 SourceType.Directory,
