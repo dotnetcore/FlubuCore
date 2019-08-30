@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 namespace FlubuCore.Packaging
 {
-    public class RegexFileFilter : IFileFilter
+    public class RegexFileFilter : IFilter
     {
         private readonly Regex _filterRegex;
 

@@ -93,6 +93,27 @@ namespace FlubuCore.Tests.Tasks
         }
 
         [Fact]
+        public void PackagingNoFilesToZipTest()
+        {
+            Directory.CreateDirectory("tmp");
+            Directory.CreateDirectory(@"tmp/Test");
+            using (File.Create(@"tmp/Test/test.txt"))
+            {
+            }
+
+            Context.SetBuildVersion(new Version(1, 0, 0, 0));
+
+            new PackageTask(@"tmp/output")
+                .AddDirectoryToPackage(@"tmp", "test", o =>
+                {
+                })
+                .ZipPackage(@"test.zip", true, 4)
+                .ExecuteVoid(Context);
+
+            Assert.False(File.Exists("tmp/output/test_1.0.0.0.zip"));
+        }
+
+        [Fact]
         public void PackagingWithRegexFileFiltersTest()
         {
             Directory.CreateDirectory("tmp");

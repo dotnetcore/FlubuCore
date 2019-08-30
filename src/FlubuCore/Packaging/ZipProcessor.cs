@@ -100,6 +100,12 @@ namespace FlubuCore.Packaging
                 }
             }
 
+            if (filesToZip.Count == 0)
+            {
+                _taskContext.LogInfo("No files to zip! Task skipped zipping.");
+                return null;
+            }
+
             _zipper.ZipFiles(_zipFileName, _baseDir, filesToZip, _optimizeFiles);
 
             SingleFileSource singleFileSource = new SingleFileSource("zip", _zipFileName);
