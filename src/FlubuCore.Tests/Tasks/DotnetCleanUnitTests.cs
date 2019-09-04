@@ -26,7 +26,7 @@ namespace FlubuCore.Tests.Tasks
             _task.ExecuteVoid(Context.Object);
             Assert.Equal(3, _task.GetArguments().Count);
             Assert.Equal("project", _task.GetArguments()[0]);
-            Assert.Equal("-c", _task.GetArguments()[1]);
+            Assert.Equal("--configuration", _task.GetArguments()[1]);
             Assert.Equal("Release", _task.GetArguments()[2]);
         }
 
@@ -48,7 +48,7 @@ namespace FlubuCore.Tests.Tasks
             Properties.Setup(x => x.Get<string>(BuildProps.BuildConfiguration, null, It.IsAny<string>())).Returns("Release");
             _task.ExecuteVoid(Context.Object);
             Assert.Equal("project2", _task.GetArguments()[0]);
-            Assert.Equal("-c", _task.GetArguments()[1]);
+            Assert.Equal("--configuration", _task.GetArguments()[1]);
             Assert.Equal("Release", _task.GetArguments()[2]);
         }
 
