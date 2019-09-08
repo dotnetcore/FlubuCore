@@ -69,6 +69,10 @@ namespace FlubuCore.Infrastructure.Terminal
             {
                 Directory.SetCurrentDirectory(Path.Combine(Directory.GetCurrentDirectory(), "/.."));
             }
+            else if (commandLine.Equals(InternalCommands.CdBackToDisk, StringComparison.OrdinalIgnoreCase))
+            {
+                Directory.SetCurrentDirectory(Path.GetPathRoot(Directory.GetCurrentDirectory()));
+            }
             else if (commandLine.StartsWith(InternalCommands.Cd, StringComparison.OrdinalIgnoreCase))
             {
                 var splitedLine = commandLine.Split(' ').ToList();

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using FlubuCore.Tasks.Solution.VSSolutionBrowsing;
 
-namespace FlubuCore.Context
+namespace FlubuCore.Context.Extensions
 {
     public static class TaskContextExtensions
     {
@@ -55,6 +55,11 @@ namespace FlubuCore.Context
             }
 
             return solution;
+        }
+
+        public static Git Git(this ITaskContext context)
+        {
+            return new Git(context);
         }
     }
 }

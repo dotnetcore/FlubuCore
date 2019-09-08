@@ -10,6 +10,8 @@ namespace FlubuCore.Infrastructure.Terminal
 
         public const string CdBack = "cd..";
 
+        public const string CdBackToDisk = "cd...";
+
         public const string Dir = "dir";
 
         public const string Cls = "cls";
