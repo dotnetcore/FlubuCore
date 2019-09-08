@@ -218,9 +218,10 @@ namespace FlubuCore.Tests.Tasks
 
             using (ZipArchive archive = ZipFile.OpenRead("tmp/output/test.zip"))
             {
+                var enties = archive.Entries.OrderBy(x => x.FullName).ToList();
                 Assert.Equal(2, archive.Entries.Count);
-                Assert.Equal($"test{_seperator}Test2{_seperator}fas.bl", archive.Entries[0].FullName);
-                Assert.Equal($"test{_seperator}Test2{_seperator}test2.txt", archive.Entries[1].FullName);
+                Assert.Equal($"test{_seperator}Test2{_seperator}fas.bl", enties[0].FullName);
+                Assert.Equal($"test{_seperator}Test2{_seperator}test2.txt", enties[1].FullName);
             }
         }
 
