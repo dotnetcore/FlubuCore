@@ -4,7 +4,7 @@
 
 - ConfigureTargets：用于创建将执行特定工作的新目标（targets）。
 
-- ConfigureBuildProperties：用于设置可在多个任务和自定义代码间共享的各种构件属性（various build properties）。
+- ConfigureBuildProperties：用于设置可在多个任务和自定义 C# 代码间共享的各种构件属性（various build properties）。
 
 空构建脚本示例：
 
@@ -27,7 +27,7 @@ public class BuildScript : DefaultBuildScript
 
 ---
 
-目标（target）用于按特定顺序执行特定工作。目标可执行诸如 FlubuCore 内置任务（如编译解决方案的任务）和一些自定义代码。目标也可以依赖于其他目标（other targets）。
+目标（target）用于按特定顺序执行特定工作。目标可执行诸如 FlubuCore 内置任务（如编译解决方案的任务）和一些自定义 C# 代码。目标也可以依赖于其他目标（other targets）。
 
 ### **创建新目标**
 
@@ -74,7 +74,7 @@ context.CreateTarget("Build")
 
 所有任务都有以下方法：
 
-- `.OnError((c, ex) => { c.LogInfo("Example");}))` - onError 可在单个任务发生错误时执行一些自定义操作；
+- `.OnError((c, ex) => { c.LogInfo("Example");}))` - onError 可在指定任务发生错误时执行一些自定义操作；
 
 - `.Retry(5, 1000)` - 重试机制（Retry Mechanism）。可在该机制重试任务期间应用特定条件（specific condition）；
 
@@ -304,7 +304,7 @@ context.CreateTarget("Example")
 
 <a name="Async-execution"></a>
 
-### **任务、自定义代码与依赖项的异步执行**
+### **任务、自定义代码与依赖项的异步执行与并行执行**
 
 <ul>
 <li>
@@ -320,9 +320,7 @@ context.CreateTarget("Example")
 
 </li>
 </ul>
-Following target executes 3 tasks asynchorunusly.
-
-在下例目标中将异步执行三个任务。
+在下例目标中并行执行三个任务。
 
 ```C#
 session.CreateTarget("run.tests")
@@ -342,11 +340,11 @@ session.CreateTarget("async.example")
     .DoAsync(SomeCustomAsyncMethod3);
 ```
 
-上面代码中，将首先异步执行两个 nunit 任务，并等待两个任务完成；随后将同步执行 SOmeCustomMethod，执行完后再异步执行 SomeCustomAsyncMethod2 和 SomeCustomAsyncMethod3。
+上面代码中，将首先异步执行两个 nunit 任务，并等待两个任务完成；随后将同步执行 SOmeCustomMethod，执行完后再并行执行 SomeCustomAsyncMethod2 和 SomeCustomAsyncMethod3。
 
 #### 在异步执行的任务和目标中顺序打日志
 
-通常来讲，在异步执行多个任务时，日志是不可读（not readable）的。这就是为啥 FlubuCore 在异步任务中提供顺序记录（sequential logging）的原因。你可以在目标上使用 `.SequentialLogging(true)` 来启用，且必须放在异步任务/目标依赖项之前，否则日志就不是顺序的了。
+通常来讲，在异步或并行执行多个任务时，日志是不可读（not readable）的。这就是为啥 FlubuCore 在异步任务中提供顺序记录（sequential logging）的原因。你可以在目标上使用 `.SequentialLogging(true)` 来启用，且必须放在异步任务/目标依赖项之前，否则日志就不是顺序的了。
 
 ```c#
 context.CreateTarget("Test")
@@ -357,7 +355,7 @@ context.CreateTarget("Test")
         .DependsOnAsync(test2, test3);
 ```
 
-并行执行的目标在默认情况下是顺序记录日志的。
+在 FlubuCore runner 中并行执行的目标在默认情况下是顺序记录日志的。
 
 `flubu target1 target2 --parallel`
 
@@ -603,4 +601,4 @@ protected override void AfterBuildExecution(ITaskSession session)
 
 ## **脚本中的部分类和基类**
 
-如果部分类（partial classes）和基类（base classes）位于同一个目录下，则会自动加载它们；否则，必须使用 Include 特性来添加。
+如果部分类（partial classes）和基类（base classes）位于同一个目录下，则会自动加载它们；否则，必须使用 [Include 特性](../referencing-external-assemblies#adding-other-cs-files-to-script)来添加。
