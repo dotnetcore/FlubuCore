@@ -9,7 +9,7 @@
             _taskContext = taskContext;
         }
 
-        public string BranchName()
+        public string CurrentBranchName()
         {
             var task = _taskContext.Tasks().RunProgramTask("git");
 
