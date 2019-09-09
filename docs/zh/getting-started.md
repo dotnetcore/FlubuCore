@@ -6,10 +6,6 @@
 
 <a name="Requirements-.net-core"></a>
 
-#### 要求
-
-引用 FlubuCore 的构建脚本项目必须是 .NETStandard 1.6 或更高。
-
 <a name="Installation-.net-core"></a>
 
 #### 安装
@@ -90,7 +86,8 @@ project.json:
 - 安装 FlubuCore 全局工具：`dotnet tool install --global FlubuCore.GlobalTool`；
 - 在构建脚本所在的目录下运行 `flubu compile`，本命令将编译你的解决方案。
 
-这是个非常基础的构建脚本，目的是帮你快速入门。FlubuCore 已为你提供了许多棒极了的功能。你可以到 [Build script fundamentals] 阅读更多，或者移步 [.net core examples] 查看大多数主要功能的用法。
+这是个非常基础的构建脚本，目的是帮你快速入门。FlubuCore 已为你提供了许多棒极了的功能。你可以到 [Build script fundamentals] 阅读更多，或者移步 [.net core examples] 查看大多数主要功能的用法。同时建议你查看 [FlubuCore 交互模式](build-script-runner-interactive.md)和[覆盖现有选项或通过控制台向任务添加其他选项](override-add-options.md)一节。
+
 
 ## .NET 篇
 
