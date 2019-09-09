@@ -186,6 +186,7 @@ namespace FlubuCore.Tests.Tasks
         }
 
         [Fact]
+        [Trait("Category", "OnlyWindows")]
         public void PackagingWithGlobDirectoryFiltersTest()
         {
             Directory.CreateDirectory("tmp");
