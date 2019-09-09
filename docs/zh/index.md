@@ -137,7 +137,7 @@ context.CreateTarget("Example")`
 
 `flubu example --configuration=Debug`
 
-flubu 将执行 `dotnet build MySolution.sln -c Debug`
+flubu 将执行 `dotnet build MySolution.sln --configuration Debug`
 
 - [完整的 .NET Core 支持，包括全局 CLI 工具](https://flubucore.dotnetcore.xyz/getting-started#getting-started-net-core)
 
@@ -156,7 +156,7 @@ flubu 将执行 `dotnet build MySolution.sln -c Debug`
 
 - [可在其他 .NET 应用程序中使用 FlubuCore 任务](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs)。
 
-- [FlubuCore 交互模式（interactive mode）](https://flubucore.dotnetcore.xyz/build-script-runner-interactive/) 提供有 target 标签自动完成、选项标签自动完成、切换 target 和选项，以及命令执行历史等。
+- [FlubuCore 交互模式（interactive mode）](https://flubucore.dotnetcore.xyz/build-script-runner-interactive/) 提供有 target 标签自动完成、选项标签自动完成、切换 target/options，以及命令执行历史。还可以执行外部命令和可操作程序。对于其中的一部分，FlubuCore 还提供了 Tab 键自动补全的功能（比如 dotnet、git 等）
 
 ![FlubuCore 交互模式](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCore_Interactive_mode_full.gif)
 
