@@ -71,7 +71,7 @@ namespace FlubuClore.Analyzer
                     continue;
                 }
 
-                if (!_supportedTypes.Contains(propertySymbol.Type.Name, StringComparer.OrdinalIgnoreCase))
+                if (!_supportedTypes.Contains(propertySymbol.Type.Name, StringComparer.OrdinalIgnoreCase) && propertySymbol.Type.TypeKind != TypeKind.Enum)
                 {
                     var diagnostic = Diagnostic.Create(_propertyTypeMustBeSupported, propertySymbol.Locations[0], propertySymbol.Type.Name);
                     context.ReportDiagnostic(diagnostic);

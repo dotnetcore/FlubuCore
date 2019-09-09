@@ -30,6 +30,13 @@ namespace FlubuCore
 
         public static object ParseValueByType(string value, Type type)
         {
+ #if !NETSTANDARD1_6
+            if (type.IsEnum)
+            {
+                return Enum.Parse(type, value, true);
+            }
+ #endif
+
             switch (Type.GetTypeCode(type))
             {
                 case TypeCode.String:
