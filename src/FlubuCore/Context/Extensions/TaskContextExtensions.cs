@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using FlubuCore.Tasks.Solution.VSSolutionBrowsing;
 
-namespace FlubuCore.Context.Extensions
+namespace FlubuCore.Context
 {
     public static class TaskContextExtensions
     {
