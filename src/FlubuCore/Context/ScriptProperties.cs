@@ -40,7 +40,7 @@ namespace FlubuCore.Context
                     }
                     else
                     {
-                        property.SetValue(buildScript, MethodParameterModifier.ParseValueByType(flubuSession.ScriptArgs[fromArgAttribute.ArgKey], property.PropertyType));
+                        SetPropertyValue(property, buildScript, flubuSession.ScriptArgs[fromArgAttribute.ArgKey], property.PropertyType, fromArgAttribute.ArgKey);
                     }
                 }
 
@@ -58,9 +58,25 @@ namespace FlubuCore.Context
                     }
                     else
                     {
-                        property.SetValue(buildScript, MethodParameterModifier.ParseValueByType(flubuSession.ScriptArgs[property.Name], property.PropertyType));
+                        SetPropertyValue(property, buildScript, flubuSession.ScriptArgs[property.Name], property.PropertyType, property.Name);
                     }
                 }
+            }
+        }
+
+        private static void SetPropertyValue(PropertyInfo propertyInfo, IBuildScript buildScript, string value, Type type, string argKey)
+        {
+            try
+            {
+                propertyInfo.SetValue(buildScript, MethodParameterModifier.ParseValueByType(value, type));
+            }
+            catch (FormatException e)
+            {
+                throw new ScriptException($"Could not pass value '{value}' from console argument '{argKey}' to build script property '{propertyInfo.Name}'", e);
+            }
+            catch (ArgumentException e)
+            {
+                throw new ScriptException($"Could not pass value '{value}' from console argument '{argKey}' to build script property '{propertyInfo.Name}'", e);
             }
         }
 

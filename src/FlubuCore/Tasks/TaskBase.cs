@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using FlubuCore.Context;
+using FlubuCore.Scripting;
 using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Solution.VSSolutionBrowsing;
 using Microsoft.Build.Framework;
@@ -825,8 +826,19 @@ namespace FlubuCore.Tasks
             var propertyInfo = (PropertyInfo)memberExpression.Member;
             try
             {
-                object parsedValue = MethodParameterModifier.ParseValueByType(value, propertyInfo.PropertyType);
-                propertyInfo.SetValue(this, parsedValue, null);
+                try
+                {
+                    object parsedValue = MethodParameterModifier.ParseValueByType(value, propertyInfo.PropertyType);
+                    propertyInfo.SetValue(this, parsedValue, null);
+                }
+                catch (FormatException e)
+                {
+                    throw new ScriptException($"Could not pass value '{value}' from console argument '{forMember.ArgKey}' to task member '{propertyInfo.Name}'", e);
+                }
+                catch (ArgumentException e)
+                {
+                    throw new ScriptException($"Could not pass value '{value}' from console argument '{forMember.ArgKey}' to task member '{propertyInfo.Name}'", e);
+                }
             }
             catch (FormatException ex)
             {
