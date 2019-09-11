@@ -34,6 +34,14 @@ namespace FlubuCore.Context.BuildServers
 
         public string BuildSourceBranch => Environment.GetEnvironmentVariable("BUILD_SOURCEBRANCH");
 
-        private static bool IsHostedAgent => !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("AGENT_NAME")) && Environment.GetEnvironmentVariable("AGENT_NAME").StartsWith("Hosted");
+        private static bool IsHostedAgent
+        {
+            get
+            {
+                var agentName = Environment.GetEnvironmentVariable("AGENT_NAME");
+                return !string.IsNullOrWhiteSpace(agentName) &&
+                       (agentName.StartsWith("Hosted") || agentName.StartsWith("Azure Pipelines"));
+            }
+        }
     }
 }
