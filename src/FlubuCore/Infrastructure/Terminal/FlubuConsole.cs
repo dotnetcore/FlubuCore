@@ -718,7 +718,8 @@ namespace FlubuCore.Infrastructure.Terminal
                 if (attribute.Keys[0].StartsWith(prefix.ToString()))
                 {
                     var help = method.GetSummary();
-
+                    help = Regex.Replace(help, @"\s+", " ");
+                    help = help.Replace(Environment.NewLine, string.Empty);
                     var hint = new Hint()
                     {
                         Name = attribute.Keys[0],
