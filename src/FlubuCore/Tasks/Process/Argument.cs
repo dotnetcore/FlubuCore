@@ -12,6 +12,7 @@ namespace FlubuCore.Tasks.Process
             ArgValue = argValue;
             ValueRequired = valueRequired;
             MaskArg = maskArg;
+            Separator = separator;
         }
 
         public string ArgKey { get; set; }

@@ -16,14 +16,14 @@ namespace FlubuCore.Tasks.Chocolatey
 
         protected override string Description { get; set; }
 
-        protected override string KeyValueSeparator { get; } = "=";
-
         protected override int DoExecute(ITaskContextInternal context)
         {
             foreach (var package in _packages)
             {
-                InsertArgument(2, package);
+                InsertArgument(1, package);
             }
+
+            base.DoExecute(context);
 
             return 0;
         }

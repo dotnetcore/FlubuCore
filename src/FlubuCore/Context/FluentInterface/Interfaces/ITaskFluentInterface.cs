@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using FlubuCore.Tasks.Chocolatey;
 using FlubuCore.Tasks.FileSystem;
 using FlubuCore.Tasks.FlubuWebApi;
 using FlubuCore.Tasks.MsSql;
@@ -78,6 +79,12 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="buildConfiguration">The build configuration solution will be compiled in(Release, Debug...)</param>
         /// <returns></returns>
         CompileSolutionTask CompileSolutionTask(string solutionFileName, string buildConfiguration);
+
+        /// <summary>
+        /// Chocolatey specific tasks. https://chocolatey.org/
+        /// </summary>
+        /// <returns></returns>
+        Chocolatey Chocolatey();
 
         /// <summary>
         /// Task load's solution information to the <see cref="BuildPropertiesSession"/> <see cref="BuildProps.Solution"/> solution file name is retieved from <see cref="BuildPropertiesSession"/>

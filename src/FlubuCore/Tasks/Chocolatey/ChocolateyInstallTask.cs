@@ -14,23 +14,20 @@ namespace FlubuCore.Tasks.Chocolatey
             _packages = package;
         }
 
-        protected override string KeyValueSeparator { get; } = "=";
-
         protected override string Description { get; set; }
 
         protected override int DoExecute(ITaskContextInternal context)
         {
             foreach (var package in _packages)
             {
-                InsertArgument(2, package);
+                InsertArgument(1, package);
             }
 
-            return 0;
+            return base.DoExecute(context);
         }
 
         /// <summary>
-        ///  Source - The source to find the package(s) to install. Special sources include: ruby, webpi, cygwin, windowsfeatures, and python. To specify
-        ///  more than one source, pass it with a semi-colon separating the values (-e.g. "'source1;source2'"). Defaults to default feeds.
+        /// Source - The source to find the package(s) to install. Special sources include: ruby, webpi, cygwin, windowsfeatures, and python. To specify more than one source, pass it with a semi-colon separating the values (-e.g. "'source1;source2'"). Defaults to default feeds.
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
@@ -124,7 +121,7 @@ namespace FlubuCore.Tasks.Chocolatey
         }
 
         /// <summary>
-        ///    AllowMultipleVersions - Should multiple versions of a package be installed? Defaults to false.
+        /// AllowMultipleVersions - Should multiple versions of a package be installed? Defaults to false.
         /// </summary>
         /// <returns></returns>
         [ArgKey("--allow-multiple-versions")]

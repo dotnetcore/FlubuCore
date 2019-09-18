@@ -20,10 +20,10 @@ namespace FlubuCore.Tasks.Chocolatey
         {
             foreach (var package in _packages)
             {
-                InsertArgument(2, package);
+                InsertArgument(1, package);
             }
 
-            return 0;
+            return base.DoExecute(context);
         }
 
         /// <summary>

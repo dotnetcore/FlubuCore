@@ -12,8 +12,6 @@ namespace FlubuCore.Tasks.Chocolatey
             WithArguments("push");
         }
 
-        protected override string KeyValueSeparator { get; } = "=";
-
         public ChocolateyPushTask PathToNupkg(string path)
         {
             _path = path;
