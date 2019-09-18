@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Infrastructure;
+using FlubuCore.Tasks.Chocolatey;
 using FlubuCore.Tasks.FileSystem;
 using FlubuCore.Tasks.MsSql;
 using FlubuCore.Tasks.Nuget;
@@ -278,6 +279,11 @@ namespace FlubuCore.Context.FluentInterface
         {
             _webApiFluentInterface.Context = Context;
             return _webApiFluentInterface;
+        }
+
+        public Chocolatey Chocolatey()
+        {
+            return new Chocolatey();
         }
 
         /// <inheritdoc />

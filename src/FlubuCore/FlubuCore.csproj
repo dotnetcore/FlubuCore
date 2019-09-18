@@ -127,4 +127,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tasks\Chocolatey\" />
+  </ItemGroup>
 </Project>

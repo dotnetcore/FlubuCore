@@ -44,6 +44,8 @@ namespace FlubuCore.Tasks.Process
 
         protected bool KeepProgramErrorOutput { get; set; }
 
+        protected virtual string KeyValueSeparator { get; } = null;
+
         /// <summary>
         /// Executable path.
         /// </summary>
@@ -132,6 +134,11 @@ namespace FlubuCore.Tasks.Process
 
         protected virtual void WithArgumentsKeyFromAttribute(string value, bool maskArg = false, string separator = null, [CallerMemberName]string memberName = "")
         {
+            if (separator == null)
+            {
+                separator = KeyValueSeparator;
+            }
+
             _arguments.Add(new Argument(GetFirstKeyFromAttribute(memberName), value, true, maskArg, separator));
         }
 

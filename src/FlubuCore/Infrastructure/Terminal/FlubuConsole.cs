@@ -843,6 +843,7 @@ namespace FlubuCore.Infrastructure.Terminal
                 _commandsHintsSourceDictionary.Add(GitCommands.GitCommandHints);
                 _commandsHintsSourceDictionary.Add(DotnetCommands.DotnetCommandHints);
                 _commandsHintsSourceDictionary.Add(DockerCommands.GitCommandHints);
+                _commandsHintsSourceDictionary.Add(ChocolateyCommands.ChocoCommandHints);
             }
 
             if (_allSupportedExternalProcessesForOptionHints.Count == 0)
@@ -850,6 +851,7 @@ namespace FlubuCore.Infrastructure.Terminal
                 _allSupportedExternalProcessesForOptionHints.AddRange(DotnetCommands.SupportedExternalProcesses);
                 _allSupportedExternalProcessesForOptionHints.AddRange(DockerCommands.SupportedExternalProcesses);
                 _allSupportedExternalProcessesForOptionHints.AddRange(GitCommands.SupportedExternalProcesses);
+                _allSupportedExternalProcessesForOptionHints.AddRange(ChocolateyCommands.SupportedExternalProcesses);
             }
         }
 
