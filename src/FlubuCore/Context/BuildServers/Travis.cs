@@ -9,7 +9,7 @@ namespace FlubuCore.Context.BuildServers
         /// <summary>
         /// Indicates whether build is running on Travis build server.
         /// </summary>
-        public bool IsRunningOnTravis2 => RunningOnTravis;
+        public bool IsRunningOnTravis => RunningOnTravis;
 
         /// <summary>
         /// Gets the build id.

@@ -73,6 +73,11 @@ namespace FlubuCore.Context
                     return BuildSystemType.AzurePipelines;
                 }
 
+                if (BuildServers.GitHubActions.RunningOnGitHubActions)
+                {
+                    return BuildSystemType.GitHubActions;
+                }
+
                 return BuildSystemType.LocalBuild;
             }
         }
@@ -135,6 +140,11 @@ namespace FlubuCore.Context
         public AzurePipelines AzurePipelines()
         {
             return new AzurePipelines();
+        }
+
+        public GitHubActions GitHubActions()
+        {
+            return new GitHubActions();
         }
     }
 }
