@@ -38,5 +38,7 @@ namespace FlubuCore.Context
         Travis Travis();
 
         AzurePipelines AzurePipelines();
+
+        GitHubActions GitHubActions();
     }
 }
