@@ -161,7 +161,7 @@ namespace FlubuCore.Tasks.Chocolatey
         /// </summary>
         /// <param name="proxy"></param>
         /// <returns></returns>
-        [ArgKey("--prox")]
+        [ArgKey("--proxy")]
         public TTask Proxy(string proxy)
         {
             WithArgumentsKeyFromAttribute(proxy);

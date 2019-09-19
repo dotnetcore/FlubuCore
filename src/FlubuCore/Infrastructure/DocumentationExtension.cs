@@ -111,12 +111,15 @@ namespace FlubuCore.Infrastructure
         private static XmlElement XmlFromName(this Type type, char prefix, string name)
         {
 #if !NETSTANDARD1_6
-            string fullName;
+            string fullName, typeFullName;
+            var index = type.FullName.IndexOf("[[");
+
+            typeFullName = index < 0 ? type.FullName : type.FullName.Substring(0, index);
 
             if (string.IsNullOrEmpty(name))
-                fullName = prefix + ":" + type.FullName;
+                fullName = prefix + ":" + typeFullName;
             else
-                fullName = prefix + ":" + type.FullName + "." + name;
+                fullName = prefix + ":" + typeFullName + "." + name;
 
             var xmlDocument = XmlFromAssembly(type.Assembly);
 
