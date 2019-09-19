@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
 using FlubuCore.IO.Wrappers;
+using FlubuCore.Scripting;
 using Moq;
 using Xunit;
 
@@ -229,11 +230,10 @@ namespace FlubuCore.Tests.Tasks
             });
 
             _task.ForMember(x => x.Level, "-l");
-            var ex = Assert.Throws<TaskExecutionException>(() => _task.Execute(Context.Object));
+            var ex = Assert.Throws<ScriptException>(() => _task.Execute(Context.Object));
             Assert.Equal(
                 "Property 'Level' can not be modified with value 'abc' from argument '-l'.",
                 ex.Message);
-            Assert.Equal(21, ex.ErrorCode);
         }
 
         [Fact]

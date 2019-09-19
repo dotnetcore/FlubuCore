@@ -798,13 +798,17 @@ namespace FlubuCore.Tasks
             }
         }
 
-        private void PassArgumentValueToProperty((Expression<Func<TTask, object>> Member, string ArgKey, string consoleText, bool includeParameterlessMethodByDefault, bool Interactive) forMember, MemberExpression memberExpression, bool disableInteractive)
+        private void PassArgumentValueToProperty(
+            (Expression<Func<TTask, object>> Member, string ArgKey, string consoleText, bool
+                includeParameterlessMethodByDefault, bool Interactive) forMember, MemberExpression memberExpression,
+            bool disableInteractive)
         {
             var attribute = memberExpression.Member.GetCustomAttribute<DisableForMemberAttribute>();
 
             if (attribute != null)
             {
-                throw new TaskExecutionException($"ForMember is not allowed on property '{memberExpression.Member.Name}'.", 20);
+                throw new TaskExecutionException(
+                    $"ForMember is not allowed on property '{memberExpression.Member.Name}'.", 20);
             }
 
             if (!Context.ScriptArgs.ContainsKey(forMember.ArgKey) && (!forMember.Interactive || disableInteractive))
@@ -824,28 +828,23 @@ namespace FlubuCore.Tasks
             }
 
             var propertyInfo = (PropertyInfo)memberExpression.Member;
+
             try
             {
-                try
-                {
-                    object parsedValue = MethodParameterModifier.ParseValueByType(value, propertyInfo.PropertyType);
-                    propertyInfo.SetValue(this, parsedValue, null);
-                }
-                catch (FormatException e)
-                {
-                    throw new ScriptException($"Could not pass value '{value}' from console argument '{forMember.ArgKey}' to task member '{propertyInfo.Name}'", e);
-                }
-                catch (ArgumentException e)
-                {
-                    throw new ScriptException($"Could not pass value '{value}' from console argument '{forMember.ArgKey}' to task member '{propertyInfo.Name}'", e);
-                }
+                object parsedValue = MethodParameterModifier.ParseValueByType(value, propertyInfo.PropertyType);
+                propertyInfo.SetValue(this, parsedValue, null);
             }
-            catch (FormatException ex)
+            catch (FormatException e)
             {
-                throw new TaskExecutionException(
+                throw new ScriptException(
                     $"Property '{propertyInfo.Name}' can not be modified with value '{value}' from argument '-{forMember.ArgKey}'.",
-                    21,
-                    ex);
+                    e);
+            }
+            catch (ArgumentException e)
+            {
+                throw new ScriptException(
+                    $"Property '{propertyInfo.Name}' can not be modified with value '{value}' from argument '-{forMember.ArgKey}'.",
+                    e);
             }
         }
 

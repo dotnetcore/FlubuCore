@@ -72,11 +72,11 @@ namespace FlubuCore.Context
             }
             catch (FormatException e)
             {
-                throw new ScriptException($"Could not pass value '{value}' from console argument '{argKey}' to build script property '{propertyInfo.Name}'", e);
+                throw new ScriptException($"Could not pass value '{value}' from argument '{argKey}' to build script property '{propertyInfo.Name}'", e);
             }
             catch (ArgumentException e)
             {
-                throw new ScriptException($"Could not pass value '{value}' from console argument '{argKey}' to build script property '{propertyInfo.Name}'", e);
+                throw new ScriptException($"Could not pass value '{value}' from argument '{argKey}' to build script property '{propertyInfo.Name}'", e);
             }
         }
 
