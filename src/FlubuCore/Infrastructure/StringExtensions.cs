@@ -17,6 +17,11 @@ namespace FlubuCore.Infrastructure
             return string.Format(CultureInfo.InvariantCulture, format, args);
         }
 
+        public static bool Contains(this string source, string toCheck, StringComparison comp)
+        {
+            return source?.IndexOf(toCheck, comp) >= 0;
+        }
+
         public static string Concat<TItem>(this IEnumerable<TItem> items, Func<TItem, string> formatterFunc,
             string itemDelimiter)
         {

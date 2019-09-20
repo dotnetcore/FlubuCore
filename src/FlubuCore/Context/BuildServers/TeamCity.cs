@@ -1,4 +1,6 @@
 ﻿using System;
+using FlubuCore.Infrastructure;
+
 
 namespace FlubuCore.Context.BuildServers
 {
@@ -15,5 +17,25 @@ namespace FlubuCore.Context.BuildServers
         /// Gets the build number.
         /// </summary>
         public string BuildNumber => Environment.GetEnvironmentVariable("BUILD_NUMBER");
+
+        public string ProjectName => Environment.GetEnvironmentVariable("TEAMCITY_PROJECT_NAME");
+    
+        public bool IsPullRequest
+        {
+            get
+            {
+                var gitbranch = Environment.GetEnvironmentVariable("Git_Branch");
+
+                if (string.IsNullOrEmpty(gitbranch))
+                {
+                    return false;
+                }
+
+                if (gitbranch.Contains("PULL-REQUEST", StringComparison.OrdinalIgnoreCase))
+                {
+
+                }
+            }
+        }
     }
 }
