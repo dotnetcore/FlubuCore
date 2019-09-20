@@ -234,6 +234,7 @@ namespace FlubuCore.Tasks.Process
 
             _task = context.Tasks()
                           .RunProgramTask(ExecutablePath)
+                          .DoNotLogTaskExecutionInfo()
                           .WorkingFolder(ExecuteWorkingFolder);
 
             if (NoOutputLog)
