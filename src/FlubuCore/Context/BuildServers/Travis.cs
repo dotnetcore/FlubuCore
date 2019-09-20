@@ -1,4 +1,6 @@
 ﻿using System;
+using FlubuCore.Infrastructure;
+using FlubuCore.Services;
 
 namespace FlubuCore.Context.BuildServers
 {
@@ -11,24 +13,74 @@ namespace FlubuCore.Context.BuildServers
         /// </summary>
         public bool IsRunningOnTravis => RunningOnTravis;
 
-        /// <summary>
-        /// Gets the build id.
-        /// </summary>
-        public string BuildId => Environment.GetEnvironmentVariable("TRAVIS_BUILD_ID");
+        public string EventType => FlubuEnvironment.GetEnvironmentVariable("TRAVIS_EVENT_TYPE");
 
         /// <summary>
-        /// Gets the build number.
+        /// Build id of the current build.
         /// </summary>
-        public string BuildNumber => Environment.GetEnvironmentVariable("TRAVIS_BUILD_NUMBER");
+        public string BuildId => FlubuEnvironment.GetEnvironmentVariable("TRAVIS_BUILD_ID");
+
+        public string RepoSlug => FlubuEnvironment.GetEnvironmentVariable("TRAVIS_REPO_SLUG");
+
+        /// <summary>
+        /// Build number of the current build.
+        /// </summary>
+        public string BuildNumber => FlubuEnvironment.GetEnvironmentVariable("TRAVIS_BUILD_NUMBER");
 
         /// <summary>
         /// Get's the build folder.
         /// </summary>
-        public string BuildWorkingFolder => Environment.GetEnvironmentVariable("TRAVIS_BUILD_DIR");
+        public string BuildWorkingFolder => FlubuEnvironment.GetEnvironmentVariable("TRAVIS_BUILD_DIR");
 
         /// <summary>
         /// Get's the commit id.
         /// </summary>
-        public string CommitId => Environment.GetEnvironmentVariable("TRAVIS_COMMIT");
+        public string CommitId => FlubuEnvironment.GetEnvironmentVariable("TRAVIS_COMMIT");
+
+        /// <summary>
+        /// The commit message.
+        /// </summary>
+        public string CommitMessage => FlubuEnvironment.GetEnvironmentVariable("TRAVIS_COMMIT_MESSAGE");
+
+        /// <summary>
+        /// Branch of the current build.
+        /// </summary>
+        public string Branch => FlubuEnvironment.GetEnvironmentVariable("TRAVIS_BRANCH");
+
+        /// <summary>
+        /// The tag name of the current build.
+        /// </summary>
+        public string TagName => FlubuEnvironment.GetEnvironmentVariable("TRAVIS_TAG");
+
+        /// <summary>
+        /// The job identifier for the current job.
+        /// </summary>
+        public string JobId => FlubuEnvironment.GetEnvironmentVariable("TRAVIS_JOB_ID");
+
+        /// <summary>
+        /// Job number for the current job.
+        /// </summary>
+        public string JobNumber => FlubuEnvironment.GetEnvironmentVariable("TRAVIS_JOB_NUMBER");
+
+        /// <summary>
+        /// The Name of the operating system for the current job.
+        /// </summary>
+        public string OSName => FlubuEnvironment.GetEnvironmentVariable("TRAVIS_OS_NAME");
+
+        public bool IsPullRequest => Id > 0;
+
+        /// <summary>
+        /// Pull request id.
+        /// </summary>
+        public int Id => FlubuEnvironment.GetEnvironmentVariable<int>("TRAVIS_PULL_REQUEST");
+
+        public string PullRequestBranch => FlubuEnvironment.GetEnvironmentVariable("TRAVIS_PULL_REQUEST_BRANCH");
+
+        /// <summary>
+        /// The pull request commit id (hash) of the pull request.
+        /// </summary>
+        public string PullRequestSha => FlubuEnvironment.GetEnvironmentVariable("TRAVIS_PULL_REQUEST_SHA");
+
+        public string PullRequestSlug => FlubuEnvironment.GetEnvironmentVariable("TRAVIS_PULL_REQUEST_SLUG");
     }
 }
