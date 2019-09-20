@@ -18,7 +18,7 @@ namespace FlubuCore.Tasks.Solution
         private readonly List<string> _msbuildPaths = new List<string>();
         private readonly List<string> _loggingOptions = new List<string>();
 
-        private readonly IFlubuEnviromentService _enviromentService;
+        private readonly IFlubuEnvironmentService _environmentService;
 
         private string _solutionFileName;
 
@@ -34,10 +34,10 @@ namespace FlubuCore.Tasks.Solution
         /// <summary>
         /// Task compiles specified solution with MSBuild.
         /// </summary>
-        /// <param name="enviromentService"></param>
-        public CompileSolutionTask(IFlubuEnviromentService enviromentService)
+        /// <param name="environmentService"></param>
+        public CompileSolutionTask(IFlubuEnvironmentService environmentService)
         {
-            _enviromentService = enviromentService;
+            _environmentService = environmentService;
             AddAdditionalOptionPrefix("Compile");
             AddAdditionalOptionPrefix("CompileSolution");
         }
@@ -47,17 +47,17 @@ namespace FlubuCore.Tasks.Solution
         /// Task compiles specified solution with MSBuild.
         /// </summary>
         /// <param name="buildConfiguration"></param>
-        /// <param name="enviromentService"></param>
+        /// <param name="environmentService"></param>
         /// <param name="solutionFileName"></param>
         public CompileSolutionTask(
            string solutionFileName,
            string buildConfiguration,
-           IFlubuEnviromentService enviromentService)
-            : this(enviromentService)
+           IFlubuEnvironmentService environmentService)
+            : this(environmentService)
         {
             _solutionFileName = solutionFileName;
             _buildConfiguration = buildConfiguration;
-            _enviromentService = enviromentService;
+            _environmentService = environmentService;
         }
 
         protected override string Description
@@ -297,7 +297,7 @@ namespace FlubuCore.Tasks.Solution
 
             ////context.LogInfo("MsBuild not found with tool location helper. Falling back to registry locator.");
 
-            IDictionary<Version, string> msbuilds = _enviromentService.ListAvailableMSBuildToolsVersions();
+            IDictionary<Version, string> msbuilds = _environmentService.ListAvailableMSBuildToolsVersions();
 
             if (msbuilds == null || msbuilds.Count == 0)
                 throw new TaskExecutionException("No MSBuild tools found on the system", 0);

@@ -8,7 +8,7 @@ namespace FlubuCore.Services
     /// <summary>
     /// An abstraction layer for various <see cref="FlubuEnvironment"/> utility methods.
     /// </summary>
-    public interface IFlubuEnviromentService
+    public interface IFlubuEnvironmentService
     {
         /// <summary>
         /// Returns a sorted dictionary of all MSBuild tools versions that are available on the system.
@@ -18,5 +18,9 @@ namespace FlubuCore.Services
         /// <returns>A sorted dictionary whose keys are tools versions (2.0, 3.5, 4.0, 12.0 etc.) and values are paths to the
         /// tools directories (and NOT the <c>MSBuild.exe</c> itself!). The entries are sorted ascendingly by version numbers.</returns>
         IDictionary<Version, string> ListAvailableMSBuildToolsVersions();
+
+        T GetEnvironmentVariable<T>(string variable);
+
+        string GetEnvironmentVariable(string variable);
     }
 }

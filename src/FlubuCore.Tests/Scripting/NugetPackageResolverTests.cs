@@ -15,7 +15,7 @@ namespace FlubuCore.Tests.Scripting
         [Fact(Skip = "Explicit test as it needs connection to nuget.")]
         public void ResolveNugetDependencies()
         {
-            var resolver = new NugetPackageResolver(new CommandFactory(), new FileWrapper(), new FlubuEnviromentService());
+            var resolver = new NugetPackageResolver(new CommandFactory(), new FileWrapper(), new FlubuEnvironmentService());
 
             var assemblies = resolver.ResolveNugetPackagesFromDirectives(new List<NugetPackageReference>()
             {

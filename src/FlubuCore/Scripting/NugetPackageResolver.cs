@@ -21,17 +21,17 @@ namespace FlubuCore.Scripting
         private readonly ICommandFactory _commandFactory;
         private readonly IFileWrapper _file;
 
-        private readonly IFlubuEnviromentService _flubuEnviromentService;
+        private readonly IFlubuEnvironmentService _flubuEnvironmentService;
 
         private bool _packagesRestored;
 
         private List<CompilationLibrary> _resolvedDependencies = new List<CompilationLibrary>();
 
-        public NugetPackageResolver(ICommandFactory commandFactory, IFileWrapper file, IFlubuEnviromentService flubuEnviromentService)
+        public NugetPackageResolver(ICommandFactory commandFactory, IFileWrapper file, IFlubuEnvironmentService flubuEnvironmentService)
         {
             _commandFactory = commandFactory;
             _file = file;
-            _flubuEnviromentService = flubuEnviromentService;
+            _flubuEnvironmentService = flubuEnvironmentService;
         }
 
         public List<AssemblyInfo> ResolveNugetPackagesFromDirectives(List<NugetPackageReference> packageReferences, string pathToBuildScript)
@@ -354,7 +354,7 @@ namespace FlubuCore.Scripting
 
         private void RestoreNugetPackagesMsBuildFallback(string csprojLocation)
         {
-            var msbuilds = _flubuEnviromentService.ListAvailableMSBuildToolsVersions();
+            var msbuilds = _flubuEnvironmentService.ListAvailableMSBuildToolsVersions();
             KeyValuePair<Version, string> msbuild = msbuilds.FirstOrDefault(x => x.Key >= new Version(15, 0, 0));
             if (msbuild.Equals(default(KeyValuePair<Version, string>)))
             {

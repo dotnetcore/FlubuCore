@@ -179,7 +179,7 @@ public class BuildScript : DefaultBuildScript
             .WithArguments("-s", "https://www.nuget.org/api/v2/package")
             .WithArguments("-k", key).Execute(context);
 
-        context.CoreTasks().NugetPush($"output\\FlubuCore.Analyzers.1.0.3.nupkg")
+        context.CoreTasks().NugetPush($"output\\FlubuCore.Analyzers.1.0.4.nupkg")
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.Analyzer. exception: {e.Message}"); })
             .WithArguments("-s", "https://www.nuget.org/api/v2/package")
             .WithArguments("-k", key).Execute(context);

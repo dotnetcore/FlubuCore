@@ -46,7 +46,7 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddSingleton<IFileWrapper, FileWrapper>()
                 .AddSingleton<IPathWrapper, PathWrapper>()
                 .AddSingleton<IDirectoryWrapper, DirectoryWrapper>()
-                .AddSingleton<IFlubuEnviromentService, FlubuEnviromentService>()
+                .AddSingleton<IFlubuEnvironmentService, FlubuEnvironmentService>()
                 .AddSingleton<ITaskFactory, DotnetTaskFactory>()
                 .AddSingleton<IHttpClientFactory, HttpClientFactory>()
                 .AddSingleton<IBuildSystem, BuildSystem>()

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Microsoft.Win32;
 
 namespace FlubuCore.Services
 {
-    public static class FlubuEnviroment
+    public static class FlubuEnvironment
     {
         private static List<string> _vsEditions = new List<string>()
         {
@@ -21,6 +22,23 @@ namespace FlubuCore.Services
         /// </summary>
         /// <value>The Windows system root directory path.</value>
         public static string SystemRootDir => Environment.GetEnvironmentVariable("SystemRoot");
+
+        public static string GetEnvironmentVariable(string variable)
+        {
+            return Environment.GetEnvironmentVariable(variable);
+        }
+
+        public static T GetEnvironmentVariable<T>(string variable)
+        {
+            string value = Environment.GetEnvironmentVariable(variable);
+
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return default;
+            }
+
+            return (T)Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture);
+        }
 
         public static void FillVersionsFromMsBuildToolsVersionsRegPath(
             SortedDictionary<Version, string> toolsVersions)

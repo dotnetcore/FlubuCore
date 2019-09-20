@@ -11,13 +11,13 @@ namespace FlubuCore.Tests.Tasks
 {
     public class CompileSolutionTaskUnitTests : TaskUnitTestBase
     {
-        private readonly Mock<IFlubuEnviromentService> _flubuEnviroment;
+        private readonly Mock<IFlubuEnvironmentService> _flubuEnviroment;
         private readonly Mock<IRunProgramTask> _runProgramTask;
         private CompileSolutionTask _task;
 
         public CompileSolutionTaskUnitTests()
         {
-            _flubuEnviroment = new Mock<IFlubuEnviromentService>();
+            _flubuEnviroment = new Mock<IFlubuEnvironmentService>();
             _runProgramTask = new Mock<IRunProgramTask>(MockBehavior.Loose);
         }
 
