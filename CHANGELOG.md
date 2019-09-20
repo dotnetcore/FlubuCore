@@ -1,3 +1,43 @@
+## FlubuCore 4.2.0.0
+- Added dotnet msbuild task with tab completion in interactive mode.
+- Added new docker tasks and updates existing ones by regenerating them from documentation
+- Added git branch task
+- Added git merge task
+- Added git extension on ITaskContext which contains local repository information. For example: ` context.Git()..CurrentBranchName()`
+- Added GitHubActions build system
+- Added Azure pipelines build system
+- Added some more jenkins helpes 
+- Added some more travis helpers
+- Updated options on existing git tasks 
+- Added missing dotnet nuget push options
+- Added missing dotnet publish options
+- Added missing options to dotnet test
+- PackageTask: AddDirectory now support directory filtering when subdirectories are packaged
+- PackageTask: Added support for filtering by glob pattern
+- FromArg attribute now supports enums
+- Moved Chocolatey tasks from FlubuCore plugin to FlubuCore (possible braking change) - Just remove plugin if you are using it.
+- Interactive mode: tab completion for all docker commands and options
+- Interactive mode: Directory completion with tab key on cd command
+- Interactive mode: Added cls internal command for clearing the screen
+- Interactive mode: Improved tab completion for external processes
+- Interactive mode: hints are now case insensitive
+- Interactive mode: Different colors for different types of suggestions
+- Interactive mode: removed duplicated shor and long options sugestions 
+- Interactive mode: move to path root with 'cd...'
+- Interactive mode: Fixed target detailed help
+- Interactive mode: Removes new lines and unecessary whitespaces from help at the bottom.
+- docker tasks: optional options are now as optional parameters.
+- Fixed various bugs in chocolatey task. 
+- Fixed docker options key prefix.
+- Fixed package task when no files exists to zip
+- Fixed a bug where interactive mode hang on illegal command.
+- minor logging fixes
+- fixed null or empty parameters in WithArguments 
+- Internal: changable key value separator in WithArgumentKeyFromAttribute method
+- Internal: Implemented FlubuConsole task generator
+- Internal: Various task generator improvements
+
+
 ## FlubuCore 4.1.2.0
 - Interactive mode: Option to execute external processes such as dotnet, git, docker... 
  
