@@ -30,6 +30,7 @@ namespace FlubuCore.Tests.Tasks
             RunProgramTask.Setup(x => x.WorkingFolder(It.IsAny<string>())).Returns(RunProgramTask.Object);
             RunProgramTask.Setup(x => x.CaptureErrorOutput()).Returns(RunProgramTask.Object);
             RunProgramTask.Setup(x => x.CaptureOutput()).Returns(RunProgramTask.Object);
+            RunProgramTask.Setup(x => x.DoNotLogTaskExecutionInfo()).Returns(RunProgramTask.Object);
             RunProgramTask.Setup(x => x.AddPrefixToAdditionalOptionKey(It.IsAny<Func<string, string>>())).Returns(RunProgramTask.Object);
             RunProgramTask.Setup(x => x.AddNewAdditionalOptionPrefix(It.IsAny<string>()))
                 .Returns(RunProgramTask.Object);
