@@ -425,7 +425,7 @@ namespace FlubuCore.Infrastructure.Terminal
 
             if (lineToDelete >= Console.BufferHeight)
             {
-                Console.BufferHeight = Console.BufferHeight + 3;
+                Console.BufferHeight = Console.BufferHeight + 1000;
             }
 
             Console.CursorTop = lineToDelete;
