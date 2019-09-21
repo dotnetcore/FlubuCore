@@ -416,12 +416,19 @@ namespace FlubuCore.Infrastructure.Terminal
             Console.Write(text);
 
             //// Restore previous position
-            Console.SetCursorPosition(x, y);
+            Console.SetCursorPosition(x, y - 1);
         }
 
         private static void ClearLine(int fromBottom)
         {
-            Console.CursorTop = Console.WindowTop + Console.WindowHeight - fromBottom;
+            var lineToDelete = Console.WindowTop + Console.WindowHeight - fromBottom;
+
+            if (lineToDelete >= Console.BufferHeight)
+            {
+                Console.BufferHeight = Console.BufferHeight + 3;
+            }
+
+            Console.CursorTop = lineToDelete;
             Console.CursorLeft = 0;
             Console.Write(new string(' ', Console.WindowWidth - 1));
         }
