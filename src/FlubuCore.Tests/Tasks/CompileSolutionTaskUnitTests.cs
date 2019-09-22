@@ -12,13 +12,11 @@ namespace FlubuCore.Tests.Tasks
     public class CompileSolutionTaskUnitTests : TaskUnitTestBase
     {
         private readonly Mock<IFlubuEnvironmentService> _flubuEnviroment;
-        private readonly Mock<IRunProgramTask> _runProgramTask;
         private CompileSolutionTask _task;
 
         public CompileSolutionTaskUnitTests()
         {
             _flubuEnviroment = new Mock<IFlubuEnvironmentService>();
-            _runProgramTask = new Mock<IRunProgramTask>(MockBehavior.Loose);
         }
 
         [Fact]
@@ -79,7 +77,7 @@ namespace FlubuCore.Tests.Tasks
             SetupMsBuildVersions(include40: false, include120: false);
             SetupRunProgramTask();
 
-            Tasks.Setup(x => x.RunProgramTask(It.IsAny<string>())).Returns(_runProgramTask.Object);
+            Tasks.Setup(x => x.RunProgramTask(It.IsAny<string>())).Returns(RunProgramTask.Object);
             _task = new CompileSolutionTask("x.sln", "Release", _flubuEnviroment.Object);
             _task.WithArguments("aaa");
             _task.Execute(Context.Object);
@@ -100,26 +98,15 @@ namespace FlubuCore.Tests.Tasks
 
         private void SetupRunProgramTask()
         {
-             Tasks.Setup(x => x.RunProgramTask(It.IsAny<string>())).Returns(_runProgramTask.Object);
-            _runProgramTask.Setup(x => x.WorkingFolder(".")).Returns(_runProgramTask.Object);
-            _runProgramTask.Setup(x => x.WithArguments(It.IsAny<string>(), false)).Returns(_runProgramTask.Object);
-            _runProgramTask.Setup(x => x.WithArguments(It.IsAny<string[]>())).Returns(_runProgramTask.Object);
-            _runProgramTask.Setup(x => x.WithArguments("/p:Configuration=Release", false)).Returns(_runProgramTask.Object);
-            _runProgramTask.Setup(x => x.WithArguments("/p:Platform=Any CPU", false)).Returns(_runProgramTask.Object);
-            _runProgramTask.Setup(x => x.WithArguments("/clp:NoSummary", false)).Returns(_runProgramTask.Object);
-            _runProgramTask.Setup(x => x.WithArguments("/maxcpucount:3", false)).Returns(_runProgramTask.Object);
-            _runProgramTask.Setup(x => x.CaptureErrorOutput()).Returns(_runProgramTask.Object);
-            _runProgramTask.Setup(x => x.CaptureOutput()).Returns(_runProgramTask.Object);
-            _runProgramTask.Setup(x => x.AddNewAdditionalOptionPrefix(It.IsAny<string>()))
-                .Returns(_runProgramTask.Object);
-            _runProgramTask.Setup(x => x.AddNewAdditionalOptionPrefix(It.IsAny<List<string>>()))
-                .Returns(_runProgramTask.Object);
-            _runProgramTask.Setup(x => x.AddPrefixToAdditionalOptionKey(It.IsAny<Func<string, string>>()))
-                .Returns(_runProgramTask.Object);
-            _runProgramTask.Setup(x => x.ChangeAdditionalOptionKeyValueSeperator(It.IsAny<char>()))
-                .Returns(_runProgramTask.Object);
-            _runProgramTask.Setup(x => x.ChangeDefaultAdditionalOptionPrefix(It.IsAny<string>()))
-                .Returns(_runProgramTask.Object);
+            Tasks.Setup(x => x.RunProgramTask(It.IsAny<string>())).Returns(RunProgramTask.Object);
+            RunProgramTask.Setup(x => x.WorkingFolder(".")).Returns(RunProgramTask.Object);
+            RunProgramTask.Setup(x => x.WithArguments(It.IsAny<string>(), false)).Returns(RunProgramTask.Object);
+            RunProgramTask.Setup(x => x.WithArguments(It.IsAny<string[]>())).Returns(RunProgramTask.Object);
+            RunProgramTask.Setup(x => x.WithArguments("/p:Configuration=Release", false))
+                .Returns(RunProgramTask.Object);
+            RunProgramTask.Setup(x => x.WithArguments("/p:Platform=Any CPU", false)).Returns(RunProgramTask.Object);
+            RunProgramTask.Setup(x => x.WithArguments("/clp:NoSummary", false)).Returns(RunProgramTask.Object);
+            RunProgramTask.Setup(x => x.WithArguments("/maxcpucount:3", false)).Returns(RunProgramTask.Object);
         }
     }
 }
