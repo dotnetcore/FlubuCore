@@ -283,7 +283,7 @@ namespace FlubuCore.Tasks.Process
                 {
                     if (arg.ValueRequired)
                     {
-                        throw new TaskExecutionException($"Argument key {arg.ArgKey} requires value.", 0);
+                        throw new TaskExecutionException($"Argument {arg.ArgKey} requires value. Task: {TaskName}", 0);
                     }
 
                     argumentsFlat.Add((arg.ArgKey, arg.MaskArg));
