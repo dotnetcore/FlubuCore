@@ -1,4 +1,4 @@
-## FlubuCore 4.2.0.0
+## FlubuCore 4.2.1.0
 - Added dotnet msbuild task with tab completion in interactive mode.
 - Added new docker tasks and updates existing ones by regenerating them from documentation
 - Added git branch task
@@ -24,15 +24,19 @@
 - Interactive mode: Different colors for different types of suggestions
 - Interactive mode: removed duplicated shor and long options sugestions 
 - Interactive mode: move to path root with 'cd...'
+- Interactive mode: fixed bug where flubu in interactive mode crashed when clearing old help
 - Interactive mode: Fixed target detailed help
 - Interactive mode: Removes new lines and unecessary whitespaces from help at the bottom.
+- Interactive mode: Task execution errors are now logged.
 - docker tasks: optional options are now as optional parameters.
+- External process task do not log RunProgramTask execution info anymore.
 - Fixed various bugs in chocolatey task. 
 - Fixed docker options key prefix.
 - Fixed package task when no files exists to zip
 - Fixed a bug where interactive mode hang on illegal command.
 - minor logging fixes
 - fixed null or empty parameters in WithArguments 
+- External process tasks: Improved value required error message when passing argument with value.
 - Internal: changable key value separator in WithArgumentKeyFromAttribute method
 - Internal: Implemented FlubuConsole task generator
 - Internal: Various task generator improvements
