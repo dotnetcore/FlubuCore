@@ -296,8 +296,13 @@ namespace FlubuCore.Scripting
                             flubuSession.LogError(
                                 $"'{command}' is not recognized as a flubu target, internal or external command, operable program or batch file.");
                         }
-                        catch (TaskExecutionException)
+                        catch (TaskExecutionException e)
                         {
+#if !NETSTANDARD1_6
+                            flubuSession.LogError($"ERROR: {e.Message}", Color.Red);
+#else
+                             flubuSession.LogError($"error: {e.Message}");
+#endif
                         }
                         catch (ArgumentException)
                         {
@@ -328,8 +333,13 @@ namespace FlubuCore.Scripting
                     ExecuteTarget(flubuSession, targetsInfo);
                     flubuSession.LogInfo(" ");
                 }
-                catch (TaskExecutionException)
+                catch (TaskExecutionException e)
                 {
+#if !NETSTANDARD1_6
+                     flubuSession.LogError($"ERROR: {e.Message}", Color.Red);
+#else
+                     flubuSession.LogError($"error: {e.Message}");
+#endif
                 }
             }
             while (flubuSession.InteractiveMode);
