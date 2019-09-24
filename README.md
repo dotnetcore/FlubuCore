@@ -38,14 +38,14 @@ context.CreateTarget("Example")
 * [Large number of often used built-in tasks](https://flubucore.dotnetcore.xyz/tasks/) like e.g. running tests, managing IIS, creating deployment packages, publishing NuGet packages, docker tasks, executing PowerShell scripts and many more.
 
 ```cs
-        context.CreateTarget("build")
-            .AddTask(x => x.GitVersionTask())
-            .AddTask(x => x.CompileSolutionTask("MySolution.sln").BuildConfiguration("Release");
+context.CreateTarget("build")
+   .AddTask(x => x.GitVersionTask())
+   .AddTask(x => x.CompileSolutionTask("MySolution.sln").BuildConfiguration("Release");
 
-        context.CreateTarget("run.tests")
-            .AddTask(x => x.XunitTaskByProjectName("MyProject").StopOnFail())
-            .AddTask(x => x.NUnitTask(NunitCmdOptions.V3, "MyProject2").ExcludeCategory("Linux"))
-            .AddCoreTask(x => x.CoverletTask("MyProject.dll"));
+context.CreateTarget("run.tests")
+   .AddTask(x => x.XunitTaskByProjectName("MyProject").StopOnFail())
+   .AddTask(x => x.NUnitTask(NunitCmdOptions.V3, "MyProject2").ExcludeCategory("Linux"))
+   .AddCoreTask(x => x.CoverletTask("MyProject.dll"));
 ```
 
 * [Execute your own custom C# code.](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Custom-code)
