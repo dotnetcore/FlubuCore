@@ -13,6 +13,9 @@ namespace FlubuCore.Tasks.Text
 
         private readonly List<string> _executablePaths = new List<string>
         {
+            "c:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\IDE",
+            "c:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Professional\\Common7\\IDE",
+            "c:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\Common7\\IDE",
             "c:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\BuildTools\\Common7\\IDE",
             "c:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Professional\\Common7\\IDE",
             "c:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\Common7\\IDE",
