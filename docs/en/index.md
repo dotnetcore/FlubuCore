@@ -1,7 +1,7 @@
 # FlubuCore
 [![Windows Build](http://lucidlynx.comtrade.com:8080/buildStatus/icon?job=FlubuCore)](http://lucidlynx.comtrade.com:8080/login?from=%2F)
 [![Travis](https://img.shields.io/travis/dotnetcore/FlubuCore.svg?branch=maste&?style=flat-square&label=linux-build)](https://travis-ci.org/dotnetcore/FlubuCore)
-[![NuGet](https://img.shields.io/nuget/v/FlubuCore.svg)](https://www.nuget.org/packages/FlubuCore)
+[![NuGet Badge](https://buildstats.info/nuget/flubucore)](https://www.nuget.org/packages/FlubuCore/)
 [![Gitter](https://img.shields.io/gitter/room/FlubuCore/Lobby.svg)](https://gitter.im/FlubuCore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Twitter](https://img.shields.io/badge/twitter-flubucore-brightgreen.svg?logo=twitter)](https://twitter.com/FlubuC)
 [![Member project of .NET Core Community](https://img.shields.io/badge/member%20project%20of-NCC-9e20c9.svg)](https://github.com/dotnetcore)
@@ -33,12 +33,14 @@ context.CreateTarget("Example")
 * [Large number of often used built-in tasks](https://flubucore.dotnetcore.xyz/tasks/) like e.g. running tests, managing IIS, creating deployment packages, publishing NuGet packages, docker tasks, executing PowerShell scripts and many more.
 
 ```c#
-target
-    .AddTask(x => x.CompileSolutionTask())
-    .AddTask(x => x.CopyFileTask(source, destination, true))
-    .AddTask(x => x.IisTasks()
-                    .CreateAppPoolTask("Example app pool")
-                    .Mode(CreateApplicationPoolMode.DoNothingIfExists));
+context.CreateTarget("build")
+   .AddTask(x => x.GitVersionTask())
+   .AddTask(x => x.CompileSolutionTask("MySolution.sln").BuildConfiguration("Release");
+
+context.CreateTarget("run.tests")
+   .AddTask(x => x.XunitTaskByProjectName("MyProject").StopOnFail())
+   .AddTask(x => x.NUnitTask(NunitCmdOptions.V3, "MyProject2").ExcludeCategory("Linux"))
+   .AddCoreTask(x => x.CoverletTask("MyProject.dll"));
 ```
 
 * [Execute your own custom C# code.](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Custom-code)
