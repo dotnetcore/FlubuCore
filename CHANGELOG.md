@@ -3,11 +3,11 @@
 - Added new docker tasks and updates existing ones by regenerating them from documentation
 - Added git branch task
 - Added git merge task
-- Added git extension on ITaskContext which contains local repository information. For example: ` context.Git()..CurrentBranchName()`
+- Added git extension on ITaskContext which contains local repository information. For example: ` context.Git().CurrentBranchName()`
 - Added GitHubActions build system
 - Added Azure pipelines build system
-- Added some more jenkins helpes 
-- Added some more travis helpers
+- Added some more jenkins helpes in coresponding build system
+- Added some more travis helpers in coresponding build system
 - Updated options on existing git tasks 
 - Added missing dotnet nuget push options
 - Added missing dotnet publish options
