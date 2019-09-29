@@ -1,4 +1,5 @@
-## FlubuCore 4.2.1.0
+## FlubuCore 4.2.2.0
+
 - Added dotnet msbuild task with tab completion in interactive mode.
 - Added new docker tasks and updates existing ones by regenerating them from documentation
 - Added git branch task
@@ -28,8 +29,10 @@
 - Interactive mode: Fixed target detailed help
 - Interactive mode: Removes new lines and unecessary whitespaces from help at the bottom.
 - Interactive mode: Task execution errors are now logged.
+- Interactive mode: Fixes cd.. so it doesn't go to the root directory on disk.
 - docker tasks: optional options are now as optional parameters.
 - External process task do not log RunProgramTask execution info anymore.
+- Flubu cli tool and global tool works now with only .net core 3.0 installed on machine.  
 - Fixed various bugs in chocolatey task. 
 - Fixed docker options key prefix.
 - Fixed package task when no files exists to zip
