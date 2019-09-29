@@ -67,7 +67,7 @@ namespace FlubuCore.Infrastructure.Terminal
             }
             else if (commandLine.Equals(InternalCommands.CdBack, StringComparison.OrdinalIgnoreCase))
             {
-                Directory.SetCurrentDirectory(Path.Combine(Directory.GetCurrentDirectory(), "/.."));
+                Directory.SetCurrentDirectory(Path.GetFullPath(".."));
             }
             else if (commandLine.Equals(InternalCommands.CdBackToDisk, StringComparison.OrdinalIgnoreCase))
             {
