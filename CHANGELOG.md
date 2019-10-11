@@ -1,4 +1,4 @@
-## FlubuCore 4.2.2.0
+## FlubuCore 4.2.4.0
 
 - Added dotnet msbuild task with tab completion in interactive mode.
 - Added new docker tasks and updates existing ones by regenerating them from documentation
