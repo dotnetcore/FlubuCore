@@ -299,9 +299,9 @@ namespace FlubuCore.Scripting
                         catch (TaskExecutionException e)
                         {
 #if !NETSTANDARD1_6
-                            flubuSession.LogError($"ERROR: {e.Message}", Color.Red);
+                            flubuSession.LogError($"ERROR: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}", Color.Red);
 #else
-                             flubuSession.LogError($"error: {e.Message}");
+                             flubuSession.LogError($"error: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}");
 #endif
                         }
                         catch (ArgumentException)
@@ -333,22 +333,15 @@ namespace FlubuCore.Scripting
                     ExecuteTarget(flubuSession, targetsInfo);
                     flubuSession.LogInfo(" ");
                 }
-                catch (CommandUnknownException e)
+                catch (Exception e)
                 {
 #if !NETSTANDARD1_6
-                     flubuSession.LogError($"ERROR: {e.Message}", Color.Red);
+                     flubuSession.LogError($"ERROR: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}", Color.Red);
 #else
-                     flubuSession.LogError($"error: {e.Message}");
+                     flubuSession.LogError($"error: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}");
 #endif
                 }
-                catch (TaskExecutionException e)
-                {
-#if !NETSTANDARD1_6
-                     flubuSession.LogError($"ERROR: {e.Message}", Color.Red);
-#else
-                     flubuSession.LogError($"error: {e.Message}");
-#endif
-                }
+
             }
             while (flubuSession.InteractiveMode);
         }
