@@ -6,7 +6,7 @@ os:
 sudo: required
 mono: none
 dist: xenial
-dotnet: 2.2
+dotnet: 3.0.100
 
 addons:
   apt:
