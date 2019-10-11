@@ -122,10 +122,14 @@ namespace FlubuCore.Infrastructure.Terminal
                 switch (input.Key)
                 {
                     case ConsoleKey.Delete:
-                        positionToDelete = currentDirectory.Length + cursorPosition.InputLength - 1;
+                        positionToDelete = cursorPosition.InputLength;
                         if (positionToDelete >= 0 && positionToDelete < userInput.Length)
                         {
-                            cursorPosition--;
+                            if (_currentDirectory.Length > cursorPosition.Left - cursorPosition.InputLength)
+                            {
+                                cursorPosition--;
+                            }
+
                             userInput = userInput.Any() ? userInput.Remove(positionToDelete, 1) : string.Empty;
                         }
 
@@ -170,7 +174,7 @@ namespace FlubuCore.Infrastructure.Terminal
 
                         break;
                     case ConsoleKey.Spacebar:
-                        userInput = userInput + " ";
+                        userInput = userInput.Insert(cursorPosition.InputLength, " ");
                         wasUserInput = true;
                         cursorPosition++;
 
