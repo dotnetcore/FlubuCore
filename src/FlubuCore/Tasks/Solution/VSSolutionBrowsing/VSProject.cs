@@ -43,7 +43,8 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         /// <returns>VSProject class containing project information.</returns>
         public static VSProject Load(string projectFileName)
         {
-            using (Stream stream = File.OpenRead(new Uri(projectFileName).LocalPath))
+            projectFileName = projectFileName.Replace(@"\", "/");
+            using (Stream stream = File.OpenRead(projectFileName))
             {
                 VSProject data = new VSProject { _propertiesDictionary = true };
 

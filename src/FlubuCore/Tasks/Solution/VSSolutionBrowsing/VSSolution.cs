@@ -49,7 +49,13 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         /// <returns>A <see cref="VSSolution"/> representing the solution.</returns>
         public static VSSolution Load(string fileName)
         {
-            VSSolution solution = new VSSolution(new Uri(fileName).LocalPath);
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return null;
+            }
+
+            fileName = fileName.Replace(@"\", "/");
+            VSSolution solution = new VSSolution(fileName);
 
             using (Stream stream = File.Open(fileName, FileMode.Open, FileAccess.Read))
             {
