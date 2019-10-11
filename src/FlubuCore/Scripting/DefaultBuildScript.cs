@@ -333,6 +333,14 @@ namespace FlubuCore.Scripting
                     ExecuteTarget(flubuSession, targetsInfo);
                     flubuSession.LogInfo(" ");
                 }
+                catch (CommandUnknownException e)
+                {
+#if !NETSTANDARD1_6
+                     flubuSession.LogError($"ERROR: {e.Message}", Color.Red);
+#else
+                     flubuSession.LogError($"error: {e.Message}");
+#endif
+                }
                 catch (TaskExecutionException e)
                 {
 #if !NETSTANDARD1_6
