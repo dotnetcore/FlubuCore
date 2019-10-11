@@ -19,9 +19,22 @@ namespace FlubuCore.Context
             foreach (var property in props)
             {
                 var attributes = property.GetCustomAttributes<FromArgAttribute>(false).ToList();
+                string argKey = null;
                 foreach (var fromArgAttribute in attributes)
                 {
-                    if (!flubuSession.ScriptArgs.ContainsKey(fromArgAttribute.ArgKey))
+                    var argKeys = fromArgAttribute.ArgKey.Split('|');
+                    foreach (var key in argKeys)
+                    {
+                        if (!flubuSession.ScriptArgs.ContainsKey(key))
+                        {
+                            continue;
+                        }
+
+                        argKey = key;
+                        break;
+                    }
+
+                    if (argKey == null)
                     {
                         continue;
                     }
@@ -33,14 +46,14 @@ namespace FlubuCore.Context
                             propertyGenericTypeDefinition == typeof(List<>) ||
                             propertyGenericTypeDefinition == typeof(IEnumerable<>))
                         {
-                            var list = flubuSession.ScriptArgs[fromArgAttribute.ArgKey].Split(fromArgAttribute.Seperator)
+                            var list = flubuSession.ScriptArgs[argKey].Split(fromArgAttribute.Seperator)
                                 .ToList();
                             property.SetValue(buildScript, list);
                         }
                     }
                     else
                     {
-                        SetPropertyValue(property, buildScript, flubuSession.ScriptArgs[fromArgAttribute.ArgKey], property.PropertyType, fromArgAttribute.ArgKey);
+                        SetPropertyValue(property, buildScript, flubuSession.ScriptArgs[argKey], property.PropertyType, argKey);
                     }
                 }
 
@@ -121,7 +134,7 @@ namespace FlubuCore.Context
                 {
                     if (!string.IsNullOrEmpty(fromArgAttribute.Help))
                     {
-                        help.Add($"-{fromArgAttribute.ArgKey} : {fromArgAttribute.Help}");
+                        help.Add($"-{fromArgAttribute.ArgKey.Replace("|", "|-")} : {fromArgAttribute.Help}");
                     }
                 }
             }
