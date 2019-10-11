@@ -341,7 +341,6 @@ namespace FlubuCore.Scripting
                      flubuSession.LogError($"error: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}");
 #endif
                 }
-
             }
             while (flubuSession.InteractiveMode);
         }
