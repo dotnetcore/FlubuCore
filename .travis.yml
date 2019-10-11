@@ -19,7 +19,10 @@ addons:
   
 git:
   depth: false
-before_script: cd src
+before_script:
+- sudo apt-get install dotnet-sdk-2.2
+- cd src
+
 script:
 - dotnet restore Build.csproj
 - dotnet flubu rebuild.linux -s=BuildScript/BuildScript.cs
