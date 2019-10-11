@@ -415,8 +415,13 @@ namespace FlubuCore.Infrastructure.Terminal
             Console.CursorLeft = 0;
             Console.Write(text);
 
+            if (y != 0)
+            {
+                y = y - 1;
+            }
+
             //// Restore previous position
-            Console.SetCursorPosition(x, y - 1);
+            Console.SetCursorPosition(x, y);
         }
 
         private static void ClearLine(int fromBottom)
