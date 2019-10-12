@@ -1,3 +1,5 @@
+## FlubuCore 4.2.8.0
+- FlubCore global tool for .net core 3.0
 ## FlubuCore 4.2.7.0
 - FromArg attribute now supports multiple keys. Keys must be seperated with |
 - DotnetCoreTasks: Fixed dotnet executable path for OSX
