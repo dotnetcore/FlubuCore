@@ -1,3 +1,15 @@
+## FlubuCore 4.2.7.0
+- FromArg attribute now supports multiple keys. Keys must be seperated with |
+- DotnetCoreTasks: Fixed dotnet executable path for OSX
+- LoadSolutionTask: Fixed path to solution and project files in linux and mac
+- Interactive mode: Fixed crash after clear screen (cls)
+- Interactive mode: Fixed crash when external process is not found when executing target
+- Interactive mode: Fixed delete character in console
+- Interactive mode: Fixed space when not typing at the end
+- Interactive mode: Improved error handling when target fails. 
+ 
+
+ 
 ## FlubuCore 4.2.4.0
 
 - Added dotnet msbuild task with tab completion in interactive mode.
