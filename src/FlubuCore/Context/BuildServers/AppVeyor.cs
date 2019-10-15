@@ -50,5 +50,10 @@ namespace FlubuCore.Context.BuildServers
         /// Get's the commit message.
         /// </summary>
         public string CommitMessageExtended => Environment.GetEnvironmentVariable("APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED");
+
+        /// <summary>
+        /// Get's the current branch.
+        /// </summary>
+        public string RepositoryBranch => Environment.GetEnvironmentVariable("APPVEYOR_REPO_BRANCH");
     }
 }
