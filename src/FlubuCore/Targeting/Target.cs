@@ -412,7 +412,9 @@ namespace FlubuCore.Targeting
 
                     if (conditionMeet == false)
                     {
-                        throw new TaskExecutionException($"Condition in must was not meet. Failed to execute target: '{TargetName}'. {must.failMessage}", 50);
+                        var message = string.IsNullOrEmpty(must.failMessage) ? $"Required condition in target '{TargetName}' was not meet. Check target requirement's in must method." : must.failMessage;
+
+                        throw new TaskExecutionException(message, 50);
                     }
                 }
             }
