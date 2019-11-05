@@ -1,0 +1,46 @@
+image:
+- Ubuntu1804
+- Visual Studio 2019
+
+clone_depth: 50
+
+pull_requests:
+  do_not_increment_build_number: true
+  
+
+skip_commits:
+  files:
+    - docs/*
+    - assets/*
+    - LICENSE
+    - mkdocs.yml
+    - README.md
+    - .travis.yml
+    - .gitignore
+    - lang/*
+for:
+-
+  matrix:
+    only:
+      - image: Visual Studio 2019
+
+
+  install:
+  #- ps: cd c:\projects\xxx
+                
+  before_build:
+  - ps: dotnet tool install --global FlubuCore.GlobalTool --version 4.2.8
+
+  build_script:
+  - ps: flubu Rebuild
+
+-
+  matrix:
+    only:
+      - image: Ubuntu1804
+    
+  before_build:
+  - sh: dotnet tool install --global FlubuCore.GlobalTool --version 4.2.8
+  
+  build_script:
+  - sh: flubu Rebuild.Linux
