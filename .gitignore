@@ -128,3 +128,4 @@ site/
 src/FlubuCore.TaskGenerator.Tests/obj/
 src/FlubuCore.TaskGenerator/obj/
 src/FlubuCore.TaskGenerator/bin/
+src/.idea/
