@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -58,9 +59,10 @@ namespace FlubuCore.Infrastructure.Terminal
                     Console.WriteLine($"{directory.LastWriteTime}    <DIR>          {directory.Name}");
                 }
 
+                var nfi = new NumberFormatInfo { NumberGroupSeparator = "." };
                 foreach (var entry in allFiles)
                 {
-                    Console.WriteLine($"{entry.LastWriteTime}            {entry.Length} {entry.Name}");
+                    Console.WriteLine($"{entry.LastWriteTime}            {entry.Length.ToString("#,##0", nfi)} {entry.Name}");
                 }
 
                 Console.WriteLine(string.Empty);
