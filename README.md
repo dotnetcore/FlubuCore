@@ -176,14 +176,15 @@ Aside from the detailed Wiki FlubuCore comes with example projects that reflect 
 
 These examples will help you to get quickly start with FlubuCore:
 * [.NET Framework build example](https://github.com/flubu-core/examples/blob/master/MVC_NET4.61/BuildScripts/BuildScript.cs
-)
+) - Example covers versioning, building the project, running tests, packaging application for deployment.
 
 * [.NET Core build example](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScript.cs
-)
+) - Example covers versioning, building the project, running tests, packaging application for deployment.
 
 * [Deployment script example](https://github.com/flubu-core/examples/blob/master/DeployScriptExample/BuildScript/DeployScript.cs
-)
+) - Example shows how to write simple deployment script. 
 
+* [Open source library example](https://github.com/dotnetcore/FlubuCore.Examples/blob/master/NetCoreOpenSource/Build/BuildScript.cs) - Example covers versioning, building the project, running tests and publishing nuget package.
 ## Have a question?
 
  [![Join the chat at https://gitter.im/FlubuCore/Lobby](https://badges.gitter.im/mbdavid/LiteDB.svg)](https://gitter.im/FlubuCore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
