@@ -31,6 +31,7 @@ namespace FlubuCore.Infrastructure.Terminal
         private int _historyPosition;
         private string _currentDirectory;
         private Suggestion _lastSuggestion;
+        private ConsoleKey _previousPressedKey = ConsoleKey.Clear;
 
         /// <summary>
         /// Creates new instance of <see cref="FlubuConsole"/> class.
@@ -121,6 +122,12 @@ namespace FlubuCore.Infrastructure.Terminal
             {
                 var writeSugestionToConsole = false;
                 int positionToDelete;
+                if (_previousPressedKey == ConsoleKey.Tab && input.Key != ConsoleKey.Tab)
+                {
+                    _suggestionsForUserInput = null;
+                    suggestion = null;
+                }
+
                 switch (input.Key)
                 {
                     case ConsoleKey.Delete:
@@ -157,20 +164,29 @@ namespace FlubuCore.Infrastructure.Terminal
                         suggestion = GetFirstSuggestion();
                         break;
                     case ConsoleKey.Tab:
-                        if (suggestion != null)
+                        writeSugestionToConsole = true;
+
+                        if (_previousPressedKey == ConsoleKey.Tab)
                         {
-                            writeSugestionToConsole = true;
+                            suggestion = GetNextSuggestion();
                             userInput = suggestion.Value + ' ';
-                            UpdateSuggestionsForUserInput(userInput);
-                            suggestion = GetFirstSuggestion();
-                            var tmp = fullInput.LastIndexOf(" ");
-                            if (tmp == -1)
+                        }
+                        else
+                        {
+                            if (suggestion != null)
                             {
-                                cursorPosition = cursorPosition.SetLength(userInput.Length);
-                            }
-                            else
-                            {
-                                cursorPosition = cursorPosition.SetLength(tmp + userInput.Length);
+                                userInput = suggestion.Value + ' ';
+                                ////UpdateSuggestionsForUserInput(userInput);
+                                suggestion = GetFirstSuggestion();
+                                var tmp = fullInput.LastIndexOf(" ");
+                                if (tmp == -1)
+                                {
+                                    cursorPosition = cursorPosition.SetLength(userInput.Length);
+                                }
+                                else
+                                {
+                                    cursorPosition = cursorPosition.SetLength(tmp + userInput.Length);
+                                }
                             }
                         }
 
@@ -273,8 +289,17 @@ namespace FlubuCore.Infrastructure.Terminal
                 var li = fullInput.TrimEnd().LastIndexOf(" ");
                 if (li == -1 && !fullInput.StartsWith(InternalCommands.Cd, StringComparison.OrdinalIgnoreCase))
                 {
-                    ConsoleUtils.Write(userInput, ConsoleColor.Green);
-                    fullInput = userInput;
+                    if (input.Key == ConsoleKey.Tab && _previousPressedKey == ConsoleKey.Tab)
+                    {
+                        fullInput = userInput;
+                        cursorPosition = cursorPosition.SetLength(fullInput.Length);
+                        ConsoleUtils.Write(fullInput, ConsoleColor.Green);
+                    }
+                    else
+                    {
+                        ConsoleUtils.Write(userInput, ConsoleColor.Green);
+                        fullInput = userInput;
+                    }
                 }
                 else
                 {
@@ -318,6 +343,7 @@ namespace FlubuCore.Infrastructure.Terminal
 
                 Console.CursorLeft = cursorPosition.Left;
                 Console.CursorTop = cursorPosition.Top;
+                _previousPressedKey = input.Key;
             }
 
             Console.WriteLine(string.Empty);
@@ -325,18 +351,18 @@ namespace FlubuCore.Infrastructure.Terminal
             return fullInput;
         }
 
-        private static string WriteSugestionAsUserInput(string userInput, int li, ref string fullInput,
-            ref ConsoleCursorPosition cursorPosition)
+        private static string WriteSugestionAsUserInput(string userInput, int li, ref string fullInput, ref ConsoleCursorPosition cursorPosition)
         {
-            userInput = userInput.TrimEnd();
+            var suggestionValue = userInput;
+            suggestionValue = suggestionValue.TrimEnd();
             if (li == -1)
             {
                 li = fullInput.Length - 1;
             }
 
-            if (!userInput.StartsWith("-") && !fullInput.StartsWith(InternalCommands.Cd, StringComparison.OrdinalIgnoreCase))
+            if (!suggestionValue.StartsWith("-") && !fullInput.StartsWith(InternalCommands.Cd, StringComparison.OrdinalIgnoreCase))
             {
-                userInput = $" {userInput} ";
+                suggestionValue = $" {suggestionValue} ";
             }
             else
             {
@@ -350,15 +376,15 @@ namespace FlubuCore.Infrastructure.Terminal
                 }
                 else
                 {
-                    userInput = $" {userInput}";
+                    suggestionValue = $" {suggestionValue}";
                 }
             }
 
-            fullInput = $"{fullInput.Substring(0, li)}{userInput}";
-            userInput = fullInput;
+            fullInput = $"{fullInput.Substring(0, li)}{suggestionValue}";
+            suggestionValue = fullInput;
             ConsoleUtils.Write(fullInput, ConsoleColor.Green);
             cursorPosition = cursorPosition.SetLength(fullInput.Length);
-            return userInput;
+            return suggestionValue;
         }
 
         private static void WriteSuggestion(Suggestion suggestion)
@@ -459,7 +485,7 @@ namespace FlubuCore.Infrastructure.Terminal
 
         private void UpdateSuggestionsForUserInput(string userInput)
         {
-            _suggestionPosition = 0;
+                _suggestionPosition = 0;
 
             if (string.IsNullOrEmpty(userInput))
             {
