@@ -201,6 +201,11 @@ namespace FlubuCore.Infrastructure.Terminal
                             UpdateDirectorySuggestionsForUserInput(userInput);
                             suggestion = GetFirstSuggestion();
                         }
+                        else
+                        {
+                            _suggestionsForUserInput = null;
+                            suggestion = null;
+                        }
 
                         break;
                     case ConsoleKey.UpArrow:
