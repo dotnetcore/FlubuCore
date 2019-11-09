@@ -45,8 +45,14 @@ namespace FlubuCore.Context.BuildServers
         /// <summary>
         /// Branch of the current build.
         /// </summary>
+        [Obsolete("Use branch name instead.")]
         public string Branch => FlubuEnvironment.GetEnvironmentVariable("TRAVIS_BRANCH");
 
+        /// <summary>
+        /// Branch of the current build.
+        /// </summary>
+        public string BranchName => FlubuEnvironment.GetEnvironmentVariable("TRAVIS_BRANCH");
+        
         /// <summary>
         /// The tag name of the current build.
         /// </summary>

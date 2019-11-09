@@ -1,4 +1,5 @@
 ﻿using System;
+using FlubuCore.Services;
 
 namespace FlubuCore.Context.BuildServers
 {
@@ -54,6 +55,22 @@ namespace FlubuCore.Context.BuildServers
         /// <summary>
         /// Get's the current branch.
         /// </summary>
+        [Obsolete("Use branch name instead")]
         public string RepositoryBranch => Environment.GetEnvironmentVariable("APPVEYOR_REPO_BRANCH");
+
+        /// <summary>
+        /// Get's the current branch name.
+        /// </summary>
+        public string BranchName => Environment.GetEnvironmentVariable("APPVEYOR_REPO_BRANCH");
+
+        /// <summary>
+        ///  If <c>true</c> build was started by pushed tag. Otherwise not.
+        /// </summary>
+        public bool IsTag => FlubuEnvironment.GetEnvironmentVariable<bool>("APPVEYOR_REPO_TAG");
+
+        /// <summary>
+        /// Gets the name of the tag.
+        /// </summary>
+        public string TagName => FlubuEnvironment.GetEnvironmentVariable("APPVEYOR_REPO_TAG_NAME");
     }
 }
