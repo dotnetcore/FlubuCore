@@ -52,7 +52,7 @@ namespace FlubuCore.Context.BuildServers
         /// Branch of the current build.
         /// </summary>
         public string BranchName => FlubuEnvironment.GetEnvironmentVariable("TRAVIS_BRANCH");
-        
+
         /// <summary>
         /// The tag name of the current build.
         /// </summary>
