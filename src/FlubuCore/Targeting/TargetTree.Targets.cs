@@ -76,6 +76,7 @@ namespace FlubuCore.Targeting
 
         internal static void SetupFlubu()
         {
+            bool scriptFound = false;
             string buildScriptLocation = null;
             string csprojLocation = null;
             if (File.Exists("./.flubu"))
@@ -111,12 +112,11 @@ namespace FlubuCore.Targeting
 
                 if (!string.IsNullOrEmpty(buildScriptLocation))
                 {
-                    Console.WriteLine($"Script '{buildScriptLocation}' found nothing to do.");
-                    return;
+                    Console.WriteLine($"Script '{buildScriptLocation}' found. No need to enter build script location");
+                    scriptFound = true;
                 }
             }
 
-            bool scriptFound = false;
             while (!scriptFound)
             {
                 Console.Write("Enter script location (enter to skip): ");
