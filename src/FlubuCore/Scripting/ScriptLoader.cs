@@ -436,7 +436,7 @@ namespace FlubuCore.Scripting
                         ? SearchOption.AllDirectories
                         : SearchOption.TopDirectoryOnly;
 
-                    csFiles.AddRange(Directory.GetFiles(csDirectory.Item1.path, "*.*", searchOption));
+                    csFiles.AddRange(Directory.GetFiles(csDirectory.Item1.path, "*.cs", searchOption));
                 }
                 else
                 {
