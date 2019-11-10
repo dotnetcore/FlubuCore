@@ -169,7 +169,10 @@ namespace FlubuCore.Infrastructure.Terminal
                         if (_previousPressedKey == ConsoleKey.Tab)
                         {
                             suggestion = GetNextSuggestion();
-                            userInput = suggestion.Value + ' ';
+                            if (suggestion != null)
+                            {
+                                userInput = suggestion.Value + ' ';
+                            }
                         }
                         else
                         {
@@ -294,7 +297,7 @@ namespace FlubuCore.Infrastructure.Terminal
                 var li = fullInput.TrimEnd().LastIndexOf(" ");
                 if (li == -1 && !fullInput.StartsWith(InternalCommands.Cd, StringComparison.OrdinalIgnoreCase))
                 {
-                    if (input.Key == ConsoleKey.Tab && _previousPressedKey == ConsoleKey.Tab)
+                    if (input.Key == ConsoleKey.Tab && _previousPressedKey == ConsoleKey.Tab && suggestion != null)
                     {
                         fullInput = userInput;
                         cursorPosition = cursorPosition.SetLength(fullInput.Length);
