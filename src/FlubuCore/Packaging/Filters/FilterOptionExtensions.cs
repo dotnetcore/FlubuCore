@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using GlobExpressions;
 
 namespace FlubuCore.Packaging.Filters
 {
@@ -17,9 +18,9 @@ namespace FlubuCore.Packaging.Filters
             options.AddFileFilters(filter);
         }
 
-        public static void AddFileFilterGlob(this FilterOptions options, string globPattern, bool negateFilter = false)
+        public static void AddFileFilterGlob(this FilterOptions options, string globPattern, GlobOptions globOptions = GlobOptions.None, bool negateFilter = false)
         {
-            var filter = new GlobFilter(globPattern);
+            var filter = new GlobFilter(globPattern, globOptions);
             if (negateFilter)
             {
                 filter.NegateFilter();
@@ -39,9 +40,9 @@ namespace FlubuCore.Packaging.Filters
             options.AddDirectoryFilters(filter);
         }
 
-        public static void AddDirectoryFilterGlob(this FilterOptions options, string globPattern, bool negateFilter = false)
+        public static void AddDirectoryFilterGlob(this FilterOptions options, string globPattern, GlobOptions globOptions = GlobOptions.None, bool negateFilter = false)
         {
-            var filter = new GlobFilter(globPattern);
+            var filter = new GlobFilter(globPattern, globOptions);
             if (negateFilter)
             {
                 filter.NegateFilter();
