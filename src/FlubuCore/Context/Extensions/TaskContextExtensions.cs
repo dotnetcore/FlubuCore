@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Threading;
+using FlubuCore.IO;
 using FlubuCore.Tasks.Solution.VSSolutionBrowsing;
+using GlobExpressions;
 
 namespace FlubuCore.Context
 {
@@ -55,6 +60,28 @@ namespace FlubuCore.Context
             }
 
             return solution;
+        }
+
+        public static List<FileFullPath> GetFiles(this ITaskContext context, string directory, params string[] globPattern)
+        {
+           return GetFiles(context, directory, GlobOptions.None, globPattern);
+        }
+
+        public static List<FileFullPath> GetFiles(this ITaskContext context, string directory, GlobOptions globOptions = GlobOptions.None, params string[] globPattern)
+        {
+            var directoryInfo = new DirectoryInfo(directory);
+            return globPattern.SelectMany(pattern => Glob.Files(directoryInfo, pattern, globOptions)).Select(x => new FileFullPath(x.FullName)).ToList();
+        }
+
+        public static List<FullPath> GetDirectories(this ITaskContext context, string directory, params string[] globPattern)
+        {
+            return GetDirectories(context, directory, GlobOptions.None, globPattern);
+        }
+
+        public static List<FullPath> GetDirectories(this ITaskContext context, string directory, GlobOptions globOptions = GlobOptions.None, params string[] globPattern)
+        {
+            var directoryInfo = new DirectoryInfo(directory);
+            return globPattern.SelectMany(pattern => Glob.Directories(directoryInfo, pattern, globOptions)).Select(x => new FullPath(x.FullName)).ToList();
         }
 
         public static Git Git(this ITaskContext context)
