@@ -164,13 +164,12 @@ namespace FlubuCore.Infrastructure.Terminal
                         suggestion = GetFirstSuggestion();
                         break;
                     case ConsoleKey.Tab:
-                        writeSugestionToConsole = true;
-
                         if (_previousPressedKey == ConsoleKey.Tab)
                         {
                             suggestion = GetNextSuggestion();
                             if (suggestion != null)
                             {
+                                writeSugestionToConsole = true;
                                 userInput = suggestion.Value + ' ';
                             }
                         }
@@ -178,6 +177,7 @@ namespace FlubuCore.Infrastructure.Terminal
                         {
                             if (suggestion != null)
                             {
+                                writeSugestionToConsole = true;
                                 userInput = suggestion.Value + ' ';
                                 ////UpdateSuggestionsForUserInput(userInput);
                                 suggestion = GetFirstSuggestion();
