@@ -9,6 +9,10 @@
             _taskContext = taskContext;
         }
 
+        /// <summary>
+        /// Name of the current selected branch.
+        /// </summary>
+        /// <returns></returns>
         public string CurrentBranchName()
         {
             var task = _taskContext.Tasks().RunProgramTask("git");
@@ -27,6 +31,10 @@
             return null;
         }
 
+        /// <summary>
+        ///  root directory of the current git repository
+        /// </summary>
+        /// <returns></returns>
         public string RootDirectory()
         {
             var task = _taskContext.Tasks().RunProgramTask("git");
@@ -45,6 +53,10 @@
             return null;
         }
 
+        /// <summary>
+        /// Remote url of the git repository.
+        /// </summary>
+        /// <returns></returns>
         public string RemoteUrl()
         {
             var task = _taskContext.Tasks().RunProgramTask("git");
@@ -62,7 +74,7 @@
 
             return null;
         }
-
+     
         public string CommitId(string branchName = "HEAD")
         {
             var task = _taskContext.Tasks().RunProgramTask("git");

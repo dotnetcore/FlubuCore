@@ -14,6 +14,7 @@ using FlubuCore.Commanding;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure.Terminal;
 using FlubuCore.IO;
+using FlubuCore.Services;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks.NetCore;
 using FlubuCore.WebApi.Client;
@@ -24,10 +25,24 @@ namespace FlubuCore.Scripting
 {
     public abstract class DefaultBuildScript : IBuildScript
     {
+        private IFlubuSession _flubuSession;
+
+        /// <summary>
+        /// Get's product root directory.
+        /// </summary>
+        public FullPath RootDirectory => new FullPath(_flubuSession.Properties.GetProductRootDir());
+
+        /// <summary>
+        /// Get's output directory.
+        /// </summary>
+        public FileFullPath OutputDirectory => RootDirectory.AddFileName(_flubuSession.Properties.GetOutputDir());
+
         public int Run(IFlubuSession flubuSession)
         {
+            _flubuSession = flubuSession;
             try
             {
+                ConfigureDefaultProps(flubuSession);
                 BeforeBuildExecution(flubuSession);
                 RunBuild(flubuSession);
                 flubuSession.Complete();
@@ -115,8 +130,6 @@ namespace FlubuCore.Scripting
         private void RunBuild(IFlubuSession flubuSession)
         {
             bool resetTargetTree = false;
-
-            ConfigureDefaultProps(flubuSession);
 
             ConfigureBuildProperties(flubuSession);
 
@@ -384,13 +397,13 @@ namespace FlubuCore.Scripting
                 platform = OSPlatform.Windows;
             }
 
+            flubuSession.SetProductRootDir(Directory.GetCurrentDirectory());
             flubuSession.SetOSPlatform(platform);
             flubuSession.SetNodeExecutablePath(IOExtensions.GetNodePath());
             flubuSession.SetProfileFolder(IOExtensions.GetUserProfileFolder());
             flubuSession.SetNpmPath(IOExtensions.GetNpmPath());
             flubuSession.SetBuildDir("build");
             flubuSession.SetOutputDir("output");
-            flubuSession.SetProductRootDir(".");
 
             if (isWindows)
             {
