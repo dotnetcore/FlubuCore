@@ -11,13 +11,15 @@ namespace FlubuCore.Tasks.Process
     public abstract class ExternalProcessTaskBase<TResult, TTask> : TaskBase<TResult, TTask>, IExternalProcess<TTask>
         where TTask : class, ITask
     {
+        private readonly List<string> _additionalOptionPrefixes = new List<string>();
+
+        private readonly Dictionary<string, List<string>> _longAndShortKeys = new Dictionary<string, List<string>>();
+        
         private Func<string, string> _prefixToAdditionalOptionKeyFunc;
 
         private char _additionalOptionKeyValueSeperator;
 
         private IRunProgramTask _task;
-
-        private List<string> _additionalOptionPrefixes = new List<string>();
 
         protected ExternalProcessTaskBase()
         {
@@ -129,7 +131,14 @@ namespace FlubuCore.Tasks.Process
 
         protected virtual void WithArgumentsKeyFromAttribute(bool maskArg = false, [CallerMemberName]string memberName = "")
         {
-            _arguments.Add(new Argument(GetFirstKeyFromAttribute(memberName), null, false, maskArg));
+            var allKeys = GetAllKeysFromAttribute(memberName);
+            var firstKey = allKeys.First();
+            if (!_longAndShortKeys.ContainsKey(firstKey))
+            {
+                _longAndShortKeys.Add(firstKey, allKeys);
+            }
+
+            _arguments.Add(new Argument(firstKey, null, false, maskArg));
         }
 
         protected virtual void WithArgumentsKeyFromAttribute(string value, bool maskArg = false, string separator = null, [CallerMemberName]string memberName = "")
@@ -139,16 +148,35 @@ namespace FlubuCore.Tasks.Process
                 separator = KeyValueSeparator;
             }
 
-            _arguments.Add(new Argument(GetFirstKeyFromAttribute(memberName), value, true, maskArg, separator));
+            var allKeys = GetAllKeysFromAttribute(memberName);
+            var firstKey = allKeys.First();
+            if (!_longAndShortKeys.ContainsKey(firstKey))
+            {
+                _longAndShortKeys.Add(firstKey, allKeys);
+            }
+
+            _arguments.Add(new Argument(firstKey, value, true, maskArg, separator));
         }
 
         protected string GetFirstKeyFromAttribute([CallerMemberName]string memberName = "")
+        {
+            var attribute = GetArgKeyAttribute(memberName);
+            return attribute.Keys[0];
+        }
+
+        private ArgKey GetArgKeyAttribute(string memberName)
         {
             var method = GetType().GetRuntimeMethods().FirstOrDefault(x => x.Name == memberName);
             if (method == null) return null;
 
             var attribute = method.GetCustomAttribute<ArgKey>();
-            return attribute.Keys[0];
+            return attribute;
+        }
+
+        protected List<string> GetAllKeysFromAttribute([CallerMemberName] string memberName = "")
+        {
+            var attribute = GetArgKeyAttribute(memberName);
+            return attribute.Keys.ToList();
         }
 
         /// <inheritdoc />
@@ -338,6 +366,11 @@ namespace FlubuCore.Tasks.Process
             return this as TTask;
         }
 
+        /// <summary>
+        /// Action taken before executing external process.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="runProgramTask"></param>
         protected virtual void BeforeExecute(ITaskContextInternal context, IRunProgramTask runProgramTask)
         {
         }
@@ -370,6 +403,8 @@ namespace FlubuCore.Tasks.Process
                     continue;
                 }
 
+                overridableArgument = LongAndShortKeyLookup(overridableArgument);
+
                 var argumentToOverride = _arguments.FirstOrDefault(x => x.ArgKey == overridableArgument);
 
                 if (argumentToOverride == null)
@@ -381,6 +416,23 @@ namespace FlubuCore.Tasks.Process
                     argumentToOverride.ArgValue = scriptArg.Value;
                 }
             }
+        }
+
+        private string LongAndShortKeyLookup(string overridableArgument)
+        {
+            foreach (var keys in _longAndShortKeys)
+            {
+                foreach (var key in keys.Value)
+                {
+                    if (key == overridableArgument)
+                    {
+                        overridableArgument = keys.Key;
+                        return overridableArgument;
+                    }
+                }
+            }
+
+            return overridableArgument;
         }
     }
 }

@@ -69,7 +69,7 @@ namespace FlubuCore.Context
         {
             return new FullPath(context.Properties.GetProductRootDir());
         }
-        
+
         public static FileFullPath OutputDirectory(this ITaskContext context)
         {
             return context.RootDirectory().AddFileName(context.Properties.GetOutputDir());
