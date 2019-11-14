@@ -14,7 +14,7 @@ namespace FlubuCore.Tasks.Process
         private readonly List<string> _additionalOptionPrefixes = new List<string>();
 
         private readonly Dictionary<string, List<string>> _longAndShortKeys = new Dictionary<string, List<string>>();
-        
+
         private Func<string, string> _prefixToAdditionalOptionKeyFunc;
 
         private char _additionalOptionKeyValueSeperator;
