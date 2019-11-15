@@ -15,7 +15,7 @@
 
 ### Table of Contents
 
-- [功能与优势](#功能与优势)
+- [Introduction](#Introduction)
 - [功能与优势](#功能与优势)
 - [入门](#入门)
 - [范例](#范例)
