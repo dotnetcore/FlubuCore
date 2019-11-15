@@ -5,6 +5,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
 using FlubuCore.IO;
+using FlubuCore.Tasks.FlubuWebApi;
 
 namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
 {
@@ -57,11 +58,136 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         /// Gets the full path to the project file.
         /// </summary>
         /// <value>The full path to the project file.</value>
-        public FileFullPath ProjectFileNameFull
+        public FileFullPath ProjectFileNameFull => OwnerSolution.SolutionDirectoryPath.CombineWith(ProjectFileName).ToFileFullPath();
+
+        public string TargetFramework
         {
             get
             {
-                return OwnerSolution.SolutionDirectoryPath.CombineWith(ProjectFileName).ToFileFullPath();
+                if (Project == null)
+                {
+                    return null;
+                }
+
+                if (Project.Properties.ContainsKey("TargetFramework"))
+                {
+                  return Project.Properties["TargetFramework"];
+                }
+
+                if (Project.Properties.ContainsKey("TargetFrameworks"))
+                {
+                    return Project.Properties["TargetFrameworks"];
+                }
+
+                return null;
+            }
+        }
+
+        public string RuntimeIdentifier
+        {
+            get
+            {
+                if (Project == null)
+                {
+                    return null;
+                }
+
+                if (Project.Properties.ContainsKey("RuntimeIdentifier"))
+                {
+                    return Project.Properties["RuntimeIdentifier"];
+                }
+
+                return null;
+            }
+        }
+
+        public string OutputType
+        {
+            get
+            {
+                if (Project == null)
+                {
+                    return null;
+                }
+
+                if (Project.Properties.ContainsKey("OutputType"))
+                {
+                    return Project.Properties["OutputType"];
+                }
+
+                return null;
+            }
+        }
+
+        public string AssemblyName
+        {
+            get
+            {
+                if (Project == null)
+                {
+                    return null;
+                }
+
+                if (Project.Properties.ContainsKey("AssemblyName"))
+                {
+                    return Project.Properties["AssemblyName"];
+                }
+
+                return null;
+            }
+        }
+
+        public string Version
+        {
+            get
+            {
+                if (Project == null)
+                {
+                    return null;
+                }
+
+                if (Project.Properties.ContainsKey("Version"))
+                {
+                    return Project.Properties["Version"];
+                }
+
+                return null;
+            }
+        }
+
+        public string AssemblyVersion
+        {
+            get
+            {
+                if (Project == null)
+                {
+                    return null;
+                }
+
+                if (Project.Properties.ContainsKey("AssemblyVersion"))
+                {
+                    return Project.Properties["AssemblyVersion"];
+                }
+
+                return null;
+            }
+        }
+
+        public string FileVersion
+        {
+            get
+            {
+                if (Project == null)
+                {
+                    return null;
+                }
+
+                if (Project.Properties.ContainsKey("FileVersion"))
+                {
+                    return Project.Properties["FileVersion"];
+                }
+
+                return null;
             }
         }
 

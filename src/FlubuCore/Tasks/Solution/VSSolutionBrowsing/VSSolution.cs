@@ -23,7 +23,9 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
 
         public static readonly Regex RegexSolutionVersion = new Regex(@"^Microsoft Visual Studio Solution File, Format Version (?<version>.+)$", RegexOptions.Compiled);
 
-        private readonly List<VSProjectInfo> _projects = new List<VSProjectInfo>();
+        private readonly List<VSProjectWithFileInfo> _projects = new List<VSProjectWithFileInfo>();
+
+        private readonly List<VSSolutionFilesInfo> _solutionFolders = new List<VSSolutionFilesInfo>();
 
         protected VSSolution(string fileName)
         {
@@ -34,7 +36,9 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         /// Gets a read-only collection of <see cref="VSProjectWithFileInfo"/> objects for all of the projects in the solution.
         /// </summary>
         /// <value>A read-only collection of <see cref="VSProjectWithFileInfo"/> objects .</value>
-        public ReadOnlyCollection<VSProjectInfo> Projects => _projects.AsReadOnly();
+        public ReadOnlyCollection<VSProjectWithFileInfo> Projects => _projects.AsReadOnly();
+
+        public ReadOnlyCollection<VSSolutionFilesInfo> SolutionFolders => _solutionFolders.AsReadOnly();
 
         public FullPath SolutionDirectoryPath => SolutionFileName.Directory;
 
@@ -107,27 +111,28 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
                         string projectFileName = projectMatch.Groups["path"].Value;
                         Guid projectTypeGuid = new Guid(projectMatch.Groups["projectTypeGuid"].Value);
 
-                        VSProjectInfo project;
                         if (projectTypeGuid == VSProjectType.SolutionFolderProjectType.ProjectTypeGuid)
                         {
-                            project = new VSSolutionFilesInfo(
+                           var project = new VSSolutionFilesInfo(
                                 solution,
                                 projectGuid,
                                 projectName,
                                 projectTypeGuid);
+
+                           solution._solutionFolders.Add(project);
+                           project.Parse(parser);
                         }
                         else
                         {
-                            project = new VSProjectWithFileInfo(
+                            var project = new VSProjectWithFileInfo(
                                 solution,
                                 projectGuid,
                                 projectName,
                                 new LocalPath(projectFileName),
                                 projectTypeGuid);
+                            solution._projects.Add(project);
+                            project.Parse(parser);
                         }
-
-                        solution._projects.Add(project);
-                        project.Parse(parser);
                     }
                 }
             }
