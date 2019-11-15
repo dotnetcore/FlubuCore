@@ -18,7 +18,7 @@
 - [Getting Started](#Getting-Started)
 - [Examples](#Examples)
 - [Contributing](#Contributing)
-- [Backers and Sponsors](#Backers-and-Sponsors)
+- [Backers and Sponsors](#Further Development)
 - [Acknowledgements](#Acknowledgements)
 
 ## Introduction
