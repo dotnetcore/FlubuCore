@@ -14,7 +14,7 @@
 ### Table of Contents
 
 - [Introduction](#Introduction)
-- [Features and Advantage](#Features-and-Advantages)
+- [Features and Advantages](#Features-and-Advantages)
 - [Getting Started](#Getting-Started)
 - [Examples](#Examples)
 - [Contributing](#Contributing)
