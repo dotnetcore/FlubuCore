@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using FlubuCore.IO;
+using GlobExpressions;
 
 namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
 {
@@ -140,9 +141,43 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
             return solution;
         }
 
-        public VSProjectInfo FindProjectByName(string projectName)
+        /// <summary>
+        /// Filter projects by name with glob pattern.
+        /// </summary>
+        /// <param name="projectName"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public List<VSProjectWithFileInfo> FilterProjects(GlobOptions globOptions, params string[] globPattern)
         {
-            foreach (VSProjectInfo projectData in _projects)
+            List<VSProjectWithFileInfo> projects = new List<VSProjectWithFileInfo>();
+            foreach (VSProjectWithFileInfo projectData in _projects)
+            {
+                foreach (var pattern in globPattern)
+                {
+                    if (Glob.IsMatch(projectData.ProjectName, pattern, globOptions))
+                    {
+                        projects.Add(projectData);
+                    }
+                }
+            }
+
+            return projects;
+        }
+
+        /// <summary>
+        /// Find projects by glob pattern.
+        /// </summary>
+        /// <param name="projectName"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public List<VSProjectWithFileInfo> FindProjects(params string[] globPattern)
+        {
+            return FindProjects(GlobOptions.None, globPattern);
+        }
+
+        public VSProjectWithFileInfo FindProjectByName(string projectName)
+        {
+            foreach (VSProjectWithFileInfo projectData in _projects)
             {
                 if (projectData.ProjectName == projectName)
                     return projectData;
@@ -155,7 +190,7 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         /// Performs the specified action on each project of the solution.
         /// </summary>
         /// <param name="action">The action delegate to perform on each project.</param>
-        public void ForEachProject(Action<VSProjectInfo> action)
+        public void ForEachProject(Action<VSProjectWithFileInfo> action)
         {
             _projects.ForEach(action);
         }
@@ -164,7 +199,7 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         /// Loads the VisualStudio project files and fills the project data into <see cref="VSProjectWithFileInfo.Project"/>
         /// properties for each of the project in the solution.
         /// </summary>
-        public void LoadProjects()
+        protected internal void LoadProjects()
         {
             ForEachProject(projectInfo =>
             {
