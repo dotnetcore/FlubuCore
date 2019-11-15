@@ -223,7 +223,7 @@ You can see FlubuCore roadmap by exploring opened [Milestones.](https://github.c
 ## Further Development
 If you find FlubuCore useful (you feel it helps you on the daily basis) you can support further development by buying us a coffee (or become a backer or sponsor). Sometimes it's hard to stay awake till midnight implementing new features, coffee helps us with that. We would really appreciate your support. Money from sponsorship will also be used for the promotion of the project. If you are a backer or a sponsor you can also request for a new feature or ask for support. These issues will be handled with highest priority.
 
-[![](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/tmAJLYvWy)
+[![](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/NCOpMkt)
 
 ### Backers and Sponsors
 [![OpenCollective](https://opencollective.com/flubucore/backers/badge.svg?style=for-the-badge)](https://opencollective.com/flubucore/order/12502) 
@@ -233,8 +233,6 @@ If you find FlubuCore useful (you feel it helps you on the daily basis) you can 
 Thank's to Comtrade for supporting us.
 
 [![FlubuCore analyzers in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/Svg/COMTRADE_logo.PNG)](https://www.comtrade.com)
-
-https://www.buymeacoffee.com/NCOpMkt
 
 ## Acknowledgements
 
