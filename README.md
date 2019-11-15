@@ -195,6 +195,7 @@ Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ### Ways to Contribute
 
+* We appreciate deeply any feedback that you may have! Feel free to participate in the chat, or add an issue in the issue tracker.
 * Spread the word about the project.
 * If you like the project don't forget to give it a star so that the community get's bigger.
 * Improve documentation.
