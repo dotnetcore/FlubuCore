@@ -11,7 +11,7 @@
 [![Member project of .NET Core Community](https://img.shields.io/badge/member%20project%20of-NCC-9e20c9.svg)](https://github.com/dotnetcore)
 [![License](https://img.shields.io/github/license/dotnetcore/FlubuCore.svg)](https://github.com/dotnetcore/FlubuCore/blob/master/LICENSE)
 
-## Table of Contents
+### Table of Contents
 
 - [Introduction](#Introduction)
 - [Features and Advantage](#Features-and-Advantages)
