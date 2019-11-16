@@ -77,6 +77,9 @@ namespace FlubuCore.Context
                 case PredefinedBuildProperties.UserProfileFolder:
                     propName = BuildProps.UserHomeFolder;
                     break;
+                case PredefinedBuildProperties.IsWebApi:
+                    propName = BuildProps.IsWebApi;
+                    break;
                 default:
                     throw new NotSupportedException("Property name is not mapped.");
             }

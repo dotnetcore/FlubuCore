@@ -29,5 +29,10 @@
         ///     Root folder of the product / solution.
         /// </summary>
         ProductRootDir,
+
+        /// <summary>
+        /// If <c>true</c> script is executed through flubu we api. Otherwise not.
+        /// </summary>
+        IsWebApi,
     }
 }

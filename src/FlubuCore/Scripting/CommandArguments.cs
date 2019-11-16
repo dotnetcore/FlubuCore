@@ -34,6 +34,8 @@ namespace FlubuCore.Scripting
 
         public bool InteractiveMode { get; set; }
 
+        public bool IsWebApi { get; set; }
+
         public List<string> AdditionalOptions { get; set; } = new List<string>();
 
         /// <summary>
