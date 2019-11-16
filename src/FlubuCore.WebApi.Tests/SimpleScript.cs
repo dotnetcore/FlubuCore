@@ -1,10 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using FlubuCore.Context;
-using FlubuCore.Context.FluentInterface;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Scripting;
-using FlubuCore.Targeting;
 using Moq;
 
 //#nuget: Moq, 4.8.2
@@ -12,6 +9,8 @@ namespace FlubuCore.WebApi.Tests
 {
     public class SimpleScript : DefaultBuildScript
     {
+        public string RequiredParam { get; set; }
+
         protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
         {
         }
@@ -31,6 +30,9 @@ namespace FlubuCore.WebApi.Tests
                     {
                         File.Create("Finally.txt");
                     });
+
+            session.CreateTarget("RequiredTarget")
+                .Requires(() => RequiredParam);
 
             session.CreateTarget("OnErrorTarget")
                 .Group(target =>

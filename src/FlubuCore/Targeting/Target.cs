@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 using FlubuCore.Context;
+using FlubuCore.Infrastructure;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks;
 
@@ -420,16 +421,17 @@ namespace FlubuCore.Targeting
                 {
                     var member = GetMemberExpression(requiredParameter).Member;
 
-                    if (member is PropertyInfo p)
+                    if (member.GetValue(context.TargetTree.BuildScript) == null)
                     {
-                        if (p.GetValue(context.TargetTree.BuildScript) == null)
+                        if (context.BuildSystems().IsLocalBuild && !context.Properties.Get<bool>(PredefinedBuildProperties.IsWebApi))
                         {
-                            throw new TaskExecutionException($"Target '{TargetName}' requires build script member '{member.Name}' not to be null.", -99);
+                            Console.Write($"{member.Name} requires value: ");
+                            string value = Console.ReadLine();
+                            var propertyInfo = (PropertyInfo)member;
+                            object parsedValue = MethodParameterModifier.ParseValueByType(value, propertyInfo.PropertyType);
+                            propertyInfo.SetValue(context.TargetTree.BuildScript, parsedValue);
                         }
-                    }
-                    else if (member is FieldInfo f)
-                    {
-                        if (f.GetValue(context.TargetTree.BuildScript) == null)
+                        else
                         {
                             throw new TaskExecutionException($"Target '{TargetName}' requires build script member '{member.Name}' not to be null.", -99);
                         }

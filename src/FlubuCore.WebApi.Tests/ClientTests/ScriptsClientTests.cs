@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using FlubuCore.Context;
 using FlubuCore.Services;
 using FlubuCore.WebApi.Client;
 using FlubuCore.WebApi.Model;
@@ -118,6 +119,28 @@ namespace FlubuCore.WebApi.Tests.ClientTests
 
             await Client.ExecuteScriptAsync(req);
             Assert.True(File.Exists("Finally.txt"));
+        }
+
+        [Fact]
+        public async void ExecuteScript_RequiresTest_Sucesfull()
+        {
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
+            Client.Token = token.Token;
+
+            await Client.UploadScriptAsync(new UploadScriptRequest
+            {
+                FilePath = "SimpleScript.cs"
+            });
+
+            var req = new ExecuteScriptRequest
+            {
+                ScriptFileName = "SimpleScript.cs",
+                TargetToExecute = "RequiredTarget",
+                ScriptArguments = new Dictionary<string, string>()
+            };
+
+            var ex = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(req));
+            Assert.Equal("Target 'RequiredTarget' requires build script member 'RequiredParam' not to be null.", ex.ErrorMessage);
         }
 
         [Fact]
