@@ -142,6 +142,17 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         }
 
         /// <summary>
+        /// Find projects by glob pattern.
+        /// </summary>
+        /// <param name="projectName"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public List<VSProjectWithFileInfo> FilterProjects(params string[] globPattern)
+        {
+            return FilterProjects(GlobOptions.None, globPattern);
+        }
+
+        /// <summary>
         /// Filter projects by name with glob pattern.
         /// </summary>
         /// <param name="projectName"></param>
@@ -162,17 +173,6 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
             }
 
             return projects;
-        }
-
-        /// <summary>
-        /// Find projects by glob pattern.
-        /// </summary>
-        /// <param name="projectName"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
-        public List<VSProjectWithFileInfo> FindProjects(params string[] globPattern)
-        {
-            return FindProjects(GlobOptions.None, globPattern);
         }
 
         public VSProjectWithFileInfo FindProjectByName(string projectName)
