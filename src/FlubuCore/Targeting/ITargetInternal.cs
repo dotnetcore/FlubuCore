@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Tasks;
@@ -231,5 +232,7 @@ namespace FlubuCore.Targeting
         ITargetInternal AddTaskAsync(TaskGroup taskGroup, params ITask[] task);
 
         ITargetInternal Must(Func<ITaskContext, bool> condition, string failMessage);
+
+        ITargetInternal Requires<T>(Expression<Func<T>> parameter);
     }
 }

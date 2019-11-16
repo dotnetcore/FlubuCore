@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Drawing;
 #endif
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
@@ -22,6 +24,8 @@ namespace FlubuCore.Targeting
         private readonly TargetTree _targetTree;
 
         private readonly List<(Func<ITaskContext, bool> condition, string failMessage)> _musts = new List<(Func<ITaskContext, bool> condition, string failMessage)>();
+
+        private List<LambdaExpression> _requiredParameters = new List<LambdaExpression>();
 
         private bool _logExecutionInfo = true;
 
@@ -343,6 +347,12 @@ namespace FlubuCore.Targeting
             return this;
         }
 
+        public ITargetInternal Requires<T>(Expression<Func<T>> parameter)
+        {
+            _requiredParameters.Add(parameter);
+            return this;
+        }
+
         public void TargetHelp(ITaskContextInternal context)
         {
             _targetTree.MarkTargetAsExecuted(this);
@@ -402,6 +412,29 @@ namespace FlubuCore.Targeting
             if (_targetTree == null)
             {
                 throw new ArgumentNullException(nameof(_targetTree), "TargetTree must be set before Execution of target.");
+            }
+
+            if (_requiredParameters.Count > 0)
+            {
+                foreach (var requiredParameter in _requiredParameters)
+                {
+                    var member = GetMemberExpression(requiredParameter).Member;
+
+                    if (member is PropertyInfo p)
+                    {
+                        if (p.GetValue(context.TargetTree.BuildScript) == null)
+                        {
+                            throw new TaskExecutionException($"Target '{TargetName}' requires build script member '{member.Name}' not to be null.", -99);
+                        }
+                    }
+                    else if (member is FieldInfo f)
+                    {
+                        if (f.GetValue(context.TargetTree.BuildScript) == null)
+                        {
+                            throw new TaskExecutionException($"Target '{TargetName}' requires build script member '{member.Name}' not to be null.", -99);
+                        }
+                    }
+                }
             }
 
             if (_musts.Count > 0)

@@ -47,6 +47,8 @@ namespace FlubuCore.Targeting
 
         internal int DependenciesExecutedCount { get; private set; }
 
+        internal IBuildScript BuildScript { get; set; }
+
         public ITargetInternal AddTarget(string targetName)
         {
             if (_targets.ContainsKey(targetName))
