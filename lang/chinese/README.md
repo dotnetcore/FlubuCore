@@ -13,6 +13,18 @@
 [![Member project of .NET Core Community](https://img.shields.io/badge/member%20project%20of-NCC-9e20c9.svg)](https://github.com/dotnetcore)
 [![License](https://img.shields.io/github/license/dotnetcore/FlubuCore.svg)](https://github.com/dotnetcore/FlubuCore/blob/master/LICENSE)
 
+### Table of Contents
+
+- [Introduction](#Introduction)
+- [功能与优势](#功能与优势)
+- [入门](#入门)
+- [范例](#范例)
+- [贡献](#贡献)
+- [Backers and Sponsors](#Further-Development)
+- [致谢](#致谢)
+
+## Introduction
+
 “FlubuCore - Fluent Builder Core”，跨平台的构建与部署自动化系统，通过直观的 Fluent 接口，使用 C# 定义构建和部署脚本。这使你的代码获得自动完成、IntelliSense、调试、FlubuCore 自定义分析器，以及在脚本中对整个 .NET 生态的原生性访问。
 
 ![FlubuCore in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/demo.gif)
@@ -212,6 +224,15 @@ FlubuCore 用起来非常简单:-) 而且她的文档也非常完整。
 详细变更记录与示例请参阅[变更日志](https://github.com/dotnetcore/FlubuCore/blob/master/CHANGELOG.md)。
 
 FlubuCore 路线图请翻阅项目[里程碑](https://github.com/dotnetcore/FlubuCore/milestones)。
+
+## Further Development
+If you find FlubuCore useful (you feel it helps you on the daily basis) you can support further development by buying us a coffee (or become a backer or sponsor). Sometimes it's hard to stay awake till midnight implementing new features, coffee helps us with that. We would really appreciate your support. Money from sponsorship will also be used for the promotion of the project. If you are a backer or a sponsor you can also request for a new feature or ask for support. These issues will be handled with highest priority.
+
+[![](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/NCOpMkt)
+
+### Backers and Sponsors
+[![OpenCollective](https://opencollective.com/flubucore/backers/badge.svg?style=for-the-badge)](https://opencollective.com/flubucore/order/12502) 
+[![OpenCollective](https://opencollective.com/flubucore/sponsors/badge.svg?style=for-the-badge)](https://opencollective.com/flubucore/order/12503)
 
 ## 使用与支持
 
