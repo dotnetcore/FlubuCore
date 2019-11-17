@@ -25,7 +25,7 @@ namespace FlubuCore.Infrastructure.Terminal
 
         private readonly TargetTree _targetTree;
         private readonly List<string> _commandsHistory = new List<string>();
-        private IDictionary<char, IReadOnlyCollection<Hint>> _hintsSourceDictionary;
+        private IDictionary<string, IReadOnlyCollection<Hint>> _hintsSourceDictionary;
         private List<Suggestion> _suggestionsForUserInput;
         private int _suggestionPosition;
         private int _historyPosition;
@@ -37,7 +37,7 @@ namespace FlubuCore.Infrastructure.Terminal
         /// Creates new instance of <see cref="FlubuConsole"/> class.
         /// </summary>
         /// <param name="hintsSourceDictionary">Collection containing input hints</param>
-        public FlubuConsole(TargetTree targetTree, IReadOnlyCollection<Hint> defaultHints, IDictionary<char, IReadOnlyCollection<Hint>> hintsSourceDictionary = null)
+        public FlubuConsole(TargetTree targetTree, IReadOnlyCollection<Hint> defaultHints, IDictionary<string, IReadOnlyCollection<Hint>> hintsSourceDictionary = null)
         {
             _targetTree = targetTree;
             InitializeHints(defaultHints, hintsSourceDictionary);
@@ -510,7 +510,7 @@ namespace FlubuCore.Infrastructure.Terminal
 
             var rootCommand = splitedUserInput.First();
             var lastInput = splitedUserInput.Last();
-            char prefix = lastInput[0];
+            string prefix = lastInput[0].ToString();
             List<Hint> hintSource = new List<Hint>();
             if (userInput.EndsWith(" "))
             {
@@ -518,7 +518,7 @@ namespace FlubuCore.Infrastructure.Terminal
             }
 
             char? hintSourceKey = null;
-            if (splitedUserInput.Count > 1 && _hintsSourceDictionary.ContainsKey(lastInput[0]))
+            if (splitedUserInput.Count > 1 && _hintsSourceDictionary.ContainsKey(lastInput[0].ToString()))
             {
                 hintSourceKey = lastInput[0];
                 lastInput = lastInput.Substring(1);
@@ -536,7 +536,7 @@ namespace FlubuCore.Infrastructure.Terminal
             {
                 if (!_commandsHintsSourceDictionary.ContainsKey(rootCommand))
                 {
-                    hintSource.AddRange(_hintsSourceDictionary[hintSourceKey.Value].ToList());
+                    hintSource.AddRange(_hintsSourceDictionary[hintSourceKey.Value.ToString()].ToList());
                 }
 
                 if (hintSourceKey == '*' && splitedUserInput.Count == 1)
@@ -545,7 +545,7 @@ namespace FlubuCore.Infrastructure.Terminal
                 }
             }
 
-            if (prefix == '-' || prefix == '/')
+            if (prefix == "-" || prefix == "/")
             {
                 var targetHints = GetHintsFromTarget(rootCommand, prefix);
                 hintSource.AddRange(targetHints);
@@ -725,7 +725,7 @@ namespace FlubuCore.Infrastructure.Terminal
             _suggestionsForUserInput = hints;
         }
 
-        private List<Hint> GetHintsFromTarget(string targetName, char prefix)
+        private List<Hint> GetHintsFromTarget(string targetName, string prefix)
         {
             List<Hint> targetSpecificHints = new List<Hint>();
             if (_targetTree.HasTarget(targetName))
@@ -752,7 +752,7 @@ namespace FlubuCore.Infrastructure.Terminal
             return targetSpecificHints.Distinct().ToList();
         }
 
-        private List<Hint> GetHintsFromTask(char prefix, Type type)
+        private List<Hint> GetHintsFromTask(string prefix, Type type)
         {
             List<Hint> taskHints = new List<Hint>();
             var methods = type.GetRuntimeMethods();
@@ -870,25 +870,25 @@ namespace FlubuCore.Infrastructure.Terminal
             return _suggestionsForUserInput[_suggestionPosition];
         }
 
-        private void InitializeHints(IReadOnlyCollection<Hint> defaultHints, IDictionary<char, IReadOnlyCollection<Hint>> hintsSourceDictionary)
+        private void InitializeHints(IReadOnlyCollection<Hint> defaultHints, IDictionary<string, IReadOnlyCollection<Hint>> hintsSourceDictionary)
         {
             _hintsSourceDictionary = hintsSourceDictionary;
 
             if (_hintsSourceDictionary == null)
             {
-                _hintsSourceDictionary = new Dictionary<char, IReadOnlyCollection<Hint>>();
+                _hintsSourceDictionary = new Dictionary<string, IReadOnlyCollection<Hint>>();
             }
 
-            _hintsSourceDictionary.Add('*', defaultHints);
+            _hintsSourceDictionary.Add("*", defaultHints);
 
-            if (!_hintsSourceDictionary.ContainsKey('-'))
+            if (!_hintsSourceDictionary.ContainsKey("-"))
             {
-                _hintsSourceDictionary.Add('-', new List<Hint>());
+                _hintsSourceDictionary.Add("-", new List<Hint>());
             }
 
-            if (!_hintsSourceDictionary.ContainsKey('/'))
+            if (!_hintsSourceDictionary.ContainsKey("/"))
             {
-                _hintsSourceDictionary.Add('/', new List<Hint>());
+                _hintsSourceDictionary.Add("/", new List<Hint>());
             }
 
             if (_commandsHintsSourceDictionary.Count == 0)

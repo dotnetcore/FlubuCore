@@ -232,13 +232,13 @@ namespace FlubuCore.Scripting
         private void FlubuInteractiveMode(IFlubuSession flubuSession, (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) targetsInfo, bool resetTargetTree)
         {
             flubuSession.InteractiveMode = true;
-            var source = new Dictionary<char, IReadOnlyCollection<Hint>>();
+            var source = new Dictionary<string, IReadOnlyCollection<Hint>>();
             var propertyKeys = ScriptProperties.GetPropertiesKeys(this, flubuSession);
             propertyKeys.Add(new Hint { Name = "--parallel", Help = "If applied target's are executed in parallel.", HintColor = ConsoleColor.Magenta });
             propertyKeys.Add(new Hint { Name = "--dryrun", Help = "Performs a dry run of the specified target.", HintColor = ConsoleColor.Magenta });
             propertyKeys.Add(new Hint { Name = "--noColor", Help = "Disables colored logging.", HintColor = ConsoleColor.Magenta });
             propertyKeys.Add(new Hint { Name = "--nodeps", Help = "If applied no target dependencies are executed.", HintColor = ConsoleColor.Magenta });
-            source.Add('-', propertyKeys);
+            source.Add("-", propertyKeys);
 
             List<Hint> defaultHints = new List<Hint>();
 
