@@ -2,6 +2,7 @@
 using System.IO;
 using System.Xml.XPath;
 using FlubuCore.IO.Wrappers;
+using Microsoft.Build.Framework;
 
 namespace FlubuCore.Scripting.Analysis
 {
@@ -12,11 +13,17 @@ namespace FlubuCore.Scripting.Analysis
             "BuildScript.csproj",
             "BuildScripts.csproj",
             "Build.csproj",
+            "BuildScript/Build.csproj",
             "BuildScript/BuildScript.csproj",
+            "BuildScripts/Build.csproj",
+            "BuildScripts/BuildScript.csproj",
             "BuildScripts/BuildScripts.csproj",
             "Build/Build.csproj",
             "_Build/Build.csproj",
+            "_BuildScript/Build.csproj",
             "_BuildScript/BuildScript.csproj",
+            "_BuildScripts/Build.csproj",
+            "_BuildScripts/BuildScript.csproj",
             "_BuildScripts/BuildScripts.csproj"
         };
 
@@ -88,12 +95,20 @@ namespace FlubuCore.Scripting.Analysis
                     }
                 }
 
-                foreach (var item in _defaultCsprojLocations)
+                foreach (var defaultCsprojLocation in _defaultCsprojLocations)
                 {
-                    if (_file.Exists(item))
+                    if (_file.Exists(defaultCsprojLocation))
                     {
                         result.ProjectFileFound = true;
-                        result.ProjectFileLocation = Path.GetFullPath(item);
+                        result.ProjectFileLocation = Path.GetFullPath(defaultCsprojLocation);
+                        break;
+                    }
+
+                    var defaultCsprojLocationSrc = Path.Combine("src", defaultCsprojLocation);
+                    if (_file.Exists(defaultCsprojLocationSrc))
+                    {
+                        result.ProjectFileFound = true;
+                        result.ProjectFileLocation = Path.GetFullPath(defaultCsprojLocationSrc);
                         break;
                     }
                 }
