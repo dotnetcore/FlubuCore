@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
 using FlubuCore.IO.Wrappers;
 using Microsoft.Extensions.Logging;
@@ -74,13 +77,19 @@ namespace FlubuCore.Scripting
             }
 
             _log.LogInformation("Build script file name was not explicitly specified, searching the default locations:");
-
             foreach (var defaultScriptLocation in DefaultScriptLocations)
             {
                 if (_file.Exists(defaultScriptLocation))
                 {
                     _log.LogInformation("Found it, using the build script file '{0}'.", defaultScriptLocation);
                     return defaultScriptLocation;
+                }
+
+                string locationWithSrc = Path.Combine("src", defaultScriptLocation);
+                if (_file.Exists(locationWithSrc))
+                {
+                    _log.LogInformation("Found it, using the build script file '{0}'.", locationWithSrc);
+                    return locationWithSrc;
                 }
             }
 
