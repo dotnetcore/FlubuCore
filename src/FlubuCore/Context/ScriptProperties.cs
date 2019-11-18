@@ -133,8 +133,20 @@ namespace FlubuCore.Context
                 var type = property.PropertyType;
                 if (type.IsEnum)
                 {
+                    var attribute = property.GetCustomAttribute<FromArgAttribute>(false);
+                    string argKey = null;
+
+                    if (attribute != null)
+                    {
+                        argKey = attribute.ArgKey.Split('|')[0];
+                    }
+                    else
+                    {
+                        argKey = property.Name;
+                    }
+
                     var enumValues = Enum.GetValues(type);
-                    string key = property.Name;
+
                     List<Hint> values = new List<Hint>();
                     foreach (var enumValue in enumValues)
                     {
@@ -145,7 +157,7 @@ namespace FlubuCore.Context
                         });
                     }
 
-                    hints.Add(key, values);
+                    hints.Add(argKey.ToLower(), values);
                 }
             }
 

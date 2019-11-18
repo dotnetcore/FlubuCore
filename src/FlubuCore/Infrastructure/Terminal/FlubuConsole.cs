@@ -115,7 +115,6 @@ namespace FlubuCore.Infrastructure.Terminal
             var fullInput = string.Empty;
             var readLine = string.Empty;
             var wasUserInput = false;
-            var target = string.Empty;
             var cursorPosition = new ConsoleCursorPosition(currentDirectory.Length + ConsoleUtils.Prompt.Length - 1, Console.CursorTop, Console.WindowWidth);
             ClearConsoleLines(cursorPosition.StartTop, cursorPosition.Top);
             while ((input = Console.ReadKey()).Key != ConsoleKey.Enter)
@@ -536,10 +535,14 @@ namespace FlubuCore.Infrastructure.Terminal
 
             if (splitedUserInput.Count > 1 && splitedLastInput != null) //// value hints
             {
-                hintSourceKey = splitedLastInput[0].TrimStart('-');
-                hintSource.AddRange(_hintsSourceDictionary[hintSourceKey].ToList());
-                GetSuggestionFromHints(hintSource, splitedLastInput[1], hintSourceKey);
-                 return;
+                hintSourceKey = splitedLastInput[0].TrimStart('-').ToLower();
+                if (_hintsSourceDictionary.ContainsKey(hintSourceKey))
+                {
+                    hintSource.AddRange(_hintsSourceDictionary[hintSourceKey].ToList());
+                    GetSuggestionFromHints(hintSource, splitedLastInput[1], hintSourceKey);
+                }
+
+                return;
             }
             else if (splitedUserInput.Count > 1 && _hintsSourceDictionary.ContainsKey(lastInput[0].ToString()))
             {
