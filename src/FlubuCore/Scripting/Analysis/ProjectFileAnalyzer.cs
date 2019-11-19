@@ -29,9 +29,12 @@ namespace FlubuCore.Scripting.Analysis
 
         private readonly IFileWrapper _file;
 
-        public ProjectFileAnalyzer(IFileWrapper file)
+        private readonly IBuildScriptLocator _buildScriptLocator;
+
+        public ProjectFileAnalyzer(IFileWrapper file, IBuildScriptLocator buildScriptLocator)
         {
             _file = file;
+            _buildScriptLocator = buildScriptLocator;
         }
 
         public ProjectFileAnalyzerResult Analyze(string location = null, bool disableAnalysis = false)
@@ -101,7 +104,7 @@ namespace FlubuCore.Scripting.Analysis
                     {
                         result.ProjectFileFound = true;
                         result.ProjectFileLocation = Path.GetFullPath(defaultCsprojLocation);
-                        break;
+                        return result;
                     }
 
                     var defaultCsprojLocationSrc = Path.Combine("src", defaultCsprojLocation);
@@ -109,8 +112,18 @@ namespace FlubuCore.Scripting.Analysis
                     {
                         result.ProjectFileFound = true;
                         result.ProjectFileLocation = Path.GetFullPath(defaultCsprojLocationSrc);
-                        break;
+                        return result;
                     }
+                }
+
+                var flubuFile = _buildScriptLocator.FindFlubuFile();
+                var flubuFileLines = _file.ReadAllLines(flubuFile);
+                if (flubuFileLines.Count > 1 && !string.IsNullOrEmpty(flubuFileLines[1]))
+                {
+                    var flubuFileDir = Path.GetDirectoryName(flubuFile);
+                    var buildCsprojPath = Path.Combine(flubuFileDir, flubuFileLines[1]);
+                    result.ProjectFileFound = true;
+                    result.ProjectFileLocation = buildCsprojPath;
                 }
             }
             else

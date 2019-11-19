@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.IO.Wrappers;
+using FlubuCore.Scripting;
 using FlubuCore.Scripting.Analysis;
+using Moq;
 using Xunit;
 
 namespace FlubuCore.Tests.Scripting
@@ -11,9 +13,12 @@ namespace FlubuCore.Tests.Scripting
     {
         private IProjectFileAnalyzer _analyzer;
 
+        private Mock<IBuildScriptLocator> _buildScriptLocator;
+
         public ProjectFileAnalyzerTests()
         {
-            _analyzer = new ProjectFileAnalyzer(new FileWrapper());
+            _buildScriptLocator = new Mock<IBuildScriptLocator>();
+            _analyzer = new ProjectFileAnalyzer(new FileWrapper(), _buildScriptLocator.Object);
         }
 
         [Fact]

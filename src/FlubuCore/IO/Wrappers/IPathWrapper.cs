@@ -9,5 +9,7 @@ namespace FlubuCore.IO.Wrappers
         string GetExtension(string path);
 
         string GetFullPath(string path);
+
+        string Combine(params string[] path);
     }
 }
