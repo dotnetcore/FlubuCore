@@ -110,13 +110,6 @@ namespace FlubuCore.Scripting
                     _log.LogInformation("Found it, using the build script file '{0}'.", defaultScriptLocation);
                     return defaultScriptLocation;
                 }
-
-                string locationWithSrc = Path.Combine("src", defaultScriptLocation);
-                if (_file.Exists(locationWithSrc))
-                {
-                    _log.LogInformation("Found it, using the build script file '{0}'.", locationWithSrc);
-                    return locationWithSrc;
-                }
             }
 
             var flubuFile = FindFlubuFile();
