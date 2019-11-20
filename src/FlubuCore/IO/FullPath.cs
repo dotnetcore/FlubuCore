@@ -51,7 +51,7 @@ namespace FlubuCore.IO
         /// <param name="directory"></param>
         /// <param name="globPattern"></param>
         /// <returns></returns>
-        public List<FileFullPath> GetFiles(string directory, params string[] globPattern)
+        public List<FileFullPath> GetFiles(params string[] globPattern)
         {
             return GetFiles(GlobOptions.None, globPattern);
         }
