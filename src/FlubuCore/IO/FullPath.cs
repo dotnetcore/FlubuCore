@@ -5,6 +5,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using FlubuCore.Context;
+using GlobExpressions;
 
 namespace FlubuCore.IO
 {
@@ -39,6 +41,33 @@ namespace FlubuCore.IO
         public static implicit operator string(FullPath path)
         {
             return path.ToString();
+        }
+
+        /// <summary>
+        /// Gets all files matching glob pattern.
+        /// See: https://github.com/kthompson/glob for supported pattern expressions and use cases.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="directory"></param>
+        /// <param name="globPattern"></param>
+        /// <returns></returns>
+        public List<FileFullPath> GetFiles(string directory, params string[] globPattern)
+        {
+            return GetFiles(GlobOptions.None, globPattern);
+        }
+
+        /// <summary>
+        /// Gets all files matching glob pattern.
+        /// See: https://github.com/kthompson/glob for supported pattern expressions and use cases.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="directory"></param>
+        /// <param name="globPattern"></param>
+        /// <returns></returns>
+        public List<FileFullPath> GetFiles(GlobOptions globOptions = GlobOptions.None, params string[] globPattern)
+        {
+            var directoryInfo = new DirectoryInfo(_fullPath);
+            return globPattern.SelectMany(pattern => Glob.Files(directoryInfo, pattern, globOptions)).Select(x => new FileFullPath(x.FullName)).ToList();
         }
 
         public FileFullPath AddFileName(string fileNameFormat, params object[] args)

@@ -77,6 +77,7 @@ namespace FlubuCore.Context
 
         /// <summary>
         /// Gets all files matching glob pattern.
+        /// See: https://github.com/kthompson/glob for supported pattern expressions and use cases.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="directory"></param>
@@ -89,6 +90,7 @@ namespace FlubuCore.Context
 
         /// <summary>
         /// Gets all files matching glob pattern.
+        /// See: https://github.com/kthompson/glob for supported pattern expressions and use cases.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="directory"></param>
