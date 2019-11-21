@@ -68,7 +68,7 @@ namespace FlubuCore.Context
             var directoryInfo = new DirectoryInfo(directory);
             return globPattern.SelectMany(pattern => Glob.Files(directoryInfo, pattern, globOptions)).Select(x => new FileFullPath(x.FullName)).ToList();
         }
-        
+
         /// <summary>
         /// Gets all directories matching glob pattern.
         /// </summary>

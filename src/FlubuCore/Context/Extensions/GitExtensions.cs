@@ -74,7 +74,7 @@
 
             return null;
         }
-     
+
         public string CommitId(string branchName = "HEAD")
         {
             var task = _taskContext.Tasks().RunProgramTask("git");
