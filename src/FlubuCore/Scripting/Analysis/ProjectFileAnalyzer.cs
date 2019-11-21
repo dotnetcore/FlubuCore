@@ -117,6 +117,12 @@ namespace FlubuCore.Scripting.Analysis
                 }
 
                 var flubuFile = _buildScriptLocator.FindFlubuFile();
+
+                if (string.IsNullOrEmpty(flubuFile))
+                {
+                    return result;
+                }
+
                 var flubuFileLines = _file.ReadAllLines(flubuFile);
                 if (flubuFileLines.Count > 1 && !string.IsNullOrEmpty(flubuFileLines[1]))
                 {
