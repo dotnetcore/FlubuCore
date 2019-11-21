@@ -96,8 +96,8 @@ public class BuildScript : DefaultBuildScript
             .SetAsDefault()
             .DependsOn(compile, flubuTests);
 
-        var branch = context.BuildSystems().AppVeyor().BranchName;
-
+        var branch = Environment.GetEnvironmentVariable("APPVEYOR_REPO_BRANCH");
+        
         context.CreateTarget("rebuild.server")
             .SetDescription("Rebuilds the solution and publishes nuget packages.")
             .DependsOn(compile, flubuTests)
