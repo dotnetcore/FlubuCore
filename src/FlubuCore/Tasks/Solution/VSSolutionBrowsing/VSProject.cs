@@ -1,246 +1,255 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Xml;
+using FlubuCore.IO;
+using FlubuCore.Tasks.FlubuWebApi;
 
 namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
 {
     /// <summary>
-    /// Represents a VisualStudio project.
+    /// Holds information about a VisualStudio project.
     /// </summary>
-    public class VSProject
+    public class VSProject : VSProjectInfo
     {
-        private readonly List<VSProjectConfiguration> _configurations = new List<VSProjectConfiguration>();
+        public const string MSBuildNamespace = @"http://schemas.microsoft.com/developer/msbuild/2003";
 
-        private readonly List<VSProjectItem> _items = new List<VSProjectItem>();
-
-        private readonly Dictionary<string, string> _properties = new Dictionary<string, string>();
-
-        private bool _propertiesDictionary;
-
-        /// <summary>
-        /// Gets a read-only collection of project configurations.
-        /// </summary>
-        /// <value>A read-only collection of project configurations.</value>
-        public IList<VSProjectConfiguration> Configurations => _configurations;
-
-        /// <summary>
-        /// Gets a read-only collection of all .cs files in the solution.
-        /// </summary>
-        /// <value>A read-only collection of all the .cs files in the solution.</value>
-        public IList<VSProjectItem> Items => _items;
-
-        /// <summary>
-        /// Gets a read-only collection of project properties.
-        /// </summary>
-        /// <value>A read-only collection of project properties.</value>
-        public IDictionary<string, string> Properties => _properties;
-
-        /// <summary>
-        /// Loads the specified project file name.
-        /// </summary>
-        /// <param name="projectFileName">Name of the project file.</param>
-        /// <returns>VSProject class containing project information.</returns>
-        public static VSProject Load(string projectFileName)
+        public VSProject(
+            VSSolution ownerSolution,
+            Guid projectGuid,
+            string projectName,
+            LocalPath projectFileName,
+            Guid projectTypeGuid)
+            : base(ownerSolution, projectGuid, projectName, projectTypeGuid)
         {
-            projectFileName = projectFileName.Replace(@"\", "/");
-            using (Stream stream = File.OpenRead(projectFileName))
+            ProjectFileName = projectFileName;
+        }
+
+        /// <summary>
+        /// Gets or sets the <see cref="VSProjectDetails"/> object holding the detailed information about this VisualStudio
+        /// project.
+        /// </summary>
+        /// <value>The <see cref="VSProjectDetails"/> object .</value>
+        public VSProjectDetails ProjectDetails { get; set; }
+
+        /// <summary>
+        /// Gets the path to the directory where the project file is located.
+        /// </summary>
+        /// <value>The project directory path.</value>
+        public FullPath ProjectDirectoryPath
+        {
+            get
             {
-                VSProject data = new VSProject { _propertiesDictionary = true };
-
-                XmlReaderSettings xmlReaderSettings = new XmlReaderSettings
-                {
-                    IgnoreComments = true,
-                    IgnoreProcessingInstructions = true,
-                    IgnoreWhitespace = true
-                };
-
-                using (XmlReader xmlReader = XmlReader.Create(stream, xmlReaderSettings))
-                {
-                    xmlReader.Read();
-                    while (!xmlReader.EOF)
-                    {
-                        switch (xmlReader.NodeType)
-                        {
-                            case XmlNodeType.XmlDeclaration:
-                                xmlReader.Read();
-                                break;
-
-                            case XmlNodeType.Element:
-                                if (xmlReader.Name == "Project")
-                                    data.ReadProject(projectFileName, xmlReader);
-
-                                xmlReader.Read();
-                                break;
-                            default:
-                                xmlReader.Read();
-                                continue;
-                        }
-                    }
-                }
-
-                return data;
+                return OwnerSolution.SolutionDirectoryPath.CombineWith(ProjectFileName).ParentPath;
             }
         }
 
         /// <summary>
-        /// Finds the VisualStudio project configuration specified by a condition.
+        /// Gets the name of the project file. The file name is relative to the solution's directory.
         /// </summary>
-        /// <param name="condition">The condition which identifies the configuration
-        ///  (example: " '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ").</param>
-        /// <returns><see cref="VSProjectConfiguration"/> object if found; <c>null</c> if no configuration was found that meets the
-        /// specified condition.</returns>
-        public VSProjectConfiguration FindConfiguration(string condition)
+        /// <remarks>The full path to the project file can be retrieved using the <see cref="ProjectFileNameFull"/>
+        /// property.</remarks>
+        /// <value>The name of the project file.</value>
+        public LocalPath ProjectFileName { get; }
+
+        /// <summary>
+        /// Gets the full path to the project file.
+        /// </summary>
+        /// <value>The full path to the project file.</value>
+        public FileFullPath ProjectFileNameFull => OwnerSolution.SolutionDirectoryPath.CombineWith(ProjectFileName).ToFileFullPath();
+
+        public string TargetFramework
         {
-            foreach (VSProjectConfiguration configuration in _configurations)
+            get
             {
-                if (configuration?.Condition == null)
-                    continue;
-                if (configuration.Condition.IndexOf(condition, StringComparison.OrdinalIgnoreCase) >= 0)
-                    return configuration;
-            }
-
-            return null;
-        }
-
-        private static VSProjectItem ReadItem(string projectName, XmlReader xmlReader, string itemType)
-        {
-            VSProjectItem item = new VSProjectItem(itemType) { Item = xmlReader["Include"] };
-
-            if (xmlReader.IsEmptyElement == false)
-            {
-                xmlReader.Read();
-
-                while (true)
+                if (ProjectDetails == null)
                 {
-                    if (xmlReader.NodeType == XmlNodeType.EndElement)
-                        break;
-
-                    ReadItemProperty(projectName, item, xmlReader);
+                    return null;
                 }
-            }
 
-            xmlReader.Read();
+                if (ProjectDetails.Properties.ContainsKey("TargetFramework"))
+                {
+                  return ProjectDetails.Properties["TargetFramework"];
+                }
 
-            return item;
-        }
+                if (ProjectDetails.Properties.ContainsKey("TargetFrameworks"))
+                {
+                    return ProjectDetails.Properties["TargetFrameworks"];
+                }
 
-        private static void ReadItemProperty(string projectName, VSProjectItem item, XmlReader xmlReader)
-        {
-            string propertyName = xmlReader.Name;
-            string propertyValue = xmlReader.ReadElementContentAsString();
-            if (item.ItemProperties.ContainsKey(propertyName))
-            {
-                item.ItemProperties[propertyName] = propertyValue;
-                Console.WriteLine($"Item {propertyName}:{propertyValue} already exists in project {projectName}");
-            }
-            else
-            {
-                item.ItemProperties.Add(propertyName, propertyValue);
+                return null;
             }
         }
 
-        private void ReadProject(string projectName, XmlReader xmlReader)
+        public string RuntimeIdentifier
         {
-            xmlReader.Read();
-
-            while (xmlReader.NodeType != XmlNodeType.EndElement && xmlReader.EOF == false)
+            get
             {
-                switch (xmlReader.Name)
+                if (ProjectDetails == null)
                 {
-                    case "PropertyGroup":
-                        if (_propertiesDictionary)
-                        {
-                            ReadPropertyGroup(xmlReader);
-                            _propertiesDictionary = false;
-                        }
-                        else
-                        {
-                            _configurations.Add(ReadPropertyGroup(xmlReader));
-                        }
-
-                        xmlReader.Read();
-                        break;
-                    case "ItemGroup":
-                        ReadItemGroup(projectName, xmlReader);
-                        xmlReader.Read();
-                        break;
-                    default:
-                        xmlReader.Read();
-                        continue;
+                    return null;
                 }
+
+                if (ProjectDetails.Properties.ContainsKey("RuntimeIdentifier"))
+                {
+                    return ProjectDetails.Properties["RuntimeIdentifier"];
+                }
+
+                return null;
             }
         }
 
-        private VSProjectConfiguration ReadPropertyGroup(XmlReader xmlReader)
+        public string OutputType
         {
-            VSProjectConfiguration configuration = new VSProjectConfiguration();
-
-            if (xmlReader["Condition"] != null && _propertiesDictionary == false)
+            get
             {
-                configuration.Condition = xmlReader["Condition"];
-            }
-
-            xmlReader.Read();
-            IDictionary<string, string> props = _propertiesDictionary ? _properties : configuration.Properties;
-            while (xmlReader.NodeType != XmlNodeType.EndElement)
-            {
-                if (string.Equals(xmlReader.Name, "PublishDatabaseSettings", StringComparison.OrdinalIgnoreCase))
+                if (ProjectDetails == null)
                 {
-                    xmlReader.Skip();
-                    continue;
+                    return null;
                 }
 
-                string name = xmlReader.Name;
-                string val = xmlReader.ReadElementContentAsString();
-                if (props.ContainsKey(name))
+                if (ProjectDetails.Properties.ContainsKey("OutputType"))
                 {
-                    continue;
+                    return ProjectDetails.Properties["OutputType"];
                 }
 
-                props.Add(name, val);
+                return null;
             }
-
-            return configuration;
         }
 
-        private void ReadItemGroup(string projectName, XmlReader xmlReader)
+        public string AssemblyName
         {
-            xmlReader.Read();
-
-            while (xmlReader.NodeType != XmlNodeType.EndElement && xmlReader.EOF == false)
+            get
             {
-                switch (xmlReader.Name)
+                if (ProjectDetails == null)
                 {
-                    case "Content":
-                        VSProjectItem contentItem = ReadItem(projectName, xmlReader, VSProjectItem.Content);
-                        _items.Add(contentItem);
-                        break;
-
-                    case "Compile":
-                        VSProjectItem compileItems = ReadItem(projectName, xmlReader, VSProjectItem.CompileItem);
-                        _items.Add(compileItems);
-                        break;
-
-                    case "None":
-                        VSProjectItem noneItem = ReadItem(projectName, xmlReader, VSProjectItem.NoneItem);
-                        _items.Add(noneItem);
-                        break;
-
-                    case "ProjectReference":
-                        VSProjectItem projectReference = ReadItem(projectName, xmlReader, VSProjectItem.ProjectReference);
-                        _items.Add(projectReference);
-                        break;
-
-                    case "Reference":
-                        VSProjectItem reference = ReadItem(projectName, xmlReader, VSProjectItem.Reference);
-                        _items.Add(reference);
-                        break;
-
-                    default:
-                        xmlReader.Skip();
-                        continue;
+                    return null;
                 }
+
+                if (ProjectDetails.Properties.ContainsKey("AssemblyName"))
+                {
+                    return ProjectDetails.Properties["AssemblyName"];
+                }
+
+                return null;
+            }
+        }
+
+        public string Version
+        {
+            get
+            {
+                if (ProjectDetails == null)
+                {
+                    return null;
+                }
+
+                if (ProjectDetails.Properties.ContainsKey("Version"))
+                {
+                    return ProjectDetails.Properties["Version"];
+                }
+
+                return null;
+            }
+        }
+
+        public string AssemblyVersion
+        {
+            get
+            {
+                if (ProjectDetails == null)
+                {
+                    return null;
+                }
+
+                if (ProjectDetails.Properties.ContainsKey("AssemblyVersion"))
+                {
+                    return ProjectDetails.Properties["AssemblyVersion"];
+                }
+
+                return null;
+            }
+        }
+
+        public string FileVersion
+        {
+            get
+            {
+                if (ProjectDetails == null)
+                {
+                    return null;
+                }
+
+                if (ProjectDetails.Properties.ContainsKey("FileVersion"))
+                {
+                    return ProjectDetails.Properties["FileVersion"];
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the output path for a specified VisualStudio project. The output path is relative
+        /// to the directory where the project file is located.
+        /// </summary>
+        /// <param name="buildConfiguration">The build configuration.</param>
+        /// <returns>
+        /// The output path or <c>null</c> if the project is not compatible.
+        /// </returns>
+        /// <exception cref="ArgumentException">The method could not extract the data from the project file.</exception>
+        public LocalPath GetProjectOutputPath(string buildConfiguration)
+        {
+            // skip non-C# projects
+            if (ProjectTypeGuid != VSProjectType.CSharpProjectType.ProjectTypeGuid && ProjectTypeGuid != VSProjectType.NewCSharpProjectType.ProjectTypeGuid)
+                return null;
+
+            // find the project configuration
+            string condition = string.Format(
+                CultureInfo.InvariantCulture,
+                "'$(Configuration)|$(Platform)' == '{0}|AnyCPU'",
+                buildConfiguration);
+            VSProjectConfiguration projectConfiguration = ProjectDetails.FindConfiguration(condition);
+            if (projectConfiguration == null)
+            {
+                string message = string.Format(
+                    CultureInfo.InvariantCulture,
+                    "Could not find '{0}' configuration for the project '{1}'.",
+                    condition,
+                    ProjectName);
+
+                throw new ArgumentException(message);
+            }
+
+            if (projectConfiguration.Properties.ContainsKey("OutputPath") == false)
+            {
+                string message = string.Format(
+                    CultureInfo.InvariantCulture,
+                    "Missing OutputPath for the '{0}' configuration of the project '{1}'.",
+                    buildConfiguration,
+                    ProjectName);
+
+                throw new ArgumentException(message);
+            }
+
+            return new LocalPath(projectConfiguration.Properties["OutputPath"]);
+        }
+
+        public override void Parse(VSSolutionFileParser parser)
+        {
+            while (true)
+            {
+                string line = parser.NextLine();
+
+                if (line == null)
+                    parser.ThrowParserException("Unexpected end of solution file.");
+
+                Match endProjectMatch = VSSolution.RegexEndProject.Match(line);
+
+                if (endProjectMatch.Success)
+                    break;
             }
         }
     }

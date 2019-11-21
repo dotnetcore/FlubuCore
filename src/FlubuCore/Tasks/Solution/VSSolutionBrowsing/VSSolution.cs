@@ -24,7 +24,7 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
 
         public static readonly Regex RegexSolutionVersion = new Regex(@"^Microsoft Visual Studio Solution File, Format Version (?<version>.+)$", RegexOptions.Compiled);
 
-        private readonly List<VSProjectWithFileInfo> _projects = new List<VSProjectWithFileInfo>();
+        private readonly List<VSProject> _projects = new List<VSProject>();
 
         private readonly List<VSSolutionFilesInfo> _solutionFolders = new List<VSSolutionFilesInfo>();
 
@@ -34,10 +34,10 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         }
 
         /// <summary>
-        /// Gets a read-only collection of <see cref="VSProjectWithFileInfo"/> objects for all of the projects in the solution.
+        /// Gets a read-only collection of <see cref="VSProject"/> objects for all of the projects in the solution.
         /// </summary>
-        /// <value>A read-only collection of <see cref="VSProjectWithFileInfo"/> objects .</value>
-        public ReadOnlyCollection<VSProjectWithFileInfo> Projects => _projects.AsReadOnly();
+        /// <value>A read-only collection of <see cref="VSProject"/> objects .</value>
+        public ReadOnlyCollection<VSProject> Projects => _projects.AsReadOnly();
 
         public ReadOnlyCollection<VSSolutionFilesInfo> SolutionFolders => _solutionFolders.AsReadOnly();
 
@@ -125,7 +125,7 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
                         }
                         else
                         {
-                            var project = new VSProjectWithFileInfo(
+                            var project = new VSProject(
                                 solution,
                                 projectGuid,
                                 projectName,
@@ -147,7 +147,7 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         /// <param name="projectName"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public List<VSProjectWithFileInfo> FilterProjects(params string[] globPattern)
+        public List<VSProject> FilterProjects(params string[] globPattern)
         {
             return FilterProjects(GlobOptions.None, globPattern);
         }
@@ -158,10 +158,10 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         /// <param name="projectName"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public List<VSProjectWithFileInfo> FilterProjects(GlobOptions globOptions, params string[] globPattern)
+        public List<VSProject> FilterProjects(GlobOptions globOptions, params string[] globPattern)
         {
-            List<VSProjectWithFileInfo> projects = new List<VSProjectWithFileInfo>();
-            foreach (VSProjectWithFileInfo projectData in _projects)
+            List<VSProject> projects = new List<VSProject>();
+            foreach (VSProject projectData in _projects)
             {
                 foreach (var pattern in globPattern)
                 {
@@ -175,9 +175,9 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
             return projects;
         }
 
-        public VSProjectWithFileInfo FindProjectByName(string projectName)
+        public VSProject FindProjectByName(string projectName)
         {
-            foreach (VSProjectWithFileInfo projectData in _projects)
+            foreach (VSProject projectData in _projects)
             {
                 if (projectData.ProjectName == projectName)
                     return projectData;
@@ -190,13 +190,13 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         /// Performs the specified action on each project of the solution.
         /// </summary>
         /// <param name="action">The action delegate to perform on each project.</param>
-        public void ForEachProject(Action<VSProjectWithFileInfo> action)
+        public void ForEachProject(Action<VSProject> action)
         {
             _projects.ForEach(action);
         }
 
         /// <summary>
-        /// Loads the VisualStudio project files and fills the project data into <see cref="VSProjectWithFileInfo.Project"/>
+        /// Loads the VisualStudio project files and fills the project data into <see cref="VSProject.ProjectDetails"/>
         /// properties for each of the project in the solution.
         /// </summary>
         protected internal void LoadProjects()
@@ -204,7 +204,7 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
             ForEachProject(projectInfo =>
             {
                 if (projectInfo.ProjectTypeGuid == VSProjectType.CSharpProjectType.ProjectTypeGuid || projectInfo.ProjectTypeGuid == VSProjectType.NewCSharpProjectType.ProjectTypeGuid)
-                    ((VSProjectWithFileInfo)projectInfo).Project = VSProject.Load(((VSProjectWithFileInfo)projectInfo).ProjectFileNameFull.ToString());
+                    ((VSProject)projectInfo).ProjectDetails = VSProjectDetails.Load(((VSProject)projectInfo).ProjectFileNameFull.ToString());
             });
         }
     }
