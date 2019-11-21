@@ -180,17 +180,18 @@ namespace FlubuCore.Tasks.Versioning
                 }
             }
 
-            if (!_doNotSaveVersionToSession)
-            {
-                context.SetBuildVersion(version);
-                context.SetBuildVersionQuality(versionQuality);
-            }
-
             var buildVersion = new BuildVersion()
             {
                 Version = version,
                 VersionQuality = versionQuality
             };
+
+            if (!_doNotSaveVersionToSession)
+            {
+                context.SetBuildVersion(version);
+                context.SetBuildVersionQuality(versionQuality);
+                context.SetBuildVersionWithQuality(buildVersion);
+            }
 
             DoLogInfo($"Project version fetched: {buildVersion.Version}");
             return buildVersion;

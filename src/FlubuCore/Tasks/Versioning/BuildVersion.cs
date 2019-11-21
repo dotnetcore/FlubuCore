@@ -9,5 +9,10 @@ namespace FlubuCore.Tasks.Versioning
         public Version Version { get; set; }
 
         public string VersionQuality { get; set; }
+
+        public string BuildVersionWithQuality(int versionFieldCount)
+        {
+            return $"{Version.ToString(versionFieldCount)}{VersionQuality}";
+        }
     }
 }
