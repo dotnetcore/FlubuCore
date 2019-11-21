@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+#if !NETSTANDARD1_6
+using System.Drawing;
+#endif
 using System.IO;
-using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks;
@@ -43,7 +45,30 @@ namespace FlubuCore.Targeting
             {
                 if (target.IsHidden == false)
                 {
-                    context.LogInfo($"  {target.TargetName} : {target.Description}");
+                    string help = $"  {target.TargetName}";
+
+                    if (target.Dependencies != null && target.Dependencies.Count != 0)
+                    {
+                        help = $"{help} ({string.Join(",", target.Dependencies.Keys)})";
+                    }
+
+                    if (!string.IsNullOrEmpty(target.Description))
+                    {
+                        help = $"{help} : {target.Description}";
+                    }
+
+                    if (DefaultTargets.Contains(target))
+                    {
+#if !NETSTANDARD1_6
+                        context.LogInfo(help, Color.DarkOrange);
+#else
+                        context.LogInfo(help);
+#endif
+                    }
+                    else
+                    {
+                        context.LogInfo(help);
+                    }
                 }
             }
 

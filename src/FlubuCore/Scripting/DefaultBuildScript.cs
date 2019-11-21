@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 #if !NETSTANDARD1_6
@@ -9,7 +8,6 @@ using System.Drawing;
 #endif
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using DotNet.Cli.Flubu.Commanding;
 using FlubuCore.Commanding;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure.Terminal;
@@ -19,15 +17,30 @@ using FlubuCore.Tasks.NetCore;
 using FlubuCore.WebApi.Client;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.DotNet.Cli.Utils;
+using NuGet.Packaging;
 
 namespace FlubuCore.Scripting
 {
     public abstract class DefaultBuildScript : IBuildScript
     {
+        private IFlubuSession _flubuSession;
+
+        /// <summary>
+        /// Get's product root directory.
+        /// </summary>
+        public FullPath RootDirectory => new FullPath(_flubuSession.Properties.GetProductRootDir());
+
+        /// <summary>
+        /// Get's output directory.
+        /// </summary>
+        public FullPath OutputDirectory => RootDirectory.CombineWith(new LocalPath(_flubuSession.Properties.GetOutputDir()));
+
         public int Run(IFlubuSession flubuSession)
         {
+            _flubuSession = flubuSession;
             try
             {
+                ConfigureDefaultProps(flubuSession);
                 BeforeBuildExecution(flubuSession);
                 RunBuild(flubuSession);
                 flubuSession.Complete();
@@ -76,7 +89,7 @@ namespace FlubuCore.Scripting
                 return 1;
             }
             catch (Exception e)
-            {
+              {
                 flubuSession.ResetDepth();
                 OnBuildFailed(flubuSession, e);
 
@@ -115,8 +128,6 @@ namespace FlubuCore.Scripting
         private void RunBuild(IFlubuSession flubuSession)
         {
             bool resetTargetTree = false;
-
-            ConfigureDefaultProps(flubuSession);
 
             ConfigureBuildProperties(flubuSession);
 
@@ -219,27 +230,7 @@ namespace FlubuCore.Scripting
         private void FlubuInteractiveMode(IFlubuSession flubuSession, (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) targetsInfo, bool resetTargetTree)
         {
             flubuSession.InteractiveMode = true;
-            var source = new Dictionary<char, IReadOnlyCollection<Hint>>();
-            var propertyKeys = ScriptProperties.GetPropertiesKeys(this, flubuSession);
-            propertyKeys.Add(new Hint { Name = "--parallel", Help = "If applied target's are executed in parallel.", HintColor = ConsoleColor.Magenta });
-            propertyKeys.Add(new Hint { Name = "--dryrun", Help = "Performs a dry run of the specified target.", HintColor = ConsoleColor.Magenta });
-            propertyKeys.Add(new Hint { Name = "--noColor", Help = "Disables colored logging.", HintColor = ConsoleColor.Magenta });
-            propertyKeys.Add(new Hint { Name = "--nodeps", Help = "If applied no target dependencies are executed.", HintColor = ConsoleColor.Magenta });
-            source.Add('-', propertyKeys);
-
-            List<Hint> defaultHints = new List<Hint>();
-
-            foreach (var targetName in flubuSession.TargetTree.GetTargetNames())
-            {
-                var target = flubuSession.TargetTree.GetTarget(targetName);
-                defaultHints.Add(new Hint
-                {
-                    Name = target.TargetName,
-                    Help = target.Description
-                });
-            }
-
-            var flubuConsole = new FlubuConsole(flubuSession.TargetTree, defaultHints, source);
+            var flubuConsole = InitializeFlubuConsole(flubuSession);
             flubuSession.TargetTree.RunTarget(flubuSession, "help.onlyTargets");
             flubuSession.LogInfo(" ");
 
@@ -384,13 +375,13 @@ namespace FlubuCore.Scripting
                 platform = OSPlatform.Windows;
             }
 
+            flubuSession.SetProductRootDir(Directory.GetCurrentDirectory());
             flubuSession.SetOSPlatform(platform);
             flubuSession.SetNodeExecutablePath(IOExtensions.GetNodePath());
             flubuSession.SetProfileFolder(IOExtensions.GetUserProfileFolder());
             flubuSession.SetNpmPath(IOExtensions.GetNpmPath());
             flubuSession.SetBuildDir("build");
             flubuSession.SetOutputDir("output");
-            flubuSession.SetProductRootDir(".");
 
             if (isWindows)
             {
@@ -460,6 +451,37 @@ namespace FlubuCore.Scripting
                     throw new TaskExecutionException("Wrong number of target dependencies were runned.", 3);
                 }
             }
+        }
+
+        private FlubuConsole InitializeFlubuConsole(IFlubuSession flubuSession)
+        {
+            var source = new Dictionary<string, IReadOnlyCollection<Hint>>();
+            var propertyKeys = ScriptProperties.GetPropertiesHints(this, flubuSession);
+            propertyKeys.Add(new Hint { Name = "--parallel", Help = "If applied target's are executed in parallel.", HintColor = ConsoleColor.Magenta });
+            propertyKeys.Add(new Hint { Name = "--dryrun", Help = "Performs a dry run of the specified target.", HintColor = ConsoleColor.Magenta });
+            propertyKeys.Add(new Hint { Name = "--noColor", Help = "Disables colored logging.", HintColor = ConsoleColor.Magenta });
+            propertyKeys.Add(new Hint { Name = "--nodeps", Help = "If applied no target dependencies are executed.", HintColor = ConsoleColor.Magenta });
+            source.Add("-", propertyKeys);
+            var enumHints = ScriptProperties.GetEnumHints(this, flubuSession);
+            if (enumHints != null)
+            {
+                source.AddRange(enumHints);
+            }
+
+            List<Hint> defaultHints = new List<Hint>();
+
+            foreach (var targetName in flubuSession.TargetTree.GetTargetNames())
+            {
+                var target = flubuSession.TargetTree.GetTarget(targetName);
+                defaultHints.Add(new Hint
+                {
+                    Name = target.TargetName,
+                    Help = target.Description
+                });
+            }
+
+            var flubuConsole = new FlubuConsole(flubuSession.TargetTree, defaultHints, source);
+            return flubuConsole;
         }
     }
 }

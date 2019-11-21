@@ -301,7 +301,7 @@ namespace FlubuCore.Tasks.Testing
 
                 foreach (var projectName in _projectNames)
                 {
-                    VSProjectWithFileInfo project = (VSProjectWithFileInfo)solution.FindProjectByName(projectName);
+                    VSProject project = (VSProject)solution.FindProjectByName(projectName);
                     FileFullPath projectTarget = project.ProjectDirectoryPath.CombineWith(project.GetProjectOutputPath(buildConfiguration))
                         .AddFileName("{0}.dll", project.ProjectName);
 

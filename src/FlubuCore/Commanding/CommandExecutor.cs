@@ -112,6 +112,7 @@ namespace FlubuCore.Commanding
                         await SimpleFlubuInteractiveMode(script);
                     }
 
+                    _flubuSession.TargetTree.BuildScript = script;
                     _flubuSession.FlubuHelpText = FlubuHelpText;
                     _flubuSession.Properties.Set(BuildProps.IsWebApi, _args.IsWebApi);
                     _flubuSession.ScriptArgs = _args.ScriptArguments;

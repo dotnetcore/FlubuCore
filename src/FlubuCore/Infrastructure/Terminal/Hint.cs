@@ -8,6 +8,8 @@ namespace FlubuCore.Infrastructure.Terminal
 
         public string Help { get; set; }
 
+        public HintType HintType { get; set; } = HintType.Default;
+
         public ConsoleColor HintColor { get; set; } = ConsoleColor.DarkGray;
 
         public bool OnlySimpleSearh { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
@@ -207,7 +208,22 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <returns></returns>
         TTargetFluentInterface Must(Func<ITaskContext, bool> condition, string message = null);
 
+        /// <summary>
+        /// Iterates through <see cref="collection"/> and adds specified actions to target.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collection">The collection</param>
+        /// <param name="action">The acction</param>
+        /// <returns></returns>
         TTargetFluentInterface ForEach<T>(IEnumerable<T> collection, Action<T, TTargetFluentInterface> action);
+
+        /// <summary>
+        /// Checks if specified parameter is null. If it is null target execution fails before any task is executed.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        TTargetFluentInterface Requires<T>(Expression<Func<T>> parameter);
 
         /// <summary>
         /// Enables / disables sequential logging in asynchronous executed tasks and target dependencies.

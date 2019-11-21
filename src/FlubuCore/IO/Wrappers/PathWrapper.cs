@@ -16,5 +16,10 @@ namespace FlubuCore.IO.Wrappers
         {
             return Path.GetFullPath(path);
         }
+
+        public string Combine(params string[] path)
+        {
+            return Path.Combine(path);
+        }
     }
 }

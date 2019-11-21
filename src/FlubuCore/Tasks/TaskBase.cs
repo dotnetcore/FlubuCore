@@ -848,7 +848,14 @@ namespace FlubuCore.Tasks
             }
         }
 
-        private MemberExpression GetMemberExpression(Expression<Func<TTask, object>> exp)
+        internal MemberExpression GetMemberExpression(Expression<Func<TTask, object>> exp)
+        {
+            var member = exp.Body as MemberExpression;
+            var unary = exp.Body as UnaryExpression;
+            return member ?? (unary != null ? unary.Operand as MemberExpression : null);
+        }
+
+        internal MemberExpression GetMemberExpression(LambdaExpression exp)
         {
             var member = exp.Body as MemberExpression;
             var unary = exp.Body as UnaryExpression;

@@ -93,23 +93,23 @@ namespace FlubuCore.Context
             }
         }
 
-        public static List<Hint> GetPropertiesKeys(IBuildScript buildScript, IFlubuSession flubuSession)
+        public static List<Hint> GetPropertiesHints(IBuildScript buildScript, IFlubuSession flubuSession)
         {
             var buildScriptType = buildScript.GetType();
             IList<PropertyInfo> props = new List<PropertyInfo>(buildScriptType.GetProperties());
-            List<Hint> keys = new List<Hint>();
+            List<Hint> hints = new List<Hint>();
             foreach (var property in props)
             {
                 var attributes = property.GetCustomAttributes<FromArgAttribute>(false).ToList();
                 if (attributes.Count == 0)
                 {
-                    keys.Add(new Hint { Name = property.Name });
+                    hints.Add(new Hint { Name = property.Name });
                 }
                 else
                 {
                     foreach (var fromArgAttribute in attributes)
                     {
-                        keys.Add(new Hint
+                        hints.Add(new Hint
                         {
                             Name = fromArgAttribute.ArgKey,
                             Help = fromArgAttribute.Help,
@@ -119,7 +119,51 @@ namespace FlubuCore.Context
                 }
             }
 
-            return keys;
+            return hints;
+        }
+
+        public static Dictionary<string, IReadOnlyCollection<Hint>> GetEnumHints(IBuildScript buildScript, IFlubuSession flubuSession)
+        {
+#if !NETSTANDARD1_6
+            var buildScriptType = buildScript.GetType();
+            IList<PropertyInfo> props = new List<PropertyInfo>(buildScriptType.GetProperties());
+            Dictionary<string, IReadOnlyCollection<Hint>> hints = new Dictionary<string, IReadOnlyCollection<Hint>>();
+            foreach (var property in props)
+            {
+                var type = property.PropertyType;
+                if (type.IsEnum)
+                {
+                    var attribute = property.GetCustomAttribute<FromArgAttribute>(false);
+                    string argKey = null;
+
+                    if (attribute != null)
+                    {
+                        argKey = attribute.ArgKey.Split('|')[0];
+                    }
+                    else
+                    {
+                        argKey = property.Name;
+                    }
+
+                    var enumValues = Enum.GetValues(type);
+
+                    List<Hint> values = new List<Hint>();
+                    foreach (var enumValue in enumValues)
+                    {
+                        values.Add(new Hint
+                        {
+                            Name = enumValue.ToString(),
+                            HintType = HintType.Value,
+                        });
+                    }
+
+                    hints.Add(argKey.ToLower(), values);
+                }
+            }
+
+            return hints;
+#endif
+            return null;
         }
 
         public static List<string> GetPropertiesHelp(IBuildScript buildScript)

@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using FlubuCore.IO;
+using GlobExpressions;
 
 namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
 {
@@ -23,7 +24,9 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
 
         public static readonly Regex RegexSolutionVersion = new Regex(@"^Microsoft Visual Studio Solution File, Format Version (?<version>.+)$", RegexOptions.Compiled);
 
-        private readonly List<VSProjectInfo> _projects = new List<VSProjectInfo>();
+        private readonly List<VSProject> _projects = new List<VSProject>();
+
+        private readonly List<VSSolutionFilesInfo> _solutionFolders = new List<VSSolutionFilesInfo>();
 
         protected VSSolution(string fileName)
         {
@@ -31,10 +34,12 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         }
 
         /// <summary>
-        /// Gets a read-only collection of <see cref="VSProjectWithFileInfo"/> objects for all of the projects in the solution.
+        /// Gets a read-only collection of <see cref="VSProject"/> objects for all of the projects in the solution.
         /// </summary>
-        /// <value>A read-only collection of <see cref="VSProjectWithFileInfo"/> objects .</value>
-        public ReadOnlyCollection<VSProjectInfo> Projects => _projects.AsReadOnly();
+        /// <value>A read-only collection of <see cref="VSProject"/> objects .</value>
+        public ReadOnlyCollection<VSProject> Projects => _projects.AsReadOnly();
+
+        public ReadOnlyCollection<VSSolutionFilesInfo> SolutionFolders => _solutionFolders.AsReadOnly();
 
         public FullPath SolutionDirectoryPath => SolutionFileName.Directory;
 
@@ -107,27 +112,28 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
                         string projectFileName = projectMatch.Groups["path"].Value;
                         Guid projectTypeGuid = new Guid(projectMatch.Groups["projectTypeGuid"].Value);
 
-                        VSProjectInfo project;
                         if (projectTypeGuid == VSProjectType.SolutionFolderProjectType.ProjectTypeGuid)
                         {
-                            project = new VSSolutionFilesInfo(
+                           var project = new VSSolutionFilesInfo(
                                 solution,
                                 projectGuid,
                                 projectName,
                                 projectTypeGuid);
+
+                           solution._solutionFolders.Add(project);
+                           project.Parse(parser);
                         }
                         else
                         {
-                            project = new VSProjectWithFileInfo(
+                            var project = new VSProject(
                                 solution,
                                 projectGuid,
                                 projectName,
                                 new LocalPath(projectFileName),
                                 projectTypeGuid);
+                            solution._projects.Add(project);
+                            project.Parse(parser);
                         }
-
-                        solution._projects.Add(project);
-                        project.Parse(parser);
                     }
                 }
             }
@@ -135,9 +141,43 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
             return solution;
         }
 
-        public VSProjectInfo FindProjectByName(string projectName)
+        /// <summary>
+        /// Find projects by glob pattern.
+        /// </summary>
+        /// <param name="projectName"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public List<VSProject> FilterProjects(params string[] globPattern)
         {
-            foreach (VSProjectInfo projectData in _projects)
+            return FilterProjects(GlobOptions.None, globPattern);
+        }
+
+        /// <summary>
+        /// Filter projects by name with glob pattern.
+        /// </summary>
+        /// <param name="projectName"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public List<VSProject> FilterProjects(GlobOptions globOptions, params string[] globPattern)
+        {
+            List<VSProject> projects = new List<VSProject>();
+            foreach (VSProject projectData in _projects)
+            {
+                foreach (var pattern in globPattern)
+                {
+                    if (Glob.IsMatch(projectData.ProjectName, pattern, globOptions))
+                    {
+                        projects.Add(projectData);
+                    }
+                }
+            }
+
+            return projects;
+        }
+
+        public VSProject FindProjectByName(string projectName)
+        {
+            foreach (VSProject projectData in _projects)
             {
                 if (projectData.ProjectName == projectName)
                     return projectData;
@@ -150,21 +190,21 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         /// Performs the specified action on each project of the solution.
         /// </summary>
         /// <param name="action">The action delegate to perform on each project.</param>
-        public void ForEachProject(Action<VSProjectInfo> action)
+        public void ForEachProject(Action<VSProject> action)
         {
             _projects.ForEach(action);
         }
 
         /// <summary>
-        /// Loads the VisualStudio project files and fills the project data into <see cref="VSProjectWithFileInfo.Project"/>
+        /// Loads the VisualStudio project files and fills the project data into <see cref="VSProject.ProjectDetails"/>
         /// properties for each of the project in the solution.
         /// </summary>
-        public void LoadProjects()
+        protected internal void LoadProjects()
         {
             ForEachProject(projectInfo =>
             {
                 if (projectInfo.ProjectTypeGuid == VSProjectType.CSharpProjectType.ProjectTypeGuid || projectInfo.ProjectTypeGuid == VSProjectType.NewCSharpProjectType.ProjectTypeGuid)
-                    ((VSProjectWithFileInfo)projectInfo).Project = VSProject.Load(((VSProjectWithFileInfo)projectInfo).ProjectFileNameFull.ToString());
+                    ((VSProject)projectInfo).ProjectDetails = VSProjectDetails.Load(((VSProject)projectInfo).ProjectFileNameFull.ToString());
             });
         }
     }

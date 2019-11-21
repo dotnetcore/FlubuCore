@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Targeting;
@@ -273,6 +274,12 @@ namespace FlubuCore.Context.FluentInterface
             }
 
             return target;
+        }
+
+        public TTargetFluentInterface Requires<T>(Expression<Func<T>> parameter)
+        {
+            Target.Requires(parameter);
+            return this as TTargetFluentInterface;
         }
 
         public TTargetFluentInterface SequentialLogging(bool enable)

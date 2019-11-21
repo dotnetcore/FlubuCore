@@ -92,7 +92,7 @@ namespace FlubuCore.Tasks.Solution
 
             solution.ForEachProject(projectInfo =>
                 {
-                    if (projectInfo is VSProjectWithFileInfo info)
+                    if (projectInfo is VSProject info)
                     {
                         string projectBinPath = string.Format(
                             CultureInfo.InvariantCulture,
