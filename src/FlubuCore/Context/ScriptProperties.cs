@@ -176,9 +176,26 @@ namespace FlubuCore.Context
                 var attributes = property.GetCustomAttributes<FromArgAttribute>(false).ToList();
                 foreach (var fromArgAttribute in attributes)
                 {
+                    var key = $"-{fromArgAttribute.ArgKey.Replace("|", "|-")}";
+#if !NETSTANDARD1_6
+                    var type = property.PropertyType;
+                    if (type.IsEnum)
+                    {
+                        var enumValues = Enum.GetValues(type);
+
+                        key = $"{key}(";
+                        foreach (var enumValue in enumValues)
+                        {
+                            key = $"{key}{enumValue}, ";
+                        }
+
+                        key = $"{key.Substring(0, key.Length - 2)})";
+                    }
+#endif
+
                     if (!string.IsNullOrEmpty(fromArgAttribute.Help))
                     {
-                        help.Add($"-{fromArgAttribute.ArgKey.Replace("|", "|-")} : {fromArgAttribute.Help}");
+                        help.Add($"{key} : {fromArgAttribute.Help}");
                     }
                 }
             }
