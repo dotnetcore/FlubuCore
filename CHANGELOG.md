@@ -1,4 +1,4 @@
-## FlubuCore 4.3.0.0
+## FlubuCore 4.3.1.0
 - Added GetFiles with globing option to task context
 - Added GetDirectory with globing option to task context
 - Target: Added Requires method which checks if specified parameter is null. If it is null target execution fails before any tasks are executed.
