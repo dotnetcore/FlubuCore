@@ -744,7 +744,7 @@ namespace FlubuCore.Infrastructure.Terminal
                 }
             }
 
-            if (hintSourceKey != "*")
+            if (hintSourceKey != null && hintSourceKey != "*")
             {
                 foreach (var hint in hints)
                 {
