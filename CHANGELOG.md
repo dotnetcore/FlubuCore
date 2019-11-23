@@ -1,3 +1,27 @@
+## FlubuCore 4.3.0.0
+- Added GetFiles with globing option to task context
+- Added GetDirectory with globing option to task context
+- Target: Added Requires method which checks if specified parameter is null. If it is null target execution fails before any tasks are executed.
+- Option to run flubu script from other than root dir (only when .flubu file is found)
+. Get project root directory from task context and DefaultBuildScript
+- Get Output directory from task context and DefaultBuildScript
+- Flubu setup: option to enter script csproj location even if build script location is found.
+- GetVsSolution: Easier access to various project information
+- GetVsSolution: Filter projects by name with glob pattern
+- AppVeyor: Added branch name.
+- AppVeyor: Added IsTag 
+- AppVeyor: Added TagName
+- Fixed include directory attribute to load only cs files
+- Overidable argument now checks if same short/long key was already added and overrides appropriate one.
+- Added GetFiles To FullPath class. 
+- Target help now shows target dependencies in brackets
+- Target help now shows default target with orange color
+- Global script arguments of enum type have all available values listed in help now
+- Added some more default build script locations.
+- Interactive Mode: Suggetions for parameter values of enum type
+- Interactive mode: Allows multiple tab key presses on sugestions(goes to next suggestion)
+- Interactive mode: When listing files file length is now formated.
+- Interactive mode: when pressing space sugestion is now hidden. 
 ## FlubuCore 4.2.8.0
 - FlubCore global tool for .net core 3.0
 ## FlubuCore 4.2.7.0
