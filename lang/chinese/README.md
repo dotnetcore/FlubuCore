@@ -13,8 +13,6 @@
 [![Member project of .NET Core Community](https://img.shields.io/badge/member%20project%20of-NCC-9e20c9.svg)](https://github.com/dotnetcore)
 [![License](https://img.shields.io/github/license/dotnetcore/FlubuCore.svg)](https://github.com/dotnetcore/FlubuCore/blob/master/LICENSE)
 
-### Table of Contents
-
 - [Introduction](#Introduction)
 - [功能与优势](#功能与优势)
 - [入门](#入门)
@@ -31,9 +29,9 @@
 
 通过 roslyn 的强大赋能，FlubuCore 提供有 .NET/.NET Core 控制台应用程序用于编译和执行脚本。以上示例均可从控制台运行：
 
-- FlubuCore runner `flubu.exe Default`
-- FlubuCore dotnet cli tool `dotnet flubu Default`
-- FlubuCore global tool `flubu Default`
+- FlubuCore runner (.NET 4.62+)  `flubu.exe Default`
+- FlubuCore dotnet cli tool (.NET Core 1.0+)  `dotnet flubu Default`
+- FlubuCore global tool (.NET Core 2.1+) `flubu Default`
 
 ## 功能与优势
 
@@ -193,12 +191,11 @@ FlubuCore 用起来非常简单:-) 而且她的文档也非常完整。
 
 这些示例有助于你快速入门 FlubuCore：
 
-- [.NET Framework 构建示例](https://github.com/dotnetcore/FlubuCore.Examples/blob/master/MVC_NET4.61/BuildScripts/BuildScript.cs) - Example covers versioning, building the project, running tests, packaging application for deployment.
+- [.NET Framework 构建示例](https://github.com/dotnetcore/FlubuCore.Examples/blob/master/MVC_NET4.61/BuildScripts/BuildScript.cs) - Example covers versioning, building the project, running tests, packaging application for deployment and some other basic use cases.
 
-- [.NET Core 构建示例](https://github.com/dotnetcore/FlubuCore.Examples/blob/master/NetCore_csproj/BuildScript/BuildScript.cs) - Example covers versioning, building the project, running tests, packaging application for deployment.
+- [.NET Core 构建示例](https://github.com/dotnetcore/FlubuCore.Examples/blob/master/NetCore_csproj/BuildScript/BuildScript.cs) - Example covers versioning, building the project, running tests, packaging application for deployment and some other basic use cases.
  
 - [部署脚本示例](https://github.com/dotnetcore/FlubuCore.Examples/blob/master/DeployScriptExample/BuildScript/DeployScript.cs) - Example shows how to write simple deployment script. 
-
 
 * [Open source library example](https://github.com/dotnetcore/FlubuCore.Examples/blob/master/NetCoreOpenSource/Build/BuildScript.cs) - Example covers versioning, building the project, running tests and publishing nuget package. It also covers how to run build script on Appveyor and Travis CI.
 ## 疑惑？
