@@ -11,8 +11,6 @@
 [![Member project of .NET Core Community](https://img.shields.io/badge/member%20project%20of-NCC-9e20c9.svg)](https://github.com/dotnetcore)
 [![License](https://img.shields.io/github/license/dotnetcore/FlubuCore.svg)](https://github.com/dotnetcore/FlubuCore/blob/master/LICENSE)
 
-### Table of Contents
-
 - [Introduction](#Introduction)
 - [Features and Advantages](#Features-and-Advantages)
 - [Getting Started](#Getting-Started)
@@ -29,9 +27,9 @@
 
 FlubuCore offers a .net (core) console application that uses power of roslyn to compile and execute scripts. Above example can be run from console with:
 
-* FlubuCore runner  ``` flubu.exe Default ```
-* FlubuCore dotnet cli tool ``` dotnet flubu Default ```
-* FlubuCore global tool ``` flubu Default ```
+* FlubuCore runner (.NET 4.62+)  ``` flubu.exe Default ```
+* FlubuCore dotnet cli tool (.NET Core 1.0+) ``` dotnet flubu Default ```
+* FlubuCore global tool (.NET Core 2.1+) ``` flubu Default ```
 ## Features and Advantages
 
 * Intuitive an easy to learn. C#, fluent interface, and IntelliSense make even most complex script creation a breeze.
@@ -186,10 +184,10 @@ Aside from the detailed Wiki FlubuCore comes with example projects that reflect 
 
 These examples will help you to get quickly start with FlubuCore:
 * [.NET Framework build example](https://github.com/flubu-core/examples/blob/master/MVC_NET4.61/BuildScripts/BuildScript.cs
-) - Example covers versioning, building the project, running tests, packaging application for deployment.
+) - Example covers versioning, building the project, running tests, packaging application for deployment and some other basic use cases.
 
 * [.NET Core build example](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScript.cs
-) - Example covers versioning, building the project, running tests, packaging application for deployment.
+) - Example covers versioning, building the project, running tests, packaging application for deployment and some other basic use cases.
 
 * [Deployment script example](https://github.com/flubu-core/examples/blob/master/DeployScriptExample/BuildScript/DeployScript.cs
 ) - Example shows how to write simple deployment script. 
