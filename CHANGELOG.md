@@ -1,3 +1,8 @@
+## FlubuCore 4.3.3.0
+- Fixes SetBuildVersionWithSuffix which also caused bug in UpdateNetCoreVersionTask
+- Fixes spacing when displaying target dependencies in help
+- Interactive mode: Fixes suggestions when suggestion key is null
+
 ## FlubuCore 4.3.1.0
 - Added GetFiles with globing option to task context
 - Added GetDirectory with globing option to task context
