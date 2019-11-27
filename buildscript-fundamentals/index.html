@@ -488,12 +488,15 @@ Target executed in parallel with FlubuCore runner have sequential logging on by 
 <li>SetAsDefault method: When applied to target that target is runned by default if no target is specified when running the script with runner.</li>
 <li>SetAsHidden method: When applied to target that target is not shown in help and it can only be run as other target dependency.</li>
 <li>Must method: Condition in must will have to be meet otherwise target execution will fail before any task get executed.</li>
+<li>Requires method: Parameter specified in required method must not be null otherwise target execution will fail before any task get executed.</li>
 </ul>
 <h4 id="context-features">Context features<a class="headerlink" href="#context-features" title="Permanent link">&para;</a></h4>
 <ul>
-<li>GetEnviromentVariable method: Get's the enviroment variable by name  <code>context.GetEnvironmentVariable("someVariable");</code></li>
 <li>Log:<code>context.LogInfo("Some Text2", ConsoleColor.Blue);</code></li>
-<li>GetVsSolution: Get's solution and it's project information <code>context.GetVsSolution();</code></li>
+<li>GetVsSolution: Get's solution and it's projects information(such as full project path, target framework, runtimeidentifier..) <code>context.GetVsSolution();</code></li>
+<li>GetFiles: Get Files from specified directory with option to filter files with glob pattern <code>context.GetFiles(OutputDirectory, "*.nupkg");</code></li>
+<li>GetDirectories: Get Directories from specified directory with option to filter files with glob pattern <code>context.GetFiles(OutputDirectory, "*.nupkg");</code></li>
+<li>GetEnviromentVariable method: Get's the enviroment variable by name  <code>context.GetEnvironmentVariable("someVariable");</code></li>
 </ul>
 <p><a name="Run-any-program"></a></p>
 <h4 id="run-any-program-or-command-in-build-script-with-runprogramtask">Run any program or command in build script with RunProgramTask<a class="headerlink" href="#run-any-program-or-command-in-build-script-with-runprogramtask" title="Permanent link">&para;</a></h4>
