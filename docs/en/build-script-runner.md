@@ -39,11 +39,34 @@ Target specific help:
 
 It displays all tasks with description that will be executed by target. It also displays which argument(with description) can be passed through to specific task in target. 
 
+#### Specifiying which script Flubu should run.
+
+Easiest way is to put build script at one of the default locations (you can find list of default locations below). If it is located at one of the default locations FlubuCore will execute the script automatically `flubu {TargetName}`. 
+Second option is to specify script location with -s option `flubu {TargetName} -s={pathToScriptFile}` Third option is to run `flubu setup` and specify script and csproj(optional) location in interactive mode.
+ Flubu will store script and csproj location to `.flubu` file. if `.flubu` file is present FlubuCore will read location of the script and csproj file from that file. Additional benefit when storing location to `.flubu` file is 
+ that you don't need to execute script at the root directory of the project. Meaning if your project is for example located at "c:\_git\myproject" you can execute script inside any subfolder of that location.
+
 ### **Default build script locations**
+
+- "Build.cs"
 
 - “BuildScript.cs”
 
 - “DeployScript.cs”
+
+- "DeploymentScript.cs"
+
+- "_Build/Build.cs"
+
+- "_Build/BuildScript.cs"
+
+- "Build/Build.cs"
+
+- "Build/BuildScript.cs"
+
+- "_BuildScript/BuildScript.cs"
+
+- "_BuildScripts/BuildScript.cs"
 
 - “BuildScript/BuildScript.cs”
 
@@ -52,5 +75,9 @@ It displays all tasks with description that will be executed by target. It also 
 - “buildscripts/buildscript.cs”
 
 - “buildscripts/deployscript.cs”
+
+- "BuildScript/DeploymentScript.cs"
+
+- "BuildScripts/DeploymentScript.cs"
 
 [Getting started section]: getting-started.md

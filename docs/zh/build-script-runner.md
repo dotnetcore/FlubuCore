@@ -38,11 +38,34 @@ Target 可以和添加有 `-parallel` 选项的任务一同执行。
 
 这条命令将列出所有描述有执行目标的任务，以及哪些参数可以传递给目标（target）中的特定任务。
 
-### **默认构建脚本的位置**
+### Specifiying which script Flubu should run.
+
+Easiest way is to put build script at one of the default locations (you can find list of default locations below). If it is located at one of the default locations FlubuCore will execute the script automatically `flubu {TargetName}`. 
+Second option is to specify script location with -s option `flubu {TargetName} -s={pathToScriptFile}` Third option is to run `flubu setup` and specify script and csproj(optional) location in interactive mode.
+ Flubu will store script and csproj location to `.flubu` file. if `.flubu` file is present FlubuCore will read location of the script and csproj file from that file. Additional benefit when storing location to `.flubu` file is 
+ that you don't need to execute script at the root directory of the project. Meaning if your project is for example located at "c:\_git\myproject" you can execute script inside any subfolder of that location.
+
+#### **默认构建脚本的位置***
+
+- "Build.cs"
 
 - “BuildScript.cs”
 
 - “DeployScript.cs”
+
+- "DeploymentScript.cs"
+
+- "_Build/Build.cs"
+
+- "_Build/BuildScript.cs"
+
+- "Build/Build.cs"
+
+- "Build/BuildScript.cs"
+
+- "_BuildScript/BuildScript.cs"
+
+- "_BuildScripts/BuildScript.cs"
 
 - “BuildScript/BuildScript.cs”
 
@@ -51,3 +74,7 @@ Target 可以和添加有 `-parallel` 选项的任务一同执行。
 - “buildscripts/buildscript.cs”
 
 - “buildscripts/deployscript.cs”
+
+- "BuildScript/DeploymentScript.cs"
+
+- "BuildScripts/DeploymentScript.cs"

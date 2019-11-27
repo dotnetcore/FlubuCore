@@ -12,12 +12,14 @@
 
 - 使用「tab 键」来完成 Target 选项卡
 - 使用「tab 键」来完成 Option 选项卡
+- Option's (parameter) value tab completition with tab key for enum types
 - 在控制台底部显示 Target 帮助
 - 在控制台底部显示 Option 帮助
 - 执行外部命令。这意味着如果在 PowerShell 中运行 FlubuCore 交互模式，则所有 PowerShell 命令都可以在 FlubuCore 的交互模式中使用。
 - 执行外部程序。对于其中部分程序，FlubuCore 交互模式提供 Tab 键自动补全（比如 dotnet、git 等，[查看完整列表](通过-Tab-键补全完成的外部程序列表)）
 - 使用「↑ 键」和「↓ 键」来切换 Target 选项卡
 - 使用「↑ 键」和「↓ 键」来切换 Option 选项卡
+- Next / previos target or option with tab key
 - 使用「↑ 键」和「↓ 键」来切换命令的历史记录
 - 无需为每个命令加载脚本
 - 重新加载当前脚本，或加载另一个脚本

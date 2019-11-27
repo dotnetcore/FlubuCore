@@ -368,12 +368,16 @@ context.CreateTarget("Test")
 - SetAsDefault 方法：当应用于目标时，如果在使用 runner 运行脚本时没有指定目标，则默认运行该目标；
 - SetAsHidden 方法：当应用于目标时，目标将不会被显示在帮助信息中，并且它只能作为其它目标的依赖项来运行；
 - Must 方法：设置必要条件，该条件必须满足，不然在任务执行之前目标就会执行失败。
+- Requires method: Parameter specified in required method must not be null otherwise target execution will fail before any task get executed. 
 
 #### 上下文功能
 
-- GetEnviromentVariable 方法：根据名称（name）获取环境变量 `context.GetEnvironmentVariable("someVariable");`；
+
 - Log：`context.LogInfo("Some Text2", ConsoleColor.Blue);`；
 - GetVsSolution：获取解决方案和项目信息 `context.GetVsSolution();`。
+- GetFiles: Get Files from specified directory with option to filter files with glob pattern `context.GetFiles(OutputDirectory, "*.nupkg");`
+- GetDirectories: Get Directories from specified directory with option to filter files with glob pattern `context.GetFiles(OutputDirectory, "*.nupkg");`
+- GetEnviromentVariable 方法：根据名称（name）获取环境变量 `context.GetEnvironmentVariable("someVariable");`；
 
 <a name="Run-any-program"></a>
 

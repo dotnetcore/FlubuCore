@@ -364,12 +364,15 @@ Target executed in parallel with FlubuCore runner have sequential logging on by 
 - SetAsDefault method: When applied to target that target is runned by default if no target is specified when running the script with runner.
 - SetAsHidden method: When applied to target that target is not shown in help and it can only be run as other target dependency.
 - Must method: Condition in must will have to be meet otherwise target execution will fail before any task get executed.
-
+- Requires method: Parameter specified in required method must not be null otherwise target execution will fail before any task get executed.
 
 #### Context features
-- GetEnviromentVariable method: Get's the enviroment variable by name  `context.GetEnvironmentVariable("someVariable");`
+
 - Log:`context.LogInfo("Some Text2", ConsoleColor.Blue);`
-- GetVsSolution: Get's solution and it's project information `context.GetVsSolution();`
+- GetVsSolution: Get's solution and it's projects information(such as full project path, target framework, runtimeidentifier..) `context.GetVsSolution();`
+- GetFiles: Get Files from specified directory with option to filter files with glob pattern `context.GetFiles(OutputDirectory, "*.nupkg");`
+- GetDirectories: Get Directories from specified directory with option to filter files with glob pattern `context.GetFiles(OutputDirectory, "*.nupkg");`
+- GetEnviromentVariable method: Get's the enviroment variable by name  `context.GetEnvironmentVariable("someVariable");`
 
 <a name="Run-any-program"></a>
 

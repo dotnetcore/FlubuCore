@@ -11,13 +11,15 @@ When executing flubu script or any other process locally in console it is recome
 Features in interactive mode
 
 - Target's tab completition with tab key
-- Option's tab completition with tab key
+- Option's (parameter) tab completition with tab key
+- Option's (parameter) value tab completition with tab key for enum types
 - Target help displayed at the bottom of console
 - Option help displayed at the bottom of console
 - Execute external commands. Meaning if you run FlubuCore interactive mode for example in powershell all powershell commands are available in FlubuCore interactive mode.
 - Execute external processes. For some of them FlubuCore offers tab completion with help at the bottom of console out of the box(such as dotnet, git...[See full list](#external-processes-tab-completion-list))
 - Next / previos target with up and down arrow
 - Next / previos option with up and down arrow
+- Next / previos target or option with tab key
 - History of executed commans with up and down arrow
 - No need to load script for each executed target
 - reload or load another script
