@@ -96,7 +96,7 @@ namespace FlubuCore.Tasks.Versioning
         }
 
         /// <summary>
-        /// Adds additional properties to be updated with the version.
+        /// Adds additional properties to be updated with the version. Only for xproj.
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
