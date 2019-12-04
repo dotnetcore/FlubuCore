@@ -1,3 +1,8 @@
+## FlubuCore 4.3.4.0
+- UpdateNetCoreVersionTask: Version field count is now configurable
+- UpdateNetCoreVersionTask: Option to add PackageVersion to csproj.
+- UpdateNetCoreVersionTask: Fixes set of version suffix when setting version to more than one csproj.
+
 ## FlubuCore 4.3.3.0
 - Fixes SetBuildVersionWithSuffix which also caused bug in UpdateNetCoreVersionTask
 - Fixes spacing when displaying target dependencies in help
