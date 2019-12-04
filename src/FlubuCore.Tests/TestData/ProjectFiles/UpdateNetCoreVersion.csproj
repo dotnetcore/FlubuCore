@@ -1,0 +1,141 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>Build</AssemblyName>
+    <PackageId>Build</PackageId>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove=".git\**" />
+    <Compile Remove=".vs\**" />
+    <Compile Remove="Backup1\**" />
+    <Compile Remove="Backup\**" />
+    <Compile Remove="build\**" />
+    <Compile Remove="dotnet-flubu\**" />
+    <Compile Remove="Flubu.SystemTests\**" />
+    <Compile Remove="Flubu.Tests\**" />
+    <Compile Remove="Flubu.VisualStudio\**" />
+    <Compile Remove="FlubuClore.Analyzer.Test\**" />
+    <Compile Remove="FlubuClore.Analyzer\**" />
+    <Compile Remove="FlubuCore.Analyser.Test\**" />
+    <Compile Remove="FlubuCore.Analyser.Vsix\**" />
+    <Compile Remove="FlubuCore.Analyser\**" />
+    <Compile Remove="FlubuCore.Analyzer.Test\**" />
+    <Compile Remove="FlubuCore.Analyzers.Tests\**" />
+    <Compile Remove="FlubuCore.Analyzers\**" />
+    <Compile Remove="FlubuCore.Analyzer\**" />
+    <Compile Remove="FlubuCore.GlobalTool\**" />
+    <Compile Remove="FlubuCore.Runner\**" />
+    <Compile Remove="FlubuCore.TaskGenerator.Tests\**" />
+    <Compile Remove="FlubuCore.TaskGenerator\**" />
+    <Compile Remove="FlubuCore.Tests\**" />
+    <Compile Remove="FlubuCore.WebApi.Client\**" />
+    <Compile Remove="FlubuCore.WebApi.Model\**" />
+    <Compile Remove="FlubuCore.WebApi.Tests\**" />
+    <Compile Remove="FlubuCore.WebApi\**" />
+    <Compile Remove="FlubuCore\**" />
+    <Compile Remove="Nuget\**" />
+    <Compile Remove="output\**" />
+    <Compile Remove="Template\**" />
+    <Compile Remove="tools\**" />
+    <EmbeddedResource Remove=".git\**" />
+    <EmbeddedResource Remove=".vs\**" />
+    <EmbeddedResource Remove="Backup1\**" />
+    <EmbeddedResource Remove="Backup\**" />
+    <EmbeddedResource Remove="build\**" />
+    <EmbeddedResource Remove="dotnet-flubu\**" />
+    <EmbeddedResource Remove="Flubu.SystemTests\**" />
+    <EmbeddedResource Remove="Flubu.Tests\**" />
+    <EmbeddedResource Remove="Flubu.VisualStudio\**" />
+    <EmbeddedResource Remove="FlubuClore.Analyzer.Test\**" />
+    <EmbeddedResource Remove="FlubuClore.Analyzer\**" />
+    <EmbeddedResource Remove="FlubuCore.Analyser.Test\**" />
+    <EmbeddedResource Remove="FlubuCore.Analyser.Vsix\**" />
+    <EmbeddedResource Remove="FlubuCore.Analyser\**" />
+    <EmbeddedResource Remove="FlubuCore.Analyzer.Test\**" />
+    <EmbeddedResource Remove="FlubuCore.Analyzers.Tests\**" />
+    <EmbeddedResource Remove="FlubuCore.Analyzers\**" />
+    <EmbeddedResource Remove="FlubuCore.Analyzer\**" />
+    <EmbeddedResource Remove="FlubuCore.GlobalTool\**" />
+    <EmbeddedResource Remove="FlubuCore.Runner\**" />
+    <EmbeddedResource Remove="FlubuCore.TaskGenerator.Tests\**" />
+    <EmbeddedResource Remove="FlubuCore.TaskGenerator\**" />
+    <EmbeddedResource Remove="FlubuCore.Tests\**" />
+    <EmbeddedResource Remove="FlubuCore.WebApi.Client\**" />
+    <EmbeddedResource Remove="FlubuCore.WebApi.Model\**" />
+    <EmbeddedResource Remove="FlubuCore.WebApi.Tests\**" />
+    <EmbeddedResource Remove="FlubuCore.WebApi\**" />
+    <EmbeddedResource Remove="FlubuCore\**" />
+    <EmbeddedResource Remove="Nuget\**" />
+    <EmbeddedResource Remove="output\**" />
+    <EmbeddedResource Remove="Template\**" />
+    <EmbeddedResource Remove="tools\**" />
+    <None Remove=".git\**" />
+    <None Remove=".vs\**" />
+    <None Remove="Backup1\**" />
+    <None Remove="Backup\**" />
+    <None Remove="build\**" />
+    <None Remove="dotnet-flubu\**" />
+    <None Remove="Flubu.SystemTests\**" />
+    <None Remove="Flubu.Tests\**" />
+    <None Remove="Flubu.VisualStudio\**" />
+    <None Remove="FlubuClore.Analyzer.Test\**" />
+    <None Remove="FlubuClore.Analyzer\**" />
+    <None Remove="FlubuCore.Analyser.Test\**" />
+    <None Remove="FlubuCore.Analyser.Vsix\**" />
+    <None Remove="FlubuCore.Analyser\**" />
+    <None Remove="FlubuCore.Analyzer.Test\**" />
+    <None Remove="FlubuCore.Analyzers.Tests\**" />
+    <None Remove="FlubuCore.Analyzers\**" />
+    <None Remove="FlubuCore.Analyzer\**" />
+    <None Remove="FlubuCore.GlobalTool\**" />
+    <None Remove="FlubuCore.Runner\**" />
+    <None Remove="FlubuCore.TaskGenerator.Tests\**" />
+    <None Remove="FlubuCore.TaskGenerator\**" />
+    <None Remove="FlubuCore.Tests\**" />
+    <None Remove="FlubuCore.WebApi.Client\**" />
+    <None Remove="FlubuCore.WebApi.Model\**" />
+    <None Remove="FlubuCore.WebApi.Tests\**" />
+    <None Remove="FlubuCore.WebApi\**" />
+    <None Remove="FlubuCore\**" />
+    <None Remove="Nuget\**" />
+    <None Remove="output\**" />
+    <None Remove="Template\**" />
+    <None Remove="tools\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove=".gitignore" />
+    <None Remove="appveyor.yml" />
+    <None Remove="flubu.sln.DotSettings" />
+    <None Remove="project.json" />
+    <None Remove="project.lock.json" />
+    <None Remove="stylecop.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BuildScript.cs" Exclude="**;bin\**;obj\**;**\*.xproj;packages\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="dotnet-flubu" Version="2.14.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BuildScript\NetCore1.1\Deploy.csproj" />
+    <None Include="BuildScript\NetCore2.0\Deploy.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="LiteDB" Version="4.1.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Moq" Version="8.0.0" />
+    <ProjectReference Include="FlubuCore.WebApi\FlubuCore.WebApi.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.DataAccess">
+      <HintPath>FlubuLib\Oracle.DataAccess.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+</Project>

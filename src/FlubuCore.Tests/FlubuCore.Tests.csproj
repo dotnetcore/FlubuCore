@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <WarningsAsErrors>true</WarningsAsErrors>
@@ -12,9 +12,9 @@
 	  <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
 	  <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
 	  <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
-    <Version>4.2.2.0</Version>
-    <AssemblyVersion>4.2.2.0</AssemblyVersion>
-    <FileVersion>4.2.2.0</FileVersion>
+    <Version>4.3.3.0</Version>
+    <AssemblyVersion>4.3.3.0</AssemblyVersion>
+    <FileVersion>4.3.3.0</FileVersion>
     <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1701;1702;1705;1591;1573;1572;1574</NoWarn>
   </PropertyGroup>
@@ -22,6 +22,12 @@
   <ItemGroup>
     <Content Include="TestData\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\ProjectFiles\UpdateNetCoreVersion.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\ProjectFiles\UpdateNetCoreVersion2.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
  

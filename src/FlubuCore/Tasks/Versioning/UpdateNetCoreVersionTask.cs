@@ -15,7 +15,14 @@ namespace FlubuCore.Tasks.Versioning
         private readonly IFileWrapper _file;
 
         private BuildVersion _version;
+
         private string _description;
+
+        private bool _addPackageVersion;
+
+        private int? _packageVersionFieldCount;
+
+        private int? _versionFieldCount;
 
         public UpdateNetCoreVersionTask(IPathWrapper pathWrapper, IFileWrapper filWrapper, string file)
         {
@@ -50,6 +57,29 @@ namespace FlubuCore.Tasks.Versioning
         public UpdateNetCoreVersionTask FixedVersion(BuildVersion version)
         {
             _version = version;
+            return this;
+        }
+
+        /// <summary>
+        /// Set version field count in csproj Version property. Default is 3
+        /// </summary>
+        /// <param name="versionFieldCount"></param>
+        /// <returns></returns>
+        public UpdateNetCoreVersionTask SetVersionFieldCount(int versionFieldCount)
+        {
+            _versionFieldCount = versionFieldCount;
+            return this;
+        }
+
+        /// <summary>
+        /// If applied PackageVersion property is added/updated in csproj.
+        /// </summary>
+        /// <param name="versionFieldCount">version field count in csproj PackageVersion property. Default is 3</param>
+        /// <returns></returns>
+        public UpdateNetCoreVersionTask AddPackageVersion(int? versionFieldCount = null)
+        {
+            _addPackageVersion = true;
+            _packageVersionFieldCount = versionFieldCount;
             return this;
         }
 
@@ -105,8 +135,31 @@ namespace FlubuCore.Tasks.Versioning
             }
 
             DoLogInfo($"Update version to {_version.Version}");
-            string newVersion = _version.Version.ToString(3);
-            int res = 0;
+
+            if (!_versionFieldCount.HasValue)
+            {
+                _versionFieldCount = context.Properties.TryGet(BuildProps.ProductVersionFieldCount, 3);
+            }
+
+            if (!_packageVersionFieldCount.HasValue)
+            {
+                _packageVersionFieldCount = context.Properties.TryGet(BuildProps.ProductVersionFieldCount, 3);
+            }
+
+            string newVersion = _version.Version.ToString(_versionFieldCount.Value);
+            string newPackageVersion = _version.Version.ToString(_packageVersionFieldCount.Value);
+            string newVersionWithQuality = newVersion;
+            string newPackageVersionWithQuality = newPackageVersion;
+
+            if (!string.IsNullOrEmpty(_version.VersionQuality))
+            {
+                if (!_version.VersionQuality.StartsWith("-"))
+                {
+                    _version.VersionQuality = _version.VersionQuality.Insert(0, "-");
+                    newVersionWithQuality = $"{newVersionWithQuality}{_version.VersionQuality}";
+                    newPackageVersionWithQuality = $"{newPackageVersionWithQuality}{_version.VersionQuality}";
+                }
+            }
 
             foreach (string file in _files)
             {
@@ -119,16 +172,6 @@ namespace FlubuCore.Tasks.Versioning
                 {
                     context.Fail($"File {file} not found!", 1);
                     return 1;
-                }
-
-                string newVersionWithQuality = newVersion;
-                if (!string.IsNullOrEmpty(_version.VersionQuality))
-                {
-                    if (!_version.VersionQuality.StartsWith("-"))
-                    {
-                        _version.VersionQuality = _version.VersionQuality.Insert(0, "-");
-                        newVersionWithQuality = $"{newVersionWithQuality}{_version.VersionQuality}";
-                    }
                 }
 
                 if (_pathWrapper.GetExtension(file).Equals(".xproj", StringComparison.CurrentCultureIgnoreCase))
@@ -147,14 +190,18 @@ namespace FlubuCore.Tasks.Versioning
                 {
                     var task = context.Tasks().UpdateXmlFileTask(file);
                     task.AddOrUpdate("Project/PropertyGroup/Version", newVersionWithQuality);
-                    newVersion = _version.Version.ToString();
-                    task.AddOrUpdate("Project/PropertyGroup/AssemblyVersion", newVersion);
-                    task.AddOrUpdate("Project/PropertyGroup/FileVersion", newVersion);
+                    task.AddOrUpdate("Project/PropertyGroup/AssemblyVersion", _version.Version.ToString());
+                    task.AddOrUpdate("Project/PropertyGroup/FileVersion", _version.Version.ToString());
+                    if (_addPackageVersion)
+                    {
+                        task.AddOrUpdate("Project/PropertyGroup/PackageVersion", newPackageVersionWithQuality);
+                    }
+
                     task.Execute(context);
                 }
             }
 
-            return res;
+            return 0;
         }
     }
 }
