@@ -10,7 +10,13 @@ namespace FlubuCore.Tasks.Versioning
 
         public string BuildVersionWithQuality(int versionFieldCount)
         {
-            string quality = !string.IsNullOrEmpty(VersionQuality) ? $"-{VersionQuality}" : null;
+            string quality = null;
+
+            if (!string.IsNullOrEmpty(VersionQuality))
+            {
+                quality = VersionQuality.StartsWith("-") ? VersionQuality : $"-{VersionQuality}";
+            }
+
             return $"{Version.ToString(versionFieldCount)}{quality}";
         }
     }
