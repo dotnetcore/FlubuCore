@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FlubuCore.Tasks.Versioning
 {
@@ -12,7 +10,8 @@ namespace FlubuCore.Tasks.Versioning
 
         public string BuildVersionWithQuality(int versionFieldCount)
         {
-            return $"{Version.ToString(versionFieldCount)}{VersionQuality}";
+            string quality = !string.IsNullOrEmpty(VersionQuality) ? $"-{VersionQuality}" : null;
+            return $"{Version.ToString(versionFieldCount)}{quality}";
         }
     }
 }
