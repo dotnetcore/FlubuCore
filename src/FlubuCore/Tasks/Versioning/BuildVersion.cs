@@ -8,7 +8,7 @@ namespace FlubuCore.Tasks.Versioning
 
         public string VersionQuality { get; set; }
 
-        public string BuildVersionWithQuality(int? versionFieldCount)
+        public string BuildVersionWithQuality(int? versionFieldCount = null)
         {
             string quality = null;
 
