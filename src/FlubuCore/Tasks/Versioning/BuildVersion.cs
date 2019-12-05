@@ -8,7 +8,7 @@ namespace FlubuCore.Tasks.Versioning
 
         public string VersionQuality { get; set; }
 
-        public string BuildVersionWithQuality(int versionFieldCount)
+        public string BuildVersionWithQuality(int? versionFieldCount)
         {
             string quality = null;
 
@@ -17,7 +17,7 @@ namespace FlubuCore.Tasks.Versioning
                 quality = VersionQuality.StartsWith("-") ? VersionQuality : $"-{VersionQuality}";
             }
 
-            return $"{Version.ToString(versionFieldCount)}{quality}";
+            return versionFieldCount.HasValue ? $"{Version.ToString(versionFieldCount.Value)}{quality}" : $"{Version.ToString()}{quality}";
         }
     }
 }
