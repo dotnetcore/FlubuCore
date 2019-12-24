@@ -1,3 +1,8 @@
+## FlubuCore 4.3.5.0
+- BuildVersionWithQuality adds back the dash separator if necessary
+- BuildVersionWithQuality version field count is now optional
+- Added Implicit string operator for FileFullPath
+
 ## FlubuCore 4.3.4.0
 - UpdateNetCoreVersionTask: Version field count is now configurable
 - UpdateNetCoreVersionTask: Option to add PackageVersion to csproj.
