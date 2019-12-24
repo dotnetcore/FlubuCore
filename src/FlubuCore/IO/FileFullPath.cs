@@ -19,6 +19,11 @@ namespace FlubuCore.IO
 
         public int Length => _fileName.Length;
 
+        public static implicit operator string(FileFullPath path)
+        {
+            return path.ToString();
+        }
+
         public override string ToString()
         {
             return _fileName;
