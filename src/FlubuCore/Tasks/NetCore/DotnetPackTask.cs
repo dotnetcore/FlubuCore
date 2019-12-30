@@ -107,9 +107,30 @@ namespace FlubuCore.Tasks.NetCore
         /// <param name="versionSufix"></param>
         /// <returns></returns>
         [ArgKey("--version-suffix")]
+        [Obsolete("use VersionSuffix instead.", true)]
         public DotnetPackTask VersionSufix(string versionSufix)
         {
-            WithArgumentsKeyFromAttribute(versionSufix);
+            if (!string.IsNullOrEmpty(versionSufix))
+            {
+                WithArgumentsKeyFromAttribute(versionSufix);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        ///  Defines the value for the $(VersionSuffix) property in the project.
+        /// </summary>
+        /// <param name="versionSufix"></param>
+        /// <returns></returns>
+        [ArgKey("--version-suffix")]
+        public DotnetPackTask VersionSuffix(string versionSuffix)
+        {
+            if (!string.IsNullOrEmpty(versionSuffix))
+            {
+                WithArgumentsKeyFromAttribute(versionSuffix);
+            }
+
             return this;
         }
 

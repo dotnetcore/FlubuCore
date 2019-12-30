@@ -134,7 +134,11 @@ namespace FlubuCore.Tasks.NetCore
         [ArgKey("--version-suffix")]
         public DotnetBuildTask VersionSuffix(string suffix)
         {
-            WithArgumentsKeyFromAttribute(suffix);
+            if (!string.IsNullOrEmpty(suffix))
+            {
+                WithArgumentsKeyFromAttribute(suffix);
+            }
+
             return this;
         }
 
