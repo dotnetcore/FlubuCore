@@ -32,6 +32,7 @@ namespace FlubuCore.Scripting
             "FlubuLib",
             "BuildScript/FlubuLib",
             "BuildScripts/FlubuLib",
+            "build/FlubuLib",
             "Build/FlubuLib",
             "_Build/FlubuLib",
             "_BuildScript/FlubuLib",
