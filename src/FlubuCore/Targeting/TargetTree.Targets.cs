@@ -52,10 +52,7 @@ namespace FlubuCore.Targeting
                         help = $"{help} ({string.Join(", ", target.Dependencies.Keys)})";
                     }
 
-                    if (!string.IsNullOrEmpty(target.Description))
-                    {
-                        help = $"{help} : {target.Description}";
-                    }
+                    help = $"{help} : {target.Description}";
 
                     if (DefaultTargets.Contains(target))
                     {
