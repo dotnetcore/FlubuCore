@@ -261,7 +261,7 @@ namespace FlubuCore.Scripting
                         continue;
                     }
 
-                    if (CommandExecutor.InteractiveExitCommands.Contains(args.MainCommands[0], StringComparer.OrdinalIgnoreCase))
+                    if (CommandExecutor.InteractiveExitAndReloadCommands.Contains(args.MainCommands[0], StringComparer.OrdinalIgnoreCase))
                     {
                         break;
                     }
