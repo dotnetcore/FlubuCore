@@ -51,13 +51,13 @@ namespace FlubuCore.Commanding
             "load",
         };
 
-        public static List<string> InteractiveExitCommands
+        public static List<string> InteractiveExitAndReloadCommands
         {
             get
             {
                 var ret = new List<string>();
-                ret.AddRange(_interactiveExitOnlyCommands);
                 ret.AddRange(ReloadCommands);
+                ret.AddRange(_interactiveExitOnlyCommands);
                 return ret;
             }
         }
@@ -109,7 +109,7 @@ namespace FlubuCore.Commanding
                             throw;
                         }
 
-                        await SimpleFlubuInteractiveMode(script);
+                        script = await SimpleFlubuInteractiveMode(script);
                     }
 
                     _flubuSession.TargetTree.BuildScript = script;
@@ -155,7 +155,7 @@ namespace FlubuCore.Commanding
             }
         }
 
-        private async Task SimpleFlubuInteractiveMode(IBuildScript script)
+        private async Task<IBuildScript> SimpleFlubuInteractiveMode(IBuildScript script)
         {
             do
             {
@@ -171,7 +171,7 @@ namespace FlubuCore.Commanding
 
                     var splitedLine = commandLine.Split(' ').ToList();
 
-                    if (InteractiveExitCommands.Contains(splitedLine[0], StringComparer.OrdinalIgnoreCase))
+                    if (_interactiveExitOnlyCommands.Contains(splitedLine[0], StringComparer.OrdinalIgnoreCase))
                     {
                         break;
                     }
@@ -224,6 +224,8 @@ namespace FlubuCore.Commanding
                 }
             }
             while (script == null);
+
+            return script;
         }
     }
 }
