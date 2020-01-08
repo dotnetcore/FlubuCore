@@ -26,10 +26,13 @@ namespace FlubuCore.Commanding
             "quit",
         };
 
-        private readonly CommandArguments _args;
         private readonly IScriptLoader _scriptLoader;
+
         private readonly IFlubuSession _flubuSession;
+
         private readonly ILogger<CommandExecutor> _log;
+
+        private CommandArguments _args;
 
         public CommandExecutor(
             CommandArguments args,
@@ -112,11 +115,13 @@ namespace FlubuCore.Commanding
                         script = await SimpleFlubuInteractiveMode(script);
                     }
 
+                    _flubuSession.ScriptArgs = _args.ScriptArguments;
+                    _flubuSession.InteractiveArgs = _args;
                     _flubuSession.TargetTree.BuildScript = script;
                     _flubuSession.FlubuHelpText = FlubuHelpText;
                     _flubuSession.Properties.Set(BuildProps.IsWebApi, _args.IsWebApi);
-                    _flubuSession.ScriptArgs = _args.ScriptArguments;
                     _flubuSession.TargetTree.ResetTargetTree();
+
                     //// ReSharper disable once PossibleNullReferenceException
                     if (script != null)
                     {
@@ -183,6 +188,7 @@ namespace FlubuCore.Commanding
                         .Select(x => x.Trim()).ToArray());
                     _flubuSession.InteractiveArgs = args;
                     _flubuSession.ScriptArgs = args.ScriptArguments;
+                    _args = args;
 
                     var internalCommandExecuted = flubuConsole.ExecuteInternalCommand(commandLine);
                     if (internalCommandExecuted)

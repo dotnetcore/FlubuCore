@@ -227,7 +227,9 @@ namespace FlubuCore.Scripting
             AssertAllTargetDependenciesWereExecuted(flubuSession);
         }
 
-        private void FlubuInteractiveMode(IFlubuSession flubuSession, (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) targetsInfo, bool resetTargetTree)
+        private void FlubuInteractiveMode(IFlubuSession flubuSession,
+            (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) targetsInfo,
+            bool resetTargetTree)
         {
             flubuSession.InteractiveMode = true;
             var flubuConsole = InitializeFlubuConsole(flubuSession);
@@ -252,16 +254,23 @@ namespace FlubuCore.Scripting
                         .Select(x => x.Trim()).ToArray());
                     targetsInfo = ParseCmdLineArgs(args.MainCommands, flubuSession.TargetTree);
 
-                    flubuSession.InteractiveArgs = args;
-                    flubuSession.ScriptArgs = args.ScriptArguments;
-                    ScriptProperties.SetPropertiesFromScriptArg(this, flubuSession);
-
                     if (args.MainCommands.Count == 0)
                     {
                         continue;
                     }
 
-                    if (CommandExecutor.InteractiveExitAndReloadCommands.Contains(args.MainCommands[0], StringComparer.OrdinalIgnoreCase))
+                    if (!args.MainCommands[0].Equals("l", StringComparison.OrdinalIgnoreCase) &&
+                        !args.MainCommands[0].Equals("load", StringComparison.OrdinalIgnoreCase))
+                    {
+                        args.Script = flubuSession.InteractiveArgs.Script;
+                    }
+
+                    flubuSession.InteractiveArgs = args;
+                    flubuSession.ScriptArgs = args.ScriptArguments;
+                    ScriptProperties.SetPropertiesFromScriptArg(this, flubuSession);
+
+                    if (CommandExecutor.InteractiveExitAndReloadCommands.Contains(args.MainCommands[0],
+                        StringComparer.OrdinalIgnoreCase))
                     {
                         break;
                     }
@@ -276,7 +285,8 @@ namespace FlubuCore.Scripting
 
                         var splitedLine = commandLine.Split(' ').ToList();
                         var command = splitedLine.First();
-                        var runProgram = flubuSession.Tasks().RunProgramTask(command).DoNotLogTaskExecutionInfo().WorkingFolder(".");
+                        var runProgram = flubuSession.Tasks().RunProgramTask(command).DoNotLogTaskExecutionInfo()
+                            .WorkingFolder(".");
                         splitedLine.RemoveAt(0);
                         try
                         {
@@ -292,7 +302,7 @@ namespace FlubuCore.Scripting
 #if !NETSTANDARD1_6
                             flubuSession.LogError($"ERROR: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}", Color.Red);
 #else
-                             flubuSession.LogError($"error: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}");
+                            flubuSession.LogError($"error: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}");
 #endif
                         }
                         catch (ArgumentException)
@@ -329,7 +339,7 @@ namespace FlubuCore.Scripting
 #if !NETSTANDARD1_6
                      flubuSession.LogError($"ERROR: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}", Color.Red);
 #else
-                     flubuSession.LogError($"error: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}");
+                    flubuSession.LogError($"error: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}");
 #endif
                 }
             }
