@@ -233,6 +233,7 @@ namespace FlubuCore.Scripting
         {
             flubuSession.InteractiveMode = true;
             var flubuConsole = InitializeFlubuConsole(flubuSession);
+            flubuSession.TargetTree.ScriptArgsHelp = ScriptProperties.GetPropertiesHelp(this);
             flubuSession.TargetTree.RunTarget(flubuSession, "help.onlyTargets");
             flubuSession.LogInfo(" ");
 
