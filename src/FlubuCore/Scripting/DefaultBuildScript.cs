@@ -28,12 +28,12 @@ namespace FlubuCore.Scripting
         /// <summary>
         /// Get's product root directory.
         /// </summary>
-        public FullPath RootDirectory => new FullPath(_flubuSession.Properties.GetProductRootDir());
+        protected FullPath RootDirectory => new FullPath(_flubuSession.Properties.GetProductRootDir());
 
         /// <summary>
         /// Get's output directory.
         /// </summary>
-        public FullPath OutputDirectory => RootDirectory.CombineWith(new LocalPath(_flubuSession.Properties.GetOutputDir()));
+        protected FullPath OutputDirectory => RootDirectory.CombineWith(new LocalPath(_flubuSession.Properties.GetOutputDir()));
 
         public int Run(IFlubuSession flubuSession)
         {
