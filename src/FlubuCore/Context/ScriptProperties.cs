@@ -109,9 +109,10 @@ namespace FlubuCore.Context
                 {
                     foreach (var fromArgAttribute in attributes)
                     {
+                        var keys = fromArgAttribute.ArgKey.Split('|');
                         hints.Add(new Hint
                         {
-                            Name = $"-{fromArgAttribute.ArgKey}",
+                            Name = $"-{keys[0]}",
                             Help = fromArgAttribute.Help,
                             HintColor = ConsoleColor.DarkCyan
                         });
