@@ -103,7 +103,7 @@ namespace FlubuCore.Context
                 var attributes = property.GetCustomAttributes<FromArgAttribute>(false).ToList();
                 if (attributes.Count == 0)
                 {
-                    hints.Add(new Hint { Name = property.Name });
+                    hints.Add(new Hint { Name = $"-{property.Name}" });
                 }
                 else
                 {
@@ -111,7 +111,7 @@ namespace FlubuCore.Context
                     {
                         hints.Add(new Hint
                         {
-                            Name = fromArgAttribute.ArgKey,
+                            Name = $"-{fromArgAttribute.ArgKey}",
                             Help = fromArgAttribute.Help,
                             HintColor = ConsoleColor.DarkCyan
                         });
