@@ -96,7 +96,7 @@ public class BuildScript : DefaultBuildScript
             .SetAsDefault()
             .DependsOn(compile, flubuTests);
 
-        var branch = Environment.GetEnvironmentVariable("APPVEYOR_REPO_BRANCH");
+        var branch = context.BuildSystems().AppVeyor().BranchName;
         
         context.CreateTarget("rebuild.server")
             .SetDescription("Rebuilds the solution and publishes nuget packages.")
@@ -119,7 +119,7 @@ public class BuildScript : DefaultBuildScript
 
         var flubuTestsLinux = context.CreateTarget("test.linux")
             .SetDescription("Runs all tests in solution.")
-            .AddCoreTask(x => x.Test().Project("FlubuCore.Tests\\FlubuCore.Tests.csproj").WithArguments("--filter", "Category!=OnlyWindows"))
+            .AddCoreTask(x => x.Test().Project("FlubuCore.Tests\\FlubuCore.Tests.csproj").AddFilter("Category!=OnlyWindows"))
             .AddCoreTask(x => x.Test().Project("FlubuCore.WebApi.Tests\\FlubuCore.WebApi.Tests.csproj"));
 
         context.CreateTarget("rebuild.linux")
@@ -164,33 +164,33 @@ public class BuildScript : DefaultBuildScript
         
         context.CoreTasks().NugetPush($"output\\FlubuCore.WebApi.Model.{nugetVersion}.nupkg")
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.WebApi.Model. exception: {e.Message}"); })
-            .WithArguments("-s", "https://www.nuget.org/api/v2/package")
-            .WithArguments("-k", NugetApiKey).Execute(context);
+            .ServerUrl("https://www.nuget.org/api/v2/package")
+            .ApiKey(NugetApiKey).Execute(context);
 
         context.CoreTasks().NugetPush($"output\\FlubuCore.WebApi.Client.{nugetVersion}.nupkg")
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.WebApi.Client. exception: {e.Message}"); })
-            .WithArguments("-s", "https://www.nuget.org/api/v2/package")
-            .WithArguments("-k", NugetApiKey).Execute(context);
+            .ServerUrl("https://www.nuget.org/api/v2/package")
+            .ApiKey(NugetApiKey).Execute(context);
 
         context.CoreTasks().NugetPush($"output\\FlubuCore.{nugetVersion}.nupkg")
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore. exception: {e.Message}"); })
-            .WithArguments("-s", "https://www.nuget.org/api/v2/package")
-            .WithArguments("-k", NugetApiKey).Execute(context);
+            .ServerUrl("https://www.nuget.org/api/v2/package")
+            .ApiKey(NugetApiKey).Execute(context);
 
         context.CoreTasks().NugetPush($"output\\dotnet-flubu.{nugetVersion}.nupkg")
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish dotnet-flubu. exception: {e.Message}"); })
-            .WithArguments("-s", "https://www.nuget.org/api/v2/package")
-            .WithArguments("-k", NugetApiKey).Execute(context);
+            .ServerUrl("https://www.nuget.org/api/v2/package")
+            .ApiKey(NugetApiKey).Execute(context);
 
         context.CoreTasks().NugetPush($"output\\FlubuCore.GlobalTool.{nugetVersion}.nupkg")
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.GlobalTool. exception: {e.Message}"); })
-            .WithArguments("-s", "https://www.nuget.org/api/v2/package")
-            .WithArguments("-k", NugetApiKey).Execute(context);
+            .ServerUrl("https://www.nuget.org/api/v2/package")
+            .ApiKey(NugetApiKey).Execute(context);
 
         context.CoreTasks().NugetPush($"output\\FlubuCore.Analyzers.1.0.4.nupkg")
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.Analyzer. exception: {e.Message}"); })
-            .WithArguments("-s", "https://www.nuget.org/api/v2/package")
-            .WithArguments("-k", NugetApiKey).Execute(context);
+            .ServerUrl("https://www.nuget.org/api/v2/package")
+            .ApiKey(NugetApiKey).Execute(context);
 
         var task = context.Tasks().PublishNuGetPackageTask("FlubuCore.Runner", @"Nuget\FlubuCoreRunner.nuspec");
         task.NugetServerUrl("https://www.nuget.org/api/v2/package")
