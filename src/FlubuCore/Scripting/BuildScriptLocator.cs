@@ -99,12 +99,12 @@ namespace FlubuCore.Scripting
                 var lines = _file.ReadAllLines("./.flubu");
                 if (!string.IsNullOrEmpty(lines[0]) && _file.Exists(lines[0]))
                 {
-                    _log.LogInformation("using the build script file from .flubu file. '{0}'.", lines[0]);
+                    _log.LogInformation("using the build script file path from .flubu file. '{0}'.", lines[0]);
                     return lines[0];
                 }
             }
 
-            _log.LogInformation("Build script file name was not explicitly specified, searching the default locations:");
+            _log.LogInformation("Script file path was not explicitly specified, searching the default locations.");
             foreach (var defaultScriptLocation in DefaultScriptLocations)
             {
                 if (_file.Exists(defaultScriptLocation))

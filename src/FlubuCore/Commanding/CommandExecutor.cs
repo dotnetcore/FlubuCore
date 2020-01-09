@@ -85,6 +85,8 @@ namespace FlubuCore.Commanding
                             throw;
                         }
 
+                        _flubuSession.LogInfo("Build script not found.");
+
                         script = await SimpleFlubuInteractiveMode(script);
                     }
 
@@ -95,7 +97,6 @@ namespace FlubuCore.Commanding
                     _flubuSession.Properties.Set(BuildProps.IsWebApi, _args.IsWebApi);
                     _flubuSession.TargetTree.ResetTargetTree();
 
-                    //// ReSharper disable once PossibleNullReferenceException
                     if (script != null)
                     {
                         result = script.Run(_flubuSession);
@@ -200,6 +201,7 @@ namespace FlubuCore.Commanding
                 }
                 catch (BuildScriptLocatorException)
                 {
+                    _flubuSession.LogInfo("Build script not found.");
                 }
             }
             while (script == null);
