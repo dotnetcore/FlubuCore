@@ -18,14 +18,6 @@ namespace FlubuCore.Commanding
 {
     public class CommandExecutor : ICommandExecutor
     {
-        private static readonly List<string> _interactiveExitOnlyCommands = new List<string>()
-        {
-            "x",
-            "exit",
-            "q",
-            "quit",
-        };
-
         private readonly IScriptLoader _scriptLoader;
 
         private readonly IFlubuSession _flubuSession;
@@ -44,25 +36,6 @@ namespace FlubuCore.Commanding
             _scriptLoader = scriptLoader;
             _flubuSession = flubuSession;
             _log = log;
-        }
-
-        public static List<string> ReloadCommands => new List<string>
-        {
-            "r",
-            "reload",
-            "l",
-            "load",
-        };
-
-        public static List<string> InteractiveExitAndReloadCommands
-        {
-            get
-            {
-                var ret = new List<string>();
-                ret.AddRange(ReloadCommands);
-                ret.AddRange(_interactiveExitOnlyCommands);
-                return ret;
-            }
         }
 
         public string FlubuHelpText { get; set; }
@@ -128,7 +101,7 @@ namespace FlubuCore.Commanding
                         result = script.Run(_flubuSession);
                     }
                 }
-                while (_flubuSession.InteractiveMode && ReloadCommands.Contains(_flubuSession.InteractiveArgs.MainCommands[0], StringComparer.OrdinalIgnoreCase));
+                while (_flubuSession.InteractiveMode && InternalCommands.ReloadCommands.Contains(_flubuSession.InteractiveArgs.MainCommands[0], StringComparer.OrdinalIgnoreCase));
 
                 return result;
             }
@@ -176,7 +149,7 @@ namespace FlubuCore.Commanding
 
                     var splitedLine = commandLine.Split(' ').ToList();
 
-                    if (_interactiveExitOnlyCommands.Contains(splitedLine[0], StringComparer.OrdinalIgnoreCase))
+                    if (InternalCommands.InteractiveExitOnlyCommands.Contains(splitedLine[0], StringComparer.OrdinalIgnoreCase))
                     {
                         break;
                     }
@@ -196,7 +169,7 @@ namespace FlubuCore.Commanding
                         continue;
                     }
 
-                    if (!ReloadCommands.Contains(splitedLine[0], StringComparer.OrdinalIgnoreCase))
+                    if (!InternalCommands.ReloadCommands.Contains(splitedLine[0], StringComparer.OrdinalIgnoreCase))
                     {
                         var command = splitedLine.First();
                         var runProgram = _flubuSession.Tasks().RunProgramTask(command).DoNotLogTaskExecutionInfo()
