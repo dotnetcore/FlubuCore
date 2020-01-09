@@ -1,3 +1,16 @@
+## FlubuCore 4.3.7.0
+- DotnetBuildTask, DotnetPackTask, DotnetPublishTask: VersionSuffix option key is not added anymore if it is null or empty.
+- Changed properties accessors on DefaultBuildScript so they can not be overriden through passed arguments.
+- Interactive mode: Fixed load and reload of build script.
+- Interactive mode: Fixed load and reload of build script when build script location is specified by user (-s)
+- Interactive mode: Fixed hint highlights for script properties.
+- Interactive mode: Fixed suggestions for properties with more than one key.
+- Interactive mode: Help now shows build script global arguments.
+- Interactive mode: Added logging when build script is not found. 
+- Added some more default build script locations.
+- Added some more default csproj locations.
+- Flubu help: Adds colon betwen target name and target description even if description is empty.
+
 ## FlubuCore 4.3.5.0
 - BuildVersionWithQuality adds back the dash separator if necessary
 - BuildVersionWithQuality version field count is now optional
