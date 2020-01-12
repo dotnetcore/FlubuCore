@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Infrastructure;
 using FlubuCore.WebApi.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NuGet.Packaging;
 
 namespace FlubuCore.Tasks.Text
 {
