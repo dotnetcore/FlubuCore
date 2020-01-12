@@ -235,6 +235,39 @@ namespace FlubuCore.Tasks.NetCore
             return this;
         }
 
+        /// <summary>
+        /// Publish application as a single executable for specified platform. Available only for .netcoreapp 3.0 and above.
+        /// </summary>
+        /// <returns></returns>
+        [ArgKey("/p:PublishSingleFile")]
+        public DotnetPublishTask PublishSingleFile()
+        {
+            WithArguments("/p:PublishSingleFile=true");
+            return this;
+        }
+
+        /// <summary>
+        /// Reduces the size of the executable to a great extent and create a trimmed self-contained single executable by removing unused dlls. Available only for .netcoreapp 3.0 and above.
+        /// </summary>
+        /// <returns></returns>
+        [ArgKey("/p:PublishTrimmed")]
+        public DotnetPublishTask PublishTrimmedFile()
+        {
+            WithArguments("/p:PublishTrimmed=true");
+            return this;
+        }
+
+        /// <summary>
+        /// Increases self-contained single executable app startup time. Available only in.netcoreapp 3.0 and above.
+        /// </summary>
+        /// <returns></returns>
+        [ArgKey("/p:PublishReadyToRun")]
+        public DotnetPublishTask PublishReadyToRun()
+        {
+            WithArguments("/p:PublishReadyToRun=true");
+            return this;
+        }
+
         protected override void BeforeExecute(ITaskContextInternal context, IRunProgramTask runProgramTask)
         {
             if (!GetArguments().Exists(x => x == "-c" || x == "--configuration"))
