@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using FlubuCore.Context;
+using FlubuCore.Infrastructure;
 using FlubuCore.Tasks.Iis.Interfaces;
 using Microsoft.Web.Administration;
 
 namespace FlubuCore.Tasks.Iis
 {
-    using NuGet.Packaging;
-
     public class CreateWebApplicationTask : IisTaskBase<ICreateWebApplicationTask>, ICreateWebApplicationTask
     {
         private readonly IList<MimeType> _mimeTypes;
@@ -86,9 +85,9 @@ namespace FlubuCore.Tasks.Iis
             return this;
         }
 
-        public ICreateWebApplicationTask AddMimeType(params string[] mimeTypes)
+        public ICreateWebApplicationTask AddMimeType(params MimeType[] mimeTypes)
         {
-            mimeTypes.AddRange(mimeTypes);
+            _mimeTypes.AddRange(mimeTypes);
             return this;
         }
 
