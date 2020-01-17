@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using DotNet.Cli.Flubu.Commanding;
 using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Commanding;
@@ -35,12 +37,14 @@ namespace DotNet.Cli.Flubu
                 .AddScriptAnalyser()
                 .AddArguments(args)
                 .AddTasks();
-
-            _provider = Services.BuildServiceProvider();
-            ILoggerFactory factory = _provider.GetRequiredService<ILoggerFactory>();
+            var containerBuilder = new ContainerBuilder();
+            containerBuilder.Populate(Services);
+            var container = containerBuilder.Build();
+            _provider = new AutofacServiceProvider(container);
+            ILoggerFactory factory = container.Resolve<ILoggerFactory>();
             factory.AddProvider(new FlubuLoggerProvider());
-            var cmdApp = _provider.GetRequiredService<CommandLineApplication>();
-            ICommandExecutor executor = _provider.GetRequiredService<ICommandExecutor>();
+            var cmdApp = container.Resolve<CommandLineApplication>();
+            ICommandExecutor executor = container.Resolve<ICommandExecutor>();
             executor.FlubuHelpText = cmdApp.GetHelpText();
 
             Console.CancelKeyPress += OnCancelKeyPress;
