@@ -33,7 +33,14 @@ namespace FlubuCore.Scripting
         /// <summary>
         /// Get's output directory.
         /// </summary>
-        protected FullPath OutputDirectory => RootDirectory.CombineWith(new LocalPath(_flubuSession.Properties.GetOutputDir()));
+        protected FullPath OutputDirectory
+        {
+            get
+            {
+                var outputDir = _flubuSession.Properties.GetOutputDir();
+                return Path.IsPathRooted(outputDir) ? new FullPath(outputDir) : RootDirectory.CombineWith(new LocalPath(outputDir));
+            }
+        }
 
         public int Run(IFlubuSession flubuSession)
         {
