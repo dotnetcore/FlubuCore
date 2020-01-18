@@ -103,9 +103,14 @@ namespace FlubuCore.Scripting
             }
         }
 
-        protected abstract void ConfigureBuildProperties(IBuildPropertiesContext context);
+        internal void ConfigureTargetsInternal(ITaskContext context)
+        {
+            ConfigureTargets(context);
+        }
 
         protected abstract void ConfigureTargets(ITaskContext context);
+
+        protected abstract void ConfigureBuildProperties(IBuildPropertiesContext context);
 
         public static (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) ParseCmdLineArgs(List<string> mainCommands, TargetTree targetTree)
         {

@@ -325,22 +325,27 @@ namespace FlubuCore.Commanding
             return script;
         }
 
-        private FlubuConsole InitializeFlubuConsole(IFlubuSession flubuSession, IBuildScript buildScript)
+        private FlubuConsole InitializeFlubuConsole(IFlubuSession flubuSession, IBuildScript script)
         {
             var source = new Dictionary<string, IReadOnlyCollection<Hint>>();
-            var propertyKeys = ScriptProperties.GetPropertiesHints(buildScript, flubuSession);
+            var propertyKeys = ScriptProperties.GetPropertiesHints(script, flubuSession);
             propertyKeys.Add(new Hint { Name = "--parallel", Help = "If applied target's are executed in parallel.", HintColor = ConsoleColor.Magenta });
             propertyKeys.Add(new Hint { Name = "--dryrun", Help = "Performs a dry run of the specified target.", HintColor = ConsoleColor.Magenta });
             propertyKeys.Add(new Hint { Name = "--noColor", Help = "Disables colored logging.", HintColor = ConsoleColor.Magenta });
             propertyKeys.Add(new Hint { Name = "--nodeps", Help = "If applied no target dependencies are executed.", HintColor = ConsoleColor.Magenta });
             source.Add("-", propertyKeys);
-            var enumHints = ScriptProperties.GetEnumHints(buildScript, flubuSession);
+            var enumHints = ScriptProperties.GetEnumHints(script, flubuSession);
             if (enumHints != null)
             {
                 source.AddRange(enumHints);
             }
 
             List<Hint> defaultHints = new List<Hint>();
+
+            if (script is DefaultBuildScript defaultBuildScript)
+            {
+                defaultBuildScript.ConfigureTargetsInternal(flubuSession);
+            }
 
             foreach (var targetName in flubuSession.TargetTree.GetTargetNames())
             {
