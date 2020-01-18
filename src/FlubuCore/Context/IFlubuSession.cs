@@ -9,6 +9,8 @@ namespace FlubuCore.Context
     {
         bool InteractiveMode { get; set; }
 
+        bool InitializeTargetTree { get; set; }
+
         CommandArguments InteractiveArgs { get; set; }
 
         bool HasFailed { get; }
