@@ -119,6 +119,7 @@ namespace FlubuCore.Scripting
 
         private void RunBuild(IFlubuSession flubuSession)
         {
+            flubuSession.TargetTree.ResetTargetTree();
             ConfigureBuildProperties(flubuSession);
 
             ConfigureDefaultTargets(flubuSession);
@@ -154,7 +155,7 @@ namespace FlubuCore.Scripting
             }
             else
             {
-                var targetsInfo = ParseCmdLineArgs(flubuSession.Args.MainCommands, flubuSession.TargetTree);
+                var targetsInfo = ParseCmdLineArgs(flubuSession.InteractiveArgs.MainCommands, flubuSession.TargetTree);
                 ExecuteTarget(flubuSession, targetsInfo);
             }
         }

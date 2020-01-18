@@ -94,6 +94,7 @@ namespace FlubuCore.Commanding
                     }
 
                     _flubuSession.ScriptArgs = _args.ScriptArguments;
+                    _flubuSession.InteractiveMode = _args.InteractiveMode;
                     _flubuSession.InteractiveArgs = _args;
                     _flubuSession.TargetTree.BuildScript = script;
                     _flubuSession.FlubuHelpText = FlubuHelpText;
@@ -102,7 +103,7 @@ namespace FlubuCore.Commanding
 
                     if (script != null)
                     {
-                        if (!_flubuSession.InteractiveMode)
+                        if (_flubuSession.InteractiveMode)
                         {
                             FlubuInteractiveMode(_flubuSession, script);
                         }
