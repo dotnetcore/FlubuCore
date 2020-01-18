@@ -10,19 +10,42 @@ namespace DotNet.Cli.Flubu.Infrastructure
 {
     public static class InstallerExtensions
     {
-        public static IServiceCollection AddCommandComponents(this IServiceCollection services)
+        public static IServiceCollection AddCommandComponentsWithArguments(this IServiceCollection services,
+            string[] args)
+        {
+            var commandArguments = AddArgumentsImpl(services, args);
+
+            if (commandArguments == null || !commandArguments.InteractiveMode)
+            {
+                services.AddSingleton<ICommandExecutor, CommandExecutor>();
+            }
+            else
+            {
+                services.AddSingleton<ICommandExecutor, CommandExecutorInteractive>();
+            }
+
+            AddCommandComponents(services, false);
+
+            return services;
+        }
+
+        public static IServiceCollection AddCommandComponents(this IServiceCollection services, bool addCommandExecutor = true)
         {
             services
                 .AddLogging()
                 .AddSingleton<IBuildScriptLocator, BuildScriptLocator>()
                 .AddSingleton<IScriptLoader, ScriptLoader>()
-                .AddSingleton<ICommandExecutor, CommandExecutor>()
                 .AddSingleton<IFlubuConfigurationProvider, FlubuConfigurationProvider>();
+
+            if (addCommandExecutor)
+            {
+                services.AddSingleton<ICommandExecutor, CommandExecutor>();
+            }
 
             return services;
         }
 
-        public static IServiceCollection AddScriptAnalyser(this IServiceCollection services)
+        public static IServiceCollection AddScriptAnalyzers(this IServiceCollection services)
         {
             return services
                 .AddSingleton<IProjectFileAnalyzer, ProjectFileAnalyzer>()
@@ -38,15 +61,27 @@ namespace DotNet.Cli.Flubu.Infrastructure
 
         public static IServiceCollection AddArguments(this IServiceCollection services, string[] args)
         {
+            AddArgumentsImpl(services, args);
+            return services;
+        }
+
+        private static CommandArguments AddArgumentsImpl(IServiceCollection services, string[] args)
+        {
             var app = new CommandLineApplication(false);
             IFlubuCommandParser parser = new FlubuCommandParser(app, new FlubuConfigurationProvider());
 
             services
                 .AddSingleton(parser)
-                .AddSingleton(app)
-                .AddSingleton(parser.Parse(args));
+                .AddSingleton(app);
 
-            return services;
+            if (args == null)
+            {
+                return null;
+            }
+
+            var commandArguments = parser.Parse(args);
+            services.AddSingleton(commandArguments);
+            return commandArguments;
         }
     }
 }

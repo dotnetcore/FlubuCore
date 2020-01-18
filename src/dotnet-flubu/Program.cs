@@ -33,10 +33,10 @@ namespace DotNet.Cli.Flubu
 
             Services
                 .AddCoreComponents()
-                .AddCommandComponents()
-                .AddScriptAnalyser()
-                .AddArguments(args)
+                .AddCommandComponentsWithArguments(args)
+                .AddScriptAnalyzers()
                 .AddTasks();
+
             var containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(Services);
             var container = containerBuilder.Build();

@@ -15,7 +15,7 @@ namespace FlubuCore.Tests.Integration
             var services = new ServiceCollection()
                 .AddLogging()
                 .AddCoreComponents()
-                .AddScriptAnalyser()
+                .AddScriptAnalyzers()
                 .AddArguments(new[] { "flubu" })
                 .AddTasks();
 
