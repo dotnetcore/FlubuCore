@@ -145,7 +145,7 @@ namespace FlubuCore.Commanding
             }
         }
 
-         private void FlubuInteractiveMode(IFlubuSession flubuSession, IBuildScript script)
+        private void FlubuInteractiveMode(IFlubuSession flubuSession, IBuildScript script)
          {
             flubuSession.InteractiveMode = true;
             var flubuConsole = InitializeFlubuConsole(flubuSession, script);
@@ -279,6 +279,7 @@ namespace FlubuCore.Commanding
                     _flubuSession.InteractiveArgs = args;
                     _flubuSession.ScriptArgs = args.ScriptArguments;
                     _args = args;
+                    _args.InteractiveMode = true;
 
                     var internalCommandExecuted = flubuConsole.ExecuteInternalCommand(commandLine);
                     if (internalCommandExecuted)
