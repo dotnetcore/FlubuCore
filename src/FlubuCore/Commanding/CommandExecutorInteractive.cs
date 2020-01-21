@@ -25,6 +25,8 @@ namespace FlubuCore.Commanding
 
         private readonly IFlubuSession _flubuSession;
 
+        private readonly IScriptProperties _scriptProperties;
+
         private readonly ILogger<CommandExecutorInteractive> _log;
 
         private CommandArguments _args;
@@ -33,11 +35,13 @@ namespace FlubuCore.Commanding
             CommandArguments args,
             IScriptLoader scriptLoader,
             IFlubuSession flubuSession,
+            IScriptProperties scriptProperties,
             ILogger<CommandExecutorInteractive> log)
         {
             _args = args;
             _scriptLoader = scriptLoader;
             _flubuSession = flubuSession;
+            _scriptProperties = scriptProperties;
             _log = log;
         }
 
@@ -145,11 +149,11 @@ namespace FlubuCore.Commanding
             }
         }
 
-        private void FlubuInteractiveMode(IFlubuSession flubuSession, IBuildScript script)
+        protected virtual void FlubuInteractiveMode(IFlubuSession flubuSession, IBuildScript script)
          {
             flubuSession.InteractiveMode = true;
             var flubuConsole = InitializeFlubuConsole(flubuSession, script);
-            flubuSession.TargetTree.ScriptArgsHelp = ScriptProperties.GetPropertiesHelp(script);
+            flubuSession.TargetTree.ScriptArgsHelp = _scriptProperties.GetPropertiesHelp(script);
             flubuSession.TargetTree.RunTarget(flubuSession, "help.onlyTargets");
             flubuSession.LogInfo(" ");
 
@@ -184,7 +188,7 @@ namespace FlubuCore.Commanding
 
                     flubuSession.InteractiveArgs = args;
                     flubuSession.ScriptArgs = args.ScriptArguments;
-                    ScriptProperties.SetPropertiesFromScriptArg(script, flubuSession);
+                    _scriptProperties.SetPropertiesFromScriptArg(script, flubuSession);
 
                     if (InternalCommands.InteractiveExitAndReloadCommands.Contains(args.MainCommands[0],
                         StringComparer.OrdinalIgnoreCase))
@@ -250,7 +254,7 @@ namespace FlubuCore.Commanding
             while (flubuSession.InteractiveMode);
         }
 
-        private async Task<IBuildScript> SimpleFlubuInteractiveMode(IBuildScript script)
+        protected virtual async Task<IBuildScript> SimpleFlubuInteractiveMode(IBuildScript script)
         {
             do
             {
@@ -326,16 +330,16 @@ namespace FlubuCore.Commanding
             return script;
         }
 
-        private FlubuConsole InitializeFlubuConsole(IFlubuSession flubuSession, IBuildScript script)
+        protected virtual FlubuConsole InitializeFlubuConsole(IFlubuSession flubuSession, IBuildScript script)
         {
             var source = new Dictionary<string, IReadOnlyCollection<Hint>>();
-            var propertyKeys = ScriptProperties.GetPropertiesHints(script, flubuSession);
+            var propertyKeys = _scriptProperties.GetPropertiesHints(script);
             propertyKeys.Add(new Hint { Name = "--parallel", Help = "If applied target's are executed in parallel.", HintColor = ConsoleColor.Magenta });
             propertyKeys.Add(new Hint { Name = "--dryrun", Help = "Performs a dry run of the specified target.", HintColor = ConsoleColor.Magenta });
             propertyKeys.Add(new Hint { Name = "--noColor", Help = "Disables colored logging.", HintColor = ConsoleColor.Magenta });
             propertyKeys.Add(new Hint { Name = "--nodeps", Help = "If applied no target dependencies are executed.", HintColor = ConsoleColor.Magenta });
             source.Add("-", propertyKeys);
-            var enumHints = ScriptProperties.GetEnumHints(script, flubuSession);
+            var enumHints = _scriptProperties.GetEnumHints(script, flubuSession);
             if (enumHints != null)
             {
                 source.AddRange(enumHints);

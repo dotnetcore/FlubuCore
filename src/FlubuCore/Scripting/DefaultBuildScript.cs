@@ -18,6 +18,8 @@ namespace FlubuCore.Scripting
     {
         private IFlubuSession _flubuSession;
 
+        private IScriptProperties _scriptProperties;
+
         /// <summary>
         /// Get's product root directory.
         /// </summary>
@@ -31,6 +33,8 @@ namespace FlubuCore.Scripting
         public int Run(IFlubuSession flubuSession)
         {
             _flubuSession = flubuSession;
+            _scriptProperties = flubuSession.ScriptFactory.CreateScriptProperties();
+
             try
             {
                 ConfigureDefaultProps(flubuSession);
@@ -129,7 +133,7 @@ namespace FlubuCore.Scripting
 
             ConfigureDefaultTargets(flubuSession);
 
-            ScriptProperties.SetPropertiesFromScriptArg(this, flubuSession);
+            _scriptProperties.SetPropertiesFromScriptArg(this, flubuSession);
 
             TargetCreator.CreateTargetFromMethodAttributes(this, flubuSession);
 
@@ -181,7 +185,7 @@ namespace FlubuCore.Scripting
             {
                 if (targetsInfo.targetsToRun[0].Equals("help", StringComparison.OrdinalIgnoreCase))
                 {
-                    flubuSession.TargetTree.ScriptArgsHelp = ScriptProperties.GetPropertiesHelp(this);
+                    flubuSession.TargetTree.ScriptArgsHelp = _scriptProperties.GetPropertiesHelp(this);
                 }
 
                 BeforeTargetExecution(flubuSession);
@@ -334,7 +338,7 @@ namespace FlubuCore.Scripting
             {
                 if (flubuSession.Args.TargetsToExecute.Count - 1 != flubuSession.TargetTree.DependenciesExecutedCount)
                 {
-                    throw new TaskExecutionException("Wrong number of target dependencies were runned.", 3);
+                    throw new TaskExecutionException("Wrong number of target dependencies were run.", 3);
                 }
             }
         }

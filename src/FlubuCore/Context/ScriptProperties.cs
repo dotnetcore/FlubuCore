@@ -9,9 +9,9 @@ using FlubuCore.Scripting;
 
 namespace FlubuCore.Context
 {
-    public static class ScriptProperties
+    public class ScriptProperties : IScriptProperties
     {
-        public static void SetPropertiesFromScriptArg(IBuildScript buildScript, IFlubuSession flubuSession)
+        public void SetPropertiesFromScriptArg(IBuildScript buildScript, IFlubuSession flubuSession)
         {
             var buildScriptType = buildScript.GetType();
             IList<PropertyInfo> props = new List<PropertyInfo>(buildScriptType.GetProperties());
@@ -77,23 +77,7 @@ namespace FlubuCore.Context
             }
         }
 
-        private static void SetPropertyValue(PropertyInfo propertyInfo, IBuildScript buildScript, string value, Type type, string argKey)
-        {
-            try
-            {
-                propertyInfo.SetValue(buildScript, MethodParameterModifier.ParseValueByType(value, type));
-            }
-            catch (FormatException e)
-            {
-                throw new ScriptException($"Could not pass value '{value}' from argument '{argKey}' to build script property '{propertyInfo.Name}'", e);
-            }
-            catch (ArgumentException e)
-            {
-                throw new ScriptException($"Could not pass value '{value}' from argument '{argKey}' to build script property '{propertyInfo.Name}'", e);
-            }
-        }
-
-        public static List<Hint> GetPropertiesHints(IBuildScript buildScript, IFlubuSession flubuSession)
+        public List<Hint> GetPropertiesHints(IBuildScript buildScript)
         {
             var buildScriptType = buildScript.GetType();
             IList<PropertyInfo> props = new List<PropertyInfo>(buildScriptType.GetProperties());
@@ -123,7 +107,7 @@ namespace FlubuCore.Context
             return hints;
         }
 
-        public static Dictionary<string, IReadOnlyCollection<Hint>> GetEnumHints(IBuildScript buildScript, IFlubuSession flubuSession)
+        public Dictionary<string, IReadOnlyCollection<Hint>> GetEnumHints(IBuildScript buildScript, IFlubuSession flubuSession)
         {
 #if !NETSTANDARD1_6
             var buildScriptType = buildScript.GetType();
@@ -167,7 +151,7 @@ namespace FlubuCore.Context
             return null;
         }
 
-        public static List<string> GetPropertiesHelp(IBuildScript buildScript)
+        public List<string> GetPropertiesHelp(IBuildScript buildScript)
         {
             var buildScriptType = buildScript.GetType();
             IList<PropertyInfo> props = new List<PropertyInfo>(buildScriptType.GetProperties());
@@ -202,6 +186,22 @@ namespace FlubuCore.Context
             }
 
             return help;
+        }
+
+        private static void SetPropertyValue(PropertyInfo propertyInfo, IBuildScript buildScript, string value, Type type, string argKey)
+        {
+            try
+            {
+                propertyInfo.SetValue(buildScript, MethodParameterModifier.ParseValueByType(value, type));
+            }
+            catch (FormatException e)
+            {
+                throw new ScriptException($"Could not pass value '{value}' from argument '{argKey}' to build script property '{propertyInfo.Name}'", e);
+            }
+            catch (ArgumentException e)
+            {
+                throw new ScriptException($"Could not pass value '{value}' from argument '{argKey}' to build script property '{propertyInfo.Name}'", e);
+            }
         }
     }
 }
