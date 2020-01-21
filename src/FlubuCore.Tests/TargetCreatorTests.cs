@@ -17,6 +17,8 @@ namespace FlubuCore.Tests
     {
         private readonly IFlubuSession _flubuSession;
 
+        private readonly ITargetCreator _targetCreator;
+
         public TargetCreatorTests()
         {
             var sp = new ServiceCollection().AddTransient<ITarget, TargetFluentInterface>()
@@ -31,12 +33,13 @@ namespace FlubuCore.Tests
                 .AddSingleton<IHttpClientFactory, HttpClientFactory>()
                 .BuildServiceProvider();
             _flubuSession = new FlubuSession(new Mock<ILogger<FlubuSession>>().Object, new TargetTree(null, null), new CommandArguments(), new ScriptFactory(sp),  new Mock<ITaskFactory>().Object, new FluentInterfaceFactory(sp), null, null);
+            _targetCreator = new TargetCreator();
         }
 
         [Fact]
         public void CreateTargetFromMethodAttributes_AddsTargets_Sucesfull()
         {
-            TargetCreator.CreateTargetFromMethodAttributes(new BuildScriptWithTargetsFromAttribute(), _flubuSession);
+            _targetCreator.CreateTargetFromMethodAttributes(new BuildScriptWithTargetsFromAttribute(), _flubuSession);
             Assert.Equal(3, _flubuSession.TargetTree.TargetCount);
             Assert.True(_flubuSession.TargetTree.HasTarget("Target1"));
             Assert.True(_flubuSession.TargetTree.HasTarget("Target2"));
@@ -46,21 +49,21 @@ namespace FlubuCore.Tests
         [Fact]
         public void CreateTargetFromMethodAttributes_NoTargets_Succesfull()
         {
-            TargetCreator.CreateTargetFromMethodAttributes(new BuildScriptNoTargetsWithAttribute(), _flubuSession);
+            _targetCreator.CreateTargetFromMethodAttributes(new BuildScriptNoTargetsWithAttribute(), _flubuSession);
             Assert.Equal(0, _flubuSession.TargetTree.TargetCount);
         }
 
         [Fact]
         public void CreateTargetFromMethodAttributes_MethodHasNoParameters_ThrowsScriptException()
         {
-           var ex = Assert.Throws<ScriptException>(() => TargetCreator.CreateTargetFromMethodAttributes(new BuildScriptMethodHasNoParameters(), _flubuSession));
+           var ex = Assert.Throws<ScriptException>(() => _targetCreator.CreateTargetFromMethodAttributes(new BuildScriptMethodHasNoParameters(), _flubuSession));
            Assert.Equal("Failed to create target 'Test'. Method 'TestTarget' must have atleast one parameter which must be of type 'ITarget'", ex.Message);
         }
 
         [Fact]
         public void CreateTargetFromMethodAttributes_MethodAndAttributeParameterCountDoNotMatch_ThrowsScriptException()
         {
-            var ex = Assert.Throws<ScriptException>(() => TargetCreator.CreateTargetFromMethodAttributes(new BuildScriptParameterCountNotMatch(), _flubuSession));
+            var ex = Assert.Throws<ScriptException>(() => _targetCreator.CreateTargetFromMethodAttributes(new BuildScriptParameterCountNotMatch(), _flubuSession));
             Assert.Equal("Failed to create target 'Test'. Method parameters TestTarget do not match count of attribute parametrs.", ex.Message);
         }
 

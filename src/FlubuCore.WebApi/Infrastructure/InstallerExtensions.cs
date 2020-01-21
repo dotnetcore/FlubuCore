@@ -49,6 +49,7 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddSingleton<ITaskFactory, DotnetTaskFactory>()
                 .AddSingleton<IHttpClientFactory, HttpClientFactory>()
                 .AddSingleton<IScriptProperties, ScriptProperties>()
+                .AddSingleton<ITargetCreator, TargetCreator>()
                 .AddSingleton<IBuildSystem, BuildSystem>()
                 .AddScoped<IBuildPropertiesSession, BuildPropertiesSession>()
                 .AddScoped<TargetTree>()

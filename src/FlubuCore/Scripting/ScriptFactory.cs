@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Targeting;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FlubuCore.Scripting
@@ -18,6 +19,11 @@ namespace FlubuCore.Scripting
         public IScriptProperties CreateScriptProperties()
         {
             return _serviceRrovider.GetRequiredService<IScriptProperties>();
+        }
+
+        public ITargetCreator CreateTargetCreator()
+        {
+            return _serviceRrovider.GetRequiredService<ITargetCreator>();
         }
     }
 }

@@ -20,6 +20,8 @@ namespace FlubuCore.Scripting
 
         private IScriptProperties _scriptProperties;
 
+        private ITargetCreator _targetCreator;
+
         /// <summary>
         /// Get's product root directory.
         /// </summary>
@@ -34,6 +36,7 @@ namespace FlubuCore.Scripting
         {
             _flubuSession = flubuSession;
             _scriptProperties = flubuSession.ScriptFactory.CreateScriptProperties();
+            _targetCreator = flubuSession.ScriptFactory.CreateTargetCreator();
 
             try
             {
@@ -135,7 +138,7 @@ namespace FlubuCore.Scripting
 
             _scriptProperties.SetPropertiesFromScriptArg(this, flubuSession);
 
-            TargetCreator.CreateTargetFromMethodAttributes(this, flubuSession);
+            _targetCreator.CreateTargetFromMethodAttributes(this, flubuSession);
 
             ConfigureTargets(flubuSession);
 

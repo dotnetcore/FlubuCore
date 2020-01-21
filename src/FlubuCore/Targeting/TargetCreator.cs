@@ -9,14 +9,14 @@ using FlubuCore.Scripting;
 
 namespace FlubuCore.Targeting
 {
-    public static class TargetCreator
+    public class TargetCreator : ITargetCreator
     {
         /// <summary>
         /// Searches methods with Target attribute in specified type and creates targets.
         /// </summary>
         /// <param name="buildScriptType"></param>
         /// <param name="flubuSession"></param>
-        public static void CreateTargetFromMethodAttributes(IBuildScript buildScript, IFlubuSession flubuSession)
+        public void CreateTargetFromMethodAttributes(IBuildScript buildScript, IFlubuSession flubuSession)
         {
             #if !NETSTANDARD1_6
             var buildScriptType = buildScript.GetType();
