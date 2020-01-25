@@ -359,7 +359,7 @@ namespace FlubuCore.Infrastructure.Terminal
             }
 
             Console.WriteLine(string.Empty);
-            AddCommandToHistory(readLine);
+            AddCommandToHistory(fullInput);
             return fullInput;
         }
 
