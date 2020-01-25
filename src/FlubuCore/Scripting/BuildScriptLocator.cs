@@ -62,7 +62,7 @@ namespace FlubuCore.Scripting
             return fileName;
         }
 
-        public string FindFlubuFile()
+        public virtual string FindFlubuFile()
         {
             var currentDirectory = Directory.GetCurrentDirectory();
             var directories = currentDirectory.Split(Path.DirectorySeparatorChar);

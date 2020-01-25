@@ -62,14 +62,14 @@ namespace FlubuCore.Context
             return _fluentFactory.GetCoreTaskFluentInterface((ITaskContextInternal)this);
         }
 
-        public void LogInfo(string message)
+        public virtual void LogInfo(string message)
         {
              FlubuConsoleLogger.Depth = ExecutionDepth;
             _log.LogInformation(message);
         }
 
         #if !NETSTANDARD1_6
-        public void LogInfo(string message, Color foregroundColor)
+        public virtual void LogInfo(string message, Color foregroundColor)
         {
             FlubuConsoleLogger.Color = foregroundColor;
             FlubuConsoleLogger.Depth = ExecutionDepth;
@@ -77,14 +77,14 @@ namespace FlubuCore.Context
         }
         #endif
 
-        public void LogError(string message)
+        public virtual void LogError(string message)
         {
             FlubuConsoleLogger.Depth = ExecutionDepth;
             _log.LogError(message);
         }
 
 #if !NETSTANDARD1_6
-        public void LogError(string message, Color foregroundColor)
+        public virtual void LogError(string message, Color foregroundColor)
         {
             FlubuConsoleLogger.Depth = ExecutionDepth;
             FlubuConsoleLogger.Color = foregroundColor;

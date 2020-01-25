@@ -43,7 +43,7 @@ namespace FlubuCore.Commanding
 
         public string FlubuHelpText { get; set; }
 
-        public async Task<int> ExecuteAsync()
+        public virtual async Task<int> ExecuteAsync()
         {
             var version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
 
