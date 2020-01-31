@@ -72,7 +72,10 @@ namespace FlubuCore.Tests.Scripting
                 .Returns(new ScriptAnalyzerResult() { ClassName = "MyBuildScript" });
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync(args);
-            var provider = new ServiceCollection().BuildServiceProvider();
+            var provider = new ServiceCollection()
+                .AddSingleton<IScriptProperties, ScriptProperties>()
+                .AddSingleton<ITargetCreator, TargetCreator>()
+                .BuildServiceProvider();
 
             t.Run(new FlubuSession(
                 _loggerTaskSession.Object,
@@ -112,7 +115,10 @@ namespace FlubuCore.Tests.Scripting
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync(args);
 
-            var provider = new ServiceCollection().BuildServiceProvider();
+            var provider = new ServiceCollection()
+                .AddSingleton<IScriptProperties, ScriptProperties>()
+                .AddSingleton<ITargetCreator, TargetCreator>()
+                .BuildServiceProvider();
 
             t.Run(new FlubuSession(
                 _loggerTaskSession.Object,
@@ -158,7 +164,10 @@ namespace FlubuCore.Tests.Scripting
                 .Returns(new ScriptAnalyzerResult() { ClassName = "MyBuildScript" });
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync(args);
-            var provider = new ServiceCollection().BuildServiceProvider();
+            var provider = new ServiceCollection()
+                .AddSingleton<IScriptProperties, ScriptProperties>()
+                .AddSingleton<ITargetCreator, TargetCreator>()
+                .BuildServiceProvider();
 
             t.Run(new FlubuSession(
                 _loggerTaskSession.Object,
