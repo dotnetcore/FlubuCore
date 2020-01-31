@@ -17,27 +17,19 @@ namespace FlubuCore.Commanding
     public class CommandExecutor : ICommandExecutor
     {
         private readonly CommandArguments _args;
-
-        private readonly IScriptLoader _scriptLoader;
+        private readonly IScriptProvider _scriptProvider;
         private readonly IFlubuSession _flubuSession;
-        private readonly IFileWrapper _file;
-        private readonly IPathWrapper _path;
-
         private readonly ILogger<CommandExecutor> _log;
 
         public CommandExecutor(
             CommandArguments args,
-            IScriptLoader scriptLoader,
+            IScriptProvider scriptProvider,
             IFlubuSession flubuSession,
-            IFileWrapper file,
-            IPathWrapper path,
             ILogger<CommandExecutor> log)
         {
             _args = args;
-            _scriptLoader = scriptLoader;
+            _scriptProvider = scriptProvider;
             _flubuSession = flubuSession;
-            _file = file;
-            _path = path;
             _log = log;
         }
 
@@ -64,7 +56,7 @@ namespace FlubuCore.Commanding
 
             try
             {
-                    var script = await _scriptLoader.FindAndCreateBuildScriptInstanceAsync(_args);
+                    var script = await _scriptProvider.GetBuildScriptAsync(_args);
                     _flubuSession.FlubuHelpText = FlubuHelpText;
                     _flubuSession.ScriptArgs = _args.ScriptArguments;
                     _flubuSession.TargetTree.BuildScript = script;

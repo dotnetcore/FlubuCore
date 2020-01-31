@@ -35,6 +35,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddLogging()
                 .AddSingleton<IBuildScriptLocator, BuildScriptLocator>()
                 .AddSingleton<IScriptLoader, ScriptLoader>()
+                .AddSingleton<IScriptProvider, ScriptProvider>()
                 .AddSingleton<IFlubuConfigurationProvider, FlubuConfigurationProvider>();
 
             if (addCommandExecutor)

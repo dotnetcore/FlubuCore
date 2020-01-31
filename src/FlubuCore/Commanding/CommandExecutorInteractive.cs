@@ -21,25 +21,25 @@ namespace FlubuCore.Commanding
 {
     public class CommandExecutorInteractive : ICommandExecutor
     {
-        private readonly IScriptLoader _scriptLoader;
-
         private readonly IFlubuSession _flubuSession;
 
         private readonly IScriptProperties _scriptProperties;
 
         private readonly ILogger<CommandExecutorInteractive> _log;
 
+        private readonly IScriptProvider _scriptProvider;
+
         private CommandArguments _args;
 
         public CommandExecutorInteractive(
             CommandArguments args,
-            IScriptLoader scriptLoader,
+            IScriptProvider scriptProvider,
             IFlubuSession flubuSession,
             IScriptProperties scriptProperties,
             ILogger<CommandExecutorInteractive> log)
         {
             _args = args;
-            _scriptLoader = scriptLoader;
+            _scriptProvider = scriptProvider;
             _flubuSession = flubuSession;
             _scriptProperties = scriptProperties;
             _log = log;
@@ -77,12 +77,12 @@ namespace FlubuCore.Commanding
                     {
                         if (!_flubuSession.InteractiveMode)
                         {
-                            script = await _scriptLoader.FindAndCreateBuildScriptInstanceAsync(_args);
+                            script = await _scriptProvider.GetBuildScriptAsync(_args);
                         }
                         else
                         {
-                            script = await _scriptLoader.FindAndCreateBuildScriptInstanceAsync(_flubuSession
-                                .InteractiveArgs);
+                            script = await _scriptProvider.GetBuildScriptAsync(_flubuSession
+                                .InteractiveArgs, true);
                         }
                     }
                     catch (BuildScriptLocatorException)
@@ -317,7 +317,7 @@ namespace FlubuCore.Commanding
                     }
                     else
                     {
-                        script = await _scriptLoader.FindAndCreateBuildScriptInstanceAsync(_flubuSession.InteractiveArgs);
+                        script = await _scriptProvider.GetBuildScriptAsync(_flubuSession.InteractiveArgs, true);
                     }
                 }
                 catch (BuildScriptLocatorException)

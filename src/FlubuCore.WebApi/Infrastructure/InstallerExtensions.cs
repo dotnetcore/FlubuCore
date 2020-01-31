@@ -89,6 +89,7 @@ namespace FlubuCore.WebApi.Infrastructure
             services
                 .AddScoped<IBuildScriptLocator, BuildScriptLocator>()
                 .AddScoped<IScriptLoader, ScriptLoader>()
+                .AddScoped<IScriptProvider, ScriptProvider>()
                 .AddScoped<ICommandExecutor, CommandExecutor>();
 
             return services;
