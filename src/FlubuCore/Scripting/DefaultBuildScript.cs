@@ -11,6 +11,7 @@ using FlubuCore.IO;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks.NetCore;
 using FlubuCore.WebApi.Client;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FlubuCore.Scripting
 {
@@ -108,6 +109,10 @@ namespace FlubuCore.Scripting
 
                 return 2;
             }
+        }
+
+        public virtual void ConfigureServices(IServiceCollection services)
+        {
         }
 
         internal void ConfigureTargetsInternal(ITaskContext context)

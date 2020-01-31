@@ -1,13 +1,10 @@
 ﻿using System;
-using System.IO;
 using System.Threading;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using DotNet.Cli.Flubu.Commanding;
 using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Commanding;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
+using FlubuCore.Scripting;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -37,16 +34,21 @@ namespace DotNet.Cli.Flubu
                 .AddScriptAnalyzers()
                 .AddTasks();
 
-            var containerBuilder = new ContainerBuilder();
-            containerBuilder.Populate(Services);
-            var container = containerBuilder.Build();
-            _provider = new AutofacServiceProvider(container);
-            ILoggerFactory factory = container.Resolve<ILoggerFactory>();
+            _provider = Services.BuildServiceProvider();
+            ILoggerFactory factory = _provider.GetRequiredService<ILoggerFactory>();
             factory.AddProvider(new FlubuLoggerProvider());
-            var cmdApp = container.Resolve<CommandLineApplication>();
-            ICommandExecutor executor = container.Resolve<ICommandExecutor>();
-            executor.FlubuHelpText = cmdApp.GetHelpText();
+            var cmdApp = _provider.GetRequiredService<CommandLineApplication>();
 
+            IScriptProvider scriptProvider = _provider.GetRequiredService<IScriptProvider>();
+            CommandArguments commandArguments = _provider.GetRequiredService<CommandArguments>();
+
+            var script = scriptProvider.GetBuildScriptAsync(commandArguments).Result;
+            script.ConfigureServices(Services);
+
+            _provider = Services.BuildServiceProvider();
+            ICommandExecutor executor = _provider.GetRequiredService<ICommandExecutor>();
+
+            executor.FlubuHelpText = cmdApp.GetHelpText();
             Console.CancelKeyPress += OnCancelKeyPress;
             var result = executor.ExecuteAsync().Result;
 
