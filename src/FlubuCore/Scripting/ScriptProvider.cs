@@ -7,9 +7,9 @@ namespace FlubuCore.Scripting
 {
     public class ScriptProvider : IScriptProvider
     {
-        private readonly IScriptLoader _scriptLoader;
+        private static IBuildScript _script = null;
 
-        private IBuildScript _script = null;
+        private readonly IScriptLoader _scriptLoader;
 
         public ScriptProvider(IScriptLoader scriptLoader)
         {

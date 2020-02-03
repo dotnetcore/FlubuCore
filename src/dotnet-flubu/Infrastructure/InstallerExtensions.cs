@@ -1,4 +1,6 @@
-﻿using DotNet.Cli.Flubu.Commanding;
+﻿using System;
+using System.Diagnostics;
+using DotNet.Cli.Flubu.Commanding;
 using FlubuCore.Commanding;
 using FlubuCore.Scripting;
 using FlubuCore.Scripting.Analysis;
@@ -11,9 +13,9 @@ namespace DotNet.Cli.Flubu.Infrastructure
     public static class InstallerExtensions
     {
         public static IServiceCollection AddCommandComponentsWithArguments(this IServiceCollection services,
-            string[] args)
+            string[] args, IServiceCollection services2 = null)
         {
-            var commandArguments = AddArgumentsImpl(services, args);
+            var commandArguments = AddArgumentsImpl(services, args, services2);
 
             if (commandArguments == null || !commandArguments.InteractiveMode)
             {
@@ -32,7 +34,6 @@ namespace DotNet.Cli.Flubu.Infrastructure
         public static IServiceCollection AddCommandComponents(this IServiceCollection services, bool addCommandExecutor = true)
         {
             services
-                .AddLogging()
                 .AddSingleton<IBuildScriptLocator, BuildScriptLocator>()
                 .AddSingleton<IScriptLoader, ScriptLoader>()
                 .AddSingleton<IScriptProvider, ScriptProvider>()
@@ -66,7 +67,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
             return services;
         }
 
-        private static CommandArguments AddArgumentsImpl(IServiceCollection services, string[] args)
+        private static CommandArguments AddArgumentsImpl(IServiceCollection services, string[] args, IServiceCollection services2 = null)
         {
             var app = new CommandLineApplication(false);
             IFlubuCommandParser parser = new FlubuCommandParser(app, new FlubuConfigurationProvider());
@@ -75,13 +76,18 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddSingleton(parser)
                 .AddSingleton(app);
 
+            services2?.AddSingleton(parser)
+                .AddSingleton(app);
+
             if (args == null)
             {
                 return null;
             }
 
             var commandArguments = parser.Parse(args);
+
             services.AddSingleton(commandArguments);
+            services2?.AddSingleton(commandArguments);
             return commandArguments;
         }
     }

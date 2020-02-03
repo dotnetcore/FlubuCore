@@ -28,24 +28,33 @@ namespace DotNet.Cli.Flubu
                 args = new string[0];
             }
 
-            Services
+            IServiceCollection serv = new ServiceCollection();
+
+            serv.AddScriptAnalyzers()
                 .AddCoreComponents()
-                .AddCommandComponentsWithArguments(args)
+                .AddCommandComponents(false)
+                .AddLogging()
+                .AddScriptAnalyzers();
+
+            Services
+                .AddCommandComponentsWithArguments(args, serv)
+                .AddLogging()
+                .AddCoreComponents()
                 .AddScriptAnalyzers()
                 .AddTasks();
 
-            _provider = Services.BuildServiceProvider();
-            ILoggerFactory factory = _provider.GetRequiredService<ILoggerFactory>();
-            factory.AddProvider(new FlubuLoggerProvider());
-            var cmdApp = _provider.GetRequiredService<CommandLineApplication>();
+            var prov = serv.BuildServiceProvider();
 
-            IScriptProvider scriptProvider = _provider.GetRequiredService<IScriptProvider>();
-            CommandArguments commandArguments = _provider.GetRequiredService<CommandArguments>();
+            IScriptProvider scriptProvider = prov.GetRequiredService<IScriptProvider>();
+            CommandArguments commandArguments = prov.GetRequiredService<CommandArguments>();
 
             var script = scriptProvider.GetBuildScriptAsync(commandArguments).Result;
             script.ConfigureServices(Services);
-
             _provider = Services.BuildServiceProvider();
+
+            ILoggerFactory factory = _provider.GetRequiredService<ILoggerFactory>();
+            factory.AddProvider(new FlubuLoggerProvider());
+            var cmdApp = _provider.GetRequiredService<CommandLineApplication>();
             ICommandExecutor executor = _provider.GetRequiredService<ICommandExecutor>();
 
             executor.FlubuHelpText = cmdApp.GetHelpText();
