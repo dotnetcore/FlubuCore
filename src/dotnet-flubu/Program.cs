@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading;
 using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Commanding;
@@ -17,6 +18,8 @@ namespace DotNet.Cli.Flubu
 
         private static IServiceProvider _provider;
 
+        private static ILogger<CommandExecutor> _logger;
+
         private static bool _cleanUpPerformed = false;
 
         private static volatile bool _wait = false;
@@ -28,33 +31,39 @@ namespace DotNet.Cli.Flubu
                 args = new string[0];
             }
 
-            IServiceCollection serv = new ServiceCollection();
+            IServiceCollection startUpServiceCollection = new ServiceCollection();
 
-            serv.AddScriptAnalyzers()
+            startUpServiceCollection.AddScriptAnalyzers()
                 .AddCoreComponents()
                 .AddCommandComponents(false)
-                .AddLogging()
                 .AddScriptAnalyzers();
 
             Services
-                .AddCommandComponentsWithArguments(args, serv)
-                .AddLogging()
+                .AddCommandComponentsWithArguments(args, startUpServiceCollection)
+#if !NETCOREAPP1_0 && !NETCOREAPP1_1
+              .AddFlubuLogging(startUpServiceCollection)
+#else
+                .AddFlubuLogging()
+#endif
                 .AddCoreComponents()
                 .AddScriptAnalyzers()
                 .AddTasks();
 
-            var prov = serv.BuildServiceProvider();
+            var startupProvider = startUpServiceCollection.BuildServiceProvider();
 
-            IScriptProvider scriptProvider = prov.GetRequiredService<IScriptProvider>();
-            CommandArguments commandArguments = prov.GetRequiredService<CommandArguments>();
-
+            IScriptProvider scriptProvider = startupProvider.GetRequiredService<IScriptProvider>();
+            CommandArguments commandArguments = startupProvider.GetRequiredService<CommandArguments>();
+            ILoggerFactory loggerFactory = startupProvider.GetRequiredService<ILoggerFactory>();
+            loggerFactory.AddProvider(new FlubuLoggerProvider());
+            _logger = startupProvider.GetRequiredService<ILogger<CommandExecutor>>();
+            var version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+            _logger.LogInformation($"Flubu v.{version}");
             var script = scriptProvider.GetBuildScriptAsync(commandArguments).Result;
+            Services.AddSingleton<ILoggerFactory>(loggerFactory);
             script.ConfigureServices(Services);
             _provider = Services.BuildServiceProvider();
-
-            ILoggerFactory factory = _provider.GetRequiredService<ILoggerFactory>();
-            factory.AddProvider(new FlubuLoggerProvider());
             var cmdApp = _provider.GetRequiredService<CommandLineApplication>();
+
             ICommandExecutor executor = _provider.GetRequiredService<ICommandExecutor>();
 
             executor.FlubuHelpText = cmdApp.GetHelpText();
@@ -74,12 +83,12 @@ namespace DotNet.Cli.Flubu
             if (!_cleanUpPerformed && CleanUpStore.TaskCleanUpActions?.Count > 0)
             {
                 _wait = true;
-                Console.WriteLine($"Performing clean up actions:");
+                _logger.LogInformation($"Performing clean up actions:");
                 var taskSession = _provider.GetService<IFlubuSession>();
                 foreach (var cleanUpAction in CleanUpStore.TaskCleanUpActions)
                 {
                     cleanUpAction.Invoke(taskSession);
-                    Console.WriteLine($"Finished performing clean up actions.");
+                    _logger.LogInformation($"Finished performing clean up actions.");
                 }
 
                 _wait = false;

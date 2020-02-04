@@ -7,6 +7,9 @@ using FlubuCore.Scripting.Analysis;
 using FlubuCore.Scripting.Analysis.Processors;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace DotNet.Cli.Flubu.Infrastructure
 {
@@ -67,6 +70,51 @@ namespace DotNet.Cli.Flubu.Infrastructure
             return services;
         }
 
+#if NETCOREAPP1_0 || NETCOREAPP1_1
+    public static IServiceCollection AddFlubuLogging(this IServiceCollection services)
+    {
+      if (services == null)
+        throw new ArgumentNullException(nameof(services));
+      services.TryAdd(ServiceDescriptor.Singleton<ILoggerFactory, LoggerFactory>());
+      services.TryAdd(ServiceDescriptor.Singleton(typeof(ILogger<>), typeof(Logger<>)));
+      return services;
+    }
+
+#else
+        public static IServiceCollection AddFlubuLogging(this IServiceCollection services, IServiceCollection services2 = null)
+        {
+            return services.AddFlubuLogging((Action<ILoggingBuilder>)(builder => { }), services2);
+        }
+
+        public static IServiceCollection AddFlubuLogging(
+            this IServiceCollection services,
+            Action<ILoggingBuilder> configure,
+            IServiceCollection services2 = null)
+        {
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
+            services.AddOptions();
+            var loggerFactory = ServiceDescriptor.Singleton<ILoggerFactory, LoggerFactory>();
+            var loggers = ServiceDescriptor.Singleton(typeof(ILogger<>), typeof(Logger<>));
+            var loggerConfiguration = ServiceDescriptor.Singleton<IConfigureOptions<LoggerFilterOptions>>((IConfigureOptions<LoggerFilterOptions>)new DefaultFlubuLoggerLevelConfigurationOptions(LogLevel.Information));
+           services.TryAdd(loggers);
+            services.TryAddEnumerable(loggerConfiguration);
+            var loggingBuilder = new LoggingBuilder(services);
+            configure(loggingBuilder);
+
+            if (services2 != null)
+            {
+                services2.AddOptions();
+                services2.TryAdd(loggerFactory);
+                services2.TryAdd(loggers);
+                services2.TryAddEnumerable(loggerConfiguration);
+                configure(loggingBuilder);
+            }
+
+            return services;
+        }
+
+#endif
         private static CommandArguments AddArgumentsImpl(IServiceCollection services, string[] args, IServiceCollection services2 = null)
         {
             var app = new CommandLineApplication(false);

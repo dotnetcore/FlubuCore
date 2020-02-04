@@ -37,14 +37,10 @@ namespace FlubuCore.Commanding
 
         public virtual async Task<int> ExecuteAsync()
         {
-            var version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
-
             if (_args.DisableColoredLogging)
             {
                 FlubuConsoleLogger.DisableColloredLogging = true;
             }
-
-            _log.LogInformation($"Flubu v.{version}");
 
             if (_args.Help) return 1;
 
