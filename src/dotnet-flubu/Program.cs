@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Commanding;
 using FlubuCore.Context;
@@ -24,7 +25,7 @@ namespace DotNet.Cli.Flubu
 
         private static volatile bool _wait = false;
 
-        public static int Main(string[] args)
+        public static async Task<int> Main(string[] args)
         {
             if (args == null)
             {
@@ -58,7 +59,7 @@ namespace DotNet.Cli.Flubu
             _logger = startupProvider.GetRequiredService<ILogger<CommandExecutor>>();
             var version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
             _logger.LogInformation($"Flubu v.{version}");
-            var script = scriptProvider.GetBuildScriptAsync(commandArguments).Result;
+            var script = await scriptProvider.GetBuildScriptAsync(commandArguments);
             Services.AddSingleton<ILoggerFactory>(loggerFactory);
             script.ConfigureServices(Services);
             _provider = Services.BuildServiceProvider();
@@ -68,7 +69,7 @@ namespace DotNet.Cli.Flubu
 
             executor.FlubuHelpText = cmdApp.GetHelpText();
             Console.CancelKeyPress += OnCancelKeyPress;
-            var result = executor.ExecuteAsync().Result;
+            var result = await executor.ExecuteAsync();
 
             while (_wait)
             {
