@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Commanding;
 using FlubuCore.Infrastructure;
@@ -9,9 +10,9 @@ namespace FlubuCore.GlobalTool
 {
     public class Program
     {
-        public static int Main(string[] args)
+        public static async Task<int> Main(string[] args)
         {
-            return DotNet.Cli.Flubu.Program.Main(args);
+            return await DotNet.Cli.Flubu.Program.Main(args);
         }
     }
 }

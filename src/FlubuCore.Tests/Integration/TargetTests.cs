@@ -27,7 +27,7 @@ namespace FlubuCore.Tests.Integration
             _services
                 .AddCoreComponents()
                 .AddCommandComponents()
-                .AddArguments(new string[] { })
+                .AddArguments(new[] { " " })
                 .AddTasks();
 
             _provider = _services.BuildServiceProvider();
@@ -83,7 +83,7 @@ namespace FlubuCore.Tests.Integration
             sw.Stop();
 
             var elapsed = sw.Elapsed;
-            Assert.True(sw.ElapsedMilliseconds > 2999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds >= 2999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
             Assert.True(sw.ElapsedMilliseconds < 5999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 

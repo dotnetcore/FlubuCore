@@ -7,7 +7,11 @@ namespace FlubuCore.Context
 {
     public interface IFlubuSession : ITaskContextInternal
     {
+        IScriptFactory ScriptFactory { get; }
+
         bool InteractiveMode { get; set; }
+
+        bool InitializeTargetTree { get; set; }
 
         CommandArguments InteractiveArgs { get; set; }
 

@@ -29,7 +29,7 @@ namespace FlubuCore.Infrastructure
         {
             services
                 .AddSingleton<IFluentInterfaceFactory, FluentInterfaceFactory>()
-                .AddSingleton<IFlubuSessionFactory, FlubuSessionFactory>()
+                .AddSingleton<IScriptFactory, ScriptFactory>()
                 .AddSingleton<IFileWrapper, FileWrapper>()
                 .AddSingleton<IPathWrapper, PathWrapper>()
                 .AddSingleton<IDirectoryWrapper, DirectoryWrapper>()
@@ -42,8 +42,9 @@ namespace FlubuCore.Infrastructure
                 .AddSingleton<ICommandFactory, CommandFactory>()
                 .AddSingleton<ITaskFactory, DotnetTaskFactory>()
                 .AddSingleton<IHttpClientFactory, HttpClientFactory>()
-                .AddSingleton<IWebApiClientFactory, WebApiClientFactory>();
-
+                .AddSingleton<IWebApiClientFactory, WebApiClientFactory>()
+                .AddSingleton<IScriptProperties, ScriptProperties>()
+                .AddSingleton<ITargetCreator, TargetCreator>();
             return services;
         }
 

@@ -72,8 +72,6 @@ namespace FlubuCore.Tasks
         /// </summary>
         internal Stopwatch TaskStopwatch { get; } = new Stopwatch();
 
-        internal int TaskExecutionOrder { get; set; }
-
         protected abstract string Description { get; set; }
 
         /// <summary>

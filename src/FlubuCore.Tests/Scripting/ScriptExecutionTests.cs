@@ -72,12 +72,16 @@ namespace FlubuCore.Tests.Scripting
                 .Returns(new ScriptAnalyzerResult() { ClassName = "MyBuildScript" });
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync(args);
-            var provider = new ServiceCollection().BuildServiceProvider();
+            var provider = new ServiceCollection()
+                .AddSingleton<IScriptProperties, ScriptProperties>()
+                .AddSingleton<ITargetCreator, TargetCreator>()
+                .BuildServiceProvider();
 
             t.Run(new FlubuSession(
                 _loggerTaskSession.Object,
                 new TargetTree(provider, new CommandArguments()),
                 new CommandArguments(),
+                new ScriptFactory(provider),
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),
                 new BuildPropertiesSession(),
@@ -111,12 +115,16 @@ namespace FlubuCore.Tests.Scripting
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync(args);
 
-            var provider = new ServiceCollection().BuildServiceProvider();
+            var provider = new ServiceCollection()
+                .AddSingleton<IScriptProperties, ScriptProperties>()
+                .AddSingleton<ITargetCreator, TargetCreator>()
+                .BuildServiceProvider();
 
             t.Run(new FlubuSession(
                 _loggerTaskSession.Object,
                 new TargetTree(provider, new CommandArguments()),
                 new CommandArguments(),
+                new ScriptFactory(provider),
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),
                 new BuildPropertiesSession(),
@@ -156,12 +164,16 @@ namespace FlubuCore.Tests.Scripting
                 .Returns(new ScriptAnalyzerResult() { ClassName = "MyBuildScript" });
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync(args);
-            var provider = new ServiceCollection().BuildServiceProvider();
+            var provider = new ServiceCollection()
+                .AddSingleton<IScriptProperties, ScriptProperties>()
+                .AddSingleton<ITargetCreator, TargetCreator>()
+                .BuildServiceProvider();
 
             t.Run(new FlubuSession(
                 _loggerTaskSession.Object,
                 new TargetTree(provider, new CommandArguments()),
                 new CommandArguments(),
+                new ScriptFactory(provider),
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),
                 new BuildPropertiesSession(),

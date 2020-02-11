@@ -1,55 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
-using FlubuCore.Infrastructure.Terminal;
+using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
-using McMaster.Extensions.CommandLineUtils;
-using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.Logging;
 
 namespace FlubuCore.Commanding
 {
     public class CommandExecutor : ICommandExecutor
     {
-        private readonly IScriptLoader _scriptLoader;
-
+        private readonly CommandArguments _args;
+        private readonly IScriptProvider _scriptProvider;
         private readonly IFlubuSession _flubuSession;
-
         private readonly ILogger<CommandExecutor> _log;
-
-        private CommandArguments _args;
 
         public CommandExecutor(
             CommandArguments args,
-            IScriptLoader scriptLoader,
+            IScriptProvider scriptProvider,
             IFlubuSession flubuSession,
             ILogger<CommandExecutor> log)
         {
             _args = args;
-            _scriptLoader = scriptLoader;
+            _scriptProvider = scriptProvider;
             _flubuSession = flubuSession;
             _log = log;
         }
 
         public string FlubuHelpText { get; set; }
 
-        public async Task<int> ExecuteAsync()
+        public virtual async Task<int> ExecuteAsync()
         {
-            var version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
-
             if (_args.DisableColoredLogging)
             {
                 FlubuConsoleLogger.DisableColloredLogging = true;
             }
-
-            _log.LogInformation($"Flubu v.{version}");
 
             if (_args.Help) return 1;
 
@@ -61,50 +52,13 @@ namespace FlubuCore.Commanding
 
             try
             {
-                int result = 0;
-                do
-                {
-                    IBuildScript script = null;
-
-                    try
-                    {
-                        if (!_flubuSession.InteractiveMode)
-                        {
-                            script = await _scriptLoader.FindAndCreateBuildScriptInstanceAsync(_args);
-                        }
-                        else
-                        {
-                            script = await _scriptLoader.FindAndCreateBuildScriptInstanceAsync(_flubuSession
-                                .InteractiveArgs);
-                        }
-                    }
-                    catch (BuildScriptLocatorException)
-                    {
-                        if (!_args.InteractiveMode && !_flubuSession.InteractiveMode)
-                        {
-                            throw;
-                        }
-
-                        _flubuSession.LogInfo("Build script not found.");
-
-                        script = await SimpleFlubuInteractiveMode(script);
-                    }
-
-                    _flubuSession.ScriptArgs = _args.ScriptArguments;
-                    _flubuSession.InteractiveArgs = _args;
-                    _flubuSession.TargetTree.BuildScript = script;
+                    var script = await _scriptProvider.GetBuildScriptAsync(_args);
                     _flubuSession.FlubuHelpText = FlubuHelpText;
+                    _flubuSession.ScriptArgs = _args.ScriptArguments;
+                    _flubuSession.TargetTree.BuildScript = script;
                     _flubuSession.Properties.Set(BuildProps.IsWebApi, _args.IsWebApi);
-                    _flubuSession.TargetTree.ResetTargetTree();
-
-                    if (script != null)
-                    {
-                        result = script.Run(_flubuSession);
-                    }
-                }
-                while (_flubuSession.InteractiveMode && InternalCommands.ReloadCommands.Contains(_flubuSession.InteractiveArgs.MainCommands[0], StringComparer.OrdinalIgnoreCase));
-
-                return result;
+                    var result = script.Run(_flubuSession);
+                    return result;
             }
             catch (TaskExecutionException e)
             {
@@ -132,81 +86,6 @@ namespace FlubuCore.Commanding
                 _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{str}", null, (t, ex) => t);
                 return 3;
             }
-        }
-
-        private async Task<IBuildScript> SimpleFlubuInteractiveMode(IBuildScript script)
-        {
-            do
-            {
-                try
-                {
-                    var flubuConsole = new FlubuConsole(_flubuSession.TargetTree, new List<Hint>());
-                    var commandLine = flubuConsole.ReadLine(Directory.GetCurrentDirectory());
-
-                    if (string.IsNullOrEmpty(commandLine))
-                    {
-                        continue;
-                    }
-
-                    var splitedLine = commandLine.Split(' ').ToList();
-
-                    if (InternalCommands.InteractiveExitOnlyCommands.Contains(splitedLine[0], StringComparer.OrdinalIgnoreCase))
-                    {
-                        break;
-                    }
-
-                    var app = new CommandLineApplication(false);
-                    IFlubuCommandParser parser = new FlubuCommandParser(app, null);
-                    var args = parser.Parse(commandLine.Split(' ')
-                        .Where(x => !string.IsNullOrWhiteSpace(x))
-                        .Select(x => x.Trim()).ToArray());
-                    _flubuSession.InteractiveArgs = args;
-                    _flubuSession.ScriptArgs = args.ScriptArguments;
-                    _args = args;
-
-                    var internalCommandExecuted = flubuConsole.ExecuteInternalCommand(commandLine);
-                    if (internalCommandExecuted)
-                    {
-                        continue;
-                    }
-
-                    if (!InternalCommands.ReloadCommands.Contains(splitedLine[0], StringComparer.OrdinalIgnoreCase))
-                    {
-                        var command = splitedLine.First();
-                        var runProgram = _flubuSession.Tasks().RunProgramTask(command).DoNotLogTaskExecutionInfo()
-                            .WorkingFolder(".");
-                        splitedLine.RemoveAt(0);
-                        try
-                        {
-                            runProgram.WithArguments(splitedLine.ToArray()).Execute(_flubuSession);
-                        }
-                        catch (CommandUnknownException)
-                        {
-                            _flubuSession.LogError($"'{command}' is not recognized as a internal or external command, operable program or batch file.");
-                        }
-                        catch (TaskExecutionException)
-                        {
-                        }
-                        catch (ArgumentException)
-                        {
-                        }
-                        catch (Win32Exception)
-                        {
-                        }
-                    }
-                    else
-                    {
-                        script = await _scriptLoader.FindAndCreateBuildScriptInstanceAsync(_flubuSession.InteractiveArgs);
-                    }
-                }
-                catch (BuildScriptLocatorException)
-                {
-                    _flubuSession.LogInfo("Build script not found.");
-                }
-            }
-            while (script == null);
-
-            return script;
         }
     }
 }

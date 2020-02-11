@@ -49,7 +49,7 @@ namespace FlubuCore.Targeting
 
         internal IBuildScript BuildScript { get; set; }
 
-        public ITargetInternal AddTarget(string targetName)
+        public virtual ITargetInternal AddTarget(string targetName)
         {
             if (_targets.ContainsKey(targetName))
             {
@@ -61,7 +61,7 @@ namespace FlubuCore.Targeting
             return target;
         }
 
-        public ITargetInternal AddTarget(ITargetInternal target)
+        public virtual ITargetInternal AddTarget(ITargetInternal target)
         {
             if (_targets.ContainsKey(target.TargetName))
             {
@@ -72,7 +72,7 @@ namespace FlubuCore.Targeting
             return target;
         }
 
-        public void EnsureDependenciesExecuted(ITaskContextInternal taskContext, string targetName)
+        public virtual void EnsureDependenciesExecuted(ITaskContextInternal taskContext, string targetName)
         {
             if (_args.NoDependencies)
             {
@@ -128,7 +128,7 @@ namespace FlubuCore.Targeting
             }
         }
 
-        public void ResetTargetTree()
+        public virtual void ResetTargetTree()
         {
             _targets.Clear();
             _executedTargets.Clear();
@@ -187,7 +187,7 @@ namespace FlubuCore.Targeting
             return _targets.ContainsKey(targetName);
         }
 
-        public void MarkTargetAsExecuted(ITargetInternal target)
+        public virtual void MarkTargetAsExecuted(ITargetInternal target)
         {
             _executedTargets.Add(target.TargetName);
         }
@@ -197,7 +197,7 @@ namespace FlubuCore.Targeting
             _executedTargets.Clear();
         }
 
-        public void RunTarget(ITaskContextInternal taskContext, string targetName)
+        public virtual void RunTarget(ITaskContextInternal taskContext, string targetName)
         {
             if (!_targets.ContainsKey(targetName))
             {
@@ -208,7 +208,7 @@ namespace FlubuCore.Targeting
             target.ExecuteVoid(taskContext);
         }
 
-        public async Task RunTargetAsync(ITaskContextInternal taskContext, string targetName, bool sequentialLogging = false)
+        public virtual async Task RunTargetAsync(ITaskContextInternal taskContext, string targetName, bool sequentialLogging = false)
         {
             if (!_targets.ContainsKey(targetName))
             {
@@ -220,7 +220,7 @@ namespace FlubuCore.Targeting
             await target.ExecuteVoidAsync(taskContext);
         }
 
-        public void RunTargetHelp(ITaskContextInternal taskContext, string targetName)
+        public virtual void RunTargetHelp(ITaskContextInternal taskContext, string targetName)
         {
             if (!_targets.ContainsKey(targetName))
             {
@@ -248,7 +248,7 @@ namespace FlubuCore.Targeting
             DefaultTargets.Add(target);
         }
 
-        public void LogBuildSummary(IFlubuSession session)
+        public virtual void LogBuildSummary(IFlubuSession session)
         {
             foreach (var target in EnumerateExecutedTargets())
             {
@@ -306,7 +306,7 @@ namespace FlubuCore.Targeting
             }
         }
 
-        private void AddDefaultTargets()
+        protected virtual void AddDefaultTargets()
         {
             AddTarget("help")
                 .SetDescription("Displays the available targets in the build")

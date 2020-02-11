@@ -50,7 +50,7 @@ namespace FlubuCore.Commanding
             _flubuConfigurationProvider = flubuConfigurationProvider;
         }
 
-        public CommandArguments Parse(string[] args)
+        public virtual CommandArguments Parse(string[] args)
         {
             _parsed = new CommandArguments();
 

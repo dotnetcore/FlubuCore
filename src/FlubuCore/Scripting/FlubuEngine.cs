@@ -65,6 +65,7 @@ namespace FlubuCore.Scripting
                 LoggerFactory.CreateLogger<FlubuSession>(),
                 new TargetTree(ServiceProvider, commandArguments),
                 commandArguments,
+                ServiceProvider.GetService<IScriptFactory>(),
                 new DotnetTaskFactory(ServiceProvider),
                 new FluentInterfaceFactory(ServiceProvider),
                 ServiceProvider.GetService<IBuildPropertiesSession>(),

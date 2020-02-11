@@ -22,7 +22,7 @@ namespace FlubuCore.Tests
         {
             _services
                 .AddCoreComponents()
-                .AddScriptAnalyser()
+                .AddScriptAnalyzers()
                 .AddCommandComponents()
                 .AddArguments(new string[] { })
                 .AddTasks();
