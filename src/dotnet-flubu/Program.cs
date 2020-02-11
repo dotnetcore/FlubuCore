@@ -63,6 +63,7 @@ namespace DotNet.Cli.Flubu
             Services.AddSingleton<ILoggerFactory>(loggerFactory);
             script.ConfigureServices(Services);
             _provider = Services.BuildServiceProvider();
+            script.Configure(loggerFactory);
             var cmdApp = _provider.GetRequiredService<CommandLineApplication>();
 
             ICommandExecutor executor = _provider.GetRequiredService<ICommandExecutor>();

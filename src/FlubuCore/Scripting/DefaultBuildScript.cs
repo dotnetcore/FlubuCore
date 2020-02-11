@@ -12,6 +12,7 @@ using FlubuCore.Targeting;
 using FlubuCore.Tasks.NetCore;
 using FlubuCore.WebApi.Client;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace FlubuCore.Scripting
 {
@@ -112,6 +113,10 @@ namespace FlubuCore.Scripting
         }
 
         public virtual void ConfigureServices(IServiceCollection services)
+        {
+        }
+
+        public void Configure(ILoggerFactory loggerFactory)
         {
         }
 
