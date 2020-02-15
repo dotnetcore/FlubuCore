@@ -99,6 +99,8 @@ namespace FlubuCore.Tests.Scripting
                     "using FlubuCore.Scripting;",
                     "using System;",
                     "using FlubuCore.Context;",
+                    "using Microsoft.Extensions.DependencyInjection;",
+                    "using Microsoft.Extensions.Logging;",
                     string.Empty,
                     "public class MyBuildScript : IBuildScript",
                     "{",
@@ -106,6 +108,14 @@ namespace FlubuCore.Tests.Scripting
                     "    {",
                     "        Console.WriteLine(\"11\");",
                     "        return 0;",
+                    "    }",
+
+                    "    public void ConfigureServices(IServiceCollection services)",
+                    "    {",
+                    "    }",
+
+                    "    public void Configure(ILoggerFactory loggerFactory)",
+                    "    {",
                     "    }",
                     "}",
                 });

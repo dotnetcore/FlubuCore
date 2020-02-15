@@ -123,7 +123,7 @@ namespace FlubuCore.Scripting
         {
         }
 
-        public void Configure(ILoggerFactory loggerFactory)
+        public virtual void Configure(ILoggerFactory loggerFactory)
         {
         }
 

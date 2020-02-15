@@ -23,7 +23,8 @@ namespace FlubuCore.Tests
             _services
                 .AddCoreComponents()
                 .AddScriptAnalyzers()
-                .AddCommandComponents()
+                .AddFlubuLogging(_services)
+                .AddCommandComponents(true)
                 .AddArguments(new string[] { })
                 .AddTasks();
 

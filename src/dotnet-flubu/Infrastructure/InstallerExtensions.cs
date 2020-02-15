@@ -97,7 +97,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
             var loggerFactory = ServiceDescriptor.Singleton<ILoggerFactory, LoggerFactory>();
             var loggers = ServiceDescriptor.Singleton(typeof(ILogger<>), typeof(Logger<>));
             var loggerConfiguration = ServiceDescriptor.Singleton<IConfigureOptions<LoggerFilterOptions>>((IConfigureOptions<LoggerFilterOptions>)new DefaultFlubuLoggerLevelConfigurationOptions(LogLevel.Information));
-           services.TryAdd(loggers);
+            services.TryAdd(loggers);
             services.TryAddEnumerable(loggerConfiguration);
             var loggingBuilder = new LoggingBuilder(services);
             configure(loggingBuilder);
