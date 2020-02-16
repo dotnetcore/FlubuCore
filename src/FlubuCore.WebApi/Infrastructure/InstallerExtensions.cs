@@ -55,6 +55,7 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddScoped<TargetTree>()
                 .AddScoped<IFlubuSession, FlubuSession>()
                 .AddScoped<ICommandFactory, CommandFactory>()
+                .AddSingleton<IScriptFactory, ScriptFactory>()
                 .AddScoped<CommandArguments, CommandArguments>();
 
             var connectionStrings = configuration.GetSection("FlubuConnectionStrings");
