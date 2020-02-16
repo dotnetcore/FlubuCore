@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
 using FlubuCore.Commanding;
 using FlubuCore.Infrastructure;
@@ -17,6 +18,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Framework;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using FileMode = System.IO.FileMode;
@@ -33,25 +36,29 @@ namespace FlubuCore.WebApi.Controllers
     {
         private readonly IRepositoryFactory _repositoryFactory;
 
-        private ICommandExecutor _commandExecutor;
+        private readonly ILogger<ScriptsController> _logger;
 
-        private CommandArguments _commandArguments;
+        private readonly ICommandExecutor _commandExecutor;
 
-        private IHostingEnvironment _hostingEnvironment;
+        private readonly CommandArguments _commandArguments;
 
-        private WebApiSettings _webApiSettings;
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        private readonly WebApiSettings _webApiSettings;
 
         public ScriptsController(
             IRepositoryFactory repositoryFactory,
             ICommandExecutor commandExecutor,
             CommandArguments commandArguments,
             IHostingEnvironment hostingEnvironment,
-            IOptions<WebApiSettings> webApiOptions)
+            IOptions<WebApiSettings> webApiOptions,
+            ILogger<ScriptsController> logger)
         {
             _repositoryFactory = repositoryFactory;
             _commandExecutor = commandExecutor;
             _commandArguments = commandArguments;
             _hostingEnvironment = hostingEnvironment;
+            _logger = logger;
             _webApiSettings = webApiOptions.Value;
         }
 
@@ -72,6 +79,8 @@ namespace FlubuCore.WebApi.Controllers
 
             try
             {
+                var version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+                _logger.LogInformation($"Flubu v.{version}");
                 var result = await _commandExecutor.ExecuteAsync();
                 ExecuteScriptResponse response = new ExecuteScriptResponse { Logs = await GetLogs() };
                 switch (result)
