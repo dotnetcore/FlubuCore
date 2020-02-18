@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using DotNet.Cli.Flubu.Commanding;
 using FlubuCore.Scripting;
@@ -8,15 +10,23 @@ namespace FlubuCore.Commanding
 {
     public class FlubuCommandParser : IFlubuCommandParser
     {
+        private static readonly List<string> DefaultSettingLocations = new List<string>
+        {
+            "flubusettings.json",
+            "_Build/flubusettings.json",
+            "build/flubusettings.json",
+            "Build/flubusettings.json",
+            "_BuildScript/flubusettings.json",
+            "_BuildScripts/flubusettings.json",
+            "BuildScript/flubusettings.json",
+            "BuildScripts/flubusettings.json",
+        };
+
         private readonly CommandLineApplication _commandApp;
 
         private readonly IFlubuConfigurationProvider _flubuConfigurationProvider;
 
         private CommandArgument _command;
-
-        private CommandOption _configurationOption;
-
-        private CommandOption _outputOption;
 
         private CommandArguments _parsed;
 
@@ -173,7 +183,7 @@ namespace FlubuCore.Commanding
             if (_flubuConfigurationProvider == null)
                 return;
 
-            var configurationFile = !string.IsNullOrEmpty(_configurationFile.Value()) ? _configurationFile.Value() : "flubusettings.json";
+            var configurationFile = !string.IsNullOrEmpty(_configurationFile.Value()) ? _configurationFile.Value() : GetConfigurationFileFromDefaultLocations();
 
             var options = _flubuConfigurationProvider.GetConfiguration(configurationFile);
             if (options == null)
@@ -238,6 +248,19 @@ namespace FlubuCore.Commanding
                     }
                 }
             }
+        }
+
+        private string GetConfigurationFileFromDefaultLocations()
+        {
+            foreach (var defaultSettingLocation in DefaultSettingLocations)
+            {
+                if (File.Exists(defaultSettingLocation))
+                {
+                    return defaultSettingLocation;
+                }
+            }
+
+            return "flubusettings.json";
         }
     }
 }
