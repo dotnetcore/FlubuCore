@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using DotNet.Cli.Flubu.Commanding;
+using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using McMaster.Extensions.CommandLineUtils;
 
@@ -25,6 +26,10 @@ namespace FlubuCore.Commanding
         private readonly CommandLineApplication _commandApp;
 
         private readonly IFlubuConfigurationProvider _flubuConfigurationProvider;
+
+        private readonly IBuildScriptLocator _buildScriptLocator;
+
+        private readonly IFileWrapper _file;
 
         private CommandArgument _command;
 
@@ -54,10 +59,14 @@ namespace FlubuCore.Commanding
 
         public FlubuCommandParser(
             CommandLineApplication commandApp,
-            IFlubuConfigurationProvider flubuConfigurationProvider)
+            IFlubuConfigurationProvider flubuConfigurationProvider,
+            IBuildScriptLocator buildScriptLocator,
+            IFileWrapper file)
         {
             _commandApp = commandApp;
             _flubuConfigurationProvider = flubuConfigurationProvider;
+            _buildScriptLocator = buildScriptLocator;
+            _file = file;
         }
 
         public virtual CommandArguments Parse(string[] args)
@@ -183,7 +192,7 @@ namespace FlubuCore.Commanding
             if (_flubuConfigurationProvider == null)
                 return;
 
-            var configurationFile = !string.IsNullOrEmpty(_configurationFile.Value()) ? _configurationFile.Value() : GetConfigurationFileFromDefaultLocations();
+            var configurationFile = !string.IsNullOrEmpty(_configurationFile.Value()) ? _configurationFile.Value() : GetConfigurationFile();
 
             var options = _flubuConfigurationProvider.GetConfiguration(configurationFile);
             if (options == null)
@@ -248,6 +257,36 @@ namespace FlubuCore.Commanding
                     }
                 }
             }
+        }
+
+        private string GetConfigurationFile()
+        {
+            string flubuConfigurationFile = GetConfigurationFileFromFlubuFile();
+
+            if (flubuConfigurationFile != null)
+            {
+                return flubuConfigurationFile;
+            }
+
+            return GetConfigurationFileFromDefaultLocations();
+        }
+
+        private string GetConfigurationFileFromFlubuFile()
+        {
+            string flubuFile = _buildScriptLocator.FindFlubuFile();
+
+            if (string.IsNullOrEmpty(flubuFile))
+            {
+                return null;
+            }
+
+            var lines = _file.ReadAllLines("./.flubu");
+            if (lines.Count > 2 && !string.IsNullOrEmpty(lines[2]) && _file.Exists(lines[2]))
+            {
+                return lines[2];
+            }
+
+            return null;
         }
 
         private string GetConfigurationFileFromDefaultLocations()
