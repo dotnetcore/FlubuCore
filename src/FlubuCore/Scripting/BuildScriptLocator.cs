@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -40,6 +40,10 @@ namespace FlubuCore.Scripting
 
         private readonly IPathWrapper _path;
 
+        private string _flubuFile;
+
+        private bool _searchedForFlubuFile = false;
+
         public BuildScriptLocator(
             IFileWrapper file,
             IPathWrapper path,
@@ -64,6 +68,13 @@ namespace FlubuCore.Scripting
 
         public virtual string FindFlubuFile()
         {
+            if (_searchedForFlubuFile)
+            {
+                return _flubuFile;
+            }
+
+            _searchedForFlubuFile = true;
+
             var currentDirectory = Directory.GetCurrentDirectory();
             var directories = currentDirectory.Split(Path.DirectorySeparatorChar);
             string flubuFileDir = string.Empty;
@@ -75,16 +86,17 @@ namespace FlubuCore.Scripting
                     directory = $"{dir}{Path.DirectorySeparatorChar}";
                 }
 
-                string flubuFilePath;
                 flubuFileDir = _path.Combine(flubuFileDir, directory);
-                flubuFilePath = Path.Combine(flubuFileDir, ".flubu");
+                var flubuFilePath = Path.Combine(flubuFileDir, ".flubu");
                 if (File.Exists(flubuFilePath))
                 {
+                    _flubuFile = flubuFilePath;
                     return flubuFilePath;
                 }
             }
 
-            return null;
+            _flubuFile = null;
+            return _flubuFile;
         }
 
         private string GetFileName(CommandArguments args)
