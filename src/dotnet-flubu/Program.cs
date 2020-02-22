@@ -37,30 +37,35 @@ namespace DotNet.Cli.Flubu
             startUpServiceCollection.AddScriptAnalyzers()
                 .AddCoreComponents()
                 .AddCommandComponents(false)
+                .AddParserComponents()
                 .AddScriptAnalyzers();
 
             Services
-                .AddCommandComponentsWithArguments(args, startUpServiceCollection)
 #if !NETCOREAPP1_0 && !NETCOREAPP1_1
-              .AddFlubuLogging(startUpServiceCollection)
+                .AddFlubuLogging(startUpServiceCollection);
 #else
-                .AddFlubuLogging()
+                .AddFlubuLogging();
 #endif
-                .AddCoreComponents()
-                .AddScriptAnalyzers()
-                .AddTasks();
-
             var startupProvider = startUpServiceCollection.BuildServiceProvider();
-
+            var parser = startupProvider.GetRequiredService<IFlubuCommandParser>();
+            var commandArguments = parser.Parse(args);
             IScriptProvider scriptProvider = startupProvider.GetRequiredService<IScriptProvider>();
-            CommandArguments commandArguments = startupProvider.GetRequiredService<CommandArguments>();
             ILoggerFactory loggerFactory = startupProvider.GetRequiredService<ILoggerFactory>();
             loggerFactory.AddProvider(new FlubuLoggerProvider());
             _logger = startupProvider.GetRequiredService<ILogger<CommandExecutor>>();
             var version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
             _logger.LogInformation($"Flubu v.{version}");
             var script = await scriptProvider.GetBuildScriptAsync(commandArguments);
-            Services.AddSingleton<ILoggerFactory>(loggerFactory);
+
+            Services
+                .AddCoreComponents()
+                .AddParserComponents()
+                .AddCommandComponents(interactiveMode: commandArguments.InteractiveMode)
+                .AddScriptAnalyzers()
+                .AddTasks();
+
+            Services.AddSingleton(loggerFactory);
+            Services.AddSingleton(commandArguments);
             script.ConfigureServices(Services);
             _provider = Services.BuildServiceProvider();
             script.Configure(loggerFactory);

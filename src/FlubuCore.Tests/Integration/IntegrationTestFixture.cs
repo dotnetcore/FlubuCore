@@ -1,6 +1,7 @@
 ﻿using System;
 using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Infrastructure;
+using FlubuCore.Scripting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -16,8 +17,10 @@ namespace FlubuCore.Tests.Integration
                 .AddLogging()
                 .AddCoreComponents()
                 .AddScriptAnalyzers()
-                .AddArguments(new[] { "flubu" })
+                .AddParserComponents()
                 .AddTasks();
+
+            services.AddSingleton(new CommandArguments());
 
             ServiceProvider = services.BuildServiceProvider();
         }
