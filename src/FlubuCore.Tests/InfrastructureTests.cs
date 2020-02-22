@@ -2,6 +2,7 @@
 using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Commanding;
 using FlubuCore.Infrastructure;
+using FlubuCore.Scripting;
 using FlubuCore.Tasks.Process;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -25,8 +26,10 @@ namespace FlubuCore.Tests
                 .AddScriptAnalyzers()
                 .AddFlubuLogging(_services)
                 .AddCommandComponents(true)
-                .AddArguments(new string[] { })
+                .AddParserComponents()
                 .AddTasks();
+
+            _services.AddSingleton(new CommandArguments());
 
             _provider = _services.BuildServiceProvider();
         }
@@ -48,39 +51,6 @@ namespace FlubuCore.Tests
             IServiceProvider pr = sc.BuildServiceProvider();
             IRunProgramTask instance = ActivatorUtilities.CreateInstance<RunProgramTask>(pr, "test");
             Assert.IsType<RunProgramTask>(instance);
-        }
-
-        [Fact]
-        public void ExampleTestExtensions()
-        {
-            SyntaxTree tree = CSharpSyntaxTree.ParseText(
-                @"using System;
-                using System.Collections;
-                using System.Linq;
-                using System.Text;
-
-                namespace HelloWorld
-                {
-                class Program
-                {
-                    static void Main(string[] args)
-                    {
-                        Console.WriteLine(""Hello, World!"");
-                    }
-                }
-                }");
-
-            var root = (CompilationUnitSyntax)tree.GetRoot();
-
-            var firstMember = root.Members[0];
-
-            var helloWorldDeclaration = (NamespaceDeclarationSyntax)firstMember;
-
-            var programDeclaration = (ClassDeclarationSyntax)helloWorldDeclaration.Members[0];
-
-            var mainDeclaration = (MethodDeclarationSyntax)programDeclaration.Members[0];
-
-            var argsParameter = mainDeclaration.ParameterList.Parameters[0];
         }
     }
 }

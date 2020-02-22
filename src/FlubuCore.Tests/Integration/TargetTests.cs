@@ -27,8 +27,10 @@ namespace FlubuCore.Tests.Integration
             _services
                 .AddCoreComponents()
                 .AddCommandComponents()
-                .AddArguments(new[] { " " })
+                .AddParserComponents()
                 .AddTasks();
+
+            _services.AddSingleton(new CommandArguments());
 
             _provider = _services.BuildServiceProvider();
         }

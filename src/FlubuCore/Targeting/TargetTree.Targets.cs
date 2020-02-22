@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 #if !NETSTANDARD1_6
 using System.Drawing;
@@ -13,6 +13,8 @@ namespace FlubuCore.Targeting
 {
     public partial class TargetTree
     {
+        private static readonly string _flubuFile = Path.Combine(".", "flubu");
+
         /// <summary>
         ///     The target for displaying help in the command line.
         /// </summary>
@@ -99,9 +101,11 @@ namespace FlubuCore.Targeting
             bool scriptFound = false;
             string buildScriptLocation = null;
             string csprojLocation = null;
-            if (File.Exists("./.flubu"))
+            string flubuSettingsLocation = string.Empty;
+            bool setupFileExists = File.Exists(_flubuFile);
+            if (setupFileExists)
             {
-                var lines = File.ReadAllLines("./.flubu");
+                var lines = File.ReadAllLines(_flubuFile);
 
                 if (lines.Length >= 1)
                 {
@@ -112,34 +116,77 @@ namespace FlubuCore.Targeting
                 {
                     csprojLocation = lines[1];
                 }
-            }
 
-            if (buildScriptLocation != null && File.Exists(buildScriptLocation))
-            {
-                Console.WriteLine($"Script '{buildScriptLocation}' found nothing to do.");
-                return;
-            }
-
-            if (string.IsNullOrEmpty(buildScriptLocation))
-            {
-                foreach (var defaultScriptLocation in BuildScriptLocator.DefaultScriptLocations)
+                if (lines.Length >= 3)
                 {
-                    if (File.Exists(defaultScriptLocation))
-                    {
-                        buildScriptLocation = defaultScriptLocation;
-                    }
-                }
-
-                if (!string.IsNullOrEmpty(buildScriptLocation))
-                {
-                    Console.WriteLine($"Script '{buildScriptLocation}' found. No need to enter build script location");
-                    scriptFound = true;
+                    flubuSettingsLocation = lines[2];
                 }
             }
+            else
+            {
+               buildScriptLocation = ReadBuildScriptLocation();
+               csprojLocation = ReadCsprojLocation();
+            }
 
+            bool exit = false;
+            bool showHelp = true;
+            string key;
+            do
+            {
+                if (showHelp)
+                {
+                    Console.WriteLine(string.Empty);
+                    Console.WriteLine("1 - Change script file location");
+                    Console.WriteLine("2 - Change csproj file location");
+                    Console.WriteLine("3 - Change flubu settings file location");
+                    Console.WriteLine("0 - Exit");
+                    Console.WriteLine(string.Empty);
+                }
+
+                Console.Write("Choose: ");
+                key = Console.ReadLine();
+
+                switch (key)
+                {
+                    case "1":
+                        buildScriptLocation = ReadBuildScriptLocation();
+                        showHelp = true;
+                        break;
+                    case "2":
+                        csprojLocation = ReadCsprojLocation();
+                        showHelp = true;
+                        break;
+                    case "3":
+                        flubuSettingsLocation = ReadFlubuSettingsLocation();
+                        showHelp = true;
+                        break;
+                    case "0":
+                        exit = true;
+                        break;
+                    default:
+                        showHelp = false;
+                        break;
+                }
+            }
+            while (!exit);
+
+            if (!string.IsNullOrEmpty(buildScriptLocation) || !string.IsNullOrEmpty(csprojLocation) || !string.IsNullOrEmpty(flubuSettingsLocation))
+            {
+                List<string> textLines = new List<string> { buildScriptLocation, csprojLocation };
+                File.WriteAllLines(_flubuFile, textLines);
+                Console.WriteLine(setupFileExists
+                    ? ".flubu file modified!"
+                    : ".flubu file created! You should add it to the source control.");
+            }
+        }
+
+        private static string ReadBuildScriptLocation()
+        {
+            bool scriptFound = false;
+            string buildScriptLocation = null;
             while (!scriptFound)
             {
-                Console.Write("Enter script location (enter to skip): ");
+                Console.Write("Enter script file location (enter to skip): ");
                 buildScriptLocation = Console.ReadLine();
                 if (string.IsNullOrEmpty(buildScriptLocation) ||
                     (Path.GetExtension(buildScriptLocation) == ".cs" && File.Exists(buildScriptLocation)))
@@ -152,8 +199,13 @@ namespace FlubuCore.Targeting
                 }
             }
 
-            bool csprojFound = false;
+            return buildScriptLocation;
+        }
 
+        private static string ReadCsprojLocation()
+        {
+            bool csprojFound = false;
+            string csprojLocation = null;
             while (!csprojFound)
             {
                 Console.Write("Enter script project file(csproj) location (enter to skip): ");
@@ -169,12 +221,29 @@ namespace FlubuCore.Targeting
                 }
             }
 
-            if (!string.IsNullOrEmpty(buildScriptLocation) || !string.IsNullOrEmpty(csprojLocation))
+            return csprojLocation;
+        }
+
+        private static string ReadFlubuSettingsLocation()
+        {
+            bool csprojFound = false;
+            string csprojLocation = null;
+            while (!csprojFound)
             {
-                List<string> textLines = new List<string> { buildScriptLocation, csprojLocation };
-                File.WriteAllLines("./.flubu", textLines);
-                Console.WriteLine(".flubu file created! You should add it to the source control.");
+                Console.Write("Enter flubu settings file location (enter to skip): ");
+                csprojLocation = Console.ReadLine();
+                if (string.IsNullOrEmpty(csprojLocation) ||
+                    (Path.GetExtension(csprojLocation) == ".json" && File.Exists(csprojLocation)))
+                {
+                    csprojFound = true;
+                }
+                else
+                {
+                    Console.WriteLine("flubu settings file not found.");
+                }
             }
+
+            return csprojLocation;
         }
     }
 }

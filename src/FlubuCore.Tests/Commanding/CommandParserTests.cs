@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using DotNet.Cli.Flubu.Commanding;
 using FlubuCore.Commanding;
+using FlubuCore.IO.Wrappers;
+using FlubuCore.Scripting;
 using McMaster.Extensions.CommandLineUtils;
 using Moq;
 using Xunit;
@@ -13,10 +15,16 @@ namespace FlubuCore.Tests.Commanding
 
         private readonly Mock<IFlubuConfigurationProvider> _flubuConfigurationProvider;
 
+        private readonly Mock<IFileWrapper> _file;
+
+        private readonly Mock<IBuildScriptLocator> _buildScriptLocator;
+
         public CommandParserTests()
         {
+            _file = new Mock<IFileWrapper>();
+            _buildScriptLocator = new Mock<IBuildScriptLocator>();
             _flubuConfigurationProvider = new Mock<IFlubuConfigurationProvider>();
-            _parser = new FlubuCommandParser(new CommandLineApplication(false), _flubuConfigurationProvider.Object);
+            _parser = new FlubuCommandParser(new CommandLineApplication(false), _flubuConfigurationProvider.Object, _buildScriptLocator.Object, _file.Object);
         }
 
         [Theory]

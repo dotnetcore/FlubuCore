@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 #if !NETSTANDARD1_6
@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
 using FlubuCore.Infrastructure.Terminal;
+using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
 using McMaster.Extensions.CommandLineUtils;
@@ -25,6 +26,12 @@ namespace FlubuCore.Commanding
 
         private readonly IScriptProperties _scriptProperties;
 
+        private readonly IFlubuCommandParser _parser;
+
+        private readonly IFileWrapper _fileWrapper;
+
+        private readonly IBuildScriptLocator _buildScriptLocator;
+
         private readonly ILogger<CommandExecutorInteractive> _log;
 
         private readonly IScriptProvider _scriptProvider;
@@ -36,12 +43,18 @@ namespace FlubuCore.Commanding
             IScriptProvider scriptProvider,
             IFlubuSession flubuSession,
             IScriptProperties scriptProperties,
+            IFlubuCommandParser parser,
+            IFileWrapper fileWrapper,
+            IBuildScriptLocator buildScriptLocator,
             ILogger<CommandExecutorInteractive> log)
         {
             _args = args;
             _scriptProvider = scriptProvider;
             _flubuSession = flubuSession;
             _scriptProperties = scriptProperties;
+            _parser = parser;
+            _fileWrapper = fileWrapper;
+            _buildScriptLocator = buildScriptLocator;
             _log = log;
         }
 
@@ -164,9 +177,8 @@ namespace FlubuCore.Commanding
                         continue;
                     }
 
-                    var app = new CommandLineApplication(false);
-                    IFlubuCommandParser parser = new FlubuCommandParser(app, null);
-                    var args = parser.Parse(commandLine.Split(' ')
+                    var args = _parser.Parse(commandLine.Split(' ')
+
                         .Where(x => !string.IsNullOrWhiteSpace(x))
                         .Select(x => x.Trim()).ToArray());
                     var targetsInfo = DefaultBuildScript.ParseCmdLineArgs(args.MainCommands, flubuSession.TargetTree);
@@ -271,9 +283,8 @@ namespace FlubuCore.Commanding
                         break;
                     }
 
-                    var app = new CommandLineApplication(false);
-                    IFlubuCommandParser parser = new FlubuCommandParser(app, null);
-                    var args = parser.Parse(commandLine.Split(' ')
+                    var args = _parser.Parse(commandLine.Split(' ')
+
                         .Where(x => !string.IsNullOrWhiteSpace(x))
                         .Select(x => x.Trim()).ToArray());
                     _flubuSession.InteractiveArgs = args;

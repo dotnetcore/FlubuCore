@@ -44,7 +44,7 @@ namespace FlubuCore.Commanding
 
             if (_args.Help) return 1;
 
-            if (_args.MainCommands.Count == 1 && _args.MainCommands.First().Equals("setup", StringComparison.OrdinalIgnoreCase))
+            if (_args.IsFlubuSetup())
             {
                 TargetTree.SetupFlubu();
                 return 0;
