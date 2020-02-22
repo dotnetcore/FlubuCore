@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
 
@@ -47,5 +49,10 @@ namespace FlubuCore.Scripting
         /// Location's where <see cref="ScriptLoader"/> looks for assemblies to load.
         /// </summary>
         public List<string> AssemblyDirectories { get; set; } = new List<string>();
+
+        public bool IsFlubuSetup()
+        {
+            return MainCommands.Count == 1 && MainCommands.First().Equals("setup", StringComparison.OrdinalIgnoreCase);
+        }
     }
 }

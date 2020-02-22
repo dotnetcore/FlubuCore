@@ -55,7 +55,12 @@ namespace DotNet.Cli.Flubu
             _logger = startupProvider.GetRequiredService<ILogger<CommandExecutor>>();
             var version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
             _logger.LogInformation($"Flubu v.{version}");
-            var script = await scriptProvider.GetBuildScriptAsync(commandArguments);
+
+            IBuildScript script = null;
+            if (!commandArguments.IsFlubuSetup())
+            {
+                script = await scriptProvider.GetBuildScriptAsync(commandArguments);
+            }
 
             Services
                 .AddCoreComponents()
@@ -66,9 +71,17 @@ namespace DotNet.Cli.Flubu
 
             Services.AddSingleton(loggerFactory);
             Services.AddSingleton(commandArguments);
-            script.ConfigureServices(Services);
-            _provider = Services.BuildServiceProvider();
-            script.Configure(loggerFactory);
+
+            if (script != null)
+            {
+                script.ConfigureServices(Services);
+                script.Configure(loggerFactory);
+            }
+            else
+            {
+                _provider = Services.BuildServiceProvider();
+            }
+
             var cmdApp = _provider.GetRequiredService<CommandLineApplication>();
 
             ICommandExecutor executor = _provider.GetRequiredService<ICommandExecutor>();
