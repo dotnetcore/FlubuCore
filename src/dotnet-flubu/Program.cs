@@ -32,6 +32,26 @@ namespace DotNet.Cli.Flubu
                 args = new string[0];
             }
 
+            await FlubuStartup(args);
+
+            var cmdApp = _provider.GetRequiredService<CommandLineApplication>();
+
+            ICommandExecutor executor = _provider.GetRequiredService<ICommandExecutor>();
+
+            executor.FlubuHelpText = cmdApp.GetHelpText();
+            Console.CancelKeyPress += OnCancelKeyPress;
+            var result = await executor.ExecuteAsync();
+
+            while (_wait)
+            {
+                Thread.Sleep(250);
+            }
+
+            return result;
+        }
+
+        private static async Task FlubuStartup(string[] args)
+        {
             IServiceCollection startUpServiceCollection = new ServiceCollection();
 
             startUpServiceCollection.AddScriptAnalyzers()
@@ -81,21 +101,6 @@ namespace DotNet.Cli.Flubu
             {
                 _provider = Services.BuildServiceProvider();
             }
-
-            var cmdApp = _provider.GetRequiredService<CommandLineApplication>();
-
-            ICommandExecutor executor = _provider.GetRequiredService<ICommandExecutor>();
-
-            executor.FlubuHelpText = cmdApp.GetHelpText();
-            Console.CancelKeyPress += OnCancelKeyPress;
-            var result = await executor.ExecuteAsync();
-
-            while (_wait)
-            {
-                Thread.Sleep(250);
-            }
-
-            return result;
         }
 
         private static void OnCancelKeyPress(object sender, ConsoleCancelEventArgs eventArgs)
