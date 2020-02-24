@@ -17,11 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FlubuCore.WebApi.Controllers
 {
-#if !NETCOREAPP1_1
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-#else
-     [Authorize(ActiveAuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-#endif
+    [Authorize(ActiveAuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     public class ReportsController : ControllerBase
     {

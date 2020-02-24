@@ -73,7 +73,7 @@ namespace FlubuCore.WebApi
             loggerFactory.AddSerilog(log, true);
             loggerFactory.AddFile("Logs/Flubu-{Date}.txt");
             app.UseDeveloperExceptionPage();
-            ConfigureAuthentication(app);
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
@@ -121,40 +121,6 @@ namespace FlubuCore.WebApi
                         Type = "apiKey"
                     });
             });
-        }
-
-        private void ConfigureAuthentication(IApplicationBuilder app)
-        {
-#if NETCOREAPP1_1
-            var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtOptions));
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidIssuer = jwtAppSettingOptions[nameof(JwtOptions.Issuer)],
-
-                ValidateAudience = true,
-                ValidAudience = jwtAppSettingOptions[nameof(JwtOptions.Audience)],
-
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = _signingKey,
-
-                RequireExpirationTime = true,
-                ValidateLifetime = true,
-
-                ClockSkew = TimeSpan.Zero
-            };
-
-            app.UseJwtBearerAuthentication(new JwtBearerOptions
-            {
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true,
-                TokenValidationParameters = tokenValidationParameters
-            });
-#endif
-
-#if NETCOREAPP2_0 || NETCOREAPP2_1 || NET462
-            app.UseAuthentication();
-#endif
         }
 
         private void ConfigureAuthenticationServices(IServiceCollection services)
