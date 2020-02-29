@@ -68,8 +68,7 @@ namespace FlubuCore.WebApi
             Logger log = new LoggerConfiguration()
                 .WriteTo.LiteDB($"Logs/log_{DateTime.Now.Date:yyyy-dd-M}.db")
                 .CreateLogger();
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+
             loggerFactory.AddSerilog(log, true);
             loggerFactory.AddFile("Logs/Flubu-{Date}.txt");
             app.UseDeveloperExceptionPage();
@@ -145,7 +144,6 @@ namespace FlubuCore.WebApi
             services.Configure<NotificationSettings>(settings =>
                 Configuration.GetSection(nameof(NotificationSettings)).Bind(settings));
 
-#if NETCOREAPP2_0 || NETCOREAPP2_1 || NET462
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,
@@ -184,7 +182,6 @@ namespace FlubuCore.WebApi
                     options.Cookie.SameSite = SameSiteMode.Lax;
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 });
-#endif
         }
     }
 }

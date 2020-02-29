@@ -47,7 +47,7 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddSingleton<IDirectoryWrapper, DirectoryWrapper>()
                 .AddSingleton<IFlubuEnvironmentService, FlubuEnvironmentService>()
                 .AddSingleton<ITaskFactory, DotnetTaskFactory>()
-                .AddSingleton<IHttpClientFactory, HttpClientFactory>()
+                .AddSingleton<FlubuCore.Infrastructure.IHttpClientFactory, FlubuCore.Infrastructure.HttpClientFactory>()
                 .AddSingleton<IScriptProperties, ScriptProperties>()
                 .AddSingleton<ITargetCreator, TargetCreator>()
                 .AddSingleton<IBuildSystem, BuildSystem>()

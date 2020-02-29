@@ -41,7 +41,7 @@ namespace FlubuCore.Infrastructure
                 .AddSingleton<INugetPackageResolver, NugetPackageResolver>()
                 .AddSingleton<ICommandFactory, CommandFactory>()
                 .AddSingleton<ITaskFactory, DotnetTaskFactory>()
-                .AddSingleton<IHttpClientFactory, HttpClientFactory>()
+                .AddSingleton<FlubuCore.Infrastructure.IHttpClientFactory, FlubuCore.Infrastructure.HttpClientFactory>()
                 .AddSingleton<IWebApiClientFactory, WebApiClientFactory>()
                 .AddSingleton<IScriptProperties, ScriptProperties>()
                 .AddSingleton<ITargetCreator, TargetCreator>();

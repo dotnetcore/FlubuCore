@@ -26,7 +26,7 @@ using FileMode = System.IO.FileMode;
 
 namespace FlubuCore.WebApi.Controllers
 {
-    [Authorize(ActiveAuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     public class ScriptsController : ControllerBase
     {
