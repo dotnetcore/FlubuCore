@@ -42,8 +42,12 @@ namespace FlubuCore.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddMvc(options => { })
+            services.AddMvc(options =>
+                {
+#if NETCOREAPP3_1
+                     options.EnableEndpointRouting = false;
+#endif
+                })
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
             services.Configure<FormOptions>(x =>
@@ -59,7 +63,9 @@ namespace FlubuCore.WebApi
                 .AddTasksForWebApi();
 
             ConfigureAuthenticationServices(services);
+#if !NETCOREAPP3_1
             ConfigureSwagger(services);
+ #endif
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,6 +87,7 @@ namespace FlubuCore.WebApi
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
             app.UseStaticFiles();
+#if !NETCOREAPP3_1
             app.UseSwagger(c =>
             {
                 c.PreSerializeFilters.Add((swagger, httpReq) => swagger.Host = httpReq.Host.Value);
@@ -89,6 +96,7 @@ namespace FlubuCore.WebApi
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
             });
+#endif
         }
 
         private static void ConfigureSwagger(IServiceCollection services)
