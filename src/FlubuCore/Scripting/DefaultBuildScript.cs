@@ -153,7 +153,7 @@ namespace FlubuCore.Scripting
 
             ConfigureDefaultTargets(flubuSession);
 
-            _scriptProperties.SetPropertiesFromScriptArg(this, flubuSession);
+            _scriptProperties.ProcessProperties(this, flubuSession);
 
             _targetCreator.CreateTargetFromMethodAttributes(this, flubuSession);
 

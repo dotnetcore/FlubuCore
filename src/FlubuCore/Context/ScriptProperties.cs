@@ -11,68 +11,74 @@ namespace FlubuCore.Context
 {
     public class ScriptProperties : IScriptProperties
     {
-        public void SetPropertiesFromScriptArg(IBuildScript buildScript, IFlubuSession flubuSession)
+        public void ProcessProperties(IBuildScript buildScript, IFlubuSession flubuSession)
         {
             var buildScriptType = buildScript.GetType();
             IList<PropertyInfo> props = new List<PropertyInfo>(buildScriptType.GetProperties());
 
             foreach (var property in props)
             {
-                var attributes = property.GetCustomAttributes<FromArgAttribute>(false).ToList();
-                string argKey = null;
-                foreach (var fromArgAttribute in attributes)
+                SetPropertiesFromScriptArg(buildScript, flubuSession, property);
+            }
+        }
+
+        private static void SetPropertiesFromScriptArg(IBuildScript buildScript, IFlubuSession flubuSession,  PropertyInfo property)
+        {
+            var attributes = property.GetCustomAttributes<FromArgAttribute>(false).ToList();
+            string argKey = null;
+            foreach (var fromArgAttribute in attributes)
+            {
+                var argKeys = fromArgAttribute.ArgKey.Split('|');
+                foreach (var key in argKeys)
                 {
-                    var argKeys = fromArgAttribute.ArgKey.Split('|');
-                    foreach (var key in argKeys)
-                    {
-                        if (!flubuSession.ScriptArgs.ContainsKey(key))
-                        {
-                            continue;
-                        }
-
-                        argKey = key;
-                        break;
-                    }
-
-                    if (argKey == null)
+                    if (!flubuSession.ScriptArgs.ContainsKey(key))
                     {
                         continue;
                     }
 
-                    if (property.PropertyType.GetTypeInfo().IsGenericType)
-                    {
-                        var propertyGenericTypeDefinition = property.PropertyType.GetGenericTypeDefinition();
-                        if (propertyGenericTypeDefinition == typeof(IList<>) ||
-                            propertyGenericTypeDefinition == typeof(List<>) ||
-                            propertyGenericTypeDefinition == typeof(IEnumerable<>))
-                        {
-                            var list = flubuSession.ScriptArgs[argKey].Split(fromArgAttribute.Seperator)
-                                .ToList();
-                            property.SetValue(buildScript, list);
-                        }
-                    }
-                    else
-                    {
-                        SetPropertyValue(property, buildScript, flubuSession.ScriptArgs[argKey], property.PropertyType, argKey);
-                    }
+                    argKey = key;
+                    break;
                 }
 
-                if (flubuSession.ScriptArgs.ContainsKey(property.Name))
+                if (argKey == null)
                 {
-                    if (property.PropertyType.GetTypeInfo().IsGenericType)
+                    continue;
+                }
+
+                if (property.PropertyType.GetTypeInfo().IsGenericType)
+                {
+                    var propertyGenericTypeDefinition = property.PropertyType.GetGenericTypeDefinition();
+                    if (propertyGenericTypeDefinition == typeof(IList<>) ||
+                        propertyGenericTypeDefinition == typeof(List<>) ||
+                        propertyGenericTypeDefinition == typeof(IEnumerable<>))
                     {
-                        var propertyGenericTypeDefinition = property.PropertyType.GetGenericTypeDefinition();
-                        if (propertyGenericTypeDefinition == typeof(IList<>) ||
-                            propertyGenericTypeDefinition == typeof(List<>) ||
-                            propertyGenericTypeDefinition == typeof(IEnumerable<>))
-                        {
-                            property.SetValue(buildScript, flubuSession.ScriptArgs[property.Name].Split(',').ToList());
-                        }
+                        var list = flubuSession.ScriptArgs[argKey].Split(fromArgAttribute.Seperator)
+                            .ToList();
+                        property.SetValue(buildScript, list);
                     }
-                    else
+                }
+                else
+                {
+                    SetPropertyValue(property, buildScript, flubuSession.ScriptArgs[argKey], property.PropertyType, argKey);
+                }
+            }
+
+            if (flubuSession.ScriptArgs.ContainsKey(property.Name))
+            {
+                if (property.PropertyType.GetTypeInfo().IsGenericType)
+                {
+                    var propertyGenericTypeDefinition = property.PropertyType.GetGenericTypeDefinition();
+                    if (propertyGenericTypeDefinition == typeof(IList<>) ||
+                        propertyGenericTypeDefinition == typeof(List<>) ||
+                        propertyGenericTypeDefinition == typeof(IEnumerable<>))
                     {
-                        SetPropertyValue(property, buildScript, flubuSession.ScriptArgs[property.Name], property.PropertyType, property.Name);
+                        property.SetValue(buildScript, flubuSession.ScriptArgs[property.Name].Split(',').ToList());
                     }
+                }
+                else
+                {
+                    SetPropertyValue(property, buildScript, flubuSession.ScriptArgs[property.Name], property.PropertyType,
+                        property.Name);
                 }
             }
         }

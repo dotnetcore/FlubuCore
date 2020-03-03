@@ -8,7 +8,7 @@ namespace FlubuCore.Context
 {
     public interface IScriptProperties
     {
-        void SetPropertiesFromScriptArg(IBuildScript buildScript, IFlubuSession flubuSession);
+        void ProcessProperties(IBuildScript buildScript, IFlubuSession flubuSession);
 
         List<Hint> GetPropertiesHints(IBuildScript buildScript);
 
