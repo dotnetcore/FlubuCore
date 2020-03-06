@@ -44,7 +44,7 @@ namespace FlubuCore.Tests
             _flubuSession.ScriptArgs["sog"] = "true";
             _flubuSession.ScriptArgs["NoAttribute"] = "Noo";
             _flubuSession.ScriptArgs["list"] = "a,b,c";
-            _scriptProperties.ProcessProperties(buildScript,  _flubuSession);
+            _scriptProperties.InjectProperties(buildScript,  _flubuSession);
             Assert.Equal("beda", buildScript.SolutionFileName);
             Assert.Equal(23, buildScript.Level);
             Assert.True(buildScript.StayOrGo);

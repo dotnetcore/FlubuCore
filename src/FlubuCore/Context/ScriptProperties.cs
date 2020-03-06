@@ -6,23 +6,58 @@ using System.Reflection;
 using System.Text;
 using FlubuCore.Infrastructure.Terminal;
 using FlubuCore.Scripting;
+using FlubuCore.Tasks.Attributes;
+using FlubuCore.Tasks.Versioning;
 
 namespace FlubuCore.Context
 {
     public class ScriptProperties : IScriptProperties
     {
-        public void ProcessProperties(IBuildScript buildScript, IFlubuSession flubuSession)
+        public void InjectProperties(IBuildScript buildScript, IFlubuSession flubuSession)
         {
             var buildScriptType = buildScript.GetType();
             IList<PropertyInfo> props = new List<PropertyInfo>(buildScriptType.GetProperties());
 
             foreach (var property in props)
             {
-                SetPropertiesFromScriptArg(buildScript, flubuSession, property);
+                InjectPropertiesFromScriptArg(buildScript, flubuSession, property);
+                InjectPropertiesFromTaskAttribue(buildScript, flubuSession, property);
             }
         }
 
-        private static void SetPropertiesFromScriptArg(IBuildScript buildScript, IFlubuSession flubuSession,  PropertyInfo property)
+        private static void InjectPropertiesFromTaskAttribue(IBuildScript buildScript, IFlubuSession flubuSession,  PropertyInfo property)
+        {
+            InjectPropertyFromFetchBuildVersionFomFileAttribute(flubuSession, buildScript, property);
+        }
+
+        private static void InjectPropertyFromFetchBuildVersionFomFileAttribute(IFlubuSession flubuSession, IBuildScript buildScript, PropertyInfo property)
+        {
+            var fetchBuildVersion = property.GetCustomAttribute<FetchBuildVersionFromFileAttribute>();
+
+            if (fetchBuildVersion != null)
+            {
+                var buildVersion = flubuSession.Tasks().FetchBuildVersionFromFileTask()
+                    .When(() => fetchBuildVersion.AllowSuffix, t => t.AllowSuffix())
+                    .When(() => !string.IsNullOrEmpty(fetchBuildVersion.ProjectVersionFileName),
+                        t => t.ProjectVersionFileName(fetchBuildVersion.ProjectVersionFileName))
+                    .When(() => fetchBuildVersion.PrefixesToRemove != null, t =>
+                    {
+                        foreach (var prefixToRemove in fetchBuildVersion.PrefixesToRemove)
+                        {
+                            t.RemovePrefix(prefixToRemove);
+                        }
+                    }).Execute(flubuSession);
+
+                if (property.PropertyType != typeof(BuildVersion))
+                {
+                    throw new ScriptException($"Failed to fetch build version. Property '{property.Name}' must be of type '{nameof(BuildVersion)}'");
+                }
+
+                property.SetValue(buildScript, buildVersion);
+            }
+        }
+
+        private static void InjectPropertiesFromScriptArg(IBuildScript buildScript, IFlubuSession flubuSession,  PropertyInfo property)
         {
             var attributes = property.GetCustomAttributes<FromArgAttribute>(false).ToList();
             string argKey = null;

@@ -2,7 +2,7 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ShowAllFiles>false</ShowAllFiles>
-    <ActiveDebugFramework>netcoreapp2.0</ActiveDebugFramework>
+    <ActiveDebugFramework>netcoreapp3.1</ActiveDebugFramework>
     <ActiveDebugProfile>IIS Express</ActiveDebugProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp1.1|AnyCPU'">

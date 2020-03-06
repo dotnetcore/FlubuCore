@@ -2,9 +2,9 @@
 
 namespace FlubuCore.Tasks.Attributes
 {
-    public class ArgKey : Attribute
+    public class ArgKeyAttribute : Attribute
     {
-        public ArgKey(params string[] keys)
+        public ArgKeyAttribute(params string[] keys)
         {
             Keys = keys;
         }
