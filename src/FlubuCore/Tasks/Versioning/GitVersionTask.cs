@@ -307,7 +307,13 @@ namespace FlubuCore.Tasks.Versioning
             if (!string.IsNullOrEmpty(output))
             {
                 var gitVersion = JsonConvert.DeserializeObject<GitVersion>(output);
-                context.Properties.Set(BuildProps.BuildVersion, new Version(gitVersion.AssemblySemVer));
+
+                var buildVersion = new BuildVersion
+                {
+                    Version = new Version(gitVersion.AssemblySemVer),
+                };
+
+                context.Properties.Set(BuildProps.BuildVersion, buildVersion);
                 return gitVersion;
             }
 

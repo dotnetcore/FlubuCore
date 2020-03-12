@@ -28,7 +28,7 @@ namespace FlubuCore.Tests
 
             Context = new TaskContextInternal(
                 loggerFactory.CreateLogger<FlubuSession>(),
-                new BuildPropertiesSession(),
+                new BuildPropertiesSession(new TargetTree(ServiceProvider, new CommandArguments())),
                 new CommandArguments() { },
                 new TargetTree(ServiceProvider, new CommandArguments()),
                 new BuildSystem(),

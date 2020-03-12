@@ -77,14 +77,15 @@ namespace FlubuCore.Tests.Scripting
                 .AddSingleton<ITargetCreator, TargetCreator>()
                 .BuildServiceProvider();
 
+            var targetTree = new TargetTree(provider, new CommandArguments());
             t.Run(new FlubuSession(
                 _loggerTaskSession.Object,
-                new TargetTree(provider, new CommandArguments()),
+                targetTree,
                 new CommandArguments(),
                 new ScriptFactory(provider),
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),
-                new BuildPropertiesSession(),
+                new BuildPropertiesSession(targetTree),
                 new BuildSystem()));
         }
 
@@ -130,14 +131,16 @@ namespace FlubuCore.Tests.Scripting
                 .AddSingleton<ITargetCreator, TargetCreator>()
                 .BuildServiceProvider();
 
+            var targetTree = new TargetTree(provider, new CommandArguments());
+
             t.Run(new FlubuSession(
                 _loggerTaskSession.Object,
-                new TargetTree(provider, new CommandArguments()),
+                targetTree,
                 new CommandArguments(),
                 new ScriptFactory(provider),
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),
-                new BuildPropertiesSession(),
+                new BuildPropertiesSession(targetTree),
                 new BuildSystem()));
         }
 
@@ -178,15 +181,15 @@ namespace FlubuCore.Tests.Scripting
                 .AddSingleton<IScriptProperties, ScriptProperties>()
                 .AddSingleton<ITargetCreator, TargetCreator>()
                 .BuildServiceProvider();
-
+            var targetTree = new TargetTree(provider, new CommandArguments());
             t.Run(new FlubuSession(
                 _loggerTaskSession.Object,
-                new TargetTree(provider, new CommandArguments()),
+                targetTree,
                 new CommandArguments(),
                 new ScriptFactory(provider),
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),
-                new BuildPropertiesSession(),
+                new BuildPropertiesSession(targetTree),
                 new BuildSystem()));
         }
     }

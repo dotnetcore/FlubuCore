@@ -1,4 +1,5 @@
 ﻿using FlubuCore.Context;
+using FlubuCore.Targeting;
 using Xunit;
 
 namespace FlubuCore.Tests.Context
@@ -9,7 +10,7 @@ namespace FlubuCore.Tests.Context
 
         public BuildPropertiesSessionTests()
         {
-            _session = new BuildPropertiesSession();
+            _session = new BuildPropertiesSession(new TargetTree(null, null));
         }
 
         [Fact]

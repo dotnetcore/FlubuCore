@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.IO;
 using FlubuCore.Targeting;
+using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.NetCore;
 using FlubuCore.WebApi.Client;
 using Microsoft.Extensions.DependencyInjection;
@@ -153,7 +154,7 @@ namespace FlubuCore.Scripting
 
             ConfigureDefaultTargets(flubuSession);
 
-            _scriptProperties.SetPropertiesFromScriptArg(this, flubuSession);
+            _scriptProperties.InjectProperties(this, flubuSession);
 
             _targetCreator.CreateTargetFromMethodAttributes(this, flubuSession);
 

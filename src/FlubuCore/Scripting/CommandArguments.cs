@@ -52,6 +52,11 @@ namespace FlubuCore.Scripting
 
         public bool IsFlubuSetup()
         {
+            if (MainCommands == null)
+            {
+                return false;
+            }
+
             return MainCommands.Count == 1 && MainCommands.First().Equals("setup", StringComparison.OrdinalIgnoreCase);
         }
     }

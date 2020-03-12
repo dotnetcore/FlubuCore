@@ -164,12 +164,12 @@ namespace FlubuCore.Tasks.Process
             return attribute.Keys[0];
         }
 
-        private ArgKey GetArgKeyAttribute(string memberName)
+        private ArgKeyAttribute GetArgKeyAttribute(string memberName)
         {
             var method = GetType().GetRuntimeMethods().FirstOrDefault(x => x.Name == memberName);
             if (method == null) return null;
 
-            var attribute = method.GetCustomAttribute<ArgKey>();
+            var attribute = method.GetCustomAttribute<ArgKeyAttribute>();
             return attribute;
         }
 
@@ -386,7 +386,7 @@ namespace FlubuCore.Tasks.Process
             List<string> overridableArguments = new List<string>();
             foreach (var methodInfo in methods)
             {
-                var attribute = methodInfo.GetCustomAttribute<ArgKey>();
+                var attribute = methodInfo.GetCustomAttribute<ArgKeyAttribute>();
                 if (attribute == null)
                 {
                     continue;

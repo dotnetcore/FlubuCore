@@ -196,7 +196,7 @@ namespace FlubuCore.Commanding
 
                     flubuSession.InteractiveArgs = args;
                     flubuSession.ScriptArgs = args.ScriptArguments;
-                    _scriptProperties.SetPropertiesFromScriptArg(script, flubuSession);
+                    _scriptProperties.InjectProperties(script, flubuSession);
 
                     if (InternalCommands.InteractiveExitAndReloadCommands.Contains(args.MainCommands[0],
                         StringComparer.OrdinalIgnoreCase))

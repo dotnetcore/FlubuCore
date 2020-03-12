@@ -2,15 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Text;
-using FlubuCore.Context;
-using FlubuCore.Services;
 using FlubuCore.WebApi.Client;
 using FlubuCore.WebApi.Model;
-using FlubuCore.WebApi.Models;
-using FlubuCore.WebApi.Repository;
-using FlubuCore.WebApi.Tests.ClientTests;
-using Renci.SshNet;
 using Xunit;
 
 namespace FlubuCore.WebApi.Tests.ClientTests

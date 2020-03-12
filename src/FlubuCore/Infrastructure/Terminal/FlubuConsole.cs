@@ -789,11 +789,11 @@ namespace FlubuCore.Infrastructure.Terminal
         {
             List<Hint> taskHints = new List<Hint>();
             var methods = type.GetRuntimeMethods();
-            methods = methods.Where(m => m.GetCustomAttributes(typeof(ArgKey), false).ToList().Count > 0);
+            methods = methods.Where(m => m.GetCustomAttributes(typeof(ArgKeyAttribute), false).ToList().Count > 0);
 
             foreach (var method in methods)
             {
-                var attribute = method.GetCustomAttribute<ArgKey>();
+                var attribute = method.GetCustomAttribute<ArgKeyAttribute>();
 
                 if (attribute == null || attribute.Keys.Length == 0)
                 {

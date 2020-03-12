@@ -97,10 +97,8 @@ namespace DotNet.Cli.Flubu
                 script.ConfigureServices(Services);
                 script.Configure(loggerFactory);
             }
-            else
-            {
-                _provider = Services.BuildServiceProvider();
-            }
+
+            _provider = Services.BuildServiceProvider();
         }
 
         private static void OnCancelKeyPress(object sender, ConsoleCancelEventArgs eventArgs)

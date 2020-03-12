@@ -6,74 +6,22 @@ using System.Reflection;
 using System.Text;
 using FlubuCore.Infrastructure.Terminal;
 using FlubuCore.Scripting;
+using FlubuCore.Tasks.Attributes;
+using FlubuCore.Tasks.Versioning;
 
 namespace FlubuCore.Context
 {
     public class ScriptProperties : IScriptProperties
     {
-        public void SetPropertiesFromScriptArg(IBuildScript buildScript, IFlubuSession flubuSession)
+        public void InjectProperties(IBuildScript buildScript, IFlubuSession flubuSession)
         {
             var buildScriptType = buildScript.GetType();
             IList<PropertyInfo> props = new List<PropertyInfo>(buildScriptType.GetProperties());
 
             foreach (var property in props)
             {
-                var attributes = property.GetCustomAttributes<FromArgAttribute>(false).ToList();
-                string argKey = null;
-                foreach (var fromArgAttribute in attributes)
-                {
-                    var argKeys = fromArgAttribute.ArgKey.Split('|');
-                    foreach (var key in argKeys)
-                    {
-                        if (!flubuSession.ScriptArgs.ContainsKey(key))
-                        {
-                            continue;
-                        }
-
-                        argKey = key;
-                        break;
-                    }
-
-                    if (argKey == null)
-                    {
-                        continue;
-                    }
-
-                    if (property.PropertyType.GetTypeInfo().IsGenericType)
-                    {
-                        var propertyGenericTypeDefinition = property.PropertyType.GetGenericTypeDefinition();
-                        if (propertyGenericTypeDefinition == typeof(IList<>) ||
-                            propertyGenericTypeDefinition == typeof(List<>) ||
-                            propertyGenericTypeDefinition == typeof(IEnumerable<>))
-                        {
-                            var list = flubuSession.ScriptArgs[argKey].Split(fromArgAttribute.Seperator)
-                                .ToList();
-                            property.SetValue(buildScript, list);
-                        }
-                    }
-                    else
-                    {
-                        SetPropertyValue(property, buildScript, flubuSession.ScriptArgs[argKey], property.PropertyType, argKey);
-                    }
-                }
-
-                if (flubuSession.ScriptArgs.ContainsKey(property.Name))
-                {
-                    if (property.PropertyType.GetTypeInfo().IsGenericType)
-                    {
-                        var propertyGenericTypeDefinition = property.PropertyType.GetGenericTypeDefinition();
-                        if (propertyGenericTypeDefinition == typeof(IList<>) ||
-                            propertyGenericTypeDefinition == typeof(List<>) ||
-                            propertyGenericTypeDefinition == typeof(IEnumerable<>))
-                        {
-                            property.SetValue(buildScript, flubuSession.ScriptArgs[property.Name].Split(',').ToList());
-                        }
-                    }
-                    else
-                    {
-                        SetPropertyValue(property, buildScript, flubuSession.ScriptArgs[property.Name], property.PropertyType, property.Name);
-                    }
-                }
+                InjectPropertiesFromScriptArg(buildScript, flubuSession, property);
+                InjectPropertiesFromTaskAttribue(buildScript, flubuSession, property);
             }
         }
 
@@ -186,6 +134,125 @@ namespace FlubuCore.Context
             }
 
             return help;
+        }
+
+        private static void InjectPropertiesFromTaskAttribue(IBuildScript buildScript, IFlubuSession flubuSession,  PropertyInfo property)
+        {
+            InjectPropertyFromFetchBuildVersionFomFileAttribute(flubuSession, buildScript, property);
+            InjectPropertyFromGitVersionAttribute(flubuSession, buildScript, property);
+        }
+
+        private static void InjectPropertiesFromScriptArg(IBuildScript buildScript, IFlubuSession flubuSession,  PropertyInfo property)
+        {
+            var attributes = property.GetCustomAttributes<FromArgAttribute>(false).ToList();
+            string argKey = null;
+            foreach (var fromArgAttribute in attributes)
+            {
+                var argKeys = fromArgAttribute.ArgKey.Split('|');
+                foreach (var key in argKeys)
+                {
+                    if (!flubuSession.ScriptArgs.ContainsKey(key))
+                    {
+                        continue;
+                    }
+
+                    argKey = key;
+                    break;
+                }
+
+                if (argKey == null)
+                {
+                    continue;
+                }
+
+                if (property.PropertyType.GetTypeInfo().IsGenericType)
+                {
+                    var propertyGenericTypeDefinition = property.PropertyType.GetGenericTypeDefinition();
+                    if (propertyGenericTypeDefinition == typeof(IList<>) ||
+                        propertyGenericTypeDefinition == typeof(List<>) ||
+                        propertyGenericTypeDefinition == typeof(IEnumerable<>))
+                    {
+                        var list = flubuSession.ScriptArgs[argKey].Split(fromArgAttribute.Seperator)
+                            .ToList();
+                        property.SetValue(buildScript, list);
+                    }
+                }
+                else
+                {
+                    SetPropertyValue(property, buildScript, flubuSession.ScriptArgs[argKey], property.PropertyType, argKey);
+                }
+            }
+
+            if (flubuSession.ScriptArgs.ContainsKey(property.Name))
+            {
+                if (property.PropertyType.GetTypeInfo().IsGenericType)
+                {
+                    var propertyGenericTypeDefinition = property.PropertyType.GetGenericTypeDefinition();
+                    if (propertyGenericTypeDefinition == typeof(IList<>) ||
+                        propertyGenericTypeDefinition == typeof(List<>) ||
+                        propertyGenericTypeDefinition == typeof(IEnumerable<>))
+                    {
+                        property.SetValue(buildScript, flubuSession.ScriptArgs[property.Name].Split(',').ToList());
+                    }
+                }
+                else
+                {
+                    SetPropertyValue(property, buildScript, flubuSession.ScriptArgs[property.Name], property.PropertyType,
+                        property.Name);
+                }
+            }
+        }
+
+        private static void InjectPropertyFromFetchBuildVersionFomFileAttribute(IFlubuSession flubuSession, IBuildScript buildScript, PropertyInfo property)
+        {
+            var fetchBuildVersion = property.GetCustomAttribute<FetchBuildVersionFromFileAttribute>();
+
+            if (fetchBuildVersion == null)
+            {
+                return;
+            }
+
+            var buildVersion = flubuSession.Tasks().FetchBuildVersionFromFileTask()
+                .When(() => fetchBuildVersion.AllowSuffix, t => t.AllowSuffix())
+                .When(() => !string.IsNullOrEmpty(fetchBuildVersion.ProjectVersionFileName),
+                    t => t.ProjectVersionFileName(fetchBuildVersion.ProjectVersionFileName))
+                .When(() => fetchBuildVersion.PrefixesToRemove != null, t =>
+                {
+                    foreach (var prefixToRemove in fetchBuildVersion.PrefixesToRemove)
+                    {
+                        t.RemovePrefix(prefixToRemove);
+                    }
+                }).Execute(flubuSession);
+
+            if (property.PropertyType != typeof(BuildVersion))
+            {
+                throw new ScriptException($"Failed to fetch build version. Property '{property.Name}' must be of type '{nameof(BuildVersion)}'");
+            }
+
+            property.SetValue(buildScript, buildVersion);
+        }
+
+        private static void InjectPropertyFromGitVersionAttribute(IFlubuSession flubuSession, IBuildScript buildScript, PropertyInfo property)
+        {
+            var gitVersionAttr = property.GetCustomAttribute<GitVersionAttribute>();
+
+            if (gitVersionAttr == null)
+            {
+                return;
+            }
+
+            var task = flubuSession.Tasks().GitVersionTask();
+
+            gitVersionAttr.Options?.Invoke(task);
+
+            var gitVersion = task.Execute(flubuSession);
+
+            if (property.PropertyType != typeof(GitVersion))
+            {
+                throw new ScriptException($"Failed to fetch git version. Property '{property.Name}' must be of type '{nameof(GitVersion)}'");
+            }
+
+            property.SetValue(buildScript, gitVersion);
         }
 
         private static void SetPropertyValue(PropertyInfo propertyInfo, IBuildScript buildScript, string value, Type type, string argKey)
