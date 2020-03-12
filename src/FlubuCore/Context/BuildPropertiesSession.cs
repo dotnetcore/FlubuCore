@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.ComTypes;
 using FlubuCore.Context;
+using FlubuCore.Context.Attributes;
 using FlubuCore.Scripting;
+using FlubuCore.Targeting;
 
 namespace FlubuCore.Context
 {
@@ -12,10 +16,19 @@ namespace FlubuCore.Context
     /// </summary>
     public class BuildPropertiesSession : IBuildPropertiesSession
     {
+        private static Dictionary<string, PropertyInfo> _propertyInfos = null;
+
         /// <summary>
         /// name value dictionary used for storing differend task context properties.
         /// </summary>
         private readonly Dictionary<string, object> _properties = new Dictionary<string, object>();
+
+        private readonly TargetTree _targetTree;
+
+        public BuildPropertiesSession(TargetTree targetTree)
+        {
+            _targetTree = targetTree;
+        }
 
         /// <summary>
         /// Property indexer.
@@ -38,9 +51,16 @@ namespace FlubuCore.Context
         /// <returns>The property</returns>
         public T Get<T>(string propertyName, bool ignoreCase = true, [CallerMemberName] string memberName = "")
         {
+            InitializePropertyInfos();
+
             if (ignoreCase)
             {
                 propertyName = propertyName.ToLowerInvariant();
+            }
+
+            if (_propertyInfos.ContainsKey(propertyName))
+            {
+                return GetValueFromPropertyInfo<T>(propertyName);
             }
 
             if (!_properties.ContainsKey(propertyName))
@@ -91,7 +111,14 @@ namespace FlubuCore.Context
 
         public T TryGet<T>(string propertyName, [CallerMemberName] string memberName = null)
         {
+            InitializePropertyInfos();
+
             propertyName = propertyName.ToLowerInvariant();
+
+            if (_propertyInfos.ContainsKey(propertyName))
+            {
+                return GetValueFromPropertyInfo<T>(propertyName);
+            }
 
             if (!_properties.ContainsKey(propertyName))
             {
@@ -116,6 +143,11 @@ namespace FlubuCore.Context
         public T Get<T>(string propertyName, T defaultValue, [CallerMemberName] string memberName = "")
         {
             propertyName = propertyName.ToLowerInvariant();
+            InitializePropertyInfos();
+            if (_propertyInfos.ContainsKey(propertyName))
+            {
+                return GetValueFromPropertyInfo<T>(propertyName);
+            }
 
             if (!_properties.ContainsKey(propertyName))
             {
@@ -178,6 +210,37 @@ namespace FlubuCore.Context
         {
             propertyName = propertyName.ToLowerInvariant();
             _properties.Remove(propertyName);
+        }
+
+        private void InitializePropertyInfos()
+        {
+            if (_propertyInfos != null)
+            {
+                return;
+            }
+
+            if (_targetTree.BuildScript != null)
+            {
+                _propertyInfos = new Dictionary<string, PropertyInfo>();
+                var buildScriptType = _targetTree.BuildScript.GetType();
+                IList<PropertyInfo> props = new List<PropertyInfo>(buildScriptType.GetProperties());
+
+                foreach (var propertyInfo in props)
+                {
+                    var attr = propertyInfo.GetCustomAttribute<BuildPropertyAttribute>();
+                    if (attr != null)
+                    {
+                        _propertyInfos.Add(attr.BuildProperty, propertyInfo);
+                    }
+                }
+            }
+        }
+
+        private T GetValueFromPropertyInfo<T>(string propertyName)
+        {
+            var propertyInfo = _propertyInfos[propertyName];
+            var value = propertyInfo.GetValue(_targetTree.BuildScript);
+            return (T)Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture);
         }
     }
 }

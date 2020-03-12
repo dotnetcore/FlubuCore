@@ -207,48 +207,52 @@ namespace FlubuCore.Context
         {
             var fetchBuildVersion = property.GetCustomAttribute<FetchBuildVersionFromFileAttribute>();
 
-            if (fetchBuildVersion != null)
+            if (fetchBuildVersion == null)
             {
-                var buildVersion = flubuSession.Tasks().FetchBuildVersionFromFileTask()
-                    .When(() => fetchBuildVersion.AllowSuffix, t => t.AllowSuffix())
-                    .When(() => !string.IsNullOrEmpty(fetchBuildVersion.ProjectVersionFileName),
-                        t => t.ProjectVersionFileName(fetchBuildVersion.ProjectVersionFileName))
-                    .When(() => fetchBuildVersion.PrefixesToRemove != null, t =>
-                    {
-                        foreach (var prefixToRemove in fetchBuildVersion.PrefixesToRemove)
-                        {
-                            t.RemovePrefix(prefixToRemove);
-                        }
-                    }).Execute(flubuSession);
-
-                if (property.PropertyType != typeof(BuildVersion))
-                {
-                    throw new ScriptException($"Failed to fetch build version. Property '{property.Name}' must be of type '{nameof(BuildVersion)}'");
-                }
-
-                property.SetValue(buildScript, buildVersion);
+                return;
             }
+
+            var buildVersion = flubuSession.Tasks().FetchBuildVersionFromFileTask()
+                .When(() => fetchBuildVersion.AllowSuffix, t => t.AllowSuffix())
+                .When(() => !string.IsNullOrEmpty(fetchBuildVersion.ProjectVersionFileName),
+                    t => t.ProjectVersionFileName(fetchBuildVersion.ProjectVersionFileName))
+                .When(() => fetchBuildVersion.PrefixesToRemove != null, t =>
+                {
+                    foreach (var prefixToRemove in fetchBuildVersion.PrefixesToRemove)
+                    {
+                        t.RemovePrefix(prefixToRemove);
+                    }
+                }).Execute(flubuSession);
+
+            if (property.PropertyType != typeof(BuildVersion))
+            {
+                throw new ScriptException($"Failed to fetch build version. Property '{property.Name}' must be of type '{nameof(BuildVersion)}'");
+            }
+
+            property.SetValue(buildScript, buildVersion);
         }
 
         private static void InjectPropertyFromGitVersionAttribute(IFlubuSession flubuSession, IBuildScript buildScript, PropertyInfo property)
         {
             var gitVersionAttr = property.GetCustomAttribute<GitVersionAttribute>();
 
-            if (gitVersionAttr != null)
+            if (gitVersionAttr == null)
             {
-                var task = flubuSession.Tasks().GitVersionTask();
-
-                gitVersionAttr.Options?.Invoke(task);
-
-                var gitVersion = task.Execute(flubuSession);
-
-                if (property.PropertyType != typeof(GitVersion))
-                {
-                    throw new ScriptException($"Failed to fetch git version. Property '{property.Name}' must be of type '{nameof(GitVersion)}'");
-                }
-
-                property.SetValue(buildScript, gitVersion);
+                return;
             }
+
+            var task = flubuSession.Tasks().GitVersionTask();
+
+            gitVersionAttr.Options?.Invoke(task);
+
+            var gitVersion = task.Execute(flubuSession);
+
+            if (property.PropertyType != typeof(GitVersion))
+            {
+                throw new ScriptException($"Failed to fetch git version. Property '{property.Name}' must be of type '{nameof(GitVersion)}'");
+            }
+
+            property.SetValue(buildScript, gitVersion);
         }
 
         private static void SetPropertyValue(PropertyInfo propertyInfo, IBuildScript buildScript, string value, Type type, string argKey)
