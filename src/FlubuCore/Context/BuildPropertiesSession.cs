@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.ComTypes;
-using FlubuCore.Context;
 using FlubuCore.Context.Attributes;
-using FlubuCore.Scripting;
 using FlubuCore.Targeting;
 
 namespace FlubuCore.Context
@@ -190,7 +187,15 @@ namespace FlubuCore.Context
         /// <param name="propertyValue">The propery value.</param>
         public void Set<T>(string propertyName, T propertyValue)
         {
+            InitializePropertyInfos();
             propertyName = propertyName.ToLowerInvariant();
+
+            if (_propertyInfos.ContainsKey(propertyName) && _targetTree.BuildScript != null)
+            {
+                var propertyInfo = _propertyInfos[propertyName];
+                propertyInfo.SetValue(_targetTree.BuildScript, propertyValue);
+            }
+
             _properties[propertyName] = propertyValue;
         }
 
@@ -221,7 +226,7 @@ namespace FlubuCore.Context
 
             if (_targetTree.BuildScript != null)
             {
-                _propertyInfos = new Dictionary<string, PropertyInfo>();
+                _propertyInfos = new Dictionary<string, PropertyInfo>(StringComparer.OrdinalIgnoreCase);
                 var buildScriptType = _targetTree.BuildScript.GetType();
                 IList<PropertyInfo> props = new List<PropertyInfo>(buildScriptType.GetProperties());
 
