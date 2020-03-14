@@ -117,21 +117,24 @@ context.CreateTarget("Run.Libz")
  ```cs
  public class SimpleScript : DefaultBuildScript
  {
+    [FromArg("c", "The configuration to use for building the project.")]
+    public string Configuration { get; set; } = "Release"
+  
     [FromArg("sn", "If true app is deployed on second node. Otherwise not.")]
     public bool deployOnSecondNode { get; set; }
-
  
-     protected override void ConfigureTargets(ITaskContext context)
-     {
-         context.CreateTarget("compile")
-            .AddTask(x => x.CompileSolutionTask()
-                .ForMember(y => y.SolutionFileName("someSolution.sln"), "solution", "The solution to build.")); 
-     }
+    protected override void ConfigureTargets(ITaskContext context)
+    {
+         context.CreateTarget("build")
+            .AddCoreTask(x => x.Build()
+                .Configuration(Configuration)
+                .ForMember(x =>  x.Framework("net462"), "f", "The target framework to build for.")); 
+    }
   }
  ```
  
  ```
-  flubu.exe compile -solution=someOtherSolution.sln -sn=true
+  flubu.exe build -c=Debug -f=netcoreapp2.0
  ```
 * [Extending FlubuCore fluent interface by writing your own tasks within FlubuCore plugins.](https://flubucore.dotnetcore.xyz/write-plugins)
 
