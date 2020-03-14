@@ -35,14 +35,35 @@ FlubuCore offers a .net (core) console application that uses power of roslyn to 
 * Intuitive an easy to learn. C#, fluent interface, and IntelliSense make even most complex script creation a breeze.
 
 ```cs
-context.CreateTarget("Example")
-  .DependsOn(fetchBuildVersionTarget)
-  .AddTask(x => x.CompileSolutionTask())
-  .AddTask(x => x.PublishNuGetPackageTask("packageId", "pathToNuspec"))
-      .When(c => c.BuildSystems().Jenkins().IsRunningOnJenkins);
+    [FromArg("nugetKey", "Nuget api key for publishing Flubu nuget packages.")]
+    public string NugetApiKey { get; set; }
+
+    protected override void ConfigureTargets(ITaskContext context)
+    {
+        var pack = context.CreateTarget("Pack")
+            .SetDescription("Prepare's nuget package.")
+            .AddCoreTask(x => x.Pack()
+                .NoBuild()
+                .OutputDirectory(OutputDirectory)
+                .WithArguments("--force"); //you can add your own custom arguments on each task
+
+        var branch = context.BuildSystems().Travis().Branch;
+
+        //// Examine travis.yaml to see how to pass api key from travis to FlubuCore build script.
+        var nugetPush = context.CreateTarget("Nuget.publish")
+            .SetDescription("Publishes nuget package.")
+            .DependsOn(pack)
+            .AddCoreTask(x => x.NugetPush($"{OutputDirectory}/NetCoreOpenSource.nupkg")
+                .ServerUrl("https://www.nuget.org/api/v2/package")
+                .ApiKey(NugetApiKey)
+            )
+            .When((c) => c.BuildSystems().RunningOn == BuildSystemType.TravisCI
+                         && !string.IsNullOrEmpty(branch)
+                         && branch.EndsWith("stable", StringComparison.OrdinalIgnoreCase));
+    }
 ```
           
-* [Large number of often used built-in tasks](https://flubucore.dotnetcore.xyz/tasks/) like e.g. running tests, managing IIS, creating deployment packages, publishing NuGet packages, docker tasks, executing PowerShell scripts and many more.
+* [Large number of often used built-in tasks](https://flubucore.dotnetcore.xyz/tasks/) like e.g. versioning, running tests, creating deployment packages, publishing NuGet packages, docker tasks, git tasts, sql tasks, npm tasks, executing PowerShell, managing IIS scripts and many more.
 
 ```cs
 context.CreateTarget("build")
@@ -58,10 +79,13 @@ context.CreateTarget("run.tests")
 * [Execute your own custom C# code.](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Custom-code)
 
 ```cs
-context.CreateTarget("MyCustomBuildTarget")
-     .AddTask(x => x.CompileSolutionTask())
-     .Do(MyCustomMethod)
-     .Do(NuGetPackageReferencingExample);
+     context.CreateTarget("MyCustomBuildTarget")
+            .AddTask(x => x.CompileSolutionTask())
+            .Do((c) =>
+            {
+                //// write your awesome code
+            })
+            .Do(NuGetPackageReferencingExample);
 ```
 
 * [assembly references and nuget packages are loaded automatically](https://flubucore.dotnetcore.xyz/referencing-external-assemblies/) when script is used together with project file. When script is executed alone (for example when deploying with FlubuCore script on production environment) references can be added with attributes.
