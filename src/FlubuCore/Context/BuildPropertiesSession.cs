@@ -224,9 +224,10 @@ namespace FlubuCore.Context
                 return;
             }
 
+            _propertyInfos = new Dictionary<string, PropertyInfo>(StringComparer.OrdinalIgnoreCase);
+
             if (_targetTree.BuildScript != null)
             {
-                _propertyInfos = new Dictionary<string, PropertyInfo>(StringComparer.OrdinalIgnoreCase);
                 var buildScriptType = _targetTree.BuildScript.GetType();
                 IList<PropertyInfo> props = new List<PropertyInfo>(buildScriptType.GetProperties());
 
