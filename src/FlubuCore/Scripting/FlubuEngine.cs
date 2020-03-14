@@ -18,10 +18,11 @@ namespace FlubuCore.Scripting
 #endif
 #if !NETSTANDARD1_6
             LoggerFactory = new LoggerFactory();
-
+            CommandArguments arguments = new CommandArguments();
             ServiceProvider = new ServiceCollection()
                 .AddCoreComponents()
                 .AddTasks()
+                .AddSingleton(arguments)
                 .BuildServiceProvider();
 
             TaskFactory = new DotnetTaskFactory(ServiceProvider);
@@ -61,7 +62,7 @@ namespace FlubuCore.Scripting
         {
             CommandArguments commandArguments = new CommandArguments(buildScriptArguments);
 
-           return new FlubuSession(
+            return new FlubuSession(
                 LoggerFactory.CreateLogger<FlubuSession>(),
                 new TargetTree(ServiceProvider, commandArguments),
                 commandArguments,
