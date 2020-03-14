@@ -19,20 +19,62 @@
 <ul>
 <li>Intuitive an easy to learn. C#, fluent interface, and IntelliSense make even most complex script creation a breeze.</li>
 </ul>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3
-4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="s">&quot;Example&quot;</span><span class="p">)</span>
-  <span class="p">.</span><span class="n">DependsOn</span><span class="p">(</span><span class="n">fetchBuildVersionTarget</span><span class="p">)</span>
-  <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">CompileSolutionTask</span><span class="p">())</span>
-  <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">PublishNuGetPackageTask</span><span class="p">(</span><span class="s">&quot;packageId&quot;</span><span class="p">,</span> <span class="s">&quot;pathToNuspec&quot;</span><span class="p">))</span>
-      <span class="p">.</span><span class="n">When</span><span class="p">(</span><span class="n">c</span> <span class="p">=&gt;</span> <span class="n">c</span><span class="p">.</span><span class="n">BuildSystems</span><span class="p">().</span><span class="n">Jenkins</span><span class="p">().</span><span class="n">IsRunningOnJenkins</span><span class="p">);</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="na">[FromArg(&quot;nugetKey&quot;, &quot;Nuget api key for publishing Flubu nuget packages.&quot;)]</span>
+<span class="k">public</span> <span class="kt">string</span> <span class="n">NugetApiKey</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="k">protected</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">ConfigureTargets</span><span class="p">(</span><span class="n">ITaskContext</span> <span class="n">context</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">pack</span> <span class="p">=</span> <span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="s">&quot;Pack&quot;</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetDescription</span><span class="p">(</span><span class="s">&quot;Prepare&#39;s nuget package.&quot;</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">AddCoreTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">Pack</span><span class="p">()</span>
+            <span class="p">.</span><span class="n">NoBuild</span><span class="p">()</span>
+            <span class="p">.</span><span class="n">OutputDirectory</span><span class="p">(</span><span class="n">OutputDirectory</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">WithArguments</span><span class="p">(</span><span class="s">&quot;--force&quot;</span><span class="p">);</span> <span class="c1">//you can add your own custom arguments on each task</span>
+
+    <span class="kt">var</span> <span class="n">branch</span> <span class="p">=</span> <span class="n">context</span><span class="p">.</span><span class="n">BuildSystems</span><span class="p">().</span><span class="n">Travis</span><span class="p">().</span><span class="n">Branch</span><span class="p">;</span>
+
+    <span class="c1">//// Examine travis.yaml to see how to pass api key from travis to FlubuCore build script.</span>
+    <span class="kt">var</span> <span class="n">nugetPush</span> <span class="p">=</span> <span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="s">&quot;Nuget.publish&quot;</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetDescription</span><span class="p">(</span><span class="s">&quot;Publishes nuget package.&quot;</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">DependsOn</span><span class="p">(</span><span class="n">pack</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">AddCoreTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">NugetPush</span><span class="p">(</span><span class="err">$</span><span class="s">&quot;{OutputDirectory}/NetCoreOpenSource.nupkg&quot;</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">ServerUrl</span><span class="p">(</span><span class="s">&quot;https://www.nuget.org/api/v2/package&quot;</span><span class="p">)</span>
+             <span class="p">.</span><span class="n">ApiKey</span><span class="p">(</span><span class="n">NugetApiKey</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="p">.</span><span class="n">When</span><span class="p">((</span><span class="n">c</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">c</span><span class="p">.</span><span class="n">BuildSystems</span><span class="p">().</span><span class="n">RunningOn</span> <span class="p">==</span> <span class="n">BuildSystemType</span><span class="p">.</span><span class="n">TravisCI</span>
+                     <span class="p">&amp;&amp;</span> <span class="p">!</span><span class="kt">string</span><span class="p">.</span><span class="n">IsNullOrEmpty</span><span class="p">(</span><span class="n">branch</span><span class="p">)</span>
+                     <span class="p">&amp;&amp;</span> <span class="n">branch</span><span class="p">.</span><span class="n">EndsWith</span><span class="p">(</span><span class="s">&quot;stable&quot;</span><span class="p">,</span> <span class="n">StringComparison</span><span class="p">.</span><span class="n">OrdinalIgnoreCase</span><span class="p">));</span>
+<span class="p">}</span>
 </pre></div>
 </td></tr></table>
 
 <ul>
-<li><a href="https://flubucore.dotnetcore.xyz/tasks/">Large number of often used built-in tasks</a> like e.g. running tests, managing IIS, creating deployment packages, publishing NuGet packages, docker tasks, executing PowerShell scripts and many more.</li>
+<li><a href="https://flubucore.dotnetcore.xyz/tasks/">Large number of often used built-in tasks</a> like e.g. versioning, running tests, creating deployment packages, publishing NuGet packages, docker tasks, git tasts, sql tasks, npm tasks, executing PowerShell, managing IIS scripts and many more.</li>
 </ul>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
@@ -58,10 +100,16 @@
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
-4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="s">&quot;MyCustomBuildTarget&quot;</span><span class="p">)</span>
-     <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">CompileSolutionTask</span><span class="p">())</span>
-     <span class="p">.</span><span class="n">Do</span><span class="p">(</span><span class="n">MyCustomMethod</span><span class="p">)</span>
-     <span class="p">.</span><span class="n">Do</span><span class="p">(</span><span class="n">NuGetPackageReferencingExample</span><span class="p">);</span>
+4
+5
+6
+7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="s">&quot;MyCustomBuildTarget&quot;</span><span class="p">)</span>
+         <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">CompileSolutionTask</span><span class="p">())</span>
+         <span class="p">.</span><span class="n">Do</span><span class="p">((</span><span class="n">c</span><span class="p">)</span> <span class="p">=&gt;</span>
+         <span class="p">{</span>
+             <span class="c1">//// write your awesome code</span>
+         <span class="p">})</span>
+         <span class="p">.</span><span class="n">Do</span><span class="p">(</span><span class="n">NuGetPackageReferencingExample</span><span class="p">);</span>
 </pre></div>
 </td></tr></table>
 
@@ -130,23 +178,29 @@
 10
 11
 12
-13</pre></div></td><td class="code"><div class="codehilite"><pre><span></span> <span class="k">public</span> <span class="k">class</span> <span class="nc">SimpleScript</span> <span class="p">:</span> <span class="n">DefaultBuildScript</span>
+13
+14
+15
+16</pre></div></td><td class="code"><div class="codehilite"><pre><span></span> <span class="k">public</span> <span class="k">class</span> <span class="nc">SimpleScript</span> <span class="p">:</span> <span class="n">DefaultBuildScript</span>
  <span class="p">{</span>
+<span class="na">    [FromArg(&quot;c&quot;, &quot;The configuration to use for building the project.&quot;)]</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">Configuration</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span> <span class="p">=</span> <span class="s">&quot;Release&quot;</span>
+
 <span class="na">    [FromArg(&quot;sn&quot;, &quot;If true app is deployed on second node. Otherwise not.&quot;)]</span>
     <span class="k">public</span> <span class="kt">bool</span> <span class="n">deployOnSecondNode</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
 
-
-     <span class="k">protected</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">ConfigureTargets</span><span class="p">(</span><span class="n">ITaskContext</span> <span class="n">context</span><span class="p">)</span>
-     <span class="p">{</span>
-         <span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="s">&quot;compile&quot;</span><span class="p">)</span>
-            <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">CompileSolutionTask</span><span class="p">()</span>
-                <span class="p">.</span><span class="n">ForMember</span><span class="p">(</span><span class="n">y</span> <span class="p">=&gt;</span> <span class="n">y</span><span class="p">.</span><span class="n">SolutionFileName</span><span class="p">(</span><span class="s">&quot;someSolution.sln&quot;</span><span class="p">),</span> <span class="s">&quot;solution&quot;</span><span class="p">,</span> <span class="s">&quot;The solution to build.&quot;</span><span class="p">));</span> 
-     <span class="p">}</span>
- <span class="p">}</span>
+    <span class="k">protected</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">ConfigureTargets</span><span class="p">(</span><span class="n">ITaskContext</span> <span class="n">context</span><span class="p">)</span>
+    <span class="p">{</span>
+         <span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="s">&quot;build&quot;</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">AddCoreTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">Build</span><span class="p">()</span>
+                <span class="p">.</span><span class="n">Configuration</span><span class="p">(</span><span class="n">Configuration</span><span class="p">)</span>
+                <span class="p">.</span><span class="n">ForMember</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span>  <span class="n">x</span><span class="p">.</span><span class="n">Framework</span><span class="p">(</span><span class="s">&quot;net462&quot;</span><span class="p">),</span> <span class="s">&quot;f&quot;</span><span class="p">,</span> <span class="s">&quot;The target framework to build for.&quot;</span><span class="p">));</span> 
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </td></tr></table>
 
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>  flubu.exe compile -solution=someOtherSolution.sln -sn=true
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>  flubu build -c=Debug -f=netcoreapp2.0
 </pre></div>
 </td></tr></table>
 
