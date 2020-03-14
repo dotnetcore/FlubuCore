@@ -79,13 +79,13 @@ context.CreateTarget("run.tests")
 * [Execute your own custom C# code.](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Custom-code)
 
 ```cs
-     context.CreateTarget("MyCustomBuildTarget")
-            .AddTask(x => x.CompileSolutionTask())
-            .Do((c) =>
-            {
-                //// write your awesome code
-            })
-            .Do(NuGetPackageReferencingExample);
+context.CreateTarget("MyCustomBuildTarget")
+        .AddTask(x => x.CompileSolutionTask())
+        .Do((c) =>
+        {
+            //// write your awesome code
+        })
+        .Do(NuGetPackageReferencingExample);
 ```
 
 * [assembly references and nuget packages are loaded automatically](https://flubucore.dotnetcore.xyz/referencing-external-assemblies/) when script is used together with project file. When script is executed alone (for example when deploying with FlubuCore script on production environment) references can be added with attributes.
@@ -130,11 +130,11 @@ context.CreateTarget("Run.Libz")
                 .Configuration(Configuration)
                 .ForMember(x =>  x.Framework("net462"), "f", "The target framework to build for.")); 
     }
-  }
+}
  ```
  
  ```
-  flubu.exe build -c=Debug -f=netcoreapp2.0
+  flubu build -c=Debug -f=netcoreapp2.0
  ```
 * [Extending FlubuCore fluent interface by writing your own tasks within FlubuCore plugins.](https://flubucore.dotnetcore.xyz/write-plugins)
 

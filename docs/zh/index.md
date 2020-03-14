@@ -25,14 +25,35 @@
 - 直观，易学。C#、流畅的 API 设计和 IntelliSense，使复杂脚本的构建变得举重若轻。
 
 ```c#
-context.CreateTarget("Example")
-  .DependsOn(fetchBuildVersionTarget)
-  .AddTask(x => x.CompileSolutionTask())
-  .AddTask(x => x.PublishNuGetPackageTask("packageId", "pathToNuspec"))
-      .When(c => c.BuildSystems().Jenkins().IsRunningOnJenkins);
+[FromArg("nugetKey", "Nuget api key for publishing Flubu nuget packages.")]
+public string NugetApiKey { get; set; }
+
+protected override void ConfigureTargets(ITaskContext context)
+{
+    var pack = context.CreateTarget("Pack")
+        .SetDescription("Prepare's nuget package.")
+        .AddCoreTask(x => x.Pack()
+            .NoBuild()
+            .OutputDirectory(OutputDirectory)
+            .WithArguments("--force"); //you can add your own custom arguments on each task
+
+    var branch = context.BuildSystems().Travis().Branch;
+
+    //// Examine travis.yaml to see how to pass api key from travis to FlubuCore build script.
+    var nugetPush = context.CreateTarget("Nuget.publish")
+        .SetDescription("Publishes nuget package.")
+        .DependsOn(pack)
+        .AddCoreTask(x => x.NugetPush($"{OutputDirectory}/NetCoreOpenSource.nupkg")
+            .ServerUrl("https://www.nuget.org/api/v2/package")
+             .ApiKey(NugetApiKey)
+        )
+        .When((c) => c.BuildSystems().RunningOn == BuildSystemType.TravisCI
+                     && !string.IsNullOrEmpty(branch)
+                     && branch.EndsWith("stable", StringComparison.OrdinalIgnoreCase));
+}
 ```
 
-- [内置大量常用任务](https://flubucore.dotnetcore.xyz/tasks/)，如运行测试、管理 ISS、创建部署包（deployment packages）、发布 NuGet 包、docker 任务、执行 PowerShell 脚本等。
+- [内置大量常用任务](https://flubucore.dotnetcore.xyz/tasks/)，如运行测试、versioning、管理 ISS、创建部署包（deployment packages）、发布 NuGet 包、docker 任务、 sql tasks, git tasks, 执行 PowerShell 脚本等。
 
 ```c#
 context.CreateTarget("build")
@@ -49,9 +70,12 @@ context.CreateTarget("run.tests")
 
 ```c#
 context.CreateTarget("MyCustomBuildTarget")
-     .AddTask(x => x.CompileSolutionTask())
-     .Do(MyCustomMethod)
-     .Do(NuGetPackageReferencingExample);
+         .AddTask(x => x.CompileSolutionTask())
+         .Do((c) =>
+         {
+             //// write your awesome code
+         })
+         .Do(NuGetPackageReferencingExample);
 ```
 
 - 当脚本与项目文件一起使用时[会自动加载程序集引用和 NuGet 包](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Referencing-other-assemblies-in-build-script)。当脚本单独执行（譬如在生产环境中使用 FlubuCore 脚本进行部署）时，可在特性（attributes）中添加引用（references）。
@@ -89,21 +113,24 @@ public class BuildScript : DefaultBuildScript
 ```c#
  public class SimpleScript : DefaultBuildScript
  {
+    [FromArg("c", "The configuration to use for building the project.")]
+    public string Configuration { get; set; } = "Release"
+  
     [FromArg("sn", "If true app is deployed on second node. Otherwise not.")]
     public bool deployOnSecondNode { get; set; }
-
-
-     protected override void ConfigureTargets(ITaskContext context)
-     {
-         context.CreateTarget("compile")
-            .AddTask(x => x.CompileSolutionTask()
-                .ForMember(y => y.SolutionFileName("someSolution.sln"), "solution", "The solution to build."));
-     }
- }
+ 
+    protected override void ConfigureTargets(ITaskContext context)
+    {
+         context.CreateTarget("build")
+            .AddCoreTask(x => x.Build()
+                .Configuration(Configuration)
+                .ForMember(x =>  x.Framework("net462"), "f", "The target framework to build for.")); 
+    }
+}
 ```
-
+ 
 ```
-  flubu.exe compile -solution=someOtherSolution.sln -sn=true
+  flubu build -c=Debug -f=netcoreapp2.0
 ```
 
 - [通过在 FlubuCore 插件中编写自己的任务来扩展 FlubuCore Fluent Api](https://flubucore.dotnetcore.xyz/write-plugins)。
