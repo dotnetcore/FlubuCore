@@ -47,8 +47,8 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             };
             req.ScriptArguments.Add("FileName", "test.txt");
             var response = await Client.ExecuteScriptAsync(req);
-            Assert.Equal(10, response.Logs.Count);
-            Assert.StartsWith("Executing action method \"FlubuCore.WebApi.Controllers.ScriptsController.Execute", response.Logs[0]);
+            Assert.Equal(9, response.Logs.Count);
+            ////Assert.StartsWith("Executing action method \"FlubuCore.WebApi.Controllers.ScriptsController.Execute", response.Logs[0]);
             Assert.Equal("SuccesfullTarget finished (took 0 seconds)", response.Logs[response.Logs.Count - 5]);
             Assert.True(File.Exists("test.txt"));
         }
@@ -207,8 +207,8 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             Assert.Equal(HttpStatusCode.InternalServerError, exception.StatusCode);
             Assert.Equal(ErrorCodes.InternalServerError, exception.ErrorCode);
             Assert.Equal("Error message", exception.ErrorMessage);
-            Assert.Equal(11, exception.Logs.Count);
-            Assert.StartsWith("Executing action method \"FlubuCore.WebApi.Controllers.ScriptsController.Execute", exception.Logs[0]);
+            Assert.Equal(10, exception.Logs.Count);
+            ////Assert.StartsWith("Executing action method \"FlubuCore.WebApi.Controllers.ScriptsController.Execute", exception.Logs[0]);
             Assert.StartsWith("Exception occured:", exception.Logs[exception.Logs.Count - 1]);
         }
 
