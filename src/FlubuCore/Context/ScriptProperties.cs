@@ -22,7 +22,7 @@ namespace FlubuCore.Context
             foreach (var property in props)
             {
                 InjectPropertiesFromScriptArg(buildScript, flubuSession, property);
-                InjectPropertiesFromTaskAttribue(buildScript, flubuSession, property);
+                InjectPropertiesFromTaskAttributes(buildScript, flubuSession, property);
             }
         }
 
@@ -137,10 +137,11 @@ namespace FlubuCore.Context
             return help;
         }
 
-        private static void InjectPropertiesFromTaskAttribue(IBuildScript buildScript, IFlubuSession flubuSession,  PropertyInfo property)
+        private static void InjectPropertiesFromTaskAttributes(IBuildScript buildScript, IFlubuSession flubuSession,  PropertyInfo property)
         {
             InjectPropertyFromFetchBuildVersionFomFileAttribute(flubuSession, buildScript, property);
             InjectPropertyFromGitVersionAttribute(flubuSession, buildScript, property);
+            InjectPropertyFromLoadSolutionAttribute(flubuSession, buildScript, property);
         }
 
         private static void InjectPropertiesFromScriptArg(IBuildScript buildScript, IFlubuSession flubuSession,  PropertyInfo property)
@@ -256,8 +257,7 @@ namespace FlubuCore.Context
             property.SetValue(buildScript, gitVersion);
         }
 
-        private static void InjectPropertyFromLoadSolutionAttribute(IFlubuSession flubuSession,
-            IBuildScript buildScript, PropertyInfo property)
+        private static void InjectPropertyFromLoadSolutionAttribute(IFlubuSession flubuSession, IBuildScript buildScript, PropertyInfo property)
         {
             var loadSolutionAttribute = property.GetCustomAttribute<LoadSolutionAttribute>();
 
@@ -271,8 +271,7 @@ namespace FlubuCore.Context
                 throw new ScriptException($"Failed to fetch Solution information. Property '{property.Name}' must be of type '{nameof(VSSolution)}'");
             }
 
-            VSSolution vsSolution;
-            vsSolution = !string.IsNullOrEmpty(loadSolutionAttribute.SolutionName)
+            var vsSolution = !string.IsNullOrEmpty(loadSolutionAttribute.SolutionName)
                 ? flubuSession.Tasks().LoadSolutionTask(loadSolutionAttribute.SolutionName)
                     .Execute(flubuSession)
                 : flubuSession.Tasks().LoadSolutionTask()
