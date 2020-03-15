@@ -67,13 +67,16 @@ context.CreateTarget("run.tests")
 * [Execute your own custom C# code.](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Custom-code)
 
 ```c#
-context.CreateTarget("MyCustomBuildTarget")
-         .AddTask(x => x.CompileSolutionTask())
-         .Do((c) =>
-         {
-             //// write your awesome code
-         })
-         .Do(NuGetPackageReferencingExample);
+context.CreateTarget("DoExample")
+        .Do((c) =>
+        {
+            //// write your awesome code.
+            File.Copy("NotSoAwesome.txt", Path.Combine(OutputDirectory, "JustAnExample.txt") );
+            //// Access flubu built in tasks in DO if needed.
+            c.Tasks().GenerateT4Template("example.TT").Execute(c);                
+        })
+        .AddTask(x => x.CompileSolutionTask())
+        .Do(NuGetPackageReferencingExample);
 ```
 
 * [assembly references and nuget packages are loaded automatically](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Referencing-other-assemblies-in-build-script) when script is used together with project file. When script is executed alone (for example when deploying with FlubuCore script on production environment) references can be added with attributes.

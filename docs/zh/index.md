@@ -69,13 +69,16 @@ context.CreateTarget("run.tests")
 - [执行自义定代码](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Custom-code)。
 
 ```c#
-context.CreateTarget("MyCustomBuildTarget")
-         .AddTask(x => x.CompileSolutionTask())
-         .Do((c) =>
-         {
-             //// write your awesome code
-         })
-         .Do(NuGetPackageReferencingExample);
+context.CreateTarget("DoExample")
+        .Do((c) =>
+        {
+            //// write your awesome code.
+            File.Copy("NotSoAwesome.txt", Path.Combine(OutputDirectory, "JustAnExample.txt") );
+            //// Access flubu built in tasks in DO if needed.
+            c.Tasks().GenerateT4Template("example.TT").Execute(c);                
+        })
+        .AddTask(x => x.CompileSolutionTask())
+        .Do(NuGetPackageReferencingExample);
 ```
 
 - 当脚本与项目文件一起使用时[会自动加载程序集引用和 NuGet 包](https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Referencing-other-assemblies-in-build-script)。当脚本单独执行（譬如在生产环境中使用 FlubuCore 脚本进行部署）时，可在特性（attributes）中添加引用（references）。

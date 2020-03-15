@@ -81,12 +81,15 @@ context.CreateTarget("run.tests")
 - [执行自义定代码](https://flubucore-zh.dotnetcore.xyz/buildscript-fundamentals#Custom-code)。
 
 ```cs
-context.CreateTarget("MyCustomBuildTarget")
-        .AddTask(x => x.CompileSolutionTask())
+context.CreateTarget("DoExample")
         .Do((c) =>
         {
-            //// write your awesome code
+            //// write your awesome code.
+            File.Copy("NotSoAwesome.txt", Path.Combine(OutputDirectory, "JustAnExample.txt") );
+            //// Access flubu built in tasks in DO if needed.
+            c.Tasks().GenerateT4Template("example.TT").Execute(c);                
         })
+        .AddTask(x => x.CompileSolutionTask())
         .Do(NuGetPackageReferencingExample);
 ```
 
