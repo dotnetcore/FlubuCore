@@ -97,19 +97,25 @@
 <ul>
 <li><a href="https://flubucore.dotnetcore.xyz/buildscript-fundamentals#Custom-code">Execute your own custom C# code.</a></li>
 </ul>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3
-4
-5
-6
-7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="s">&quot;MyCustomBuildTarget&quot;</span><span class="p">)</span>
-         <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">CompileSolutionTask</span><span class="p">())</span>
-         <span class="p">.</span><span class="n">Do</span><span class="p">((</span><span class="n">c</span><span class="p">)</span> <span class="p">=&gt;</span>
-         <span class="p">{</span>
-             <span class="c1">//// write your awesome code</span>
-         <span class="p">})</span>
-         <span class="p">.</span><span class="n">Do</span><span class="p">(</span><span class="n">NuGetPackageReferencingExample</span><span class="p">);</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">context</span><span class="p">.</span><span class="n">CreateTarget</span><span class="p">(</span><span class="s">&quot;DoExample&quot;</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">Do</span><span class="p">((</span><span class="n">c</span><span class="p">)</span> <span class="p">=&gt;</span>
+        <span class="p">{</span>
+            <span class="c1">//// write your awesome code.</span>
+            <span class="n">File</span><span class="p">.</span><span class="n">Copy</span><span class="p">(</span><span class="s">&quot;NotSoAwesome.txt&quot;</span><span class="p">,</span> <span class="n">Path</span><span class="p">.</span><span class="n">Combine</span><span class="p">(</span><span class="n">OutputDirectory</span><span class="p">,</span> <span class="s">&quot;JustAnExample.txt&quot;</span><span class="p">)</span> <span class="p">);</span>
+            <span class="c1">//// Access flubu built in tasks in DO if needed.</span>
+            <span class="n">c</span><span class="p">.</span><span class="n">Tasks</span><span class="p">().</span><span class="n">GenerateT4Template</span><span class="p">(</span><span class="s">&quot;example.TT&quot;</span><span class="p">).</span><span class="n">Execute</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>                
+        <span class="p">})</span>
+        <span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">CompileSolutionTask</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">Do</span><span class="p">(</span><span class="n">NuGetPackageReferencingExample</span><span class="p">);</span>
 </pre></div>
 </td></tr></table>
 
