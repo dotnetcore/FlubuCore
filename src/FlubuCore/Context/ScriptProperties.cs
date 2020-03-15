@@ -7,6 +7,7 @@ using System.Text;
 using FlubuCore.Infrastructure.Terminal;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks.Attributes;
+using FlubuCore.Tasks.Solution.VSSolutionBrowsing;
 using FlubuCore.Tasks.Versioning;
 
 namespace FlubuCore.Context
@@ -253,6 +254,31 @@ namespace FlubuCore.Context
             }
 
             property.SetValue(buildScript, gitVersion);
+        }
+
+        private static void InjectPropertyFromLoadSolutionAttribute(IFlubuSession flubuSession,
+            IBuildScript buildScript, PropertyInfo property)
+        {
+            var loadSolutionAttribute = property.GetCustomAttribute<LoadSolutionAttribute>();
+
+            if (loadSolutionAttribute == null)
+            {
+                return;
+            }
+
+            if (property.PropertyType != typeof(VSSolution))
+            {
+                throw new ScriptException($"Failed to fetch Solution information. Property '{property.Name}' must be of type '{nameof(VSSolution)}'");
+            }
+
+            VSSolution vsSolution;
+            vsSolution = !string.IsNullOrEmpty(loadSolutionAttribute.SolutionName)
+                ? flubuSession.Tasks().LoadSolutionTask(loadSolutionAttribute.SolutionName)
+                    .Execute(flubuSession)
+                : flubuSession.Tasks().LoadSolutionTask()
+                    .Execute(flubuSession);
+
+            property.SetValue(buildScript, vsSolution);
         }
 
         private static void SetPropertyValue(PropertyInfo propertyInfo, IBuildScript buildScript, string value, Type type, string argKey)
