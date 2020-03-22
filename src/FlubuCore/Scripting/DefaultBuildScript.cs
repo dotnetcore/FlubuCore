@@ -135,7 +135,9 @@ namespace FlubuCore.Scripting
 
         protected abstract void ConfigureTargets(ITaskContext context);
 
-        protected abstract void ConfigureBuildProperties(IBuildPropertiesContext context);
+        protected virtual void ConfigureBuildProperties(IBuildPropertiesContext context)
+        {
+        }
 
         public static (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) ParseCmdLineArgs(List<string> mainCommands, TargetTree targetTree)
         {
@@ -293,11 +295,6 @@ namespace FlubuCore.Scripting
             flubuSession.SetNpmPath(IOExtensions.GetNpmPath());
             flubuSession.SetBuildDir("build");
             flubuSession.SetOutputDir("output");
-
-            if (isWindows)
-            {
-                // do windows specific tasks
-            }
         }
 
         private void ConfigureDefaultTargets(IFlubuSession flubuSession)
