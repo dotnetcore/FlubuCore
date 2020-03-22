@@ -16,5 +16,8 @@ namespace FlubuCore.Scripting
         ILoggerFactory LoggerFactory { get; }
 
         IFlubuSession CreateTaskSession(BuildScriptArguments commandArguments);
+
+        int RunScript<T>(string[] args)
+            where T : IBuildScript, new();
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using DotNet.Cli.Flubu.Commanding;
 using FlubuCore.Commanding;
 using FlubuCore.Scripting;
 using FlubuCore.Scripting.Analysis;

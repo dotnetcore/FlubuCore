@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace DotNet.Cli.Flubu.Commanding
+namespace FlubuCore.Commanding
 {
     public interface IFlubuConfigurationProvider
     {

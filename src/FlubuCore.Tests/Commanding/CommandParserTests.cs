@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using DotNet.Cli.Flubu.Commanding;
 using FlubuCore.Commanding;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;

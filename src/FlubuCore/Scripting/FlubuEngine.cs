@@ -1,11 +1,16 @@
 ﻿using System;
+using FlubuCore.Commanding;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.Infrastructure;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
+using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Logging.Console;
 
 namespace FlubuCore.Scripting
 {
@@ -18,12 +23,22 @@ namespace FlubuCore.Scripting
 #endif
 #if !NETSTANDARD1_6
             LoggerFactory = new LoggerFactory();
+            LoggerFactory.AddProvider(new FlubuLoggerProvider());
+            var loggers = ServiceDescriptor.Singleton(typeof(ILogger<>), typeof(Logger<>));
+            var app = new CommandLineApplication(false);
             CommandArguments arguments = new CommandArguments();
-            ServiceProvider = new ServiceCollection()
+            var serviceCollection = new ServiceCollection()
                 .AddCoreComponents()
                 .AddTasks()
-                .AddSingleton(arguments)
-                .BuildServiceProvider();
+                .AddSingleton(app)
+                .AddSingleton(LoggerFactory)
+                .AddSingleton<IBuildScriptLocator, BuildScriptLocator>()
+                .AddSingleton<IFlubuConfigurationProvider, FlubuConfigurationProvider>()
+                .AddSingleton<IFlubuCommandParser, FlubuCommandParser>()
+                .AddSingleton(arguments);
+
+            serviceCollection.TryAdd(loggers);
+            ServiceProvider = serviceCollection.BuildServiceProvider();
 
             TaskFactory = new DotnetTaskFactory(ServiceProvider);
 #endif
@@ -36,7 +51,7 @@ namespace FlubuCore.Scripting
 #endif
 #if !NETSTANDARD1_6
             LoggerFactory = loggerFactory == null ? new LoggerFactory() : loggerFactory;
-
+            LoggerFactory.AddProvider(new FlubuLoggerProvider());
             ServiceProvider = serviceCollection.AddCoreComponents()
                 .AddTasks()
                 .BuildServiceProvider();
@@ -71,6 +86,17 @@ namespace FlubuCore.Scripting
                 new FluentInterfaceFactory(ServiceProvider),
                 ServiceProvider.GetService<IBuildPropertiesSession>(),
                 ServiceProvider.GetService<IBuildSystem>());
+        }
+
+        public int RunScript<T>(string[] args)
+            where T : IBuildScript, new()
+        {
+            var parser = ServiceProvider.GetService<IFlubuCommandParser>();
+            var cmdArgs = parser.Parse(args);
+            var taskSession = CreateTaskSession(cmdArgs);
+            taskSession.ScriptArgs = cmdArgs.ScriptArguments;
+            var script = new T();
+            return script.Run(taskSession);
         }
     }
 }

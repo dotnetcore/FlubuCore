@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using DotNet.Cli.Flubu.Commanding;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using McMaster.Extensions.CommandLineUtils;

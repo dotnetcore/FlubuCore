@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using FlubuCore;
-using FlubuCore.Commanding;
-using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 
-namespace DotNet.Cli.Flubu.Commanding
+namespace FlubuCore.Commanding
 {
     public class FlubuConfigurationProvider : IFlubuConfigurationProvider
     {

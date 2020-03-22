@@ -1,5 +1,4 @@
-﻿using DotNet.Cli.Flubu.Commanding;
-using FlubuCore.Commanding;
+﻿using FlubuCore.Commanding;
 using Xunit;
 
 namespace FlubuCore.Tests.Commanding

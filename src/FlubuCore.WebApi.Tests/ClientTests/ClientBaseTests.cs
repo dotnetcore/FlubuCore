@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.Context;
 using FlubuCore.WebApi.Client;
 using LiteDB;
 using Microsoft.AspNetCore.TestHost;

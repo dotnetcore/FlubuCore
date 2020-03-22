@@ -1,8 +1,7 @@
 ﻿using System.Collections.Concurrent;
-using FlubuCore.Infrastructure;
 using Microsoft.Extensions.Logging;
 
-namespace DotNet.Cli.Flubu.Infrastructure
+namespace FlubuCore.Infrastructure
 {
     public class FlubuLoggerProvider : ILoggerProvider
     {
