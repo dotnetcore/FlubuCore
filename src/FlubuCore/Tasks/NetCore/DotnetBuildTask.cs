@@ -82,6 +82,18 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
+        /// The output directory to place built artifacts in.
+        /// </summary>
+        /// <param name="output"></param>
+        /// <returns></returns>
+        [ArgKey("--output", "-o")]
+        public DotnetBuildTask Output(string output)
+        {
+            WithArgumentsKeyFromAttribute(output);
+            return this;
+        }
+
+        /// <summary>
         ///  Disables incremental build.
         /// </summary>
         /// <returns></returns>
