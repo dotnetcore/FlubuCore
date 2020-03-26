@@ -115,6 +115,34 @@ namespace FlubuCore.Targeting
             return this;
         }
 
+        public ITargetInternal DependenceOf(params string[] targetNames)
+        {
+            if (targetNames != null)
+            {
+                foreach (var targetName in targetNames)
+                {
+                    var target = _targetTree.GetTarget(targetName);
+                    target.DependsOn(TargetName);
+                }
+            }
+
+            return this;
+        }
+
+        public ITargetInternal DependenceOfAsync(params string[] targetNames)
+        {
+            if (targetNames != null)
+            {
+                foreach (var targetName in targetNames)
+                {
+                    var target = _targetTree.GetTarget(targetName);
+                    target.DependsOnAsync(TargetName);
+                }
+            }
+
+            return this;
+        }
+
         public ITargetInternal DoAsync(Action<ITaskContextInternal> targetAction, Action<DoTask> taskAction = null, TaskGroup taskGroup = null)
         {
             var task = new DoTask(targetAction);
@@ -312,6 +340,26 @@ namespace FlubuCore.Targeting
             foreach (ITargetInternal target in targets)
             {
                 _dependencies.Add(target.TargetName, TaskExecutionMode.Async);
+            }
+
+            return this;
+        }
+
+        public ITargetInternal DependenceOf(params ITargetInternal[] targets)
+        {
+            foreach (var target in targets)
+            {
+                target.DependsOn(TargetName);
+            }
+
+            return this;
+        }
+
+        public ITargetInternal DependenceOfAsync(params ITargetInternal[] targets)
+        {
+            foreach (var target in targets)
+            {
+                target.DependsOnAsync(TargetName);
             }
 
             return this;

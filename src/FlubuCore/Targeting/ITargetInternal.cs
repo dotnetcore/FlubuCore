@@ -63,6 +63,14 @@ namespace FlubuCore.Targeting
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
         ITargetInternal DependsOnAsync(params ITargetInternal[] targets);
 
+        ITargetInternal DependenceOf(params string[] targetNames);
+
+        ITargetInternal DependenceOfAsync(params string[] targetNames);
+
+        ITargetInternal DependenceOf(params ITargetInternal[] targets);
+
+        ITargetInternal DependenceOfAsync(params ITargetInternal[] targets);
+
         /// <summary>
         /// Execute custom code in script.
         /// </summary>
