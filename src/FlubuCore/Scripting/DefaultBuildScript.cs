@@ -12,6 +12,7 @@ using FlubuCore.Targeting;
 using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.NetCore;
 using FlubuCore.WebApi.Client;
+using Microsoft.Build.Framework;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -30,15 +31,15 @@ namespace FlubuCore.Scripting
         /// </summary>
         protected FullPath RootDirectory => new FullPath(_flubuSession.Properties.GetProductRootDir());
 
-        /// <summary>
-        /// Get's output directory.
-        /// </summary>
+        [Obsolete("Define your own 'OutputDirectory' in build script.", true)]
         protected FullPath OutputDirectory
         {
             get
             {
                 var outputDir = _flubuSession.Properties.GetOutputDir();
-                return Path.IsPathRooted(outputDir) ? new FullPath(outputDir) : RootDirectory.CombineWith(new LocalPath(outputDir));
+                return Path.IsPathRooted(outputDir)
+                    ? new FullPath(outputDir)
+                    : RootDirectory.CombineWith(new LocalPath(outputDir));
             }
         }
 
