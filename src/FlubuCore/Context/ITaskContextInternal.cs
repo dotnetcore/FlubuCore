@@ -13,8 +13,6 @@ namespace FlubuCore.Context
 
         CommandArguments Args { get; }
 
-        string FlubuHelpText { get; set; }
-
         void Fail(string message, int errorCode);
 
         void DecreaseDepth();

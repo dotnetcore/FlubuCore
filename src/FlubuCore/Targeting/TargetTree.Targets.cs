@@ -21,9 +21,9 @@ namespace FlubuCore.Targeting
         /// <param name="context">The task context.</param>
         public virtual void LogTargetsWithHelp(ITaskContextInternal context)
         {
-            if (context != null && !string.IsNullOrEmpty(context.FlubuHelpText))
+            if (context != null && !string.IsNullOrEmpty(context.Args.FlubuHelpText))
             {
-                context.LogInfo(context.FlubuHelpText);
+                context.LogInfo(context.Args.FlubuHelpText);
             }
 
             LogTargetsHelp(context);

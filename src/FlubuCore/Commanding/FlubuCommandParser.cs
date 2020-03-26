@@ -104,6 +104,7 @@ namespace FlubuCore.Commanding
 
             _commandApp.Execute(args);
 
+            _parsed.FlubuHelpText = _commandApp.GetHelpText();
             return _parsed;
         }
 

@@ -38,7 +38,6 @@ namespace DotNet.Cli.Flubu
 
             ICommandExecutor executor = _provider.GetRequiredService<ICommandExecutor>();
 
-            executor.FlubuHelpText = cmdApp.GetHelpText();
             Console.CancelKeyPress += OnCancelKeyPress;
             var result = await executor.ExecuteAsync();
 

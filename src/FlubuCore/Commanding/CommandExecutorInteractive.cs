@@ -58,8 +58,6 @@ namespace FlubuCore.Commanding
             _log = log;
         }
 
-        public string FlubuHelpText { get; set; }
-
         public virtual async Task<int> ExecuteAsync()
         {
             if (_args.DisableColoredLogging)
@@ -110,7 +108,6 @@ namespace FlubuCore.Commanding
                     _flubuSession.InteractiveMode = _args.InteractiveMode;
                     _flubuSession.InteractiveArgs = _args;
                     _flubuSession.TargetTree.BuildScript = script;
-                    _flubuSession.FlubuHelpText = FlubuHelpText;
                     _flubuSession.Properties.Set(BuildProps.IsWebApi, _args.IsWebApi);
                     _flubuSession.TargetTree.ResetTargetTree();
 

@@ -50,6 +50,8 @@ namespace FlubuCore.Scripting
         /// </summary>
         public List<string> AssemblyDirectories { get; set; } = new List<string>();
 
+        public string FlubuHelpText { get; set; }
+
         public bool IsFlubuSetup()
         {
             if (MainCommands == null)
