@@ -120,12 +120,12 @@ namespace FlubuCore.Scripting
 
             if (type == null)
             {
-                throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
+                throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://flubucore.dotnetcore.xyz/getting-started/");
             }
 
             var obj = Activator.CreateInstance(type.AsType());
 
-            var buildScript = obj as IBuildScript ?? throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://github.com/flubu-core/flubu.core/wiki");
+            var buildScript = obj as IBuildScript ?? throw new ScriptLoaderExcetpion($"Class in file: {fileName} must inherit from DefaultBuildScript or implement IBuildScipt interface. See getting started on https://flubucore.dotnetcore.xyz/getting-started/");
             return buildScript;
         }
 
@@ -225,14 +225,14 @@ namespace FlubuCore.Scripting
                             {
                                 case "CS0012":
                                 {
-                                    errorMsg = $"{errorMsg} If your script doesn't have compilation errors in VS or VSCode script is probably missing some assembly reference. To resolve this issue you should see build script fundamentals, section 'Referencing other assemblies in build script': https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script for more details.";
+                                    errorMsg = $"{errorMsg} If your script doesn't have compilation errors in VS or VSCode script is probably missing some assembly reference. To resolve this issue you should see build script fundamentals, section 'Referencing other assemblies in build script': https://flubucore.dotnetcore.xyz/referencing-external-assemblies/ more details.";
                                     errorMsgDefined = true;
                                     break;
                                 }
 
                                 case "CS0246":
                                 {
-                                    errorMsg = $"{errorMsg} If your script doesn't have compilation errors in VS or VSCode script is probably missing some assembly reference or script doesn't include .cs file. To resolve this issue you should see build script fundamentals, section 'Referencing other assemblies in build script' and section 'Adding other .cs files to script' for more details: {Environment.NewLine} https://github.com/flubu-core/flubu.core/wiki/2-Build-script-fundamentals#Referencing-other-assemblies-in-build-script {Environment.NewLine} https://github.com/flubu-core/flubu.core/wiki/2-Build-Script-Fundamentals#Adding-other-cs-files-to-build-script";
+                                    errorMsg = $"{errorMsg} If your script doesn't have compilation errors in VS or VSCode script is probably missing some assembly reference or script doesn't include .cs file. To resolve this issue you should see build script fundamentals, section 'Referencing other assemblies in build script' and section 'Adding other .cs files to script' for more details: {Environment.NewLine} https://flubucore.dotnetcore.xyz/referencing-external-assemblies/ {Environment.NewLine} https://flubucore.dotnetcore.xyz/referencing-external-assemblies/#adding-other-cs-files-to-script";
                                     errorMsgDefined = true;
                                     break;
                                 }
@@ -240,7 +240,7 @@ namespace FlubuCore.Scripting
                                 case "CS0103":
                                 {
                                     errorMsgDefined = true;
-                                    errorMsg = $"{errorMsg} If your script doesn't have compilation errors in VS or VSCode script probably doesn't include .cs file. To resolve this issue you should see build script fundamentals section 'Adding other .cs files to script' for more details: https://github.com/flubu-core/flubu.core/wiki/2-Build-Script-Fundamentals#Adding-other-cs-files-to-build-script";
+                                    errorMsg = $"{errorMsg} If your script doesn't have compilation errors in VS or VSCode script probably doesn't include .cs file. To resolve this issue you should see build script fundamentals section 'Adding other .cs files to script' for more details: https://flubucore.dotnetcore.xyz/referencing-external-assemblies/#adding-other-cs-files-to-script";
                                     break;
                                 }
                             }
