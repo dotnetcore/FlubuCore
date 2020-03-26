@@ -91,7 +91,7 @@ namespace FlubuCore.Commanding
             _noInteractive = _commandApp.Option("--noint", $"Disables interactive mode for all task members. Default values are used instead. {Environment.NewLine}", CommandOptionType.NoValue);
             _noColor = _commandApp.Option("--noColor", "Disables colored logging", CommandOptionType.NoValue);
 
-            _commandApp.ExtendedHelpText = $"  <Target> help                                   Shows detailed help for specified target.";
+            _commandApp.ExtendedHelpText = $"  <Target> help                                 Shows detailed help for specified target.";
 
             _commandApp.OnExecute(() => PrepareDefaultArguments());
 
