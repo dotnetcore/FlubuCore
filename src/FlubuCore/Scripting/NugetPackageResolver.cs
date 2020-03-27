@@ -337,7 +337,8 @@ namespace FlubuCore.Scripting
         {
             try
             {
-                ICommand command = _commandFactory.Create("dotnet", new List<string>() { "restore", csprojLocation });
+                var dotnetExecutable = ExecuteDotnetTask.FindDotnetExecutable();
+                ICommand command = _commandFactory.Create(dotnetExecutable, new List<string>() { "restore", csprojLocation });
                 command.CaptureStdErr().WorkingDirectory(Directory.GetCurrentDirectory()).Execute();
                 _packagesRestored = true;
             }
