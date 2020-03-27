@@ -245,8 +245,6 @@ namespace FlubuCore.Context
 
             var task = flubuSession.Tasks().GitVersionTask();
 
-            gitVersionAttr.Options?.Invoke(task);
-
             var gitVersion = task.Execute(flubuSession);
 
             if (property.PropertyType != typeof(GitVersion))

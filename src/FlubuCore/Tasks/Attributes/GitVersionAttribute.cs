@@ -11,11 +11,8 @@ namespace FlubuCore.Tasks.Attributes
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class GitVersionAttribute : Attribute
     {
-        public GitVersionAttribute(Action<GitVersionTask> options = null)
+        public GitVersionAttribute()
         {
-            Options = options;
         }
-
-        public Action<GitVersionTask> Options { get; }
     }
 }
