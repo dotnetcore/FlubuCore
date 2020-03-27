@@ -214,7 +214,7 @@ namespace FlubuCore.Context
                 return;
             }
 
-            var buildVersion = flubuSession.Tasks().FetchBuildVersionFromFileTask()
+            var task = flubuSession.Tasks().FetchBuildVersionFromFileTask().NoLog()
                 .When(() => fetchBuildVersion.AllowSuffix, t => t.AllowSuffix())
                 .When(() => !string.IsNullOrEmpty(fetchBuildVersion.ProjectVersionFileName),
                     t => t.ProjectVersionFileName(fetchBuildVersion.ProjectVersionFileName))
@@ -224,7 +224,11 @@ namespace FlubuCore.Context
                     {
                         t.RemovePrefix(prefixToRemove);
                     }
-                }).Execute(flubuSession);
+                });
+
+            task.LogTaskExecutionInfo = false;
+
+            var buildVersion = task.Execute(flubuSession);
 
             if (property.PropertyType != typeof(BuildVersion))
             {
@@ -243,7 +247,8 @@ namespace FlubuCore.Context
                 return;
             }
 
-            var task = flubuSession.Tasks().GitVersionTask();
+            var task = flubuSession.Tasks().GitVersionTask().NoLog();
+            task.LogTaskExecutionInfo = false;
 
             var gitVersion = task.Execute(flubuSession);
 
