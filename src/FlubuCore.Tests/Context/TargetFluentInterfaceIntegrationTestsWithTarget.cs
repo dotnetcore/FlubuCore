@@ -12,27 +12,32 @@ using Xunit;
 
 namespace FlubuCore.Tests.Context
 {
-     public class TargetFluentInterfaceIntegrationTestsWithTarget
+    public class TargetFluentInterfaceIntegrationTestsWithTarget
     {
         private readonly TargetFluentInterface _fluent;
         private readonly TaskContextInternal _context;
         private readonly Mock<ITaskFactory> _taskFactory;
         private readonly Target _target;
+        private readonly TargetTree _targetTree;
 
         public TargetFluentInterfaceIntegrationTestsWithTarget()
         {
             _taskFactory = new Mock<ITaskFactory>();
-            _context = new TaskContextInternal(null, null, null, new TargetTree(null, null), null, _taskFactory.Object, null);
+            _targetTree = new TargetTree(null, null);
+            _context = new TaskContextInternal(null, null, null, _targetTree, null, _taskFactory.Object,
+                null);
             _target = new Target(new TargetTree(null, null), "TestTarget", null);
 
             _fluent = new TargetFluentInterface();
-
+            _targetTree.AddTarget(_target);
             _fluent.Target = _target;
             _fluent.Context = _context;
-            var coreTaskFluentInterface = new CoreTaskFluentInterface(new LinuxTaskFluentInterface(), new ToolsFluentInterface());
+            var coreTaskFluentInterface =
+                new CoreTaskFluentInterface(new LinuxTaskFluentInterface(), new ToolsFluentInterface());
             coreTaskFluentInterface.Context = _context;
             _fluent.CoreTaskFluent = coreTaskFluentInterface;
-            var taskFluentInterface = new TaskFluentInterface(new IisTaskFluentInterface(), new WebApiFluentInterface(), new GitFluentInterface(), new DockerFluentInterface(),  new HttpClientFactory());
+            var taskFluentInterface = new TaskFluentInterface(new IisTaskFluentInterface(), new WebApiFluentInterface(),
+                new GitFluentInterface(), new DockerFluentInterface(), new HttpClientFactory());
             taskFluentInterface.Context = _context;
             _fluent.TaskFluent = taskFluentInterface;
         }
@@ -213,9 +218,65 @@ namespace FlubuCore.Tests.Context
                 target.Do(x => { });
             });
 
-             Assert.Equal(8, _target.TasksGroups.Count);
+            Assert.Equal(8, _target.TasksGroups.Count);
             Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);
             Assert.Equal(1, _target.TasksGroups[1].Tasks.Count);
+        }
+
+        [Fact]
+        public void DepencdeOff_AddWithstring()
+        {
+            var t2 = new Target(_targetTree, "Target2", null);
+
+            var fluent2 = new TargetFluentInterface();
+            fluent2.Target = t2;
+            fluent2.Context = _context;
+
+            fluent2.DependenceOf("TestTarget");
+
+            Assert.True(_target.Dependencies.ContainsKey("Target2"));
+        }
+
+        [Fact]
+        public void DepencdeOff_AddWithTarget()
+        {
+            var t2 = new Target(_targetTree, "Target2", null);
+
+            var fluent2 = new TargetFluentInterface();
+            fluent2.Target = t2;
+            fluent2.Context = _context;
+
+            fluent2.DependenceOf(_fluent);
+
+            Assert.True(_target.Dependencies.ContainsKey("Target2"));
+        }
+
+        [Fact]
+        public void DepencdeOffAsync_AddWithstring()
+        {
+            var t2 = new Target(_targetTree, "Target2", null);
+
+            var fluent2 = new TargetFluentInterface();
+            fluent2.Target = t2;
+            fluent2.Context = _context;
+
+            fluent2.DependenceOfAsync("TestTarget");
+
+            Assert.True(_target.Dependencies.ContainsKey("Target2"));
+        }
+
+        [Fact]
+        public void DepencdeOffAsync_AddWithTarget()
+        {
+            var t2 = new Target(_targetTree, "Target2", null);
+
+            var fluent2 = new TargetFluentInterface();
+            fluent2.Target = t2;
+            fluent2.Context = _context;
+
+            fluent2.DependenceOfAsync(_fluent);
+
+            Assert.True(_target.Dependencies.ContainsKey("Target2"));
         }
     }
 }
