@@ -82,6 +82,18 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
+        /// Configuration to use for building the project. Default for most projects is  "Debug".
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        [ArgKey("--configuration", "-c")]
+        public DotnetBuildTask Configuration(Configuration configuration)
+        {
+            WithArgumentsKeyFromAttribute(configuration.ToString());
+            return this;
+        }
+
+        /// <summary>
         /// The output directory to place built artifacts in.
         /// </summary>
         /// <param name="output"></param>

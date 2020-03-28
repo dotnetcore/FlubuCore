@@ -74,6 +74,18 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
+        /// Clean a specific configuration.
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        [ArgKey("--configuration", "-c")]
+        public DotnetCleanTask Configuration(Configuration configuration)
+        {
+            WithArgumentsKeyFromAttribute(configuration.ToString());
+            return this;
+        }
+
+        /// <summary>
         /// Set the verbosity level of the command.
         /// </summary>
         /// <param name="verbosity"></param>

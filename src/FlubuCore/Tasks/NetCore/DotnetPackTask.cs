@@ -80,6 +80,18 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
+        /// Configuration to use for building the project. Default for most projects is  "Debug".
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        [ArgKey("--configuration", "-c")]
+        public DotnetPackTask Configuration(Configuration configuration)
+        {
+            WithArgumentsKeyFromAttribute(configuration.ToString());
+            return this;
+        }
+
+        /// <summary>
         /// Include packages with symbols in addition to regular packages in output directory.
         /// </summary>
         /// <returns></returns>

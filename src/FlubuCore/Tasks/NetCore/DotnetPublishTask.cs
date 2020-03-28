@@ -91,6 +91,18 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
+        /// Configuration to use for building the project. Default for most projects is  "Debug".
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        [ArgKey("--configuration", "-c")]
+        public DotnetPublishTask Configuration(Configuration configuration)
+        {
+            WithArgumentsKeyFromAttribute(configuration.ToString());
+            return this;
+        }
+
+        /// <summary>
         /// Set the --version-suffix. Set the value of the $(VersionSuffix) property to use when building the project.
         /// </summary>
         /// <param name="suffix">version suffix e.g. -alpha</param>

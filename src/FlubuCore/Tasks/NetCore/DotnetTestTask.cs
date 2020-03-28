@@ -121,6 +121,18 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
+        /// Configuration to use for building the project. Default for most projects is  "Debug".
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        [ArgKey("--configuration", "-c")]
+        public DotnetTestTask Configuration(Configuration configuration)
+        {
+            WithArgumentsKeyFromAttribute(configuration);
+            return this;
+        }
+
+        /// <summary>
         /// Enable verbose logs for test platform. Logs are written to the provided file.
         /// </summary>
         /// <param name="pathToFile"></param>
