@@ -69,7 +69,7 @@ namespace FlubuCore.Scripting
         public async Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(CommandArguments args)
         {
             string buildScriptFilePath = _buildScriptLocator.FindBuildScript(args);
-            var buildScriptAssemblyPath = Path.Combine("bin", Path.GetFileName(buildScriptFilePath));
+            var buildScriptAssemblyPath = Path.Combine(Path.GetDirectoryName(buildScriptFilePath), "bin", Path.GetFileName(buildScriptFilePath));
             buildScriptAssemblyPath = Path.ChangeExtension(buildScriptAssemblyPath, "dll");
 
             List<string> code = _file.ReadAllLines(buildScriptFilePath);
