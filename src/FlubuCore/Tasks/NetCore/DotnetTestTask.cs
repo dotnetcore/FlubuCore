@@ -128,7 +128,7 @@ namespace FlubuCore.Tasks.NetCore
         [ArgKey("--configuration", "-c")]
         public DotnetTestTask Configuration(Configuration configuration)
         {
-            WithArgumentsKeyFromAttribute(configuration);
+            WithArgumentsKeyFromAttribute(configuration.ToString());
             return this;
         }
 

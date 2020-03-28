@@ -67,6 +67,18 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
+        /// Target runtime to publish for. The default is to build a portable application.
+        /// </summary>
+        /// <param name="runtime"></param>
+        /// <returns></returns>
+        [ArgKey("--runtime", "-r")]
+        public DotnetPublishTask AddRuntime(Runtime runtime)
+        {
+            WithArgumentsKeyFromAttribute(runtime.ToString());
+            return this;
+        }
+
+        /// <summary>
         /// Output directory in which to place the published artifacts.
         /// </summary>
         /// <param name="directory"></param>

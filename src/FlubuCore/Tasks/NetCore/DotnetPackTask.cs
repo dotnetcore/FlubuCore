@@ -56,6 +56,18 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
+        /// The target runtime to restore packages for.
+        /// </summary>
+        /// <param name="runtime"></param>
+        /// <returns></returns>
+        [ArgKey("--runtime")]
+        public DotnetPackTask Runtime(Runtime runtime)
+        {
+            WithArgumentsKeyFromAttribute(runtime.ToString());
+            return this;
+        }
+
+        /// <summary>
         /// Directory in which to place built packages.
         /// </summary>
         /// <param name="directory"></param>

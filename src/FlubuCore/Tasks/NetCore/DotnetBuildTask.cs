@@ -70,6 +70,18 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
+        /// Target runtime to build for. The default is to build a portable application.
+        /// </summary>
+        /// <param name="runtime"></param>
+        /// <returns></returns>
+        [ArgKey("--runtime", "-r")]
+        public DotnetBuildTask AddRuntime(Runtime runtime)
+        {
+            WithArgumentsKeyFromAttribute(runtime.ToString());
+            return this;
+        }
+
+        /// <summary>
         /// Configuration to use for building the project. Default for most projects is  "Debug".
         /// </summary>
         /// <param name="configuration"></param>
