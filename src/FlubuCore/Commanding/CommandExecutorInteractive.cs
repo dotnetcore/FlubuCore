@@ -353,6 +353,8 @@ namespace FlubuCore.Commanding
 
             if (script is DefaultBuildScript defaultBuildScript)
             {
+                defaultBuildScript.ConfigureDefaultProps(flubuSession);
+                defaultBuildScript.ConfigureBuildPropertiesInternal(flubuSession);
                 defaultBuildScript.ConfigureTargetsInternal(flubuSession);
             }
 

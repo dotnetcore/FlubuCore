@@ -129,11 +129,6 @@ namespace FlubuCore.Scripting
         {
         }
 
-        internal void ConfigureTargetsInternal(ITaskContext context)
-        {
-            ConfigureTargets(context);
-        }
-
         protected abstract void ConfigureTargets(ITaskContext context);
 
         protected virtual void ConfigureBuildProperties(IBuildPropertiesContext context)
@@ -271,7 +266,17 @@ namespace FlubuCore.Scripting
         {
         }
 
-        private void ConfigureDefaultProps(IFlubuSession flubuSession)
+        internal void ConfigureTargetsInternal(ITaskContext context)
+        {
+            ConfigureTargets(context);
+        }
+
+        internal void ConfigureBuildPropertiesInternal(IBuildPropertiesContext context)
+        {
+            ConfigureBuildProperties(context);
+        }
+
+        internal void ConfigureDefaultProps(IFlubuSession flubuSession)
         {
             flubuSession.SetBuildVersion(new Version(1, 0, 0, 0));
             flubuSession.SetDotnetExecutable(ExecuteDotnetTask.FindDotnetExecutable());
