@@ -44,7 +44,7 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
-        /// Looks for test binaries for a specific framework
+        /// Looks for test binaries for a specific framework.
         /// </summary>
         /// <param name="framework"></param>
         /// <returns></returns>
@@ -56,7 +56,19 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
-        /// Directory in which to find the binaries to be run
+        /// Looks for test binaries for a specific framework.
+        /// </summary>
+        /// <param name="framework"></param>
+        /// <returns></returns>
+        [ArgKey("--framework", "-f")]
+        public DotnetTestTask Framework(Framework framework)
+        {
+            WithArgumentsKeyFromAttribute(framework.ToString());
+            return this;
+        }
+
+        /// <summary>
+        /// Directory in which to find the binaries to be run.
         /// </summary>
         /// <param name="directory"></param>
         /// <returns></returns>

@@ -58,6 +58,18 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
+        /// Compiles for a specific framework. The framework must be defined in the project file.
+        /// </summary>
+        /// <param name="framework"></param>
+        /// <returns></returns>
+        [ArgKey("--framework", "-f")]
+        public DotnetBuildTask Framework(Framework framework)
+        {
+            WithArgumentsKeyFromAttribute(framework.ToString());
+            return this;
+        }
+
+        /// <summary>
         /// Target runtime to build for. The default is to build a portable application.
         /// </summary>
         /// <param name="runtime"></param>

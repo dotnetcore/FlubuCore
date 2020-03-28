@@ -58,6 +58,17 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
+        /// </summary>
+        /// <param name="runtime"></param>
+        /// <returns></returns>
+        [ArgKey("--runtime", "-r")]
+        public DotnetRestoreTask AddRuntime(Runtime runtime)
+        {
+            WithArgumentsKeyFromAttribute(runtime.ToString());
+            return this;
+        }
+
+        /// <summary>
         /// Directory to install packages in.
         /// </summary>
         /// <param name="directory"></param>

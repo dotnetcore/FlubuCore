@@ -62,6 +62,18 @@ namespace FlubuCore.Tasks.NetCore
         }
 
         /// <summary>
+        /// Clean a specific framework.
+        /// </summary>
+        /// <param name="framework"></param>
+        /// <returns></returns>
+        [ArgKey("--framework", "-f")]
+        public DotnetCleanTask Framework(Framework framework)
+        {
+            WithArgumentsKeyFromAttribute(framework.ToString());
+            return this;
+        }
+
+        /// <summary>
         /// Clean a specific configuration.
         /// </summary>
         /// <param name="configuration"></param>
