@@ -266,9 +266,10 @@ namespace FlubuCore.Scripting
         {
         }
 
-        internal void ConfigureTargetsInternal(ITaskContext context)
+        internal void ConfigureTargetsInternal(IFlubuSession flubuSession)
         {
-            ConfigureTargets(context);
+            _flubuSession = flubuSession;
+            ConfigureTargets(flubuSession);
         }
 
         internal void ConfigureBuildPropertiesInternal(IBuildPropertiesContext context)

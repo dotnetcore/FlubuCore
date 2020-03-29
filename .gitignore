@@ -132,3 +132,4 @@ src/.idea/
 GlobalToolTest/bin/
 GlobalToolTest/obj/
 src/FlubuCore.WebApi/Logs/
+src/BuildScript/bin/
