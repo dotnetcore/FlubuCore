@@ -136,9 +136,9 @@ namespace FlubuCore.Targeting
                 if (showHelp)
                 {
                     Console.WriteLine(string.Empty);
-                    Console.WriteLine("1 - Change script file location");
-                    Console.WriteLine("2 - Change csproj file location");
-                    Console.WriteLine("3 - Change flubu settings file location");
+                    Console.WriteLine("1 - Change script file (.cs) location");
+                    Console.WriteLine("2 - Change csproj file (.csproj) location");
+                    Console.WriteLine("3 - Change flubu settings file (.json) location");
                     Console.WriteLine("0 - Exit");
                     Console.WriteLine(string.Empty);
                 }
@@ -186,7 +186,7 @@ namespace FlubuCore.Targeting
             string buildScriptLocation = null;
             while (!scriptFound)
             {
-                Console.Write("Enter script file location (enter to skip): ");
+                Console.Write("Enter path to script file (.cs) (enter to skip): ");
                 buildScriptLocation = Console.ReadLine();
                 if (string.IsNullOrEmpty(buildScriptLocation) ||
                     (Path.GetExtension(buildScriptLocation) == ".cs" && File.Exists(buildScriptLocation)))
@@ -208,7 +208,7 @@ namespace FlubuCore.Targeting
             string csprojLocation = null;
             while (!csprojFound)
             {
-                Console.Write("Enter script project file(csproj) location (enter to skip): ");
+                Console.Write("Enter path to script project file(.csproj) location (enter to skip): ");
                 csprojLocation = Console.ReadLine();
                 if (string.IsNullOrEmpty(csprojLocation) ||
                     (Path.GetExtension(csprojLocation) == ".csproj" && File.Exists(csprojLocation)))
