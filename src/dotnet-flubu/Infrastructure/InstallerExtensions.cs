@@ -108,15 +108,15 @@ namespace DotNet.Cli.Flubu.Infrastructure
             var app = new CommandLineApplication(false);
             var flubuConfigurationProviderDescriptor =
                 ServiceDescriptor.Singleton<IFlubuConfigurationProvider, FlubuConfigurationProvider>();
-            var parser = ServiceDescriptor.Singleton<IFlubuCommandParser, FlubuCommandParser>();
 
             services
                 .AddSingleton(app)
+                .AddSingleton<IFlubuCommandParser, FlubuCommandParser>()
+                .AddSingleton<IFlubuCommandParserFactory, FlubuCommandParserFactory>()
                 .TryAdd(flubuConfigurationProviderDescriptor);
 
-            services.TryAdd(parser);
-
-            services2?.AddSingleton(parser)
+            services2?.AddSingleton<IFlubuCommandParser, FlubuCommandParser>()
+                .AddSingleton<IFlubuCommandParserFactory, FlubuCommandParserFactory>()
                 .AddSingleton(app);
         }
     }
