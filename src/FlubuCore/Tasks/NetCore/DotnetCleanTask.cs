@@ -143,7 +143,7 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override void BeforeExecute(ITaskContextInternal context, IRunProgramTask runProgramTask)
         {
-            if (GetArguments().Count == 0 || GetArguments()[0].StartsWith("-"))
+            if (GetArguments().Count == 0 || GetArguments()[0].StartsWith("-") || GetArguments()[0].StartsWith("/"))
             {
                 var solustionFileName = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
                 if (solustionFileName != null)
