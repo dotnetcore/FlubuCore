@@ -6,6 +6,9 @@ repo_url: 'https://github.com/dotnetcore/FlubuCore'
 docs_dir: docs/zh
 site_dir: site
 
+# Copyright
+copyright: Copyright &copy; <a href="http://dotnetfoundation.org">.NET Foundation</a> and contributors.  
+
 theme:
      language: 'zh'
      name: 'material'
