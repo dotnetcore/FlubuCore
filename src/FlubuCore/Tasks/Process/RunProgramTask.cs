@@ -200,7 +200,7 @@ namespace FlubuCore.Tasks.Process
             if (_commandFactory == null)
                 _commandFactory = new CommandFactory();
 
-            string currentDirectory = Directory.GetCurrentDirectory();
+            string rootDir = context.Properties.Get<string>(PredefinedBuildProperties.ProductRootDir);
 
             FileInfo info = new FileInfo(_programToExecute);
 
@@ -210,11 +210,11 @@ namespace FlubuCore.Tasks.Process
                 cmd = info.FullName;
 
             ICommand command = _commandFactory.Create(cmd, _arguments.Select(x => x.arg));
-
+            string workingFolder = _workingFolder ?? rootDir;
             command
                 .CaptureStdErr()
                 .CaptureStdOut()
-                .WorkingDirectory(_workingFolder ?? currentDirectory)
+                .WorkingDirectory(workingFolder)
                 .OnErrorLine(l =>
                 {
                     if (!_doNotLogOutput)
@@ -241,7 +241,7 @@ namespace FlubuCore.Tasks.Process
             }
 
             DoLogInfo(
-                $"Running program '{command.CommandName}':(work.dir='{_workingFolder}',args='{commandArgs}')");
+                $"Running program '{command.CommandName}':(work.dir='{workingFolder}',args='{commandArgs}')");
 
             int res = command.Execute()
                 .ExitCode;
