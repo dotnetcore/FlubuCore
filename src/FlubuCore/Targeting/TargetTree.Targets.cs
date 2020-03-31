@@ -13,7 +13,7 @@ namespace FlubuCore.Targeting
 {
     public partial class TargetTree
     {
-        private static readonly string _flubuFile = Path.Combine(".", "flubu");
+        private static readonly string _flubuFile = Path.Combine(".", ".flubu");
 
         /// <summary>
         ///     The target for displaying help in the command line.
