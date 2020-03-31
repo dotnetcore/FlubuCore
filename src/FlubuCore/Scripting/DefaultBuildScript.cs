@@ -295,7 +295,9 @@ namespace FlubuCore.Scripting
                 platform = OSPlatform.Windows;
             }
 
-            flubuSession.SetProductRootDir(Directory.GetCurrentDirectory());
+            var rootDir = string.IsNullOrEmpty(flubuSession.Args.FlubuFileLocation) ? Directory.GetCurrentDirectory() : Path.GetDirectoryName(flubuSession.Args.FlubuFileLocation);
+
+            flubuSession.SetProductRootDir(rootDir);
             flubuSession.SetOSPlatform(platform);
             flubuSession.SetNodeExecutablePath(IOExtensions.GetNodePath());
             flubuSession.SetProfileFolder(IOExtensions.GetUserProfileFolder());

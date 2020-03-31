@@ -45,6 +45,8 @@ namespace FlubuCore.Scripting
         /// </summary>
         public string Script { get; set; }
 
+        public string FlubuFileLocation { get; set; }
+
         /// <summary>
         /// Location's where <see cref="ScriptLoader"/> looks for assemblies to load.
         /// </summary>
