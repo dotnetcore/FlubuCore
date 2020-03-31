@@ -105,7 +105,12 @@ namespace FlubuCore.Commanding
             _commandApp.Execute(args);
 
             _parsed.FlubuHelpText = _commandApp.GetHelpText();
-            _parsed.FlubuFileLocation = _buildScriptLocator.FindFlubuFile();
+
+            if (_buildScriptLocator != null)
+            {
+                _parsed.FlubuFileLocation = _buildScriptLocator.FindFlubuFile();
+            }
+
             return _parsed;
         }
 
