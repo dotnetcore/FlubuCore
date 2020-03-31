@@ -94,6 +94,10 @@ namespace FlubuCore.Scripting
             var parser = ServiceProvider.GetService<IFlubuCommandParser>();
             var cmdArgs = parser.Parse(args);
             var taskSession = CreateTaskSession(cmdArgs);
+            taskSession.Args.FlubuFileLocation = cmdArgs.FlubuFileLocation;
+            taskSession.Args.FlubuHelpText = cmdArgs.FlubuHelpText;
+            taskSession.Args.AdditionalOptions = cmdArgs.AdditionalOptions;
+            taskSession.Args.Debug = cmdArgs.Debug;
             taskSession.ScriptArgs = cmdArgs.ScriptArguments;
             var script = new T();
             return script.Run(taskSession);

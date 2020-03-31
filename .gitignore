@@ -133,3 +133,6 @@ GlobalToolTest/bin/
 GlobalToolTest/obj/
 src/FlubuCore.WebApi/Logs/
 src/BuildScript/bin/
+src/GlobalToolTest/bin/
+src/GlobalToolTest/obj/
+src/GlobalToolTest/.vs/
