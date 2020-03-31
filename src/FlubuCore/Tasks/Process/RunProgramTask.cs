@@ -241,7 +241,7 @@ namespace FlubuCore.Tasks.Process
             }
 
             DoLogInfo(
-                $"Running program '{command.CommandName}':(work.dir='{workingFolder}',args='{commandArgs}')");
+                $"Running program '{command.CommandName}':(work.dir='{workingFolder}', args='{commandArgs}')");
 
             int res = command.Execute()
                 .ExitCode;

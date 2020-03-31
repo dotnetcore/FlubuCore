@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Context;
@@ -25,10 +26,12 @@ namespace FlubuCore.Tests
                 .BuildServiceProvider();
 
             Factory = new DotnetTaskFactory(ServiceProvider);
+            var session = new BuildPropertiesSession(new TargetTree(ServiceProvider, new CommandArguments()));
+            session.Set(BuildProps.ProductRootDir, Directory.GetCurrentDirectory());
 
             Context = new TaskContextInternal(
                 loggerFactory.CreateLogger<FlubuSession>(),
-                new BuildPropertiesSession(new TargetTree(ServiceProvider, new CommandArguments())),
+                session,
                 new CommandArguments() { },
                 new TargetTree(ServiceProvider, new CommandArguments()),
                 new BuildSystem(),
