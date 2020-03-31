@@ -280,7 +280,7 @@ namespace FlubuCore.Commanding
                 return null;
             }
 
-            var lines = _file.ReadAllLines("./.flubu");
+            var lines = _file.ReadAllLines(flubuFile);
             if (lines.Count > 2 && !string.IsNullOrEmpty(lines[2]) && _file.Exists(lines[2]))
             {
                 return lines[2];
