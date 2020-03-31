@@ -79,7 +79,7 @@ namespace FlubuCore.Scripting
 
             return new FlubuSession(
                 LoggerFactory.CreateLogger<FlubuSession>(),
-                new TargetTree(ServiceProvider, commandArguments),
+                ServiceProvider.GetService<TargetTree>(),
                 commandArguments,
                 ServiceProvider.GetService<IScriptFactory>(),
                 new DotnetTaskFactory(ServiceProvider),
@@ -100,6 +100,7 @@ namespace FlubuCore.Scripting
             taskSession.Args.Debug = cmdArgs.Debug;
             taskSession.ScriptArgs = cmdArgs.ScriptArguments;
             var script = new T();
+            taskSession.TargetTree.BuildScript = script;
             return script.Run(taskSession);
         }
     }
