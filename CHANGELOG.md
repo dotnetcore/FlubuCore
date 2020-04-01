@@ -1,3 +1,118 @@
+
+
+## FlubuCore 5.0.2.0
+- Execution of tasks with attributes on property
+
+    ```c#
+    [FetchBuildVersionFromFile]
+    public BuildVersion BuildVersion { get;  }
+    ```
+
+    ```c#
+    [GitVersion]
+    public GitVersion BuildVersion { get;  }
+    ```
+
+    This allows  access version information in ConfigureTarget which was not possible if versioning task was executed for example as         target dependency
+    ```c#
+    protected override void ConfigureTargets(ITaskContext context)
+    {
+            context.CreateTarget("Build")
+                .AddCoreTask(x => x.Build().FileVersion(BuildVersion.Version));
+    }
+    ```
+
+- Get and Set build properties through attribute 
+
+    Instead of setting build property through IBuildPropertiesContext  
+    ```C#
+     protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
+     {
+            context.Properties.Set(BuildProps.BuildConfiguration, "Release");
+     }
+    ````
+    it is possible to set it through attribute
+
+    ```C#
+        [BuildProperty(BuildProps.BuildConfiguration)]
+        public string Configuration { get; set; } = "Release";
+    ````
+
+    Or
+
+    ```C#
+        [BuildConfiguration]
+        public string Configuration { get; set; } = "Release";
+    ````
+
+- Pack FlubuCore script as global tool or execute it directly through console app.
+
+    ```c#
+        public class Program
+        {
+            public static void Main(string[] args)
+            {
+                var engine = new FlubuEngine();
+                engine.RunScript<MyScript>(args);
+            }
+        }
+    ```
+
+- Introduces FlubuCore modules
+
+   It is possible change FlubuCore internal logic by  replacing FlubuCore modules through DI. For example logging, target runner, task      context etc.. could be changed. 
+
+   ```C#
+   public class BuildScript : DefaultBuildScript
+   {
+     public override void ConfigureServices(IServiceCollection services)
+     {
+        services.Replace<IFlubuSession, MyFlubuSession>();
+     }
+
+     public override void Configure(ILoggerFactory loggerFactory)
+     {
+         loggerFactory.AddProvider(new MyLoggerProvider());
+     }
+   }
+   ```
+   
+   - Added DependeceOf to target
+   
+   ```C# 
+    protected override void ConfigureTargets(ITaskContext context)
+    {
+           var b = context.CreateTarget("B")
+                   .DependenceOf(A);
+    }
+   ``` 
+   
+- FlubuCore web api for .net core 3.1
+- FlubuCore web api: Dropped support for net core app 1.1
+- Store json configuration file path to .flubu file
+- New version of dotnet.cli.utils
+- FlubuCore now places compiled build script into the location where build script is located.
+- (Breaking change) OutputDirectory property is now obsolete in DefaultBuildScript
+- RunProgramTask: Sets working folder to product root directory.
+- DotnetPublishTask: Added PublishSingleFile, PublishTrimmedFile, PublishReadyToRun
+- DotnetBuildTask: Added output
+- Added Configuration Runtime, Framework enum
+- CreateWebApplicationTask: Fixed AddMimeType
+- Changed ConfigureBuildProperty from abstact method to virtual method.
+- Flubu Sets root dir to the location of the flubu file
+- improved flubu setup texts
+- Fixed help alligment
+- Fixed broken lins to help in build script loader error messages
+- Fixed parsing of .flubu file when it is empty
+- Fixed RootDirectory when used in ConfigureTargets in interactive mode.
+- Fixed set of project name from flubu build properties when options with '/' is included in args
+- Fixed flubu setup when build script is not found 
+- Fixed set of project name from flubu build properties when options with '/' is included in args
+- Interactive mode: History of executed commands doesn't work #260
+- Interactive mode does not fail anymore when defined build property is accessed in ConfigureTargets
+   
+
+
 ## FlubuCore 4.3.7.0
 - DotnetBuildTask, DotnetPackTask, DotnetPublishTask: VersionSuffix option key is not added anymore if it is null or empty.
 - Changed properties accessors on DefaultBuildScript so they can not be overriden through passed arguments.
