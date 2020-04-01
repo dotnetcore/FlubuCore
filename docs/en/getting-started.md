@@ -28,15 +28,7 @@ Following code adds compile target to flubu commands. Compile target compiles th
 
 ```C#
 public class MyBuildScript : DefaultBuildScript
-{
-	protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-    {
-		context.Properties.Set(BuildProps.CompanyName, "Flubu");
-        context.Properties.Set(BuildProps.CompanyCopyright, "Copyright (C) 2010-2016 Flubu");
-        context.Properties.Set(BuildProps.ProductId, "FlubuCoreExample");
-        context.Properties.Set(BuildProps.ProductName, "FlubuCoreExample");
-    }
-	
+{	
     protected override void ConfigureTargets(ITaskContext session)
     {
         var compile = context.CreateTarget("compile")
@@ -79,8 +71,8 @@ project.json:
 - Install FlubuCore global tool: `dotnet tool install --global FlubuCore.GlobalTool`
 - Run `flubu compile` where build script is located. It will compile your solution.
 
-This is very basic build script just for you to see how simple it is to get you started. FlubuCore has to offer a lot of nice features. Read more about them at [Build script fundamentals] 
-alternatively you can take a look at [.net core examples] and see most of main features in action. It is also recomended that you take a look at [FlubuCore interactive mode](build-script-runner-interactive.md) and [Override options in task through console](override-add-options.md) sections.
+This is very basic build script just for you to see how simple it is to get you started. FlubuCore has to offer a lot of nice features. Read more about them at [Build script fundamentals]. 
+You should also take a look at [.net core examples] they will give you hints how to write your build script and see most of the main flubu features in action. 
 
 ## Getting started .NET
 -------
@@ -107,14 +99,6 @@ using FlubuCore.Scripting;
 
 public class BuildScript : DefaultBuildScript
 {
-	protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-    {
-		context.Properties.Set(BuildProps.ProductId, "FlubuExample");
-        context.Properties.Set(BuildProps.ProductName, "FlubuExample");
-        context.Properties.Set(BuildProps.SolutionFileName, "FlubuExample.sln");
-        context.Properties.Set(BuildProps.BuildConfiguration, "Release");
-    }
-
     protected override void ConfigureTargets(ITaskContext session)
     {
         var compile = session.CreateTarget("compile")
@@ -133,8 +117,8 @@ public class BuildScript : DefaultBuildScript
 
 - Run flubu.exe compile. It will compile your solution.
 
-This is very basic build script just for you to see how simple it is to get you started. FlubuCore has to offer a lot of nice features. Read more about them at [Build script fundamentals] 
-alternatively you can take a look at [.net examples] and see most of main features in action. 
+This is very basic build script just for you to see how simple it is to get you started. FlubuCore has to offer a lot of nice features. Read more about them at [Build script fundamentals]. 
+You should also take a look at [.net examples] they will give you hints how to write your build script and see most of the main flubu features in action. 
 
 <a name="Getting-started-.net-core"></a>
 

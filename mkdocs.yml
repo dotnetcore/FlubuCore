@@ -30,7 +30,9 @@ nav:
     - 'Override existing options or add additional options to tasks through console': 'override-add-options.md'
     - 'Tasks': 'tasks.md'
     - 'How to write and use plugins': 'write-plugins.md'
-    - 'Tests and debuging': 'Tests-debugging.md'    
+    - 'Tests and debuging': 'Tests-debugging.md' 
+    - 'Execute script in console app or pack as global tool': 'execute-script-in-console-app-or-pack-as-global-tool.md'   
+    - 'FlubuCore modules': 'flubu-modules.md'    
     - 'Web api' :
         - 'Getting started' : 'WebApi/getting-started.md'
     - 'Awesome plugins': 

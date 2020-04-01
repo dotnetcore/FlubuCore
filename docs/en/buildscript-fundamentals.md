@@ -5,16 +5,11 @@ Each build script should inherit from DefaulBuildScript class. Two abstact metho
 
 - ConfigureTargets: Here you can create new targets that will perform specific work.
 
-- ConfigureBuildProperties: Here you can set various build properties which can be shared between multiple tasks and your custom csharp code.
-
 Empty build script example
 
 ```C#
 public class BuildScript : DefaultBuildScript
 {
-	protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-    {
-    }
 
     protected override void ConfigureTargets(ITaskContext session)
     {
@@ -114,9 +109,34 @@ context.CreateTarget("Example")
 
 - ```.Interactive()``` - Interactively pass argument from console to specified task method / parameter.
 
+#### **Task attributes (Versioning)**
+It is possible to execute some tasks with attribute on property
+
+Flubu will inject return value of the task to the property. This is especially usefull for all versioning tasks, basically all tasks that return a value. See `FlubuCore.Tasks.Attributes` namespace for all available attributes.
+
+``` C#     
+[FetchBuildVersionFromFile]
+public BuildVersion BuildVersion { get;  }
+```   
+
+``` C#     
+[GitVersion]
+public GitVersion GitVersion { get;  }
+```
+
+This allows you to access version information in ConfigureTarget which is not possible if versioning task is executed for example as target dependency
+
+``` C# 
+protected override void ConfigureTargets(ITaskContext context)
+{
+        context.CreateTarget("Build")
+            .AddCoreTask(x => x.Build().Version(BuildVersion.Version.ToString()));
+}
+```  
+
 <a name="Custom-code"></a>
 
-### **Custom c# code / tasks**
+### **Write custom c# code (tasks)**
 
 Following example executes some custom code. You can also use built in flubu tasks in custom code as shown in example.
 
@@ -163,6 +183,12 @@ When targetC is executed target’s will execute in the following order: TargetB
 var targetA = context.CreateTarget("TargetA");
 var targetB = context.CreateTarget("TargetB");
 var targetC = context.CreateTarget("TargetC").DependsOn(targetB, targetA);      
+```
+
+It is also possible to reverse dependency
+
+```C#
+var targetC = context.CreateTarget("TargetC").DependenceOf(targetA);      
 ```
 
 <a name="Reuse-set-of-tasks"></a>
@@ -228,7 +254,7 @@ Following example shows how to add multiple tasks to target with a foreach loop
 ```c#
   protected override void ConfigureTargets(ITaskContext context)
   {
-         var solution = context.Properties.Get<VSSolution>(BuildProps.Solution);
+         var solution = context.GetVsSolution();
 
          context.CreateTarget("Pack")
                 .ForEach(solution.Projects, (item, target) =>
@@ -392,9 +418,9 @@ protected override void ConfigureTargets(ITaskContext session)
 Linux Example:
 
 ```C#
-protected override void ConfigureTargets(ITaskContext session)
+protected override void ConfigureTargets(ITaskContext context)
 {
-    var runExternalProgramExample = session.CreateTarget("systemctl.example")
+    var runExternalProgramExample = context.CreateTarget("systemctl.example")
         AddTask(x => x.RunProgramTask(@"systemctl")             
             .WithArguments("start")
             .WithArguments("nginx.service"));
@@ -405,41 +431,47 @@ protected override void ConfigureTargets(ITaskContext session)
 
 ### **Build properties**
 
-You can define various build properties in ConfigureBuildProperties method to share them in different tasks and custom code.
+You can define various build properties with Attributes on properties or in ConfigureBuildProperties method (old way) to share them in different tasks and custom code.
 
-Following example show how to share nunit console path across various nunit targets/tasks.
+Following example shows how to share solution file name and configuration across various targets/tasks.
 
-```C#
-protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
+```C# 
+    [SolutionFileName]
+    public string SolutionFileName { get; set; } = "FlubuExample.sln";
+   
+    [BuildConfiguration] 
+    public string BuildConfiguration { get; set; } = "Release";
+
+protected override void ConfigureTargets(ITaskContext context)
 {
-	context.Properties.Set(BuildProps.NUnitConsolePath, @"packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe");
-}
+	   context.CreateTarget("build")
+            .AddCoreTask(x => x.Build());
 
-protected override void ConfigureTargets(ITaskContext session)
-{
-	session.CreateTarget("unit.tests1")
-        .SetDescription("Runs unit tests")
-        .AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests"));
-		
-    session.CreateTarget("unit.tests1")
-         AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests2"));
+        context.CreateTarget("pack")
+            .AddCoreTask(x => x.Pack());
 }
 ```
 
-If nunit console path would not be set in build properties you would have to set it in each task separately.
+Alternative:
+```C# 
+    [BuildProperty(BuildProps.BuildConfiguration)]
+    public string BuildConfiguration { get; set; } = "Release";
+```
+If Solution file name and path would not be set through build property attributes you would have to set it in each task separately.
 
 like so:
 ```C#
-protected override void ConfigureTargets(ITaskContext session)
+protected override void ConfigureTargets(ITaskContext context)
 {
-    session.CreateTarget("unit.tests1")
-        .SetDescription("Runs unit tests")
-        .AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests")
-            .NunitConsolePath(@"packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe"));
-			
-    session.CreateTarget("unit.tests1")
-		.AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests2").
-			NunitConsolePath(@"packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe"));
+     context.CreateTarget("build")
+        .AddCoreTask(x => x.Build()
+            .Project("FlubuExample.sln")
+            .Configuration("Release"));
+
+    context.CreateTarget("pack")
+        .AddCoreTask(x => x.Pack()
+            .Project("FlubuExample.sln")
+            .Configuration("Release"));
 }
 ```
 

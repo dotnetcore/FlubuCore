@@ -195,6 +195,10 @@ context.CreateTarget("Run.Libz")
 
 * [Possibility to use FlubuCore tasks in any other .NET application.](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs)
 
+* [Execute script in your console application or pack it as global tool](https://flubucore.dotnetcore.xyz/execute-script-in-console-app-or-pack-as-global-tool/)
+
+* [Change FlubuCore internal logic with modules](https://flubucore.dotnetcore.xyz/flubu-modules/)
+
 * Improved developer experience with FlubuCore custom analyzers.
 
 ![FlubuCore analyzers in action](https://raw.githubusercontent.com/flubu-core/flubu.core/master/assets/FlubuCoreCustomAnalyzerDemo.png)
