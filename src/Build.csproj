@@ -34,6 +34,7 @@
     <Compile Remove="FlubuCore.WebApi.Updater\**" />
     <Compile Remove="FlubuCore.WebApi\**" />
     <Compile Remove="FlubuCore\**" />
+    <Compile Remove="GlobalToolTest\**" />
     <Compile Remove="Nuget\**" />
     <Compile Remove="output\**" />
     <Compile Remove="Template\**" />
@@ -67,6 +68,7 @@
     <EmbeddedResource Remove="FlubuCore.WebApi.Updater\**" />
     <EmbeddedResource Remove="FlubuCore.WebApi\**" />
     <EmbeddedResource Remove="FlubuCore\**" />
+    <EmbeddedResource Remove="GlobalToolTest\**" />
     <EmbeddedResource Remove="Nuget\**" />
     <EmbeddedResource Remove="output\**" />
     <EmbeddedResource Remove="Template\**" />
@@ -100,6 +102,7 @@
     <None Remove="FlubuCore.WebApi.Updater\**" />
     <None Remove="FlubuCore.WebApi\**" />
     <None Remove="FlubuCore\**" />
+    <None Remove="GlobalToolTest\**" />
     <None Remove="Nuget\**" />
     <None Remove="output\**" />
     <None Remove="Template\**" />
@@ -117,7 +120,7 @@
     <Compile Include="BuildScript.cs" Exclude="**;bin\**;obj\**;**\*.xproj;packages\**" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-flubu" Version="4.3.7" />
+    <DotNetCliToolReference Include="dotnet-flubu" Version="5.0.2" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BuildScript\NetCore1.1\Deploy.csproj" />

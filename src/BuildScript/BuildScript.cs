@@ -1,21 +1,24 @@
 ﻿using System;
 using System.IO;
+using FlubuCore.Commanding;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
 using FlubuCore.Context.FluentInterface.Interfaces;
+using FlubuCore.IO;
+using FlubuCore.Context.Attributes.BuildProperties;
 
-public class BuildScript : DefaultBuildScript
+public class  BuildScript : DefaultBuildScript
 {
     [FromArg("nugetKey", "Nuget api key for publishing Flubu nuget packages.")]
     public string NugetApiKey { get; set; }
-    
-    protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-    {
-        context.Properties.Set(BuildProps.ProductId, "FlubuCore");
-        context.Properties.Set(BuildProps.BuildDir, "output");
-        context.Properties.Set(BuildProps.SolutionFileName, "flubu.sln");
-        context.Properties.Set(BuildProps.BuildConfiguration, "Release");
-    }
+
+    public FullPath Output => RootDirectory.CombineWith("Output");
+
+    [ProductId] public string ProductId { get; set; } = "FlubuCore";
+
+    [SolutionFileName] public string SolutionFileName { get; set; } = "flubu.sln";
+
+    [BuildConfiguration] public string BuildConfiguration { get; set; } = "Release";
 
     protected override void ConfigureTargets(ITaskContext context)
     {
@@ -38,22 +41,22 @@ public class BuildScript : DefaultBuildScript
             .SetDescription("Packs flubu componets for nuget publishing.")
             .AddCoreTask(x => x.Pack()
                 .Project("FlubuCore.WebApi.Model").IncludeSymbols()
-                .OutputDirectory("..\\output"))
+                .OutputDirectory(Output))
             .AddCoreTask(x => x.Pack()
                 .Project("FlubuCore.WebApi.Client").IncludeSymbols()
-                .OutputDirectory("..\\output"))
+                .OutputDirectory(Output))
             .AddCoreTask(x => x.Pack().IncludeSymbols()
                 .Project("FlubuCore")
-                .OutputDirectory("..\\output"))
+                .OutputDirectory(Output))
             .AddCoreTask(x => x.Pack()
                 .Project("dotnet-flubu").IncludeSymbols()
-                .OutputDirectory("..\\output"))
+                .OutputDirectory(Output))
             .AddCoreTask(x => x.Pack()
                 .Project("FlubuCore.GlobalTool").IncludeSymbols()
-                .OutputDirectory("..\\output"))
+                .OutputDirectory(Output))
             .AddCoreTask(x => x.Pack()
                 .Project("FlubuCore.Analyzers").IncludeSymbols()
-                .OutputDirectory("..\\output"))
+                .OutputDirectory(Output))
             .DependsOn(buildVersion);
 
         var publishWebApi = context.CreateTarget("Publish.WebApi")
@@ -127,25 +130,25 @@ public class BuildScript : DefaultBuildScript
             .DependsOn(compileLinux, flubuTestsLinux, packageDotnetFlubu);
     }
 
-    private static void TargetPackageFlubuRunner(ITaskContext context)
+    private void TargetPackageFlubuRunner(ITaskContext context)
     {
          context.Tasks().PackageTask("output")
-            .AddFileToPackage(@"output\flubu.exe", "flubu.runner")
-            .AddFileToPackage(@"output\flubu.exe.config", "flubu.runner")
-            .AddFileToPackage(@"output\flubucore.dll", "flubu.runner")
+            .AddFileToPackage(Output.CombineWith("flubu.exe"), "flubu.runner")
+            .AddFileToPackage(Output.CombineWith("flubu.exe.config"), "flubu.runner")
+            .AddFileToPackage(Output.CombineWith("flubucore.dll"), "flubu.runner")
             .ZipPackage("Flubu runner", true)
             .Execute(context);
     }
 
-    private static void TargetPackageDotnetFlubu(ITaskContext context)
+    private void TargetPackageDotnetFlubu(ITaskContext context)
     {
         context.CoreTasks().Publish("dotnet-flubu").Framework("netcoreapp2.0").Execute(context);
-        if (!Directory.Exists(@"output/dotnet-flubu"))
+        if (!Directory.Exists(Output.CombineWith("dotnet-flubu")))
         {
             Directory.CreateDirectory(@"output/dotnet-flubu");
         }
 
-        context.Tasks().PackageTask(@"output/dotnet-flubu")
+        context.Tasks().PackageTask(Output.CombineWith("dotnet-flubu"))
             .AddDirectoryToPackage(@"dotnet-flubu/bin/Release/netcoreapp2.0/publish", "", true)
             .ZipPackage("dotnet-flubu", true)
             .Execute(context);
@@ -159,35 +162,35 @@ public class BuildScript : DefaultBuildScript
 
         if (!string.IsNullOrEmpty(versionQuality))
         {
-            nugetVersion = $"{nugetVersion}{versionQuality}";
+            nugetVersion = $"{nugetVersion}-{versionQuality}";
         }
         
-        context.CoreTasks().NugetPush($"output\\FlubuCore.WebApi.Model.{nugetVersion}.nupkg")
+        context.CoreTasks().NugetPush(Output.CombineWith($"FlubuCore.WebApi.Model.{nugetVersion}.nupkg"))
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.WebApi.Model. exception: {e.Message}"); })
             .ServerUrl("https://www.nuget.org/api/v2/package")
             .ApiKey(NugetApiKey).Execute(context);
 
-        context.CoreTasks().NugetPush($"output\\FlubuCore.WebApi.Client.{nugetVersion}.nupkg")
+        context.CoreTasks().NugetPush(Output.CombineWith($"FlubuCore.WebApi.Client.{nugetVersion}.nupkg"))
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.WebApi.Client. exception: {e.Message}"); })
             .ServerUrl("https://www.nuget.org/api/v2/package")
             .ApiKey(NugetApiKey).Execute(context);
 
-        context.CoreTasks().NugetPush($"output\\FlubuCore.{nugetVersion}.nupkg")
+        context.CoreTasks().NugetPush(Output.CombineWith($"FlubuCore.{nugetVersion}.nupkg"))
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore. exception: {e.Message}"); })
             .ServerUrl("https://www.nuget.org/api/v2/package")
             .ApiKey(NugetApiKey).Execute(context);
 
-        context.CoreTasks().NugetPush($"output\\dotnet-flubu.{nugetVersion}.nupkg")
+        context.CoreTasks().NugetPush(Output.CombineWith($"dotnet-flubu.{nugetVersion}.nupkg"))
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish dotnet-flubu. exception: {e.Message}"); })
             .ServerUrl("https://www.nuget.org/api/v2/package")
             .ApiKey(NugetApiKey).Execute(context);
 
-        context.CoreTasks().NugetPush($"output\\FlubuCore.GlobalTool.{nugetVersion}.nupkg")
+        context.CoreTasks().NugetPush(Output.CombineWith($"FlubuCore.GlobalTool.{nugetVersion}.nupkg"))
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.GlobalTool. exception: {e.Message}"); })
             .ServerUrl("https://www.nuget.org/api/v2/package")
             .ApiKey(NugetApiKey).Execute(context);
 
-        context.CoreTasks().NugetPush($"output\\FlubuCore.Analyzers.1.0.4.nupkg")
+        context.CoreTasks().NugetPush(Output.CombineWith("FlubuCore.Analyzers.1.0.4.nupkg"))
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.Analyzer. exception: {e.Message}"); })
             .ServerUrl("https://www.nuget.org/api/v2/package")
             .ApiKey(NugetApiKey).Execute(context);
@@ -199,7 +202,7 @@ public class BuildScript : DefaultBuildScript
             .Execute(context);
     }
 
-    private static void TargetMerge(ITaskContext context)
+    private void TargetMerge(ITaskContext context)
     {
         var progTask = context.Tasks().RunProgramTask(@"tools\LibZ.Tool\1.2.0\tools\libz.exe");
 
@@ -211,7 +214,7 @@ public class BuildScript : DefaultBuildScript
             .WithArguments("--exclude", "FlubuCore.dll")
             .WithArguments("--move")
             .Execute(context);
-
+        
         progTask = context.Tasks().RunProgramTask(@"tools\LibZ.Tool\1.2.0\tools\libz.exe");
 
         progTask
@@ -232,34 +235,34 @@ public class BuildScript : DefaultBuildScript
             .Execute(context);
 
         context.Tasks()
-            .CopyFileTask(@"dotnet-flubu\bin\Release\net462\dotnet-flubu.exe", @"output\flubu.exe", true)
+            .CopyFileTask(@"dotnet-flubu\bin\Release\net462\dotnet-flubu.exe", Output.CombineWith("flubu.exe"), true)
             .Execute(context);
         context.Tasks()
-            .CopyFileTask(@"dotnet-flubu\bin\Release\net462\dotnet-flubu.exe.config", @"output\flubu.exe.config", true)
+            .CopyFileTask(@"dotnet-flubu\bin\Release\net462\dotnet-flubu.exe.config", Output.CombineWith("flubu.exe.config"), true)
             .Execute(context);
 
         context.Tasks()
-            .CopyFileTask(@"dotnet-flubu\bin\Release\net462\FlubuCore.dll", @"output\FlubuCore.dll", true)
+            .CopyFileTask(@"dotnet-flubu\bin\Release\net462\FlubuCore.dll", Output.CombineWith("FlubuCore.dll"), true)
             .Execute(context);
         context.Tasks()
-            .CopyFileTask(@"dotnet-flubu\bin\Release\net462\\FlubuCore.xml", @"output\FlubuCore.xml", true)
+            .CopyFileTask(@"dotnet-flubu\bin\Release\net462\\FlubuCore.xml", Output.CombineWith("FlubuCore.xml"), true)
             .Execute(context);
         context.Tasks()
-            .CopyFileTask(@"dotnet-flubu\bin\Release\net462\FlubuCore.pdb", @"output\FlubuCore.pdb", true)
+            .CopyFileTask(@"dotnet-flubu\bin\Release\net462\FlubuCore.pdb", Output.CombineWith("FlubuCore.pdb"), true)
             .Execute(context);
     }
 
-    public static void PackageWebApi(ITarget target)
+    public void PackageWebApi(ITarget target)
     {
         target.SetDescription("Prepares flubu web api deployment package.")
-            .AddTask(x => x.PackageTask("output\\WebApiPackages")
+            .AddTask(x => x.PackageTask(Output.CombineWith("WebApiPackages"))
                 .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\net462\win7-x64\publish", "FlubuCore.WebApi", true)
                 .AddDirectoryToPackage(@"FlubuCore.WebApi.Updater\bin\Release\net462", "FlubuCore.WebApi", true)
                 .AddFileToPackage("BuildScript\\DeployScript.cs", "")
                 .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
-                .AddFileToPackage("output\\flubu.exe", "")
-                .AddFileToPackage("output\\flubu.exe.config", "")
-                .AddFileToPackage("output\\FlubuCore.dll", "")
+                .AddFileToPackage(Output.CombineWith("flubu.exe"), "")
+                .AddFileToPackage(Output.CombineWith("flubu.exe.config"), "")
+                .AddFileToPackage(Output.CombineWith("FlubuCore.dll"), "")
                 .AddFileToPackage(@"packages\Newtonsoft.Json.11.0.2\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
                 .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard2.0\LiteDB.dll", "lib")
                 .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard2.0\LiteDB.dll", "")
