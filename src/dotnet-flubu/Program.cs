@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using DotNet.Cli.Flubu.Infrastructure;
+using FlubuCore;
 using FlubuCore.Commanding;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
@@ -32,7 +33,12 @@ namespace DotNet.Cli.Flubu
                 args = new string[0];
             }
 
-            await FlubuStartup(args);
+            var statusCode = await FlubuStartup(args);
+
+            if (statusCode != 0)
+            {
+                return statusCode;
+            }
 
             var cmdApp = _provider.GetRequiredService<CommandLineApplication>();
 
@@ -49,7 +55,7 @@ namespace DotNet.Cli.Flubu
             return result;
         }
 
-        private static async Task FlubuStartup(string[] args)
+        private static async Task<int> FlubuStartup(string[] args)
         {
             IServiceCollection startUpServiceCollection = new ServiceCollection();
 
@@ -78,7 +84,16 @@ namespace DotNet.Cli.Flubu
             IBuildScript script = null;
             if (!commandArguments.IsFlubuSetup())
             {
-                script = await scriptProvider.GetBuildScriptAsync(commandArguments);
+                try
+                {
+                    script = await scriptProvider.GetBuildScriptAsync(commandArguments);
+                }
+                catch (BuildScriptLocatorException e)
+                {
+                    var str = commandArguments.Debug ? e.ToString() : e.Message;
+                    _logger.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{str}", null, (t, ex) => t);
+                    return StatusCodes.BuildScriptNotFound;
+                }
             }
 
             Services
@@ -98,6 +113,7 @@ namespace DotNet.Cli.Flubu
             }
 
             _provider = Services.BuildServiceProvider();
+            return 0;
         }
 
         private static void OnCancelKeyPress(object sender, ConsoleCancelEventArgs eventArgs)
