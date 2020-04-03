@@ -198,7 +198,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <param name="version">Version prefix e.g. 1.0.0</param>
         /// <param name="versionSuffix">Version suffix e.g. -alpha</param>
         /// <returns></returns>
-        [ArgKey("/p:Version=")]
+        [ArgKey("-p:Version=")]
         public DotnetBuildTask Version(string version, string versionSuffix = null)
         {
             if (!string.IsNullOrEmpty(versionSuffix))
@@ -223,7 +223,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="version"></param>
         /// <returns></returns>
-        [ArgKey("/p:InformationalVersion=")]
+        [ArgKey("-p:InformationalVersion=")]
         public DotnetBuildTask InformationalVersion(string version)
         {
             WithArguments($"{GetFirstKeyFromAttribute()}{version}");
@@ -235,7 +235,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="version"></param>
         /// <returns></returns>
-        [ArgKey("/p:AssemblyVersion=")]
+        [ArgKey("-p:AssemblyVersion=")]
         public DotnetBuildTask AssemblyVersion(string version)
         {
             WithArguments($"{GetFirstKeyFromAttribute()}{version}");
@@ -247,7 +247,7 @@ namespace FlubuCore.Tasks.NetCore
         /// </summary>
         /// <param name="version"></param>
         /// <returns></returns>
-        [ArgKey("/p:FileVersion=")]
+        [ArgKey("-p:FileVersion=")]
         public DotnetBuildTask FileVersion(string version)
         {
             WithArguments($"{GetFirstKeyFromAttribute()}{version}");
@@ -256,12 +256,16 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override void BeforeExecute(ITaskContextInternal context, IRunProgramTask runProgramTask)
         {
+            var args = GetArguments();
             if (string.IsNullOrEmpty(_projectName))
             {
-                var solustionFileName = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
-                if (solustionFileName != null)
+                if (args.Count == 0 || args[0].StartsWith("-"))
                 {
-                    InsertArgument(0, solustionFileName);
+                    var solustionFileName = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
+                    if (solustionFileName != null)
+                    {
+                        InsertArgument(0, solustionFileName);
+                    }
                 }
             }
             else
@@ -269,7 +273,6 @@ namespace FlubuCore.Tasks.NetCore
                 InsertArgument(0, _projectName);
             }
 
-            var args = GetArguments();
             if (!args.Exists(x => x == "-c" || x == "--configuration"))
             {
                 var configuration = context.Properties.Get<string>(BuildProps.BuildConfiguration, null);

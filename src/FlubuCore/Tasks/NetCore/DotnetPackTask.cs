@@ -244,7 +244,8 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override void BeforeExecute(ITaskContextInternal context, IRunProgramTask runProgramTask)
         {
-            if (string.IsNullOrEmpty(_projectName))
+            var args = GetArguments();
+            if (args.Count == 0 || args[0].StartsWith("-"))
             {
                 var solustionFileName = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
                 if (solustionFileName != null)
@@ -252,12 +253,8 @@ namespace FlubuCore.Tasks.NetCore
                     InsertArgument(0, solustionFileName);
                 }
             }
-            else
-            {
-                InsertArgument(0, _projectName);
-            }
 
-            if (!GetArguments().Exists(x => x == "-c" || x == "--configuration"))
+            if (!args.Exists(x => x == "-c" || x == "--configuration"))
             {
                 var configuration = context.Properties.Get<string>(BuildProps.BuildConfiguration, null);
                 if (configuration != null)
