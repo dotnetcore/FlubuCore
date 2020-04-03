@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+#if  !NETSTANDARD1_6
+using System.Drawing;
+#endif
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -240,9 +243,12 @@ namespace FlubuCore.Tasks.Process
                 commandArgs = !arg.maskArg ? $"{commandArgs} {arg.arg}" : $"{commandArgs} ####";
             }
 
-            DoLogInfo(
-                $"Running program '{command.CommandName}':(work.dir='{workingFolder}', args='{commandArgs}')");
-
+            DoLogInfo($"Running program from '{workingFolder}' :");
+#if  !NETSTANDARD1_6
+            DoLogInfo($"{command.CommandName} {commandArgs}", Color.Cyan);
+#else
+            DoLogInfo($"{command.CommandName} {commandArgs}");
+#endif
             int res = command.Execute()
                 .ExitCode;
 
