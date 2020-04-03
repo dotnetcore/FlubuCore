@@ -8,6 +8,8 @@ namespace FlubuCore.Tasks.NetCore
     {
         private string _description;
 
+        private string _projectName;
+
         public DotnetRestoreTask()
             : base(StandardDotnetCommands.Restore)
         {
@@ -30,7 +32,7 @@ namespace FlubuCore.Tasks.NetCore
 
         public DotnetRestoreTask Project(string projectName)
         {
-            InsertArgument(0, projectName);
+            _projectName = projectName;
             return this;
         }
 
@@ -160,14 +162,17 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override void BeforeExecute(ITaskContextInternal context, IRunProgramTask runProgramTask)
         {
-            var args = GetArguments();
-            if (args.Count == 0 || args[0].StartsWith("-") || args[0].StartsWith("/"))
+            if (string.IsNullOrEmpty(_projectName))
             {
                 var solustionFileName = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
                 if (solustionFileName != null)
                 {
-                    Project(solustionFileName);
+                    InsertArgument(0, solustionFileName);
                 }
+            }
+            else
+            {
+                InsertArgument(0, _projectName);
             }
 
             base.BeforeExecute(context, runProgramTask);

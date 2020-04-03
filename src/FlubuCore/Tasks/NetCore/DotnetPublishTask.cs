@@ -11,6 +11,8 @@ namespace FlubuCore.Tasks.NetCore
     {
         private string _description;
 
+        private string _projectName;
+
         public DotnetPublishTask()
             : base(StandardDotnetCommands.Publish)
         {
@@ -38,7 +40,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetPublishTask Project(string projectName)
         {
-            InsertArgument(0, projectName);
+            _projectName = projectName;
             return this;
         }
 
@@ -294,6 +296,19 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override void BeforeExecute(ITaskContextInternal context, IRunProgramTask runProgramTask)
         {
+            if (string.IsNullOrEmpty(_projectName))
+            {
+                var solustionFileName = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
+                if (solustionFileName != null)
+                {
+                    InsertArgument(0, solustionFileName);
+                }
+            }
+            else
+            {
+                InsertArgument(0, _projectName);
+            }
+
             if (!GetArguments().Exists(x => x == "-c" || x == "--configuration"))
             {
                 var configuration = context.Properties.Get<string>(BuildProps.BuildConfiguration, null);
