@@ -98,7 +98,6 @@ namespace FlubuCore.Targeting
 
         internal static void SetupFlubu()
         {
-            bool scriptFound = false;
             string buildScriptLocation = null;
             string csprojLocation = null;
             string flubuSettingsLocation = string.Empty;

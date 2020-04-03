@@ -19,37 +19,37 @@ namespace FlubuCore.Context
         /// <summary>
         /// Get's the property by property name.
         /// </summary>
-        /// <typeparam name="T">Type of returned property</typeparam>
-        /// <param name="propertyName">The property name</param>
+        /// <typeparam name="T">Type of returned property.</typeparam>
+        /// <param name="propertyName">The property name.</param>
         /// <param name="memberName">Leave it empty! Property is auto assigned by FlubuCore.</param>
-        /// <returns>The property</returns>
+        /// <returns>The property.</returns>
         T Get<T>(string propertyName, bool ignoreCase = true, [CallerMemberName] string memberName = "");
 
         /// <summary>
-        /// Get's the property that predefined by flubu by property name. All properties can also be overriden
+        /// Get's the property that predefined by flubu by property name. All properties can also be overriden.
         /// </summary>
-        /// <typeparam name="T">Type of returned property</typeparam>
-        /// <param name="propertyName">The property name</param>
-        /// <returns>The property</returns>
+        /// <typeparam name="T">Type of returned property.</typeparam>
+        /// <param name="propertyName">The property name.</param>
+        /// <returns>The property.</returns>
         T Get<T>(PredefinedBuildProperties propertyName);
 
         /// <summary>
         /// Get's the property by property name. If it doesn't exist null is returned.
         /// </summary>
-        /// <typeparam name="T">Type of returned property</typeparam>
-        /// <param name="propertyName">The property name</param>
+        /// <typeparam name="T">Type of returned property.</typeparam>
+        /// <param name="propertyName">The property name.</param>
         /// <param name="memberName">Leave it empty! Property is auto assigned by FlubuCore.</param>
-        /// <returns>The property</returns>
+        /// <returns>The property.</returns>
         T TryGet<T>(string propertyName, [CallerMemberName] string memberName = "");
 
         /// <summary>
         /// Get's the property by property name.
         /// </summary>
-        /// <typeparam name="T">Type of returned property</typeparam>
-        /// <param name="propertyName">The property name</param>
+        /// <typeparam name="T">Type of returned property.</typeparam>
+        /// <param name="propertyName">The property name.</param>
         /// <param name="defaultValue">Returned value if property is not set in session.</param>
         /// <param name="memberName">Leave it empty! Property is auto assigned by FlubuCore.</param>
-        /// <returns>The property</returns>
+        /// <returns>The property.</returns>
         T Get<T>(string propertyName, T defaultValue, [CallerMemberName] string memberName = "");
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace FlubuCore.Context
         bool Has(string propertyName);
 
         /// <summary>
-        /// Enumerates all properties
+        /// Enumerates all properties.
         /// </summary>
         /// <returns>Enumareted properties.</returns>
         IEnumerable<KeyValuePair<string, object>> EnumerateProperties();

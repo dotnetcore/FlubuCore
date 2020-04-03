@@ -42,7 +42,7 @@ namespace FlubuCore.WebApi.Client
         /// Get's the access token for flubu web api server.
         /// </summary>
         /// <param name="request"></param>
-        /// <returns>The access token</returns>
+        /// <returns>The access token.</returns>
         Task<GetTokenResponse> GetTokenAsync(GetTokenRequest request);
 
         Task HealthCheckAsync();
@@ -71,7 +71,7 @@ namespace FlubuCore.WebApi.Client
         /// <summary>
         /// Executes specified web api method and handles <see cref="WebApiException"/> with specified HttpStatusCode. If WebException with other status code has occured exception is retrown.
         /// </summary>
-        /// <typeparam name="T">The response data</typeparam>
+        /// <typeparam name="T">The response data.</typeparam>
         /// <param name="action"></param>
         /// <param name="statusCodesToHandle">HttpStatusCodes to handle.</param>
         /// <returns></returns>
@@ -94,7 +94,7 @@ namespace FlubuCore.WebApi.Client
         Task<ErrorModel> ExecuteAsync(Func<IWebApiClient, Task> action, params HttpStatusCode[] statusCodesToHandle);
 
         /// <summary>
-        /// Handles errors in execute method
+        /// Handles errors in execute method.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="response"></param>

@@ -3,7 +3,7 @@
     public class Chocolatey
     {
         /// <summary>
-        /// Installs a package or a list of packages (sometimes specified as a packages.config)
+        /// Installs a package or a list of packages (sometimes specified as a packages.config).
         /// </summary>
         /// <param name="package"></param>
         /// <returns></returns>

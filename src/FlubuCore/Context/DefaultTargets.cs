@@ -1,7 +1,7 @@
 ﻿namespace FlubuCore.Context
 {
     /// <summary>
-    /// Target to be added
+    /// Target to be added.
     /// </summary>
     public enum DefaultTargets
     {

@@ -44,7 +44,7 @@ namespace FlubuCore.Tasks.Chocolatey
         }
 
         /// <summary>
-        ///  No Color - Do not show colorization in logging output. This overrides the feature 'logWithoutColor', set to 'False'
+        ///  No Color - Do not show colorization in logging output. This overrides the feature 'logWithoutColor', set to 'False'.
         /// </summary>
         /// <returns></returns>
         [ArgKey("--no-color")]
@@ -99,7 +99,7 @@ namespace FlubuCore.Tasks.Chocolatey
         }
 
         /// <summary>
-        ///  LimitOutput - Limit the output to essential information
+        ///  LimitOutput - Limit the output to essential information.
         /// </summary>
         /// <returns></returns>
         [ArgKey("--limit-output")]

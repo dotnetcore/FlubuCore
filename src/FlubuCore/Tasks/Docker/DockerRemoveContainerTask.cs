@@ -40,7 +40,7 @@ namespace FlubuCore.Tasks.Docker
 
         /// <summary>
         /// --force, -f
-        /// Force the removal of a running container (uses SIGKILL)
+        /// Force the removal of a running container (uses SIGKILL).
         /// </summary>
         public DockerRemoveContainerTask Force()
         {

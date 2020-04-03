@@ -29,7 +29,7 @@ namespace FlubuCore.Scripting
         public bool ExecuteTargetsInParallel { get; set; }
 
         /// <summary>
-        /// Script Argument that can be accessed in build script through <see cref="IBuildPropertiesContext.ScriptArgs"/>
+        /// Script Argument that can be accessed in build script through <see cref="IBuildPropertiesContext.ScriptArgs"/>.
         /// </summary>
         public DictionaryWithDefault<string, string> ScriptArguments { get; set; } = new DictionaryWithDefault<string, string>(StringComparer.OrdinalIgnoreCase);
 

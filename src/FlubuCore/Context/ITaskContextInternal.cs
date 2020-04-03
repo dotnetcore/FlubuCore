@@ -7,7 +7,7 @@ namespace FlubuCore.Context
     public interface ITaskContextInternal : ITaskContext, IDisposable
     {
         /// <summary>
-        /// The <see cref="TargetTree"/>
+        /// The <see cref="TargetTree"/>.
         /// </summary>
         TargetTree TargetTree { get; }
 

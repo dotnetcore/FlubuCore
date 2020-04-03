@@ -41,11 +41,11 @@ namespace FlubuCore.Context
         /// <summary>
         /// Get's the property by property name.
         /// </summary>
-        /// <typeparam name="T">Type of returned property</typeparam>
-        /// <param name="propertyName">The property name</param>
+        /// <typeparam name="T">Type of returned property.</typeparam>
+        /// <param name="propertyName">The property name.</param>
         /// <param name="ignoreCase">if true key is not case sensitive. Otherwise it is.</param>
         /// <param name="memberName"></param>
-        /// <returns>The property</returns>
+        /// <returns>The property.</returns>
         public T Get<T>(string propertyName, bool ignoreCase = true, [CallerMemberName] string memberName = "")
         {
             InitializePropertyInfos();
@@ -133,10 +133,10 @@ namespace FlubuCore.Context
         /// <summary>
         /// Get's the property by property name.
         /// </summary>
-        /// <typeparam name="T">Type of returned property</typeparam>
-        /// <param name="propertyName">The property name</param>
+        /// <typeparam name="T">Type of returned property.</typeparam>
+        /// <param name="propertyName">The property name.</param>
         /// <param name="defaultValue">Returned value if property is not set in session.</param>
-        /// <returns>The property</returns>
+        /// <returns>The property.</returns>
         public T Get<T>(string propertyName, T defaultValue, [CallerMemberName] string memberName = "")
         {
             propertyName = propertyName.ToLowerInvariant();
@@ -171,7 +171,7 @@ namespace FlubuCore.Context
         }
 
         /// <summary>
-        /// Enumerates all properties
+        /// Enumerates all properties.
         /// </summary>
         /// <returns>Enumareted properties.</returns>
         public IEnumerable<KeyValuePair<string, object>> EnumerateProperties()

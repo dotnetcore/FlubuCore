@@ -75,7 +75,7 @@ namespace FlubuCore.Tests.Context
             target1.Setup(x => x.TargetName).Returns("dep");
             ITarget t = _fluent.DependsOn(target1.Object).DependsOn(target2.Object).When(c => false);
             Assert.NotNull(t);
-            Assert.Equal(1, _target.Dependencies.Count);
+            Assert.Single(_target.Dependencies);
             Assert.True(_target.Dependencies.ContainsKey("dep"));
         }
 
@@ -86,7 +86,7 @@ namespace FlubuCore.Tests.Context
             target1.Setup(x => x.TargetName).Returns("dep");
             ITarget t = _fluent.DependsOn(target1.Object).When(null);
             Assert.NotNull(t);
-            Assert.Equal(1, _target.Dependencies.Count);
+            Assert.Single(_target.Dependencies);
         }
 
         [Fact]
@@ -99,8 +99,8 @@ namespace FlubuCore.Tests.Context
             ITarget t = _fluent.AddTask(x => x.CompileSolutionTask()).AddTask(x => x.CleanOutputTask())
                 .When(c => false);
             Assert.NotNull(t);
-            Assert.Equal(1, _target.TasksGroups.Count);
-            Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);
+            Assert.Single(_target.TasksGroups);
+            Assert.Single(_target.TasksGroups[0].Tasks);
         }
 
         [Fact]
@@ -114,8 +114,8 @@ namespace FlubuCore.Tests.Context
                 .When(c => true);
             Assert.NotNull(t);
             Assert.Equal(2, _target.TasksGroups.Count);
-            Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);
-            Assert.Equal(1, _target.TasksGroups[1].Tasks.Count);
+            Assert.Single(_target.TasksGroups[0].Tasks);
+            Assert.Single(_target.TasksGroups[1].Tasks);
         }
 
         [Fact]
@@ -128,8 +128,8 @@ namespace FlubuCore.Tests.Context
             ITarget t = _fluent.AddTaskAsync(x => x.CompileSolutionTask()).AddTaskAsync(x => x.CleanOutputTask())
                 .When(c => false);
             Assert.NotNull(t);
-            Assert.Equal(1, _target.TasksGroups.Count);
-            Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);
+            Assert.Single(_target.TasksGroups);
+            Assert.Single(_target.TasksGroups[0].Tasks);
         }
 
         [Fact]
@@ -143,8 +143,8 @@ namespace FlubuCore.Tests.Context
                 .When(c => true);
             Assert.NotNull(t);
             Assert.Equal(2, _target.TasksGroups.Count);
-            Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);
-            Assert.Equal(1, _target.TasksGroups[1].Tasks.Count);
+            Assert.Single(_target.TasksGroups[0].Tasks);
+            Assert.Single(_target.TasksGroups[1].Tasks);
         }
 
         [Fact]
@@ -157,8 +157,8 @@ namespace FlubuCore.Tests.Context
             ITarget t = _fluent.AddCoreTask(x => x.Build()).AddCoreTask(x => x.Clean())
                 .When(c => false);
             Assert.NotNull(t);
-            Assert.Equal(1, _target.TasksGroups.Count);
-            Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);
+            Assert.Single(_target.TasksGroups);
+            Assert.Single(_target.TasksGroups[0].Tasks);
         }
 
         [Fact]
@@ -185,8 +185,8 @@ namespace FlubuCore.Tests.Context
             ITarget t = _fluent.AddCoreTaskAsync(x => x.Build()).AddCoreTaskAsync(x => x.Clean())
                 .When(c => false);
             Assert.NotNull(t);
-            Assert.Equal(1, _target.TasksGroups.Count);
-            Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);
+            Assert.Single(_target.TasksGroups);
+            Assert.Single(_target.TasksGroups[0].Tasks);
         }
 
         [Fact]
@@ -199,8 +199,8 @@ namespace FlubuCore.Tests.Context
             ITarget t = _fluent.AddCoreTaskAsync(x => x.Build()).AddCoreTaskAsync(x => x.Clean()).When(c => true);
             Assert.NotNull(t);
             Assert.Equal(2, _target.TasksGroups.Count);
-            Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);
-            Assert.Equal(1, _target.TasksGroups[1].Tasks.Count);
+            Assert.Single(_target.TasksGroups[0].Tasks);
+            Assert.Single(_target.TasksGroups[1].Tasks);
         }
 
         [Fact]
@@ -219,8 +219,8 @@ namespace FlubuCore.Tests.Context
             });
 
             Assert.Equal(8, _target.TasksGroups.Count);
-            Assert.Equal(1, _target.TasksGroups[0].Tasks.Count);
-            Assert.Equal(1, _target.TasksGroups[1].Tasks.Count);
+            Assert.Single(_target.TasksGroups[0].Tasks);
+            Assert.Single(_target.TasksGroups[1].Tasks);
         }
 
         [Fact]

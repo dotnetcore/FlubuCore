@@ -193,7 +193,7 @@ namespace FlubuCore.WebApi.Client
                         ? JsonConvert.DeserializeObject<ErrorModel>(errorString)
                         : new ErrorModel();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     throw new WebApiException(HttpStatusCode.InternalServerError, errorString);
                 }

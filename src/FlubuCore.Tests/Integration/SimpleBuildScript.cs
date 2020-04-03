@@ -13,10 +13,10 @@ namespace FlubuCore.Tests.Integration
 
         protected override void ConfigureTargets(ITaskContext session)
         {
-            ITarget test = session.CreateTarget("test")
+            var test = session.CreateTarget("test")
                 .AddTask(s => s.CopyFileTask("t1", "t2", false));
 
-            ITarget test1 = session.CreateTarget("test1")
+            var test1 = session.CreateTarget("test1")
                 .DependsOn(test);
 
             var restore = session

@@ -388,7 +388,7 @@ namespace FlubuCore.Tasks.Chocolatey
 
         /// <summary>
         ///  Skip Download Cache - Use the original download even if a private CDN cache is available for a package. Overrides the default feature
-        /// 'downloadCache' set to 'True'. Available in 0.9.10+. [Licensed editions](https://chocolatey.org/compare) only. See https://chocolatey.org/docs/features-private-cdn
+        /// 'downloadCache' set to 'True'. Available in 0.9.10+. [Licensed editions](https://chocolatey.org/compare) only. See https://chocolatey.org/docs/features-private-cdn.
         /// </summary>
         /// <returns></returns>
         [ArgKey("--skip-download-cache")]
@@ -407,7 +407,7 @@ namespace FlubuCore.Tasks.Chocolatey
 
         /// <summary>
         /// kip Virus Check - Skip the virus check for downloaded files on this run. Overrides the default feature 'virusCheck' set to 'True'. Available
-        /// in 0.9.10+. [Licensed editions](https://chocolatey.org/compare) only. See https://chocolate-y.org/docs/features-virus-check
+        /// in 0.9.10+. [Licensed editions](https://chocolatey.org/compare) only. See https://chocolate-y.org/docs/features-virus-check.
         /// </summary>
         /// <returns></returns>
         [ArgKey("--skip-virus-check")]
@@ -419,7 +419,7 @@ namespace FlubuCore.Tasks.Chocolatey
 
         /// <summary>
         ///  Virus Check - check downloaded files for viruses. Overrides the default feature 'virusCheck' set to 'True'. Available in 0.9.10+. Licensed
-        ///    editions only. See https://chocolatey.org/docs/features-virus-check
+        ///    editions only. See https://chocolatey.org/docs/features-virus-check.
         /// </summary>
         /// <returns></returns>
         [ArgKey("--virus-check")]
@@ -431,7 +431,7 @@ namespace FlubuCore.Tasks.Chocolatey
 
         /// <summary>
         ///  Virus Check Minimum Scan Result Positives - the minimum number of scan result positives required to flag a package. Used when virusScannerType
-        ///  is VirusTotal. Overrides the default configuration value 'virusCheckMinimumPositives' set to '5'. Available in 0.9.10+. Licensed editions only. See https://chocolatey.org/docs/features-virus-check
+        ///  is VirusTotal. Overrides the default configuration value 'virusCheckMinimumPositives' set to '5'. Available in 0.9.10+. Licensed editions only. See https://chocolatey.org/docs/features-virus-check.
         /// </summary>
         /// <returns></returns>
         [ArgKey("--viruspositivesmin")]
@@ -471,7 +471,7 @@ namespace FlubuCore.Tasks.Chocolatey
 
         /// <summary>
         /// Maximum Download Rate Bits Per Second - The maximum download rate in  bits per second. '0' or empty means no maximum. A number means that will
-        /// be the maximum download rate in bps. Defaults to config setting of '0'.  Available in [licensed editions](https://chocolatey.org/compare) v1.10+ only. See https://chocolate- y.org/docs/features-package-throttle
+        /// be the maximum download rate in bps. Defaults to config setting of '0'.  Available in [licensed editions](https://chocolatey.org/compare) v1.10+ only. See https://chocolate- y.org/docs/features-package-throttle.
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -484,7 +484,7 @@ namespace FlubuCore.Tasks.Chocolatey
 
         /// <summary>
         /// Reducer Installed Package Size (Package Reducer) - Reduce size of the nupkg file to very small and remove extracted archives and installers.
-        /// Overrides the default feature 'reduceInstalledPackageSpaceUsage' set to 'True'. [Licensed editions](https://chocolatey.org/compare) only (version 1.12.0+). See https://chocolate-y.org/docs/features-package-reducer
+        /// Overrides the default feature 'reduceInstalledPackageSpaceUsage' set to 'True'. [Licensed editions](https://chocolatey.org/compare) only (version 1.12.0+). See https://chocolate-y.org/docs/features-package-reducer.
         /// </summary>
         /// <returns></returns>
         [ArgKey("--reduce-package-size")]
@@ -496,7 +496,7 @@ namespace FlubuCore.Tasks.Chocolatey
 
         /// <summary>
         /// Do Not Reduce Installed Package Size - Leave the nupkg and files alone in the package. Overrides the default feature
-        /// 'reduceInstalledPackageSpaceUsage' set to 'True'. [Licensed editions](https://chocolatey.org/compare) only (version 1.12.0+). See https://chocolatey.org/docs/features-package-reducer
+        /// 'reduceInstalledPackageSpaceUsage' set to 'True'. [Licensed editions](https://chocolatey.org/compare) only (version 1.12.0+). See https://chocolatey.org/docs/features-package-reducer.
         /// </summary>
         /// <returns></returns>
         [ArgKey("--no-reduce-package-size")]
@@ -508,7 +508,7 @@ namespace FlubuCore.Tasks.Chocolatey
 
         /// <summary>
         /// Reduce Only Nupkg File Size - reduce only the size of nupkg file when using Package Reducer. Overrides the default feature
-        /// 'reduceOnlyNupkgSize' set to 'False'. [Licensed editions](https://chocolatey.org/compare) only (version -1.12.0+). See https://chocolatey.org/docs/features-package-reducer
+        /// 'reduceOnlyNupkgSize' set to 'False'. [Licensed editions](https://chocolatey.org/compare) only (version -1.12.0+). See https://chocolatey.org/docs/features-package-reducer.
         /// </summary>
         /// <returns></returns>
         [ArgKey("--reduce-nupkg-only")]

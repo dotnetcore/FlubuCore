@@ -60,20 +60,20 @@ namespace FlubuCore.Infrastructure
         }
 
 #if !NETSTANDARD1_6
-       public static Color Color
-       {
-           private get
-           {
-               _useColor = false;
-               return _consoleColor;
-           }
+        public static Color Color
+        {
+            private get
+            {
+                _useColor = false;
+                return _consoleColor;
+            }
 
-           set
-           {
-               _consoleColor = value;
-               _useColor = true;
-           }
-       }
+            set
+            {
+                _consoleColor = value;
+                _useColor = true;
+            }
+        }
 #endif
 
         public IConsole Console
@@ -126,8 +126,6 @@ namespace FlubuCore.Infrastructure
                 logBuilder = new StringBuilder();
             }
 
-            var logLevelColors = default(ConsoleColors);
-            var logLevelString = string.Empty;
             string timeMark = GetTimeMark();
             string indentation = Depth > 0 ? new string(' ', Depth * 3) : string.Empty;
 

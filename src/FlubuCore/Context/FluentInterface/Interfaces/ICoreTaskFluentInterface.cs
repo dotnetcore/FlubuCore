@@ -15,7 +15,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <summary>
         /// Executes specified dotnet command.
         /// </summary>
-        /// <param name="command">Commdand to execute</param>
+        /// <param name="command">Commdand to execute.</param>
         /// <returns></returns>
         ExecuteDotnetTask ExecuteDotnetTask(string command);
 
@@ -27,7 +27,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         ExecuteDotnetTask ExecuteDotnetTask(StandardDotnetCommands command);
 
         /// <summary>
-        /// Updates the version in csproj or project.json file
+        /// Updates the version in csproj or project.json file.
         /// </summary>
         /// <param name="files">The project files to update.</param>
         /// <returns></returns>
@@ -54,7 +54,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
             string configuration = null);
 
         /// <summary>
-        /// Builds a project and all of its dependencies
+        /// Builds a project and all of its dependencies.
         /// </summary>
         /// <param name="projectName"></param>
         /// <param name="workingFolder"></param>
@@ -88,7 +88,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <summary>
         /// Pushes the nuget package to nuget server.
         /// </summary>
-        /// <param name="packagePath">Path to .nupkg file</param>
+        /// <param name="packagePath">Path to .nupkg file.</param>
         /// <returns></returns>
         DotnetNugetPushTask NugetPush(string packagePath);
 
@@ -96,7 +96,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 
         /// <summary>
         /// Coverlet is a cross platform code coverage library for .NET Core, with support for line, branch and method coverage.
-        /// more info at: https://github.com/tonerdo/coverlet
+        /// more info at: https://github.com/tonerdo/coverlet.
         /// </summary>
         /// <param name="assembly">Path to the test assembly.</param>
         /// <returns></returns>

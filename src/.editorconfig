@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# CS1570: XML comment has badly formed XML
+dotnet_diagnostic.CS1570.severity = none
+
+# CS0162: Unreachable code detected
+dotnet_diagnostic.CS0162.severity = none

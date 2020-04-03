@@ -12,7 +12,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         ICreateWebsiteTask CreateWebsiteTask();
 
         /// <summary>
-        /// Task created new web application on the specified web site in iis
+        /// Task created new web application on the specified web site in iis.
         /// </summary>
         /// <returns></returns>
         ICreateWebApplicationTask CreateWebApplicationTask(string webApplcationName);
@@ -30,7 +30,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         IDeleteAppPoolTask DeleteAppPoolTask(string appPoolName);
 
         /// <summary>
-        /// /Task for controlling the application pool (start, stop)
+        /// /Task for controlling the application pool (start, stop).
         /// </summary>
         /// <returns></returns>
         IControlAppPoolTask ControlAppPoolTask(string applicationPoolName, ControlApplicationPoolAction action);

@@ -43,7 +43,7 @@ namespace FlubuCore.Targeting
         ITargetInternal DependsOn(params string[] targetNames);
 
         /// <summary>
-        ///     Specifies targets on which this target depends on and execute dependencies asynchronus
+        ///     Specifies targets on which this target depends on and execute dependencies asynchronus.
         /// </summary>
         /// <param name="targetNames">The dependency target names.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
@@ -221,7 +221,7 @@ namespace FlubuCore.Targeting
         /// Desciption will be displayed in help.
         /// </summary>
         /// <param name="description">The description.</param>
-        /// <returns>this target</returns>
+        /// <returns>this target.</returns>
         ITargetInternal SetDescription(string description);
 
         /// <summary>
@@ -234,7 +234,7 @@ namespace FlubuCore.Targeting
         /// <summary>
         /// Add's the task to the target.
         /// </summary>
-        /// <param name="task">The task to be added</param>
+        /// <param name="task">The task to be added.</param>
         ITargetInternal AddTask(TaskGroup taskGroup, params ITask[] task);
 
         ITargetInternal AddTaskAsync(TaskGroup taskGroup, params ITask[] task);

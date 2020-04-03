@@ -20,28 +20,28 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <summary>
         /// Add's the specified task to the target.
         /// </summary>
-        /// <param name="task">The task to be added</param>
+        /// <param name="task">The task to be added.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
         TTargetFluentInterface AddTask(Func<ITaskFluentInterface, ITask> task);
 
         /// <summary>
         /// Add's the specified .net core task to the target.
         /// </summary>
-        /// <param name="task">The .net core task to be added</param>
+        /// <param name="task">The .net core task to be added.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
         TTargetFluentInterface AddCoreTask(Func<ICoreTaskFluentInterface, ITask> task);
 
         /// <summary>
         /// Add's the specified task to the target that will be run asynchronous with other tasks.
         /// </summary>
-        /// <param name="task">The task to be added</param>
+        /// <param name="task">The task to be added.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
         TTargetFluentInterface AddTaskAsync(Func<ITaskFluentInterface, ITask> task);
 
         /// <summary>
         /// Add's the specified .net core task to the target that will be run asynchronous with other tasks.
         /// </summary>
-        /// <param name="task">The task to be added</param>
+        /// <param name="task">The task to be added.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
         TTargetFluentInterface AddCoreTaskAsync(Func<ICoreTaskFluentInterface, ITask> task);
 
@@ -212,8 +212,8 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// Iterates through <see cref="collection"/> and adds specified actions to target.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="collection">The collection</param>
-        /// <param name="action">The acction</param>
+        /// <param name="collection">The collection.</param>
+        /// <param name="action">The acction.</param>
         /// <returns></returns>
         TTargetFluentInterface ForEach<T>(IEnumerable<T> collection, Action<T, TTargetFluentInterface> action);
 

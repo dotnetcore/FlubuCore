@@ -70,7 +70,7 @@ namespace FlubuCore.WebApi.Client
                 return new List<string>();
             }
 
-           List<string> uploadedFiles = new List<string>();
+            List<string> uploadedFiles = new List<string>();
             using (var content = new MultipartFormDataContent())
             {
                 ////todo investigate why one content has to be added.
@@ -128,7 +128,7 @@ namespace FlubuCore.WebApi.Client
          /// <summary>
         /// Executes specified web api method and handles <see cref="WebApiException"/> with specified HttpStatusCode. If WebException with other status code has occured exception is retrown.
         /// </summary>
-        /// <typeparam name="T">The response data</typeparam>
+        /// <typeparam name="T">The response data.</typeparam>
         /// <param name="action"></param>
         /// <returns></returns>
         public async Task<Response<T>> ExecuteAsync<T>(Func<IWebApiClient, Task<T>> action)
@@ -139,7 +139,7 @@ namespace FlubuCore.WebApi.Client
         /// <summary>
         /// Executes specified web api method and handles <see cref="WebApiException"/> <see cref="TimeoutException"/> with specified HttpStatusCodes. If WebException with other status code has occured exception is rethrown.
         /// </summary>
-        /// <typeparam name="T">The response data</typeparam>
+        /// <typeparam name="T">The response data.</typeparam>
         /// <param name="action"></param>
         /// <param name="statusCodesToHandle">HttpStatusCodes to handle.</param>
         /// <returns></returns>

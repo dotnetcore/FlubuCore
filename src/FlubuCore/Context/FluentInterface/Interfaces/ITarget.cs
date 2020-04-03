@@ -18,28 +18,28 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <summary>
         /// Add's the specified task to the target.
         /// </summary>
-        /// <param name="task">The task to be added</param>
+        /// <param name="task">The task to be added.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
         new ITarget AddTask(Func<ITaskFluentInterface, ITask> task);
 
         /// <summary>
         /// Add's the specified .net core task to the target.
         /// </summary>
-        /// <param name="task">The .net core task to be added</param>
+        /// <param name="task">The .net core task to be added.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
         new ITarget AddCoreTask(Func<ICoreTaskFluentInterface, ITask> task);
 
         /// <summary>
         /// Add's the specified task to the target that will be run asynchronous with other tasks.
         /// </summary>
-        /// <param name="task">The task to be added</param>
+        /// <param name="task">The task to be added.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
         new ITarget AddTaskAsync(Func<ITaskFluentInterface, ITask> task);
 
         /// <summary>
         /// Add's the specified .net core task to the target that will be run asynchronous with other tasks.
         /// </summary>
-        /// <param name="task">The task to be added</param>
+        /// <param name="task">The task to be added.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
         new ITarget AddCoreTaskAsync(Func<ICoreTaskFluentInterface, ITask> task);
 
@@ -48,7 +48,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="doAction">Action to execute.</param>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-         new ITarget Do(Action<ITaskContext> doAction, Action<DoTask> doOptions = null);
+        new ITarget Do(Action<ITaskContext> doAction, Action<DoTask> doOptions = null);
 
         /// <summary>
         /// Execute custom code in script. . U can invoke base task actions through optional parameter.
@@ -287,7 +287,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="targetAction">specify tasks to add in target action.</param>
         /// <param name="onFinally">action that will be taken when all task finish or when error occures.</param>
-        /// <param name="onError">action that will be taken on any task actions</param>
+        /// <param name="onError">action that will be taken on any task actions.</param>
         /// <param name="when">Tasks will be added only if specified condition is meet.</param>
         /// <returns></returns>
         ITarget Group(Action<ITargetBaseFluentInterfaceOfT<ITarget>> targetAction, Action<ITaskContext> onFinally = null, Action<ITaskContext, Exception> onError = null, Func<ITaskContext, bool> when = null, bool cleanupOnCancel = false);

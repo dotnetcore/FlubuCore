@@ -32,7 +32,7 @@
         }
 
         /// <summary>
-        ///  root directory of the current git repository
+        ///  root directory of the current git repository.
         /// </summary>
         /// <returns></returns>
         public string RootDirectory()

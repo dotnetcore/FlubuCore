@@ -13,22 +13,22 @@ namespace FlubuCore.WebApi.Model
         public HttpStatusCode StatusCode { get; set; }
 
         /// <summary>
-        /// The error code
+        /// The error code.
         /// </summary>
         public string ErrorCode { get; set; }
 
         /// <summary>
-        /// The error message
+        /// The error message.
         /// </summary>
         public string ErrorMessage { get; set; }
 
         /// <summary>
-        /// Stack trace of the exception
+        /// Stack trace of the exception.
         /// </summary>
         public string StackTrace { get; set; }
 
         /// <summary>
-        /// Flubu web api logs
+        /// Flubu web api logs..
         /// </summary>
         public List<string> Logs { get; set; }
 

@@ -30,7 +30,7 @@ namespace FlubuCore.Tasks.Chocolatey
         }
 
         /// <summary>
-        ///  Version - the version of the package. Can also be passed as the property;
+        ///  Version - the version of the package. Can also be passed as the property;.
         /// </summary>
         /// <param name="version"></param>
         /// <returns></returns>
@@ -42,7 +42,7 @@ namespace FlubuCore.Tasks.Chocolatey
         }
 
         /// <summary>
-        /// Maintainer - the name of the maintainer. Can also be passed as the property MaintainerName=somevalue
+        /// Maintainer - the name of the maintainer. Can also be passed as the property MaintainerName=somevalue.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -54,7 +54,7 @@ namespace FlubuCore.Tasks.Chocolatey
         }
 
         /// <summary>
-        /// OutputDirectory - Specifies the directory for the created Chocolatey package file. If not specified, uses the current directory. Available in
+        /// OutputDirectory - Specifies the directory for the created Chocolatey package file. If not specified, uses the current directory. Available in.
         /// </summary>
         /// <param name="directory"></param>
         /// <returns></returns>
@@ -78,7 +78,7 @@ namespace FlubuCore.Tasks.Chocolatey
 
         /// <summary>
         /// detection (native installer, zip, patch/upgrade file, or remote url to download first) to completely create a package with proper silent
-        /// arguments! Can be 32-bit or 64-bit architecture.  Available in licensed editions only (licensed version 1.4.0+, url/zip starting in 1.6.0). See https://chocolatey.org/docs/features-create-packages-from-installers
+        /// arguments! Can be 32-bit or 64-bit architecture.  Available in licensed editions only (licensed version 1.4.0+, url/zip starting in 1.6.0). See https://chocolatey.org/docs/features-create-packages-from-installers.
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>

@@ -86,7 +86,7 @@ namespace FlubuCore.Scripting
                 .CreateBuildScriptInstanceOldWayAttribute);
 
 #if NET462
-          oldWay = true;
+            oldWay = true;
 #endif
             var references = GetBuildScriptReferences(args, projectFileAnalyzerResult, scriptAnalyzerResult,
                 oldWay, buildScriptFilePath);
@@ -302,7 +302,7 @@ namespace FlubuCore.Scripting
                 ? _nugetPackageResolver.ResolveNugetPackagesFromFlubuCsproj(projectFileAnalyzerResult)
                 : _nugetPackageResolver.ResolveNugetPackagesFromDirectives(scriptAnalyzerResult.NugetPackageReferences, pathToBuildScript));
 
-           AddAssemblyReferencesFromCsproj(projectFileAnalyzerResult, assemblyReferences);
+            AddAssemblyReferencesFromCsproj(projectFileAnalyzerResult, assemblyReferences);
 
             var assemblyReferencesLocations = assemblyReferences.Select(x => x.FullPath).ToList();
             assemblyReferencesLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));

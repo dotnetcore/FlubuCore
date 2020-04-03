@@ -14,7 +14,7 @@ namespace FlubuCore.Context.BuildServers
         }
 
         /// <summary>
-        /// Indicates whether build is running on MyGet
+        /// Indicates whether build is running on MyGet.
         /// </summary>
         public bool IsRunningOnMyGet => RunningOnMyGet;
     }
