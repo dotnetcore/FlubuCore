@@ -29,7 +29,7 @@ for:
   #- ps: cd c:\projects\xxx
                 
   before_build:
-  - ps: dotnet tool install --global FlubuCore.GlobalTool --version 4.3.7
+  - ps: dotnet tool install --global FlubuCore.GlobalTool --version 5.0.3
 
   build_script:
   - ps: cd src
@@ -41,7 +41,7 @@ for:
       - image: Ubuntu1804
     
   before_build:
-  - sh: dotnet tool install --global FlubuCore.GlobalTool --version 4.3.7
+  - sh: dotnet tool install --global FlubuCore.GlobalTool --version 5.0.3
   
   build_script:
   - sh: cd src
