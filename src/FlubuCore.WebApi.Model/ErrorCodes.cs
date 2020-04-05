@@ -26,7 +26,7 @@ namespace FlubuCore.WebApi.Model
         public const string TargetNotFound = "TargetNotFound";
 
         /// <summary>
-        /// Occures when user doesnt have access to specific resource;
+        /// Occures when user doesnt have access to specific resource.
         /// </summary>
         public const string Forbiden = "Forbiden";
 

@@ -16,6 +16,8 @@ namespace FlubuCore.Tasks.NetCore
 
         private bool _cleanOutputDir;
 
+        private string _projectName;
+
         private List<(string path, bool recreate)> _directoriesToClean = new List<(string path, bool recreate)>();
 
         public DotnetCleanTask()
@@ -45,7 +47,7 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         public DotnetCleanTask Project(string projectName)
         {
-            InsertArgument(0, projectName);
+            _projectName = projectName;
             return this;
         }
 
@@ -143,16 +145,24 @@ namespace FlubuCore.Tasks.NetCore
 
         protected override void BeforeExecute(ITaskContextInternal context, IRunProgramTask runProgramTask)
         {
-            if (GetArguments().Count == 0 || GetArguments()[0].StartsWith("-") || GetArguments()[0].StartsWith("/"))
+            var args = GetArguments();
+            if (string.IsNullOrEmpty(_projectName))
             {
-                var solustionFileName = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
-                if (solustionFileName != null)
+                if (args.Count == 0 || args[0].StartsWith("-"))
                 {
-                    Project(solustionFileName);
+                    var solustionFileName = context.Properties.Get<string>(BuildProps.SolutionFileName, null);
+                    if (solustionFileName != null)
+                    {
+                        InsertArgument(0, solustionFileName);
+                    }
                 }
             }
+            else
+            {
+                InsertArgument(0, _projectName);
+            }
 
-            if (!GetArguments().Exists(x => x == "-c" || x == "--configuration"))
+            if (!args.Exists(x => x == "-c" || x == "--configuration"))
             {
                 var configuration = context.Properties.Get<string>(BuildProps.BuildConfiguration, null);
                 if (configuration != null)

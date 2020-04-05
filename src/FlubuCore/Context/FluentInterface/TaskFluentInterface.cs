@@ -121,7 +121,7 @@ namespace FlubuCore.Context.FluentInterface
         /// Initializes NunitTask with default command line options for nunit V3.
         /// </summary>
         /// <param name="projectName">Unit test project name.</param>
-        /// <returns>New instance of nunit task</returns>
+        /// <returns>New instance of nunit task.</returns>
         public NUnitTask NUnitTaskForNunitV3(params string[] projectName)
         {
             return Tasks.Testing.NUnitTask.ForNunitV3(projectName);
@@ -132,7 +132,7 @@ namespace FlubuCore.Context.FluentInterface
         /// Initializes NunitTask with default command line options for nunit V2.
         /// </summary>
         /// <param name="projectName">Unit test project name.</param>
-        /// <returns>New instance of nunit task</returns>
+        /// <returns>New instance of nunit task.</returns>
         public NUnitTask NUnitTaskForNunitV2(params string[] projectName)
         {
             return Tasks.Testing.NUnitTask.ForNunitV2(projectName);

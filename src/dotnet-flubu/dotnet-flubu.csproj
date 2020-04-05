@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net462;netcoreapp1.0;netcoreapp1.1;netcoreapp2.0;netcoreapp2.1;netcoreapp3.0</TargetFrameworks>
     <WarningsAsErrors>true</WarningsAsErrors>
@@ -21,9 +21,9 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <AssemblyVersion>4.3.7.0</AssemblyVersion>
-    <FileVersion>4.3.7.0</FileVersion>
-    <Version>4.3.7</Version>
+    <AssemblyVersion>5.0.3.0</AssemblyVersion>
+    <FileVersion>5.0.3.0</FileVersion>
+    <Version>5.0.3</Version>
     <RootNamespace>DotNet.Cli.Flubu</RootNamespace>
     <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1701;1702;1705;1591;1573;1572;1574</NoWarn>
@@ -55,6 +55,9 @@
       <PackageCopyToOutput>true</PackageCopyToOutput>
       <Pack>true</Pack>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlubuCore\FlubuCore.csproj" />

@@ -29,7 +29,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <summary>
         ///  Copies a directory tree from the source to the destination.
         /// </summary>
-        /// <param name="sourcePath">Path of the source directory</param>
+        /// <param name="sourcePath">Path of the source directory.</param>
         /// <param name="destinationPath">Path where directory will be copied to.</param>
         /// <param name="overwriteExisting">If <c>True</c> directory on the destination path is overwriten if it exists. Otherwise not.</param>
         /// <returns></returns>
@@ -39,7 +39,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// Creates new <see cref="HttpClient"/> or get's existing one. Depending on the base url.
         /// </summary>
         /// <remarks></remarks>
-        /// <param name="baseUrl">The base url</param>
+        /// <param name="baseUrl">The base url.</param>
         /// <returns></returns>
         HttpClient CreateHttpClient(string baseUrl);
 
@@ -73,21 +73,21 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         CompileSolutionTask CompileSolutionTask();
 
         /// <summary>
-        /// Task compiles specified solution with MsBuild
+        /// Task compiles specified solution with MsBuild.
         /// </summary>
-        /// <param name="solutionFileName">The file name of the solution to be compiled</param>
+        /// <param name="solutionFileName">The file name of the solution to be compiled.</param>
         /// <param name="buildConfiguration">The build configuration solution will be compiled in(Release, Debug...)</param>
         /// <returns></returns>
         CompileSolutionTask CompileSolutionTask(string solutionFileName, string buildConfiguration);
 
         /// <summary>
-        /// Chocolatey specific tasks. https://chocolatey.org/
+        /// Chocolatey specific tasks. https://chocolatey.org/.
         /// </summary>
         /// <returns></returns>
         Chocolatey Chocolatey();
 
         /// <summary>
-        /// Task load's solution information to the <see cref="BuildPropertiesSession"/> <see cref="BuildProps.Solution"/> solution file name is retieved from <see cref="BuildPropertiesSession"/>
+        /// Task load's solution information to the <see cref="BuildPropertiesSession"/> <see cref="BuildProps.Solution"/> solution file name is retieved from <see cref="BuildPropertiesSession"/>.
         /// </summary>
         LoadSolutionTask LoadSolutionTask();
 
@@ -98,7 +98,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         LoadSolutionTask LoadSolutionTask(string solutionFileName);
 
         /// <summary>
-        /// Runs the cooverage report generator tool
+        /// Runs the cooverage report generator tool.
         /// </summary>
         /// <param name="inputFiles"></param>
         /// <returns></returns>
@@ -207,13 +207,13 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         FetchVersionFromExternalSourceTask FetchVersionFromExternalSourceTask();
 
         /// <summary>
-        /// Generate's common assembly info file. Information is taken from <see cref="IBuildPropertiesSession"/>
+        /// Generate's common assembly info file. Information is taken from <see cref="IBuildPropertiesSession"/>.
         /// </summary>
         /// <returns></returns>
         GenerateCommonAssemblyInfoTask GenerateCommonAssemblyInfoTask();
 
         /// <summary>
-        /// Task generate's common assembly info file. Information is taken from <see cref="IBuildPropertiesSession"/>
+        /// Task generate's common assembly info file. Information is taken from <see cref="IBuildPropertiesSession"/>.
         /// </summary>
         /// <returns></returns>
         GenerateCommonAssemblyInfoTask GenerateCommonAssemblyInfoTask(Version buildVersion);
@@ -235,7 +235,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <summary>
         /// Task unzip specified zip to specified locattion.
         /// </summary>
-        /// <param name="zip">Zip file to be unziped</param>
+        /// <param name="zip">Zip file to be unziped.</param>
         /// <param name="destionation">Destination path where zip content will be unziped.</param>
         /// <returns></returns>
         UnzipTask UnzipTask(string zip, string destionation);
@@ -248,7 +248,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
 
         /// <summary>
         /// GitVersion is a tool to help you achieve Semantic Versioning on your project.
-        /// https://gitversion.readthedocs.io/en/latest/
+        /// https://gitversion.readthedocs.io/en/latest/.
         /// </summary>
         /// <returns></returns>
         GitVersionTask GitVersionTask();
@@ -274,9 +274,9 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <summary>
         /// Task copies file to specified location.
         /// </summary>
-        /// <param name="sourceFileName">File to be copied</param>
+        /// <param name="sourceFileName">File to be copied.</param>
         /// <param name="destinationFileName"></param>
-        /// <param name="overwrite">If <c>true</c> file is owerwriten if exists. Otherwise not</param>
+        /// <param name="overwrite">If <c>true</c> file is owerwriten if exists. Otherwise not.</param>
         /// <returns></returns>
         CopyFileTask CopyFileTask(string sourceFileName, string destinationFileName, bool overwrite);
 
@@ -298,7 +298,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <summary>
         /// Task deletes directory.
         /// </summary>
-        /// <param name="directoryPath">Path of the directoy to be deleted</param>
+        /// <param name="directoryPath">Path of the directoy to be deleted.</param>
         /// <param name="failIfNotExists">If <c>true</c> task fails if excetpion. Otherwise not.</param>
         /// <returns></returns>
         DeleteDirectoryTask DeleteDirectoryTask(string directoryPath, bool failIfNotExists);
@@ -306,7 +306,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <summary>
         /// Task deletes files in specified directory.
         /// </summary>
-        /// <param name="directoryPath">Path of the directoy files to be deleted in</param>
+        /// <param name="directoryPath">Path of the directoy files to be deleted in.</param>
         /// <param name="filePattern">The search string to match against the names of files in path. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters but doesnt support regular expressions.</param>
         /// <param name="recursive">If <c>true</c> files in subdirectories is searched. Otherwise only in root directory.</param>
         /// <returns></returns>
@@ -324,7 +324,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// Task Replaces text in file.
         /// </summary>
         /// <param name="sourceFile">File path.</param>
-        /// <param name="tokens">Fist paramteter text to be replaced. Second parameter text to be replaced with</param>
+        /// <param name="tokens">Fist paramteter text to be replaced. Second parameter text to be replaced with.</param>
         /// <returns></returns>
         ReplaceTokensTask ReplaceTextTask(string sourceFile, params Tuple<string, string>[] tokens);
 
@@ -339,21 +339,21 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// Sleep for specified period of time.
         /// </summary>
         /// <param name="delay">Delay in milliseconds.</param>
-        /// <returns><see cref="SleepTask"/></returns>
+        /// <returns><see cref="SleepTask"/>.</returns>
         SleepTask Sleep(int delay);
 
         /// <summary>
         /// Sleep for specified period of time.
         /// </summary>
         /// <param name="delay">Delay.</param>
-        /// <returns><see cref="SleepTask"/></returns>
+        /// <returns><see cref="SleepTask"/>.</returns>
         SleepTask Sleep(TimeSpan delay);
 
         /// <summary>
         /// Control windows service with sc.exe command.
         /// </summary>
         /// <param name="command">Command to execute (stop, start, ...)</param>
-        /// <returns><see cref="ServiceControlTask"/></returns>
+        /// <returns><see cref="ServiceControlTask"/>.</returns>
         ServiceControlTask ControlService(string command);
 
         /// <summary>
@@ -361,23 +361,23 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <param name="command">Command to execute (stop, start, ...)</param>
         /// <param name="serviceName">Name of the service to control.</param>
-        /// <returns><see cref="ServiceControlTask"/></returns>
+        /// <returns><see cref="ServiceControlTask"/>.</returns>
         ServiceControlTask ControlService(string command, string serviceName);
 
         /// <summary>
         /// Control windows service with sc.exe command.
         /// </summary>
-        /// <param name="command">Standard command to execute</param>
+        /// <param name="command">Standard command to execute.</param>
         /// <param name="serviceName">Name of the service to control.</param>
-        /// <returns><see cref="ServiceControlTask"/></returns>
+        /// <returns><see cref="ServiceControlTask"/>.</returns>
         ServiceControlTask ControlService(StandardServiceControlCommands command, string serviceName);
 
         /// <summary>
         /// Creates windows service with sc.exe command.
         /// </summary>
         /// <param name="serviceName">Name of the service to control.</param>
-        /// <param name="pathToService">path to service executable .exe</param>
-        /// <returns><see cref="ServiceControlTask"/></returns>
+        /// <param name="pathToService">path to service executable .exe.</param>
+        /// <returns><see cref="ServiceControlTask"/>.</returns>
         ServiceCreateTask CreateWindowsService(string serviceName, string pathToService);
 
         /// <summary>
@@ -388,7 +388,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         ExecutePowerShellScriptTask ExecutePowerShellScript(string pathToPowerShellScript);
 
         /// <summary>
-        /// Execute SQL script file with sqlcmd.exe
+        /// Execute SQL script file with sqlcmd.exe.
         /// </summary>
         /// <returns></returns>
         SqlCmdTask SqlCmdTask(params string[] sqlFiles);

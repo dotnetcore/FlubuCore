@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard1.6;net462</TargetFrameworks>
     <WarningsAsErrors>true</WarningsAsErrors>
@@ -18,9 +18,9 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <Version>4.3.7</Version>
-    <AssemblyVersion>4.3.7.0</AssemblyVersion>
-    <FileVersion>4.3.7.0</FileVersion>
+    <Version>5.0.3</Version>
+    <AssemblyVersion>5.0.3.0</AssemblyVersion>
+    <FileVersion>5.0.3.0</FileVersion>
     <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1701;1702;1705;1591;1573;1572;1574</NoWarn>
   </PropertyGroup>

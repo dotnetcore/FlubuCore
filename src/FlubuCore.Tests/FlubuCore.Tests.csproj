@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <WarningsAsErrors>true</WarningsAsErrors>
@@ -12,9 +12,9 @@
 	  <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
 	  <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
 	  <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
-    <Version>4.3.7</Version>
-    <AssemblyVersion>4.3.7.0</AssemblyVersion>
-    <FileVersion>4.3.7.0</FileVersion>
+    <Version>5.0.3</Version>
+    <AssemblyVersion>5.0.3.0</AssemblyVersion>
+    <FileVersion>5.0.3.0</FileVersion>
     <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1701;1702;1705;1591;1573;1572;1574</NoWarn>
   </PropertyGroup>

@@ -296,7 +296,7 @@ namespace FlubuCore.Targeting
 #else
                 session.LogInfo(session.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
                 session.LogInfo($"Build finish time: {DateTime.Now:g}");
-                  session.LogInfo(string.Format(
+                session.LogInfo(string.Format(
                     "Build duration: {0:D2}:{1:D2}:{2:D2} ({3:d} seconds)",
                     buildDuration.Hours,
                     buildDuration.Minutes,

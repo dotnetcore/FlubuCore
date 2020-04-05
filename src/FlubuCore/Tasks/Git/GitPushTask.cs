@@ -10,30 +10,30 @@ namespace FlubuCore.Tasks.Git
     {
         private string _description;
 
-         public GitPushTask()
-         {
-             ExecutablePath = "git";
-             InsertArgument(0, "push");
-             AddPrefixToAdditionalOptionKey(PrefixProcessors.AddDoubleDashPrefixToAdditionalOptionKey);
-             AddAdditionalOptionPrefix("Push");
-         }
-
-           protected override string Description
+        public GitPushTask()
         {
-            get
-            {
-                if (string.IsNullOrEmpty(_description))
-                {
-                    return $"Executes git command 'push' with specified option.";
-                }
-
-                return _description;
-            }
-
-            set { _description = value; }
+            ExecutablePath = "git";
+            InsertArgument(0, "push");
+            AddPrefixToAdditionalOptionKey(PrefixProcessors.AddDoubleDashPrefixToAdditionalOptionKey);
+            AddAdditionalOptionPrefix("Push");
         }
 
-        /// <summary>
+        protected override string Description
+         {
+             get
+             {
+                 if (string.IsNullOrEmpty(_description))
+                 {
+                     return $"Executes git command 'push' with specified option.";
+                 }
+
+                 return _description;
+             }
+
+             set { _description = value; }
+         }
+
+         /// <summary>
         /// The "remote" repository that is destination of a push operation.
         /// This parameter can be either a URL or the name of a remote.
         /// </summary>

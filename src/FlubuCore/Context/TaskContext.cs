@@ -64,11 +64,11 @@ namespace FlubuCore.Context
 
         public virtual void LogInfo(string message)
         {
-             FlubuConsoleLogger.Depth = ExecutionDepth;
+            FlubuConsoleLogger.Depth = ExecutionDepth;
             _log.LogInformation(message);
         }
 
-        #if !NETSTANDARD1_6
+#if !NETSTANDARD1_6
         public virtual void LogInfo(string message, Color foregroundColor)
         {
             FlubuConsoleLogger.Color = foregroundColor;

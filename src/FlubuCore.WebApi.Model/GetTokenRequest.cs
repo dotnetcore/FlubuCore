@@ -14,7 +14,7 @@ namespace FlubuCore.WebApi.Model
         public string Username { get; set; }
 
         /// <summary>
-        /// The password
+        /// The password.
         /// </summary>
         public string Password { get; set; }
 

@@ -17,7 +17,7 @@
 
      Detailed examples can be found at: https://github.com/dotnetcore/FlubuCore.Examples
    </Description>
-      <Version>4.3.7</Version><AssemblyVersion>4.3.7.0</AssemblyVersion><FileVersion>4.3.7.0</FileVersion></PropertyGroup>
+      <Version>5.0.3</Version><AssemblyVersion>5.0.3.0</AssemblyVersion><FileVersion>5.0.3.0</FileVersion></PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin\Debug\netstandard1.4\FlubuCore.WebApi.Model.xml</DocumentationFile>

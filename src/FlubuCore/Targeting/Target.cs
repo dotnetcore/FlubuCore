@@ -299,10 +299,10 @@ namespace FlubuCore.Targeting
         }
 
         /// <summary>
-        ///     Set's the description of the target,
+        ///     Set's the description of the target.
         /// </summary>
-        /// <param name="description">The description</param>
-        /// <returns>this target</returns>
+        /// <param name="description">The description.</param>
+        /// <returns>this target.</returns>
         public new ITargetInternal SetDescription(string description)
         {
             Description = description;
@@ -323,8 +323,8 @@ namespace FlubuCore.Targeting
         /// <summary>
         ///     Specifies targets on which this target depends on.
         /// </summary>
-        /// <param name="targets">The dependency targets</param>
-        /// <returns>This same instance of <see cref="ITargetInternal" /></returns>
+        /// <param name="targets">The dependency targets.</param>
+        /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
         public ITargetInternal DependsOn(params ITargetInternal[] targets)
         {
             foreach (ITargetInternal target in targets)
@@ -511,7 +511,7 @@ namespace FlubuCore.Targeting
 #if !NETSTANDARD1_6
                 context.LogInfo(message, Color.DimGray);
 #else
-             context.LogInfo(message);
+                context.LogInfo(message);
 #endif
             }
 

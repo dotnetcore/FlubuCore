@@ -11,7 +11,7 @@ namespace FlubuCore.Tests.Tasks
 {
     public abstract class TaskUnitTestBase
     {
-        protected TaskUnitTestBase(MockBehavior propertiesMockBehavior = MockBehavior.Strict)
+        protected TaskUnitTestBase(MockBehavior propertiesMockBehavior = MockBehavior.Default)
         {
             Tasks = new Mock<ITaskFluentInterface>();
             CoreTasks = new Mock<ICoreTaskFluentInterface>();

@@ -13,20 +13,20 @@ namespace FlubuCore.Infrastructure
     public static class DocumenationExtensions
     {
         /// <summary>
-        /// A cache used to remember Xml documentation for assemblies
+        /// A cache used to remember Xml documentation for assemblies.
         /// </summary>
         private static readonly Dictionary<Assembly, XmlDocument> Cache = new Dictionary<Assembly, XmlDocument>();
 
         /// <summary>
-        /// A cache used to store failure exceptions for assembly lookups
+        /// A cache used to store failure exceptions for assembly lookups.
         /// </summary>
         private static readonly Dictionary<Assembly, Exception> FailCache = new Dictionary<Assembly, Exception>();
 
         /// <summary>
-        /// Provides the documentation comments for a specific method
+        /// Provides the documentation comments for a specific method.
         /// </summary>
-        /// <param name="methodInfo">The MethodInfo (reflection data ) of the member to find documentation for</param>
-        /// <returns>The XML fragment describing the method</returns>
+        /// <param name="methodInfo">The MethodInfo (reflection data ) of the member to find documentation for.</param>
+        /// <returns>The XML fragment describing the method.</returns>
         public static XmlElement GetDocumentation(this MethodInfo methodInfo)
         {
             // Calculate the parameter string as this is in the member name in the XML
@@ -49,10 +49,10 @@ namespace FlubuCore.Infrastructure
         }
 
         /// <summary>
-        /// Provides the documentation comments for a specific member
+        /// Provides the documentation comments for a specific member.
         /// </summary>
-        /// <param name="memberInfo">The MemberInfo (reflection data) or the member to find documentation for</param>
-        /// <returns>The XML fragment describing the member</returns>
+        /// <param name="memberInfo">The MemberInfo (reflection data) or the member to find documentation for.</param>
+        /// <returns>The XML fragment describing the member.</returns>
         public static XmlElement GetDocumentation(this MemberInfo memberInfo)
         {
             // First character [0] of member type is prefix character in the name in the XML
@@ -60,7 +60,7 @@ namespace FlubuCore.Infrastructure
         }
 
         /// <summary>
-        /// Returns the Xml documenation summary comment for this member
+        /// Returns the Xml documenation summary comment for this member.
         /// </summary>
         /// <param name="memberInfo"></param>
         /// <returns></returns>
@@ -73,10 +73,10 @@ namespace FlubuCore.Infrastructure
         }
 
         /// <summary>
-        /// Provides the documentation comments for a specific type
+        /// Provides the documentation comments for a specific type.
         /// </summary>
-        /// <param name="type">Type to find the documentation for</param>
-        /// <returns>The XML fragment that describes the type</returns>
+        /// <param name="type">Type to find the documentation for.</param>
+        /// <returns>The XML fragment that describes the type.</returns>
         public static XmlElement GetDocumentation(this Type type)
         {
             // Prefix in type names is T
@@ -84,7 +84,7 @@ namespace FlubuCore.Infrastructure
         }
 
         /// <summary>
-        /// Gets the summary portion of a type's documenation or returns an empty string if not available
+        /// Gets the summary portion of a type's documenation or returns an empty string if not available.
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -104,10 +104,10 @@ namespace FlubuCore.Infrastructure
         /// Obtains the XML Element that describes a reflection element by searching the
         /// members for a member that has a name that describes the element.
         /// </summary>
-        /// <param name="type">The type or parent type, used to fetch the assembly</param>
-        /// <param name="prefix">The prefix as seen in the name attribute in the documentation XML</param>
-        /// <param name="name">Where relevant, the full name qualifier for the element</param>
-        /// <returns>The member that has a name that describes the specified reflection element</returns>
+        /// <param name="type">The type or parent type, used to fetch the assembly.</param>
+        /// <param name="prefix">The prefix as seen in the name attribute in the documentation XML.</param>
+        /// <param name="name">Where relevant, the full name qualifier for the element.</param>
+        /// <returns>The member that has a name that describes the specified reflection element.</returns>
         private static XmlElement XmlFromName(this Type type, char prefix, string name)
         {
 #if !NETSTANDARD1_6
@@ -133,12 +133,12 @@ namespace FlubuCore.Infrastructure
         }
 
         /// <summary>
-        /// Obtains the documentation file for the specified assembly
+        /// Obtains the documentation file for the specified assembly.
         /// </summary>
-        /// <param name="assembly">The assembly to find the XML document for</param>
-        /// <returns>The XML document</returns>
+        /// <param name="assembly">The assembly to find the XML document for.</param>
+        /// <returns>The XML document.</returns>
         /// <remarks>This version uses a cache to preserve the assemblies, so that.
-        /// the XML file is not loaded and parsed on every single lookup</remarks>
+        /// the XML file is not loaded and parsed on every single lookup.</remarks>
         public static XmlDocument XmlFromAssembly(this Assembly assembly)
         {
             if (FailCache.ContainsKey(assembly))
@@ -166,8 +166,8 @@ namespace FlubuCore.Infrastructure
         /// <summary>
         /// Loads and parses the documentation file for the specified assembly.
         /// </summary>
-        /// <param name="assembly">The assembly to find the XML document for</param>
-        /// <returns>The XML document</returns>
+        /// <param name="assembly">The assembly to find the XML document for.</param>
+        /// <returns>The XML document.</returns>
         private static XmlDocument XmlFromAssemblyNonCached(Assembly assembly)
         {
 #if !NETSTANDARD1_6

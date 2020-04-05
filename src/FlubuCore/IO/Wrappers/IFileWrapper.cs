@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace FlubuCore.IO.Wrappers
 {
     /// <summary>
-    /// Wrapper interface for <see cref="File"/>
+    /// Wrapper interface for <see cref="File"/>.
     /// </summary>
     public interface IFileWrapper
     {

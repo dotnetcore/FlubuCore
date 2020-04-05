@@ -7,7 +7,7 @@ namespace FlubuCore.WebApi.Model
     {
         /// <summary>
         /// Target to execute.
-        /// ErrorCodes: notempty_error
+        /// ErrorCodes: notempty_error.
         /// </summary>
         public string TargetToExecute { get; set; }
 

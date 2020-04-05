@@ -10,7 +10,7 @@ namespace FlubuCore.Context
     public static class ContextBaseExtensions
     {
         /// <summary>
-        /// Get's Visual studio solution information. if <see cref="solutionFileName"/> is not specified solution file name is readed from <see cref="IBuildPropertiesContext"/> property <see cref="BuildProps.SolutionFileName"/>
+        /// Get's Visual studio solution information. if <see cref="solutionFileName"/> is not specified solution file name is readed from <see cref="IBuildPropertiesContext"/> property <see cref="BuildProps.SolutionFileName"/>.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="solutionFileName"></param>

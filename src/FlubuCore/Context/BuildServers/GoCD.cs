@@ -12,7 +12,7 @@ namespace FlubuCore.Context.BuildServers
         public bool IsRunningOnGoCD => RunningOnGoCD;
 
         /// <summary>
-        /// The commitId
+        /// The commitId.
         /// </summary>
         public string CommitId => Environment.GetEnvironmentVariable("GO_TO_REVISION");
     }

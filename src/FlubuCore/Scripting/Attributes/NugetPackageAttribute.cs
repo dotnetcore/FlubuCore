@@ -13,8 +13,8 @@ namespace FlubuCore.Scripting.Attributes
         /// <summary>
         /// Adds nuget package reference to script.
         /// </summary>
-        /// <param name="packageId">Id of the nuget package. For Example "FlubuCore"</param>
-        /// <param name="packageVersion">Version of the nuget package. For Example "3.0.0"</param>
+        /// <param name="packageId">Id of the nuget package. For Example "FlubuCore".</param>
+        /// <param name="packageVersion">Version of the nuget package. For Example "3.0.0".</param>
         public NugetPackageAttribute(string packageId, string packageVersion)
         {
         }

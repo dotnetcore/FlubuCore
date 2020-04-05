@@ -1,20 +1,14 @@
 ## **构建脚本**
 
-每个构建脚本（build script）都继承自 DefaulBuildScript 类，因此必须实现 DefaulBuildScript 中的两个抽象方法（abstact method）。
+每个构建脚本（build script）都继承自 DefaulBuildScript 类，因此必须实现 DefaulBuildScript 中的两个抽象方法（abstract method）。
 
 - ConfigureTargets：用于创建将执行特定工作的新目标（targets）。
-
-- ConfigureBuildProperties：用于设置可在多个任务和自定义 C# 代码间共享的各种构件属性（various build properties）。
 
 空构建脚本示例：
 
 ```C#
 public class BuildScript : DefaultBuildScript
 {
-	protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-    {
-    }
-
     protected override void ConfigureTargets(ITaskContext session)
     {
     }
@@ -114,6 +108,31 @@ context.CreateTarget("Example")
 
 - `.Interactive()` - 交互地将参数从控制台传递给任务的方法或参数。
 
+#### **Task attributes (Versioning)**
+It is possible to execute some tasks with attribute on property
+
+Flubu will inject return value of the task to the property. This is especially usefull for all versioning tasks, basically all tasks that return a value. See `FlubuCore.Tasks.Attributes` namespace for all available attributes.
+
+``` C#     
+[FetchBuildVersionFromFile]
+public BuildVersion BuildVersion { get;  }
+```   
+
+``` C#     
+[GitVersion]
+public GitVersion GitVersion { get;  }
+```
+
+This allows you to access version information in ConfigureTarget which is not possible if versioning task is executed for example as target dependency
+
+``` C# 
+protected override void ConfigureTargets(ITaskContext context)
+{
+        context.CreateTarget("Build")
+            .AddCoreTask(x => x.Build().Version(BuildVersion.Version.ToString()));
+}
+```  
+
 <a name="Custom-code"></a>
 
 ### **自定义 C# 代码/任务**
@@ -164,6 +183,13 @@ var targetA = context.CreateTarget("TargetA");
 var targetB = context.CreateTarget("TargetB");
 var targetC = context.CreateTarget("TargetC").DependsOn(targetB, targetA);
 ```
+
+It is also possible to reverse dependency
+
+```C#
+var targetC = context.CreateTarget("TargetC").DependenceOf(targetA);      
+```
+
 
 <a name="Reuse-set-of-tasks"></a>
 
@@ -229,7 +255,7 @@ private void Deploy(ITarget target, string deployPath)
 ```c#
   protected override void ConfigureTargets(ITaskContext context)
   {
-         var solution = context.Properties.Get<VSSolution>(BuildProps.Solution);
+         var solution = context.GetVsSolution();
 
          context.CreateTarget("Pack")
                 .ForEach(solution.Projects, (item, target) =>
@@ -410,42 +436,47 @@ protected override void ConfigureTargets(ITaskContext session)
 
 ### **构建属性**
 
-你可以在 ConfigureBuildProperties 方法中定义多种构件属性，用以在不同任务和自定义代码间共享。
+You can define various build properties with Attributes on properties or in ConfigureBuildProperties method (old way) to share them in different tasks and custom code.
 
-下例将演示如何跨越各种 nunit 目标/任务（nunit targets/tasks）共享 nunit 控制台路径：
+Following example shows how to share solution file name and configuration across various targets/tasks.
 
-```C#
-protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
+```C# 
+    [SolutionFileName]
+    public string SolutionFileName { get; set; } = "FlubuExample.sln";
+   
+    [BuildConfiguration] 
+    public string BuildConfiguration { get; set; } = "Release";
+
+protected override void ConfigureTargets(ITaskContext context)
 {
-	context.Properties.Set(BuildProps.NUnitConsolePath, @"packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe");
-}
+	   context.CreateTarget("build")
+            .AddCoreTask(x => x.Build());
 
-protected override void ConfigureTargets(ITaskContext session)
-{
-	session.CreateTarget("unit.tests1")
-        .SetDescription("Runs unit tests")
-        .AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests"));
-
-    session.CreateTarget("unit.tests1")
-         AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests2"));
+        context.CreateTarget("pack")
+            .AddCoreTask(x => x.Pack());
 }
 ```
 
-如果不在构件属性中设置 nunit 控制台路径，则必须单独在每个任务中设置。
+Alternative:
+```C# 
+    [BuildProperty(BuildProps.BuildConfiguration)]
+    public string BuildConfiguration { get; set; } = "Release";
+```
+If Solution file name and path would not be set through build property attributes you would have to set it in each task separately.
 
-如：
-
+like so:
 ```C#
-protected override void ConfigureTargets(ITaskContext session)
+protected override void ConfigureTargets(ITaskContext context)
 {
-    session.CreateTarget("unit.tests1")
-        .SetDescription("Runs unit tests")
-        .AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests")
-            .NunitConsolePath(@"packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe"));
+     context.CreateTarget("build")
+        .AddCoreTask(x => x.Build()
+            .Project("FlubuExample.sln")
+            .Configuration("Release"));
 
-    session.CreateTarget("unit.tests1")
-		.AddTask(x => x.NUnitTaskForNunitV3("FlubuExample.Tests2").
-			NunitConsolePath(@"packages\NUnit.ConsoleRunner.3.6.0\tools\nunit3-console.exe"));
+    context.CreateTarget("pack")
+        .AddCoreTask(x => x.Pack()
+            .Project("FlubuExample.sln")
+            .Configuration("Release"));
 }
 ```
 

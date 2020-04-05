@@ -72,7 +72,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
         }
 
         /// <summary>
-        /// Run's multiple programs
+        /// Run's multiple programs.
         /// </summary>
         /// <param name="programs"></param>
         /// <returns></returns>

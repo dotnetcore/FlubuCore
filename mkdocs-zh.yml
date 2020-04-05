@@ -37,6 +37,8 @@ nav:
     - '任务': 'tasks.md'
     - '编写与使用插件': 'write-plugins.md'
     - '测试与调试': 'Tests-debugging.md'    
+    - 'Execute script in console app or pack as global tool': 'execute-script-in-console-app-or-pack-as-global-tool.md'   
+    - 'FlubuCore modules': 'flubu-modules.md'    
     - 'Web Api' :
         - '入门' : 'WebApi/getting-started.md'
     - '插件精选': 

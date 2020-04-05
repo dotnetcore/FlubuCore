@@ -39,8 +39,8 @@ namespace FlubuCore.Context.BuildServers
         public string GitHubRepository => Environment.GetEnvironmentVariable("GITHUB_REPOSITORY");
 
         /// <summary>
-        /// The GitHub workspace directory path. The workspace directory contains a subdirectory with a copy of your repository if your workflow uses the <code>actions/checkout</code> action. If you don't use the <code>actions/checkout</code> action, the directory will be empty.
-        /// For example, <code>/home/runner/work/my-repo-name/my-repo-name</code>.
+        /// The GitHub workspace directory path. The workspace directory contains a subdirectory with a copy of your repository if your workflow uses the actions/checkout action. If you don't use the actions/checkout action, the directory will be empty.
+        /// For example. <code>/home/runner/work/my-repo-name/my-repo-name.</code>
         /// </summary>
         public string GitHubWorkspace => Environment.GetEnvironmentVariable("GITHUB_WORKSPACE");
 

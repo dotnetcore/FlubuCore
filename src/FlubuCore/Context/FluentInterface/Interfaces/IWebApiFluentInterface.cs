@@ -26,7 +26,7 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <summary>
         /// Get's the token that can access flubu web api server.
         /// </summary>
-        /// <param name="username">The username</param>
+        /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
         /// <returns></returns>
         GetTokenTask GetTokenTask(string username, string password);

@@ -16,10 +16,6 @@ namespace FlubuCore.WebApi.Tests.ClientTests
     [Collection("Client tests")]
     public class PackagesClientTests : ClientBaseTests
     {
-        private readonly IUserRepository _repository;
-
-        private readonly IHashService _hashService;
-
         public PackagesClientTests(ClientFixture clientFixture)
             : base(clientFixture)
         {

@@ -92,21 +92,21 @@ namespace FlubuCore.Services
 #else
          string programFilesX86DirPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
 
-            foreach (var vsEdition in _vsEditions)
-            {
-                var msbuildPath = Path.Combine(programFilesX86DirPath, "Microsoft Visual Studio/2017", vsEdition, "MSBuild/15.0/Bin");
+         foreach (var vsEdition in _vsEditions)
+         {
+             var msbuildPath = Path.Combine(programFilesX86DirPath, "Microsoft Visual Studio/2017", vsEdition, "MSBuild/15.0/Bin");
 
-                if (Directory.Exists(msbuildPath))
-                {
-                    if (Environment.Is64BitOperatingSystem)
-                    {
-                        msbuildPath = Path.Combine(msbuildPath, "amd64");
-                    }
+             if (Directory.Exists(msbuildPath))
+             {
+                 if (Environment.Is64BitOperatingSystem)
+                 {
+                     msbuildPath = Path.Combine(msbuildPath, "amd64");
+                 }
 
-                    toolsVersions.Add(new Version("15.0"), msbuildPath);
-                    return;
-                }
-            }
+                 toolsVersions.Add(new Version("15.0"), msbuildPath);
+                 return;
+             }
+         }
 #endif
         }
 
@@ -117,21 +117,21 @@ namespace FlubuCore.Services
 #else
          string programFilesX86DirPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
 
-            foreach (var vsEdition in _vsEditions)
-            {
-                var msbuildPath = Path.Combine(programFilesX86DirPath, "Microsoft Visual Studio/2019", vsEdition, "MSBuild/Current/Bin");
+         foreach (var vsEdition in _vsEditions)
+         {
+             var msbuildPath = Path.Combine(programFilesX86DirPath, "Microsoft Visual Studio/2019", vsEdition,  "MSBuild/Current/Bin");
 
-                if (Directory.Exists(msbuildPath))
-                {
-                    if (Environment.Is64BitOperatingSystem)
-                    {
-                        msbuildPath = Path.Combine(msbuildPath, "amd64");
-                    }
+             if (Directory.Exists(msbuildPath))
+             {
+                 if (Environment.Is64BitOperatingSystem)
+                 {
+                     msbuildPath = Path.Combine(msbuildPath, "amd64");
+                 }
 
-                    toolsVersions.Add(new Version("16.0"), msbuildPath);
-                    return;
-                }
-            }
+                 toolsVersions.Add(new Version("16.0"), msbuildPath);
+                 return;
+             }
+         }
 #endif
         }
     }

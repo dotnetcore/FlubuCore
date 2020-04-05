@@ -36,7 +36,7 @@ namespace FlubuCore.Infrastructure.Terminal
         /// <summary>
         /// Creates new instance of <see cref="FlubuConsole"/> class.
         /// </summary>
-        /// <param name="hintsSourceDictionary">Collection containing input hints</param>
+        /// <param name="hintsSourceDictionary">Collection containing input hints.</param>
         public FlubuConsole(TargetTree targetTree, IReadOnlyCollection<Hint> defaultHints, IDictionary<string, IReadOnlyCollection<Hint>> hintsSourceDictionary = null)
         {
             _targetTree = targetTree;
@@ -47,7 +47,7 @@ namespace FlubuCore.Infrastructure.Terminal
         /// Execute flubu internal command.
         /// </summary>
         /// <param name="line"></param>
-        /// <returns>Return's true</returns>
+        /// <returns>Return's true.</returns>
         public bool ExecuteInternalCommand(string commandLine)
         {
             if (commandLine.Trim().Equals(InternalCommands.Dir, StringComparison.OrdinalIgnoreCase))
@@ -502,7 +502,7 @@ namespace FlubuCore.Infrastructure.Terminal
 
         private void UpdateSuggestionsForUserInput(string userInput)
         {
-                _suggestionPosition = 0;
+            _suggestionPosition = 0;
 
             if (string.IsNullOrEmpty(userInput))
             {

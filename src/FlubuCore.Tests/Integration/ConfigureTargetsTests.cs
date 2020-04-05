@@ -21,16 +21,16 @@ namespace FlubuCore.Tests.Integration
         [Fact]
         public void ConfigureSimpleTarget()
         {
-            IFlubuSession session = _sp.GetRequiredService<IFlubuSession>();
+            var session = _sp.GetRequiredService<IFlubuSession>();
 
-            SimpleBuildScript bs = new SimpleBuildScript();
+            var bs = new SimpleBuildScript();
             bs.Run(session);
 
             Assert.True(session.TargetTree.HasAllTargets(new List<string>() { "test" }, out _));
             Assert.True(session.TargetTree.HasAllTargets(new List<string>() { "test1" }, out _));
 
-            ITargetInternal t = session.TargetTree.GetTarget("test");
-            ITargetInternal t1 = session.TargetTree.GetTarget("test1");
+            var t = session.TargetTree.GetTarget("test");
+            var t1 = session.TargetTree.GetTarget("test1");
 
             Assert.Equal(t.TargetName, t1.Dependencies.FirstOrDefault().Key);
         }
@@ -38,14 +38,14 @@ namespace FlubuCore.Tests.Integration
         [Fact]
         public void ConfigureTargetWithLinuxTasks()
         {
-            IFlubuSession session = _sp.GetRequiredService<IFlubuSession>();
+            var session = _sp.GetRequiredService<IFlubuSession>();
 
-            SimpleBuildScript bs = new SimpleBuildScript();
+            var bs = new SimpleBuildScript();
             bs.Run(session);
 
             Assert.True(session.TargetTree.HasAllTargets(new List<string>() { "Linux" }, out _));
 
-            Target t = (Target)session.TargetTree.GetTarget("Linux");
+            var t = (Target)session.TargetTree.GetTarget("Linux");
 
             Assert.Equal(2, t.TasksGroups.Count);
             Assert.Empty(t.Dependencies);
@@ -54,14 +54,14 @@ namespace FlubuCore.Tests.Integration
         [Fact]
         public void ConfigureTargetWithIisTasks()
         {
-            IFlubuSession session = _sp.GetRequiredService<IFlubuSession>();
+            var session = _sp.GetRequiredService<IFlubuSession>();
 
-            SimpleBuildScript bs = new SimpleBuildScript();
+            var bs = new SimpleBuildScript();
             bs.Run(session);
 
             Assert.True(session.TargetTree.HasAllTargets(new List<string>() { "IIS" }, out _));
 
-            Target t = (Target)session.TargetTree.GetTarget("IIS");
+            var t = (Target)session.TargetTree.GetTarget("IIS");
 
             Assert.Equal(2, t.TasksGroups.Count);
             Assert.Empty(t.Dependencies);

@@ -1,4 +1,7 @@
-
+## FlubuCore 5.0.3.0
+- dotnet clean, restore, build, test, pack publish tasks: Fixed insert of duplicated project argument when project path starts with /
+- Fixed reporting of unspecified build script
+- RunProgramTask: Improved log of executed command
 
 ## FlubuCore 5.0.2.0
 - Execution of tasks with attributes on property

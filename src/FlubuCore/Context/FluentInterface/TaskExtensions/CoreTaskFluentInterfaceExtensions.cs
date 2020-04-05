@@ -45,9 +45,9 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically</param>
-        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/publish</param>
-        /// <param name="projects">Name of the project to add to add</param>
+        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically.</param>
+        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/publish.</param>
+        /// <param name="projects">Name of the project to add to add.</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
         public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipPrefix, string targetFramework, Action<PackageTask> action, params string[] projects)
         {
@@ -59,9 +59,9 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically</param>
-        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/publish</param>
-        /// <param name="projects">Name of the project to add to add</param>
+        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically.</param>
+        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/publish.</param>
+        /// <param name="projects">Name of the project to add to add.</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
         public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipPrefix, string targetFramework, string runtime, Action<PackageTask> packageTaskOptions, params string[] projects)
         {
@@ -72,10 +72,10 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically</param>
-        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish</param>
-        /// <param name="projects">Name of the project to add to add</param>
-        /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish</param>
+        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically.</param>
+        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
+        /// <param name="projects">Name of the project to add to add.</param>
+        /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="destinationRootDir">Name of the directory that the source directory will be copied to.</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
         public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipPrefix, string targetFramework, string runtime, string destinationRootDir, Action<PackageTask> packageTaskOptions, params string[] projects)
@@ -87,10 +87,10 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically</param>
-        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/publish</param>
-        /// <param name="projects">Name of the project to add to add</param>
-        /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish</param>
+        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically.</param>
+        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/publish.</param>
+        /// <param name="projects">Name of the project to add to add.</param>
+        /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="destinationRootDir">Name of the directory that the source directory will be copied to.</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
         public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipPrefix, string targetFramework, string project, Action<PackageTask> packageTaskOptions = null, string runtime = null, string destinationRootDir = "")
@@ -102,10 +102,10 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically</param>
-        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish</param>
-        /// <param name="projects">Name of the project to add to add</param>
-        /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish</param>
+        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically.</param>
+        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
+        /// <param name="projects">Name of the project to add to add.</param>
+        /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="destinationRootDir">Name of the directory that the source directory will be copied to.</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
         public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipPrefix, string targetFramework,
@@ -118,10 +118,10 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically</param>
-        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish</param>
-        /// <param name="projects">Name of the project to add to add</param>
-        /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish</param>
+        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically.</param>
+        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
+        /// <param name="projects">Name of the project to add to add.</param>
+        /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="destinationRootDir">Name of the directory that the source directory will be copied to.</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
         public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipPrefix, string targetFramework,
@@ -134,10 +134,10 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically</param>
-        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish</param>
-        /// <param name="projects">Name of the project to add to add</param>
-        /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish</param>
+        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically.</param>
+        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
+        /// <param name="projects">Name of the project to add to add.</param>
+        /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="destinationRootDir">Name of the directory that the source directory will be copied to.</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
         public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipPrefix, string targetFramework,
@@ -150,10 +150,10 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically</param>
-        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish</param>
-        /// <param name="projects">Name of the project to add to add</param>
-        /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish</param>
+        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically.</param>
+        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
+        /// <param name="projects">Name of the project to add to add.</param>
+        /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="destinationRootDir">Name of the directory that the source directory will be copied to.</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
         public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipPrefix, string targetFramework,
@@ -166,10 +166,10 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically</param>
-        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish</param>
-        /// <param name="projects">Name of the project to add to add</param>
-        /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish</param>
+        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically.</param>
+        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
+        /// <param name="projects">Name of the project to add to add.</param>
+        /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="destinationRootDir">Name of the directory that the source directory will be copied to.</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
         public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipPrefix, string targetFramework,
@@ -182,10 +182,10 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically</param>
-        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish</param>
-        /// <param name="projects">Name of the project to add to add</param>
-        /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish</param>
+        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically.</param>
+        /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
+        /// <param name="projects">Name of the project to add to add.</param>
+        /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="destinationRootDir">Name of the directory that the source directory will be copied to.</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
         public static PackageTask CreateZipPackageFromProjects(
@@ -204,7 +204,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
             string destinationRootDir = "")
         {
             var core = (CoreTaskFluentInterface)coreTask;
-           return CreateZipPackageFromProjectsImplementation(
+            return CreateZipPackageFromProjectsImplementation(
                 core.Context,
                 zipPrefix,
                 targetFramework,
