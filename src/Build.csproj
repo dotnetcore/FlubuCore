@@ -123,7 +123,6 @@
     <DotNetCliToolReference Include="dotnet-flubu" Version="5.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="BuildScript\NetCore1.1\Deploy.csproj" />
     <None Include="BuildScript\NetCore2.0\Deploy.csproj" />
   </ItemGroup>
   <ItemGroup>
