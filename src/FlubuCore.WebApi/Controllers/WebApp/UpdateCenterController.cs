@@ -23,12 +23,7 @@ using Octokit;
 namespace FlubuCore.WebApi.Controllers.WebApp
 {
     [Route("[controller]")]
-#if !NETCOREAPP1_1
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
-#else
-     [Authorize(ActiveAuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
-#endif
-
     public class UpdateCenterController : Controller
     {
         private readonly string _owner = "flubu-core";
@@ -150,10 +145,10 @@ namespace FlubuCore.WebApi.Controllers.WebApp
             }
 
             var filename = Path.Combine(rootDir, "Updates/FlubuCoreWebApi_LatestRelease.zip");
-#if !NETCOREAPP1_1
+
             var wc = new WebClient();
             await wc.DownloadFileTaskAsync(asset.BrowserDownloadUrl, filename);
-#endif
+
             var unzipTask = _taskFactory.Create<UnzipTask>(filename, Path.Combine(rootDir, "Updates/WebApi"));
             unzipTask.Execute(_flubuSession);
 

@@ -635,21 +635,7 @@ namespace FlubuCore.Infrastructure.Terminal
                 _suggestionsForUserInput = null;
                 return;
             }
-#if NETSTANDARD1_6
-            //simple case then user's input is equal to start of hint
-            var hints = hintSource
-                .Where(item => item.Name.Length > lastInput.Length && item.Name.Substring(0, lastInput.Length) == lastInput)
-                .Select(hint => new Suggestion
-                {
-                    Value = hint.Name,
-                    Help = hint.Help,
-                    Key = hintSourceKey,
-                    SuggestionColor = hint.HintColor,
-                    SuggestionType = hint.HintType,
-                    HighlightIndexes = Enumerable.Range(0, lastInput.Length).ToArray()
-                })
-                .ToList();
-#else
+
             //simple case then user's input is equal to start of hint
             var hints = hintSource
                 .Where(item => item.Name.Length > lastInput.Length && item.Name.Substring(0, lastInput.Length)
@@ -664,7 +650,6 @@ namespace FlubuCore.Infrastructure.Terminal
                     HighlightIndexes = Enumerable.Range(0, lastInput.Length).ToArray()
                 })
                 .ToList();
-#endif
 
             //more complex case: tokenize hint and try to search user input from beginning of tokens
             foreach (var item in hintSource)
@@ -672,13 +657,8 @@ namespace FlubuCore.Infrastructure.Terminal
                 var parts = item.Name.Split(new[] { ' ', ';', '-', '_' }, StringSplitOptions.RemoveEmptyEntries);
 
                 string candidate;
-#if NETSTANDARD1_6
-                candidate =
- parts.FirstOrDefault(part => part.Length >= lastInput.Length && part.Substring(0, lastInput.Length) == lastInput);
-#else
                 candidate = parts.FirstOrDefault(part => part.Length >= lastInput.Length && part.Substring(0, lastInput.Length)
                                                              .Equals(lastInput, StringComparison.InvariantCultureIgnoreCase));
-#endif
                 if (candidate != null)
                 {
                     hints.Add(new Suggestion
@@ -715,11 +695,7 @@ namespace FlubuCore.Infrastructure.Terminal
                     }
 
                     var substring = item.Name.Substring(startIndex);
-#if NETSTANDARD1_6
-                    var idx = substring.IndexOf(lastInput[i]);
-#else
                     var idx = substring.IndexOf(lastInput[i].ToString(), StringComparison.OrdinalIgnoreCase);
-#endif
                     if (idx < 0)
                     {
                         //no such symbol in the hints source item

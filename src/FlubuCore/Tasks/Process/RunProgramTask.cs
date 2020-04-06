@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-#if  !NETSTANDARD1_6
 using System.Drawing;
-#endif
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -244,11 +242,8 @@ namespace FlubuCore.Tasks.Process
             }
 
             DoLogInfo($"Running program from '{workingFolder}':");
-#if  !NETSTANDARD1_6
             DoLogInfo($"{command.CommandName} {commandArgs}{Environment.NewLine}", Color.Cyan);
-#else
-            DoLogInfo($"{command.CommandName} {commandArgs}{Environment.NewLine}");
-#endif
+
             int res = command.Execute()
                 .ExitCode;
 

@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-#if !NETSTANDARD1_6
 using System.Drawing;
-#endif
 using System.IO;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
@@ -58,11 +56,7 @@ namespace FlubuCore.Targeting
 
                     if (DefaultTargets.Contains(target))
                     {
-#if !NETSTANDARD1_6
                         context.LogInfo(help, Color.DarkOrange);
-#else
-                        context.LogInfo(help);
-#endif
                     }
                     else
                     {

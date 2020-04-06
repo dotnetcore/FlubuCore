@@ -27,19 +27,12 @@ namespace FlubuCore.WebApi.Controllers.WebApp
 
         public ActionResult Index()
         {
-#if NETCOREAPP1_1
-             return View("NotSupported");
-#else
             return View(new LoginModel());
-#endif
         }
 
         [HttpPost]
         public async Task<ActionResult> Login([FromForm]LoginModel model)
         {
-#if NETCOREAPP1_1
-            return View("NotSupported");
-#else
             if (!ModelState.IsValid)
             {
                 return View("Index", model);
@@ -89,7 +82,6 @@ namespace FlubuCore.WebApi.Controllers.WebApp
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(userPrincipal));
 
             return RedirectToAction("Index", "UpdateCenter");
-#endif
         }
     }
 }

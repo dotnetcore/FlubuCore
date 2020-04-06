@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 using FlubuCore.Context;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console.Internal;
-#if !NETSTANDARD1_6
-using System.Drawing;
 using Pastel;
-#endif
 
 namespace FlubuCore.Infrastructure
 {
@@ -23,10 +21,8 @@ namespace FlubuCore.Infrastructure
         [ThreadStatic]
         private static bool _useColor;
 
-        #if !NETSTANDARD1_6
         [ThreadStatic]
         private static Color _consoleColor;
-        #endif
 
         [ThreadStatic]
         private static int _depth = 0;
@@ -59,7 +55,6 @@ namespace FlubuCore.Infrastructure
             set { _depth = value; }
         }
 
-#if !NETSTANDARD1_6
         public static Color Color
         {
             private get
@@ -74,7 +69,6 @@ namespace FlubuCore.Infrastructure
                 _useColor = true;
             }
         }
-#endif
 
         public IConsole Console
         {
@@ -160,19 +154,14 @@ namespace FlubuCore.Infrastructure
 
                 lock (Lock)
                 {
-#if !NETSTANDARD1_6
                     if (!DisableColloredLogging && !string.IsNullOrEmpty(timeMark))
                     {
                         timeMark = timeMark.Pastel(Color.Magenta);
                     }
-#endif
+
                     if (_useColor && !DisableColloredLogging)
                     {
-                        #if !NETSTANDARD1_6
                         Console.Write($"{timeMark}{indentation}{logMessage.Pastel(Color)}", _defaultConsoleColor, _defaultConsoleColor);
-                        #else
-                        Console.Write($"{timeMark}{indentation}{logMessage}", _defaultConsoleColor, _defaultConsoleColor);
-                        #endif
                     }
                     else
                     {
@@ -267,11 +256,7 @@ namespace FlubuCore.Infrastructure
             {
                 if (_useColor && !DisableColloredLogging)
                 {
-                    #if !NETSTANDARD1_6
                     System.Console.Write(message.Pastel(Color));
-                    #else
-                    System.Console.Write(message);
-                    #endif
                 }
                 else
                 {
@@ -283,11 +268,7 @@ namespace FlubuCore.Infrastructure
             {
                 if (_useColor)
                 {
-#if !NETSTANDARD1_6
                     System.Console.WriteLine(message.Pastel(Color));
-#else
-                    System.Console.WriteLine(message);
-#endif
                 }
                 else
                 {

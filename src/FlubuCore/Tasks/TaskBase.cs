@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-#if !NETSTANDARD1_6
 using System.Drawing;
-#endif
-
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -272,11 +269,7 @@ namespace FlubuCore.Tasks
             if (!IsTarget && LogTaskExecutionInfo)
             {
                 contextInternal.DecreaseDepth();
-#if !NETSTANDARD1_6
                 LogSequentially($"Executing task {TaskName}", Color.DimGray);
-#else
-                LogSequentially($"Executing task {TaskName}");
-#endif
                 contextInternal.IncreaseDepth();
             }
 
@@ -410,11 +403,7 @@ namespace FlubuCore.Tasks
             if (!IsTarget && LogTaskExecutionInfo)
             {
                 contextInternal.DecreaseDepth();
-#if !NETSTANDARD1_6
                 LogSequentially($"Executing task '{TaskName}' asynchronous.", Color.DimGray);
-#else
-                LogSequentially($"Executing task '{TaskName}' asynchronous.");
-#endif
                 contextInternal.IncreaseDepth();
             }
 
@@ -540,11 +529,7 @@ namespace FlubuCore.Tasks
 
             if (LogDuration)
             {
-#if !NETSTANDARD1_6
                 DoLogInfo($"{TaskName} {statusMessage} {duration}", Color.DimGray);
-#else
-                DoLogInfo($"{TaskName} {statusMessage} {duration}");
-#endif
             }
         }
 
@@ -596,7 +581,6 @@ namespace FlubuCore.Tasks
             LogSequentially(message);
         }
 
-#if  !NETSTANDARD1_6
         /// <summary>
         /// Log info if task logging is not disabled.
         /// </summary>
@@ -620,7 +604,6 @@ namespace FlubuCore.Tasks
                 Context.LogInfo(message, foregroundColor);
             }
         }
-#endif
 
         /// <summary>
         /// Log error if task logging is not disabled.
@@ -634,7 +617,6 @@ namespace FlubuCore.Tasks
             LogErrorSequentially(message);
         }
 
-#if !NETSTANDARD1_6
         /// <summary>
         /// Log error if task logging is not disabled.
         /// </summary>
@@ -653,7 +635,6 @@ namespace FlubuCore.Tasks
                 Context.LogError(message, foregroundColor);
             }
         }
-#endif
 
         protected void LogSequentially(string message)
         {
