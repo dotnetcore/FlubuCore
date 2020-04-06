@@ -23,7 +23,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             LiteRepository = new LiteRepository("Filename=database.db");
             _repository = new UserRepository(LiteRepository);
             var hashedPassword = _hashService.Hash("password");
-            LiteRepository.Engine.DropCollection("users");
+            LiteRepository.Database.DropCollection("users");
             _repository.AddUser(new User
             {
                 Username = "User",
