@@ -1,7 +1,5 @@
 ﻿using System;
-#if  !NETSTANDARD1_6
 using System.Drawing;
-#endif
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Infrastructure;
@@ -68,14 +66,12 @@ namespace FlubuCore.Context
             _log.LogInformation(message);
         }
 
-#if !NETSTANDARD1_6
         public virtual void LogInfo(string message, Color foregroundColor)
         {
             FlubuConsoleLogger.Color = foregroundColor;
             FlubuConsoleLogger.Depth = ExecutionDepth;
             _log.LogInformation(message);
         }
-        #endif
 
         public virtual void LogError(string message)
         {
@@ -83,14 +79,12 @@ namespace FlubuCore.Context
             _log.LogError(message);
         }
 
-#if !NETSTANDARD1_6
         public virtual void LogError(string message, Color foregroundColor)
         {
             FlubuConsoleLogger.Depth = ExecutionDepth;
             FlubuConsoleLogger.Color = foregroundColor;
             _log.LogError(message);
         }
-#endif
 
         internal T CreateTask<T>()
             where T : ITask

@@ -18,10 +18,6 @@ namespace FlubuCore.Scripting
     {
         public FlubuEngine()
         {
-#if NETSTANDARD1_6
-            throw new NotSupportedException("BuildScript engine is only supported in  =<.net standard2.0 and =<.net 4.62");
-#endif
-#if !NETSTANDARD1_6
             LoggerFactory = new LoggerFactory();
             LoggerFactory.AddProvider(new FlubuLoggerProvider());
             var loggers = ServiceDescriptor.Singleton(typeof(ILogger<>), typeof(Logger<>));
@@ -41,15 +37,10 @@ namespace FlubuCore.Scripting
             ServiceProvider = serviceCollection.BuildServiceProvider();
 
             TaskFactory = new DotnetTaskFactory(ServiceProvider);
-#endif
         }
 
         public FlubuEngine(IServiceCollection serviceCollection, ILoggerFactory loggerFactory = null)
         {
-#if NETSTANDARD1_6
-            throw new NotSupportedException("BuildScript engine is only supported in  =<.net standard2.0 and =<.net 4.62");
-#endif
-#if !NETSTANDARD1_6
             LoggerFactory = loggerFactory == null ? new LoggerFactory() : loggerFactory;
             LoggerFactory.AddProvider(new FlubuLoggerProvider());
             ServiceProvider = serviceCollection.AddCoreComponents()
@@ -57,7 +48,6 @@ namespace FlubuCore.Scripting
                 .BuildServiceProvider();
 
             TaskFactory = new DotnetTaskFactory(ServiceProvider);
-#endif
         }
 
         public ITaskFactory TaskFactory { get; }

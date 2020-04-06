@@ -51,10 +51,8 @@ namespace FlubuCore.Tasks
                 {
                     return base.TaskName;
                 }
-#if !NETSTANDARD1_6
+
                 return _taskAction?.Method.Name;
-#endif
-                return base.TaskName;
             }
 
             protected internal set => base.TaskName = value;
@@ -97,10 +95,8 @@ namespace FlubuCore.Tasks
                 {
                     return base.TaskName;
                 }
-#if !NETSTANDARD1_6
+
                 return _taskAction?.Method.Name;
-#endif
-                return base.TaskName;
             }
 
             protected internal set => base.TaskName = value;
@@ -146,10 +142,8 @@ namespace FlubuCore.Tasks
                 {
                     return base.TaskName;
                 }
-#if !NETSTANDARD1_6
+
                 return _taskAction?.Method.Name;
-#endif
-                return base.TaskName;
             }
 
             protected internal set => base.TaskName = value;
@@ -198,10 +192,8 @@ namespace FlubuCore.Tasks
                 {
                     return base.TaskName;
                 }
-#if !NETSTANDARD1_6
+
                 return _taskAction?.Method.Name;
-#endif
-                return base.TaskName;
             }
 
             protected internal set => base.TaskName = value;
@@ -253,10 +245,8 @@ namespace FlubuCore.Tasks
                 {
                     return base.TaskName;
                 }
-#if !NETSTANDARD1_6
+
                 return _taskAction?.Method.Name;
-#endif
-                return base.TaskName;
             }
 
             protected internal set => base.TaskName = value;

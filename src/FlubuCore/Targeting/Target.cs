@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-#if !NETSTANDARD1_6
 using System.Drawing;
-#endif
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -508,11 +506,7 @@ namespace FlubuCore.Targeting
                     ? $"Executing target {TargetName}"
                     : $"Executing target '{TargetName}' asynchronous.";
 
-#if !NETSTANDARD1_6
                 context.LogInfo(message, Color.DimGray);
-#else
-                context.LogInfo(message);
-#endif
             }
 
             context.IncreaseDepth();

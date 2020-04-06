@@ -58,7 +58,6 @@ namespace FlubuCore.Context
 
         public Dictionary<string, IReadOnlyCollection<Hint>> GetEnumHints(IBuildScript buildScript, IFlubuSession flubuSession)
         {
-#if !NETSTANDARD1_6
             var buildScriptType = buildScript.GetType();
             IList<PropertyInfo> props = new List<PropertyInfo>(buildScriptType.GetProperties());
             Dictionary<string, IReadOnlyCollection<Hint>> hints = new Dictionary<string, IReadOnlyCollection<Hint>>();
@@ -96,8 +95,6 @@ namespace FlubuCore.Context
             }
 
             return hints;
-#endif
-            return null;
         }
 
         public List<string> GetPropertiesHelp(IBuildScript buildScript)
@@ -111,7 +108,6 @@ namespace FlubuCore.Context
                 foreach (var fromArgAttribute in attributes)
                 {
                     var key = $"-{fromArgAttribute.ArgKey.Replace("|", "|-")}";
-#if !NETSTANDARD1_6
                     var type = property.PropertyType;
                     if (type.IsEnum)
                     {
@@ -125,7 +121,6 @@ namespace FlubuCore.Context
 
                         key = $"{key.Substring(0, key.Length - 2)})";
                     }
-#endif
 
                     if (!string.IsNullOrEmpty(fromArgAttribute.Help))
                     {

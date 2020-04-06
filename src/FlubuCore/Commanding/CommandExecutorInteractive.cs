@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-#if !NETSTANDARD1_6
 using System.Drawing;
-#endif
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
@@ -226,11 +223,7 @@ namespace FlubuCore.Commanding
                         }
                         catch (TaskExecutionException e)
                         {
-#if !NETSTANDARD1_6
                             flubuSession.LogError($"ERROR: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}", Color.Red);
-#else
-                            flubuSession.LogError($"error: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}");
-#endif
                         }
                         catch (ArgumentException)
                         {
@@ -250,11 +243,7 @@ namespace FlubuCore.Commanding
                 }
                 catch (Exception e)
                 {
-#if !NETSTANDARD1_6
                      flubuSession.LogError($"ERROR: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}", Color.Red);
-#else
-                    flubuSession.LogError($"error: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}");
-#endif
                 }
             }
             while (flubuSession.InteractiveMode);

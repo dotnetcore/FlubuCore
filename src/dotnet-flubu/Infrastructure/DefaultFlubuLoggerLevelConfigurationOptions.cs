@@ -8,7 +8,6 @@ using Microsoft.Extensions.Options;
 
 namespace DotNet.Cli.Flubu.Infrastructure
 {
-#if !NETCOREAPP1_0 && !NETCOREAPP1_1
     public class DefaultFlubuLoggerLevelConfigurationOptions : ConfigureOptions<LoggerFilterOptions>
     {
         public DefaultFlubuLoggerLevelConfigurationOptions(LogLevel level)
@@ -16,5 +15,4 @@ namespace DotNet.Cli.Flubu.Infrastructure
         {
         }
     }
-#endif
 }

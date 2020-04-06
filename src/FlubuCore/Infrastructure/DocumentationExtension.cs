@@ -110,7 +110,6 @@ namespace FlubuCore.Infrastructure
         /// <returns>The member that has a name that describes the specified reflection element.</returns>
         private static XmlElement XmlFromName(this Type type, char prefix, string name)
         {
-#if !NETSTANDARD1_6
             string fullName, typeFullName;
             var index = type.FullName.IndexOf("[[");
 
@@ -127,9 +126,6 @@ namespace FlubuCore.Infrastructure
                 xmlDocument["doc"]["members"].SelectSingleNode("//member[starts-with(@name, '" + fullName + "')]") as XmlElement;
 
             return matchedElement;
-#else
-        return null;
-#endif
         }
 
         /// <summary>
@@ -170,7 +166,6 @@ namespace FlubuCore.Infrastructure
         /// <returns>The XML document.</returns>
         private static XmlDocument XmlFromAssemblyNonCached(Assembly assembly)
         {
-#if !NETSTANDARD1_6
             var assemblyFilename = assembly.CodeBase;
 
             const string prefix = "file:///";
@@ -199,9 +194,6 @@ namespace FlubuCore.Infrastructure
             {
                 throw new Exception("Could not ascertain assembly filename", null);
             }
-#else
-        return null;
-#endif
         }
     }
 }
