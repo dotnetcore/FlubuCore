@@ -171,7 +171,11 @@ namespace FlubuCore.Commanding
                         continue;
                     }
 
-                    var parser = new FlubuCommandParser(new CommandLineApplication(false), null, null, null);
+                    var cmdApp = new CommandLineApplication()
+                    {
+                        UnrecognizedArgumentHandling = UnrecognizedArgumentHandling.CollectAndContinue
+                    };
+                    var parser = new FlubuCommandParser(cmdApp, null, null, null);
                     var args = parser.Parse(commandLine.Split(' ')
 
                         .Where(x => !string.IsNullOrWhiteSpace(x))
@@ -270,7 +274,11 @@ namespace FlubuCore.Commanding
                         break;
                     }
 
-                    var parser = new FlubuCommandParser(new CommandLineApplication(false), null, null, null);
+                    var cmdApp = new CommandLineApplication()
+                    {
+                        UnrecognizedArgumentHandling = UnrecognizedArgumentHandling.CollectAndContinue
+                    };
+                    var parser = new FlubuCommandParser(cmdApp, null, null, null);
                     var args = parser.Parse(commandLine.Split(' ')
 
                         .Where(x => !string.IsNullOrWhiteSpace(x))
