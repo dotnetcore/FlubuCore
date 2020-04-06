@@ -19,10 +19,20 @@
 <p><code>dotnet flubu {TargetName} help</code></p>
 <p>It displays all tasks with description that will be executed by target. It also displays which argument(with description) can be passed through to specific task in target. </p>
 <h4 id="specifiying-which-script-flubu-should-run">Specifiying which script Flubu should run.<a class="headerlink" href="#specifiying-which-script-flubu-should-run" title="Permanent link">&para;</a></h4>
-<p>Easiest way is to put build script at one of the default locations (you can find list of default locations below). If it is located at one of the default locations FlubuCore will execute the script automatically <code>flubu {TargetName}</code>. 
-Second option is to specify script location with -s option <code>flubu {TargetName} -s={pathToScriptFile}</code> Third option is to run <code>flubu setup</code> and specify script and csproj(optional) location in interactive mode.
+<ul>
+<li>
+<p>Easiest way is to put build script at one of the default locations (you can find list of default locations below). If it is located at one of the default locations FlubuCore will execute the script automatically <code>flubu {TargetName}</code>. </p>
+</li>
+<li>
+<p>Second option is to specify script location with -s option <code>flubu {TargetName} -s={pathToScriptFile}</code> </p>
+</li>
+<li>
+<p>Third option is to run <code>flubu setup</code> and specify script and csproj(optional) location in interactive mode.
  Flubu will store script and csproj location to <code>.flubu</code> file. if <code>.flubu</code> file is present FlubuCore will read location of the script and csproj file from that file. Additional benefit when storing location to <code>.flubu</code> file is 
- that you don't need to execute script at the root directory of the project. Meaning if your project is for example located at "c:_git\myproject" you can execute script inside any subfolder of that location.</p>
+ that you don't need to execute script at the root directory of the project. Meaning if your project is for example located at "c:_git\myproject" you can execute script inside any subfolder of that location. The location where a 
+ .flubu file is found will be used as the "work directory" during a build process, and a correct "work directory" is crucial to use relative paths in our build scripts.</p>
+</li>
+</ul>
 <h3 id="default-build-script-locations"><strong>Default build script locations</strong><a class="headerlink" href="#default-build-script-locations" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
