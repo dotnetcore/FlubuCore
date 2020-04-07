@@ -322,6 +322,7 @@ namespace FlubuCore.Targeting
 
             AddTarget("tasks")
                 .SetDescription("Displays all registered tasks")
+                .SetAsHidden()
                 .SetLogDuration(false)
                 .Do(LogTasksHelp);
         }
