@@ -213,7 +213,7 @@ namespace FlubuCore.Commanding
                         var splitedLine = commandLine.Split(' ').ToList();
                         var command = splitedLine.First();
                         var runProgram = flubuSession.Tasks().RunProgramTask(command).DoNotLogTaskExecutionInfo()
-                            .WorkingFolder(".");
+                            .WorkingFolder(Directory.GetCurrentDirectory());
                         splitedLine.RemoveAt(0);
                         try
                         {
@@ -301,7 +301,7 @@ namespace FlubuCore.Commanding
                     {
                         var command = splitedLine.First();
                         var runProgram = _flubuSession.Tasks().RunProgramTask(command).DoNotLogTaskExecutionInfo()
-                            .WorkingFolder(".");
+                            .WorkingFolder(Directory.GetCurrentDirectory());
                         splitedLine.RemoveAt(0);
                         try
                         {
