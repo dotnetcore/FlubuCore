@@ -90,9 +90,12 @@ namespace DotNet.Cli.Flubu
                 }
                 catch (BuildScriptLocatorException e)
                 {
-                    var str = commandArguments.Debug ? e.ToString() : e.Message;
-                    _logger.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{str}", null, (t, ex) => t);
-                    return StatusCodes.BuildScriptNotFound;
+                    if (!commandArguments.InteractiveMode)
+                    {
+                        var str = commandArguments.Debug ? e.ToString() : e.Message;
+                        _logger.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{str}", null, (t, ex) => t);
+                        return StatusCodes.BuildScriptNotFound;
+                    }
                 }
             }
 
