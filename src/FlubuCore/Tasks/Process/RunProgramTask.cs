@@ -204,7 +204,7 @@ namespace FlubuCore.Tasks.Process
             if (_commandFactory == null)
                 _commandFactory = new CommandFactory();
 
-            string rootDir = context.Properties.Get<string>(PredefinedBuildProperties.ProductRootDir);
+            string rootDir = context.Properties.TryGet<string>(BuildProps.ProductRootDir, defaultValue: ".");
 
             FileInfo info = new FileInfo(_programToExecute);
 
