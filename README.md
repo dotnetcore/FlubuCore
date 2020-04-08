@@ -272,7 +272,7 @@ Thank's to Comtrade for supporting us.
 
 * Special thanks to [@ironcev](https://github.com/ironcev) for greatly improving readme and for giving some valuable advices.
 * Special thanks to [@alexinea](https://github.com/https://github.com/alexinea) for translating whole documentation to Chinese.
-* Special thanks to [@huanlin](https://github.com/huanlin) for writing blogs about FlubuCore in Traditional Chinese and for translationg them to English.
+* Special thanks to [@huanlin](https://github.com/huanlin) for writing blogs about FlubuCore in Traditional Chinese and for translating them to English.
 
 ## Code of Conduct
 
