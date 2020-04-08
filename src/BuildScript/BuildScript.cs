@@ -103,9 +103,10 @@ public class  BuildScript : DefaultBuildScript
         
         context.CreateTarget("rebuild.server")
             .SetDescription("Rebuilds the solution and publishes nuget packages.")
+            .SequentialLogging(true)
             .DependsOn(compile, flubuTests)
-            .DependsOnAsync(pack, publishWebApi)
-            .DependsOn(flubuRunnerMerge)
+            .DependsOn(pack, publishWebApi)
+            .DependsOnAsync(flubuRunnerMerge)
             .DependsOn(packageFlubuRunner)
             .DependsOn(packageDotnetFlubu)
             .DependsOn(packageWebApi)
