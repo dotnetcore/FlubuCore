@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Tasks.NetCore;
 using Microsoft.DotNet.Cli.Utils;
 
 namespace FlubuCore.Tasks.Process
@@ -203,9 +204,15 @@ namespace FlubuCore.Tasks.Process
             if (_commandFactory == null)
                 _commandFactory = new CommandFactory();
 
-            string rootDir = context.Properties.Get<string>(PredefinedBuildProperties.ProductRootDir);
+            string rootDir = context.Properties.TryGet<string>(BuildProps.ProductRootDir, defaultValue: ".");
 
             FileInfo info = new FileInfo(_programToExecute);
+
+            if (_programToExecute.Equals("dotnet", StringComparison.OrdinalIgnoreCase) ||
+                _programToExecute.Equals("dotnet.exe", StringComparison.OrdinalIgnoreCase))
+            {
+                _programToExecute = ExecuteDotnetTask.FindDotnetExecutable();
+            }
 
             string cmd = _programToExecute;
 

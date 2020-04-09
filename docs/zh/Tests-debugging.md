@@ -1,3 +1,9 @@
+### **Debug script through .net core console application**
+
+The easiest way to debug your script is that you place your script in a console application and execute it in console application. After that you can debug your script as any other application.
+
+How to execute scripts through console application can be found [here.](/execute-script-in-console-app-or-pack-as-global-tool/)
+
 ### **编写测试构建脚本与通过测试调试构建脚本**
 
 Wiki 文档即将推出。先通过简单的测试来上手：https://github.com/dotnetcore/FlubuCore.Examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs

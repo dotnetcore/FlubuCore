@@ -26,12 +26,6 @@ namespace FlubuCore.Commanding
 
         private readonly IScriptProperties _scriptProperties;
 
-        private readonly IFlubuCommandParserFactory _parserFactory;
-
-        private readonly IFileWrapper _fileWrapper;
-
-        private readonly IBuildScriptLocator _buildScriptLocator;
-
         private readonly ILogger<CommandExecutorInteractive> _log;
 
         private readonly IScriptProvider _scriptProvider;
@@ -43,18 +37,12 @@ namespace FlubuCore.Commanding
             IScriptProvider scriptProvider,
             IFlubuSession flubuSession,
             IScriptProperties scriptProperties,
-            IFlubuCommandParserFactory parserFactory,
-            IFileWrapper fileWrapper,
-            IBuildScriptLocator buildScriptLocator,
             ILogger<CommandExecutorInteractive> log)
         {
             _args = args;
             _scriptProvider = scriptProvider;
             _flubuSession = flubuSession;
             _scriptProperties = scriptProperties;
-            _parserFactory = parserFactory;
-            _fileWrapper = fileWrapper;
-            _buildScriptLocator = buildScriptLocator;
             _log = log;
         }
 
@@ -213,7 +201,7 @@ namespace FlubuCore.Commanding
                         var splitedLine = commandLine.Split(' ').ToList();
                         var command = splitedLine.First();
                         var runProgram = flubuSession.Tasks().RunProgramTask(command).DoNotLogTaskExecutionInfo()
-                            .WorkingFolder(".");
+                            .WorkingFolder(Directory.GetCurrentDirectory());
                         splitedLine.RemoveAt(0);
                         try
                         {
@@ -301,7 +289,7 @@ namespace FlubuCore.Commanding
                     {
                         var command = splitedLine.First();
                         var runProgram = _flubuSession.Tasks().RunProgramTask(command).DoNotLogTaskExecutionInfo()
-                            .WorkingFolder(".");
+                            .WorkingFolder(Directory.GetCurrentDirectory());
                         splitedLine.RemoveAt(0);
                         try
                         {
