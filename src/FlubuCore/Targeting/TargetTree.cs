@@ -251,10 +251,6 @@ namespace FlubuCore.Targeting
 
         public virtual void LogBuildSummary(IFlubuSession session)
         {
-            int maxTargetNameLength = GetTargetNameMaxLength();
-
-            LogTargetSummaryTitle();
-
             foreach (var target in EnumerateExecutedTargets())
             {
                 var targt = target as Target;
@@ -284,9 +280,9 @@ namespace FlubuCore.Targeting
                         }
                     }
                 }
-
-                LogTargetSummary(targt);
             }
+
+            int maxTargetNameLength;
 
             if (session.Args.DryRun)
             {
@@ -294,6 +290,16 @@ namespace FlubuCore.Targeting
             }
             else if (session.UnknownTarget.HasValue && !session.UnknownTarget.Value)
             {
+                maxTargetNameLength = GetTargetNameMaxLength();
+                LogTargetSummaryTitle();
+                foreach (var target in _targets.Values)
+                {
+                    if (!target.IsHidden)
+                    {
+                        LogTargetSummary(target as Target);
+                    }
+                }
+
                 TimeSpan buildDuration = session.BuildStopwatch.Elapsed;
                 session.LogInfo(" ");
 
@@ -321,8 +327,7 @@ namespace FlubuCore.Targeting
 
             int GetTargetNameMaxLength()
             {
-                var executedTargetNames = _targets.Where(t => _executedTargets.Contains(t.Key))
-                                                  .Select(t => t.Value.TargetName);
+                var executedTargetNames = _targets.Select(t => t.Value.TargetName); // Where(t => _executedTargets.Contains(t.Key))
                 int maxLength = executedTargetNames.Max(s => s.Length);
                 if (maxLength < TargetTitle.Length)
                 {
@@ -346,7 +351,7 @@ namespace FlubuCore.Targeting
 #if !NETSTANDARD1_6
             Color GetStatusColor(TaskStatus status)
             {
-                var color = Color.Black;
+                var color = Color.DimGray;
                 switch (status)
                 {
                     case TaskStatus.Failed:
