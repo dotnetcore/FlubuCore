@@ -20,6 +20,12 @@ public class  BuildScript : DefaultBuildScript
 
     [BuildConfiguration] public string BuildConfiguration { get; set; } = "Release";
 
+    protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
+    {
+        context.Properties.Set(BuildProps.BuildDir, "output");
+
+    }
+
     protected override void ConfigureTargets(ITaskContext context)
     {
         var buildVersion = context.CreateTarget("buildVersion")
