@@ -104,7 +104,7 @@ namespace FlubuCore.Tests.Integration
             target1.ExecuteVoid(Context);
             sw.Stop();
 
-            Assert.True(sw.ElapsedMilliseconds > 999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds > 990, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
         [Fact]
