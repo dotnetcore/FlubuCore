@@ -18,7 +18,7 @@ namespace FlubuCore.WebApi
             var webHostBuilder = Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    .UseKestrel(o =>
+                    webBuilder.UseKestrel(o =>
                     {
                         o.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(10);
                     })
