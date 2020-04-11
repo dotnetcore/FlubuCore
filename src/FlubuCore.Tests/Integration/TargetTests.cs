@@ -201,7 +201,7 @@ namespace FlubuCore.Tests.Integration
 
             Assert.Equal(2, targetTree.DependenciesExecutedCount);
 
-            Assert.True(sw.ElapsedMilliseconds > 999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds > 990, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
         [Fact]
