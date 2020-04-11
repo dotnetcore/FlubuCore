@@ -344,7 +344,7 @@ public class  BuildScript : DefaultBuildScript
                 .AddDirectoryToPackage(@"FlubuCore.WebApi.Updater\bin\Release\netcoreapp2.0", "FlubuCore.WebApi", true)
                 .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
                 .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
-                .AddFileToPackage("BuildScript\\NetCore2.0\\Deploy.csproj", "")
+                .AddFileToPackage("BuildScript\\NetCore3.1\\Deploy.csproj", "")
                 .AddFileToPackage("BuildScript\\Deploy.bat", "")
                 .AddFileToPackage(@"packages\Newtonsoft.Json\12.0.3\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
                 .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard2.0\LiteDB.dll", "lib")
