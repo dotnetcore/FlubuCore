@@ -6,6 +6,7 @@ using FlubuCore.Scripting;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.IO;
 using FlubuCore.Context.Attributes.BuildProperties;
+using FlubuCore.Tasks.NetCore;
 
 public class  BuildScript : DefaultBuildScript
 {
@@ -23,7 +24,6 @@ public class  BuildScript : DefaultBuildScript
     protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
     {
         context.Properties.Set(BuildProps.BuildDir, "output");
-
     }
 
     protected override void ConfigureTargets(ITaskContext context)
@@ -69,7 +69,7 @@ public class  BuildScript : DefaultBuildScript
             .SetDescription("Publishes flubu web api for deployment")
             .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("netcoreapp2.1"))
             .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("netcoreapp2.0"))
-            .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("net462"));
+            .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("net462").AddRuntime(Runtime.Win7X64));
         
 
         var packageWebApi = context.CreateTarget("Package.WebApi")
