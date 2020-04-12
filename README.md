@@ -206,7 +206,8 @@ context.CreateTarget("Run.Libz")
 ## Getting Started
 Using FlubuCore is straightforward and very simple :-) It is also fully and throughly documented.
 
-The [Getting Started](https://flubucore.dotnetcore.xyz/getting-started/) chapter in [FlubuCore Documentation](https://flubucore.dotnetcore.xyz) will help you set up your first FlubuCore build in no time.
+The [Getting Started](https://flubucore.dotnetcore.xyz/getting-started/) chapter in [FlubuCore Documentation](https://flubucore.dotnetcore.xyz) will help you set up your first FlubuCore build in no time. 
+You should also check [getting started blog.](https://www.huanlintalk.com/2020/04/getting-started-with-flubucore.html) It has some more details with some nice tips and tricks.
 
 A comprehensive list of features that FlubuCore has to offer with descriptions can be found in the [Build Script Fundamentals](https://flubucore.dotnetcore.xyz/buildscript-fundamentals) chapter.
 
@@ -271,6 +272,7 @@ Thank's to Comtrade for supporting us.
 
 * Special thanks to [@ironcev](https://github.com/ironcev) for greatly improving readme and for giving some valuable advices.
 * Special thanks to [@alexinea](https://github.com/https://github.com/alexinea) for translating whole documentation to Chinese.
+* Special thanks to [@huanlin](https://github.com/huanlin) for writing blogs about FlubuCore in Traditional Chinese and for translating them to English.
 
 ## Code of Conduct
 
@@ -279,4 +281,4 @@ For more information see the [.NET Foundation Code of Conduct](http://www.dotnet
 
 ## .NET Foundation
 
-This project is supported by the [.NET Foundation](http://www.dotnetfoundation.org) .
+This project is supported by the [.NET Foundation](http://www.dotnetfoundation.org).
