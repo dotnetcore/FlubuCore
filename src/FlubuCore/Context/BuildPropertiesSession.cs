@@ -92,7 +92,7 @@ namespace FlubuCore.Context
                     propName = BuildProps.ProductRootDir;
                     break;
                 case PredefinedBuildProperties.UserProfileFolder:
-                    propName = BuildProps.UserHomeFolder;
+                    propName = BuildProps.UserProfileFolder;
                     break;
                 case PredefinedBuildProperties.IsWebApi:
                     propName = BuildProps.IsWebApi;
