@@ -51,7 +51,7 @@ namespace FlubuCore.Targeting
 
                     if (target.Dependencies != null && target.Dependencies.Count != 0)
                     {
-                        help = $"{help} ({string.Join(", ", target.Dependencies.Keys)})";
+                        help = $"{help} ({string.Join(", ", target.Dependencies.GetKeys())})";
                     }
 
                     help = $"{help} : {target.Description}";

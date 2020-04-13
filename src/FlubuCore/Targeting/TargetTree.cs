@@ -86,8 +86,15 @@ namespace FlubuCore.Targeting
             List<Task> tasks = new List<Task>();
             for (int i = 0; i < n; i++)
             {
-                var dependentTargetName = target.Dependencies.Keys.ElementAt(i);
-                var executionMode = target.Dependencies.Values.ElementAt(i);
+                var dependentTarget = target.Dependencies[i];
+                if (dependentTarget.Skipped)
+                {
+                    continue;
+                }
+
+                var dependentTargetName = dependentTarget.TargetName;
+                var executionMode = dependentTarget.TaskExecutionMode;
+
                 if (_executedTargets.Contains(dependentTargetName))
                     continue;
 
@@ -110,7 +117,7 @@ namespace FlubuCore.Targeting
                     tasks.Add(RunTargetAsync(taskContext, dependentTargetName, target.SequentialLogging));
                     if (i + 1 < n)
                     {
-                        if (target.Dependencies.Values.ElementAt(i + 1) != TaskExecutionMode.Sync)
+                        if (target.Dependencies[i + 1].TaskExecutionMode != TaskExecutionMode.Sync)
                             continue;
                         if (tasks.Count <= 0)
                             continue;
@@ -132,7 +139,6 @@ namespace FlubuCore.Targeting
         public virtual void ResetTargetTree()
         {
             _targets.Clear();
-            _executedTargets.Clear();
             ResetTargetExecutionInfo();
             AddDefaultTargets();
         }
@@ -236,9 +242,9 @@ namespace FlubuCore.Targeting
             {
                 taskContext.LogInfo(" ");
                 taskContext.LogInfo($"Target {targetName}  dependencies: ");
-                foreach (var targetDependencyName in target.Dependencies)
+                foreach (var dependent in target.Dependencies)
                 {
-                    var targetDependecy = _targets[targetDependencyName.Key] as Target;
+                    var targetDependecy = _targets[dependent.TargetName] as Target;
                     targetDependecy?.TargetHelp(taskContext);
                 }
             }
@@ -290,9 +296,11 @@ namespace FlubuCore.Targeting
             }
             else if (session.UnknownTarget.HasValue && !session.UnknownTarget.Value)
             {
-                maxTargetNameLength = GetTargetNameMaxLength();
+                var targets = GetTargetsInExecutionOrder(session.Args.MainCommands);
+
+                maxTargetNameLength = GetTargetNameMaxLength(targets);
                 LogTargetSummaryTitle();
-                foreach (var target in _targets.Values)
+                foreach (var target in targets)
                 {
                     if (!target.IsHidden)
                     {
@@ -325,10 +333,10 @@ namespace FlubuCore.Targeting
             const int DurationLength = 8;
             const int StatusLength = 10;
 
-            int GetTargetNameMaxLength()
+            int GetTargetNameMaxLength(List<ITargetInternal> targets)
             {
-                var executedTargetNames = _targets.Select(t => t.Value.TargetName); // Where(t => _executedTargets.Contains(t.Key))
-                int maxLength = executedTargetNames.Max(s => s.Length);
+                var targetNames = targets.Select(t => t.TargetName);
+                int maxLength = targetNames.Max(s => s.Length);
                 if (maxLength < TargetTitle.Length)
                 {
                     maxLength = TargetTitle.Length;
@@ -378,6 +386,31 @@ namespace FlubuCore.Targeting
 #else
                 session.LogInfo($"{targetName}{duration}{status}");
 #endif
+            }
+        }
+
+        private List<ITargetInternal> GetTargetsInExecutionOrder(List<string> targetNames)
+        {
+            var targetsInOrder = new List<ITargetInternal>();
+            foreach (var targetName in targetNames)
+            {
+                AddDependentTargets(_targets[targetName]);
+            }
+
+            return targetsInOrder;
+
+            void AddDependentTargets(ITargetInternal target)
+            {
+                foreach (var dependent in target.Dependencies)
+                {
+                    var nextTarget = _targets[dependent.TargetName];
+                    AddDependentTargets(nextTarget);
+                }
+
+                if (!targetsInOrder.Exists(t => t.TargetName.Equals(target.TargetName, StringComparison.OrdinalIgnoreCase)))
+                {
+                    targetsInOrder.Add(target);
+                }
             }
         }
 
