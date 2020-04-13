@@ -299,8 +299,8 @@ namespace FlubuCore.Scripting
             flubuSession.Properties.Set(BuildProps.NodeExecutablePath, IOExtensions.GetNodePath(), false);
             flubuSession.Properties.Set(BuildProps.UserProfileFolder, IOExtensions.GetUserProfileFolder(), false);
             flubuSession.Properties.Set(BuildProps.NpmPath, IOExtensions.GetNpmPath(), false);
-            flubuSession.Properties.Set(BuildProps.BuildDir, "build");
-            flubuSession.Properties.Set(BuildProps.OutputDir, "output", false);
+            flubuSession.Properties.Set(BuildProps.BuildDir, RootDirectory.CombineWith("build").ToString());
+            flubuSession.Properties.Set(BuildProps.OutputDir,  RootDirectory.CombineWith("output").ToString(), false);
             flubuSession.Properties.Set(BuildProps.BuildVersion, new Version(1, 0, 0, 0), false);
             flubuSession.Properties.Set(BuildProps.DotNetExecutable, ExecuteDotnetTask.FindDotnetExecutable(), false);
         }
