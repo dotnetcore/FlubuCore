@@ -185,12 +185,12 @@ namespace FlubuCore.Context
         /// <typeparam name="T">Type of property.</typeparam>
         /// <param name="propertyName">The property name.</param>
         /// <param name="propertyValue">The propery value.</param>
-        public void Set<T>(string propertyName, T propertyValue)
+        public void Set<T>(string propertyName, T propertyValue, bool injectToProperties = true)
         {
             InitializePropertyInfos();
             propertyName = propertyName.ToLowerInvariant();
 
-            if (_propertyInfos.ContainsKey(propertyName) && _targetTree.BuildScript != null)
+            if (injectToProperties && _propertyInfos.ContainsKey(propertyName) && _targetTree.BuildScript != null)
             {
                 var propertyInfo = _propertyInfos[propertyName];
                 propertyInfo.SetValue(_targetTree.BuildScript, propertyValue);

@@ -279,8 +279,8 @@ namespace FlubuCore.Scripting
 
         internal void ConfigureDefaultProps(IFlubuSession flubuSession)
         {
-            flubuSession.SetBuildVersion(new Version(1, 0, 0, 0));
-            flubuSession.SetDotnetExecutable(ExecuteDotnetTask.FindDotnetExecutable());
+            var rootDir = string.IsNullOrEmpty(flubuSession.Args.FlubuFileLocation) ? Directory.GetCurrentDirectory() : Path.GetDirectoryName(flubuSession.Args.FlubuFileLocation);
+            flubuSession.Properties.Set(BuildProps.ProductRootDir, rootDir, false);
 
             var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
             OSPlatform platform;
@@ -295,15 +295,14 @@ namespace FlubuCore.Scripting
                 platform = OSPlatform.Windows;
             }
 
-            var rootDir = string.IsNullOrEmpty(flubuSession.Args.FlubuFileLocation) ? Directory.GetCurrentDirectory() : Path.GetDirectoryName(flubuSession.Args.FlubuFileLocation);
-
-            flubuSession.SetProductRootDir(rootDir);
-            flubuSession.SetOSPlatform(platform);
-            flubuSession.SetNodeExecutablePath(IOExtensions.GetNodePath());
-            flubuSession.SetProfileFolder(IOExtensions.GetUserProfileFolder());
-            flubuSession.SetNpmPath(IOExtensions.GetNpmPath());
-            flubuSession.SetBuildDir("build");
-            flubuSession.SetOutputDir("output");
+            flubuSession.Properties.Set(BuildProps.OSPlatform, platform, false);
+            flubuSession.Properties.Set(BuildProps.NodeExecutablePath, IOExtensions.GetNodePath(), false);
+            flubuSession.Properties.Set(BuildProps.UserProfileFolder, IOExtensions.GetUserProfileFolder(), false);
+            flubuSession.Properties.Set(BuildProps.NpmPath, IOExtensions.GetNpmPath(), false);
+            flubuSession.Properties.Set(BuildProps.BuildDir, "build");
+            flubuSession.Properties.Set(BuildProps.OutputDir, "output", false);
+            flubuSession.Properties.Set(BuildProps.BuildVersion, new Version(1, 0, 0, 0), false);
+            flubuSession.Properties.Set(BuildProps.DotNetExecutable, ExecuteDotnetTask.FindDotnetExecutable(), false);
         }
 
         private void ConfigureDefaultTargets(IFlubuSession flubuSession)

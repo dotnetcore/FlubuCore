@@ -10,7 +10,7 @@ namespace FlubuCore.Tests.Tasks
         [Fact]
         public void LoadSimpleSolutionWithDuplicateProps()
         {
-            Properties.Setup(i => i.Set<VSSolution>("solution", It.IsAny<VSSolution>()));
+            Properties.Setup(i => i.Set<VSSolution>("solution", It.IsAny<VSSolution>(), true));
             var task = new LoadSolutionTask("TestData/TestSln.sln");
             task.ExecuteVoid(Context.Object);
         }
