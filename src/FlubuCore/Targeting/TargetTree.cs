@@ -241,7 +241,7 @@ namespace FlubuCore.Targeting
             if (target.Dependencies.Count > 0)
             {
                 taskContext.LogInfo(" ");
-                taskContext.LogInfo($"Target {targetName}  dependencies: ");
+                taskContext.LogInfo($"Target {targetName.Capitalize()} dependencies: ");
                 foreach (var dependent in target.Dependencies)
                 {
                     var targetDependecy = _targets[dependent.TargetName] as Target;

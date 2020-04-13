@@ -406,7 +406,7 @@ namespace FlubuCore.Targeting
         {
             _targetTree.MarkTargetAsExecuted(this);
             context.LogInfo(" ");
-            context.LogInfo($"Target {TargetName} will execute next tasks:");
+            context.LogInfo($"Target {TargetName.Capitalize()} will execute next tasks:");
 
             for (int i = 0; i < _taskGroups.Count; i++)
             {
