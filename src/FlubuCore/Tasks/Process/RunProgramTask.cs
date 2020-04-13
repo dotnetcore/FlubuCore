@@ -204,7 +204,7 @@ namespace FlubuCore.Tasks.Process
             if (_commandFactory == null)
                 _commandFactory = new CommandFactory();
 
-            string rootDir = context.Properties.TryGet<string>(BuildProps.ProductRootDir, defaultValue: ".");
+            string rootDir = context.Properties.TryGet(BuildProps.ProductRootDir, defaultValue: Path.GetFullPath("."));
 
             FileInfo info = new FileInfo(_programToExecute);
 
@@ -252,7 +252,7 @@ namespace FlubuCore.Tasks.Process
 
             DoLogInfo($"Running program from '{workingFolder}':");
 #if  !NETSTANDARD1_6
-            DoLogInfo($"{command.CommandName} {commandArgs}{Environment.NewLine}", Color.Cyan);
+            DoLogInfo($"{command.CommandName} {commandArgs}{Environment.NewLine}", Color.DarkCyan);
 #else
             DoLogInfo($"{command.CommandName} {commandArgs}{Environment.NewLine}");
 #endif
