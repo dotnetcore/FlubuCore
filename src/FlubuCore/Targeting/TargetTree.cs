@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
+using FlubuCore.Infrastructure;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -83,8 +84,15 @@ namespace FlubuCore.Targeting
             List<Task> tasks = new List<Task>();
             for (int i = 0; i < n; i++)
             {
-                var dependentTargetName = target.Dependencies.Keys.ElementAt(i);
-                var executionMode = target.Dependencies.Values.ElementAt(i);
+                var dependentTarget = target.Dependencies[i];
+                if (dependentTarget.Skipped)
+                {
+                    continue;
+                }
+
+                var dependentTargetName = dependentTarget.TargetName;
+                var executionMode = dependentTarget.TaskExecutionMode;
+
                 if (_executedTargets.Contains(dependentTargetName))
                     continue;
 
@@ -107,7 +115,7 @@ namespace FlubuCore.Targeting
                     tasks.Add(RunTargetAsync(taskContext, dependentTargetName, target.SequentialLogging));
                     if (i + 1 < n)
                     {
-                        if (target.Dependencies.Values.ElementAt(i + 1) != TaskExecutionMode.Sync)
+                        if (target.Dependencies[i + 1].TaskExecutionMode != TaskExecutionMode.Sync)
                             continue;
                         if (tasks.Count <= 0)
                             continue;
@@ -129,7 +137,6 @@ namespace FlubuCore.Targeting
         public virtual void ResetTargetTree()
         {
             _targets.Clear();
-            _executedTargets.Clear();
             ResetTargetExecutionInfo();
             AddDefaultTargets();
         }
@@ -232,10 +239,10 @@ namespace FlubuCore.Targeting
             if (target.Dependencies.Count > 0)
             {
                 taskContext.LogInfo(" ");
-                taskContext.LogInfo($"Target {targetName}  dependencies: ");
-                foreach (var targetDependencyName in target.Dependencies)
+                taskContext.LogInfo($"Target {targetName.Capitalize()} dependencies: ");
+                foreach (var dependent in target.Dependencies)
                 {
-                    var targetDependecy = _targets[targetDependencyName.Key] as Target;
+                    var targetDependecy = _targets[dependent.TargetName] as Target;
                     targetDependecy?.TargetHelp(taskContext);
                 }
             }
@@ -279,17 +286,124 @@ namespace FlubuCore.Targeting
                 }
             }
 
+            int maxTargetNameLength;
+
             if (session.Args.DryRun)
             {
                 session.LogInfo("DRY RUN PERFORMED");
             }
             else if (session.UnknownTarget.HasValue && !session.UnknownTarget.Value)
             {
+                var targets = GetTargetsInExecutionOrder(session);
+
+                maxTargetNameLength = GetTargetNameMaxLength(targets);
+                LogTargetSummaryTitle();
+                foreach (var target in targets)
+                {
+                    if (!target.IsHidden)
+                    {
+                        LogTargetSummary(target as Target);
+                    }
+                }
+
                 TimeSpan buildDuration = session.BuildStopwatch.Elapsed;
                 session.LogInfo(" ");
                 session.LogInfo(session.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL", session.HasFailed ? Color.Red : Color.Green);
                 session.LogInfo($"Build finish time: {DateTime.Now:g}", Color.DimGray);
                 session.LogInfo($"Build duration: {buildDuration.Hours:D2}:{buildDuration.Minutes:D2}:{buildDuration.Seconds:D2} ({(int)buildDuration.TotalSeconds:d} seconds)", Color.DimGray);
+            }
+
+            const string TargetTitle = "Target";
+            const string DurationTitle = "Duration";
+            const string StatusTitle = "Status";
+            const int DurationLength = 8;
+            const int StatusLength = 10;
+
+            int GetTargetNameMaxLength(List<ITargetInternal> targets)
+            {
+                var targetNames = targets.Select(t => t.TargetName);
+                int maxLength = targetNames.Max(s => s.Length);
+                if (maxLength < TargetTitle.Length)
+                {
+                    maxLength = TargetTitle.Length;
+                }
+
+                return maxLength;
+            }
+
+            void LogTargetSummaryTitle()
+            {
+                session.LogInfo(Environment.NewLine + Environment.NewLine +
+                                TargetTitle.PadRight(maxTargetNameLength + 2) +
+                                DurationTitle.PadRight(DurationLength + 2) +
+                                StatusTitle);
+                session.LogInfo(new string('-', maxTargetNameLength + 2) +
+                                new string('-', DurationLength + 2) +
+                                new string('-', StatusLength + 2));
+            }
+
+            Color GetStatusColor(TaskStatus status)
+            {
+                var color = Color.DimGray;
+                switch (status)
+                {
+                    case TaskStatus.Failed:
+                        color = Color.Red;
+                        break;
+                    case TaskStatus.Finished:
+                        color = Color.Green;
+                        break;
+                    default:
+                        break;
+                }
+
+                return color;
+            }
+
+            void LogTargetSummary(Target t)
+            {
+                var targetName = t.TargetName.Capitalize().PadRight(maxTargetNameLength + 2);
+                var duration = t.TaskStopwatch.Elapsed.ToString(@"hh\:mm\:ss").PadRight(DurationLength + 2);
+                var status = t.TaskStatus.ToString().PadRight(StatusLength + 2);
+                var color = GetStatusColor(t.TaskStatus);
+                session.LogInfo($"{targetName}{duration}{status}", color);
+            }
+        }
+
+        private List<ITargetInternal> GetTargetsInExecutionOrder(IFlubuSession session)
+        {
+            var targetsInOrder = new List<ITargetInternal>();
+
+            IEnumerable<string> targetNames = session.Args.MainCommands;
+            if (targetNames == null || targetNames.Count() < 1)
+            {
+                if (_executedTargets?.Count < 1)
+                {
+                    return targetsInOrder;
+                }
+
+                targetNames = _executedTargets.Reverse();
+            }
+
+            foreach (var targetName in targetNames)
+            {
+                AddDependentTargets(_targets[targetName]);
+            }
+
+            return targetsInOrder;
+
+            void AddDependentTargets(ITargetInternal target)
+            {
+                foreach (var dependent in target.Dependencies)
+                {
+                    var nextTarget = _targets[dependent.TargetName];
+                    AddDependentTargets(nextTarget);
+                }
+
+                if (!targetsInOrder.Exists(t => t.TargetName.Equals(target.TargetName, StringComparison.OrdinalIgnoreCase)))
+                {
+                    targetsInOrder.Add(target);
+                }
             }
         }
 
@@ -309,6 +423,7 @@ namespace FlubuCore.Targeting
 
             AddTarget("tasks")
                 .SetDescription("Displays all registered tasks")
+                .SetAsHidden()
                 .SetLogDuration(false)
                 .Do(LogTasksHelp);
         }

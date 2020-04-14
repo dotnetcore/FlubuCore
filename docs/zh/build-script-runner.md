@@ -38,12 +38,16 @@ Target 可以和添加有 `-parallel` 选项的任务一同执行。
 
 这条命令将列出所有描述有执行目标的任务，以及哪些参数可以传递给目标（target）中的特定任务。
 
-### Specifiying which script Flubu should run.
+##### Specifiying which script Flubu should run.
 
-Easiest way is to put build script at one of the default locations (you can find list of default locations below). If it is located at one of the default locations FlubuCore will execute the script automatically `flubu {TargetName}`. 
-Second option is to specify script location with -s option `flubu {TargetName} -s={pathToScriptFile}` Third option is to run `flubu setup` and specify script and csproj(optional) location in interactive mode.
+- Easiest way is to put build script at one of the default locations (you can find list of default locations below). If it is located at one of the default locations FlubuCore will execute the script automatically `flubu {TargetName}`. 
+
+- Second option is to specify script location with -s option `flubu {TargetName} -s={pathToScriptFile}` 
+
+- Third option is to run `flubu setup` and specify script and csproj(optional) location in interactive mode.
  Flubu will store script and csproj location to `.flubu` file. if `.flubu` file is present FlubuCore will read location of the script and csproj file from that file. Additional benefit when storing location to `.flubu` file is 
- that you don't need to execute script at the root directory of the project. Meaning if your project is for example located at "c:\_git\myproject" you can execute script inside any subfolder of that location.
+ that you don't need to execute script at the root directory of the project. Meaning if your project is for example located at "c:\_git\myproject" you can execute script inside any subfolder of that location. The location where a 
+ .flubu file is found will be used as the "work directory" during a build process, and a correct "work directory" is crucial to use relative paths in our build scripts.
 
 #### **默认构建脚本的位置***
 

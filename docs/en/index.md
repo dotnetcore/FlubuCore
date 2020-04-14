@@ -197,7 +197,8 @@ public class BuildScript : DefaultBuildScript
 ## **Getting Started**
 Using FlubuCore is straightforward and very simple :-) It is also fully and throughly documented.
 
-The [Getting Started](https://flubucore.dotnetcore.xyz/getting-started/) chapter in [Documentation](https://flubucore.dotnetcore.xyz) will help you set up your first FlubuCore build in no time.
+The [Getting Started](https://flubucore.dotnetcore.xyz/getting-started/) chapter in [Documentation](https://flubucore.dotnetcore.xyz) will help you set up your first FlubuCore build in no time. 
+You should also check [getting started blog.](https://www.huanlintalk.com/2020/04/getting-started-with-flubucore.html) It has some more details with some nice tips and tricks.
 
 A comprehensive list of features that FlubuCore has to offer with descriptions can be found in the [Build Script Fundamentals](https://flubucore.dotnetcore.xyz/buildscript-fundamentals) chapter.
 
@@ -250,9 +251,18 @@ If you find FlubuCore useful (you feel it helps you on the daily basis) you can 
 [![OpenCollective](https://opencollective.com/flubucore/backers/badge.svg?style=for-the-badge)](https://opencollective.com/flubucore/order/12502) 
 [![OpenCollective](https://opencollective.com/flubucore/sponsors/badge.svg?style=for-the-badge)](https://opencollective.com/flubucore/order/12503)
 
-
 ## **Changelog and Roadmap**
 
 Changes with description and examples can be found in [Changelog.](https://github.com/flubu-core/flubu.core/blob/master/CHANGELOG.md) 
  
 You can see FlubuCore roadmap by exploring opened [Milestones.](https://github.com/flubu-core/flubu.core/milestones)
+
+## Acknowledgements
+
+* Special thanks to [@ironcev](https://github.com/ironcev) for greatly improving readme and for giving some valuable advices.
+* Special thanks to [@alexinea](https://github.com/https://github.com/alexinea) for translating whole documentation to Chinese.
+* Special thanks to [@huanlin](https://github.com/huanlin) for writing blogs about FlubuCore in Traditional Chinese and for translating them to English.
+
+## .NET Foundation
+
+This project is supported by the [.NET Foundation](http://www.dotnetfoundation.org).

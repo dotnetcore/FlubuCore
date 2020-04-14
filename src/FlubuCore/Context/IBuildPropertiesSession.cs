@@ -71,7 +71,8 @@ namespace FlubuCore.Context
         /// <typeparam name="T">Type of property.</typeparam>
         /// <param name="propertyName">The property name.</param>
         /// <param name="propertyValue">The propery value.</param>
-        void Set<T>(string propertyName, T propertyValue);
+        /// <param name="injectToProperties">This should be only changed by Flubu internal logic</param>
+        void Set<T>(string propertyName, T propertyValue, bool injectToProperties = true);
 
         /// <summary>
         /// Clear all properties from session.

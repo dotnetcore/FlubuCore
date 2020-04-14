@@ -10,7 +10,7 @@ namespace FlubuCore.Context.Attributes.BuildProperties
     public class BuildDirAttribute : BuildPropertyAttribute
     {
         public BuildDirAttribute()
-            : base(BuildProps.BuildDir)
+            : base(DotNetBuildProps.BuildDir)
         {
         }
     }

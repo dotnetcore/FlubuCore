@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>Build</AssemblyName>
     <PackageId>Build</PackageId>
   </PropertyGroup>
@@ -120,10 +120,10 @@
     <Compile Include="BuildScript.cs" Exclude="**;bin\**;obj\**;**\*.xproj;packages\**" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-flubu" Version="5.0.2" />
+    <DotNetCliToolReference Include="dotnet-flubu" Version="5.0.4" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="BuildScript\NetCore1.1\Deploy.csproj" />
+    <None Include="BuildScript\NetCore3.1\Deploy.csproj" />
     <None Include="BuildScript\NetCore2.0\Deploy.csproj" />
   </ItemGroup>
   <ItemGroup>

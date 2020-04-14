@@ -14,7 +14,7 @@ namespace FlubuCore.Targeting
 {
     public class Target : TaskBase<int, Target>, ITargetInternal
     {
-        private readonly Dictionary<string, TaskExecutionMode> _dependencies = new Dictionary<string, TaskExecutionMode>();
+        private readonly TargetDependencyCollection _dependencies = new TargetDependencyCollection();
 
         private readonly List<TaskGroup> _taskGroups = new List<TaskGroup>();
 
@@ -45,7 +45,7 @@ namespace FlubuCore.Targeting
             _args = args;
         }
 
-        public Dictionary<string, TaskExecutionMode> Dependencies => _dependencies;
+        public TargetDependencyCollection Dependencies => _dependencies;
 
         public List<TaskGroup> TasksGroups => _taskGroups;
 
@@ -404,7 +404,7 @@ namespace FlubuCore.Targeting
         {
             _targetTree.MarkTargetAsExecuted(this);
             context.LogInfo(" ");
-            context.LogInfo($"Target {TargetName} will execute next tasks:");
+            context.LogInfo($"Target {TargetName.Capitalize()} will execute next tasks:");
 
             for (int i = 0; i < _taskGroups.Count; i++)
             {
@@ -444,9 +444,9 @@ namespace FlubuCore.Targeting
                 {
                     for (int i = 0; i < actionCount; i++)
                     {
-                        var lastDependency = _dependencies.Keys.Last();
-                        _targetTree.BuildSummaryExtras.Add((lastDependency, targetAction, TargetName));
-                        _dependencies.Remove(lastDependency);
+                        var lastDependency = _dependencies.Last();
+                        _targetTree.BuildSummaryExtras.Add((lastDependency.TargetName, targetAction, TargetName));
+                        lastDependency.Skipped = true;
                     }
 
                     return;

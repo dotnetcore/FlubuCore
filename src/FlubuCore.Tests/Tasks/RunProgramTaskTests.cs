@@ -53,7 +53,7 @@ namespace FlubuCore.Tests.Tasks
         {
             string currentFolder = Directory.GetCurrentDirectory();
 
-            _commandFactory.Setup(i => i.Create("dotnet", new List<string> { "--version" }, null, "Debug")).Returns(_command.Object);
+            _commandFactory.Setup(i => i.Create("git", new List<string> { "--version" }, null, "Debug")).Returns(_command.Object);
 
             _command.Setup(i => i.CaptureStdErr()).Returns(_command.Object);
             _command.Setup(i => i.CaptureStdOut()).Returns(_command.Object);
@@ -62,7 +62,7 @@ namespace FlubuCore.Tests.Tasks
             _command.Setup(i => i.OnOutputLine(It.IsAny<Action<string>>())).Returns(_command.Object);
             _command.Setup(i => i.Execute()).Returns(new CommandResult(new ProcessStartInfo { Arguments = "aa" }, 0, string.Empty, string.Empty));
 
-            RunProgramTask task = new RunProgramTask(_commandFactory.Object, "dotnet");
+            RunProgramTask task = new RunProgramTask(_commandFactory.Object, "git");
 
             int res = task
                 .WithArguments("--version")
@@ -121,7 +121,7 @@ namespace FlubuCore.Tests.Tasks
         {
             Action<string> onOutput = null, onError = null;
 
-            _commandFactory.Setup(i => i.Create("dotnet", new List<string>(), null, "Debug")).Returns(_command.Object);
+            _commandFactory.Setup(i => i.Create("gitversion", new List<string>(), null, "Debug")).Returns(_command.Object);
 
             _command.Setup(i => i.CaptureStdErr()).Returns(_command.Object);
             _command.Setup(i => i.CaptureStdOut()).Returns(_command.Object);
@@ -138,7 +138,7 @@ namespace FlubuCore.Tests.Tasks
                     .Callback<Action<string>>(action => onError = action)
                     .Returns(_command.Object);
 
-            var task = new RunProgramTask(_commandFactory.Object, "dotnet");
+            var task = new RunProgramTask(_commandFactory.Object, "gitversion");
 
             int res = task.CaptureOutput()
                           .CaptureErrorOutput()

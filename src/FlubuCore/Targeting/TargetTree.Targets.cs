@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using FlubuCore.Context;
+using FlubuCore.Infrastructure;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,11 +46,11 @@ namespace FlubuCore.Targeting
             {
                 if (target.IsHidden == false)
                 {
-                    string help = $"  {target.TargetName}";
+                    string help = $"  {target.TargetName.Capitalize()}";
 
                     if (target.Dependencies != null && target.Dependencies.Count != 0)
                     {
-                        help = $"{help} ({string.Join(", ", target.Dependencies.Keys)})";
+                        help = $"{help} ({string.Join(", ", target.Dependencies.GetKeys())})";
                     }
 
                     help = $"{help} : {target.Description}";

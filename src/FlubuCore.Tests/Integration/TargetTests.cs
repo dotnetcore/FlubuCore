@@ -85,7 +85,7 @@ namespace FlubuCore.Tests.Integration
             sw.Stop();
 
             var elapsed = sw.Elapsed;
-            Assert.True(sw.ElapsedMilliseconds >= 2999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds >= 2900, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
             Assert.True(sw.ElapsedMilliseconds < 5999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
@@ -104,7 +104,7 @@ namespace FlubuCore.Tests.Integration
             target1.ExecuteVoid(Context);
             sw.Stop();
 
-            Assert.True(sw.ElapsedMilliseconds > 999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds > 990, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
         [Fact]
@@ -189,8 +189,8 @@ namespace FlubuCore.Tests.Integration
             target3.DependsOn(target1, target2);
             var dependencies = target3.Dependencies.ToList();
             Assert.Equal(2, dependencies.Count);
-            Assert.Equal("target1", dependencies[0].Key);
-            Assert.Equal("target2", dependencies[1].Key);
+            Assert.Equal("target1", dependencies[0].TargetName);
+            Assert.Equal("target2", dependencies[1].TargetName);
 
             var sw = new Stopwatch();
 
@@ -201,7 +201,7 @@ namespace FlubuCore.Tests.Integration
 
             Assert.Equal(2, targetTree.DependenciesExecutedCount);
 
-            Assert.True(sw.ElapsedMilliseconds > 999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds > 990, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
         [Fact]

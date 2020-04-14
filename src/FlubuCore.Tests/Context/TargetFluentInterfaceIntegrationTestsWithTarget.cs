@@ -51,7 +51,8 @@ namespace FlubuCore.Tests.Context
             target2.Setup(x => x.TargetName).Returns("dep2");
             ITarget t = _fluent.DependsOn(target1.Object, target2.Object).When(c => false);
             Assert.NotNull(t);
-            Assert.Empty(_target.Dependencies);
+            Assert.Equal(2, _target.Dependencies.Count);
+            Assert.True(_target.Dependencies["dep2"].Skipped == true);
         }
 
         [Fact]
@@ -75,8 +76,9 @@ namespace FlubuCore.Tests.Context
             target1.Setup(x => x.TargetName).Returns("dep");
             ITarget t = _fluent.DependsOn(target1.Object).DependsOn(target2.Object).When(c => false);
             Assert.NotNull(t);
-            Assert.Single(_target.Dependencies);
             Assert.True(_target.Dependencies.ContainsKey("dep"));
+            Assert.True(_target.Dependencies.ContainsKey("dep2"));
+            Assert.True(_target.Dependencies["dep2"].Skipped == true);
         }
 
         [Fact]

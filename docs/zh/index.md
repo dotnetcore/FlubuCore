@@ -257,3 +257,13 @@ If you find FlubuCore useful (you feel it helps you on the daily basis) you can 
 详细变更记录与示例请参阅[变更日志](https://github.com/dotnetcore/FlubuCore/blob/master/CHANGELOG.md)。
 
 FlubuCore 路线图请翻阅项目[里程碑](https://github.com/dotnetcore/FlubuCore/milestones)。
+
+## Acknowledgements
+
+* Special thanks to [@ironcev](https://github.com/ironcev) for greatly improving readme and for giving some valuable advices.
+* Special thanks to [@alexinea](https://github.com/https://github.com/alexinea) for translating whole documentation to Chinese.
+* Special thanks to [@huanlin](https://github.com/huanlin) for writing blogs about FlubuCore in Traditional Chinese and for translationg them to English.
+
+## .NET Foundation
+
+This project is supported by the [.NET Foundation](http://www.dotnetfoundation.org).
