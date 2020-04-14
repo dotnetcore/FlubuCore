@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace FlubuCore.WebApi.Controllers
@@ -65,10 +66,10 @@ namespace FlubuCore.WebApi.Controllers
         /// </summary>
         /// <param name="applicationUser"></param>
         /// <returns></returns>
-        [SwaggerResponse(200, typeof(GetTokenResponse))]
+        [SwaggerResponse(200, Type = typeof(GetTokenResponse))]
         [SwaggerResponse(400, Description = "ErrorCodes: WrondUsernameOrPasswrd")]
-        [SwaggerResponse(403, typeof(ErrorModel))]
-        [SwaggerResponse(500, typeof(ErrorModel), Description = "Internal Server error occured.")]
+        [SwaggerResponse(403, Type = typeof(ErrorModel))]
+        [SwaggerResponse(500, Type = typeof(ErrorModel), Description = "Internal Server error occured.")]
         [HttpPost]
         [AllowAnonymous]
         [EmailNotificationFilter(NotificationFilter.GetToken)]

@@ -51,7 +51,7 @@ namespace DeploymentScript
             else
             {
                 var liteDbPassword = GenerateRandomSecureString(15);
-                connectionString = $"FileName=database.db; Connection=Shared; Password={liteDbPassword}";
+                connectionString = $"FileName=database.db; Password={liteDbPassword}";
             }
 
             bool createDb = false;

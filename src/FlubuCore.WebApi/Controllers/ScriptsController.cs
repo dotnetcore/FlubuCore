@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Framework;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using FileMode = System.IO.FileMode;
 
@@ -64,10 +65,10 @@ namespace FlubuCore.WebApi.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("Execute")]
-        [SwaggerResponse(200, typeof(ExecuteScriptResponse))]
-        [SwaggerResponse(400, typeof(ErrorModel), Description = "Error codes: ScriptNotFount, TargetNotFound")]
+        [SwaggerResponse(200, Type = typeof(ExecuteScriptResponse))]
+        [SwaggerResponse(400, Type = typeof(ErrorModel), Description = "Error codes: ScriptNotFount, TargetNotFound")]
         [SwaggerResponse(401)]
-        [SwaggerResponse(500, typeof(ErrorModel), Description = "Internal Server error occured.")]
+        [SwaggerResponse(500, Type = typeof(ErrorModel), Description = "Internal Server error occured.")]
         [EmailNotificationFilter(NotificationFilter.ExecuteScript)]
         public async Task<IActionResult> Execute([FromBody] ExecuteScriptRequest request)
         {
@@ -102,10 +103,10 @@ namespace FlubuCore.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [SwaggerResponse(200)]
-        [SwaggerResponse(400, typeof(ErrorModel), Description = "Error codes: FormHasNoContentType, NoFiles")]
+        [SwaggerResponse(400, Type = typeof(ErrorModel), Description = "Error codes: FormHasNoContentType, NoFiles")]
         [SwaggerResponse(401)]
-        [SwaggerResponse(403, typeof(ErrorModel), Description = "Error codes: FileExtensionNotAllowed")]
-        [SwaggerResponse(500, typeof(ErrorModel), Description = "Internal Server error occured.")]
+        [SwaggerResponse(403, Type = typeof(ErrorModel), Description = "Error codes: FileExtensionNotAllowed")]
+        [SwaggerResponse(500, Type = typeof(ErrorModel), Description = "Internal Server error occured.")]
         [HttpPost("Upload")]
         public async Task<IActionResult> UploadScript()
         {
