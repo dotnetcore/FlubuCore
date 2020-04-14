@@ -820,9 +820,9 @@ namespace FlubuCore.Infrastructure.Terminal
 
         private void AddDependencies(ITargetInternal target, List<ITargetInternal> targets)
         {
-            foreach (var dependencyName in target.Dependencies)
+            foreach (var dependency in target.Dependencies)
             {
-                var dependantTarget = _targetTree.GetTarget(dependencyName.Key);
+                var dependantTarget = _targetTree.GetTarget(dependency.TargetName);
                 targets.Add(dependantTarget);
                 AddDependencies(dependantTarget, targets);
             }

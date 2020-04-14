@@ -189,8 +189,8 @@ namespace FlubuCore.Tests.Integration
             target3.DependsOn(target1, target2);
             var dependencies = target3.Dependencies.ToList();
             Assert.Equal(2, dependencies.Count);
-            Assert.Equal("target1", dependencies[0].Key);
-            Assert.Equal("target2", dependencies[1].Key);
+            Assert.Equal("target1", dependencies[0].TargetName);
+            Assert.Equal("target2", dependencies[1].TargetName);
 
             var sw = new Stopwatch();
 
