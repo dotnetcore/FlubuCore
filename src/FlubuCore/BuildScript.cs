@@ -11,9 +11,9 @@ namespace FlubuCore
         protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
         {
             context.Properties.Set(BuildProps.ProductId, "Todo");
-            context.Properties.Set(BuildProps.ProductName, "Todo");
+            context.Properties.Set(DotNetBuildProps.ProductName, "Todo");
             //// Adds some default targets like compile etc. Set To None if u don't want default targets.
-            context.Properties.Set(BuildProps.DefaultTargets, DefaultTargets.Dotnet);
+            context.Properties.Set(DotNetBuildProps.DefaultTargets, DefaultTargets.Dotnet);
             context.Properties.Set(BuildProps.BuildConfiguration, "Release");
             context.Properties.Set(BuildProps.SolutionFileName, "..\\Todo.sln");
         }
