@@ -1,3 +1,12 @@
+## FlubuCore 5.0.4.0
+- dotnet pack task: fixed explicit set of project argument when solution file name is set in build properties.
+- Fixed build script locator when .flubu file was empty.
+- Fixed RunProgramTask when ProudtRootDir is not set.
+- Target "task" is now hidden
+- Interactive mode: Fixed simple interactive mode
+- Interactive mode: fixed a bug where executing dotnet does not executes dotnet
+- Interactive mode: Fixed a bug where execution of external process had wrong working directory in interactive mode
+
 ## FlubuCore 5.0.3.0
 - dotnet clean, restore, build, test, pack publish tasks: Fixed insert of duplicated project argument when project path starts with /
 - Fixed reporting of unspecified build script

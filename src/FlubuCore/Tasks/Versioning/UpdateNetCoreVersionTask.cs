@@ -138,12 +138,12 @@ namespace FlubuCore.Tasks.Versioning
 
             if (!_versionFieldCount.HasValue)
             {
-                _versionFieldCount = context.Properties.TryGet(BuildProps.ProductVersionFieldCount, 3);
+                _versionFieldCount = context.Properties.TryGet(DotNetBuildProps.ProductVersionFieldCount, 3);
             }
 
             if (!_packageVersionFieldCount.HasValue)
             {
-                _packageVersionFieldCount = context.Properties.TryGet(BuildProps.ProductVersionFieldCount, 3);
+                _packageVersionFieldCount = context.Properties.TryGet(DotNetBuildProps.ProductVersionFieldCount, 3);
             }
 
             string newVersion = _version.Version.ToString(_versionFieldCount.Value);

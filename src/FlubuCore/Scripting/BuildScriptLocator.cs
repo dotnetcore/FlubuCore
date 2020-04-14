@@ -133,7 +133,7 @@ namespace FlubuCore.Scripting
                 var lines = _file.ReadAllLines(flubuFile);
                 var flubuFileDir = Path.GetDirectoryName(flubuFile);
 
-                if (lines.Count != 0 && string.IsNullOrEmpty(lines[0]))
+                if (lines.Count == 0 || string.IsNullOrEmpty(lines[0]))
                 {
                     return null;
                 }

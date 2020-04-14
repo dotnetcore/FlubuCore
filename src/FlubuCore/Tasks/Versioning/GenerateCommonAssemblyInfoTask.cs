@@ -118,31 +118,31 @@ namespace FlubuCore.Tasks.Versioning
                 _buildVersion = context.Properties.GetBuildVersion();
 
             if (string.IsNullOrEmpty(_companyCopyright))
-                _companyCopyright = context.Properties.TryGet(BuildProps.CompanyCopyright, string.Empty);
+                _companyCopyright = context.Properties.TryGet(DotNetBuildProps.CompanyCopyright, string.Empty);
 
             if (string.IsNullOrEmpty(_companyName))
-                _companyName = context.Properties.TryGet(BuildProps.CompanyName, string.Empty);
+                _companyName = context.Properties.TryGet(DotNetBuildProps.CompanyName, string.Empty);
 
             if (string.IsNullOrEmpty(_companyTrademark))
-                _companyTrademark = context.Properties.TryGet(BuildProps.CompanyTrademark, string.Empty);
+                _companyTrademark = context.Properties.TryGet(DotNetBuildProps.CompanyTrademark, string.Empty);
 
             if (string.IsNullOrEmpty(_productName))
             {
                 string productId = context.Properties.TryGet<string>(BuildProps.ProductId);
-                _productName = context.Properties.TryGet(BuildProps.ProductName, productId);
+                _productName = context.Properties.TryGet(DotNetBuildProps.ProductName, productId);
             }
 
             if (string.IsNullOrEmpty(_productRootDir))
                 _productRootDir = context.Properties.TryGet(BuildProps.ProductRootDir, ".");
 
             if (!_generateAssemblyVersionSet)
-                _generateAssemblyVersion = context.Properties.TryGet(BuildProps.AutoAssemblyVersion, true);
+                _generateAssemblyVersion = context.Properties.TryGet(DotNetBuildProps.AutoAssemblyVersion, true);
 
             if (string.IsNullOrEmpty(_informationalVersion))
-                _informationalVersion = context.Properties.TryGet<string>(BuildProps.InformationalVersion);
+                _informationalVersion = context.Properties.TryGet<string>(DotNetBuildProps.InformationalVersion);
 
             if (_productVersionFieldCount <= 0)
-                _productVersionFieldCount = context.Properties.TryGet(BuildProps.ProductVersionFieldCount, 2);
+                _productVersionFieldCount = context.Properties.TryGet(DotNetBuildProps.ProductVersionFieldCount, 2);
 
             if (_buildVersion == null)
             {

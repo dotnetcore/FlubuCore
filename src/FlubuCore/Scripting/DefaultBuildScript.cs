@@ -207,7 +207,7 @@ namespace FlubuCore.Scripting
             }
             else
             {
-                flubuSession.LogInfo("Running target's in parallel.");
+                flubuSession.LogInfo("Running targets in parallel.");
                 var tasks = new List<Task>();
                 BeforeTargetExecution(flubuSession);
                 foreach (var targetToRun in targetsInfo.targetsToRun)
@@ -269,8 +269,8 @@ namespace FlubuCore.Scripting
 
         internal void ConfigureDefaultProps(IFlubuSession flubuSession)
         {
-            flubuSession.SetBuildVersion(new Version(1, 0, 0, 0));
-            flubuSession.SetDotnetExecutable(ExecuteDotnetTask.FindDotnetExecutable());
+            var rootDir = string.IsNullOrEmpty(flubuSession.Args.FlubuFileLocation) ? Directory.GetCurrentDirectory() : Path.GetDirectoryName(flubuSession.Args.FlubuFileLocation);
+            flubuSession.Properties.Set(BuildProps.ProductRootDir, rootDir, false);
 
             var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
             OSPlatform platform;
@@ -285,15 +285,14 @@ namespace FlubuCore.Scripting
                 platform = OSPlatform.Windows;
             }
 
-            var rootDir = string.IsNullOrEmpty(flubuSession.Args.FlubuFileLocation) ? Directory.GetCurrentDirectory() : Path.GetDirectoryName(flubuSession.Args.FlubuFileLocation);
-
-            flubuSession.SetProductRootDir(rootDir);
-            flubuSession.SetOSPlatform(platform);
-            flubuSession.SetNodeExecutablePath(IOExtensions.GetNodePath());
-            flubuSession.SetProfileFolder(IOExtensions.GetUserProfileFolder());
-            flubuSession.SetNpmPath(IOExtensions.GetNpmPath());
-            flubuSession.SetBuildDir("build");
-            flubuSession.SetOutputDir("output");
+            flubuSession.Properties.Set(BuildProps.OSPlatform, platform, false);
+            flubuSession.Properties.Set(BuildProps.NodeExecutablePath, IOExtensions.GetNodePath(), false);
+            flubuSession.Properties.Set(BuildProps.UserProfileFolder, IOExtensions.GetUserProfileFolder(), false);
+            flubuSession.Properties.Set(BuildProps.NpmPath, IOExtensions.GetNpmPath(), false);
+            flubuSession.Properties.Set(DotNetBuildProps.BuildDir, RootDirectory.CombineWith("build").ToString());
+            flubuSession.Properties.Set(DotNetBuildProps.OutputDir,  RootDirectory.CombineWith("output").ToString(), false);
+            flubuSession.Properties.Set(BuildProps.BuildVersion, new Version(1, 0, 0, 0), false);
+            flubuSession.Properties.Set(BuildProps.DotNetExecutable, ExecuteDotnetTask.FindDotnetExecutable(), false);
         }
 
         private void ConfigureDefaultTargets(IFlubuSession flubuSession)
@@ -344,7 +343,7 @@ namespace FlubuCore.Scripting
 
         private void TargetPrepareBuildDir(ITaskContext context)
         {
-            var buildDir = context.Properties.Get<string>(BuildProps.BuildDir);
+            var buildDir = context.Properties.Get<string>(DotNetBuildProps.BuildDir);
             var createDirectoryTask = context.Tasks().CreateDirectoryTask(buildDir, true);
             createDirectoryTask.Execute(context);
         }

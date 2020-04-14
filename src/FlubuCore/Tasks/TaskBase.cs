@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using FlubuCore.Context;
+using FlubuCore.Infrastructure;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Solution.VSSolutionBrowsing;
@@ -537,7 +538,7 @@ namespace FlubuCore.Tasks
         {
             context.LogInfo(" ");
             context.LogInfo(string.Empty);
-            context.LogInfo($"    {TaskName}: {Description}");
+            context.LogInfo($"    {TaskName.Capitalize()}: {Description}");
             if (ArgumentHelp == null || ArgumentHelp.Count <= 0)
             {
                 return;

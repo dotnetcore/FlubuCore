@@ -14,8 +14,8 @@ namespace FlubuCore.Tests.Tasks
             _task = new DotnetCleanTask();
             _task.Executable("dotnet");
             Tasks.Setup(x => x.RunProgramTask("dotnet")).Returns(RunProgramTask.Object);
-            Properties.Setup(x => x.Get<string>(BuildProps.BuildDir, null, It.IsAny<string>())).Returns("build");
-            Properties.Setup(x => x.Get<string>(BuildProps.OutputDir, null, It.IsAny<string>())).Returns("output");
+            Properties.Setup(x => x.Get<string>(DotNetBuildProps.BuildDir, null, It.IsAny<string>())).Returns("build");
+            Properties.Setup(x => x.Get<string>(DotNetBuildProps.OutputDir, null, It.IsAny<string>())).Returns("output");
         }
 
         [Fact]

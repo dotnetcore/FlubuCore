@@ -9,7 +9,7 @@ namespace FlubuCore.Targeting
 {
     public interface ITargetInternal : ITask
     {
-        Dictionary<string, TaskExecutionMode> Dependencies { get; }
+        TargetDependencyCollection Dependencies { get; }
 
         List<TaskGroup> TasksGroups { get; }
 

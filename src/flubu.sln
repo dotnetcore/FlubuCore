@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnet-flubu", "dotnet-flubu\dotnet-flubu.csproj", "{F9F3CB01-F4B5-4278-8423-2643CE84C5D5}"
 EndProject
@@ -27,7 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.Analyzers.Tests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.Tests", "FlubuCore.Tests\FlubuCore.Tests.csproj", "{423BB55A-3CEC-42AF-8309-16934932DCF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlubuCore.WebApi.Updater", "FlubuCore.WebApi.Updater\FlubuCore.WebApi.Updater.csproj", "{E0260CB5-D436-4E1F-BEEE-9FEFA223528D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.WebApi.Updater", "FlubuCore.WebApi.Updater\FlubuCore.WebApi.Updater.csproj", "{E0260CB5-D436-4E1F-BEEE-9FEFA223528D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9657968D-86D6-4270-A9AA-2FF223643E7E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.ConsoleTestApp", "FlubuCore.ConsoleTestApp\FlubuCore.ConsoleTestApp.csproj", "{972E6797-8E9F-469B-8E94-B8078665F8E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -183,6 +187,18 @@ Global
 		{E0260CB5-D436-4E1F-BEEE-9FEFA223528D}.Release|x64.Build.0 = Release|Any CPU
 		{E0260CB5-D436-4E1F-BEEE-9FEFA223528D}.Release|x86.ActiveCfg = Release|Any CPU
 		{E0260CB5-D436-4E1F-BEEE-9FEFA223528D}.Release|x86.Build.0 = Release|Any CPU
+		{972E6797-8E9F-469B-8E94-B8078665F8E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{972E6797-8E9F-469B-8E94-B8078665F8E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{972E6797-8E9F-469B-8E94-B8078665F8E3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{972E6797-8E9F-469B-8E94-B8078665F8E3}.Debug|x64.Build.0 = Debug|Any CPU
+		{972E6797-8E9F-469B-8E94-B8078665F8E3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{972E6797-8E9F-469B-8E94-B8078665F8E3}.Debug|x86.Build.0 = Debug|Any CPU
+		{972E6797-8E9F-469B-8E94-B8078665F8E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{972E6797-8E9F-469B-8E94-B8078665F8E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{972E6797-8E9F-469B-8E94-B8078665F8E3}.Release|x64.ActiveCfg = Release|Any CPU
+		{972E6797-8E9F-469B-8E94-B8078665F8E3}.Release|x64.Build.0 = Release|Any CPU
+		{972E6797-8E9F-469B-8E94-B8078665F8E3}.Release|x86.ActiveCfg = Release|Any CPU
+		{972E6797-8E9F-469B-8E94-B8078665F8E3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

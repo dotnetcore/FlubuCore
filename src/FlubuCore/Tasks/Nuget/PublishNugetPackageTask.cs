@@ -104,7 +104,7 @@ namespace FlubuCore.Tasks.Nuget
         protected override int DoExecute(ITaskContextInternal context)
         {
             FullPath packagesDir = new FullPath(context.Properties.Get(BuildProps.ProductRootDir, "."));
-            packagesDir = packagesDir.CombineWith(context.Properties.Get<string>(BuildProps.BuildDir));
+            packagesDir = packagesDir.CombineWith(context.Properties.Get<string>(DotNetBuildProps.BuildDir));
 
             FileFullPath destNuspecFile = packagesDir.AddFileName("{0}.nuspec", _packageId);
 

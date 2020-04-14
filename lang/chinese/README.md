@@ -272,3 +272,13 @@ If you find FlubuCore useful (you feel it helps you on the daily basis) you can 
 
 特别感谢 [@ironcev](https://github.com/ironcev) 对 readme 文件做了大量改进并提供了一系列富有价值的建议。
 特别感谢 [@alexinea](https://github.com/https://github.com/alexinea) 将整个文档翻译成中文。
+* Special thanks to [@huanlin](https://github.com/huanlin) for writing Blogs about FlubuCore in Traditional Chinese and for translationg them to English.
+
+## Code of Conduct
+
+This project has adopted the code of conduct defined by the [Contributor Covenant](http://contributor-covenant.org/) to clarify expected behavior in our community.
+For more information see the [.NET Foundation Code of Conduct](http://www.dotnetfoundation.org/code-of-conduct).
+
+## .NET Foundation
+
+This project is supported by the [.NET Foundation](http://www.dotnetfoundation.org).
