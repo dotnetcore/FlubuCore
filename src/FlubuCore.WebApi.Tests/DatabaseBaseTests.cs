@@ -10,7 +10,20 @@ namespace FlubuCore.WebApi.Tests
     {
         public DatabaseBaseTests()
         {
-            LiteRepository = new LiteRepository("Filename=database.db");
+            try
+            {
+                LiteRepository = new LiteRepository("Filename=database.db;Connection=Shared");
+            }
+            catch (LiteException ex)
+            {
+                if (ex.Message.Contains("File is not a valid LiteDB database format", StringComparison.OrdinalIgnoreCase))
+                {
+                    // This exception could be thrown due to LiteDB packages is updated to a newer version. So delete old file and try again.
+                    File.Delete("database.db");
+                    LiteRepository = new LiteRepository("Filename=database.db;Connection=Shared");
+                }
+            }
+
             LiteRepository.Database.DropCollection("users");
         }
 

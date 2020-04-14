@@ -20,7 +20,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         public ClientFixture()
         {
             _hashService = new HashService();
-            LiteRepository = new LiteRepository("Filename=database.db");
+            LiteRepository = new LiteRepository("Filename=database.db;Connection=Shared");
             _repository = new UserRepository(LiteRepository);
             var hashedPassword = _hashService.Hash("password");
             LiteRepository.Database.DropCollection("users");
