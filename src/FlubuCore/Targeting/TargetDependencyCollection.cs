@@ -24,6 +24,11 @@ namespace FlubuCore.Targeting
             });
         }
 
+        public bool ContainsKey(string key)
+        {
+            return Dictionary.ContainsKey(key);
+        }
+
         public IEnumerable<string> GetKeys()
         {
             foreach (var item in Items)
