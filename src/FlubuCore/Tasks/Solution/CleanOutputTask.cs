@@ -111,14 +111,14 @@ namespace FlubuCore.Tasks.Solution
                     }
                 });
 
-            string buildDir = context.Properties.Get<string>(BuildProps.BuildDir, null);
+            string buildDir = context.Properties.Get<string>(DotNetBuildProps.BuildDir, null);
             if (!string.IsNullOrEmpty(buildDir) && _cleanBuildDir)
             {
                 CreateDirectoryTask createDirectoryTask = new CreateDirectoryTask(buildDir, true);
                 createDirectoryTask.Execute(context);
             }
 
-            string outputDir = context.Properties.Get<string>(BuildProps.OutputDir, null);
+            string outputDir = context.Properties.Get<string>(DotNetBuildProps.OutputDir, null);
             if (!string.IsNullOrEmpty(outputDir) && _cleanOutputDir)
             {
                 CreateDirectoryTask createDirectoryTask = new CreateDirectoryTask(outputDir, true);

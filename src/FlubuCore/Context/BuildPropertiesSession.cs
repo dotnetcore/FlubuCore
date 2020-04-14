@@ -83,7 +83,7 @@ namespace FlubuCore.Context
                     propName = BuildProps.OSPlatform;
                     break;
                 case PredefinedBuildProperties.OutputDir:
-                    propName = BuildProps.OutputDir;
+                    propName = DotNetBuildProps.OutputDir;
                     break;
                 case PredefinedBuildProperties.PathToDotnetExecutable:
                     propName = BuildProps.DotNetExecutable;
