@@ -41,5 +41,10 @@ namespace FlubuCore.Infrastructure
 
             return s.ToString();
         }
+
+        public static string Capitalize(this string source)
+        {
+            return source.Substring(0, 1).ToUpper() + source.Substring(1);
+        }
     }
 }

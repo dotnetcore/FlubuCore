@@ -217,7 +217,7 @@ namespace FlubuCore.Scripting
             }
             else
             {
-                flubuSession.LogInfo("Running target's in parallel.");
+                flubuSession.LogInfo("Running targets in parallel.");
                 var tasks = new List<Task>();
                 BeforeTargetExecution(flubuSession);
                 foreach (var targetToRun in targetsInfo.targetsToRun)
