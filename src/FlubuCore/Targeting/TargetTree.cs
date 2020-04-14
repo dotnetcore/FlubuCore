@@ -296,7 +296,7 @@ namespace FlubuCore.Targeting
             }
             else if (session.UnknownTarget.HasValue && !session.UnknownTarget.Value)
             {
-                var targets = GetTargetsInExecutionOrder(session.Args.MainCommands);
+                var targets = GetTargetsInExecutionOrder(session);
 
                 maxTargetNameLength = GetTargetNameMaxLength(targets);
                 LogTargetSummaryTitle();
@@ -389,9 +389,21 @@ namespace FlubuCore.Targeting
             }
         }
 
-        private List<ITargetInternal> GetTargetsInExecutionOrder(List<string> targetNames)
+        private List<ITargetInternal> GetTargetsInExecutionOrder(IFlubuSession session)
         {
             var targetsInOrder = new List<ITargetInternal>();
+
+            IEnumerable<string> targetNames = session.Args.MainCommands;
+            if (targetNames == null || targetNames.Count() < 1)
+            {
+                if (_executedTargets?.Count < 1)
+                {
+                    return targetsInOrder;
+                }
+
+                targetNames = _executedTargets.Reverse();
+            }
+
             foreach (var targetName in targetNames)
             {
                 AddDependentTargets(_targets[targetName]);
