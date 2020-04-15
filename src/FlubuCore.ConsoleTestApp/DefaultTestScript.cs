@@ -4,10 +4,9 @@ using FlubuCore.Scripting;
 
 namespace FlubuCore.ConsoleTestApp
 {
-    public class TestScript : DefaultBuildScript
-    {
-        [BuildProperty(DotNetBuildProps.OutputDir)] 
-        public string Output{ get; set; } = "Output222";
+    public class DefaultTestScript : DefaultBuildScript
+    {        
+        public string Output => RootDirectory.CombineWith("output222");
 
         protected override void ConfigureTargets(ITaskContext context)
         {

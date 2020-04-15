@@ -9,7 +9,7 @@ namespace FlubuCore.ConsoleTestApp
             args = new[] {"Test"};
 
             var engine = new FlubuEngine();
-            engine.RunScript<BuildScript>(args);
+            engine.RunScript<DefaultTestScript>(args);
         }
     }
 }

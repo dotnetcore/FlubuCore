@@ -77,7 +77,7 @@ namespace FlubuCore.Scripting
 
             var currentDirectory = Directory.GetCurrentDirectory();
             var directories = currentDirectory.Split(Path.DirectorySeparatorChar);
-            string flubuFileDir = string.Empty;
+            string flubuFileDir = currentDirectory.StartsWith("/") ? "/" : string.Empty;
             foreach (var dir in directories)
             {
                 string directory = dir;
