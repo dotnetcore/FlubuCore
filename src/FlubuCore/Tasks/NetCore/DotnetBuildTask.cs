@@ -122,8 +122,16 @@ namespace FlubuCore.Tasks.NetCore
         /// <summary>
         /// The output directory to place built artifacts in.
         /// </summary>
-        /// <param name="output"></param>
+        /// <param name="path">The output path.</param>
         /// <returns></returns>
+        [ArgKey("--output", "-o")]
+        public DotnetBuildTask OutputDirectory(string path)
+        {
+            WithArgumentsKeyFromAttribute(path);
+            return this;
+        }
+
+        [Obsolete("This method is replaced by 'OutputDirectory'.", error: true)]
         [ArgKey("--output", "-o")]
         public DotnetBuildTask Output(string output)
         {

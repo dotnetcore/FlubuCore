@@ -29,9 +29,15 @@ namespace FlubuCore.Context
             context.LogInfo("Debugger attached.");
         }
 
+        public static FileFullPath GetOutputDirectory(this ITaskContext context)
+        {
+            return context.GetRootDirectory().AddFileName(context.Properties.GetOutputDir());
+        }
+
+        [Obsolete("This extension method is replaced by 'GetOutputDirectory'.", error: true)]
         public static FileFullPath OutputDirectory(this ITaskContext context)
         {
-            return context.RootDirectory().AddFileName(context.Properties.GetOutputDir());
+            return context.GetRootDirectory().AddFileName(context.Properties.GetOutputDir());
         }
 
         /// <summary>
