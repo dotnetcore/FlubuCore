@@ -21,7 +21,10 @@ namespace FlubuCore.Scripting
             LoggerFactory = new LoggerFactory();
             LoggerFactory.AddProvider(new FlubuLoggerProvider());
             var loggers = ServiceDescriptor.Singleton(typeof(ILogger<>), typeof(Logger<>));
-            var app = new CommandLineApplication(false);
+            var app = new CommandLineApplication()
+            {
+                UnrecognizedArgumentHandling = UnrecognizedArgumentHandling.CollectAndContinue
+            };
             CommandArguments arguments = new CommandArguments();
             var serviceCollection = new ServiceCollection()
                 .AddCoreComponents()

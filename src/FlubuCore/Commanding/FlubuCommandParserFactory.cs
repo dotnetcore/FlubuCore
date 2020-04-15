@@ -19,7 +19,11 @@ namespace FlubuCore.Commanding
 
         public IFlubuCommandParser GetFlubuCommandParser()
         {
-           return new FlubuCommandParser(new CommandLineApplication(false), _serviceProvider.GetRequiredService<IFlubuConfigurationProvider>(), _serviceProvider.GetRequiredService<IBuildScriptLocator>(), _serviceProvider.GetRequiredService<IFileWrapper>());
+            var cmdApp = new CommandLineApplication()
+            {
+                UnrecognizedArgumentHandling = UnrecognizedArgumentHandling.CollectAndContinue
+            };
+            return new FlubuCommandParser(cmdApp, _serviceProvider.GetRequiredService<IFlubuConfigurationProvider>(), _serviceProvider.GetRequiredService<IBuildScriptLocator>(), _serviceProvider.GetRequiredService<IFileWrapper>());
         }
     }
 }

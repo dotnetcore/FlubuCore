@@ -93,7 +93,10 @@ namespace DotNet.Cli.Flubu.Infrastructure
 
         private static void AddArgumentsImpl(IServiceCollection services, IServiceCollection services2 = null)
         {
-            var app = new CommandLineApplication(false);
+            var app = new CommandLineApplication()
+            {
+                UnrecognizedArgumentHandling = UnrecognizedArgumentHandling.CollectAndContinue
+            };
             var flubuConfigurationProviderDescriptor =
                 ServiceDescriptor.Singleton<IFlubuConfigurationProvider, FlubuConfigurationProvider>();
 
