@@ -206,7 +206,7 @@ namespace FlubuCore.Tasks.Testing
         {
             DoLogInfo("Merging coverage snapshots...");
 
-            var buildDir = context.Properties[BuildProps.BuildDir];
+            var buildDir = context.Properties[DotNetBuildProps.BuildDir];
             var mergedSnapshotFileName =
                 Path.Combine(buildDir, "{0}.dcvr".Fmt(context.Properties[BuildProps.ProductId]));
             var runDotCovertask = context.Tasks().RunProgramTask(dotCoverExeFileName);
@@ -229,7 +229,7 @@ namespace FlubuCore.Tasks.Testing
         {
             DoLogInfo($"Generating code coverage {reportType} report...");
 
-            var buildDir = context.Properties[BuildProps.BuildDir];
+            var buildDir = context.Properties[DotNetBuildProps.BuildDir];
 
             var coverageReportFileName =
                 Path.Combine(buildDir, "dotCover-results.{0}".Fmt(reportType.ToLowerInvariant()));
@@ -277,7 +277,7 @@ namespace FlubuCore.Tasks.Testing
         {
             var assemblyFullFileName = ExtractFullAssemblyFileName(testAssemblyFileName, out var assemblyId);
 
-            var buildDir = context.Properties[BuildProps.BuildDir];
+            var buildDir = context.Properties[DotNetBuildProps.BuildDir];
             var snapshotFileName = Path.Combine(buildDir, "{0}-coverage.dcvr".Fmt(assemblyId));
 
             RunCoverTask(context, assemblyFullFileName, dotCoverExeFileName, snapshotFileName);

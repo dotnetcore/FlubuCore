@@ -7,7 +7,7 @@ namespace FlubuCore.ConsoleTestApp
     public class DefaultTestScript : DefaultBuildScript
     {        
         public string Output => RootDirectory.CombineWith("output222");
-
+        
         protected override void ConfigureTargets(ITaskContext context)
         {
             context.CreateTarget("Test").SetAsDefault().AddCoreTask(x => x.Build());

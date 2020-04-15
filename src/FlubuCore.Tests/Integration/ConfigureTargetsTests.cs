@@ -32,7 +32,7 @@ namespace FlubuCore.Tests.Integration
             var t = session.TargetTree.GetTarget("test");
             var t1 = session.TargetTree.GetTarget("test1");
 
-            Assert.Equal(t.TargetName, t1.Dependencies.FirstOrDefault().Key);
+            Assert.Equal(t.TargetName, t1.Dependencies.FirstOrDefault().TargetName);
         }
 
         [Fact]
