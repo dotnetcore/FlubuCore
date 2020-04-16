@@ -23,8 +23,9 @@ namespace FlubuCore.Infrastructure.Terminal
 
         private static readonly Dictionary<string, Type> _allSupportedExternalProcessesForOptionHints = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
 
+        private static readonly List<string> _commandsHistory = new List<string>();
+
         private readonly TargetTree _targetTree;
-        private readonly List<string> _commandsHistory = new List<string>();
         private IDictionary<string, IReadOnlyCollection<Hint>> _hintsSourceDictionary;
         private List<Suggestion> _suggestionsForUserInput;
         private int _suggestionPosition;
