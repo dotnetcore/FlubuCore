@@ -279,6 +279,7 @@ namespace FlubuCore.Scripting
 
         internal void ConfigureDefaultProps(IFlubuSession flubuSession)
         {
+            _flubuSession = flubuSession;
             var rootDir = string.IsNullOrEmpty(flubuSession.Args.FlubuFileLocation) ? Directory.GetCurrentDirectory() : Path.GetDirectoryName(flubuSession.Args.FlubuFileLocation);
             flubuSession.Properties.Set(BuildProps.ProductRootDir, rootDir, false);
 
