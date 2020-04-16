@@ -365,7 +365,7 @@ namespace FlubuCore.Targeting
                     case TaskStatus.Failed:
                         color = Color.Red;
                         break;
-                    case TaskStatus.Finished:
+                    case TaskStatus.Succeeded:
                         color = Color.Green;
                         break;
                     default:

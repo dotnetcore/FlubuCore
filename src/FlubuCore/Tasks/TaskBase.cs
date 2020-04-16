@@ -297,7 +297,7 @@ namespace FlubuCore.Tasks
 
                 InvokeForMembers(_forMembers, contextInternal.Args.DisableInteractive);
                 var result = DoExecute(contextInternal);
-                TaskStatus = TaskStatus.Finished;
+                TaskStatus = TaskStatus.Succeeded;
                 return result;
             }
             catch (Exception ex)
@@ -317,7 +317,7 @@ namespace FlubuCore.Tasks
                     contextInternal.LogInfo(
                         $"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                     _doNotFailOnErrorAction?.Invoke(ex);
-                    TaskStatus = TaskStatus.Finished;
+                    TaskStatus = TaskStatus.Succeeded;
                     return default(TResult);
                 }
 
@@ -334,7 +334,7 @@ namespace FlubuCore.Tasks
                         contextInternal.LogInfo(
                             $"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                         _doNotFailOnErrorAction?.Invoke(ex);
-                        TaskStatus = TaskStatus.Finished;
+                        TaskStatus = TaskStatus.Succeeded;
                         return default(TResult);
                     }
 
@@ -369,7 +369,7 @@ namespace FlubuCore.Tasks
                     contextInternal.LogInfo(
                         $"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                     _doNotFailOnErrorAction?.Invoke(ex);
-                    TaskStatus = TaskStatus.Finished;
+                    TaskStatus = TaskStatus.Succeeded;
                     return default(TResult);
                 }
 
@@ -436,7 +436,7 @@ namespace FlubuCore.Tasks
                 InvokeForMembers(_forMembers, contextInternal.Args.DisableInteractive);
 
                 var result = await DoExecuteAsync(contextInternal);
-                TaskStatus = TaskStatus.Finished;
+                TaskStatus = TaskStatus.Succeeded;
                 return result;
             }
             catch (Exception ex)
@@ -455,7 +455,7 @@ namespace FlubuCore.Tasks
 
                     DoLogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                     _doNotFailOnErrorAction?.Invoke(ex);
-                    TaskStatus = TaskStatus.Finished;
+                    TaskStatus = TaskStatus.Succeeded;
                     return default(TResult);
                 }
 
@@ -471,7 +471,7 @@ namespace FlubuCore.Tasks
 
                         DoLogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                         _doNotFailOnErrorAction?.Invoke(ex);
-                        TaskStatus = TaskStatus.Finished;
+                        TaskStatus = TaskStatus.Succeeded;
                         return default(TResult);
                     }
 
@@ -505,7 +505,7 @@ namespace FlubuCore.Tasks
 
                     DoLogInfo($"Task didn't complete succesfully. Continuing with task execution as parameter DoNotFail was set on this task. Exception: {ex.Message}");
                     _doNotFailOnErrorAction?.Invoke(ex);
-                    TaskStatus = TaskStatus.Finished;
+                    TaskStatus = TaskStatus.Succeeded;
                     return default(TResult);
                 }
 
@@ -537,7 +537,7 @@ namespace FlubuCore.Tasks
         internal void LogFinishedStatus()
         {
             var statusMessage = StatusMessage();
-            var duration = TaskStatus == TaskStatus.Finished || TaskStatus == TaskStatus.Failed
+            var duration = TaskStatus == TaskStatus.Succeeded || TaskStatus == TaskStatus.Failed
                 ? $"(took {(int)TaskStopwatch.Elapsed.TotalSeconds} seconds)"
                 : string.Empty;
 
@@ -919,9 +919,9 @@ namespace FlubuCore.Tasks
             string statusMessage;
             switch (TaskStatus)
             {
-                case TaskStatus.Finished:
+                case TaskStatus.Succeeded:
                 {
-                    statusMessage = "finished";
+                    statusMessage = "succeeded";
                     break;
                 }
 
