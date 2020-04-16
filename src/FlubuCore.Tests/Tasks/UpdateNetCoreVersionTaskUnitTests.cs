@@ -27,7 +27,7 @@ namespace FlubuCore.Tests.Tasks
         [Fact]
         public void MissingFileWithOneProp()
         {
-            Context.SetBuildVersion(new Version(1, 1, 2, 2));
+            Context.SetBuildVersion(Context.SetBuildVersion(new BuildVersion() { Version = new Version(1, 1, 2, 2) }));
 
             UpdateNetCoreVersionTask task = new UpdateNetCoreVersionTask(_path.Object, _file.Object, "nonext.json")
                 .AdditionalProp("dep.test");
@@ -41,7 +41,7 @@ namespace FlubuCore.Tests.Tasks
         [Fact]
         public void MissingFileWithProps()
         {
-            Context.SetBuildVersion(new Version(1, 1, 2, 2));
+            Context.SetBuildVersion(Context.SetBuildVersion(new BuildVersion() { Version = new Version(1, 1, 2, 2) }));
 
             UpdateNetCoreVersionTask task = new UpdateNetCoreVersionTask(_path.Object, _file.Object, "nonext.json")
                 .AdditionalProp("dep.test", "dep.test1", "dep.test2");

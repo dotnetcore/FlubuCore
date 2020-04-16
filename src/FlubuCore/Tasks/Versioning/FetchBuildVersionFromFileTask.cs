@@ -188,9 +188,7 @@ namespace FlubuCore.Tasks.Versioning
 
             if (!_doNotSaveVersionToSession)
             {
-                context.SetBuildVersion(version);
-                context.SetBuildVersionQuality(versionQuality);
-                context.SetBuildVersionWithQuality(buildVersion);
+                context.SetBuildVersion(buildVersion);
             }
 
             DoLogInfo($"Project version fetched: {buildVersion.Version}");

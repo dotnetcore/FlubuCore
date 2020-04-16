@@ -164,8 +164,8 @@ public class  BuildScript : DefaultBuildScript
     private  void PublishNuGetPackage(ITaskContext context)
     {
         var version = context.Properties.GetBuildVersion();
-        var nugetVersion = version.ToString(3);
-        var versionQuality = context.Properties.GetBuildVersionQuality();
+        var nugetVersion = version.Version.ToString(3);
+        var versionQuality = version.VersionQuality;
 
         if (!string.IsNullOrEmpty(versionQuality))
         {

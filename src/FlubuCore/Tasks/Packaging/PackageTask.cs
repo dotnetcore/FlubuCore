@@ -228,7 +228,7 @@ namespace FlubuCore.Tasks.Packaging
                 }
 
                 string tmp = _addVersionAsPostFixToZipFileName
-                    ? $"{zipFile}_{context.Properties.GetBuildVersion().ToString(_versionFieldCount)}.zip"
+                    ? $"{zipFile}_{context.Properties.GetBuildVersion().Version.ToString(_versionFieldCount)}.zip"
                     : $"{zipFile}.zip";
 
                 zipFile = Path.Combine(_destinationRootDir, tmp);

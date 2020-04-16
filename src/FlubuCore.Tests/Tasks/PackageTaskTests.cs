@@ -6,6 +6,7 @@ using FlubuCore.Context;
 using FlubuCore.Packaging;
 using FlubuCore.Packaging.Filters;
 using FlubuCore.Tasks.Packaging;
+using FlubuCore.Tasks.Versioning;
 using Xunit;
 
 namespace FlubuCore.Tests.Tasks
@@ -40,7 +41,7 @@ namespace FlubuCore.Tests.Tasks
             {
             }
 
-            Context.SetBuildVersion(new Version(1, 0, 0, 0));
+            Context.SetBuildVersion(new BuildVersion() { Version = new Version(1, 0, 0, 0) });
 
             new PackageTask(@"tmp/output")
                 .AddFileToPackage(@"tmp/Test/test1.txt", "test")
@@ -74,7 +75,7 @@ namespace FlubuCore.Tests.Tasks
             {
             }
 
-            Context.SetBuildVersion(new Version(1, 0, 0, 0));
+            Context.SetBuildVersion(new BuildVersion() { Version = new Version(1, 0, 0, 0) });
 
             new PackageTask(@"tmp/output")
                 .AddDirectoryToPackage(@"tmp/Test", "test")
@@ -101,7 +102,7 @@ namespace FlubuCore.Tests.Tasks
             {
             }
 
-            Context.SetBuildVersion(new Version(1, 0, 0, 0));
+            Context.SetBuildVersion(new BuildVersion() { Version = new Version(1, 0, 0, 0) });
 
             new PackageTask(@"tmp/output")
                 .AddDirectoryToPackage(@"tmp", "test", o =>

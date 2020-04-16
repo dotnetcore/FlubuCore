@@ -73,14 +73,15 @@ namespace FlubuCore.Context
             return path;
         }
 
-        public static Version GetBuildVersion(this IBuildPropertiesSession context)
+        public static BuildVersion GetBuildVersion(this IBuildPropertiesSession context)
         {
-            return context.Get<Version>(BuildProps.BuildVersion, null);
+            return context.Get<BuildVersion>(BuildProps.BuildVersion, null);
         }
 
+        [Obsolete("Use GetBuildVersion() method instead.", true)]
         public static BuildVersion GetBuildVersionWithQuality(this IBuildPropertiesSession context)
         {
-            return context.Get<BuildVersion>(BuildProps.BuildVersionWithQuality, null);
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -88,12 +89,13 @@ namespace FlubuCore.Context
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
+        [Obsolete("Use GetBuildVersion() method instead.", true)]
         public static string GetBuildVersionQuality(this IBuildPropertiesSession context)
         {
             return context.TryGet<string>(BuildProps.BuildVersionQuality);
         }
 
-        public static Version SetBuildVersion(this ITaskContextInternal context, Version version)
+        public static BuildVersion SetBuildVersion(this ITaskContextInternal context, BuildVersion version)
         {
             context.Properties.Set(BuildProps.BuildVersion, version);
             return version;
@@ -104,6 +106,7 @@ namespace FlubuCore.Context
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
+        [Obsolete("Use SetBuildVersion() method instead", true)]
         public static string SetBuildVersionQuality(this ITaskContextInternal context, string versionQuality)
         {
             context.Properties.Set(BuildProps.BuildVersionQuality, versionQuality);
@@ -115,6 +118,7 @@ namespace FlubuCore.Context
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
+        [Obsolete("Use SetBuildVersion() method instead", true)]
         public static BuildVersion SetBuildVersionWithQuality(this ITaskContextInternal context, BuildVersion version)
         {
             context.Properties.Set(BuildProps.BuildVersionWithQuality, version);

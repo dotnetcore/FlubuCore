@@ -124,9 +124,7 @@ namespace FlubuCore.Tasks.Versioning
         {
             if (_version == null)
             {
-                _version = new BuildVersion();
-                _version.Version = context.Properties.GetBuildVersion();
-                _version.VersionQuality = context.Properties.GetBuildVersionQuality();
+                _version = context.Properties.GetBuildVersion();
             }
 
             if (_version == null || _version.Version == null)

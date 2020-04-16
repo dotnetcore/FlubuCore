@@ -4,7 +4,7 @@ using FlubuCore.Context;
 
 namespace FlubuCore.Tasks.Versioning
 {
-    public class FetchVersionFromExternalSourceTask : TaskBase<Version, FetchVersionFromExternalSourceTask>
+    public class FetchVersionFromExternalSourceTask : TaskBase<BuildVersion, FetchVersionFromExternalSourceTask>
     {
         private readonly List<string> _buildNumbers = new List<string>();
 
@@ -67,7 +67,7 @@ namespace FlubuCore.Tasks.Versioning
             return this;
         }
 
-        protected override Version DoExecute(ITaskContextInternal context)
+        protected override BuildVersion DoExecute(ITaskContextInternal context)
         {
             int? buildNumber = null, revisionNumber = null;
             if (!_disableDefaultBuildSystems)
@@ -133,16 +133,16 @@ namespace FlubuCore.Tasks.Versioning
                 }
             }
 
-            Version current = context.Properties.GetBuildVersion();
+            BuildVersion current = context.Properties.GetBuildVersion();
 
             if (buildNumber == null && revisionNumber == null) return current;
 
-            Version newVer = new Version(current.Major, current.Minor, buildNumber ?? current.Build,
-                revisionNumber ?? current.Revision);
+            current.Version = new Version(current.Version.Major, current.Version.Minor, buildNumber ?? current.Version.Build,
+                revisionNumber ?? current.Version.Revision);
 
-            context.SetBuildVersion(newVer);
-            DoLogInfo($"Updated version to {newVer.ToString(4)}");
-            return newVer;
+            context.SetBuildVersion(current);
+            DoLogInfo($"Updated version to {current.Version.ToString(4)}");
+            return current;
         }
 
         private static int? ParseBuildNumber(string value)

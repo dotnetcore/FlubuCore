@@ -18,8 +18,7 @@ namespace FlubuCore.Tests.Tasks
         public void UpdateXmlFileTaskTest()
         {
             var task = new UpdateNetCoreVersionTask(new PathWrapper(), new FileWrapper(), @"TestData/ProjectFiles/UpdateNetCoreVersion.csproj").AddFiles("TestData/ProjectFiles/UpdateNetCoreVersion2.csproj");
-            Context.SetBuildVersion(new Version(1, 2, 3, 1));
-            Context.SetBuildVersionQuality("preview1");
+            Context.SetBuildVersion(new BuildVersion() { Version = new Version(1, 0, 0, 0), VersionQuality = "preview1" });
 
             task.Execute(Context);
         }

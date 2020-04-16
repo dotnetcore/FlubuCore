@@ -4,6 +4,15 @@ namespace FlubuCore.Tasks.Versioning
 {
     public class BuildVersion
     {
+        public BuildVersion()
+        {
+        }
+
+        public BuildVersion(Version version)
+        {
+            Version = version;
+        }
+
         public Version Version { get; set; }
 
         public string VersionQuality { get; set; }

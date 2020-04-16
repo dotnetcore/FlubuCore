@@ -11,6 +11,7 @@ using FlubuCore.IO;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.NetCore;
+using FlubuCore.Tasks.Versioning;
 using FlubuCore.WebApi.Client;
 using Microsoft.Build.Framework;
 using Microsoft.Extensions.DependencyInjection;
@@ -302,7 +303,7 @@ namespace FlubuCore.Scripting
             flubuSession.Properties.Set(BuildProps.NpmPath, IOExtensions.GetNpmPath(), false);
             flubuSession.Properties.Set(DotNetBuildProps.BuildDir, RootDirectory.CombineWith("build").ToString());
             flubuSession.Properties.Set(DotNetBuildProps.OutputDir,  RootDirectory.CombineWith("output").ToString(), false);
-            flubuSession.Properties.Set(BuildProps.BuildVersion, new Version(1, 0, 0, 0), false);
+            flubuSession.Properties.Set(BuildProps.BuildVersion, new BuildVersion(new Version(1, 0, 0, 0)), false);
             flubuSession.Properties.Set(BuildProps.DotNetExecutable, ExecuteDotnetTask.FindDotnetExecutable(), false);
         }
 
