@@ -16,8 +16,12 @@ using FlubuCore.WebApi.Repository;
 using LiteDB;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+#if NETCOREAPP3_1
+    using Microsoft.Extensions.Hosting;
+#else
+    using IHostEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
+#endif
 using Microsoft.Build.Framework;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -38,7 +42,7 @@ namespace FlubuCore.WebApi.Controllers
 
         private readonly CommandArguments _commandArguments;
 
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IHostEnvironment _hostEnvironment;
 
         private readonly WebApiSettings _webApiSettings;
 
@@ -46,14 +50,14 @@ namespace FlubuCore.WebApi.Controllers
             IRepositoryFactory repositoryFactory,
             ICommandExecutor commandExecutor,
             CommandArguments commandArguments,
-            IHostingEnvironment hostingEnvironment,
+            IHostEnvironment hostingEnvironment,
             IOptions<WebApiSettings> webApiOptions,
             ILogger<ScriptsController> logger)
         {
             _repositoryFactory = repositoryFactory;
             _commandExecutor = commandExecutor;
             _commandArguments = commandArguments;
-            _hostingEnvironment = hostingEnvironment;
+            _hostEnvironment = hostingEnvironment;
             _logger = logger;
             _webApiSettings = webApiOptions.Value;
         }
@@ -126,7 +130,7 @@ namespace FlubuCore.WebApi.Controllers
                 throw new HttpError(HttpStatusCode.BadRequest, "NoFiles");
             }
 
-            var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "Scripts");
+            var uploads = Path.Combine(_hostEnvironment.ContentRootPath, "Scripts");
 
             var script = form.Files[0];
 
@@ -162,7 +166,7 @@ namespace FlubuCore.WebApi.Controllers
         private void PrepareCommandArguments(ExecuteScriptRequest request)
         {
             _commandArguments.MainCommands = new List<string>();
-            var scriptFullPath = Path.Combine(_hostingEnvironment.ContentRootPath, "Scripts", request.ScriptFileName);
+            var scriptFullPath = Path.Combine(_hostEnvironment.ContentRootPath, "Scripts", request.ScriptFileName);
             _commandArguments.MainCommands.Add(request.TargetToExecute);
             _commandArguments.Script = scriptFullPath;
             _commandArguments.IsWebApi = true;

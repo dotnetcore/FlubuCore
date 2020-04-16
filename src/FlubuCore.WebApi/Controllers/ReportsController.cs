@@ -12,8 +12,12 @@ using FlubuCore.WebApi.Controllers.Exceptions;
 using FlubuCore.WebApi.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+#if NETCOREAPP3_1
+    using Microsoft.Extensions.Hosting;
+#else
+using IHostEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
+#endif
 
 namespace FlubuCore.WebApi.Controllers
 {
@@ -21,15 +25,15 @@ namespace FlubuCore.WebApi.Controllers
     [Route("api/[controller]")]
     public class ReportsController : ControllerBase
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IHostEnvironment _hostEnvironment;
 
         private readonly ITaskFactory _taskFactory;
 
         private readonly IFlubuSession _flubuSession;
 
-        public ReportsController(IHostingEnvironment hostingEnvironment, ITaskFactory taskFactory, IFlubuSession flubuSession)
+        public ReportsController(IHostEnvironment hostEnvironment, ITaskFactory taskFactory, IFlubuSession flubuSession)
         {
-            _hostingEnvironment = hostingEnvironment;
+            _hostEnvironment = hostEnvironment;
             _taskFactory = taskFactory;
             _flubuSession = flubuSession;
         }
@@ -42,7 +46,7 @@ namespace FlubuCore.WebApi.Controllers
         [HttpPost("download")]
         public IActionResult DownloadReports([FromBody]DownloadReportsRequest request)
         {
-            string downloadDirectory = Path.Combine(_hostingEnvironment.ContentRootPath, "Reports");
+            string downloadDirectory = Path.Combine(_hostEnvironment.ContentRootPath, "Reports");
 
             if (!Directory.Exists(downloadDirectory))
             {
@@ -92,7 +96,7 @@ namespace FlubuCore.WebApi.Controllers
         [HttpDelete("download")]
         public IActionResult CleanPackagesDirectory([FromBody]CleanPackagesDirectoryRequest request)
         {
-            var downloadDirectory = Path.Combine(_hostingEnvironment.ContentRootPath, "Reports");
+            var downloadDirectory = Path.Combine(_hostEnvironment.ContentRootPath, "Reports");
 
             if (!string.IsNullOrWhiteSpace(request.SubDirectoryToDelete))
             {

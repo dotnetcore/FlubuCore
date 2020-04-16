@@ -97,32 +97,20 @@
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.6" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions">
-      <Version>2.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies">
-      <Version>2.1.1</Version>
-    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.3" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles">
-      <Version>2.1.1</Version>
-    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />
   </ItemGroup>
   
     <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
       <PackageReference Include="Microsoft.AspNetCore" Version="2.1.6" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions">
-      <Version>2.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies">
-      <Version>2.1.1</Version>
-    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.3" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles">
-      <Version>2.1.1</Version>
-    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />
    </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
@@ -131,17 +119,11 @@
   
   <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.6" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions">
-      <Version>2.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies">
-      <Version>2.1.1</Version>
-    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.3" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles">
-      <Version>2.1.1</Version>
-    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />

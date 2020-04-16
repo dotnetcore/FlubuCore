@@ -15,9 +15,13 @@ using FlubuCore.Tasks.Text;
 using FlubuCore.WebApi.Models.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+#if NETCOREAPP3_1
+    using Microsoft.Extensions.Hosting;
+#else
+    using IHostApplicationLifetime = Microsoft.AspNetCore.Hosting.IApplicationLifetime;
+    using IHostEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
+#endif
 using Octokit;
 
 namespace FlubuCore.WebApi.Controllers.WebApp
@@ -41,16 +45,16 @@ namespace FlubuCore.WebApi.Controllers.WebApp
 
         private readonly IFlubuSession _flubuSession;
 
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IHostEnvironment _hostEnvironment;
 
-        private readonly IApplicationLifetime _applicationLifetime;
+        private readonly IHostApplicationLifetime _applicationLifetime;
 
-        public UpdateCenterController(IGitHubClient client, ITaskFactory taskFactory, IFlubuSession flubuSession, IHostingEnvironment hostingEnvironment, IApplicationLifetime applicationLifetime)
+        public UpdateCenterController(IGitHubClient client, ITaskFactory taskFactory, IFlubuSession flubuSession, IHostEnvironment hostEnvironment, IHostApplicationLifetime applicationLifetime)
         {
             _client = client;
             _taskFactory = taskFactory;
             _flubuSession = flubuSession;
-            _hostingEnvironment = hostingEnvironment;
+            _hostEnvironment = hostEnvironment;
             _applicationLifetime = applicationLifetime;
         }
 
@@ -138,7 +142,7 @@ namespace FlubuCore.WebApi.Controllers.WebApp
                 }
             }
 
-            var rootDir = _hostingEnvironment.ContentRootPath;
+            var rootDir = _hostEnvironment.ContentRootPath;
             if (!Directory.Exists(Path.Combine(rootDir, "Updates")))
             {
                 Directory.CreateDirectory(Path.Combine(rootDir, "Updates"));
@@ -169,7 +173,7 @@ namespace FlubuCore.WebApi.Controllers.WebApp
         public IActionResult Restart()
         {
             var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-            var rootDir = _hostingEnvironment.ContentRootPath;
+            var rootDir = _hostEnvironment.ContentRootPath;
             Process.Start(new ProcessStartInfo
             {
                 WorkingDirectory = Path.GetDirectoryName(Path.Combine(rootDir, "Updates/WebApi")),
