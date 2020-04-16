@@ -7,7 +7,11 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+#if NETCOREAPP3_1
+    using Microsoft.Extensions.Hosting;
+#else
+using IHostEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
+#endif
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
@@ -26,7 +30,7 @@ namespace FlubuCore.WebApi
 
         private SymmetricSecurityKey _signingKey;
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -69,7 +73,7 @@ namespace FlubuCore.WebApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env, ILoggerFactory loggerFactory)
         {
             Logger log = new LoggerConfiguration()
                 .WriteTo.LiteDB($"Logs/log_{DateTime.Now.Date:yyyy-dd-M}.db")

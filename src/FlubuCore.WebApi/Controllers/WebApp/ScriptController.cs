@@ -11,10 +11,14 @@ using FlubuCore.WebApi.Models;
 using FlubuCore.WebApi.Models.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
+#if NETCOREAPP3_1
+    using Microsoft.Extensions.Hosting;
+#else
+    using IHostEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
+#endif
 
 namespace FlubuCore.WebApi.Controllers.WebApp
 {
@@ -26,7 +30,7 @@ namespace FlubuCore.WebApi.Controllers.WebApp
 #endif
     public class ScriptController : Controller
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IHostEnvironment _hostEnvironment;
 
         private readonly ITargetExtractor _targetExtractor;
 
@@ -37,13 +41,13 @@ namespace FlubuCore.WebApi.Controllers.WebApp
             ;
 
         public ScriptController(
-            IHostingEnvironment hostingEnvironment,
+            IHostEnvironment hostEnvironment,
             ITargetExtractor targetExtractor,
             ICommandExecutor commandExecutor,
             CommandArguments commandArguments,
             IOptions<WebAppSettings> webApiOptions)
         {
-            _hostingEnvironment = hostingEnvironment;
+            _hostEnvironment = hostEnvironment;
             _targetExtractor = targetExtractor;
             _commandExecutor = commandExecutor;
             _commandArguments = commandArguments;
@@ -58,7 +62,7 @@ namespace FlubuCore.WebApi.Controllers.WebApp
                 return NotFound();
             }
 
-            var scriptsFullPath = Path.Combine(_hostingEnvironment.ContentRootPath, "Scripts");
+            var scriptsFullPath = Path.Combine(_hostEnvironment.ContentRootPath, "Scripts");
 
             if (!Directory.Exists(scriptsFullPath))
             {
@@ -86,7 +90,7 @@ namespace FlubuCore.WebApi.Controllers.WebApp
                 return NotFound();
             }
 
-            var scriptsFullPath = Path.Combine(_hostingEnvironment.ContentRootPath, "Scripts", scriptName);
+            var scriptsFullPath = Path.Combine(_hostEnvironment.ContentRootPath, "Scripts", scriptName);
             var targets = _targetExtractor.ExtractTargets(scriptsFullPath);
             return Ok(targets);
         }
@@ -127,7 +131,7 @@ namespace FlubuCore.WebApi.Controllers.WebApp
         private void PrepareCommandArguments(string scriptName, string targetName)
         {
             _commandArguments.MainCommands = new List<string>();
-            var scriptFullPath = Path.Combine(_hostingEnvironment.ContentRootPath, "Scripts", scriptName);
+            var scriptFullPath = Path.Combine(_hostEnvironment.ContentRootPath, "Scripts", scriptName);
             _commandArguments.MainCommands.Add(targetName);
             _commandArguments.Script = scriptFullPath;
             _commandArguments.RethrowOnException = true;

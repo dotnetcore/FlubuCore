@@ -8,8 +8,12 @@ using FlubuCore.WebApi.Controllers.Exceptions;
 using FlubuCore.WebApi.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+#if NETCOREAPP3_1
+  using Microsoft.Extensions.Hosting;
+#else
+  using IHostEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
+#endif
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
@@ -22,14 +26,12 @@ namespace FlubuCore.WebApi.Controllers
     public class PackagesController : ControllerBase
     {
         private readonly string[] _allowedFileExtension = { ".zip", ".7z", ".rar" };
-
-        private readonly IHostingEnvironment _hostingEnvironment;
-
+        private readonly IHostEnvironment _hostEnvironment;
         private readonly ILogger<PackagesController> _logger;
 
-        public PackagesController(IHostingEnvironment hostingEnvironment, ILogger<PackagesController> logger)
+        public PackagesController(IHostEnvironment hostEnvironment, ILogger<PackagesController> logger)
         {
-            _hostingEnvironment = hostingEnvironment;
+            _hostEnvironment = hostEnvironment;
             _logger = logger;
         }
 
@@ -97,7 +99,7 @@ namespace FlubuCore.WebApi.Controllers
         [HttpDelete]
         public IActionResult CleanPackagesDirectory([FromBody]CleanPackagesDirectoryRequest request)
         {
-            var uploadDirectory = Path.Combine(_hostingEnvironment.ContentRootPath, "Packages");
+            var uploadDirectory = Path.Combine(_hostEnvironment.ContentRootPath, "Packages");
 
             if (!string.IsNullOrWhiteSpace(request.SubDirectoryToDelete))
             {
@@ -131,7 +133,7 @@ namespace FlubuCore.WebApi.Controllers
         private string GetUploadDirectory()
         {
             var form = Request.Form;
-            var uploadDirectory = Path.Combine(_hostingEnvironment.ContentRootPath, "Packages");
+            var uploadDirectory = Path.Combine(_hostEnvironment.ContentRootPath, "Packages");
             if (form.ContainsKey("request"))
             {
                 StringValues request = form["request"];
