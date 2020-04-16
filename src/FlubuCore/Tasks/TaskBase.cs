@@ -435,7 +435,9 @@ namespace FlubuCore.Tasks
 
                 InvokeForMembers(_forMembers, contextInternal.Args.DisableInteractive);
 
-                return await DoExecuteAsync(contextInternal);
+                var result = await DoExecuteAsync(contextInternal);
+                TaskStatus = TaskStatus.Finished;
+                return result;
             }
             catch (Exception ex)
             {
