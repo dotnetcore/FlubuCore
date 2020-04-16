@@ -49,7 +49,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             var response = await Client.ExecuteScriptAsync(req);
             Assert.Equal(12, response.Logs.Count);
             ////Assert.StartsWith("Executing action method \"FlubuCore.WebApi.Controllers.ScriptsController.Execute", response.Logs[0]);
-            Assert.StartsWith("SuccesfullTarget  00:00:00  Finished", response.Logs[response.Logs.Count - 5]);
+            Assert.StartsWith("SuccesfullTarget  00:00:00  Succeeded", response.Logs[response.Logs.Count - 5]);
             Assert.True(File.Exists("test.txt"));
         }
 

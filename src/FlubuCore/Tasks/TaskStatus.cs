@@ -7,7 +7,7 @@ namespace FlubuCore.Tasks
     public enum TaskStatus
     {
         NotRan,
-        Finished,
+        Succeeded,
         Failed,
         Skipped,
     }
