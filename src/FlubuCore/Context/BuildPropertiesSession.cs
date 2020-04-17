@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using FlubuCore.Context.Attributes;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.Solution.VSSolutionBrowsing;
 using FlubuCore.Tasks.Versioning;
 
 namespace FlubuCore.Context
@@ -309,7 +310,7 @@ namespace FlubuCore.Context
 
                 case BuildProps.Solution:
                 {
-                    if (propertyType != typeof(BuildVersion))
+                    if (propertyType != typeof(VSSolution))
                     {
                         throw new TaskValidationException($"When setting or accessing Build property '{nameof(BuildProps.Solution)}' property type must be of type 'FlubuCore.Tasks.Solution.VSSolutionBrowsing.VsSolution'.");
                     }
