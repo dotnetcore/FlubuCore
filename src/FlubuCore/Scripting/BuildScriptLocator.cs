@@ -133,8 +133,18 @@ namespace FlubuCore.Scripting
                 var lines = _file.ReadAllLines(flubuFile);
                 var flubuFileDir = Path.GetDirectoryName(flubuFile);
 
-                if (lines.Count == 0 || string.IsNullOrEmpty(lines[0]))
+                if (lines.Count == 0 || string.IsNullOrWhiteSpace(lines[0]))
                 {
+                    foreach (var defaultScriptLocation in DefaultScriptLocations)
+                    {
+                        var defaultScriptLocationFromFlubuFileLocation = Path.Combine(flubuFileDir, defaultScriptLocation);
+                        if (_file.Exists(defaultScriptLocationFromFlubuFileLocation))
+                        {
+                            _log.LogInformation("Found it, using the build script file '{0}'.", defaultScriptLocationFromFlubuFileLocation);
+                            return defaultScriptLocationFromFlubuFileLocation;
+                        }
+                    }
+
                     return null;
                 }
 
