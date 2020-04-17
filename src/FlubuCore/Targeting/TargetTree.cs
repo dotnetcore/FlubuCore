@@ -401,7 +401,7 @@ namespace FlubuCore.Targeting
                     return targetsInOrder;
                 }
 
-                targetNames = _executedTargets.Reverse();
+                targetNames = DefaultTargets.Select(t => t.TargetName);
             }
 
             foreach (var targetName in targetNames)

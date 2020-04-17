@@ -21,7 +21,7 @@ namespace FlubuCore.ConsoleTestApp
 
             context.CreateTarget("Test")
                 .SetAsDefault()
-                .AddTask(t => t.Do(x => { Console.WriteLine("from rebuild"); }))
+                .AddTask(t => t.Do(x => { Console.WriteLine("from Test"); }))
                 .DependsOnAsync(doExample, doExample2)
                 .DependsOn(doExample3);
         }

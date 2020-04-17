@@ -7,9 +7,21 @@ namespace FlubuCore.ConsoleTestApp
         static void Main(string[] args)
         {
             args = new[] {"Test"};
-
             var engine = new FlubuEngine();
-            engine.RunScript<DefaultTestScript>(args);
+
+            int scriptId = 1; // for easy switching test scripts.
+
+            switch (scriptId)
+            {
+                case 0:
+                    engine.RunScript<DefaultTestScript>(args);
+                    break;
+                case 1:
+                    engine.RunScript<TestScriptWithAsync>(new string[] { });
+                    break;
+            }
+
+
         }
     }
 }
