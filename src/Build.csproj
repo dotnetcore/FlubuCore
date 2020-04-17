@@ -123,11 +123,11 @@
     <Compile Include="BuildScript.cs" Exclude="**;bin\**;obj\**;**\*.xproj;packages\**" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-flubu" Version="5.0.4" />
+    <DotNetCliToolReference Include="dotnet-flubu" Version="5.1.0-preview3" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="BuildScript\NetCore3.1\Deploy.csproj" />
     <None Include="BuildScript\NetCore2.0\Deploy.csproj" />
+    <None Include="BuildScript\NetCore3.1\Deploy.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="LiteDB" Version="4.1.2" />

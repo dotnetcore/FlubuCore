@@ -169,7 +169,7 @@ public class  BuildScript : DefaultBuildScript
 
         if (!string.IsNullOrEmpty(versionQuality))
         {
-            nugetVersion = $"{nugetVersion}-{versionQuality}";
+            nugetVerslion = $"{nugetVersion}{versionQuality}";
         }
         
         context.CoreTasks().NugetPush(Output.CombineWith($"FlubuCore.WebApi.Model.{nugetVersion}.nupkg"))
