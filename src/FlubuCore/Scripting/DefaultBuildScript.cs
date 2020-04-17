@@ -143,7 +143,7 @@ namespace FlubuCore.Scripting
             if (targetTree.HasAllTargets(mainCommands, out var notFoundTargets))
                 return (mainCommands, false, null);
 
-            return (new List<string> { "help" }, true, notFoundTargets);
+            return (new List<string> { FlubuTargets.Help }, true, notFoundTargets);
         }
 
         private void RunBuild(IFlubuSession flubuSession)
@@ -176,7 +176,7 @@ namespace FlubuCore.Scripting
                     }
                     else
                     {
-                        targetsInfo.targetsToRun.Add("help");
+                        targetsInfo.targetsToRun.Add(FlubuTargets.Help);
                     }
                 }
 
@@ -195,7 +195,7 @@ namespace FlubuCore.Scripting
 
             //// specific target help
             if (targetsInfo.targetsToRun.Count == 2 &&
-                targetsInfo.targetsToRun[1].Equals("help", StringComparison.OrdinalIgnoreCase))
+                targetsInfo.targetsToRun[1].Equals(FlubuTargets.Help, StringComparison.OrdinalIgnoreCase))
             {
                 flubuSession.TargetTree.RunTargetHelp(flubuSession, targetsInfo.targetsToRun[0]);
                 return;
@@ -203,7 +203,7 @@ namespace FlubuCore.Scripting
 
             if (targetsInfo.targetsToRun.Count == 1 || !flubuSession.Args.ExecuteTargetsInParallel)
             {
-                if (targetsInfo.targetsToRun[0].Equals("help", StringComparison.OrdinalIgnoreCase))
+                if (targetsInfo.targetsToRun[0].Equals(FlubuTargets.Help, StringComparison.OrdinalIgnoreCase))
                 {
                     flubuSession.TargetTree.ScriptArgsHelp = _scriptProperties.GetPropertiesHelp(this);
                 }

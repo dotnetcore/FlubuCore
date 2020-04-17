@@ -148,7 +148,7 @@ namespace FlubuCore.Commanding
             flubuSession.InteractiveMode = true;
             var flubuConsole = InitializeFlubuConsole(flubuSession, script);
             flubuSession.TargetTree.ScriptArgsHelp = _scriptProperties.GetPropertiesHelp(script);
-            flubuSession.TargetTree.RunTarget(flubuSession, "help.onlyTargets");
+            flubuSession.TargetTree.RunTarget(flubuSession, FlubuTargets.HelpOnlyTargets);
             flubuSession.LogInfo(" ");
 
             do
