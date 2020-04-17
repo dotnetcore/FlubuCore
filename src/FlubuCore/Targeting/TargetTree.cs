@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Drawing;
 #endif
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.InteropServices.ComTypes;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
 using FlubuCore.Infrastructure;
@@ -288,25 +290,13 @@ namespace FlubuCore.Targeting
                 }
             }
 
-            int maxTargetNameLength;
-
             if (session.Args.DryRun)
             {
                 session.LogInfo("DRY RUN PERFORMED");
             }
             else if (session.UnknownTarget.HasValue && !session.UnknownTarget.Value)
             {
-                var targets = GetTargetsInExecutionOrder(session);
-
-                maxTargetNameLength = GetTargetNameMaxLength(targets);
-                LogTargetSummaryTitle();
-                foreach (var target in targets)
-                {
-                    if (!target.IsHidden)
-                    {
-                        LogTargetSummary(target as Target);
-                    }
-                }
+                LogBuildSummaryTable(session);
 
                 TimeSpan buildDuration = session.BuildStopwatch.Elapsed;
                 session.LogInfo(" ");
@@ -326,15 +316,39 @@ namespace FlubuCore.Targeting
                     (int)buildDuration.TotalSeconds));
 #endif
             }
+        }
 
+        private void LogBuildSummaryTable(IFlubuSession session)
+        {
             const string TargetTitle = "Target";
             const string DurationTitle = "Duration";
             const string StatusTitle = "Status";
             const int DurationLength = 8;
             const int StatusLength = 10;
 
+            var targetsInOrder = GetTargetsInExecutionOrder(session);
+            if (targetsInOrder.Count < 1)
+            {
+                return;
+            }
+
+            int maxTargetNameLength = GetTargetNameMaxLength(targetsInOrder);
+            LogTargetSummaryTitle();
+            foreach (var target in targetsInOrder)
+            {
+                if (!target.IsHidden)
+                {
+                    LogTargetSummary(target as Target);
+                }
+            }
+
             int GetTargetNameMaxLength(List<ITargetInternal> targets)
             {
+                if (targets.Count < 1)
+                {
+                    throw new ArgumentException($"Argument {nameof(targets)} should have at least one element.");
+                }
+
                 var targetNames = targets.Select(t => t.TargetName);
                 int maxLength = targetNames.Max(s => s.Length);
                 if (maxLength < TargetTitle.Length)
@@ -396,7 +410,7 @@ namespace FlubuCore.Targeting
             IEnumerable<string> targetNames = session.Args.MainCommands;
             if (targetNames == null || targetNames.Count() < 1)
             {
-                if (_executedTargets?.Count < 1)
+                if (_executedTargets?.Count < 1 && DefaultTargets.Count < 1)
                 {
                     return targetsInOrder;
                 }
