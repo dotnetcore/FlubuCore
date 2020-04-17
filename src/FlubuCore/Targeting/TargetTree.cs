@@ -317,7 +317,7 @@ namespace FlubuCore.Targeting
 
             foreach (var target in targetsInOrder)
             {
-                if (!target.IsHidden)
+                if (!target.IsHidden && target.TargetName.Equals(FlubuTargets.Help, StringComparison.OrdinalIgnoreCase))
                 {
                     LogTargetSummary(target as Target);
                 }
@@ -407,7 +407,7 @@ namespace FlubuCore.Targeting
             var targetsInOrder = new List<ITargetInternal>();
 
             IEnumerable<string> targetNames = session.Args.MainCommands;
-            if (targetNames == null || targetNames.Count() < 1)
+            if (targetNames == null || !targetNames.Any())
             {
                 if (_executedTargets?.Count < 1 && DefaultTargets.Count < 1)
                 {
@@ -441,12 +441,12 @@ namespace FlubuCore.Targeting
 
         protected virtual void AddDefaultTargets()
         {
-            AddTarget("help")
+            AddTarget(FlubuTargets.Help)
                 .SetDescription("Displays the available targets in the build")
                 .SetLogDuration(false)
                 .Do(LogTargetsWithHelp);
 
-            AddTarget("help.onlyTargets")
+            AddTarget(FlubuTargets.HelpOnlyTargets)
                 .SetDescription("Displays the available targets in the build")
                 .SetLogDuration(false)
                 .SetLogExecutionInfo(false)
