@@ -5,6 +5,8 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using FlubuCore.Context.Attributes;
 using FlubuCore.Targeting;
+using FlubuCore.Tasks;
+using FlubuCore.Tasks.Versioning;
 
 namespace FlubuCore.Context
 {
@@ -49,7 +51,7 @@ namespace FlubuCore.Context
         public T Get<T>(string propertyName, bool ignoreCase = true, [CallerMemberName] string memberName = "")
         {
             InitializePropertyInfos();
-
+            ValidateBuildPropertyType(propertyName, typeof(T));
             if (ignoreCase)
             {
                 propertyName = propertyName.ToLowerInvariant();
@@ -108,6 +110,7 @@ namespace FlubuCore.Context
 
         public T TryGet<T>(string propertyName, [CallerMemberName] string memberName = null)
         {
+            ValidateBuildPropertyType(propertyName, typeof(T));
             InitializePropertyInfos();
 
             propertyName = propertyName.ToLowerInvariant();
@@ -139,6 +142,7 @@ namespace FlubuCore.Context
         /// <returns>The property.</returns>
         public T Get<T>(string propertyName, T defaultValue, [CallerMemberName] string memberName = "")
         {
+            ValidateBuildPropertyType(propertyName, typeof(T));
             propertyName = propertyName.ToLowerInvariant();
             InitializePropertyInfos();
             if (_propertyInfos.ContainsKey(propertyName))
@@ -189,7 +193,7 @@ namespace FlubuCore.Context
         {
             InitializePropertyInfos();
             propertyName = propertyName.ToLowerInvariant();
-
+            ValidateBuildPropertyType(propertyName, propertyValue.GetType());
             if (injectToProperties && _propertyInfos.ContainsKey(propertyName) && _targetTree.BuildScript != null)
             {
                 var propertyInfo = _propertyInfos[propertyName];
@@ -247,6 +251,132 @@ namespace FlubuCore.Context
             var propertyInfo = _propertyInfos[propertyName];
             var value = propertyInfo.GetValue(_targetTree.BuildScript);
             return (T)Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture);
+        }
+
+        private void ValidateBuildPropertyType(string propertyName, Type propertyType)
+        {
+            switch (propertyName)
+            {
+                case BuildProps.SolutionFileName:
+                {
+                    if (propertyType != typeof(string))
+                    {
+                        throw new TaskValidationException($"When setting or accessing Build property '{nameof(BuildProps.SolutionFileName)}' property type must be of type string.");
+                    }
+
+                    break;
+                }
+
+                case BuildProps.BuildVersion:
+                {
+                    if (propertyType != typeof(BuildVersion))
+                    {
+                        throw new TaskValidationException($"When setting or accessing Build property '{nameof(BuildProps.BuildVersion)}' property type must be of type 'FlubuCore.Tasks.Versioning.BuildVersion'.");
+                    }
+
+                    break;
+                }
+
+                case BuildProps.BuildConfiguration:
+                {
+                    if (propertyType != typeof(string))
+                    {
+                        throw new TaskValidationException($"When setting or accessing Build property '{nameof(BuildProps.BuildConfiguration)}' property type must be of type string.");
+                    }
+
+                    break;
+                }
+
+                case BuildProps.ProductId:
+                {
+                    if (propertyType != typeof(string))
+                    {
+                        throw new TaskValidationException($"When setting or accessing Build property '{nameof(BuildProps.ProductId)}' property type must be of type string.");
+                    }
+
+                    break;
+                }
+
+                case BuildProps.ProductRootDir:
+                {
+                    if (propertyType != typeof(string))
+                    {
+                        throw new TaskValidationException($"When setting or accessing Build property '{nameof(BuildProps.ProductRootDir)}' property type must be of type string.");
+                    }
+
+                    break;
+                }
+
+                case BuildProps.Solution:
+                {
+                    if (propertyType != typeof(BuildVersion))
+                    {
+                        throw new TaskValidationException($"When setting or accessing Build property '{nameof(BuildProps.Solution)}' property type must be of type 'FlubuCore.Tasks.Solution.VSSolutionBrowsing.VsSolution'.");
+                    }
+
+                    break;
+                }
+
+                case BuildProps.DotNetExecutable:
+                {
+                    if (propertyType != typeof(string))
+                    {
+                        throw new TaskValidationException($"When setting or accessing Build property '{nameof(BuildProps.DotNetExecutable)}' property type must be of type string.");
+                    }
+
+                    break;
+                }
+
+                case BuildProps.FlubuWebApiBaseUrl:
+                {
+                    if (propertyType != typeof(string))
+                    {
+                        throw new TaskValidationException($"When setting or accessing Build property '{nameof(BuildProps.FlubuWebApiBaseUrl)}' property type must be of type string.");
+                    }
+
+                    break;
+                }
+
+                case BuildProps.NUnitConsolePath:
+                {
+                    if (propertyType != typeof(string))
+                    {
+                        throw new TaskValidationException($"When setting or accessing Build property '{nameof(BuildProps.NUnitConsolePath)}' property type must be of type string.");
+                    }
+
+                    break;
+                }
+
+                case BuildProps.XUnitConsolePath:
+                {
+                    if (propertyType != typeof(string))
+                    {
+                        throw new TaskValidationException($"When setting or accessing Build property '{nameof(BuildProps.XUnitConsolePath)}' property type must be of type string.");
+                    }
+
+                    break;
+                }
+
+                case BuildProps.SqlCmdExecutable:
+                {
+                    if (propertyType != typeof(string))
+                    {
+                        throw new TaskValidationException($"When setting or accessing Build property '{nameof(BuildProps.SqlCmdExecutable)}' property type must be of type string.");
+                    }
+
+                    break;
+                }
+
+                case BuildProps.NodeExecutablePath:
+                {
+                    if (propertyType != typeof(string))
+                    {
+                        throw new TaskValidationException($"When setting or accessing Build property '{nameof(BuildProps.NodeExecutablePath)}' property type must be of type string.");
+                    }
+
+                    break;
+                }
+            }
         }
     }
 }
