@@ -288,33 +288,48 @@ namespace FlubuCore.Targeting
                 }
             }
 
-            int maxTargetNameLength;
-
             if (session.Args.DryRun)
             {
                 session.LogInfo("DRY RUN PERFORMED");
             }
             else if (session.UnknownTarget.HasValue && !session.UnknownTarget.Value)
             {
-                var targets = GetTargetsInExecutionOrder(session);
+                LogBuildSummaryTable(session);
+            }
+        }
 
-                maxTargetNameLength = GetTargetNameMaxLength(targets);
-                LogTargetSummaryTitle();
-                foreach (var target in targets)
+        public virtual void LogBuildSummaryTable(IFlubuSession session)
+        {
+            const string TargetTitle = "Target";
+            const string DurationTitle = "Duration";
+            const string StatusTitle = "Status";
+            const int DurationLength = 8;
+            const int StatusLength = 10;
+
+            var targetsInOrder = GetTargetsInExecutionOrder(session);
+            if (targetsInOrder.Count < 1)
+            {
+                return;
+            }
+
+            int maxTargetNameLength = GetTargetNameMaxLength(targetsInOrder);
+            LogTargetSummaryTitle();
+
+            foreach (var target in targetsInOrder)
+            {
+                if (!target.IsHidden)
                 {
-                    if (!target.IsHidden)
-                    {
-                        LogTargetSummary(target as Target);
-                    }
+                    LogTargetSummary(target as Target);
                 }
+            }
 
-                TimeSpan buildDuration = session.BuildStopwatch.Elapsed;
-                session.LogInfo(" ");
+            TimeSpan buildDuration = session.BuildStopwatch.Elapsed;
+            session.LogInfo(" ");
 
 #if !NETSTANDARD1_6
-                session.LogInfo(session.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL", session.HasFailed ? Color.Red : Color.Green);
-                session.LogInfo($"Build finish time: {DateTime.Now:g}", Color.DimGray);
-                session.LogInfo($"Build duration: {buildDuration.Hours:D2}:{buildDuration.Minutes:D2}:{buildDuration.Seconds:D2} ({(int)buildDuration.TotalSeconds:d} seconds)", Color.DimGray);
+            session.LogInfo(session.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL", session.HasFailed ? Color.Red : Color.Green);
+            session.LogInfo($"Build finish time: {DateTime.Now:g}", Color.DimGray);
+            session.LogInfo($"Build duration: {buildDuration.Hours:D2}:{buildDuration.Minutes:D2}:{buildDuration.Seconds:D2} ({(int)buildDuration.TotalSeconds:d} seconds)", Color.DimGray);
 #else
                 session.LogInfo(session.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
                 session.LogInfo($"Build finish time: {DateTime.Now:g}");
@@ -325,16 +340,14 @@ namespace FlubuCore.Targeting
                     buildDuration.Seconds,
                     (int)buildDuration.TotalSeconds));
 #endif
-            }
-
-            const string TargetTitle = "Target";
-            const string DurationTitle = "Duration";
-            const string StatusTitle = "Status";
-            const int DurationLength = 8;
-            const int StatusLength = 10;
 
             int GetTargetNameMaxLength(List<ITargetInternal> targets)
             {
+                if (targets.Count < 1)
+                {
+                    throw new ArgumentException($"Argument {nameof(targets)} should have at least one element.");
+                }
+
                 var targetNames = targets.Select(t => t.TargetName);
                 int maxLength = targetNames.Max(s => s.Length);
                 if (maxLength < TargetTitle.Length)
@@ -396,12 +409,12 @@ namespace FlubuCore.Targeting
             IEnumerable<string> targetNames = session.Args.MainCommands;
             if (targetNames == null || targetNames.Count() < 1)
             {
-                if (_executedTargets?.Count < 1)
+                if (_executedTargets?.Count < 1 && DefaultTargets.Count < 1)
                 {
                     return targetsInOrder;
                 }
 
-                targetNames = _executedTargets.Reverse();
+                targetNames = DefaultTargets.Select(t => t.TargetName);
             }
 
             foreach (var targetName in targetNames)

@@ -260,13 +260,6 @@ namespace FlubuCore.Scripting
 
         protected virtual void AfterBuildExecution(IFlubuSession session)
         {
-            if (session.Args.MainCommands?.Count == 1 &&
-                !string.IsNullOrEmpty(session.Args.MainCommands[0]) &&
-                session.Args.MainCommands[0].Equals("help", StringComparison.OrdinalIgnoreCase))
-            {
-                return;
-            }
-
             session.TargetTree.LogBuildSummary(session);
         }
 
