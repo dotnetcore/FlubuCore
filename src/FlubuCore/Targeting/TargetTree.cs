@@ -297,28 +297,10 @@ namespace FlubuCore.Targeting
             else if (session.UnknownTarget.HasValue && !session.UnknownTarget.Value)
             {
                 LogBuildSummaryTable(session);
-
-                TimeSpan buildDuration = session.BuildStopwatch.Elapsed;
-                session.LogInfo(" ");
-
-#if !NETSTANDARD1_6
-                session.LogInfo(session.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL", session.HasFailed ? Color.Red : Color.Green);
-                session.LogInfo($"Build finish time: {DateTime.Now:g}", Color.DimGray);
-                session.LogInfo($"Build duration: {buildDuration.Hours:D2}:{buildDuration.Minutes:D2}:{buildDuration.Seconds:D2} ({(int)buildDuration.TotalSeconds:d} seconds)", Color.DimGray);
-#else
-                session.LogInfo(session.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
-                session.LogInfo($"Build finish time: {DateTime.Now:g}");
-                session.LogInfo(string.Format(
-                    "Build duration: {0:D2}:{1:D2}:{2:D2} ({3:d} seconds)",
-                    buildDuration.Hours,
-                    buildDuration.Minutes,
-                    buildDuration.Seconds,
-                    (int)buildDuration.TotalSeconds));
-#endif
             }
         }
 
-        private void LogBuildSummaryTable(IFlubuSession session)
+        public virtual void LogBuildSummaryTable(IFlubuSession session)
         {
             const string TargetTitle = "Target";
             const string DurationTitle = "Duration";
@@ -334,6 +316,7 @@ namespace FlubuCore.Targeting
 
             int maxTargetNameLength = GetTargetNameMaxLength(targetsInOrder);
             LogTargetSummaryTitle();
+
             foreach (var target in targetsInOrder)
             {
                 if (!target.IsHidden)
@@ -341,6 +324,24 @@ namespace FlubuCore.Targeting
                     LogTargetSummary(target as Target);
                 }
             }
+
+            TimeSpan buildDuration = session.BuildStopwatch.Elapsed;
+            session.LogInfo(" ");
+
+#if !NETSTANDARD1_6
+            session.LogInfo(session.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL", session.HasFailed ? Color.Red : Color.Green);
+            session.LogInfo($"Build finish time: {DateTime.Now:g}", Color.DimGray);
+            session.LogInfo($"Build duration: {buildDuration.Hours:D2}:{buildDuration.Minutes:D2}:{buildDuration.Seconds:D2} ({(int)buildDuration.TotalSeconds:d} seconds)", Color.DimGray);
+#else
+                session.LogInfo(session.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL");
+                session.LogInfo($"Build finish time: {DateTime.Now:g}");
+                session.LogInfo(string.Format(
+                    "Build duration: {0:D2}:{1:D2}:{2:D2} ({3:d} seconds)",
+                    buildDuration.Hours,
+                    buildDuration.Minutes,
+                    buildDuration.Seconds,
+                    (int)buildDuration.TotalSeconds));
+#endif
 
             int GetTargetNameMaxLength(List<ITargetInternal> targets)
             {
