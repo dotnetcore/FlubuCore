@@ -206,7 +206,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             Assert.Equal(HttpStatusCode.InternalServerError, exception.StatusCode);
             Assert.Equal(ErrorCodes.InternalServerError, exception.ErrorCode);
             Assert.Equal("Error message", exception.ErrorMessage);
-            Assert.InRange(exception.Logs.Count, 11, 12);
+            Assert.InRange(exception.Logs.Count, 11, 13);
         }
 
         [Fact]

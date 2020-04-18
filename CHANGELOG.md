@@ -1,3 +1,15 @@
+## FlubuCore 5.1.1.0
+- Improved build summary: added status and duration for each target
+- When .flubu file is empty Flubu  looks for scripts, csprojs at default locations relative to .flubu file path
+- Added build properties type validation
+- Unified BuildVersion build properties
+- predefined build dir and output dir is now combined with root directory
+- Changed extension method names for RootDirectory and OutputDirectory
+- Moved full .Net specific build property(BuildProps) constants to seperate class (DotNetBuildProps)
+- Fixed bug: predefined build property can now be overriden through BuildProperty attribute
+- Fixed bug: RootDirectory is not set on linux when using .flubu file
+- Interactive mode: command history is not reset anymore on load / reload script bug
+
 ## FlubuCore 5.0.4.0
 - dotnet pack task: fixed explicit set of project argument when solution file name is set in build properties.
 - Fixed build script locator when .flubu file was empty.
