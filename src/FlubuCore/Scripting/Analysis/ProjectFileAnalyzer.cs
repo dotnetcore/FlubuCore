@@ -135,6 +135,21 @@ namespace FlubuCore.Scripting.Analysis
                     result.ProjectFileFound = true;
                     result.ProjectFileLocation = buildCsprojPath;
                 }
+                else
+                {
+                    //// empty flubu file or csproj location is not set in flubu file. Search in default locations relative to .flubu file.
+                    foreach (var defaultCsprojLocation in _defaultCsprojLocations)
+                    {
+                        var flubuFileDirectory = Path.GetDirectoryName(flubuFile);
+                        var csprojLocation = Path.Combine(flubuFileDirectory, defaultCsprojLocation);
+                        if (_file.Exists(csprojLocation))
+                        {
+                            result.ProjectFileFound = true;
+                            result.ProjectFileLocation = Path.GetFullPath(csprojLocation);
+                            return result;
+                        }
+                    }
+                }
             }
             else
             {
