@@ -307,7 +307,7 @@ namespace FlubuCore.Targeting
             const int StatusLength = 10;
 
             var targetsInOrder = GetTargetsInExecutionOrder(session);
-            if (targetsInOrder.Count < 1)
+            if (targetsInOrder.Count < 1 || targetsInOrder[0].TargetName.Equals(FlubuTargets.Help, StringComparison.OrdinalIgnoreCase))
             {
                 return;
             }
@@ -317,7 +317,7 @@ namespace FlubuCore.Targeting
 
             foreach (var target in targetsInOrder)
             {
-                if (!target.IsHidden && target.TargetName.Equals(FlubuTargets.Help, StringComparison.OrdinalIgnoreCase))
+                if (!target.IsHidden)
                 {
                     LogTargetSummary(target as Target);
                 }

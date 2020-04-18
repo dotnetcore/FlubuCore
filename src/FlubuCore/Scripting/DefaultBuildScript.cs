@@ -67,7 +67,7 @@ namespace FlubuCore.Scripting
                 if (flubuSession.Args.RethrowOnException)
                     throw;
 
-                flubuSession.LogError(e.Message);
+                flubuSession.LogError($"{Environment.NewLine}{e.Message}");
                 return 3;
             }
             catch (WebApiException e)
