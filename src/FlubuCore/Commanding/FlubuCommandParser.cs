@@ -305,6 +305,20 @@ namespace FlubuCore.Commanding
                 }
             }
 
+            var flubuFilePath = _buildScriptLocator.FindFlubuFile();
+            if (!string.IsNullOrEmpty(flubuFilePath))
+            {
+                var flubuFileDir = Path.GetDirectoryName(flubuFilePath);
+                foreach (var defaultSettingLocation in DefaultSettingLocations)
+                {
+                    var settingsLocation = Path.Combine(flubuFileDir, defaultSettingLocation);
+                    if (File.Exists(settingsLocation))
+                    {
+                        return settingsLocation;
+                    }
+                }
+            }
+
             return "flubusettings.json";
         }
     }
