@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using FlubuCore.WebApi.Client;
 using FlubuCore.WebApi.Model;
@@ -47,9 +48,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             };
             req.ScriptArguments.Add("FileName", "test.txt");
             var response = await Client.ExecuteScriptAsync(req);
-            Assert.Equal(12, response.Logs.Count);
-            ////Assert.StartsWith("Executing action method \"FlubuCore.WebApi.Controllers.ScriptsController.Execute", response.Logs[0]);
-            Assert.StartsWith("SuccesfullTarget  00:00:00  Succeeded", response.Logs[response.Logs.Count - 5]);
+            Assert.InRange(response.Logs.Count, 11, 12);
             Assert.True(File.Exists("test.txt"));
         }
 
@@ -207,9 +206,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             Assert.Equal(HttpStatusCode.InternalServerError, exception.StatusCode);
             Assert.Equal(ErrorCodes.InternalServerError, exception.ErrorCode);
             Assert.Equal("Error message", exception.ErrorMessage);
-            Assert.Equal(13, exception.Logs.Count);
-            ////Assert.StartsWith("Executing action method \"FlubuCore.WebApi.Controllers.ScriptsController.Execute", exception.Logs[0]);
-            Assert.StartsWith("Exception occured:", exception.Logs[exception.Logs.Count - 1]);
+            Assert.InRange(exception.Logs.Count, 11, 12);
         }
 
         [Fact]
