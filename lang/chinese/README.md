@@ -222,13 +222,14 @@ FlubuCore 用起来非常简单:-) 而且她的文档也非常完整。
 
 这些示例有助于你快速入门 FlubuCore：
 
-- [.NET Framework 构建示例](https://github.com/dotnetcore/FlubuCore.Examples/blob/master/MVC_NET4.61/BuildScripts/BuildScript.cs) - Example covers versioning, building the project, running tests, packaging application for deployment and some other basic use cases.
+- [.NET Framework 构建示例](https://github.com/dotnetcore/FlubuCore.Examples/blob/master/MVC_NET4.61/BuildScripts/BuildScript.cs) - 示例包括版本控制、构建项目、运行测试、打包用于部署的应用程序以及其他一些基本用例。
 
-- [.NET Core 构建示例](https://github.com/dotnetcore/FlubuCore.Examples/blob/master/NetCore_csproj/BuildScript/BuildScript.cs) - Example covers versioning, building the project, running tests, packaging application for deployment and some other basic use cases.
+- [.NET Core 构建示例](https://github.com/dotnetcore/FlubuCore.Examples/blob/master/NetCore_csproj/BuildScript/BuildScript.cs) - 示例包括版本控制、构建项目、运行测试、打包用于部署的应用程序以及其他一些基本用例。
  
-- [部署脚本示例](https://github.com/dotnetcore/FlubuCore.Examples/blob/master/DeployScriptExample/BuildScript/DeployScript.cs) - Example shows how to write simple deployment script. 
+- [部署脚本示例](https://github.com/dotnetcore/FlubuCore.Examples/blob/master/DeployScriptExample/BuildScript/DeployScript.cs) - 示例展示了如何编写简单的部署脚本。 
 
-* [Open source library example](https://github.com/dotnetcore/FlubuCore.Examples/blob/master/NetCoreOpenSource/Build/BuildScript.cs) - Example covers versioning, building the project, running tests and publishing nuget package. It also covers how to run build script on Appveyor and Travis CI.
+- [开源项目示例](https://github.com/dotnetcore/FlubuCore.Examples/blob/master/NetCoreOpenSource/Build/BuildScript.cs) - 示例包括版本控制、构建项目、运行测试和发布 nuget 包。它还包括如何通过 Appveyor 和 Travis CI 运行构建脚本。
+
 ## 疑惑？
 
 [![Join the chat at https://gitter.im/FlubuCore/Lobby](https://badges.gitter.im/mbdavid/LiteDB.svg)](https://gitter.im/FlubuCore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -253,12 +254,14 @@ FlubuCore 用起来非常简单:-) 而且她的文档也非常完整。
 
 FlubuCore 路线图请翻阅项目[里程碑](https://github.com/dotnetcore/FlubuCore/milestones)。
 
-## Further Development
-If you find FlubuCore useful (you feel it helps you on the daily basis) you can support further development by buying us a coffee (or become a backer or sponsor). Sometimes it's hard to stay awake till midnight implementing new features, coffee helps us with that. We would really appreciate your support. Money from sponsorship will also be used for the promotion of the project. If you are a backer or a sponsor you can also request for a new feature or ask for support. These issues will be handled with highest priority.
+## 后续发展
+
+如果您发现 FlubuCore 有用（您认为它每天都对你有帮助），可以请我们喝一杯咖啡（或成为支持者或赞助商）来支持进一步的开发工作。 有时很难保持清醒，直到午夜实现新功能，咖啡可以帮助我们实现这一目标。 非常感谢您的支持。 赞助资金也将用于项目推广。 如果您是支持者或赞助者，则还可以请求新功能特性或获取帮助。 这些问题将得到最高优先级处理。
 
 [![](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/NCOpMkt)
 
-### Backers and Sponsors
+### 支持者和赞助商
+
 [![OpenCollective](https://opencollective.com/flubucore/backers/badge.svg?style=for-the-badge)](https://opencollective.com/flubucore/order/12502) 
 [![OpenCollective](https://opencollective.com/flubucore/sponsors/badge.svg?style=for-the-badge)](https://opencollective.com/flubucore/order/12503)
 
@@ -270,15 +273,15 @@ If you find FlubuCore useful (you feel it helps you on the daily basis) you can 
 
 ## 致谢
 
-特别感谢 [@ironcev](https://github.com/ironcev) 对 readme 文件做了大量改进并提供了一系列富有价值的建议。
-特别感谢 [@alexinea](https://github.com/https://github.com/alexinea) 将整个文档翻译成中文。
-* Special thanks to [@huanlin](https://github.com/huanlin) for writing Blogs about FlubuCore in Traditional Chinese and for translationg them to English.
+- 特别感谢 [@ironcev](https://github.com/ironcev) 对 readme 文件做了大量改进并提供了一系列富有价值的建议。
+- 特别感谢 [@alexinea](https://github.com/alexinea) 将整个文档翻译成中文。
+- 特别感谢 [@huanlin](https://github.com/huanlin) 用繁体中文撰写有关 FlubuCore 的博客，并翻译成英文。
 
 ## Code of Conduct
 
-This project has adopted the code of conduct defined by the [Contributor Covenant](http://contributor-covenant.org/) to clarify expected behavior in our community.
-For more information see the [.NET Foundation Code of Conduct](http://www.dotnetfoundation.org/code-of-conduct).
+这个项目采用了 [Code of Conduct](http://contributor-covenant.org/) 定义的行为准则阐明我们社区中的预期行为。
+有关更多信息，请参见 [.NET Foundation Code of Conduct](http://www.dotnetfoundation.org/code-of-conduct) 。
 
 ## .NET Foundation
 
-This project is supported by the [.NET Foundation](http://www.dotnetfoundation.org).
+该项目受 [.NET Foundation](http://www.dotnetfoundation.org) 支持。
