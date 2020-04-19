@@ -228,7 +228,7 @@ FlubuCore 用起来非常简单:-) 而且她的文档也非常完整。
  
 - [部署脚本示例](https://github.com/dotnetcore/FlubuCore.Examples/blob/master/DeployScriptExample/BuildScript/DeployScript.cs) - 示例展示了如何编写简单的部署脚本。 
 
-- [Open source library example](https://github.com/dotnetcore/FlubuCore.Examples/blob/master/NetCoreOpenSource/Build/BuildScript.cs) - 示例包括版本控制、构建项目、运行测试和发布 nuget 包。它还包括如何通过 Appveyor 和 Travis CI 运行构建脚本。
+- [开源项目示例](https://github.com/dotnetcore/FlubuCore.Examples/blob/master/NetCoreOpenSource/Build/BuildScript.cs) - 示例包括版本控制、构建项目、运行测试和发布 nuget 包。它还包括如何通过 Appveyor 和 Travis CI 运行构建脚本。
 
 ## 疑惑？
 
@@ -274,14 +274,14 @@ FlubuCore 路线图请翻阅项目[里程碑](https://github.com/dotnetcore/Flub
 ## 致谢
 
 - 特别感谢 [@ironcev](https://github.com/ironcev) 对 readme 文件做了大量改进并提供了一系列富有价值的建议。
-- 特别感谢 [@alexinea](https://github.com/https://github.com/alexinea) 将整个文档翻译成中文。
+- 特别感谢 [@alexinea](https://github.com/alexinea) 将整个文档翻译成中文。
 - 特别感谢 [@huanlin](https://github.com/huanlin) 用繁体中文撰写有关 FlubuCore 的博客，并翻译成英文。
 
-## 贡献者条约
+## Code of Conduct
 
-这个项目采用了 [贡献者条约](http://contributor-covenant.org/) 定义的行为准则阐明我们社区中的预期行为。
+这个项目采用了 [Code of Conduct](http://contributor-covenant.org/) 定义的行为准则阐明我们社区中的预期行为。
 有关更多信息，请参见 [.NET Foundation Code of Conduct](http://www.dotnetfoundation.org/code-of-conduct) 。
 
-## .NET 基金会
+## .NET Foundation
 
-该项目受 [.NET 基金会](http://www.dotnetfoundation.org) 支持。
+该项目受 [.NET Foundation](http://www.dotnetfoundation.org) 支持。
