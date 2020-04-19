@@ -58,17 +58,6 @@ namespace DotNet.Cli.Flubu.Infrastructure
             return services;
         }
 
-#if NETCOREAPP1_0 || NETCOREAPP1_1
-    public static IServiceCollection AddFlubuLogging(this IServiceCollection services)
-    {
-      if (services == null)
-        throw new ArgumentNullException(nameof(services));
-      services.TryAdd(ServiceDescriptor.Singleton<ILoggerFactory, LoggerFactory>());
-      services.TryAdd(ServiceDescriptor.Singleton(typeof(ILogger<>), typeof(Logger<>)));
-      return services;
-    }
-
-#else
         public static IServiceCollection AddFlubuLogging(this IServiceCollection services, IServiceCollection services2 = null)
         {
             return services.AddFlubuLogging((Action<ILoggingBuilder>)(builder => { }), services2);
@@ -102,10 +91,12 @@ namespace DotNet.Cli.Flubu.Infrastructure
             return services;
         }
 
-#endif
         private static void AddArgumentsImpl(IServiceCollection services, IServiceCollection services2 = null)
         {
-            var app = new CommandLineApplication(false);
+            var app = new CommandLineApplication()
+            {
+                UnrecognizedArgumentHandling = UnrecognizedArgumentHandling.CollectAndContinue
+            };
             var flubuConfigurationProviderDescriptor =
                 ServiceDescriptor.Singleton<IFlubuConfigurationProvider, FlubuConfigurationProvider>();
 

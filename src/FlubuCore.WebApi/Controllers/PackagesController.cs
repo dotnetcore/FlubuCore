@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace FlubuCore.WebApi.Controllers
@@ -40,10 +41,10 @@ namespace FlubuCore.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [SwaggerResponse(200)]
-        [SwaggerResponse(400, typeof(ErrorModel), Description = "Error codes: FormHasNoContentType, NoFiles")]
+        [SwaggerResponse(400, Type = typeof(ErrorModel), Description = "Error codes: FormHasNoContentType, NoFiles")]
         [SwaggerResponse(401)]
-        [SwaggerResponse(403, typeof(ErrorModel), Description = "Error codes: FileExtensionNotAllowed")]
-        [SwaggerResponse(500, typeof(ErrorModel), Description = "Internal Server error occured.")]
+        [SwaggerResponse(403, Type = typeof(ErrorModel), Description = "Error codes: FileExtensionNotAllowed")]
+        [SwaggerResponse(500, Type = typeof(ErrorModel), Description = "Internal Server error occured.")]
         [HttpPost("Upload")]
         [HttpPost]
         public async Task<IActionResult> UploadPackage()
@@ -95,7 +96,7 @@ namespace FlubuCore.WebApi.Controllers
         /// <returns></returns>
         [SwaggerResponse(200)]
         [SwaggerResponse(401)]
-        [SwaggerResponse(500, typeof(ErrorModel), Description = "Internal Server error occured.")]
+        [SwaggerResponse(500, Type = typeof(ErrorModel), Description = "Internal Server error occured.")]
         [HttpDelete]
         public IActionResult CleanPackagesDirectory([FromBody]CleanPackagesDirectoryRequest request)
         {

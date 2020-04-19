@@ -18,7 +18,6 @@ namespace FlubuCore.Targeting
         /// <param name="flubuSession"></param>
         public void CreateTargetFromMethodAttributes(IBuildScript buildScript, IFlubuSession flubuSession)
         {
-            #if !NETSTANDARD1_6
             var buildScriptType = buildScript.GetType();
             var methods = buildScriptType.GetRuntimeMethods().Where(x => x.DeclaringType == buildScriptType).ToList();
             foreach (var methodInfo in methods)
@@ -87,7 +86,6 @@ namespace FlubuCore.Targeting
                     methodInfo.Invoke(buildScript, attributeParamaters.ToArray());
                 }
             }
-#endif
         }
     }
 }

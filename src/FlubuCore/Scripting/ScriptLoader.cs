@@ -174,17 +174,7 @@ namespace FlubuCore.Scripting
                 }
             }
 
-#if NETSTANDARD1_6
-             using (FileStream dllStream = new FileStream(buildScriptAssemblyPath, FileMode.Open, FileAccess.Read))
-             {
-                using (FileStream pdbStream = new FileStream(Path.ChangeExtension(buildScriptAssemblyPath, "pdb"), FileMode.Open, FileAccess.Read))
-                {
-                   return AssemblyLoadContext.Default.LoadFromStream(dllStream, pdbStream);
-                }
-             }
-#else
             return Assembly.Load(File.ReadAllBytes(buildScriptAssemblyPath), File.ReadAllBytes(Path.ChangeExtension(buildScriptAssemblyPath, "pdb")));
-#endif
         }
 
         private Assembly CompileBuildScript(string buildScriptAssemblyPath, string buildScriptFilePath, IEnumerable<MetadataReference> references, string code)
@@ -257,13 +247,7 @@ namespace FlubuCore.Scripting
                     File.WriteAllBytes(buildScriptAssemblyPath, dllData);
                     File.WriteAllBytes(Path.ChangeExtension(buildScriptAssemblyPath, "pdb"), pdbData);
 
-#if NETSTANDARD1_6
-                    dllStream.Seek(0, SeekOrigin.Begin);
-                    pdbStream.Seek(0, SeekOrigin.Begin);
-                    return AssemblyLoadContext.Default.LoadFromStream(dllStream, pdbStream);
-#else
                     return Assembly.Load(dllData, pdbData);
-#endif
                 }
             }
         }

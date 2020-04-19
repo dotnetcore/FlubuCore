@@ -65,12 +65,8 @@ namespace DotNet.Cli.Flubu
                 .AddParserComponents()
                 .AddScriptAnalyzers();
 
-            Services
-#if !NETCOREAPP1_0 && !NETCOREAPP1_1
-                .AddFlubuLogging(startUpServiceCollection);
-#else
-                .AddFlubuLogging();
-#endif
+            Services.AddFlubuLogging(startUpServiceCollection);
+
             var startupProvider = startUpServiceCollection.BuildServiceProvider();
             var parser = startupProvider.GetRequiredService<IFlubuCommandParser>();
             var commandArguments = parser.Parse(args);

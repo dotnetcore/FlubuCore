@@ -23,7 +23,12 @@ namespace FlubuCore.Tests.Commanding
             _file = new Mock<IFileWrapper>();
             _buildScriptLocator = new Mock<IBuildScriptLocator>();
             _flubuConfigurationProvider = new Mock<IFlubuConfigurationProvider>();
-            _parser = new FlubuCommandParser(new CommandLineApplication(false), _flubuConfigurationProvider.Object, _buildScriptLocator.Object, _file.Object);
+
+            var cmdApp = new CommandLineApplication()
+            {
+                UnrecognizedArgumentHandling = UnrecognizedArgumentHandling.CollectAndContinue
+            };
+            _parser = new FlubuCommandParser(cmdApp, _flubuConfigurationProvider.Object, _buildScriptLocator.Object, _file.Object);
         }
 
         [Theory]

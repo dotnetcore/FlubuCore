@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-#if !NETSTANDARD1_6
 using System.Drawing;
-#endif
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using FlubuCore.Context;
@@ -87,11 +85,7 @@ namespace FlubuCore.Scripting
 
                 if (!flubuSession.Args.RethrowOnException)
                 {
-#if !NETSTANDARD1_6
                     flubuSession.LogError($"ERROR: {e.Message}", Color.Red);
-#else
-                    flubuSession.LogError($"error: {e.Message}");
-#endif
                 }
 
                 AfterBuildExecution(flubuSession);
@@ -107,11 +101,7 @@ namespace FlubuCore.Scripting
 
                 if (!flubuSession.Args.RethrowOnException)
                 {
-#if !NETSTANDARD1_6
                     flubuSession.LogError($"ERROR: {e}", Color.Red);
-#else
-                    flubuSession.LogError($"error: {e}");
-#endif
                 }
 
                 AfterBuildExecution(flubuSession);

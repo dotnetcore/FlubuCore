@@ -26,7 +26,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
         {
             _repository = new UserRepository(clientFixture.LiteRepository);
             _hashService = new HashService();
-            clientFixture.LiteRepository.Engine.DropCollection("security");
+            clientFixture.LiteRepository.Database.DropCollection("security");
         }
 
         [Fact]

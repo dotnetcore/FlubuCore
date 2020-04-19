@@ -11,7 +11,7 @@ namespace FlubuCore.WebApi.Tests
         public DatabaseBaseTests()
         {
             LiteRepository = new LiteRepository("Filename=database.db");
-            LiteRepository.Engine.DropCollection("users");
+            LiteRepository.Database.DropCollection("users");
         }
 
         ~DatabaseBaseTests()

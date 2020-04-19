@@ -130,7 +130,6 @@ namespace FlubuCore.Tasks.Iis
                 }
                 catch (COMException ex)
                 {
-                    #if !NETSTANDARD1_6
                     for (int j = 0; j < ignoredErrorCodes.Length; j++)
                     {
                         if (ignoredErrorCodes[j] == ex.ErrorCode)
@@ -138,7 +137,7 @@ namespace FlubuCore.Tasks.Iis
                             return;
                         }
                     }
-                    #endif
+
                     if (i == retries - 1)
                         throw;
                     Thread.Sleep(1000);

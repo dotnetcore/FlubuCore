@@ -82,12 +82,8 @@ namespace FlubuCore.Tasks.FlubuWebApi
                 using (FileStream file = new FileStream(_saveAs, FileMode.Create, FileAccess.Write))
                 {
                     reports.WriteTo(file);
-
-#if !NETSTANDARD1_6
-
                     reports.Close();
                     file.Close();
-#endif
                 }
             }
             catch (WebApiException e)

@@ -29,8 +29,7 @@ namespace FlubuCore.WebApi.Repository
 
         public Security GetSecurity()
         {
-            var security = _repository.FirstOrDefault<Security>();
-
+            var security = _repository.FirstOrDefault<Security>(x => x != null);
             if (security != null)
             {
                 return security;

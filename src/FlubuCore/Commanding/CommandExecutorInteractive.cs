@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-#if !NETSTANDARD1_6
 using System.Drawing;
-#endif
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
@@ -162,7 +159,11 @@ namespace FlubuCore.Commanding
                         continue;
                     }
 
-                    var parser = new FlubuCommandParser(new CommandLineApplication(false), null, null, null);
+                    var cmdApp = new CommandLineApplication()
+                    {
+                        UnrecognizedArgumentHandling = UnrecognizedArgumentHandling.CollectAndContinue
+                    };
+                    var parser = new FlubuCommandParser(cmdApp, null, null, null);
                     var args = parser.Parse(commandLine.Split(' ')
 
                         .Where(x => !string.IsNullOrWhiteSpace(x))
@@ -214,11 +215,7 @@ namespace FlubuCore.Commanding
                         }
                         catch (TaskExecutionException e)
                         {
-#if !NETSTANDARD1_6
                             flubuSession.LogError($"ERROR: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}", Color.Red);
-#else
-                            flubuSession.LogError($"error: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}");
-#endif
                         }
                         catch (ArgumentException)
                         {
@@ -238,11 +235,7 @@ namespace FlubuCore.Commanding
                 }
                 catch (Exception e)
                 {
-#if !NETSTANDARD1_6
                      flubuSession.LogError($"ERROR: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}", Color.Red);
-#else
-                    flubuSession.LogError($"error: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}");
-#endif
                 }
             }
             while (flubuSession.InteractiveMode);
@@ -269,7 +262,11 @@ namespace FlubuCore.Commanding
                         break;
                     }
 
-                    var parser = new FlubuCommandParser(new CommandLineApplication(false), null, null, null);
+                    var cmdApp = new CommandLineApplication()
+                    {
+                        UnrecognizedArgumentHandling = UnrecognizedArgumentHandling.CollectAndContinue
+                    };
+                    var parser = new FlubuCommandParser(cmdApp, null, null, null);
                     var args = parser.Parse(commandLine.Split(' ')
 
                         .Where(x => !string.IsNullOrWhiteSpace(x))
