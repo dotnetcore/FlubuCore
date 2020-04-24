@@ -38,7 +38,9 @@ nav:
     - 'Awesome plugins': 
         - 'Plugins': 'AwesomePlugins/awesome-plugins.md'
     - 'Examples' :
-        - 'Index' : 'https://github.com/dotnetcore/FlubuCore.Examples'   
+        - 'Index' : 'https://github.com/dotnetcore/FlubuCore.Examples'  
+    - 'FAQ': 
+        - 'FlubuCore': 'FAQ/faq.md'        
     - 'Blogs': 
         - 'Blogs': 'Blogs/blogs.md'
     - '中文' :

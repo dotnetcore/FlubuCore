@@ -43,6 +43,8 @@ nav:
         - '入门' : 'WebApi/getting-started.md'
     - '插件精选': 
         - '插件': 'AwesomePlugins/awesome-plugins.md'
+    - 'FAQ': 
+        - 'FlubuCore': 'FAQ/faq.md'  
     - '示例' :
         - 'Index' : 'https://github.com/dotnetcore/FlubuCore.Examples'   
   
