@@ -230,8 +230,7 @@ These examples will help you to get quickly start with FlubuCore:
 
 * [Open source library example](https://github.com/dotnetcore/FlubuCore.Examples/blob/master/NetCoreOpenSource/Build/BuildScript.cs) - Example covers versioning, building the project, running tests and publishing nuget package. It also covers how to run build script on Appveyor and Travis CI.
 ## Have a question?
-
- [![Join the chat at https://gitter.im/FlubuCore/Lobby](https://badges.gitter.im/mbdavid/LiteDB.svg)](https://gitter.im/FlubuCore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+ First go through [documentation](https://flubucore.dotnetcore.xyz/) and [FAQ](https://flubucore.dotnetcore.xyz/FAQ/faq/) if you don't find your answer there open an issue with a question or join us on [gitter.](https://gitter.im/FlubuCore/Lobby)
 
 ## Contributing
 
