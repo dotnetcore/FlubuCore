@@ -345,7 +345,7 @@ public class  BuildScript : DefaultBuildScript
                 .AddFileToPackage("Deploy\\DeploymentScript.cs", "")
                 .AddFileToPackage("Deploy\\DeploymentConfig.json", "")
                 .AddFileToPackage("Deploy\\NetCore3.1\\Deploy.csproj", "")
-                .AddFileToPackage("Deployt\\Deploy.bat", "")
+                .AddFileToPackage("Deploy\\Deploy.bat", "")
                 .AddFileToPackage(@"packages\Newtonsoft.Json\12.0.3\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
                 .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard2.0\LiteDB.dll", "lib")
                 .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
