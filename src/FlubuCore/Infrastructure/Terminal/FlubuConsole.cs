@@ -8,12 +8,6 @@ using System.Text.RegularExpressions;
 using FlubuCore.Infrastructure.Terminal.Commands;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks.Attributes;
-using FlubuCore.Tasks.Git;
-using FlubuCore.Tasks.MsSql;
-using FlubuCore.Tasks.NetCore;
-using FlubuCore.Tasks.Testing;
-using FlubuCore.Tasks.Versioning;
-using NuGet.Packaging;
 
 namespace FlubuCore.Infrastructure.Terminal
 {

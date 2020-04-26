@@ -11,8 +11,13 @@ namespace FlubuCore.Tests.Integration
     {
         public IntegrationTestFixture()
         {
-            LoggerFactory = new LoggerFactory();
-            LoggerFactory.AddConsole((s, l) => l >= LogLevel.Information);
+            LoggerFactory = Microsoft.Extensions.Logging.LoggerFactory.Create(
+                builder =>
+                {
+                    builder.AddFilter((level) => level >= LogLevel.Information)
+                           .AddConsole();
+                });
+
             var services = new ServiceCollection()
                 .AddLogging()
                 .AddCoreComponents()
@@ -31,6 +36,7 @@ namespace FlubuCore.Tests.Integration
 
         public void Dispose()
         {
+            LoggerFactory.Dispose();
         }
     }
 }

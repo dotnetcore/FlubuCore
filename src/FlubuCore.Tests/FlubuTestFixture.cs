@@ -7,14 +7,19 @@ namespace FlubuCore.Tests
     {
         public FlubuTestFixture()
         {
-            LoggerFactory = new LoggerFactory();
-            LoggerFactory.AddConsole((s, l) => l >= LogLevel.Information);
+            LoggerFactory = Microsoft.Extensions.Logging.LoggerFactory.Create(
+                builder =>
+                {
+                    builder.AddFilter((level) => level >= LogLevel.Information)
+                           .AddConsole();
+                });
         }
 
         public ILoggerFactory LoggerFactory { get; }
 
         public void Dispose()
         {
+            LoggerFactory.Dispose();
         }
     }
 }

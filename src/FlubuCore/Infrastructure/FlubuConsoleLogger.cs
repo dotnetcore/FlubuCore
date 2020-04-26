@@ -5,8 +5,8 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 using FlubuCore.Context;
+using FlubuCore.Infrastructure.Terminal.ColorfulConsole;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console.Internal;
 using Pastel;
 
 namespace FlubuCore.Infrastructure
@@ -33,15 +33,14 @@ namespace FlubuCore.Infrastructure
 
         private TimeSpan _lastTimeMark;
 
-        private IConsole _console;
+        private IColorfulConsole _console;
 
         public FlubuConsoleLogger(string name)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             BuildSystem buildSystem = new BuildSystem();
-            Console = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && buildSystem.IsLocalBuild
-                ? (IConsole)new WindowsLogConsole()
-                : new AnsiLogConsole(new AnsiSystemConsole());
+            ColorfulConsole = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && buildSystem.IsLocalBuild
+                ? (IColorfulConsole)new WindowsLogConsole() : new AnsiLogConsole();
 
             _stopwatch.Start();
         }
@@ -59,7 +58,7 @@ namespace FlubuCore.Infrastructure
         {
             private get
             {
-                _useColor = false;
+                _useColor = true;
                 return _consoleColor;
             }
 
@@ -70,7 +69,7 @@ namespace FlubuCore.Infrastructure
             }
         }
 
-        public IConsole Console
+        public IColorfulConsole ColorfulConsole
         {
             get => _console;
 
@@ -161,16 +160,16 @@ namespace FlubuCore.Infrastructure
 
                     if (_useColor && !DisableColloredLogging)
                     {
-                        Console.Write($"{timeMark}{indentation}{logMessage.Pastel(Color)}", _defaultConsoleColor, _defaultConsoleColor);
+                        ColorfulConsole.Write($"{timeMark}{indentation}{logMessage.Pastel(Color)}", _defaultConsoleColor, _defaultConsoleColor);
                     }
                     else
                     {
-                        Console.Write($"{timeMark}{indentation}{logMessage}", _defaultConsoleColor, _defaultConsoleColor);
+                        ColorfulConsole.Write($"{timeMark}{indentation}{logMessage}", _defaultConsoleColor, _defaultConsoleColor);
                     }
 
                     // In case of AnsiLogConsole, the messages are not yet written to the console,
                     // this would flush them instead.
-                    Console.Flush();
+                    ColorfulConsole.Flush();
                 }
             }
 
@@ -234,46 +233,6 @@ namespace FlubuCore.Infrastructure
 
                 default:
                     return new ConsoleColors(_defaultConsoleColor, _defaultConsoleColor);
-            }
-        }
-
-        public struct ConsoleColors
-        {
-            public ConsoleColors(ConsoleColor? foreground, ConsoleColor? background)
-            {
-                Foreground = foreground;
-                Background = background;
-            }
-
-            public ConsoleColor? Foreground { get; }
-
-            public ConsoleColor? Background { get; }
-        }
-
-        private class AnsiSystemConsole : IAnsiSystemConsole
-        {
-            public void Write(string message)
-            {
-                if (_useColor && !DisableColloredLogging)
-                {
-                    System.Console.Write(message.Pastel(Color));
-                }
-                else
-                {
-                    System.Console.Write(message);
-                }
-            }
-
-            public void WriteLine(string message)
-            {
-                if (_useColor)
-                {
-                    System.Console.WriteLine(message.Pastel(Color));
-                }
-                else
-                {
-                    System.Console.WriteLine(message);
-                }
             }
         }
     }
