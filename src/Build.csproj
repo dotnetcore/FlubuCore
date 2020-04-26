@@ -9,7 +9,9 @@
     <Compile Remove=".vs\**" />
     <Compile Remove="Backup1\**" />
     <Compile Remove="Backup\**" />
+    <Compile Remove="BuildScript\bin\**" />
     <Compile Remove="build\**" />
+    <Compile Remove="Deploy\**" />
     <Compile Remove="dotnet-flubu\**" />
     <Compile Remove="Flubu.SystemTests\**" />
     <Compile Remove="Flubu.Tests\**" />
@@ -38,13 +40,16 @@
     <Compile Remove="GlobalToolTest\**" />
     <Compile Remove="Nuget\**" />
     <Compile Remove="output\**" />
+    <Compile Remove="packages\**" />
     <Compile Remove="Template\**" />
     <Compile Remove="tools\**" />
     <EmbeddedResource Remove=".git\**" />
     <EmbeddedResource Remove=".vs\**" />
     <EmbeddedResource Remove="Backup1\**" />
     <EmbeddedResource Remove="Backup\**" />
+    <EmbeddedResource Remove="BuildScript\bin\**" />
     <EmbeddedResource Remove="build\**" />
+    <EmbeddedResource Remove="Deploy\**" />
     <EmbeddedResource Remove="dotnet-flubu\**" />
     <EmbeddedResource Remove="Flubu.SystemTests\**" />
     <EmbeddedResource Remove="Flubu.Tests\**" />
@@ -73,13 +78,16 @@
     <EmbeddedResource Remove="GlobalToolTest\**" />
     <EmbeddedResource Remove="Nuget\**" />
     <EmbeddedResource Remove="output\**" />
+    <EmbeddedResource Remove="packages\**" />
     <EmbeddedResource Remove="Template\**" />
     <EmbeddedResource Remove="tools\**" />
     <None Remove=".git\**" />
     <None Remove=".vs\**" />
     <None Remove="Backup1\**" />
     <None Remove="Backup\**" />
+    <None Remove="BuildScript\bin\**" />
     <None Remove="build\**" />
+    <None Remove="Deploy\**" />
     <None Remove="dotnet-flubu\**" />
     <None Remove="Flubu.SystemTests\**" />
     <None Remove="Flubu.Tests\**" />
@@ -108,6 +116,7 @@
     <None Remove="GlobalToolTest\**" />
     <None Remove="Nuget\**" />
     <None Remove="output\**" />
+    <None Remove="packages\**" />
     <None Remove="Template\**" />
     <None Remove="tools\**" />
   </ItemGroup>
@@ -126,13 +135,7 @@
     <DotNetCliToolReference Include="dotnet-flubu" Version="5.1.1" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="BuildScript\NetCore2.0\Deploy.csproj" />
-    <None Include="BuildScript\NetCore3.1\Deploy.csproj" />
+    <PackageReference Include="FlubuCore" Version="5.1.1" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="LiteDB" Version="4.1.2" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="FlubuCore.WebApi\FlubuCore.WebApi.csproj" />
-  </ItemGroup>
+
 </Project>

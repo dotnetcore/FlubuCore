@@ -139,3 +139,5 @@ src/GlobalToolTest/.vs/
 src/FlubuCore.ConsoleTestApp/.vs/
 src/FlubuCore.ConsoleTestApp/bin/
 src/FlubuCore.ConsoleTestApp/obj/
+src/Deploy/bin/
+src/Deploy/obj/
