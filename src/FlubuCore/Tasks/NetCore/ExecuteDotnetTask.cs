@@ -40,19 +40,28 @@ namespace FlubuCore.Tasks.NetCore
         {
             bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
             bool isOsx = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
-            string dotnetExecutable;
-            if (!isOsx)
+            bool isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+
+            string dotnetExecutable = string.Empty;
+            if (isWindows)
             {
-                dotnetExecutable = isWindows
-                    ? (File.Exists("C:/Program Files/dotnet/dotnet.exe") ? "C:/Program Files/dotnet/dotnet.exe" : null)
-                    : "/usr/bin/dotnet";
+                dotnetExecutable = "C:/Program Files/dotnet/dotnet.exe";
             }
-            else
+            else if (isOsx)
             {
                 dotnetExecutable = "/usr/local/share/dotnet/dotnet";
             }
+            else if (isLinux)
+            {
+                dotnetExecutable = "/usr/bin/dotnet";
+            }
 
-            return string.IsNullOrEmpty(dotnetExecutable) ? null : IOExtensions.GetFullPath(dotnetExecutable);
+            if (File.Exists(dotnetExecutable))
+            {
+                return dotnetExecutable;
+            }
+
+            return "dotnet";
         }
     }
 }
