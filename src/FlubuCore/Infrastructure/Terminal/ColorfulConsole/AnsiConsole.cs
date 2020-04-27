@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (c) .NET Foundation. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+// Basded on AnsiLogConsole.cs at https://github.com/aspnet/Logging/tree/8270c545/src/Microsoft.Extensions.Logging.Console/Internal
+
+using System;
 using System.Text;
 
 namespace FlubuCore.Infrastructure.Terminal.ColorfulConsole

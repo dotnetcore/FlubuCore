@@ -1,17 +1,17 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-// Copied from https://github.com/aspnet/Logging/tree/8270c545/src/Microsoft.Extensions.Logging.Console/Internal
+// Basded on WindowsLogConsole.cs at https://github.com/aspnet/Logging/tree/8270c545/src/Microsoft.Extensions.Logging.Console/Internal
 
 using System;
 using System.IO;
 
 namespace FlubuCore.Infrastructure.Terminal.ColorfulConsole
 {
-    public class WindowsLogConsole : IColorfulConsole
+    public class WindowsConsole : IColorfulConsole
     {
         private readonly TextWriter _textWriter;
 
-        public WindowsLogConsole(bool stdErr = false)
+        public WindowsConsole(bool stdErr = false)
         {
             _textWriter = stdErr ? Console.Error : Console.Out;
         }

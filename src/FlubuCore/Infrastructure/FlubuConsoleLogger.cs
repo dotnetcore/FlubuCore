@@ -40,7 +40,7 @@ namespace FlubuCore.Infrastructure
             Name = name ?? throw new ArgumentNullException(nameof(name));
             BuildSystem buildSystem = new BuildSystem();
             ColorfulConsole = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && buildSystem.IsLocalBuild
-                ? (IColorfulConsole)new WindowsLogConsole() : new AnsiConsole();
+                ? (IColorfulConsole)new WindowsConsole() : new AnsiConsole();
 
             _stopwatch.Start();
         }
