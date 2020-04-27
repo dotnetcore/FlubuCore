@@ -21,21 +21,21 @@
 If you are adding tasks to target through `AddTask` method,  Flubu calls `Execute` method when executing that target so in this scenario you should not call `Execute` on the task.
     
 	```c#
-		  context.CreateTarget("Build")
-				 .AddCoreTask(x => x.build());
+    context.CreateTarget("Build")
+	       .AddCoreTask(x => x.build());
 	```
 
 	In the sample above, a `BuildTask` is added to the target. When target is executed Flubu executes all tasks  that were added to target by calling task's `Execute` method. In this case it executes `BuildTask`. 
 
 	```c#
-	 context.CreateTarget("LoginEcr")
-			.Do(c =>
-			{
-				c.Tasks()
-				 .RunProgram("aws")	
-				 .WithArguments("ecr", "get-login", "--region", "eu-central-1", "--no-include-email"))
-				 .Execute(context);
-			}
+	context.CreateTarget("LoginEcr")
+		.Do(c =>
+		{
+			c.Tasks()
+			 .RunProgram("aws")	
+			 .WithArguments("ecr", "get-login", "--region", "eu-central-1", "--no-include-email"))
+			 .Execute(context);
+		}
 	```
 
 In this sample, `Do` method actually adds a [DoTask](https://github.com/dotnetcore/FlubuCore/blob/master/src/FlubuCore/Tasks/DoTask.cs) to the target. When target is executed Flubu executes `DoTask`. `DoTask` in above example invokes an anonymous method which was assigned to the Action delegate (first parameter in `Do` method). 
