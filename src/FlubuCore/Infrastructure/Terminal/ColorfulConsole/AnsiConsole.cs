@@ -6,11 +6,11 @@ namespace FlubuCore.Infrastructure.Terminal.ColorfulConsole
     /// <summary>
     /// For non-Windows platform consoles which understand the ANSI escape code sequences to represent color
     /// </summary>
-    public class AnsiLogConsole : IColorfulConsole
+    public class AnsiConsole : IColorfulConsole
     {
         private readonly StringBuilder _outputBuilder;
 
-        public AnsiLogConsole()
+        public AnsiConsole()
         {
             _outputBuilder = new StringBuilder();
         }
