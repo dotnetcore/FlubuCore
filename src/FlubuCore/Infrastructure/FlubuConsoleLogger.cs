@@ -58,7 +58,6 @@ namespace FlubuCore.Infrastructure
         {
             private get
             {
-                _useColor = true;
                 return _consoleColor;
             }
 
@@ -170,6 +169,8 @@ namespace FlubuCore.Infrastructure
                     // In case of AnsiLogConsole, the messages are not yet written to the console,
                     // this would flush them instead.
                     ColorfulConsole.Flush();
+
+                    _useColor = false; // Disable color after each output.
                 }
             }
 
