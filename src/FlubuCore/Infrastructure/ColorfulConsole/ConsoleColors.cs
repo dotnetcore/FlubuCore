@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace FlubuCore.Infrastructure.Terminal.ColorfulConsole
+namespace FlubuCore.Infrastructure.ColorfulConsole
 {
     public struct ConsoleColors
     {

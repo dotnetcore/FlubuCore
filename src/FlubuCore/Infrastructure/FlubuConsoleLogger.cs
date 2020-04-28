@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 using FlubuCore.Context;
-using FlubuCore.Infrastructure.Terminal.ColorfulConsole;
+using FlubuCore.Infrastructure.ColorfulConsole;
 using Microsoft.Extensions.Logging;
 using Pastel;
 

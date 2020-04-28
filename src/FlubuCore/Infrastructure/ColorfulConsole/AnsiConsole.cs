@@ -5,7 +5,7 @@
 using System;
 using System.Text;
 
-namespace FlubuCore.Infrastructure.Terminal.ColorfulConsole
+namespace FlubuCore.Infrastructure.ColorfulConsole
 {
     /// <summary>
     /// For non-Windows platform consoles which understand the ANSI escape code sequences to represent color

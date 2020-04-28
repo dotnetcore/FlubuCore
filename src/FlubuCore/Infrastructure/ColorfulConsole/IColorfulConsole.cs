@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FlubuCore.Infrastructure.Terminal.ColorfulConsole
+namespace FlubuCore.Infrastructure.ColorfulConsole
 {
     public interface IColorfulConsole
     {

@@ -5,7 +5,7 @@
 using System;
 using System.IO;
 
-namespace FlubuCore.Infrastructure.Terminal.ColorfulConsole
+namespace FlubuCore.Infrastructure.ColorfulConsole
 {
     public class WindowsConsole : IColorfulConsole
     {
