@@ -5,11 +5,16 @@ namespace FlubuCore.Tasks.Git
 {
     public class GitCheckoutTask : ExternalProcessTaskBase<int, GitCheckoutTask>
     {
-        public GitCheckoutTask(string branch)
+        public GitCheckoutTask(string branch = null)
         {
             ExecutablePath = "git";
             AddPrefixToAdditionalOptionKey(PrefixProcessors.AddDoubleDashPrefixToAdditionalOptionKey);
-            WithArguments("checkout", branch);
+            WithArguments("checkout");
+            if (!string.IsNullOrEmpty(branch))
+            {
+                WithArguments(branch);
+            }
+
             AddAdditionalOptionPrefix("Checkout");
         }
 
@@ -38,7 +43,7 @@ namespace FlubuCore.Tasks.Git
         [ArgKey("-b")]
         public GitCheckoutTask NewBranch(string name)
         {
-            WithArgumentsKeyFromAttribute();
+            WithArgumentsKeyFromAttribute(name);
             return this;
         }
 
@@ -50,7 +55,7 @@ namespace FlubuCore.Tasks.Git
         [ArgKey("-B")]
         public GitCheckoutTask NewBranchWithReset(string name)
         {
-            WithArgumentsKeyFromAttribute();
+            WithArgumentsKeyFromAttribute(name);
             return this;
         }
 
