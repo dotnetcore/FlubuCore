@@ -1,3 +1,8 @@
+## FlubuCore 5.1.2.0
+- dotnet command now works when full path to dotnet executable is not found.
+- GitCheckout task: Fixes NewBranch (-b) and NewBranchWithReset(-B) option.
+- GitCheckout task: Branch name is now optional.
+ 
 ## FlubuCore 5.1.1.0
 - Improved build summary: added status and duration for each target
 - When .flubu file is empty Flubu  looks for scripts, csprojs at default locations relative to .flubu file path
