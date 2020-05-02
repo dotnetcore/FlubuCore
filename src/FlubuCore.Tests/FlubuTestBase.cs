@@ -8,6 +8,7 @@ using FlubuCore.Infrastructure;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks;
+using FlubuCore.Tasks.NetCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -47,13 +48,7 @@ namespace FlubuCore.Tests
 
         protected ILoggerFactory LoggerFactory { get; }
 
-        public string PathToDotnetExecutable
-        {
-            get
-            {
-                return GetOsPlatform() == OSPlatform.Windows ? "C:\\Program Files\\dotnet\\dotnet.exe" : "/usr/bin/dotnet";
-            }
-        }
+        public string PathToDotnetExecutable => ExecuteDotnetTask.FindDotnetExecutable();
 
         public static OSPlatform GetOsPlatform()
         {
