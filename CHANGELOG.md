@@ -1,4 +1,4 @@
-## FlubuCore 5.1.2.0
+## FlubuCore 5.1.3.0
 - dotnet command now works when full path to dotnet executable is not found.
 - GitCheckout task: Fixes NewBranch (-b) and NewBranchWithReset(-B) option.
 - GitCheckout task: Branch name is now optional.
