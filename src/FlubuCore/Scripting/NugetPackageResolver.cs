@@ -218,7 +218,7 @@ namespace FlubuCore.Scripting
 
         public void ResolveDependencies(CompilationLibrary library, List<CompilationLibrary> compileLibraries, string[] packageFolders, List<AssemblyInfo> assemblyReferences)
         {
-            if (library.Name == "NETStandard.Library" || _resolvedDependencies.Any(x => x.Name == library.Name))
+            if (library.Name == "NETStandard.Library" || library.Name == "FlubuCore" || _resolvedDependencies.Any(x => x.Name == library.Name))
             {
                 return;
             }
@@ -228,7 +228,7 @@ namespace FlubuCore.Scripting
             foreach (var dependency in library.Dependencies)
             {
                 var dep = compileLibraries.FirstOrDefault(x => x.Name.Equals(dependency.Name));
-                if (dep.Assemblies != null && dep.Assemblies.Count() != 0 && !dep.Assemblies[0].EndsWith("_._"))
+                if (dep?.Assemblies != null && dep.Assemblies.Count != 0 && !dep.Assemblies[0].EndsWith("_._"))
                 {
                     bool packageFound = AddAssemblyReference(packageFolders, dep, assemblyReferences);
 
