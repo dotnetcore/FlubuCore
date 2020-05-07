@@ -16,9 +16,9 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.101
+        dotnet-version: 3.1.201
     - name: Install dependencies     
-      run: dotnet tool install --global FlubuCore.GlobalTool --version 5.1.3
+      run: dotnet tool install --global FlubuCore.GlobalTool --version 5.1.5
     - name: Build
       working-directory: ./src
       run: flubu compile.linux
