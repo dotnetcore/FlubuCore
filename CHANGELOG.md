@@ -1,3 +1,7 @@
+## FlubuCore 5.1.4.0
+- Fixed resolving of nuget packages when dependency is not found
+- Fixed resolving of nuget packages when dependecy is FlubuCore.
+
 ## FlubuCore 5.1.3.0
 - dotnet command now works when full path to dotnet executable is not found.
 - GitCheckout task: Fixes NewBranch (-b) and NewBranchWithReset(-B) option.
