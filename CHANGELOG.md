@@ -1,4 +1,7 @@
-## FlubuCore 5.1.4.0
+## FlubuCore 5.1.6.0
+- Added some more common system assemblies so they don't need to be referenced through assembly attribute in scripts.
+
+## FlubuCore 5.1.5.0
 - Fixed resolving of nuget packages when dependency is not found
 - Fixed resolving of nuget packages when dependecy is FlubuCore.
 
