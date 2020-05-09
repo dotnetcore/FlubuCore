@@ -339,6 +339,8 @@ namespace FlubuCore.Scripting
             var linqExpAss = typeof(Expression).GetTypeInfo().Assembly;
             var reflectionAss = typeof(MethodInfo).GetTypeInfo().Assembly;
             var runtimeInteropAss = typeof(OSPlatform).GetTypeInfo().Assembly;
+            var globalization = typeof(System.Globalization.CultureInfo).GetTypeInfo().Assembly;
+
             List<AssemblyInfo> assemblyReferenceLocations = new List<AssemblyInfo>
             {
                new AssemblyInfo
@@ -360,6 +362,7 @@ namespace FlubuCore.Scripting
                linqExpAss.ToAssemblyInfo(),
                reflectionAss.ToAssemblyInfo(),
                runtimeInteropAss.ToAssemblyInfo(),
+               globalization.ToAssemblyInfo()
             };
 
             assemblyReferenceLocations.AddReferenceByAssemblyName("System");
@@ -382,6 +385,16 @@ namespace FlubuCore.Scripting
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Globalization");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Private.Uri");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Drawing.Primitives");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Net.Primitives");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Net.WebClient");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Net.Http");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Private.Xml");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Private.CoreLib");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Text.Json");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Text.Json.Serialization");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Xml.XPath");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Xml.Serialization");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Data.Common");
 #if NETSTANDARD2_0
             var systemAss = typeof(Console).GetTypeInfo().Assembly;
             assemblyReferenceLocations.Add(systemAss.ToAssemblyInfo());
