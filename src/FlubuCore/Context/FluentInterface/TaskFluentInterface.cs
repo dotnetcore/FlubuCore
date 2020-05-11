@@ -387,5 +387,15 @@ namespace FlubuCore.Context.FluentInterface
         {
             return Context.CreateTask<T4TemplateTask>(templateFileName);
         }
+
+        public ServiceStatusTask ServiceStatus(string serviceName)
+        {
+            return Context.CreateTask<ServiceStatusTask>(serviceName);
+        }
+
+        public WaitForServiceStopTask WaitForServiceStop(string serviceName)
+        {
+            return Context.CreateTask<WaitForServiceStopTask>(serviceName);
+        }
     }
 }

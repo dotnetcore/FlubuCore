@@ -399,5 +399,19 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="templateFileName">Filename to T4 transform.</param>
         /// <returns></returns>
         T4TemplateTask GenerateT4Template(string templateFileName);
+
+        /// <summary>
+        /// Query status of a windows service with sc.exe command.
+        /// </summary>
+        /// <param name="serviceName">Name of the service to query.</param>
+        /// <returns><see cref="ServiceStatusTask"/>.</returns>
+        ServiceStatusTask ServiceStatus(string serviceName);
+
+        /// <summary>
+        /// Wait for windows service to stop.
+        /// </summary>
+        /// <param name="serviceName">Name of the service to query.</param>
+        /// <returns><see cref="WaitForServiceStopTask"/>.</returns>
+        WaitForServiceStopTask WaitForServiceStop(string serviceName);
     }
 }
