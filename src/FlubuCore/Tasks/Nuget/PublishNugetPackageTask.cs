@@ -135,7 +135,7 @@ namespace FlubuCore.Tasks.Nuget
                 CultureInfo.InvariantCulture,
                 "{0}.{1}.nupkg",
                 _packageId,
-                context.Properties.GetBuildVersion().Version.ToString(3));
+                context.Properties.GetBuildVersion().BuildVersionWithQuality(3));
             DoLogInfo($"NuGet package file {nupkgFileName} created");
 
             // do not push new packages from a local build
