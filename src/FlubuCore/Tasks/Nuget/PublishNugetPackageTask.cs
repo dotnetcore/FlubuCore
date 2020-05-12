@@ -111,7 +111,7 @@ namespace FlubuCore.Tasks.Nuget
             DoLogInfo($"Preparing the {destNuspecFile} file");
 
             new ReplaceTokensTask(_nuspecFileName)
-                .Replace("version", context.Properties.GetBuildVersion().Version.ToString(3))
+                .Replace("version", context.Properties.GetBuildVersion().BuildVersionWithQuality(3))
                 .UseToken("$")
                 .ToDestination(destNuspecFile.ToString())
                 .ExecuteVoid(context);
