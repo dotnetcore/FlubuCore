@@ -1,3 +1,7 @@
+## FlubuCore 5.1.8.0
+- Added ServiceStatus And ServiceStop windows service control tasks.
+- NugetPublishTask: Packages can be now published with version quality suffix.
+
 ## FlubuCore 5.1.6.0
 - Added some more common system assemblies so they don't need to be referenced through assembly attribute in scripts.
 
