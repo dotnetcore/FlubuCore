@@ -9,6 +9,8 @@
     <Compile Remove=".vs\**" />
     <Compile Remove="Backup1\**" />
     <Compile Remove="Backup\**" />
+    <Compile Remove="BuildScript\NetCore2.0\**" />
+    <Compile Remove="BuildScript\NetCore3.1\**" />
     <Compile Remove="build\**" />
     <Compile Remove="dotnet-flubu\**" />
     <Compile Remove="Flubu.SystemTests\**" />
@@ -44,6 +46,8 @@
     <EmbeddedResource Remove=".vs\**" />
     <EmbeddedResource Remove="Backup1\**" />
     <EmbeddedResource Remove="Backup\**" />
+    <EmbeddedResource Remove="BuildScript\NetCore2.0\**" />
+    <EmbeddedResource Remove="BuildScript\NetCore3.1\**" />
     <EmbeddedResource Remove="build\**" />
     <EmbeddedResource Remove="dotnet-flubu\**" />
     <EmbeddedResource Remove="Flubu.SystemTests\**" />
@@ -79,6 +83,8 @@
     <None Remove=".vs\**" />
     <None Remove="Backup1\**" />
     <None Remove="Backup\**" />
+    <None Remove="BuildScript\NetCore2.0\**" />
+    <None Remove="BuildScript\NetCore3.1\**" />
     <None Remove="build\**" />
     <None Remove="dotnet-flubu\**" />
     <None Remove="Flubu.SystemTests\**" />
@@ -124,10 +130,6 @@
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="dotnet-flubu" Version="5.1.8" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="BuildScript\NetCore2.0\Deploy.csproj" />
-    <None Include="BuildScript\NetCore3.1\Deploy.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="LiteDB" Version="4.1.2" />
