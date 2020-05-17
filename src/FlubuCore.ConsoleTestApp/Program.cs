@@ -9,7 +9,7 @@ namespace FlubuCore.ConsoleTestApp
             args = new[] {"Test"};
             var engine = new FlubuEngine();
 
-            int scriptId = 1; // for easy switching test scripts.
+            int scriptId = 0; // for easy switching test scripts.
 
             switch (scriptId)
             {

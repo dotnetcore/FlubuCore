@@ -250,7 +250,7 @@ namespace FlubuCore.Tasks.Process
 
             DoLogInfo($"Running program from '{workingFolder}':");
 
-            DoLogInfo($"{command.CommandName} {commandArgs}{Environment.NewLine}", Color.DarkCyan);
+            DoLogInfo($"{command.CommandName} {cmd} {commandArgs}{Environment.NewLine}", Color.DarkCyan);
 
             int res = command.Execute()
                 .ExitCode;

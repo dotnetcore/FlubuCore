@@ -10,7 +10,7 @@ namespace FlubuCore.ConsoleTestApp
         
         protected override void ConfigureTargets(ITaskContext context)
         {
-            context.CreateTarget("Test").SetAsDefault().AddCoreTask(x => x.Build());
+            context.CreateTarget("Test").SetAsDefault().AddTask(x => x.RunProgramTask("npm").WithArguments("list"));
         }
     }
 }
