@@ -240,24 +240,11 @@ namespace FlubuCore.Tasks.Process
                         _output.AppendLine(l);
                 });
 
-            string commandArgs = null;
             ProcessAdditionalOptions(context);
-
-            foreach (var arg in _arguments)
-            {
-                commandArgs = !arg.maskArg ? $"{commandArgs} {arg.arg}" : $"{commandArgs} ####";
-            }
 
             DoLogInfo($"Running program from '{workingFolder}':");
 
-            if (command.CommandName.Contains("cmd.exe"))
-            {
-                DoLogInfo($"{command.CommandName} {cmd}{commandArgs}{Environment.NewLine}", Color.DarkCyan);
-            }
-            else
-            {
-                DoLogInfo($"{command.CommandName}{commandArgs}{Environment.NewLine}", Color.DarkCyan);
-            }
+            DoLogInfo($"{command.CommandName} {command.CommandArgs}{Environment.NewLine}", Color.DarkCyan);
 
             int res = command.Execute()
                 .ExitCode;
