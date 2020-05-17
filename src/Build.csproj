@@ -12,6 +12,7 @@
     <Compile Remove="BuildScript\NetCore2.0\**" />
     <Compile Remove="BuildScript\NetCore3.1\**" />
     <Compile Remove="build\**" />
+    <Compile Remove="Deploy\**" />
     <Compile Remove="dotnet-flubu\**" />
     <Compile Remove="Flubu.SystemTests\**" />
     <Compile Remove="Flubu.Tests\**" />
@@ -49,6 +50,7 @@
     <EmbeddedResource Remove="BuildScript\NetCore2.0\**" />
     <EmbeddedResource Remove="BuildScript\NetCore3.1\**" />
     <EmbeddedResource Remove="build\**" />
+    <EmbeddedResource Remove="Deploy\**" />
     <EmbeddedResource Remove="dotnet-flubu\**" />
     <EmbeddedResource Remove="Flubu.SystemTests\**" />
     <EmbeddedResource Remove="Flubu.Tests\**" />
@@ -86,6 +88,7 @@
     <None Remove="BuildScript\NetCore2.0\**" />
     <None Remove="BuildScript\NetCore3.1\**" />
     <None Remove="build\**" />
+    <None Remove="Deploy\**" />
     <None Remove="dotnet-flubu\**" />
     <None Remove="Flubu.SystemTests\**" />
     <None Remove="Flubu.Tests\**" />
