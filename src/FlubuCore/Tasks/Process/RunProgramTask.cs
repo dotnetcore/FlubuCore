@@ -249,15 +249,7 @@ namespace FlubuCore.Tasks.Process
             }
 
             DoLogInfo($"Running program from '{workingFolder}':");
-
-            if (command.CommandName != null && command.CommandName.Contains("cmd.exe"))
-            {
-                DoLogInfo($"{command.CommandName} {cmd}{commandArgs}{Environment.NewLine}", Color.DarkCyan);
-            }
-            else
-            {
-                DoLogInfo($"{command.CommandName}{commandArgs}{Environment.NewLine}", Color.DarkCyan);
-            }
+            DoLogInfo($"{cmd}{commandArgs}{Environment.NewLine}", Color.DarkCyan);
 
             int res = command.Execute()
                 .ExitCode;
