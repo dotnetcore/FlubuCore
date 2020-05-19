@@ -20,7 +20,8 @@ namespace FlubuCore.WebApi.Repository
 
         public ISerilogRepository CreateSerilogRepository()
         {
-            return new SerilogRepository(_liteRepositoryFactory.CreateLiteDatabase($"Logs/log_{_timeProvider.Now.Date:yyyy-dd-M}.db"));
+            var connStr = $"FileName=Logs/log_{_timeProvider.Now.Date:yyyy-dd-M}.db;Upgrade=true;Connection=Shared";
+            return new SerilogRepository(_liteRepositoryFactory.CreateLiteDatabase(connStr));
         }
     }
 }
