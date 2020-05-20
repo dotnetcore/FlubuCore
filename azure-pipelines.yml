@@ -16,7 +16,7 @@
           displayName: test
           steps:
           - script: flubu test
-    - stage: linux-ubuntu
+    - stage: linux_ubuntu
       displayName: 'Linux-Ubuntu'
       pool:
         vmImage: 'ubuntu-latest'
