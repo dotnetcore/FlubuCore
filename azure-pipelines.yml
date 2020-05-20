@@ -1,62 +1,30 @@
-  stages:
-    - stage: windows
-      displayName: 'Windows'
-      pool:
-        vmImage: 'windows-latest'
-      jobs:
-        - job: init
-          displayName: init      
-          steps:
-          - script: dotnet restore Build.csproj
-            workingDirectory: src
-        - job: compile
-          displayName: compile
-          dependsOn: [ init ]
-          steps:
-          - script: dotnet flubu compile
-            workingDirectory: src
-        - job: test
-          displayName: test
-          dependsOn: [ compile ]
-          steps:
-          - script: dotnet flubu test
-            workingDirectory: src
-    - stage: linux_ubuntu
-      displayName: 'Linux-Ubuntu'
-      pool:
-        vmImage: 'ubuntu-latest'
-      jobs:
-        - job: init
-          displayName: init
-          steps:
-          - script: dotnet tool install --global FlubuCore.GlobalTool --version 5.1.8
-        - job: compile
-          displayName: compile
-          dependsOn: [ init ]
-          steps:
-          - script: flubu compile.linux
-        - job: test
-          displayName: test
-          dependsOn: [ compile ]
-          steps:
-          - script: flubu test.linux    
-    - stage: macOS
-      displayName: 'macOS'
-      pool:
-        vmImage: 'macOS-latest'
-      jobs:
-        - job: init
-          displayName: init
-          steps:
-          - script: dotnet tool install --global FlubuCore.GlobalTool --version 5.1.8
-        - job: compile
-          displayName: compile
-          dependsOn: [ init ]
-          steps:
-          - script: flubu compile.linux
-        - job: test
-          displayName: test
-          dependsOn: [ compile ]
-          steps:
-          - script: flubu test.linux 
+variables:
+  flubuVersion: 5.1.8
+
+jobs:    
+
+- job: Windows
+  pool:
+    vmImage: 'windows-latest'
+  
+  steps:
+
+  - task: DotNetCoreInstaller@1
+    displayName: install
+    inputs:
+      version: '3.1.100'      
+
+
+  - task: DotNetCoreCLI@1
+    displayName: initialize flubu
+    inputs:
+      command: custom
+      custom: tool
+      arguments: install -g FlubuCore.GlobalTool --version $(flubuVersion)
+  - task: DotNetCoreCLI@1
+    displayName: initialize flubu
+    inputs:
+      command: custom
+      custom: flubu
+      arguments: compile  
 
