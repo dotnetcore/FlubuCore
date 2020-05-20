@@ -1,0 +1,53 @@
+  stages:
+    - stage: windows
+      displayName: 'Windows'
+      pool:
+        vmImage: 'windows-latest'
+      jobs:
+        - job: init
+          displayName: init
+          steps:
+          - script: dotnet tool install --global FlubuCore.GlobalTool --version 5.1.8
+        - job: compile
+          displayName: compile
+          steps:
+          - script: flubu compile
+        - job: test
+          displayName: test
+          steps:
+          - script: flubu test
+    - stage: linux-ubuntu
+      displayName: 'Linux-Ubuntu'
+      pool:
+        vmImage: 'ubuntu-latest'
+      jobs:
+        - job: init
+          displayName: init
+          steps:
+          - script: dotnet tool install --global FlubuCore.GlobalTool --version 5.1.8
+        - job: compile
+          displayName: compile
+          steps:
+          - script: flubu compile.linux
+        - job: test
+          displayName: test
+          steps:
+          - script: flubu test.linux    
+    - stage: macOS
+      displayName: 'macOS'
+      pool:
+        vmImage: 'macOS-latest'
+      jobs:
+        - job: init
+          displayName: init
+          steps:
+          - script: dotnet tool install --global FlubuCore.GlobalTool --version 5.1.8
+        - job: compile
+          displayName: compile
+          steps:
+          - script: flubu compile.linux
+        - job: test
+          displayName: test
+          steps:
+          - script: flubu test.linux 
+
