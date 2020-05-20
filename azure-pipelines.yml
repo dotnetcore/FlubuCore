@@ -14,17 +14,11 @@ jobs:
     inputs:
       version: '3.1.100'      
 
+  - script: dotnet tool install --global FlubuCore.GlobalTool --version 5.1.8
+    displayName: 'install flubu'
 
-  - task: DotNetCoreCLI@1
-    displayName: initialize flubu
-    inputs:
-      command: custom
-      custom: tool
-      arguments: install -g FlubuCore.GlobalTool --version $(flubuVersion)
-  - task: DotNetCoreCLI@1
-    displayName: compile
-    inputs:
-      command: custom
-      custom: flubu
-      arguments: compile  
+  - script: flubu compile
+    displayName: Compile
+    workingDirectory: src
+   
 
