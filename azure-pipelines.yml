@@ -10,7 +10,7 @@ jobs:
   steps:
 
   - task: DotNetCoreInstaller@1
-    displayName: install
+    displayName: install Sdk
     inputs:
       version: '3.1.100'      
 
@@ -22,7 +22,7 @@ jobs:
       custom: tool
       arguments: install -g FlubuCore.GlobalTool --version $(flubuVersion)
   - task: DotNetCoreCLI@1
-    displayName: initialize flubu
+    displayName: compile
     inputs:
       command: custom
       custom: flubu
