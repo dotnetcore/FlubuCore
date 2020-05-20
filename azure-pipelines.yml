@@ -5,19 +5,22 @@
         vmImage: 'windows-latest'
       jobs:
         - job: init
-          displayName: init
+          displayName: init      
           steps:
-          - script: dotnet tool install --global FlubuCore.GlobalTool --version 5.1.8
+          - script: dotnet restore Build.csproj
+            workingDirectory: src
         - job: compile
           displayName: compile
           dependsOn: [ init ]
           steps:
-          - script: flubu compile
+          - script: dotnet flubu compile
+            workingDirectory: src
         - job: test
           displayName: test
           dependsOn: [ compile ]
           steps:
-          - script: flubu test
+          - script: dotnet flubu test
+            workingDirectory: src
     - stage: linux_ubuntu
       displayName: 'Linux-Ubuntu'
       pool:
