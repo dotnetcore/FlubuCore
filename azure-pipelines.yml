@@ -20,5 +20,50 @@ jobs:
   - script: flubu compile
     displayName: Compile
     workingDirectory: src
-   
 
+  - script: flubu test
+    displayName: Tests
+    workingDirectory: src
+
+- job: Ubuntu
+  pool:
+    vmImage: 'ubuntu-latest'
+  
+  steps:
+
+  - task: DotNetCoreInstaller@1
+    displayName: install Sdk
+    inputs:
+      version: '3.1.100'      
+
+  - script: dotnet tool install --global FlubuCore.GlobalTool --version 5.1.8
+    displayName: 'install flubu'
+
+  - script: flubu compile
+    displayName: Compile.linux
+    workingDirectory: src
+
+  - script: flubu test.linux
+    displayName: Tests
+    workingDirectory: src
+- job: MacOS
+  pool:
+    vmImage: 'macOS-latest'
+  
+  steps:
+
+  - task: DotNetCoreInstaller@1
+    displayName: install Sdk
+    inputs:
+      version: '3.1.100'      
+
+  - script: dotnet tool install --global FlubuCore.GlobalTool --version 5.1.8
+    displayName: 'install flubu'
+
+  - script: flubu compile
+    displayName: Compile.linux
+    workingDirectory: src
+
+  - script: flubu test.linux
+    displayName: Tests
+    workingDirectory: src
