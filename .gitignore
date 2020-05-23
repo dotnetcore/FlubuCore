@@ -139,3 +139,7 @@ src/GlobalToolTest/.vs/
 src/FlubuCore.ConsoleTestApp/.vs/
 src/FlubuCore.ConsoleTestApp/bin/
 src/FlubuCore.ConsoleTestApp/obj/
+src/FlubuCore.Tool/bin/
+src/FlubuCore.Tool/obj/
+src/FlubuCore.WebApi.Client/.vs/FlubuCore.WebApi.Client/v16/.suo
+src/FlubuCore.WebApi.Client/.vs/

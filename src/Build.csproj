@@ -29,6 +29,7 @@
     <Compile Remove="FlubuCore.TaskGenerator.Tests\**" />
     <Compile Remove="FlubuCore.TaskGenerator\**" />
     <Compile Remove="FlubuCore.Tests\**" />
+    <Compile Remove="FlubuCore.Tool\**" />
     <Compile Remove="FlubuCore.WebApi.Client\**" />
     <Compile Remove="FlubuCore.WebApi.Model\**" />
     <Compile Remove="FlubuCore.WebApi.Tests\**" />
@@ -64,6 +65,7 @@
     <EmbeddedResource Remove="FlubuCore.TaskGenerator.Tests\**" />
     <EmbeddedResource Remove="FlubuCore.TaskGenerator\**" />
     <EmbeddedResource Remove="FlubuCore.Tests\**" />
+    <EmbeddedResource Remove="FlubuCore.Tool\**" />
     <EmbeddedResource Remove="FlubuCore.WebApi.Client\**" />
     <EmbeddedResource Remove="FlubuCore.WebApi.Model\**" />
     <EmbeddedResource Remove="FlubuCore.WebApi.Tests\**" />
@@ -99,6 +101,7 @@
     <None Remove="FlubuCore.TaskGenerator.Tests\**" />
     <None Remove="FlubuCore.TaskGenerator\**" />
     <None Remove="FlubuCore.Tests\**" />
+    <None Remove="FlubuCore.Tool\**" />
     <None Remove="FlubuCore.WebApi.Client\**" />
     <None Remove="FlubuCore.WebApi.Model\**" />
     <None Remove="FlubuCore.WebApi.Tests\**" />
