@@ -5,10 +5,10 @@
 
 # FlubuCore
 
-[![Build Status](https://travis-ci.org/dotnetcore/FlubuCore.svg?branch=develop)](https://travis-ci.org/dotnetcore/FlubuCore)
+[![Build Status](https://travis-ci.org/dotnetcore/FlubuCore.svg?branch=master)](https://travis-ci.org/dotnetcore/FlubuCore)
 [![NuGet Badge](https://buildstats.info/nuget/flubucore)](https://www.nuget.org/packages/FlubuCore/)
 [![Gitter](https://img.shields.io/gitter/room/FlubuCore/Lobby.svg)](https://gitter.im/FlubuCore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Member project of .NET Foundation](https://img.shields.io/badge/.NET-Foundation-68217a.svg)](https://dotnetfoundation.org/)
+[![Member project of .NET Foundation](https://img.shields.io/badge/.NET-Foundation-68217a.svg)](https://dotnetfoundation.org/projects/flubucore)
 [![Member project of .NET Core Community](https://img.shields.io/badge/member%20project%20of-NCC-9e20c9.svg)](https://github.com/dotnetcore)
 [![License](https://img.shields.io/github/license/dotnetcore/FlubuCore.svg)](https://github.com/dotnetcore/FlubuCore/blob/master/LICENSE)
 
@@ -30,7 +30,7 @@ FlubuCore offers a .net (core) console application that uses power of roslyn to 
 
 * FlubuCore runner (.NET 4.62+)  ``` flubu.exe Default ```
 * FlubuCore dotnet cli tool (.NET Core 1.0+) ``` dotnet flubu Default ```
-* FlubuCore global tool (.NET Core 2.1+) ``` flubu Default ```
+* FlubuCore local or global tool (.NET Core 2.1+) ``` flubu Default ```
 ## Features and Advantages
 
 * Intuitive an easy to learn. C#, fluent interface, and IntelliSense make even most complex script creation a breeze.
@@ -49,8 +49,7 @@ FlubuCore offers a .net (core) console application that uses power of roslyn to 
                 .WithArguments("--force"); //you can add your own custom arguments on each task
 
         var branch = context.BuildSystems().Travis().Branch;
-
-        //// Examine travis.yaml to see how to pass api key from travis to FlubuCore build script.
+       
         var nugetPush = context.CreateTarget("Nuget.publish")
             .SetDescription("Publishes nuget package.")
             .DependsOn(pack)
@@ -174,10 +173,10 @@ context.CreateTarget("Run.Libz")
 
    flubu would execute `dotnet build MySolution.sln --configuration Debug`    
 
-* [Full .NET Core support including the global CLI tool](https://flubucore.dotnetcore.xyz/getting-started#getting-started-net-core)
+* [Full .NET Core support including the local and global CLI tool](https://flubucore.dotnetcore.xyz/getting-started#getting-started-net-core)
 
     ```
-    dotnet tool install --global FlubuCore.GlobalTool
+    dotnet tool install --global FlubuCore.Tool
     flubu compile
     ```
     
@@ -230,7 +229,8 @@ These examples will help you to get quickly start with FlubuCore:
 
 * [Open source library example](https://github.com/dotnetcore/FlubuCore.Examples/blob/master/NetCoreOpenSource/Build/BuildScript.cs) - Example covers versioning, building the project, running tests and publishing nuget package. It also covers how to run build script on Appveyor and Travis CI.
 ## Have a question?
- First go through [documentation](https://flubucore.dotnetcore.xyz/) and [FAQ](https://flubucore.dotnetcore.xyz/FAQ/faq/) if you don't find your answer there open an issue with a question or join us on [gitter.](https://gitter.im/FlubuCore/Lobby)
+
+ [![Join the chat at https://gitter.im/FlubuCore/Lobby](https://badges.gitter.im/mbdavid/LiteDB.svg)](https://gitter.im/FlubuCore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## Contributing
 

@@ -75,7 +75,7 @@ project.json:
 #### 在全局工具中运行构建脚本
 
 - 必须先安装 .net core sdk 2.1.300 或更高版本；
-- 安装 FlubuCore 全局工具：`dotnet tool install --global FlubuCore.GlobalTool`；
+- 安装 FlubuCore 全局工具：`dotnet tool install --global FlubuCore.Tool`；
 - 在构建脚本所在的目录下运行 `flubu compile`，本命令将编译你的解决方案。
 
 这是个非常基础的构建脚本，目的是帮你快速入门。FlubuCore 已为你提供了许多棒极了的功能。你可以到 [Build script fundamentals] 阅读更多，或者移步 [.net core examples] 查看大多数主要功能的用法。同时建议你查看 [FlubuCore 交互模式](build-script-runner-interactive.md)和[覆盖现有选项或通过控制台向任务添加其他选项](override-add-options.md)一节。

@@ -14,7 +14,7 @@ jobs:
     inputs:
       version: '3.1.100'      
 
-  - script: dotnet tool install --global FlubuCore.GlobalTool --version 5.1.8
+  - script: dotnet tool install --global FlubuCore.Tool --version 5.1.8
     displayName: 'install flubu'
 
   - script: flubu compile
@@ -36,7 +36,7 @@ jobs:
     inputs:
       version: '3.1.100'      
 
-  - script: dotnet tool install --global FlubuCore.GlobalTool --version 5.1.8
+  - script: dotnet tool install --global FlubuCore.Tool --version 5.1.8
     displayName: 'install flubu'
 
   - script: flubu compile.linux
@@ -57,7 +57,7 @@ jobs:
     inputs:
       version: '3.1.100'      
 
-  - script: dotnet tool install --global FlubuCore.GlobalTool --version 5.1.8
+  - script: dotnet tool install --global FlubuCore.Tool --version 5.1.8
     displayName: 'install flubu'
 
   - script: flubu compile.linux

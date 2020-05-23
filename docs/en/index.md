@@ -1,9 +1,9 @@
 # FlubuCore
-[![Travis](https://img.shields.io/travis/dotnetcore/FlubuCore.svg?branch=develop&?style=flat-square&label=build)](https://travis-ci.org/dotnetcore/FlubuCore)
+[![Travis](https://img.shields.io/travis/dotnetcore/FlubuCore.svg?branch=maste&?style=flat-square&label=build)](https://travis-ci.org/dotnetcore/FlubuCore)
 [![NuGet Badge](https://buildstats.info/nuget/flubucore)](https://www.nuget.org/packages/FlubuCore/)
 [![Gitter](https://img.shields.io/gitter/room/FlubuCore/Lobby.svg)](https://gitter.im/FlubuCore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Twitter](https://img.shields.io/badge/twitter-flubucore-brightgreen.svg?logo=twitter)](https://twitter.com/FlubuC)
-[![Member project of .NET Foundation](https://img.shields.io/badge/.NET-Foundation-68217a.svg)](https://dotnetfoundation.org/)
+[![Member project of .NET Foundation](https://img.shields.io/badge/.NET-Foundation-68217a.svg)](https://dotnetfoundation.org/projects/flubucore)
 [![Member project of .NET Core Community](https://img.shields.io/badge/member%20project%20of-NCC-9e20c9.svg)](https://github.com/dotnetcore)
 [![License](https://img.shields.io/github/license/dotnetcore/FlubuCore.svg)](https://github.com/dotnetcore/FlubuCore/blob/master/LICENSE)
 
@@ -16,7 +16,7 @@ FlubuCore offers a .net (core) console application that uses power of roslyn to 
 
 * FlubuCore runner  ``` flubu.exe Default ```
 * FlubuCore dotnet cli tool ``` dotnet flubu Default ```
-* FlubuCore global tool ``` flubu Default ```
+* FlubuCore local or global tool ``` flubu Default ```
 
 ## **Features and Advantages**
 

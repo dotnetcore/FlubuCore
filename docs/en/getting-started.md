@@ -65,10 +65,10 @@ project.json:
 - Run `dotnet flubu compile` This command will compile your solution.
 
 <a name="Run-build-script-core-with-global-tool"></a>
-#### Run build script in .NET core with global tool
+#### Run build script in .NET core with local or global tool
 
 - .net core sdk 2.1.300 or greater must be installed.
-- Install FlubuCore global tool: `dotnet tool install --global FlubuCore.GlobalTool`
+- Install FlubuCore local or global tool: `dotnet tool install --global FlubuCore.Tool`
 - Run `flubu compile` where build script is located. It will compile your solution.
 
 This is very basic build script just for you to see how simple it is to get you started. FlubuCore has to offer a lot of nice features. Read more about them at [Build script fundamentals]. 
