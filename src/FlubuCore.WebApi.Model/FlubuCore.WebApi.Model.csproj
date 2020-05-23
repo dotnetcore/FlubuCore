@@ -6,6 +6,7 @@
   <AssemblyName>FlubuCore.WebApi.Model</AssemblyName>
   <PackageId>FlubuCore.WebApi.Model</PackageId>
   <PackageTags>dotnet;flubu;build;builder;script;buildscript;automation;VisualStudio</PackageTags>
+  <Authors>Marko Zorec;Zoro Zorec;Micheal Tsai</Authors>
   <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
   <PackageProjectUrl>https://github.com/dotnetcore/FlubuCore</PackageProjectUrl>
   <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
