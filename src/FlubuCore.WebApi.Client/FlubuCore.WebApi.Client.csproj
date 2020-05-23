@@ -5,6 +5,7 @@
     <AssemblyName>FlubuCore.WebApi.Client</AssemblyName>
     <WarningsAsErrors>true</WarningsAsErrors>
     <PackageId>FlubuCore.WebApi.Client</PackageId>
+    <Authors>Marko Zorec;Zoro Zorec;Micheal Tsai</Authors>
     <PackageTags>dotnet;flubu;build;builder;script;buildscript;automation;VisualStudio</PackageTags>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/FlubuCore</PackageProjectUrl>

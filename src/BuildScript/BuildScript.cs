@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using FlubuCore.Commanding;
 using FlubuCore.Context;
@@ -20,6 +21,17 @@ public class  BuildScript : DefaultBuildScript
     [SolutionFileName] public string SolutionFileName { get; set; } = "flubu.sln";
 
     [BuildConfiguration] public string BuildConfiguration { get; set; } = "Release";
+
+    List<string> _projectsToPack = new List<string>()
+    {
+        "FlubuCore.WebApi.Model",
+        "FlubuCore.WebApi.Client",
+        "FlubuCore",
+        "dotnet-flubu",
+        "FlubuCore.Tool",
+        "FlubuCore.GlobalTool",
+        "FlubuCore.Analyzers",
+    };
 
     protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
     {
@@ -44,25 +56,14 @@ public class  BuildScript : DefaultBuildScript
             .DependsOn(buildVersion);
 
         var pack = context.CreateTarget("pack")
-            .SetDescription("Packs flubu componets for nuget publishing.")
-            .AddCoreTask(x => x.Pack()
-                .Project("FlubuCore.WebApi.Model").IncludeSymbols()
-                .OutputDirectory(Output))
-            .AddCoreTask(x => x.Pack()
-                .Project("FlubuCore.WebApi.Client").IncludeSymbols()
-                .OutputDirectory(Output))
-            .AddCoreTask(x => x.Pack().IncludeSymbols()
-                .Project("FlubuCore")
-                .OutputDirectory(Output))
-            .AddCoreTask(x => x.Pack()
-                .Project("dotnet-flubu").IncludeSymbols()
-                .OutputDirectory(Output))
-            .AddCoreTask(x => x.Pack()
-                .Project("FlubuCore.GlobalTool").IncludeSymbols()
-                .OutputDirectory(Output))
-            .AddCoreTask(x => x.Pack()
-                .Project("FlubuCore.Analyzers").IncludeSymbols()
-                .OutputDirectory(Output))
+            .SetDescription("Packs flubu components for nuget publishing.")
+            .ForEach(_projectsToPack, (project, target) =>
+                {
+                    target.AddCoreTask(x => x.Pack()
+                        .Project(project)
+                        .IncludeSymbols()
+                        .OutputDirectory(Output));
+                })
             .DependsOn(buildVersion);
 
         var publishWebApi = context.CreateTarget("Publish.WebApi")
@@ -189,6 +190,11 @@ public class  BuildScript : DefaultBuildScript
 
         context.CoreTasks().NugetPush(Output.CombineWith($"dotnet-flubu.{nugetVersion}.nupkg"))
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish dotnet-flubu. exception: {e.Message}"); })
+            .ServerUrl("https://www.nuget.org/api/v2/package")
+            .ApiKey(NugetApiKey).Execute(context);
+
+        context.CoreTasks().NugetPush(Output.CombineWith($"FlubuCore.Tool.{nugetVersion}.nupkg"))
+            .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.GlobalTool. exception: {e.Message}"); })
             .ServerUrl("https://www.nuget.org/api/v2/package")
             .ApiKey(NugetApiKey).Execute(context);
 

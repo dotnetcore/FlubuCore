@@ -34,6 +34,7 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.ConsoleTestApp", "FlubuCore.ConsoleTestApp\FlubuCore.ConsoleTestApp.csproj", "{972E6797-8E9F-469B-8E94-B8078665F8E3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deploy", "Deploy\Deploy.csproj", "{C196E4DB-64BB-4B0B-8344-8DF6C236E649}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.Tool", "FlubuCore.Tool\FlubuCore.Tool.csproj", "{1EC21B6A-AE85-467F-BFE4-956E3245B1E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -201,6 +202,7 @@ Global
 		{972E6797-8E9F-469B-8E94-B8078665F8E3}.Release|x64.Build.0 = Release|Any CPU
 		{972E6797-8E9F-469B-8E94-B8078665F8E3}.Release|x86.ActiveCfg = Release|Any CPU
 		{972E6797-8E9F-469B-8E94-B8078665F8E3}.Release|x86.Build.0 = Release|Any CPU
+<<<<<<< HEAD
 		{C196E4DB-64BB-4B0B-8344-8DF6C236E649}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C196E4DB-64BB-4B0B-8344-8DF6C236E649}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C196E4DB-64BB-4B0B-8344-8DF6C236E649}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -213,6 +215,20 @@ Global
 		{C196E4DB-64BB-4B0B-8344-8DF6C236E649}.Release|x64.Build.0 = Release|Any CPU
 		{C196E4DB-64BB-4B0B-8344-8DF6C236E649}.Release|x86.ActiveCfg = Release|Any CPU
 		{C196E4DB-64BB-4B0B-8344-8DF6C236E649}.Release|x86.Build.0 = Release|Any CPU
+=======
+		{1EC21B6A-AE85-467F-BFE4-956E3245B1E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EC21B6A-AE85-467F-BFE4-956E3245B1E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EC21B6A-AE85-467F-BFE4-956E3245B1E8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1EC21B6A-AE85-467F-BFE4-956E3245B1E8}.Debug|x64.Build.0 = Debug|Any CPU
+		{1EC21B6A-AE85-467F-BFE4-956E3245B1E8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1EC21B6A-AE85-467F-BFE4-956E3245B1E8}.Debug|x86.Build.0 = Debug|Any CPU
+		{1EC21B6A-AE85-467F-BFE4-956E3245B1E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EC21B6A-AE85-467F-BFE4-956E3245B1E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EC21B6A-AE85-467F-BFE4-956E3245B1E8}.Release|x64.ActiveCfg = Release|Any CPU
+		{1EC21B6A-AE85-467F-BFE4-956E3245B1E8}.Release|x64.Build.0 = Release|Any CPU
+		{1EC21B6A-AE85-467F-BFE4-956E3245B1E8}.Release|x86.ActiveCfg = Release|Any CPU
+		{1EC21B6A-AE85-467F-BFE4-956E3245B1E8}.Release|x86.Build.0 = Release|Any CPU
+>>>>>>> d5cedcc9c2f913d7c0479665a93434f8ba465125
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
