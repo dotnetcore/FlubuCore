@@ -78,6 +78,17 @@ namespace FlubuCore.Context
             return context.Get<BuildVersion>(BuildProps.BuildVersion, null);
         }
 
+        public static BuildVersion SetBuildVersion(this IBuildPropertiesSession context, BuildVersion version)
+        {
+            context.Set(BuildProps.BuildVersion, version);
+            return version;
+        }
+
+        public static BuildVersion SetBuildVersion(this IBuildPropertiesSession context, int major, int minor, int build, int revision)
+        {
+            return context.SetBuildVersion(new BuildVersion(new Version(major, minor, build, revision)));
+        }
+
         [Obsolete("Use GetBuildVersion() method instead.", true)]
         public static BuildVersion GetBuildVersionWithQuality(this IBuildPropertiesSession context)
         {
@@ -95,10 +106,15 @@ namespace FlubuCore.Context
             return context.TryGet<string>(BuildProps.BuildVersionQuality);
         }
 
-        public static BuildVersion SetBuildVersion(this ITaskContextInternal context, BuildVersion version)
+        public static BuildVersion SetBuildVersion(this ITaskContext context, BuildVersion version)
         {
-            context.Properties.Set(BuildProps.BuildVersion, version);
+            context.Properties.SetBuildVersion(version);
             return version;
+        }
+
+        public static BuildVersion SetBuildVersion(this ITaskContext context, int major, int minor, int build, int revision)
+        {
+            return context.Properties.SetBuildVersion(major, minor, build, revision);
         }
 
         /// <summary>
