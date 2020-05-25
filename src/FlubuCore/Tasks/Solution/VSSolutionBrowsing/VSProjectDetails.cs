@@ -36,6 +36,8 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         /// <value>A read-only collection of project properties.</value>
         public IDictionary<string, string> Properties => _properties;
 
+        public bool IsNetCoreProjectType { get; private set; }
+
         /// <summary>
         /// Loads the specified project file name.
         /// </summary>
@@ -142,6 +144,12 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
 
         private void ReadProject(string projectName, XmlReader xmlReader)
         {
+            var sdk = xmlReader.GetAttribute("Sdk");
+            if (!string.IsNullOrEmpty(sdk))
+            {
+                IsNetCoreProjectType = true;
+            }
+
             xmlReader.Read();
 
             while (xmlReader.NodeType != XmlNodeType.EndElement && xmlReader.EOF == false)

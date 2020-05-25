@@ -23,16 +23,35 @@
     <Content Include="TestData\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="TestData\ProjectFiles\ClassLibNetStandard.csproj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\ProjectFiles\ConsoleCoreProject.csproj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestData\ProjectFiles\UpdateNetCoreVersion.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestData\ProjectFiles\UpdateNetCoreVersion2.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Remove="TestData\ConsoleCoreProject\bin\**" />
+    <Content Remove="TestData\ConsoleCoreProject\obj\**" />
+    <Content Remove="TestData\ClassLibNetStandard\bin\**" />
+    <Content Remove="TestData\ClassLibNetStandard\obj\**" />
+    <Content Remove="TestData\ClassLibNetStandard\**" />
+    <Content Remove="TestData\ConsoleCoreProject\**" />
   </ItemGroup>
  
   <ItemGroup>
     <Compile Remove="TestData\BuildScripts\ForCreateTargetWithAttributes\BuildScriptParameterTypeMismatch.cs" />
+    <Compile Remove="TestData\ConsoleCoreProject\bin\**" />
+    <Compile Remove="TestData\ConsoleCoreProject\obj\**" />
+    <Compile Remove="TestData\ClassLibNetStandard\bin\**" />
+    <Compile Remove="TestData\ClassLibNetStandard\obj\**" />
+    <Compile Remove="TestData\ConsoleCoreProject\Program.cs" />
+    <Compile Remove="TestData\ClassLibNetStandard\**" />
+    <Compile Remove="TestData\ConsoleCoreProject\**" />
   </ItemGroup>
  
   <ItemGroup>
@@ -40,6 +59,12 @@
     <None Remove="appsettings2.json" />
     <None Remove="TestData\Flubu.ProjectVersionWithVersionQuality.txt" />
     <None Remove="TestData\ReleaseNotes.md" />
+    <None Remove="TestData\ConsoleCoreProject\bin\**" />
+    <None Remove="TestData\ConsoleCoreProject\obj\**" />
+    <None Remove="TestData\ClassLibNetStandard\bin\**" />
+    <None Remove="TestData\ClassLibNetStandard\obj\**" />
+    <None Remove="TestData\ClassLibNetStandard\**" />
+    <None Remove="TestData\ConsoleCoreProject\**" />
   </ItemGroup>
  
   <ItemGroup>
@@ -78,5 +103,13 @@
     <None Include="TestData\ProjectFiles\Build.csproj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="TestData\ConsoleCoreProject\bin\**" />
+    <EmbeddedResource Remove="TestData\ConsoleCoreProject\obj\**" />
+    <EmbeddedResource Remove="TestData\ClassLibNetStandard\bin\**" />
+    <EmbeddedResource Remove="TestData\ClassLibNetStandard\obj\**" />
+    <EmbeddedResource Remove="TestData\ClassLibNetStandard\**" />
+    <EmbeddedResource Remove="TestData\ConsoleCoreProject\**" />
   </ItemGroup>
 </Project>

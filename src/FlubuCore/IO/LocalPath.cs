@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FlubuCore.IO
 {
@@ -14,35 +11,23 @@ namespace FlubuCore.IO
         {
             if (Path.IsPathRooted(path))
             {
-                throw new ArgumentException("Path must be local", "path");
+                throw new ArgumentException("Path must be local", nameof(path));
             }
 
             _localPath = path;
         }
 
-        public string FileName
-        {
-            get { return Path.GetFileName(_localPath); }
-        }
+        public string FileName => Path.GetFileName(_localPath);
 
-        public LocalPath Flatten
-        {
-            get { return new LocalPath(FileName); }
-        }
+        public LocalPath Flatten => new LocalPath(FileName);
 
-        public int Length
-        {
-            get { return _localPath.Length; }
-        }
+        public int Length => _localPath.Length;
 
         /// <summary>
         /// Gets the path that is a parent to the current path in this object.
         /// </summary>
         /// <value>The parent path.</value>
-        public LocalPath ParentPath
-        {
-            get { return new LocalPath(Path.GetDirectoryName(_localPath)); }
-        }
+        public LocalPath ParentPath => new LocalPath(Path.GetDirectoryName(_localPath));
 
         public static implicit operator string(LocalPath path)
         {

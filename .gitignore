@@ -139,3 +139,7 @@ src/GlobalToolTest/.vs/
 src/FlubuCore.ConsoleTestApp/.vs/
 src/FlubuCore.ConsoleTestApp/bin/
 src/FlubuCore.ConsoleTestApp/obj/
+/src/FlubuCore.Tests/TestData/.vs
+/src/FlubuCore.Tests/TestData/TestCsProj.csproj.user
+/src/FlubuCore.Tests/TestData/obj/Debug
+/src/flubu.sln.DotSettings.user

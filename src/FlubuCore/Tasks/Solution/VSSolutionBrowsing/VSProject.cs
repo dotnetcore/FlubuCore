@@ -38,13 +38,7 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         /// Gets the path to the directory where the project file is located.
         /// </summary>
         /// <value>The project directory path.</value>
-        public FullPath ProjectDirectoryPath
-        {
-            get
-            {
-                return OwnerSolution.SolutionDirectoryPath.CombineWith(ProjectFileName).ParentPath;
-            }
-        }
+        public FullPath ProjectDirectoryPath => OwnerSolution.SolutionDirectoryPath.CombineWith(ProjectFileName).ParentPath;
 
         /// <summary>
         /// Gets the name of the project file. The file name is relative to the solution's directory.

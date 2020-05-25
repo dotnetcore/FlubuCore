@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FlubuCore.Context;
 using FlubuCore.IO.Wrappers;
+using FlubuCore.Tasks.Solution.VSSolutionBrowsing;
 using FlubuCore.Tasks.Text;
 
 namespace FlubuCore.Tasks.Versioning
@@ -23,6 +25,8 @@ namespace FlubuCore.Tasks.Versioning
         private int? _packageVersionFieldCount;
 
         private int? _versionFieldCount;
+
+        private bool _updateAllCoreProjects;
 
         public UpdateNetCoreVersionTask(IPathWrapper pathWrapper, IFileWrapper filWrapper, string file)
         {
@@ -120,6 +124,16 @@ namespace FlubuCore.Tasks.Versioning
             return this;
         }
 
+        /// <summary>
+        /// Update all .net core projects in solution.
+        /// </summary>
+        /// <returns></returns>
+        public UpdateNetCoreVersionTask UpdateAllCoreProjects()
+        {
+            _updateAllCoreProjects = true;
+            return this;
+        }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             if (_version == null)
@@ -130,6 +144,20 @@ namespace FlubuCore.Tasks.Versioning
             if (_version == null || _version.Version == null)
             {
                 throw new TaskExecutionException("Version is not set!", 1);
+            }
+
+            if (_updateAllCoreProjects)
+            {
+                VSSolution solution = context.GetVsSolution();
+
+                if (solution == null)
+                {
+                    throw new KeyNotFoundException($"Task context property VsSolution must be set for task {TaskName}. Execute LoadSolutionTask before this task.");
+                }
+
+                var projects = solution.Projects.Where(i => i.ProjectDetails.IsNetCoreProjectType).ToList();
+
+                _files.AddRange(projects.Select(i => i.ProjectFileName.ToString()));
             }
 
             DoLogInfo($"Update version to {_version.Version}");
