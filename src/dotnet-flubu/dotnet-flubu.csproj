@@ -6,6 +6,7 @@
     <OutputType>Exe</OutputType>
     <PackageId>dotnet-flubu</PackageId>
     <PackageTags>dotnet;flubu;flubucore;build;builder;script;buildscript;automation;VisualStudio</PackageTags>
+    <Authors>Marko Zorec;Zoro Zorec;Micheal Tsai</Authors>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dotnetcore/FlubuCore</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/dotnetcore/FlubuCore/blob/master/CHANGELOG.md</PackageReleaseNotes>
