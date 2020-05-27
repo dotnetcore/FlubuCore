@@ -86,7 +86,7 @@ namespace FlubuCore.Tests.Scripting
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),
                 new BuildPropertiesSession(targetTree),
-                new BuildSystem()));
+                new BuildServer()));
         }
 
         [Fact]
@@ -141,7 +141,7 @@ namespace FlubuCore.Tests.Scripting
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),
                 new BuildPropertiesSession(targetTree),
-                new BuildSystem()));
+                new BuildServer()));
         }
 
         [Fact]
@@ -190,7 +190,7 @@ namespace FlubuCore.Tests.Scripting
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),
                 new BuildPropertiesSession(targetTree),
-                new BuildSystem()));
+                new BuildServer()));
         }
     }
 }

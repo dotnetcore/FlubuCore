@@ -1,7 +1,7 @@
 ﻿using System;
 using FlubuCore.Infrastructure;
 
-namespace FlubuCore.Context.BuildServers
+namespace FlubuCore.BuildServers
 {
     public class TeamCity
     {

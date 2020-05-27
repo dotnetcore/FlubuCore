@@ -38,8 +38,8 @@ namespace FlubuCore.Infrastructure
         public FlubuConsoleLogger(string name)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
-            BuildSystem buildSystem = new BuildSystem();
-            ColorfulConsole = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && buildSystem.IsLocalBuild
+            BuildServer buildServer = new BuildServer();
+            ColorfulConsole = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && buildServer.IsLocalBuild
                 ? (IColorfulConsole)new WindowsConsole() : new AnsiConsole();
 
             _stopwatch.Start();

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FlubuCore.Context
 {
-    public enum BuildSystemType
+    public enum BuildServerType
     {
         AppVeyor,
         Bamboo,

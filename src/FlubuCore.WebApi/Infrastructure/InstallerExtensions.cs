@@ -50,7 +50,7 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddSingleton<FlubuCore.Infrastructure.IHttpClientFactory, FlubuCore.Infrastructure.HttpClientFactory>()
                 .AddSingleton<IScriptProperties, ScriptProperties>()
                 .AddSingleton<ITargetCreator, TargetCreator>()
-                .AddSingleton<IBuildSystem, BuildSystem>()
+                .AddSingleton<IBuildServer, BuildServer>()
                 .AddScoped<IBuildPropertiesSession, BuildPropertiesSession>()
                 .AddScoped<TargetTree>()
                 .AddScoped<IFlubuSession, FlubuSession>()

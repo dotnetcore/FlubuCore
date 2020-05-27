@@ -1,6 +1,6 @@
 using System;
 
-namespace FlubuCore.Context.BuildServers
+namespace FlubuCore.BuildServers
 {
     public class Jenkins
     {

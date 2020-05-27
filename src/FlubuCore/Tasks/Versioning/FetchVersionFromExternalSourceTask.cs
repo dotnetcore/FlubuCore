@@ -74,38 +74,38 @@ namespace FlubuCore.Tasks.Versioning
             {
                 switch (context.BuildSystems().RunningOn)
                 {
-                    case BuildSystemType.AppVeyor:
+                    case BuildServerType.AppVeyor:
                         buildNumber = ParseBuildNumber(context.BuildSystems().AppVeyor().BuildNumber);
                         break;
 
-                    case BuildSystemType.Bamboo:
+                    case BuildServerType.Bamboo:
                         buildNumber = ParseBuildNumber(context.BuildSystems().Bamboo().BuildNumber);
                         break;
 
-                    case BuildSystemType.Bitrise:
+                    case BuildServerType.Bitrise:
                         buildNumber = ParseBuildNumber(context.BuildSystems().BitRise().BuildNumber);
                         break;
 
-                    case BuildSystemType.ContinousCl:
+                    case BuildServerType.ContinousCl:
                         buildNumber = ParseBuildNumber(context.BuildSystems().ContinuaCl().BuildNumber);
                         break;
 
-                    case BuildSystemType.Jenkins:
+                    case BuildServerType.Jenkins:
                     {
                         buildNumber = ParseBuildNumber(context.BuildSystems().Jenkins().BuildNumber);
                         revisionNumber = ParseBuildNumber(context.BuildSystems().Jenkins().SvnRevisionId);
                         break;
                     }
 
-                    case BuildSystemType.TFS:
+                    case BuildServerType.TFS:
                         buildNumber = ParseBuildNumber(context.BuildSystems().TeamFoundationServer().BuildNumber);
                         break;
 
-                    case BuildSystemType.TeamCity:
+                    case BuildServerType.TeamCity:
                         buildNumber = ParseBuildNumber(context.BuildSystems().TeamCity().BuildNumber);
                         break;
 
-                    case BuildSystemType.TravisCI:
+                    case BuildServerType.TravisCI:
                         buildNumber = ParseBuildNumber(context.BuildSystems().Travis().BuildNumber);
                         break;
                 }

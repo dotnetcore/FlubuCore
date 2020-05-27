@@ -1,7 +1,7 @@
 ﻿using System;
 using FlubuCore.Services;
 
-namespace FlubuCore.Context.BuildServers
+namespace FlubuCore.BuildServers
 {
     public class AppVeyor
     {

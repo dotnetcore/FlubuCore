@@ -1,8 +1,7 @@
 ﻿using System;
-using FlubuCore.Infrastructure;
 using FlubuCore.Services;
 
-namespace FlubuCore.Context.BuildServers
+namespace FlubuCore.BuildServers
 {
     public class Travis
     {

@@ -35,7 +35,7 @@ namespace FlubuCore.Tests
                 session,
                 new CommandArguments() { },
                 new TargetTree(ServiceProvider, new CommandArguments()),
-                new BuildSystem(),
+                new BuildServer(),
                 Factory,
                 new FluentInterfaceFactory(ServiceProvider));
         }

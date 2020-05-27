@@ -1,84 +1,84 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using FlubuCore.Context.BuildServers;
+using FlubuCore.BuildServers;
 
 namespace FlubuCore.Context
 {
-    public class BuildSystem : IBuildSystem
+    public class BuildServer : IBuildServer
     {
-        public bool IsLocalBuild => RunningOn == BuildSystemType.LocalBuild;
+        public bool IsLocalBuild => RunningOn == BuildServerType.LocalBuild;
 
-        public BuildSystemType RunningOn
+        public BuildServerType RunningOn
         {
             get
             {
                 if (BuildServers.AppVeyor.RunningOnAppVeyor)
                 {
-                    return BuildSystemType.AppVeyor;
+                    return BuildServerType.AppVeyor;
                 }
 
                 if (BuildServers.Bamboo.RunningOnBamboo)
                 {
-                    return BuildSystemType.Bamboo;
+                    return BuildServerType.Bamboo;
                 }
 
                 if (BuildServers.BitRise.RunningOnBitrise)
                 {
-                    return BuildSystemType.Bitrise;
+                    return BuildServerType.Bitrise;
                 }
 
                 if (BuildServers.ContinuaCl.RunningOnContinuaCl)
                 {
-                    return BuildSystemType.ContinousCl;
+                    return BuildServerType.ContinousCl;
                 }
 
                 if (BuildServers.GitLab.RunningOnGitLabCi)
                 {
-                    return BuildSystemType.GitLabCi;
+                    return BuildServerType.GitLabCi;
                 }
 
                 if (BuildServers.GoCD.RunningOnGoCD)
                 {
-                    return BuildSystemType.GoCD;
+                    return BuildServerType.GoCD;
                 }
 
                 if (BuildServers.Jenkins.RunningOnJenkins)
                 {
-                    return BuildSystemType.Jenkins;
+                    return BuildServerType.Jenkins;
                 }
 
                 if (BuildServers.MyGet.RunningOnMyGet)
                 {
-                    return BuildSystemType.MyGet;
+                    return BuildServerType.MyGet;
                 }
 
                 if (BuildServers.TeamCity.RunningOnTeamCity)
                 {
-                    return BuildSystemType.TeamCity;
+                    return BuildServerType.TeamCity;
                 }
 
                 if (TeamFoundation.RunningOnTFS)
                 {
-                    return BuildSystemType.TFS;
+                    return BuildServerType.TFS;
                 }
 
                 if (BuildServers.Travis.RunningOnTravis)
                 {
-                    return BuildSystemType.TravisCI;
+                    return BuildServerType.TravisCI;
                 }
 
                 if (BuildServers.AzurePipelines.RunningOnAzurePipelines || BuildServers.AzurePipelines.RunningOnAzurePipelinesHosted)
                 {
-                    return BuildSystemType.AzurePipelines;
+                    return BuildServerType.AzurePipelines;
                 }
 
                 if (BuildServers.GitHubActions.RunningOnGitHubActions)
                 {
-                    return BuildSystemType.GitHubActions;
+                    return BuildServerType.GitHubActions;
                 }
 
-                return BuildSystemType.LocalBuild;
+                return BuildServerType.LocalBuild;
             }
         }
 

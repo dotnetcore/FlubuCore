@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using FlubuCore.Context.BuildServers;
+using FlubuCore.BuildServers;
 
 namespace FlubuCore.Context
 {
-    public interface IBuildSystem
+    public interface IBuildServer
     {
         /// <summary>
-        /// If <c>true</c> build is local. Otherwise it is running on known build server. See <see cref="BuildSystemType"/> for known build servers.
+        /// If <c>true</c> build is local. Otherwise it is running on known build server. See <see cref="BuildServerType"/> for known build servers.
         /// </summary>
         bool IsLocalBuild { get; }
 
         /// <summary>
         /// Gets a value on which type of build server the build is running.
         /// </summary>
-        BuildSystemType RunningOn { get; }
+        BuildServerType RunningOn { get; }
 
         AppVeyor AppVeyor();
 

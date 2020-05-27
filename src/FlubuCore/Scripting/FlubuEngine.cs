@@ -78,7 +78,7 @@ namespace FlubuCore.Scripting
                 new DotnetTaskFactory(ServiceProvider),
                 new FluentInterfaceFactory(ServiceProvider),
                 ServiceProvider.GetService<IBuildPropertiesSession>(),
-                ServiceProvider.GetService<IBuildSystem>());
+                ServiceProvider.GetService<IBuildServer>());
         }
 
         public int RunScript<T>(string[] args)

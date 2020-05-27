@@ -15,7 +15,7 @@ namespace FlubuCore.Context
 
         private readonly IFluentInterfaceFactory _fluentFactory;
 
-        private readonly IBuildSystem _buildServers;
+        private readonly IBuildServer _buildServers;
 
         private readonly ILogger _log;
 
@@ -24,7 +24,7 @@ namespace FlubuCore.Context
             ITaskFactory taskFactory,
             IFluentInterfaceFactory fluentFactory,
             TargetTree targetTree,
-            IBuildSystem buildServers,
+            IBuildServer buildServers,
             IBuildPropertiesSession properties)
             : base(properties)
         {
@@ -50,7 +50,13 @@ namespace FlubuCore.Context
             return _fluentFactory.GetTargetFluentInterface(target, (ITaskContextInternal)this);
         }
 
-        public IBuildSystem BuildSystems()
+        [Obsolete("BuildSystems were renamed to BuildServers.", true)]
+        public IBuildServer BuildSystems()
+        {
+            return _buildServers;
+        }
+
+        public IBuildServer BuildServers()
         {
             return _buildServers;
         }

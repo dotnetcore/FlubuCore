@@ -28,7 +28,13 @@ namespace FlubuCore.Context
         /// Interaction with various build systems.
         /// </summary>
         /// <returns></returns>
-        IBuildSystem BuildSystems();
+        IBuildServer BuildSystems();
+
+        /// <summary>
+        /// Interaction with various build servers(continous integration / continous delivery servers).
+        /// </summary>
+        /// <returns></returns>
+        IBuildServer BuildServers();
 
         void LogInfo(string message);
 
