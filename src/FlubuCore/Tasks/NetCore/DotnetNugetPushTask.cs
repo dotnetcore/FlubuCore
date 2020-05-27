@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.Context;
@@ -148,6 +148,17 @@ namespace FlubuCore.Tasks.NetCore
         /// <returns></returns>
         [ArgKey("--interactive")]
         public DotnetNugetPushTask Interactive()
+        {
+            WithArgumentsKeyFromAttribute();
+            return this;
+        }
+
+        /// <summary>
+        /// If a package and version already exists, skip it and continue with the next package in the push, if any.
+        /// </summary>
+        /// <returns></returns>
+        [ArgKey("--skip-duplicate")]
+        public DotnetNugetPushTask SkipDuplicate()
         {
             WithArgumentsKeyFromAttribute();
             return this;

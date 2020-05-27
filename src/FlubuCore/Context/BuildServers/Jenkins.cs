@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace FlubuCore.Context.BuildServers
 {
@@ -73,5 +73,7 @@ namespace FlubuCore.Context.BuildServers
         public string SvnUrl => Environment.GetEnvironmentVariable("SVN_URL");
 
         public string JenkinsUrl => Environment.GetEnvironmentVariable("JENKINS_URL");
+
+        public bool IsPullRequest => !string.IsNullOrWhiteSpace(ChangeId);
     }
 }
