@@ -28,7 +28,7 @@ namespace FlubuCore.Scripting
 
         public FlubuConfiguration GetFlubuConfiguration()
         {
-            return _serviceProvider.GetRequiredService<FlubuConfiguration>();
+            return _serviceProvider.GetService<FlubuConfiguration>();
         }
     }
 }
