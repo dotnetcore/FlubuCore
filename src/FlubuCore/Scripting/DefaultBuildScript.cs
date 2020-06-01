@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using FlubuCore.BuildServers.Configurations;
+using FlubuCore.BuildServers.Configurations.Models;
+using FlubuCore.BuildServers.Configurations.Models.Travis;
 using FlubuCore.Context;
 using FlubuCore.IO;
 using FlubuCore.Targeting;
@@ -25,6 +29,8 @@ namespace FlubuCore.Scripting
 
         private ITargetCreator _targetCreator;
 
+        private FlubuConfiguration _flubuConfiguration;
+
         /// <summary>
         /// Get's product root directory.
         /// </summary>
@@ -45,8 +51,9 @@ namespace FlubuCore.Scripting
         public int Run(IFlubuSession flubuSession)
         {
             _flubuSession = flubuSession;
-            _scriptProperties = flubuSession.ScriptFactory.CreateScriptProperties();
-            _targetCreator = flubuSession.ScriptFactory.CreateTargetCreator();
+            _scriptProperties = flubuSession.ScriptServiceProvider.GetScriptProperties();
+            _targetCreator = flubuSession.ScriptServiceProvider.GetTargetCreator();
+            _flubuConfiguration = flubuSession.ScriptServiceProvider.GetFlubuConfiguration();
 
             try
             {
@@ -116,7 +123,7 @@ namespace FlubuCore.Scripting
         {
         }
 
-        public virtual void Configure(ILoggerFactory loggerFactory)
+        public virtual void Configure(IFlubuConfigurationBuilder configurationBuilder, ILoggerFactory loggerFactory)
         {
         }
 
@@ -170,7 +177,30 @@ namespace FlubuCore.Scripting
                     }
                 }
 
-                ExecuteTarget(flubuSession, targetsInfo);
+                var generateCIConfigs = flubuSession.Args.GenerateContinousIntegrationConfigs;
+                if (generateCIConfigs != null)
+                {
+                    YamlConfigurationSerializer serializer = new YamlConfigurationSerializer();
+                    foreach (var buildServerType in generateCIConfigs)
+                    {
+                        switch (buildServerType)
+                        {
+                            case BuildServerType.TravisCI:
+                            {
+                                TravisConfiguration config = new TravisConfiguration();
+                                config.FromOptions(_flubuConfiguration.TravisConfiguration);
+                                config.Script.Add($"flubu {string.Join(" ", targetsInfo.targetsToRun)}");
+                                var yaml = serializer.Serialize(config);
+                                File.WriteAllText(".travis.yml", yaml);
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    ExecuteTarget(flubuSession, targetsInfo);
+                }
             }
             else
             {

@@ -7,7 +7,7 @@ namespace FlubuCore.Context
 {
     public interface IFlubuSession : ITaskContextInternal
     {
-        IScriptFactory ScriptFactory { get; }
+        IScriptServiceProvider ScriptServiceProvider { get; }
 
         bool InteractiveMode { get; set; }
 

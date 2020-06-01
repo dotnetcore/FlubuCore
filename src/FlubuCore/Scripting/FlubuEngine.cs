@@ -1,4 +1,5 @@
 ﻿using System;
+using FlubuCore.BuildServers.Configurations;
 using FlubuCore.Commanding;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
@@ -19,12 +20,15 @@ namespace FlubuCore.Scripting
         public FlubuEngine()
         {
             LoggerFactory = new LoggerFactory();
+            FlubuConfigurationBuilder = new FlubuConfigurationBuilder();
             LoggerFactory.AddProvider(new FlubuLoggerProvider());
             var loggers = ServiceDescriptor.Singleton(typeof(ILogger<>), typeof(Logger<>));
             var app = new CommandLineApplication()
             {
                 UnrecognizedArgumentHandling = UnrecognizedArgumentHandling.CollectAndContinue
             };
+
+            FlubuConfiguration flubuConfiguration = new FlubuConfiguration();
             CommandArguments arguments = new CommandArguments();
             var serviceCollection = new ServiceCollection()
                 .AddCoreComponents()
@@ -37,6 +41,7 @@ namespace FlubuCore.Scripting
                 .AddSingleton(arguments);
 
             serviceCollection.TryAdd(loggers);
+            serviceCollection.AddSingleton(flubuConfiguration);
             ServiceProvider = serviceCollection.BuildServiceProvider();
 
             TaskFactory = new DotnetTaskFactory(ServiceProvider);
@@ -51,6 +56,7 @@ namespace FlubuCore.Scripting
                 .BuildServiceProvider();
 
             TaskFactory = new DotnetTaskFactory(ServiceProvider);
+            FlubuConfigurationBuilder = new FlubuConfigurationBuilder();
         }
 
         public ITaskFactory TaskFactory { get; }
@@ -58,6 +64,8 @@ namespace FlubuCore.Scripting
         public IServiceProvider ServiceProvider { get; }
 
         public ILoggerFactory LoggerFactory { get; }
+
+        public FlubuConfigurationBuilder FlubuConfigurationBuilder { get; }
 
         public static IServiceCollection AddFlubuComponents(IServiceCollection serviceCollection)
         {
@@ -74,7 +82,7 @@ namespace FlubuCore.Scripting
                 LoggerFactory.CreateLogger<FlubuSession>(),
                 ServiceProvider.GetService<TargetTree>(),
                 commandArguments,
-                ServiceProvider.GetService<IScriptFactory>(),
+                ServiceProvider.GetService<IScriptServiceProvider>(),
                 new DotnetTaskFactory(ServiceProvider),
                 new FluentInterfaceFactory(ServiceProvider),
                 ServiceProvider.GetService<IBuildPropertiesSession>(),
@@ -85,15 +93,21 @@ namespace FlubuCore.Scripting
             where T : IBuildScript, new()
         {
             var parser = ServiceProvider.GetService<IFlubuCommandParser>();
+            var flubuConfiguration = ServiceProvider.GetService<FlubuConfiguration>();
+
             var cmdArgs = parser.Parse(args);
             var taskSession = CreateTaskSession(cmdArgs);
             taskSession.Args.FlubuFileLocation = cmdArgs.FlubuFileLocation;
             taskSession.Args.FlubuHelpText = cmdArgs.FlubuHelpText;
             taskSession.Args.AdditionalOptions = cmdArgs.AdditionalOptions;
             taskSession.Args.Debug = cmdArgs.Debug;
+            taskSession.Args.GenerateContinousIntegrationConfigs = cmdArgs.GenerateContinousIntegrationConfigs;
             taskSession.ScriptArgs = cmdArgs.ScriptArguments;
             var script = new T();
             taskSession.TargetTree.BuildScript = script;
+
+            script.Configure(FlubuConfigurationBuilder, LoggerFactory);
+            flubuConfiguration.CopyFrom(FlubuConfigurationBuilder);
             return script.Run(taskSession);
         }
     }

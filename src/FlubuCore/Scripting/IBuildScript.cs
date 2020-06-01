@@ -11,6 +11,6 @@ namespace FlubuCore.Scripting
 
         void ConfigureServices(IServiceCollection services);
 
-        void Configure(ILoggerFactory loggerFactory);
+        void Configure(IFlubuConfigurationBuilder configurationBuilder, ILoggerFactory loggerFactory);
     }
 }

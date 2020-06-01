@@ -1,3 +1,5 @@
+## FlubuCore 6.0.0.0-preview2
+
 ## FlubuCore 5.1.8.0
 - Added ServiceStatus And ServiceStop windows service control tasks.
 - NugetPublishTask: Packages can be now published with version quality suffix.

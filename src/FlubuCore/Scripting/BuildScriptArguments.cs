@@ -47,5 +47,7 @@ namespace FlubuCore.Scripting
         /// Disables Interactive mode for all task members where Interactive method is applied.
         /// </summary>
         public bool DisableInteractive { get; set; }
+
+        public List<BuildServerType> GenerateContinousIntegrationConfigs { get; set; }
     }
 }

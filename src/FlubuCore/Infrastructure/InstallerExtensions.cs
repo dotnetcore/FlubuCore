@@ -29,7 +29,7 @@ namespace FlubuCore.Infrastructure
         {
             services
                 .AddSingleton<IFluentInterfaceFactory, FluentInterfaceFactory>()
-                .AddSingleton<IScriptFactory, ScriptFactory>()
+                .AddSingleton<IScriptServiceProvider, ScriptServiceProvider>()
                 .AddSingleton<IFileWrapper, FileWrapper>()
                 .AddSingleton<IPathWrapper, PathWrapper>()
                 .AddSingleton<IDirectoryWrapper, DirectoryWrapper>()

@@ -71,6 +71,7 @@ namespace DotNet.Cli.Flubu
             var parser = startupProvider.GetRequiredService<IFlubuCommandParser>();
             var commandArguments = parser.Parse(args);
             IScriptProvider scriptProvider = startupProvider.GetRequiredService<IScriptProvider>();
+            IFlubuConfigurationBuilder flubuConfigurationBuilder = new FlubuConfigurationBuilder();
             ILoggerFactory loggerFactory = startupProvider.GetRequiredService<ILoggerFactory>();
             loggerFactory.AddProvider(new FlubuLoggerProvider());
             _logger = startupProvider.GetRequiredService<ILogger<CommandExecutor>>();
@@ -108,8 +109,10 @@ namespace DotNet.Cli.Flubu
             if (script != null)
             {
                 script.ConfigureServices(Services);
-                script.Configure(loggerFactory);
+                script.Configure(flubuConfigurationBuilder, loggerFactory);
             }
+
+            Services.AddSingleton(flubuConfigurationBuilder.Build());
 
             _provider = Services.BuildServiceProvider();
             return 0;
