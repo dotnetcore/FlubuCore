@@ -24,7 +24,8 @@ namespace FlubuCore.Tests.Integration
                 .AddScriptAnalyzers()
                 .AddParserComponents()
                 .AddTasks();
-
+            var config = new FlubuConfiguration();
+            services.AddSingleton(config);
             services.AddSingleton(new CommandArguments());
 
             ServiceProvider = services.BuildServiceProvider();

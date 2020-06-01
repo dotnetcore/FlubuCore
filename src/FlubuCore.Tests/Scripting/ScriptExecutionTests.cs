@@ -71,10 +71,12 @@ namespace FlubuCore.Tests.Scripting
             _analyzer.Setup(i => i.Analyze(It.IsAny<List<string>>()))
                 .Returns(new ScriptAnalyzerResult() { ClassName = "MyBuildScript" });
 
+            FlubuConfiguration configuration = new FlubuConfiguration();
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync(args);
             var provider = new ServiceCollection()
                 .AddSingleton<IScriptProperties, ScriptProperties>()
                 .AddSingleton<ITargetCreator, TargetCreator>()
+                .AddSingleton(configuration)
                 .BuildServiceProvider();
 
             var targetTree = new TargetTree(provider, new CommandArguments());
@@ -99,6 +101,7 @@ namespace FlubuCore.Tests.Scripting
                 {
                     "using FlubuCore.Scripting;",
                     "using System;",
+                    "using FlubuCore;",
                     "using FlubuCore.Context;",
                     "using Microsoft.Extensions.DependencyInjection;",
                     "using Microsoft.Extensions.Logging;",
@@ -115,7 +118,7 @@ namespace FlubuCore.Tests.Scripting
                     "    {",
                     "    }",
 
-                    "    public void Configure(ILoggerFactory loggerFactory)",
+                    "    public void Configure(IFlubuConfigurationBuilder configurationBuilder, ILoggerFactory loggerFactory)",
                     "    {",
                     "    }",
                     "}",
@@ -126,9 +129,11 @@ namespace FlubuCore.Tests.Scripting
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync(args);
 
+            FlubuConfiguration configuration = new FlubuConfiguration();
             var provider = new ServiceCollection()
                 .AddSingleton<IScriptProperties, ScriptProperties>()
                 .AddSingleton<ITargetCreator, TargetCreator>()
+                .AddSingleton(configuration)
                 .BuildServiceProvider();
 
             var targetTree = new TargetTree(provider, new CommandArguments());
@@ -175,11 +180,12 @@ namespace FlubuCore.Tests.Scripting
 
             _analyzer.Setup(i => i.Analyze(It.IsAny<List<string>>()))
                 .Returns(new ScriptAnalyzerResult() { ClassName = "MyBuildScript" });
-
+            FlubuConfiguration configuration = new FlubuConfiguration();
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync(args);
             var provider = new ServiceCollection()
                 .AddSingleton<IScriptProperties, ScriptProperties>()
                 .AddSingleton<ITargetCreator, TargetCreator>()
+                .AddSingleton(configuration)
                 .BuildServiceProvider();
             var targetTree = new TargetTree(provider, new CommandArguments());
             t.Run(new FlubuSession(
