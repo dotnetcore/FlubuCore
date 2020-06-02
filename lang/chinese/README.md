@@ -177,10 +177,10 @@ context.CreateTarget("Example")`
 
 flubu 将执行 `dotnet build MySolution.sln -c Debug`
 
-- [完整的 .NET Core 支持，包括全局 CLI 工具](https://flubucore-zh.dotnetcore.xyz/getting-started#getting-started-net-core)
+- [完整的 .NET Core 支持，包括本地或全局 CLI 工具](https://flubucore-zh.dotnetcore.xyz/getting-started#getting-started-net-core)
 
 ```
-dotnet tool install --global FlubuCore.GlobalTool
+dotnet tool install --global FlubuCore.Tool
 flubu compile
 ```
 
