@@ -99,7 +99,7 @@ namespace FlubuCore.Tasks.Process
             if (string.IsNullOrEmpty(folder) || folder.Equals(".", StringComparison.OrdinalIgnoreCase))
                 return this;
 
-            _workingFolder = Path.GetFullPath(folder);
+            _workingFolder = folder;
             return this;
         }
 
@@ -248,7 +248,7 @@ namespace FlubuCore.Tasks.Process
                 commandArgs = !arg.maskArg ? $"{commandArgs} {arg.arg}" : $"{commandArgs} ####";
             }
 
-            DoLogInfo($"Running program from '{workingFolder}':");
+            DoLogInfo($"Running program from '{Path.GetFullPath(workingFolder)}':");
             DoLogInfo($"{cmd}{commandArgs}{Environment.NewLine}", Color.DarkCyan);
 
             int res = command.Execute()
