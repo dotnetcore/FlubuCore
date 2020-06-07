@@ -99,7 +99,7 @@ namespace FlubuCore.Tasks.Process
             if (string.IsNullOrEmpty(folder) || folder.Equals(".", StringComparison.OrdinalIgnoreCase))
                 return this;
 
-            _workingFolder = folder;
+            _workingFolder = Path.GetFullPath(folder);
             return this;
         }
 
