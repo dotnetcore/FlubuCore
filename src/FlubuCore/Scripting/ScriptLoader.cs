@@ -66,11 +66,22 @@ namespace FlubuCore.Scripting
             _nugetPackageResolver = nugetPackageResolver;
         }
 
+        public string GetBuildScriptAssemblyFileName(string buildScriptFileName, bool fullPath)
+        {
+            var assemblyFileName = Path.Combine(Path.GetDirectoryName(buildScriptFileName), "bin", Path.GetFileName(buildScriptFileName));
+            assemblyFileName = Path.ChangeExtension(assemblyFileName, "dll");
+            if (fullPath)
+            {
+                return Path.GetFullPath(assemblyFileName);
+            }
+
+            return assemblyFileName;
+        }
+
         public async Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(CommandArguments args)
         {
             string buildScriptFilePath = _buildScriptLocator.FindBuildScript(args);
-            var buildScriptAssemblyPath = Path.Combine(Path.GetDirectoryName(buildScriptFilePath), "bin", Path.GetFileName(buildScriptFilePath));
-            buildScriptAssemblyPath = Path.ChangeExtension(buildScriptAssemblyPath, "dll");
+            var buildScriptAssemblyPath = GetBuildScriptAssemblyFileName(buildScriptFilePath, fullPath: false);
 
             List<string> code = _file.ReadAllLines(buildScriptFilePath);
             ScriptAnalyzerResult scriptAnalyzerResult = _scriptAnalyzer.Analyze(code);
