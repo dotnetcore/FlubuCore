@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
@@ -44,10 +45,14 @@ namespace FlubuCore.Tests.Scripting
         [Fact]
         public async System.Threading.Tasks.Task LoadDefaultScript()
         {
-            CommandArguments args = new CommandArguments();
-            _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns("e.cs");
+            var scriptFileName = "e.cs";
 
-            _fileLoader.Setup(i => i.ReadAllLines("e.cs"))
+            File.Delete(_loader.GetBuildScriptAssemblyFileName(scriptFileName, fullPath: false));
+
+            CommandArguments args = new CommandArguments();
+            _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns(scriptFileName);
+
+            _fileLoader.Setup(i => i.ReadAllLines(scriptFileName))
                 .Returns(new List<string>
                 {
                     "using System;",
@@ -94,9 +99,14 @@ namespace FlubuCore.Tests.Scripting
         [Fact]
         public async Task LoadSimpleScript()
         {
+            var scriptFileName = "e3.cs";
+
+            File.Delete(_loader.GetBuildScriptAssemblyFileName(scriptFileName, fullPath: false));
+
             CommandArguments args = new CommandArguments();
-            _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns("e3.cs");
-            _fileLoader.Setup(i => i.ReadAllLines("e3.cs"))
+            _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns(scriptFileName);
+
+            _fileLoader.Setup(i => i.ReadAllLines(scriptFileName))
                 .Returns(new List<string>
                 {
                     "using FlubuCore.Scripting;",
@@ -152,9 +162,13 @@ namespace FlubuCore.Tests.Scripting
         [Fact]
         public async System.Threading.Tasks.Task LoadDefaultScriptWithAnotherClass()
         {
+            var scriptFileName = "e2.cs";
+
+            File.Delete(_loader.GetBuildScriptAssemblyFileName(scriptFileName, fullPath: false));
+
             CommandArguments args = new CommandArguments();
-            _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns("e2.cs");
-            _fileLoader.Setup(i => i.ReadAllLines("e2.cs"))
+            _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns(scriptFileName);
+            _fileLoader.Setup(i => i.ReadAllLines(scriptFileName))
                 .Returns(new List<string>
                 {
                     "using System;",
