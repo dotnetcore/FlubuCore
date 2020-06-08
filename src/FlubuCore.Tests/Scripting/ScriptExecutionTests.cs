@@ -47,7 +47,11 @@ namespace FlubuCore.Tests.Scripting
         {
             var scriptFileName = "e.cs";
 
-            File.Delete(_loader.GetBuildScriptAssemblyFileName(scriptFileName, fullPath: false));
+            var asmbFileName = _loader.GetBuildScriptAssemblyFileName(scriptFileName, fullPath: false);
+            if (File.Exists(asmbFileName))
+            {
+                File.Delete(asmbFileName);
+            }
 
             CommandArguments args = new CommandArguments();
             _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns(scriptFileName);
@@ -101,7 +105,11 @@ namespace FlubuCore.Tests.Scripting
         {
             var scriptFileName = "e3.cs";
 
-            File.Delete(_loader.GetBuildScriptAssemblyFileName(scriptFileName, fullPath: false));
+            var asmbFileName = _loader.GetBuildScriptAssemblyFileName(scriptFileName, fullPath: false);
+            if (File.Exists(asmbFileName))
+            {
+                File.Delete(asmbFileName);
+            }
 
             CommandArguments args = new CommandArguments();
             _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns(scriptFileName);
@@ -164,7 +172,11 @@ namespace FlubuCore.Tests.Scripting
         {
             var scriptFileName = "e2.cs";
 
-            File.Delete(_loader.GetBuildScriptAssemblyFileName(scriptFileName, fullPath: false));
+            var asmbFileName = _loader.GetBuildScriptAssemblyFileName(scriptFileName, fullPath: false);
+            if (File.Exists(asmbFileName))
+            {
+                File.Delete(asmbFileName);
+            }
 
             CommandArguments args = new CommandArguments();
             _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns(scriptFileName);
