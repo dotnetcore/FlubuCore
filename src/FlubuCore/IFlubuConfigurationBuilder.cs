@@ -9,6 +9,8 @@ namespace FlubuCore
     {
         FlubuConfigurationBuilder ConfigureTravis(Action<TravisOptions> configuration);
 
+        FlubuConfigurationBuilder ConfigureAzurePipelines(Action<AzurePipelineOptions> configuration);
+
         FlubuConfiguration Build();
     }
 }

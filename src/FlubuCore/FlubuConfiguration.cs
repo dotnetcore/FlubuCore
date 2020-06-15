@@ -11,16 +11,20 @@ namespace FlubuCore
         {
         }
 
-        public FlubuConfiguration(TravisOptions travisConfiguration)
+        public FlubuConfiguration(TravisOptions travisOptions, AzurePipelineOptions azureOptions)
         {
-            TravisConfiguration = travisConfiguration;
+            TravisOptions = travisOptions;
+            AzurePipelineOptions = azureOptions;
         }
 
-        public TravisOptions TravisConfiguration { get; private set; }
+        public TravisOptions TravisOptions { get; private set; }
+
+        public AzurePipelineOptions AzurePipelineOptions { get; private set; }
 
         public void CopyFrom(FlubuConfigurationBuilder builder)
         {
-            TravisConfiguration = builder.TravisConfiguration;
+            TravisOptions = builder.TravisConfiguration;
+            AzurePipelineOptions = builder.AzurePipelineOptions;
         }
     }
 }

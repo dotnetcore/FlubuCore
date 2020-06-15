@@ -95,5 +95,15 @@ namespace FlubuCore.BuildServers.Configurations
             Dist = dist;
             return this;
         }
+
+        public TravisOptions SetConfigFileName(string fileName)
+        {
+            return this;
+        }
+
+        public TravisOptions GenerateOnEachBuild()
+        {
+            return this;
+        }
     }
 }

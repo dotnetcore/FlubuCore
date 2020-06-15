@@ -383,7 +383,7 @@ namespace FlubuCore.Targeting
             }
         }
 
-        private List<ITargetInternal> GetTargetsInExecutionOrder(IFlubuSession session)
+        public List<ITargetInternal> GetTargetsInExecutionOrder(IFlubuSession session)
         {
             var targetsInOrder = new List<ITargetInternal>();
 

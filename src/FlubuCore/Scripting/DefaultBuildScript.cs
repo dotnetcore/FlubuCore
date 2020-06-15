@@ -7,8 +7,11 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using FlubuCore.BuildServers.Configurations;
 using FlubuCore.BuildServers.Configurations.Models;
+using FlubuCore.BuildServers.Configurations.Models.AzurePipelines;
 using FlubuCore.BuildServers.Configurations.Models.Travis;
 using FlubuCore.Context;
+using FlubuCore.Context.FluentInterface;
+using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.IO;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks.Attributes;
@@ -188,10 +191,26 @@ namespace FlubuCore.Scripting
                             case BuildServerType.TravisCI:
                             {
                                 TravisConfiguration config = new TravisConfiguration();
-                                config.FromOptions(_flubuConfiguration.TravisConfiguration);
+                                config.FromOptions(_flubuConfiguration.TravisOptions);
                                 config.Script.Add($"flubu {string.Join(" ", targetsInfo.targetsToRun)}");
                                 var yaml = serializer.Serialize(config);
-                                File.WriteAllText(".travis.yml", yaml);
+                                File.WriteAllText(".travis.generated.yml", yaml);
+                                break;
+                            }
+
+                            case BuildServerType.AzurePipelines:
+                            {
+                                AzurePipelinesConfiguration config = new AzurePipelinesConfiguration();
+
+                                foreach (var target in flubuSession.TargetTree.GetTargetsInExecutionOrder(flubuSession))
+                                {
+                                    _flubuConfiguration.AzurePipelineOptions.AddFlubuTargets(target.TargetName);
+                                }
+
+                                config.FromOptions(_flubuConfiguration.AzurePipelineOptions);
+                                var yaml = serializer.Serialize(config);
+                                File.WriteAllText("azure-pipelines.generated.yml", yaml);
+
                                 break;
                             }
                         }

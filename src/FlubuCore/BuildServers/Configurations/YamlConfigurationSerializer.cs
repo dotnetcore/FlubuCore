@@ -14,6 +14,7 @@ namespace FlubuCore.BuildServers.Configurations
             var serializer = new SerializerBuilder()
                 .WithNamingConvention(LowerCaseNamingConvention.Instance)
                 .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitNull)
+                .IgnoreFields()
                 .Build();
 
             return serializer.Serialize(item);
