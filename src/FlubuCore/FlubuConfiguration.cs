@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FlubuCore.BuildServers.Configurations;
+using FlubuCore.Context;
 
 namespace FlubuCore
 {
@@ -20,6 +21,18 @@ namespace FlubuCore
         public TravisOptions TravisOptions { get; private set; }
 
         public AzurePipelineOptions AzurePipelineOptions { get; private set; }
+
+        public List<BuildServerType> GenerateOnBuild()
+        {
+            List<BuildServerType> ci = new List<BuildServerType>();
+
+            if (AzurePipelineOptions != null && AzurePipelineOptions.ShouldGenerateOnEachBuild)
+            {
+                ci.Add(BuildServerType.AzurePipelines);
+            }
+
+            return ci;
+        }
 
         public void CopyFrom(FlubuConfigurationBuilder builder)
         {

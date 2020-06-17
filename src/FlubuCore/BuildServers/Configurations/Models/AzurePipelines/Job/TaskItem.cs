@@ -13,5 +13,12 @@ namespace FlubuCore.BuildServers.Configurations.Models.AzurePipelines.Job
         public TaskInputs Inputs { get; set; }
 
         public string WorkingDirectory { get; set; }
+
+        internal TaskItem Clone()
+        {
+            var item = (TaskItem)MemberwiseClone();
+            item.Inputs = Inputs.Clone();
+            return item;
+        }
     }
 }

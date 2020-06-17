@@ -15,5 +15,10 @@ namespace FlubuCore.BuildServers.Configurations.Models.AzurePipelines.Job
         public string Projects { get; set; }
 
         public string Arguments { get; set; }
+
+        internal TaskInputs Clone()
+        {
+            return (TaskInputs)MemberwiseClone();
+        }
     }
 }

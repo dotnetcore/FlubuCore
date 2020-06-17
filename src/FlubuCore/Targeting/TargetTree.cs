@@ -20,7 +20,8 @@ namespace FlubuCore.Targeting
 
         private readonly HashSet<string> _executedTargets = new HashSet<string>();
 
-        private readonly Dictionary<string, ITargetInternal> _targets = new Dictionary<string, ITargetInternal>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, ITargetInternal> _targets =
+            new Dictionary<string, ITargetInternal>(StringComparer.OrdinalIgnoreCase);
 
         public TargetTree(IServiceProvider provider, CommandArguments args)
         {
@@ -42,7 +43,8 @@ namespace FlubuCore.Targeting
 
         public List<string> ScriptArgsHelp { get; set; }
 
-        public List<(string actioName, TargetAction targetAction, string targetName)> BuildSummaryExtras { get; set; } = new List<(string actioName, TargetAction targetAction, string targetName)>();
+        public List<(string actioName, TargetAction targetAction, string targetName)> BuildSummaryExtras { get; set; } =
+            new List<(string actioName, TargetAction targetAction, string targetName)>();
 
         internal int DependenciesExecutedCount { get; private set; }
 
@@ -100,7 +102,8 @@ namespace FlubuCore.Targeting
                 {
                     if (!_args.TargetsToExecute.Contains(dependentTargetName))
                     {
-                        throw new TaskExecutionException($"Target {dependentTargetName} is not on the TargetsToExecute list", 3);
+                        throw new TaskExecutionException(
+                            $"Target {dependentTargetName} is not on the TargetsToExecute list", 3);
                     }
 
                     DependenciesExecutedCount++;
@@ -213,7 +216,8 @@ namespace FlubuCore.Targeting
             target.ExecuteVoid(taskContext);
         }
 
-        public virtual async Task RunTargetAsync(ITaskContextInternal taskContext, string targetName, bool sequentialLogging = false)
+        public virtual async Task RunTargetAsync(ITaskContextInternal taskContext, string targetName,
+            bool sequentialLogging = false)
         {
             if (!_targets.ContainsKey(targetName))
             {
@@ -305,7 +309,8 @@ namespace FlubuCore.Targeting
             const int StatusLength = 10;
 
             var targetsInOrder = GetTargetsInExecutionOrder(session);
-            if (targetsInOrder.Count < 1 || targetsInOrder[0].TargetName.Equals(FlubuTargets.Help, StringComparison.OrdinalIgnoreCase))
+            if (targetsInOrder.Count < 1 || targetsInOrder[0].TargetName
+                .Equals(FlubuTargets.Help, StringComparison.OrdinalIgnoreCase))
             {
                 return;
             }
@@ -325,7 +330,8 @@ namespace FlubuCore.Targeting
             session.LogInfo(" ");
             session.LogInfo(session.HasFailed ? "BUILD FAILED" : "BUILD SUCCESSFUL", session.HasFailed ? Color.Red : Color.Green);
             session.LogInfo($"Build finish time: {DateTime.Now:g}", Color.DimGray);
-            session.LogInfo($"Build duration: {buildDuration.Hours:D2}:{buildDuration.Minutes:D2}:{buildDuration.Seconds:D2} ({(int)buildDuration.TotalSeconds:d} seconds)", Color.DimGray);
+            session.LogInfo(
+                $"Build duration: {buildDuration.Hours:D2}:{buildDuration.Minutes:D2}:{buildDuration.Seconds:D2} ({(int)buildDuration.TotalSeconds:d} seconds)", Color.DimGray);
 
             int GetTargetNameMaxLength(List<ITargetInternal> targets)
             {
@@ -385,11 +391,10 @@ namespace FlubuCore.Targeting
 
         public List<ITargetInternal> GetTargetsInExecutionOrder(IFlubuSession session)
         {
-            var targetsInOrder = new List<ITargetInternal>();
-
             IEnumerable<string> targetNames = session.Args.MainCommands;
             if (targetNames == null || !targetNames.Any())
             {
+                var targetsInOrder = new List<ITargetInternal>();
                 if (_executedTargets?.Count < 1 && DefaultTargets.Count < 1)
                 {
                     return targetsInOrder;
@@ -397,6 +402,13 @@ namespace FlubuCore.Targeting
 
                 targetNames = DefaultTargets.Select(t => t.TargetName);
             }
+
+            return GetTargetsInExecutionOrder(targetNames);
+        }
+
+        public List<ITargetInternal> GetTargetsInExecutionOrder(IEnumerable<string> targetNames)
+        {
+            var targetsInOrder = new List<ITargetInternal>();
 
             foreach (var targetName in targetNames)
             {

@@ -183,41 +183,11 @@ namespace FlubuCore.Scripting
                 var generateCIConfigs = flubuSession.Args.GenerateContinousIntegrationConfigs;
                 if (generateCIConfigs != null)
                 {
-                    YamlConfigurationSerializer serializer = new YamlConfigurationSerializer();
-                    foreach (var buildServerType in generateCIConfigs)
-                    {
-                        switch (buildServerType)
-                        {
-                            case BuildServerType.TravisCI:
-                            {
-                                TravisConfiguration config = new TravisConfiguration();
-                                config.FromOptions(_flubuConfiguration.TravisOptions);
-                                config.Script.Add($"flubu {string.Join(" ", targetsInfo.targetsToRun)}");
-                                var yaml = serializer.Serialize(config);
-                                File.WriteAllText(".travis.generated.yml", yaml);
-                                break;
-                            }
-
-                            case BuildServerType.AzurePipelines:
-                            {
-                                AzurePipelinesConfiguration config = new AzurePipelinesConfiguration();
-
-                                foreach (var target in flubuSession.TargetTree.GetTargetsInExecutionOrder(flubuSession))
-                                {
-                                    _flubuConfiguration.AzurePipelineOptions.AddFlubuTargets(target.TargetName);
-                                }
-
-                                config.FromOptions(_flubuConfiguration.AzurePipelineOptions);
-                                var yaml = serializer.Serialize(config);
-                                File.WriteAllText("azure-pipelines.generated.yml", yaml);
-
-                                break;
-                            }
-                        }
-                    }
+                    GenerateCiConfigs(flubuSession, generateCIConfigs, targetsInfo);
                 }
                 else
                 {
+                    GenerateCiConfigs(flubuSession, _flubuConfiguration.GenerateOnBuild(), targetsInfo);
                     ExecuteTarget(flubuSession, targetsInfo);
                 }
             }
@@ -225,6 +195,53 @@ namespace FlubuCore.Scripting
             {
                 var targetsInfo = ParseCmdLineArgs(flubuSession.InteractiveArgs.MainCommands, flubuSession.TargetTree);
                 ExecuteTarget(flubuSession, targetsInfo);
+            }
+        }
+
+        private void GenerateCiConfigs(IFlubuSession flubuSession, List<BuildServerType> generateCIConfigs,
+            (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) targetsInfo)
+        {
+            YamlConfigurationSerializer serializer = new YamlConfigurationSerializer();
+            foreach (var buildServerType in generateCIConfigs)
+            {
+                switch (buildServerType)
+                {
+                    case BuildServerType.TravisCI:
+                    {
+                        TravisConfiguration config = new TravisConfiguration();
+                        config.FromOptions(_flubuConfiguration.TravisOptions);
+                        config.Script.Add($"flubu {string.Join(" ", targetsInfo.targetsToRun)}");
+                        var yaml = serializer.Serialize(config);
+                        File.WriteAllText(".travis.generated.yml", yaml);
+                        break;
+                    }
+
+                    case BuildServerType.AzurePipelines:
+                    {
+                        AzurePipelinesConfiguration config = new AzurePipelinesConfiguration();
+
+                        foreach (var target in flubuSession.TargetTree.GetTargetsInExecutionOrder(flubuSession))
+                        {
+                            _flubuConfiguration.AzurePipelineOptions.AddFlubuTargets(target.TargetName);
+                        }
+
+                        for (var i = 0; i < _flubuConfiguration.AzurePipelineOptions.CustomTargets.Count; i++)
+                        {
+                            _flubuConfiguration.AzurePipelineOptions.CustomTargets[i] =
+                                (_flubuConfiguration.AzurePipelineOptions.CustomTargets[i].image,
+                                    flubuSession.TargetTree
+                                        .GetTargetsInExecutionOrder(_flubuConfiguration.AzurePipelineOptions.CustomTargets[i]
+                                            .targets)
+                                        .Select(x => x.TargetName).ToList());
+                        }
+
+                        config.FromOptions(_flubuConfiguration.AzurePipelineOptions);
+                        var yaml = serializer.Serialize(config);
+                        File.WriteAllText(_flubuConfiguration.AzurePipelineOptions.ConfigFileName, yaml);
+
+                        break;
+                    }
+                }
             }
         }
 

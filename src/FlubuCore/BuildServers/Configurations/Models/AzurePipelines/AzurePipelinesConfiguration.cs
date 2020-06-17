@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using FlubuCore.BuildServers.Configurations.Models.AzurePipelines.Job;
 using FlubuCore.Infrastructure;
@@ -18,7 +19,7 @@ namespace FlubuCore.BuildServers.Configurations.Models.AzurePipelines
         {
             if (options.VmImages.IsNullOrEmpty())
             {
-                options.AddVirtualMachineImage(AzurePipelinesImage.WindowsLatest, AzurePipelinesImage.UbuntuLatest, AzurePipelinesImage.MacOsLatest);
+                options.SetVirtualMachineImage(AzurePipelinesImage.WindowsLatest, AzurePipelinesImage.UbuntuLatest, AzurePipelinesImage.MacOsLatest);
             }
 
             if (!options.Triggers.IsNullOrEmpty())
@@ -48,28 +49,41 @@ namespace FlubuCore.BuildServers.Configurations.Models.AzurePipelines
                             customStepsBeforeTarget.step.WorkingDirectory = options.WorkingDirectory;
                         }
 
-                        var scriptItem = customStepsBeforeTarget.step as ScriptItem;
-
-                        if (scriptItem != null)
+                        if (customStepsBeforeTarget.step is ScriptItem scriptItem)
                         {
-                            job.AddStep(new ScriptItem
-                            {
-                                Script = scriptItem.Script,
-                                DisplayName = scriptItem.DisplayName,
-                                WorkingDirectory = scriptItem.WorkingDirectory
-                            });
+                            job.AddStep(scriptItem.Clone());
+                        }
+                        else if (customStepsBeforeTarget.step is TaskItem taskItem)
+                        {
+                            job.AddStep(taskItem.Clone());
                         }
                     }
                 }
 
-                foreach (var targetName in options.TargetNames)
+                var customTarget = options.CustomTargets.FirstOrDefault(x => x.image == vmImage);
+                if (customTarget != default)
                 {
-                    job.AddStep(new ScriptItem()
+                    foreach (var targetName in customTarget.targets)
                     {
-                        DisplayName = targetName,
-                        WorkingDirectory = options.WorkingDirectory,
-                        Script = $"flubu {targetName}"
-                    });
+                        job.AddStep(new ScriptItem()
+                        {
+                            DisplayName = targetName,
+                            WorkingDirectory = options.WorkingDirectory,
+                            Script = $"flubu {targetName} --nd"
+                        });
+                    }
+                }
+                else
+                {
+                    foreach (var targetName in options.TargetNames)
+                    {
+                        job.AddStep(new ScriptItem()
+                        {
+                            DisplayName = targetName,
+                            WorkingDirectory = options.WorkingDirectory,
+                            Script = $"flubu {targetName} --nd"
+                        });
+                    }
                 }
 
                 foreach (var customStepsAfterTarget in options.CustomStepsAfterTargets)
@@ -81,16 +95,13 @@ namespace FlubuCore.BuildServers.Configurations.Models.AzurePipelines
                             customStepsAfterTarget.step.WorkingDirectory = options.WorkingDirectory;
                         }
 
-                        var scriptItem = customStepsAfterTarget.step as ScriptItem;
-
-                        if (scriptItem != null)
+                        if (customStepsAfterTarget.step is ScriptItem scriptItem)
                         {
-                            job.AddStep(new ScriptItem
-                            {
-                                Script = scriptItem.Script,
-                                DisplayName = scriptItem.DisplayName,
-                                WorkingDirectory = scriptItem.WorkingDirectory
-                            });
+                            job.AddStep(scriptItem.Clone());
+                        }
+                        else if (customStepsAfterTarget.step is TaskItem taskItem)
+                        {
+                            job.AddStep(taskItem.Clone());
                         }
                     }
                 }

@@ -11,5 +11,10 @@ namespace FlubuCore.BuildServers.Configurations.Models.AzurePipelines.Job
         public string DisplayName { get; set; }
 
         public string WorkingDirectory { get; set; }
+
+        internal ScriptItem Clone()
+        {
+            return (ScriptItem)MemberwiseClone();
+        }
     }
 }
