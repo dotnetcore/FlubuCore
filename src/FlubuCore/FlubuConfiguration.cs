@@ -31,6 +31,11 @@ namespace FlubuCore
                 ci.Add(BuildServerType.AzurePipelines);
             }
 
+            if (TravisOptions != null && TravisOptions.ShouldGenerateOnEachBuild)
+            {
+                ci.Add(BuildServerType.TravisCI);
+            }
+
             return ci;
         }
 

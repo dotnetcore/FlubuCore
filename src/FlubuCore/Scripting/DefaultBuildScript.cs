@@ -209,10 +209,12 @@ namespace FlubuCore.Scripting
                     case BuildServerType.TravisCI:
                     {
                         TravisConfiguration config = new TravisConfiguration();
+                        _flubuConfiguration.TravisOptions.Scripts.Add($"flubu {string.Join(" ", targetsInfo.targetsToRun)}");
+
                         config.FromOptions(_flubuConfiguration.TravisOptions);
-                        config.Script.Add($"flubu {string.Join(" ", targetsInfo.targetsToRun)}");
+
                         var yaml = serializer.Serialize(config);
-                        File.WriteAllText(".travis.generated.yml", yaml);
+                        File.WriteAllText(_flubuConfiguration.TravisOptions.ConfigFileName, yaml);
                         break;
                     }
 

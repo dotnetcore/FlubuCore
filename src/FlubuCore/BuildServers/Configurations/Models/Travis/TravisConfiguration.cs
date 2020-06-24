@@ -82,6 +82,11 @@ namespace FlubuCore.BuildServers.Configurations.Models.Travis
                 BeforeScript = options.BeforeScript;
             }
 
+            if (!options.ScriptsAfter.IsNullOrEmpty())
+            {
+                Script.AddRange(options.ScriptsAfter);
+            }
+
             if (!options.Install.IsNullOrEmpty())
             {
                 Install = options.Install;

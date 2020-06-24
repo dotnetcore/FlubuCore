@@ -1,4 +1,5 @@
-﻿using FlubuCore.Context;
+﻿using FlubuCore.BuildServers;
+using FlubuCore.Context;
 using FlubuCore.Context.Attributes;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Scripting;
@@ -6,46 +7,25 @@ using Microsoft.Extensions.Logging;
 
 namespace FlubuCore.ConsoleTestApp
 {
-    public class DefaultTestScript : DefaultBuildScript
+    public class MyScript : DefaultBuildScript
     {        
         public string Output => RootDirectory.CombineWith("output222");
 
         protected override void ConfigureTargets(ITaskContext context)
         {
-           var clean = context.CreateTarget("Clean").AddCoreTask(x => x.Clean());
-
-            context.CreateTarget("Build")
-                .SetAsDefault()
+            context.CreateTarget("MyTarget")
+                .AddTask(x => x.RunProgramTask("export")
+                    .WithArguments("https_proxy=http://150.150.150.1:8080"))
+                .AddTask(x => x.RunProgramTask("echo")
+                    .WithArguments("$http_proxy"))
+                .AddTask(x => x.RunProgramTask("scl")
+                    .WithArguments("enable", "rh-dotnet31", "bash"))
+                .AddCoreTask(x => x.Restore())
                 .AddCoreTask(x => x.Build())
-                .DependsOn(clean);
-        }
-
-        public override void Configure(IFlubuConfigurationBuilder configurationBuilder, ILoggerFactory loggerFactory)
-        {
-            configurationBuilder.ConfigureAzurePipelines(
-                config =>
-                {
-                    config.SetWorkingDirectory("Abc");
-                    config.AddCustomScriptStepBeforeTargets(script =>
-                    {
-                        script.DisplayName = "Custom script step example before target execution";
-                        script.Script = "echo before target";
-                    });
-
-                    config.AddCustomScriptStepAfterTargets(script =>
-                    {
-                        script.DisplayName = "Custom script step example after target execution";
-                        script.Script = "echo after target";
-                    });
-                });
-                
-                
-
-            configurationBuilder.ConfigureTravis(travis =>
-            {
-                travis.AddBeforeBuildScript("Lame");
-                travis.AddBranchesOnly("master");
-            });
+                .AddCoreTask(x => x.Publish()
+                    .Framework("netcoreapp3.1")
+                    .Configuration("Release"));
+            ////And so on
         }
     }
 }
