@@ -28,7 +28,7 @@ namespace FlubuCore.Tests.BuildServers
             });
         }
 
-        [Fact]
+        [Fact(Skip = "")]
         public void Test2()
         {
             YamlConfigurationSerializer serializer = new YamlConfigurationSerializer();

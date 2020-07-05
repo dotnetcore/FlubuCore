@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using FlubuCore.BuildServers.Configurations;
 using FlubuCore.BuildServers.Configurations.Models;
+using FlubuCore.BuildServers.Configurations.Models.AppVeyor;
 using FlubuCore.BuildServers.Configurations.Models.AzurePipelines;
 using FlubuCore.BuildServers.Configurations.Models.Travis;
 using FlubuCore.Context;
@@ -241,6 +242,17 @@ namespace FlubuCore.Scripting
                         var yaml = serializer.Serialize(config);
                         File.WriteAllText(_flubuConfiguration.AzurePipelineOptions.ConfigFileName, yaml);
 
+                        break;
+                    }
+
+                    case BuildServerType.AppVeyor:
+                    {
+                        AppVeyorConfiguration config = new AppVeyorConfiguration();
+                        _flubuConfiguration.AppVeyorOptions.AddFlubuTargets(targetsInfo.targetsToRun.ToArray());
+                        config.FromOptions(_flubuConfiguration.AppVeyorOptions);
+
+                        var yaml = serializer.Serialize(config);
+                        File.WriteAllText(_flubuConfiguration.AppVeyorOptions.ConfigFileName, yaml);
                         break;
                     }
                 }

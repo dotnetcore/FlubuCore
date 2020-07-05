@@ -11,6 +11,8 @@ namespace FlubuCore
 
         public AzurePipelineOptions AzurePipelineOptions { get; set; }
 
+        public AppVeyorOptions AppVeyorOptions { get; set; }
+
         public FlubuConfigurationBuilder ConfigureTravis(Action<TravisOptions> configuration)
         {
             if (TravisConfiguration == null)
@@ -34,9 +36,21 @@ namespace FlubuCore
             return this;
         }
 
+        public FlubuConfigurationBuilder ConfigureAppVeyor(Action<AppVeyorOptions> configuration)
+        {
+            if (AppVeyorOptions == null)
+            {
+                AppVeyorOptions = new AppVeyorOptions();
+            }
+
+            configuration.Invoke(AppVeyorOptions);
+
+            return this;
+        }
+
         public FlubuConfiguration Build()
         {
-            return new FlubuConfiguration(TravisConfiguration, AzurePipelineOptions);
+            return new FlubuConfiguration(TravisConfiguration, AzurePipelineOptions, AppVeyorOptions);
         }
     }
 }

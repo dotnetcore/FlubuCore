@@ -6,7 +6,7 @@ namespace FlubuCore.ConsoleTestApp
     {
         static void Main(string[] args)
         {
-            args = new[] { "Build", "--ci=azure" };
+            args = new[] { "Build", "--ci=appveyor" };
             var engine = new FlubuEngine();
 
             int scriptId = 0; // for easy switching test scripts.

@@ -11,6 +11,8 @@ namespace FlubuCore
 
         FlubuConfigurationBuilder ConfigureAzurePipelines(Action<AzurePipelineOptions> configuration);
 
+        FlubuConfigurationBuilder ConfigureAppVeyor(Action<AppVeyorOptions> configuration);
+
         FlubuConfiguration Build();
     }
 }
