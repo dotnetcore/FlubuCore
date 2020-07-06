@@ -149,3 +149,5 @@ src/FlubuCore.WebApi.Client/.vs/
 /src/FlubuCore.Tests/TestData/TestCsProj.csproj.user
 /src/FlubuCore.Tests/TestData/obj/Debug
 /src/flubu.sln.DotSettings.user
+src/Template/BuildScript/obj/
+src/Template/BuildScript/bin/
