@@ -30,17 +30,17 @@ namespace FlubuCore
         {
             List<BuildServerType> ci = new List<BuildServerType>();
 
-            if (AzurePipelineOptions != null || AzurePipelineOptions.ShouldGenerateOnEachBuild)
+            if (AzurePipelineOptions != null && AzurePipelineOptions.ShouldGenerateOnEachBuild)
             {
                 ci.Add(BuildServerType.AzurePipelines);
             }
 
-            if (TravisOptions != null || TravisOptions.ShouldGenerateOnEachBuild)
+            if (TravisOptions != null && TravisOptions.ShouldGenerateOnEachBuild)
             {
                 ci.Add(BuildServerType.TravisCI);
             }
 
-            if (AppVeyorOptions != null || AppVeyorOptions.ShouldGenerateOnEachBuild)
+            if (AppVeyorOptions != null && AppVeyorOptions.ShouldGenerateOnEachBuild)
             {
                 ci.Add(BuildServerType.AppVeyor);
             }
