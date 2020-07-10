@@ -188,7 +188,11 @@ namespace FlubuCore.Scripting
                 }
                 else
                 {
-                    GenerateCiConfigs(flubuSession, _flubuConfiguration.GenerateOnBuild(), targetsInfo);
+                    if (!flubuSession.Args.IsWebApi)
+                    {
+                        GenerateCiConfigs(flubuSession, _flubuConfiguration.GenerateOnBuild(), targetsInfo);
+                    }
+
                     ExecuteTarget(flubuSession, targetsInfo);
                 }
             }
