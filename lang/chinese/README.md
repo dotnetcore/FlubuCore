@@ -210,7 +210,7 @@ FlubuCore 用起来非常简单:-) 而且她的文档也非常完整。
 
 可在[构建脚本的原理](https://flubucore-zh.dotnetcore.xyz/buildscript-fundamentals) 一章中查阅 FlubuCore 提供的完整功能列表。
 
-一旦你定义了构建与部署脚本（build and deployment scripts），以下 Wiki 张杰将解释如何运行它们：
+一旦你定义了构建与部署脚本（build and deployment scripts），以下 Wiki 章节将解释如何运行它们：
 
 - 针对 .NET Framework 项目，请使用 [FlubuCore.Runner](https://flubucore-zh.dotnetcore.xyz/getting-started#Installation.net)
 - 针对 .NET Core 项目，请使用 [FlubuCore CLI global tool](https://flubucore-zh.dotnetcore.xyz/getting-started#Installation-.net-core)
