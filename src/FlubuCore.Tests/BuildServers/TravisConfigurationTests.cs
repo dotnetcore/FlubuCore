@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using FlubuCore.BuildServers;
 using FlubuCore.BuildServers.Configurations;
 using FlubuCore.BuildServers.Configurations.Models;
 using FlubuCore.BuildServers.Configurations.Models.AzurePipelines;
 using FlubuCore.BuildServers.Configurations.Models.AzurePipelines.Job;
+using FlubuCore.BuildServers.Configurations.Models.GitHubActions;
 using FlubuCore.BuildServers.Configurations.Models.Travis;
 using Xunit;
+using JobItem = FlubuCore.BuildServers.Configurations.Models.AzurePipelines.Job.JobItem;
 
 namespace FlubuCore.Tests.BuildServers
 {
@@ -51,6 +54,30 @@ namespace FlubuCore.Tests.BuildServers
             azure.Jobs[1].AddStep(new ScriptItem() { Script = "Start2", DisplayName = "SU2" });
             var yaml = serializer.Serialize(azure);
             File.WriteAllText("D:/test.yaml", yaml);
+        }
+
+        [Fact(Skip = "")]
+        public void Test3()
+        {
+            YamlConfigurationSerializer serializer = new YamlConfigurationSerializer();
+
+            var azure = new GitHubActionsConfiguration()
+            {
+                Jobs = new Dictionary<string, GitHubActionJob>()
+                {
+                     { "Test", new GitHubActionJob() { Name = "Abc", RunsOn = "Me" } }
+                }
+            };
+
+            azure.Jobs["Test"].AddStep(new NameStep()
+            {
+                Name = "Flubu",
+                Run = "Flubu test"
+            });
+
+            var yaml = serializer.Serialize(azure);
+
+            File.WriteAllText("D:/GHtest.yaml", yaml);
         }
     }
 }

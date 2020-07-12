@@ -9,6 +9,7 @@ using FlubuCore.BuildServers.Configurations;
 using FlubuCore.BuildServers.Configurations.Models;
 using FlubuCore.BuildServers.Configurations.Models.AppVeyor;
 using FlubuCore.BuildServers.Configurations.Models.AzurePipelines;
+using FlubuCore.BuildServers.Configurations.Models.GitHubActions;
 using FlubuCore.BuildServers.Configurations.Models.Travis;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
@@ -203,8 +204,7 @@ namespace FlubuCore.Scripting
             }
         }
 
-        private void GenerateCiConfigs(IFlubuSession flubuSession, List<BuildServerType> generateCIConfigs,
-            (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) targetsInfo)
+        private void GenerateCiConfigs(IFlubuSession flubuSession, List<BuildServerType> generateCIConfigs, (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) targetsInfo)
         {
             YamlConfigurationSerializer serializer = new YamlConfigurationSerializer();
             foreach (var buildServerType in generateCIConfigs)
@@ -246,6 +246,32 @@ namespace FlubuCore.Scripting
                         var yaml = serializer.Serialize(config);
                         File.WriteAllText(_flubuConfiguration.AzurePipelineOptions.ConfigFileName, yaml);
 
+                        break;
+                    }
+
+                    case BuildServerType.GitHubActions:
+                    {
+                        GitHubActionsConfiguration config = new GitHubActionsConfiguration();
+
+                        foreach (var target in flubuSession.TargetTree.GetTargetsInExecutionOrder(flubuSession))
+                        {
+                            _flubuConfiguration.GitHubActionsOptions.AddFlubuTargets(target.TargetName);
+                        }
+
+                        for (var i = 0; i < _flubuConfiguration.GitHubActionsOptions.CustomTargets.Count; i++)
+                        {
+                            _flubuConfiguration.GitHubActionsOptions.CustomTargets[i] =
+                                (_flubuConfiguration.GitHubActionsOptions.CustomTargets[i].image,
+                                    flubuSession.TargetTree
+                                        .GetTargetsInExecutionOrder(_flubuConfiguration.GitHubActionsOptions.CustomTargets[i]
+                                            .targets)
+                                        .Select(x => x.TargetName).ToList());
+                        }
+
+                        config.FromOptions(_flubuConfiguration.GitHubActionsOptions);
+
+                        var yaml = serializer.Serialize(config);
+                        File.WriteAllText(_flubuConfiguration.GitHubActionsOptions.ConfigFileName, yaml);
                         break;
                     }
 

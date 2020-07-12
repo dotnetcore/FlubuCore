@@ -12,17 +12,23 @@ namespace FlubuCore
         {
         }
 
-        public FlubuConfiguration(TravisOptions travisOptions, AzurePipelineOptions azureOptions,
+        public FlubuConfiguration(
+            TravisOptions travisOptions,
+            AzurePipelineOptions azureOptions,
+            GitHubActionsOptions gitHubActionsOptions,
             AppVeyorOptions appVeyorOptions)
         {
             TravisOptions = travisOptions;
             AzurePipelineOptions = azureOptions;
+            GitHubActionsOptions = gitHubActionsOptions;
             AppVeyorOptions = appVeyorOptions;
         }
 
         public TravisOptions TravisOptions { get; private set; }
 
         public AzurePipelineOptions AzurePipelineOptions { get; private set; }
+
+        public GitHubActionsOptions GitHubActionsOptions { get; private set; }
 
         public AppVeyorOptions AppVeyorOptions { get; private set; }
 
@@ -45,6 +51,11 @@ namespace FlubuCore
                 ci.Add(BuildServerType.AppVeyor);
             }
 
+            if (GitHubActionsOptions != null && GitHubActionsOptions.ShouldGenerateOnEachBuild)
+            {
+                ci.Add(BuildServerType.GitHubActions);
+            }
+
             return ci;
         }
 
@@ -53,6 +64,7 @@ namespace FlubuCore
             TravisOptions = builder.TravisConfiguration;
             AzurePipelineOptions = builder.AzurePipelineOptions;
             AppVeyorOptions = builder.AppVeyorOptions;
+            GitHubActionsOptions = builder.GitHubActionsOptions;
         }
     }
 }

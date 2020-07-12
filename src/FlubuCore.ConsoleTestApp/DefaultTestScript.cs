@@ -1,4 +1,5 @@
-﻿using FlubuCore.Context;
+﻿using FlubuCore.BuildServers;
+using FlubuCore.Context;
 using FlubuCore.Context.Attributes;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Scripting;
@@ -40,6 +41,24 @@ namespace FlubuCore.ConsoleTestApp
                 });
 
             configurationBuilder.ConfigureAppVeyor(app => { app.AddSkipCommits("test.jpg"); });
+
+            configurationBuilder.ConfigureGitHubActions(actions =>
+            {
+                actions.OnPush().AddBranchesOnPush("Test");
+                actions.AddCustomStepBeforeTargets(x =>
+                {
+                    x.Run = "Abcv";
+                    x.Name = "Custom step before";
+                });
+
+                actions.AddCustomStepAfterTargets(x =>
+                {
+                    x.Run = "Lamoid";
+                    x.Name = "Custom step before";
+                });
+
+                actions.AddEnvironmentVariableToSpecificVmImageJob("Test", "TestValue", GitHubActionsImage.AllLatest);
+            });
         }
     }
 }

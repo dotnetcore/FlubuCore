@@ -13,6 +13,8 @@ namespace FlubuCore
 
         FlubuConfigurationBuilder ConfigureAppVeyor(Action<AppVeyorOptions> configuration);
 
+        FlubuConfigurationBuilder ConfigureGitHubActions(Action<GitHubActionsOptions> configuration);
+
         FlubuConfiguration Build();
     }
 }

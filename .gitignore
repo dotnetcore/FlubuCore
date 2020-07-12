@@ -151,3 +151,4 @@ src/FlubuCore.WebApi.Client/.vs/
 /src/flubu.sln.DotSettings.user
 src/Template/BuildScript/obj/
 src/Template/BuildScript/bin/
+src/Template/.vs/
