@@ -66,7 +66,7 @@ protected override void ConfigureTargets(ITaskContext context)
 }
 ```
 
-- [内置大量常用任务](https://flubucore.dotnetcore.xyz/tasks/)，如运行测试、versioning、管理 ISS、创建部署包（deployment packages）、发布 NuGet 包、docker 任务、 sql tasks, git tasks, 执行 PowerShell 脚本等。
+- [内置大量常用任务](https://flubucore.dotnetcore.xyz/tasks/)，如运行测试、versioning、管理 IIS、创建部署包（deployment packages）、发布 NuGet 包、docker 任务、 sql tasks, git tasks, 执行 PowerShell 脚本等。
 
 ```cs
 context.CreateTarget("build")
