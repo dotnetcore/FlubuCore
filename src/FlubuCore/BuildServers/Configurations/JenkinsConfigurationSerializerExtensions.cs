@@ -5,13 +5,14 @@ namespace FlubuCore.BuildServers.Configurations
 {
     internal static class JenkinsConfigurationSerializerExtensions
     {
-        internal static void AppendBlockWithNewLine(this StringBuilder builder, string blockName, Action<StringBuilder> block, int indentSize = 0)
+        internal static StringBuilder AppendBlockWithNewLine(this StringBuilder builder, string blockName, Action<StringBuilder> block, int indentSize = 0)
         {
             AppendBlock(builder, blockName, block, indentSize);
             builder.AppendLine();
+            return builder;
         }
 
-        internal static void AppendBlock(this StringBuilder builder, string blockName, Action<StringBuilder> block, int indentSize = 0)
+        internal static StringBuilder AppendBlock(this StringBuilder builder, string blockName, Action<StringBuilder> block, int indentSize = 0)
         {
             string indent = null;
             if (indentSize != 0)
@@ -29,6 +30,13 @@ namespace FlubuCore.BuildServers.Configurations
             }
 
             builder.AppendLine("}");
+            return builder;
+        }
+
+        internal static StringBuilder AppendIndent(this StringBuilder sb, int indent)
+        {
+            sb.Append(new string(' ', indent));
+            return sb;
         }
     }
 }

@@ -180,6 +180,31 @@ namespace FlubuCore.Tests.BuildServers
         }
 
         [Fact]
+        public void Pipeline_EnvironmentTest()
+        {
+            const string expectedPipeLine = @"pipeline {
+    agent any
+
+    environment {
+        A = 123
+        B = 456
+    }
+
+}
+";
+            var jenkinsPipeline = _writer.Serialize(new JenkinsPipeline
+            {
+               Environment = new Dictionary<string, string>()
+               {
+                   { "A", "123" },
+                   { "B", "456" }
+               }
+            });
+
+            Assert.Equal(expectedPipeLine, jenkinsPipeline);
+        }
+
+        [Fact]
         public void Pipeline_SimpleAllTest()
         {
             const string expectedPipeLine = @"pipeline {

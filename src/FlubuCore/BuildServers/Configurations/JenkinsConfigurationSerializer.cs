@@ -22,11 +22,28 @@ namespace FlubuCore.BuildServers.Configurations
             {
                 sb.Append(new string(' ', 4)).Append("agent ").AppendLine(pipeline.Agent).AppendLine();
                 AppendOptions(sb, pipeline.Options);
+                AppendEnvironment(sb, pipeline.Environment);
                 AppendStages(sb, pipeline.Stages);
                 AppendPost(sb, pipeline.Post);
             });
 
             return stringBuilder;
+        }
+
+        private void AppendEnvironment(StringBuilder sb, Dictionary<string, string> environment)
+        {
+            if (environment == null || environment.Count == 0)
+            {
+                return;
+            }
+
+            sb.AppendBlockWithNewLine("environment", (s) =>
+            {
+                foreach (var entry in environment)
+                {
+                    sb.AppendIndent(8).AppendFormat("{0} = {1}", entry.Key, entry.Value).AppendLine();
+                }
+            }, 4);
         }
 
         private void AppendStages(StringBuilder sb, List<Stage> stages)
@@ -55,7 +72,7 @@ namespace FlubuCore.BuildServers.Configurations
                         {
                             foreach (var stageStep in stage.Steps)
                             {
-                                s2.Append(new string(' ', 16)).AppendLine(stageStep);
+                                s2.AppendIndent(16).AppendLine(stageStep);
                             }
                         }, 12);
                 }
@@ -63,7 +80,7 @@ namespace FlubuCore.BuildServers.Configurations
                 {
                     foreach (var stageStep in stage.Steps)
                     {
-                        s.Append(new string(' ', 12)).AppendLine(stageStep);
+                        s.AppendIndent(12).AppendLine(stageStep);
                     }
                 }
             }, 8);
@@ -84,7 +101,7 @@ namespace FlubuCore.BuildServers.Configurations
                     {
                         foreach (var postStep in post.Steps)
                         {
-                            sb.Append(new string(' ', 12)).AppendLine(postStep);
+                            sb.AppendIndent(12).AppendLine(postStep);
                         }
                     }, 8);
                 }

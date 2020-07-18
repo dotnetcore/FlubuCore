@@ -11,6 +11,8 @@ namespace FlubuCore.BuildServers.Configurations.Models.Jenkins
 
         public JenkinsOptionsDirective Options { get; set; }
 
+        public Dictionary<string, string> Environment { get; set; }
+
         public List<Stage> Stages { get; set; } = new List<Stage>();
 
         public List<JenkinsPost> Post { get; set; }
@@ -18,6 +20,11 @@ namespace FlubuCore.BuildServers.Configurations.Models.Jenkins
         public void FromOptions(JenkinsOptions options)
         {
             Options = options.Options;
+
+            if (options.Environment != null && options.Environment.Count != 0)
+            {
+                Environment = options.Environment;
+            }
 
             if (!options.CustomStagesBeforeTargets.IsNullOrEmpty())
             {
