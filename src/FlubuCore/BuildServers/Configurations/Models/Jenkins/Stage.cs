@@ -8,7 +8,7 @@ namespace FlubuCore.BuildServers.Configurations.Models.Jenkins
     {
         public string Name { get; set; }
 
-        public List<string> Steps { get; set; }
+        internal List<string> Steps { get; set; } = new List<string>();
 
         public string WorkingDirectory { get; set; }
     }

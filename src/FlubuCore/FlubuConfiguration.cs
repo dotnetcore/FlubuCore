@@ -16,12 +16,14 @@ namespace FlubuCore
             TravisOptions travisOptions,
             AzurePipelineOptions azureOptions,
             GitHubActionsOptions gitHubActionsOptions,
-            AppVeyorOptions appVeyorOptions)
+            AppVeyorOptions appVeyorOptions,
+            JenkinsOptions jenkinsOptions)
         {
             TravisOptions = travisOptions;
             AzurePipelineOptions = azureOptions;
             GitHubActionsOptions = gitHubActionsOptions;
             AppVeyorOptions = appVeyorOptions;
+            JenkinsOptions = jenkinsOptions;
         }
 
         public TravisOptions TravisOptions { get; private set; }
@@ -31,6 +33,8 @@ namespace FlubuCore
         public GitHubActionsOptions GitHubActionsOptions { get; private set; }
 
         public AppVeyorOptions AppVeyorOptions { get; private set; }
+
+        public JenkinsOptions JenkinsOptions { get; private set; }
 
         public List<BuildServerType> GenerateOnBuild()
         {
@@ -56,6 +60,11 @@ namespace FlubuCore
                 ci.Add(BuildServerType.GitHubActions);
             }
 
+            if (JenkinsOptions != null && JenkinsOptions.ShouldGenerateOnEachBuild)
+            {
+                ci.Add(BuildServerType.Jenkins);
+            }
+
             return ci;
         }
 
@@ -65,6 +74,7 @@ namespace FlubuCore
             AzurePipelineOptions = builder.AzurePipelineOptions;
             AppVeyorOptions = builder.AppVeyorOptions;
             GitHubActionsOptions = builder.GitHubActionsOptions;
+            JenkinsOptions = builder.JenkinsOptions;
         }
     }
 }

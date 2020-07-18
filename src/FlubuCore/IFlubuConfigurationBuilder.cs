@@ -15,6 +15,8 @@ namespace FlubuCore
 
         FlubuConfigurationBuilder ConfigureGitHubActions(Action<GitHubActionsOptions> configuration);
 
+        FlubuConfigurationBuilder ConfigureJenkins(Action<JenkinsOptions> configuration);
+
         FlubuConfiguration Build();
     }
 }

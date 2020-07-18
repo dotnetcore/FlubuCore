@@ -1,4 +1,5 @@
 ﻿using FlubuCore.BuildServers;
+using FlubuCore.BuildServers.Configurations.Models.Jenkins;
 using FlubuCore.Context;
 using FlubuCore.Context.Attributes;
 using FlubuCore.Context.FluentInterface.Interfaces;
@@ -58,6 +59,24 @@ namespace FlubuCore.ConsoleTestApp
                 });
 
                 actions.AddEnvironmentVariableToSpecificVmImageJob("Test", "TestValue", GitHubActionsImage.AllLatest);
+            });
+
+            configurationBuilder.ConfigureJenkins(x =>
+            {
+                x.ConfigureOptions(o => o.Retry = 10);
+                x.ConfigurePostSteps(o => o.AddCustomPostStep(JenkinsPostConditions.Always, "Lama"));
+                x.AddCustomStageBeforeTargets(o =>
+                {
+                    o.Name = "Before";
+                    o.AddStep("Kekec").AddStep("Lamoid");
+
+                });
+                x.AddCustomStageAfterTargets(o =>
+                {
+                    o.Name = "After";
+                    o.AddStep("Kekec").AddStep("Lamoid");
+
+                });
             });
         }
     }

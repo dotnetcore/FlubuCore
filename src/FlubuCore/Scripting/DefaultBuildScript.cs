@@ -10,6 +10,7 @@ using FlubuCore.BuildServers.Configurations.Models;
 using FlubuCore.BuildServers.Configurations.Models.AppVeyor;
 using FlubuCore.BuildServers.Configurations.Models.AzurePipelines;
 using FlubuCore.BuildServers.Configurations.Models.GitHubActions;
+using FlubuCore.BuildServers.Configurations.Models.Jenkins;
 using FlubuCore.BuildServers.Configurations.Models.Travis;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
@@ -272,6 +273,22 @@ namespace FlubuCore.Scripting
 
                         var yaml = serializer.Serialize(config);
                         File.WriteAllText(_flubuConfiguration.GitHubActionsOptions.ConfigFileName, yaml);
+                        break;
+                    }
+
+                    case BuildServerType.Jenkins:
+                    {
+                        JenkinsPipeline configuration = new JenkinsPipeline();
+
+                        foreach (var target in flubuSession.TargetTree.GetTargetsInExecutionOrder(flubuSession))
+                        {
+                            _flubuConfiguration.JenkinsOptions.AddFlubuTargets(target.TargetName);
+                        }
+
+                        configuration.FromOptions(_flubuConfiguration.JenkinsOptions);
+                        JenkinsConfigurationSerializer jenkinsConfigurationSerializer = new JenkinsConfigurationSerializer();
+                        var jenkinsFile = jenkinsConfigurationSerializer.Serialize(configuration);
+                        File.WriteAllText(_flubuConfiguration.JenkinsOptions.ConfigFileName, jenkinsFile);
                         break;
                     }
 

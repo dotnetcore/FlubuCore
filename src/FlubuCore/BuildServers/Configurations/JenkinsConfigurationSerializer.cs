@@ -90,7 +90,7 @@ namespace FlubuCore.BuildServers.Configurations
             }, 4);
         }
 
-                private void AppendOptions(StringBuilder sb, JenkinsOptionsDirective options)
+        private void AppendOptions(StringBuilder sb, JenkinsOptionsDirective options)
         {
             if (options == null)
             {

@@ -15,6 +15,8 @@ namespace FlubuCore
 
         public GitHubActionsOptions GitHubActionsOptions { get; set; }
 
+        public JenkinsOptions JenkinsOptions { get; set; }
+
         public FlubuConfigurationBuilder ConfigureTravis(Action<TravisOptions> configuration)
         {
             if (TravisConfiguration == null)
@@ -62,9 +64,21 @@ namespace FlubuCore
             return this;
         }
 
+        public FlubuConfigurationBuilder ConfigureJenkins(Action<JenkinsOptions> configuration)
+        {
+            if (JenkinsOptions == null)
+            {
+                JenkinsOptions = new JenkinsOptions();
+            }
+
+            configuration.Invoke(JenkinsOptions);
+
+            return this;
+        }
+
         public FlubuConfiguration Build()
         {
-            return new FlubuConfiguration(TravisConfiguration, AzurePipelineOptions, GitHubActionsOptions, AppVeyorOptions);
+            return new FlubuConfiguration(TravisConfiguration, AzurePipelineOptions, GitHubActionsOptions, AppVeyorOptions, JenkinsOptions);
         }
     }
 }

@@ -6,8 +6,8 @@ namespace FlubuCore.BuildServers.Configurations.Models.Jenkins
 {
     public class JenkinsPost
     {
-        public JenkinsPostConditions Condition { get; set; }
+        internal JenkinsPostConditions Condition { get; set; }
 
-        public List<string> Steps { get; set; }
+        internal List<string> Steps { get; set; } = new List<string>();
     }
 }
