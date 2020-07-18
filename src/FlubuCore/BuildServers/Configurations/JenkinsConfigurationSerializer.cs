@@ -20,6 +20,7 @@ namespace FlubuCore.BuildServers.Configurations
 
             stringBuilder.AppendBlock("pipeline", sb =>
             {
+                sb.Append(new string(' ', 4)).Append("agent ").AppendLine(pipeline.Agent).AppendLine();
                 AppendOptions(sb, pipeline.Options);
                 AppendStages(sb, pipeline.Stages);
                 AppendPost(sb, pipeline.Post);

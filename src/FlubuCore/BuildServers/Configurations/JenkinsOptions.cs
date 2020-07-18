@@ -35,7 +35,7 @@ namespace FlubuCore.BuildServers.Configurations
         }
 
         /// <summary>
-        /// Adds custom stage before all flubu targets.
+        /// Adds custom stage before all flubu targets stages. Practically speaking, all of the real work done by a Pipeline is wrapped in one or more stage directives.
         /// </summary>
         /// <param name="scriptOptions"></param>
         /// <param name="image">script is applied to specified image</param>
@@ -49,7 +49,7 @@ namespace FlubuCore.BuildServers.Configurations
         }
 
         /// <summary>
-        /// Adds custom stage after all flubu targets.
+        /// Adds custom stage after all flubu targets stages. Practically speaking, all of the real work done by a Pipeline is wrapped in one or more stage directives.
         /// </summary>
         /// <param name="scriptOptions"></param>
         /// <param name="image">script is applied to specified image</param>
@@ -63,7 +63,7 @@ namespace FlubuCore.BuildServers.Configurations
         }
 
         /// <summary>
-        /// Set working directory. All steps are affected except the one with specific working directory.
+        /// Set working directory. All stages are affected except the one with specific working directory. 
         /// </summary>
         /// <param name="workingDirectory"></param>
         /// <returns></returns>
@@ -74,7 +74,7 @@ namespace FlubuCore.BuildServers.Configurations
         }
 
         /// <summary>
-        /// Set's config file name. Default '.ghActions.generated.yml'.
+        /// Set's config file name. Default 'Jenkinsfile.generated'.
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
@@ -84,6 +84,12 @@ namespace FlubuCore.BuildServers.Configurations
             return this;
         }
 
+        /// <summary>
+        /// The post section defines one or more additional steps that are run upon the completion of a Pipeline’s or stage’s run (depending on the location of the post section within the Pipeline). 
+        /// post can support different post-condition blocks. See <see cref="JenkinsPostConditions"/> for more information.
+        /// </summary>
+        /// <param name="postOptionsAction"></param>
+        /// <returns></returns>
         public JenkinsOptions ConfigurePostSteps(Action<JenkinsPostOptions> postOptionsAction)
         {
             if (_postOptions == null)

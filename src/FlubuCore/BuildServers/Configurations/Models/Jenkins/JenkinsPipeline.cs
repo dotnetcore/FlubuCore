@@ -7,6 +7,8 @@ namespace FlubuCore.BuildServers.Configurations.Models.Jenkins
 {
     public class JenkinsPipeline
     {
+        public string Agent { get; set; } = "any";
+
         public JenkinsOptionsDirective Options { get; set; }
 
         public List<Stage> Stages { get; set; } = new List<Stage>();

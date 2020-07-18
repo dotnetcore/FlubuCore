@@ -18,6 +18,8 @@ namespace FlubuCore.Tests.BuildServers
         public void Pipeline_StagesTest()
         {
             const string expectedPipeLine = @"pipeline {
+    agent any
+
     stages {
         stage('Build') {
             flubu build
@@ -64,6 +66,8 @@ namespace FlubuCore.Tests.BuildServers
         public void Pipeline_StagesWithWorkingDirectoryTest()
         {
             const string expectedPipeLine = @"pipeline {
+    agent any
+
     stages {
         stage('Build') {
             dir('src') {
@@ -116,6 +120,8 @@ namespace FlubuCore.Tests.BuildServers
         public void Pipeline_OptionsTest()
         {
             const string expectedPipeLine = @"pipeline {
+    agent any
+
     options {
         disableConcurrentBuilds()
         checkoutToSubdirectory('subfolder')
@@ -141,6 +147,8 @@ namespace FlubuCore.Tests.BuildServers
         public void Pipeline_PostTest()
         {
             const string expectedPipeLine = @"pipeline {
+    agent any
+
     post {
         always {
             Some post step always
@@ -175,7 +183,10 @@ namespace FlubuCore.Tests.BuildServers
         public void Pipeline_SimpleAllTest()
         {
             const string expectedPipeLine = @"pipeline {
+    agent any
+
     options {
+        disableConcurrentBuilds()
         timestamps()
     }
 

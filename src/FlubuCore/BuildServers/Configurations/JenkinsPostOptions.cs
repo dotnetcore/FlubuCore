@@ -15,6 +15,12 @@ namespace FlubuCore.BuildServers.Configurations
             _options = options;
         }
 
+        /// <summary>
+        /// Adds custom post step on specified condition.
+        /// </summary>
+        /// <param name="condition">The condition when step's will be executed.</param>
+        /// <param name="customStep">Step to execute.</param>
+        /// <returns></returns>
         public JenkinsPostOptions AddCustomPostStep(JenkinsPostConditions condition, string customStep)
         {
             var jenkinsPost = _options.JenkinsPosts.FirstOrDefault(x => x.Condition == condition);
