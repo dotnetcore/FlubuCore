@@ -64,7 +64,7 @@ namespace FlubuCore.ConsoleTestApp
             configurationBuilder.ConfigureJenkins(x =>
             {
                 x.ConfigureOptions(o => o.Retry = 10);
-                x.ConfigurePostSteps(o => o.AddCustomPostStep(JenkinsPostConditions.Always, "Lama"));
+                x.ConfigurePostSteps(o => o.AddSendEmailPostStep(JenkinsPostConditions.Changed, "projectName", "markoz@comtrade.com"));
                 x.AddCustomStageBeforeTargets(o =>
                 {
                     o.Name = "Before";
