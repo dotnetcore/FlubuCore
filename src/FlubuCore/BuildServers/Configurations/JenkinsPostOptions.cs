@@ -44,9 +44,9 @@ namespace FlubuCore.BuildServers.Configurations
         public JenkinsPostOptions AddSendEmailPostStep(JenkinsPostConditions condition, string projectName, params string[] recipients)
         {
             string sendEmailStep = $@"emailext attachLog: false,
-			    body: ""${{{{currentBuild.currentResult}}}}: Job ${{{{env.JOB_NAME}}}} build ${{{{env.BUILD_NUMBER}}}}\n More info at: ${{{{env.BUILD_URL}}}}"",
+			    body: ""${{currentBuild.currentResult}}: Job ${{env.JOB_NAME}} build ${{env.BUILD_NUMBER}}\n More info at: ${{env.BUILD_URL}}"",
                 recipientProviders: [brokenBuildSuspects()],
-                subject: ""${{{{currentBuild.currentResult}}}}: {projectName} $BRANCH_NAME build v${{{{env.BUILD_NUMBER}}}}"",
+                subject: ""${{currentBuild.currentResult}}: {projectName} ${{env.BUILD_NUMBER}} build v${{env.BUILD_NUMBER}}"",
                 to: ""{string.Join(";", recipients)}""";
 
             AddCustomPostStep(condition, sendEmailStep);

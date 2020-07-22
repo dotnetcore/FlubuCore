@@ -1,79 +1,129 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
-namespace FlubuCore.BuildServers.Configurations.Models.Jenkins
+namespace FlubuCore.BuildServers.Configurations
 {
-    public class JenkinsOptionsDirective
+    public class JenkinsOptionsOptions
     {
+        private readonly JenkinsOptions _options;
+
+        public JenkinsOptionsOptions(JenkinsOptions options)
+        {
+            _options = options;
+        }
+
         /// <summary>
         /// Persist artifacts and console output for the specific number of recent Pipeline runs.
         /// For example: options { buildDiscarder(logRotator(numToKeepStr: '1')) }
-        /// </summary>
-        public int? BuildDiscarder { get; set; }
+        /// </summary
+        public JenkinsOptionsOptions BuildDiscarder(int buildDiscarder)
+        {
+            _options.Options.BuildDiscarder = buildDiscarder;
+            return this;
+        }
 
         /// <summary>
         /// Perform the automatic source control checkout in a subdirectory of the workspace.
         /// For example: options { checkoutToSubdirectory('foo')
         /// </summary>
-        public string CheckoutToSubDirectory { get; set; }
+        public JenkinsOptionsOptions CheckoutToSubDirectory(string directory)
+        {
+            _options.Options.CheckoutToSubDirectory = directory;
+            return this;
+        }
 
         /// <summary>
         /// Disallow concurrent executions of the Pipeline. Can be useful for preventing simultaneous accesses to shared resources, etc.
         /// For example: options { disableConcurrentBuilds() }
         /// </summary>
-        public bool DisableConcurrentBuilds { get; set; } = true;
+        public JenkinsOptionsOptions DisableConcurrentBuilds()
+        {
+            _options.Options.DisableConcurrentBuilds = true;
+            return this;
+        }
 
         /// <summary>
         /// Do not allow the pipeline to resume if the master restarts.
         /// For example: options { disableResume() }
         /// </summary>
-        public bool DisableResume { get; set; }
+        public JenkinsOptionsOptions DisableResume()
+        {
+            _options.Options.DisableResume = true;
+            return this;
+        }
 
         /// <summary>
         /// Preserve stashes from completed builds, for use with stage restarting. For example: options { preserveStashes() }
         /// to preserve the stashes from the most recent completed build, or options { preserveStashes(buildCount: 5) } to preserve the stashes from the five most recent completed builds.
         /// </summary>
-        public bool PreserveStashes { get; set; }
-
-        public int? PreserveStashesBuildCount { get; set; }
+        public JenkinsOptionsOptions PreserveStashes(int? buildCount = null)
+        {
+            _options.Options.PreserveStashes = true;
+            _options.Options.PreserveStashesBuildCount = buildCount;
+            return this;
+        }
 
         /// <summary>
         /// Set the quiet period, in seconds, for the Pipeline, overriding the global default.
         /// For example: options { quietPeriod(30) }
         /// </summary>
-        public int? QuietPeriod { get; set; }
+        public JenkinsOptionsOptions QuietPeriod(int periodInSeconds)
+        {
+            _options.Options.QuietPeriod = periodInSeconds;
+            return this;
+        }
 
         /// <summary>
         /// On failure, retry the entire Pipeline the specified number of times.
         /// For example: options { retry(3) }
         /// </summary>
-        public int? Retry { get; set; }
+        public JenkinsOptionsOptions Retry(int numberOfRetries)
+        {
+            _options.Options.Retry = numberOfRetries;
+            return this;
+        }
 
         /// <summary>
         /// Skip checking out code from source control by default in the agent directive.
         /// For example: options { skipDefaultCheckout() }
         /// </summary>
-        public bool SkipDefaultCheckout { get; set; }
+        public JenkinsOptionsOptions SkipDefaultCheckout()
+        {
+            _options.Options.SkipDefaultCheckout = true;
+            return this;
+        }
 
         /// <summary>
         /// Skip stages once the build status has gone to UNSTABLE
         /// . For example: options { skipStagesAfterUnstable() }
         /// </summary>
-        public bool SkipStagesAfterUnstable { get; set; }
+        public JenkinsOptionsOptions SkipStagesAfterUnstable()
+        {
+            _options.Options.SkipStagesAfterUnstable = true;
+            return this;
+        }
 
         /// <summary>
         /// Set a timeout period for the Pipeline run, after which Jenkins should abort the Pipeline.
         /// For example: options { timeout(time: 1, unit: 'HOURS') }
         /// </summary>
-        public int? Timeout { get; set; }
-
-        public string TimeoutUnit { get; set; }
+        public JenkinsOptionsOptions Timeout(int timeoutPeriod, string unit = "MINUTES")
+        {
+            _options.Options.Timeout = timeoutPeriod;
+            _options.Options.TimeoutUnit = unit;
+            return this;
+        }
 
         /// <summary>
         /// timestamps Prepend all console output generated by the Pipeline run with the time at which the line was emitted.
         /// For example: options { timestamps() }
         /// </summary>
-        public bool TimeStamps { get; set; }
+        public JenkinsOptionsOptions TimeStamps()
+        {
+            _options.Options.TimeStamps = true;
+            return this;
+        }
     }
 }

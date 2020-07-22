@@ -155,10 +155,16 @@ namespace FlubuCore.BuildServers.Configurations
                     sb.AppendLine();
                 }
 
-                if (options.PreserveStashes.HasValue)
+                if (options.PreserveStashes)
                 {
-                    sb.Append(indent).AppendFormat("preserveStashes(buildCount: {0})", options.PreserveStashes);
-                    sb.AppendLine();
+                    if (options.PreserveStashesBuildCount.HasValue)
+                    {
+                        sb.Append(indent).AppendFormat("preserveStashes(buildCount: {0})", options.PreserveStashesBuildCount).AppendLine();
+                    }
+                    else
+                    {
+                        sb.Append(indent).AppendLine("preserveStashes()");
+                    }
                 }
 
                 if (options.QuietPeriod.HasValue)
