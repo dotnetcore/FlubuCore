@@ -285,6 +285,28 @@ namespace FlubuCore.Scripting
                             _flubuConfiguration.JenkinsOptions.AddFlubuTargets(target.TargetName);
                         }
 
+                        var rt = flubuSession.Tasks()
+                            .RunProgramTask("git")
+                            .WithArguments("rev-parse", "--is-inside-work-tree")
+                            .NoLog()
+                            .DoNotLogTaskExecutionInfo()
+                            .DoNotFailOnError()
+                            .CaptureOutput()
+                            .CaptureErrorOutput();
+
+                        rt.Execute(flubuSession);
+
+                        var errorOutput = rt.GetErrorOutput();
+
+                        if (string.IsNullOrEmpty(errorOutput))
+                        {
+                            _flubuConfiguration.JenkinsOptions.AddCustomStageBeforeTargets(s =>
+                            {
+                                s.Name = "Checkout";
+                                s.AddStep(JenkinsBuiltInSteps.CheckoutStep);
+                            });
+                        }
+
                         configuration.FromOptions(_flubuConfiguration.JenkinsOptions);
                         JenkinsConfigurationSerializer jenkinsConfigurationSerializer = new JenkinsConfigurationSerializer();
                         var jenkinsFile = jenkinsConfigurationSerializer.Serialize(configuration);
