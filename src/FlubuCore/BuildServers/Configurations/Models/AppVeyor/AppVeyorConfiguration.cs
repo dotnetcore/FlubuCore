@@ -18,7 +18,7 @@ namespace FlubuCore.BuildServers.Configurations.Models.AppVeyor
 
         public List<string> Services { get; set; }
 
-        public For For { get; set; }
+        public List<For> For { get; set; }
 
         public void FromOptions(AppVeyorOptions options)
         {
@@ -44,23 +44,25 @@ namespace FlubuCore.BuildServers.Configurations.Models.AppVeyor
                 Services = options.Services;
             }
 
-            For = new For();
+            For = new List<For>();
 
             foreach (var image in options.Images)
             {
+                For f = new For();
+
                 var matrix = new Matrix();
-                matrix.Only = new Only
+                matrix.Only = new List<Only>
                 {
-                    Image = new List<string> { image }
+                    new Only { Image = image }
                 };
 
-                matrix.BeforeBuild.Add(CreateBuild("dotnet tool install --global FlubuCore.Tool --version 5.1.8", image));
+                f.BeforeBuild.Add(CreateBuild("dotnet tool install --global FlubuCore.Tool --version 5.1.8", image));
 
                 foreach (var beforeBuild in options.BeforeBuilds)
                 {
                     if (beforeBuild.image.Equals("all", StringComparison.OrdinalIgnoreCase) || beforeBuild.image == image)
                     {
-                        matrix.BeforeBuild.Add(CreateBuild(beforeBuild.beforeScript, beforeBuild.image));
+                        f.BeforeBuild.Add(CreateBuild(beforeBuild.beforeScript, beforeBuild.image));
                     }
                 }
 
@@ -68,8 +70,8 @@ namespace FlubuCore.BuildServers.Configurations.Models.AppVeyor
                 {
                     if (script.image.Equals("all", StringComparison.OrdinalIgnoreCase) || script.image == image)
                     {
-                        matrix.BuildScript = new List<Build>();
-                        matrix.BuildScript.Add(CreateBuild(script.script, script.image));
+                        f.BuildScript = new List<Build>();
+                        f.BuildScript.Add(CreateBuild(script.script, script.image));
                     }
                 }
 
@@ -79,26 +81,27 @@ namespace FlubuCore.BuildServers.Configurations.Models.AppVeyor
                 {
                     if (target.image.Equals("all", StringComparison.OrdinalIgnoreCase) || target.image == image)
                     {
-                        matrix.BuildScript.Add(CreateBuild($"flubu {target.target}", target.image));
+                        f.BuildScript.Add(CreateBuild($"flubu {target.target}", target.image));
                         customTargetAddedForImage = true;
                     }
                 }
 
                 if (!customTargetAddedForImage)
                 {
-                    matrix.BuildScript.Add(CreateBuild($"flubu {string.Join(" ", options.TargetNames)}", image));
+                    f.BuildScript.Add(CreateBuild($"flubu {string.Join(" ", options.TargetNames)}", image));
                 }
 
                 foreach (var script in options.CustomScriptsAfterTarget)
                 {
                     if (script.image.Equals("all", StringComparison.OrdinalIgnoreCase) || script.image == image)
                     {
-                        matrix.BuildScript = new List<Build>();
-                        matrix.BuildScript.Add(CreateBuild(script.script, script.image));
+                        f.BuildScript = new List<Build>();
+                        f.BuildScript.Add(CreateBuild(script.script, script.image));
                     }
                 }
 
-                For.Matrix.Add(matrix);
+                f.Matrix = matrix;
+                For.Add(f);
             }
         }
 

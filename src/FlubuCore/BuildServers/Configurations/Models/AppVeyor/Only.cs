@@ -6,6 +6,6 @@ namespace FlubuCore.BuildServers.Configurations.Models.AppVeyor
 {
     public class Only
     {
-        public List<string> Image { get; set; } = new List<string>();
+        public string Image { get; set; }
     }
 }
