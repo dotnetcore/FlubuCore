@@ -53,5 +53,11 @@ namespace FlubuCore.BuildServers.Configurations
 
             return this;
         }
+
+        public JenkinsPostOptions AddArchiveArtifactsPostStep(JenkinsPostConditions condition, string fileGlobbingExpresion)
+        {
+            AddCustomPostStep(condition, $"archiveArtifacts '{fileGlobbingExpresion}'");
+            return this;
+        }
     }
 }

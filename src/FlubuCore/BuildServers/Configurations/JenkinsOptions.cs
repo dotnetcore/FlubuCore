@@ -9,6 +9,8 @@ namespace FlubuCore.BuildServers.Configurations
     {
         private JenkinsPostOptions _postOptions;
 
+        private JenkinsBuiltInStageOptions _builtInStageOptions;
+
         protected internal JenkinsOptionsDirective Options { get; set; }
 
         protected internal string WorkingDirectory { get; set; }
@@ -26,7 +28,9 @@ namespace FlubuCore.BuildServers.Configurations
         protected internal List<JenkinsPost> JenkinsPosts { get; set; } = new List<JenkinsPost>();
 
         protected internal Dictionary<string, string> Environment { get; set; } = new Dictionary<string, string>();
-
+        
+        protected internal bool RemoveBuiltInCheckoutStage { get; set; }
+        
         public JenkinsOptions AddEnvironment(string key, string value)
         {
             Environment.Add(key, value);
@@ -67,6 +71,17 @@ namespace FlubuCore.BuildServers.Configurations
             Stage taskItem = new Stage();
             stageOptions.Invoke(taskItem);
             CustomStagesAfterTargets.Add(taskItem);
+            return this;
+        }
+
+        public JenkinsOptions AddBuiltInStages(Action<JenkinsBuiltInStageOptions> builtInStageOptions)
+        {
+            if (_builtInStageOptions == null)
+            {
+                _builtInStageOptions = new JenkinsBuiltInStageOptions(this);
+            }
+
+            builtInStageOptions.Invoke(_builtInStageOptions);
             return this;
         }
 
