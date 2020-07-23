@@ -10,7 +10,7 @@ namespace FlubuCore.BuildServers.Configurations.Models.AppVeyor
     {
         public List<string> Image { get; set; }
 
-        [YamlMember(Alias = "clone_depth")]
+        [YamlMember(Alias = "clone_depth", ApplyNamingConventions = false)]
         public int? CloneDepth { get; set; }
 
         [YamlMember(Alias = "skip_commits", ApplyNamingConventions = false)]
