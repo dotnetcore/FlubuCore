@@ -29,7 +29,7 @@ Following code adds compile target to flubu commands. Compile target compiles th
 ```C#
 public class MyBuildScript : DefaultBuildScript
 {	
-    protected override void ConfigureTargets(ITaskContext session)
+    protected override void ConfigureTargets(ITaskContext context)
     {
         var compile = context.CreateTarget("compile")
 			.SetDescription("Compiles the solution.")
