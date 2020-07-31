@@ -108,10 +108,11 @@ context.CreateTarget("Example")
 
 - `.Interactive()` - 交互地将参数从控制台传递给任务的方法或参数。
 
-#### **Task attributes (Versioning)**
-It is possible to execute some tasks with attribute on property
+#### **任务特性（版本控制）**
 
-Flubu will inject return value of the task to the property. This is especially usefull for all versioning tasks, basically all tasks that return a value. See `FlubuCore.Tasks.Attributes` namespace for all available attributes.
+可以通过属性上的特定（Attribute）来执行某些任务。
+
+Flubu 将会把任务的返回值注入到属性中。这对所有版本控制任务、尤其是有返回值的任务特别有用。有关所有可用的特性，请参阅 `FlubuCore.Tasks.Attributes` 命名空间。
 
 ``` C#     
 [FetchBuildVersionFromFile]
@@ -123,7 +124,7 @@ public BuildVersion BuildVersion { get;  }
 public GitVersion GitVersion { get;  }
 ```
 
-This allows you to access version information in ConfigureTarget which is not possible if versioning task is executed for example as target dependency
+你可以通过 ConfigureTarget 获取版本信息，而这些在版本控制任务已执行后是不可获得的（比如目标依赖项等）。
 
 ``` C# 
 protected override void ConfigureTargets(ITaskContext context)
@@ -184,7 +185,7 @@ var targetB = context.CreateTarget("TargetB");
 var targetC = context.CreateTarget("TargetC").DependsOn(targetB, targetA);
 ```
 
-It is also possible to reverse dependency
+也可以反转依赖关系：
 
 ```C#
 var targetC = context.CreateTarget("TargetC").DependenceOf(targetA);      
@@ -394,15 +395,15 @@ context.CreateTarget("Test")
 - SetAsDefault 方法：当应用于目标时，如果在使用 runner 运行脚本时没有指定目标，则默认运行该目标；
 - SetAsHidden 方法：当应用于目标时，目标将不会被显示在帮助信息中，并且它只能作为其它目标的依赖项来运行；
 - Must 方法：设置必要条件，该条件必须满足，不然在任务执行之前目标就会执行失败。
-- Requires method: Parameter specified in required method must not be null otherwise target execution will fail before any task get executed. 
+- Requires 方法：在 `required` 方法中指定的参数不能为 `null`，否则在执行任务前就会失败。
 
 #### 上下文功能
 
 
 - Log：`context.LogInfo("Some Text2", ConsoleColor.Blue);`；
 - GetVsSolution：获取解决方案和项目信息 `context.GetVsSolution();`。
-- GetFiles: Get Files from specified directory with option to filter files with glob pattern `context.GetFiles(OutputDirectory, "*.nupkg");`
-- GetDirectories: Get Directories from specified directory with option to filter files with glob pattern `context.GetFiles(OutputDirectory, "*.nupkg");`
+- GetFiles: 在选项中使用 Glob Pattern 模式筛选指定目录获得文件 `context.GetFiles(OutputDirectory, "*.nupkg");`；
+- GetDirectories: 在选项中使用 Glob Pattern 模式从制定目录中获取目录 `context.GetFiles(OutputDirectory, "*.nupkg");`；
 - GetEnviromentVariable 方法：根据名称（name）获取环境变量 `context.GetEnvironmentVariable("someVariable");`；
 
 <a name="Run-any-program"></a>
@@ -436,9 +437,9 @@ protected override void ConfigureTargets(ITaskContext session)
 
 ### **构建属性**
 
-You can define various build properties with Attributes on properties or in ConfigureBuildProperties method (old way) to share them in different tasks and custom code.
+你可以通过属性上的特性（attribute）或 `ConfigureBuildProperties` 方法（以前的方法）定义多个构件属性，在不同的任务和自定义代码中共享它们。
 
-Following example shows how to share solution file name and configuration across various targets/tasks.
+下例展示了如何在各种目标（Target）/任务（Task）间共享解决方案文件名和配置。
 
 ```C# 
     [SolutionFileName]
@@ -457,14 +458,14 @@ protected override void ConfigureTargets(ITaskContext context)
 }
 ```
 
-Alternative:
+另外：
+
 ```C# 
     [BuildProperty(BuildProps.BuildConfiguration)]
     public string BuildConfiguration { get; set; } = "Release";
 ```
-If Solution file name and path would not be set through build property attributes you would have to set it in each task separately.
+如果解决方案文件名和路径不能通过构建属性特性（build property attributes）来设置，那么就必须在每个任务中分别进行设置，就像是：
 
-like so:
 ```C#
 protected override void ConfigureTargets(ITaskContext context)
 {
