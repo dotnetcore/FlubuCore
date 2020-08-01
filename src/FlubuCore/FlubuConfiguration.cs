@@ -70,7 +70,7 @@ namespace FlubuCore
 
         public void CopyFrom(FlubuConfigurationBuilder builder)
         {
-            TravisOptions = builder.TravisConfiguration;
+            TravisOptions = builder.TravisOptions;
             AzurePipelineOptions = builder.AzurePipelineOptions;
             AppVeyorOptions = builder.AppVeyorOptions;
             GitHubActionsOptions = builder.GitHubActionsOptions;
