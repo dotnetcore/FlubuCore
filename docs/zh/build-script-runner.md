@@ -1,6 +1,6 @@
 在 .NET 中，你可以通过控制台应用程序 flubu.exe 运行 flubu 构建脚本。可以通过 nuget 添加 Flubu.Runner 以便获取控制台应用程序。
 
-在 .NET Core 中可以用 dotnet 命令或全局工具来运行 flubu 构建脚本。通过 nuget 添加 FlubuCore，将 dotnet-flubu 作为 dotnet cli 工具引入项目。至于如何将其添加为 dotnet cli 工具请移步**入门**一节。
+在 .NET Core 中可以用 dotnet 命令或全局工具来运行 flubu 构建脚本。通过 nuget 添加 FlubuCore，将 dotnet-flubu 作为 dotnet cli 工具引入项目。至于如何将其添加为 dotnet cli 工具请移步 **入门** 一节。
 
 ### **如何使用**
 
@@ -38,24 +38,21 @@ Target 可以和添加有 `-parallel` 选项的任务一同执行。
 
 这条命令将列出所有描述有执行目标的任务，以及哪些参数可以传递给目标（target）中的特定任务。
 
-##### Specifiying which script Flubu should run.
+##### 应规范 Flubu 的脚本运行。
 
-- Easiest way is to put build script at one of the default locations (you can find list of default locations below). If it is located at one of the default locations FlubuCore will execute the script automatically `flubu {TargetName}`. 
+- 最简单的办法就是把构建脚本放在默认位置（你可以在下面找到默认位置的列表）之一。如果它位于默认位置，那么 FlubuCore 将自动执行脚本 `flubu {TargetName}`。
 
-- Second option is to specify script location with -s option `flubu {TargetName} -s={pathToScriptFile}` 
+- 第二个选项是使用 `-s` 来指定脚本位置 `flubu {TargetName} -s={pathToScriptFile}`
 
-- Third option is to run `flubu setup` and specify script and csproj(optional) location in interactive mode.
- Flubu will store script and csproj location to `.flubu` file. if `.flubu` file is present FlubuCore will read location of the script and csproj file from that file. Additional benefit when storing location to `.flubu` file is 
- that you don't need to execute script at the root directory of the project. Meaning if your project is for example located at "c:\_git\myproject" you can execute script inside any subfolder of that location. The location where a 
- .flubu file is found will be used as the "work directory" during a build process, and a correct "work directory" is crucial to use relative paths in our build scripts.
+- 第三个选择是运行 `flubu setup` 并以交互模式（interactive mode）指定脚本和 csproj 文件（可选）的位置。Flubu 会将脚本和 csproj 文件的位置保存在 `.flubu` 文件中。如果 `.flubu` 文件已存在，那么 FlubuCore 将从该文件中读取脚本和 csproj 文件的位置。把存储位置保存在 `.flubu` 文件的另一个好处是不需要在项目根目录下执行脚本。这意味着，即使你的项目位于 "c:_git\myproject" 你也可以在该目录下的任意一个子目录中执行脚本。`.flubu` 文件所在的位置在构建过程（build process）中会被视作「工作目录（work directory）」,「工作目录」会使用基于构建脚本的相对路径。
 
 #### **默认构建脚本的位置***
 
 - "Build.cs"
 
-- “BuildScript.cs”
+- "BuildScript.cs"
 
-- “DeployScript.cs”
+- "DeployScript.cs"
 
 - "DeploymentScript.cs"
 
@@ -71,13 +68,13 @@ Target 可以和添加有 `-parallel` 选项的任务一同执行。
 
 - "_BuildScripts/BuildScript.cs"
 
-- “BuildScript/BuildScript.cs”
+- "BuildScript/BuildScript.cs"
 
-- “buildscript/deployscript.cs”
+- "buildscript/deployscript.cs"
 
-- “buildscripts/buildscript.cs”
+- "buildscripts/buildscript.cs"
 
-- “buildscripts/deployscript.cs”
+- "buildscripts/deployscript.cs"
 
 - "BuildScript/DeploymentScript.cs"
 
