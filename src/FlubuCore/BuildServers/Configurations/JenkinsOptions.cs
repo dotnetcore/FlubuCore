@@ -28,9 +28,9 @@ namespace FlubuCore.BuildServers.Configurations
         protected internal List<JenkinsPost> JenkinsPosts { get; set; } = new List<JenkinsPost>();
 
         protected internal Dictionary<string, string> Environment { get; set; } = new Dictionary<string, string>();
-        
+
         protected internal bool RemoveBuiltInCheckoutStage { get; set; }
-        
+
         public JenkinsOptions AddEnvironment(string key, string value)
         {
             Environment.Add(key, value);

@@ -21,7 +21,7 @@ namespace FlubuCore.BuildServers.Configurations
         protected internal List<string> Scripts { get; set; } = new List<string>()
         {
             @"export PATH=""$PATH:$HOME/.dotnet/tools""",
-            @"dotnet tool install --global FlubuCore.GlobalTool --version 5.1.1"
+            @"dotnet tool install --global FlubuCore.GlobalTool --version 5.1.8"
         };
 
         protected internal List<string> ScriptsAfter { get; set; } = new List<string>();
@@ -30,7 +30,7 @@ namespace FlubuCore.BuildServers.Configurations
 
         protected internal string Sudo { get; set; } = "required";
 
-        protected internal string DotnetVersion { get; set; } = "3.1.100";
+        protected internal string DotnetVersion { get; set; } = "3.1.201";
 
         protected internal string OsImage { get; set; }
 
@@ -40,7 +40,7 @@ namespace FlubuCore.BuildServers.Configurations
 
         protected internal bool ShouldGenerateOnEachBuild { get; set; }
 
-        protected internal string ConfigFileName { get; set; }
+        protected internal string ConfigFileName { get; set; } = ".travis.generated.yml";
 
         /// <summary>
         /// Adds 'before_script:' entries.
