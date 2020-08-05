@@ -11,12 +11,16 @@ namespace FlubuCore.BuildServers.Configurations.Models.GitHubActions
 {
     public class GitHubActionsConfiguration
     {
+        public string Name { get; set; }
+
         public On On { get; set; }
 
         public Dictionary<string, GitHubActionJob> Jobs { get; set; } = new Dictionary<string, GitHubActionJob>();
 
         public void FromOptions(GitHubActionsOptions options)
         {
+            Name = options.Name;
+
             if (options.VmImages.IsNullOrEmpty())
             {
                 options.SetVirtualMachineImage(GitHubActionsImage.WindowsLatest, GitHubActionsImage.UbuntuLatest, GitHubActionsImage.MacOsLatest);
@@ -117,6 +121,12 @@ namespace FlubuCore.BuildServers.Configurations.Models.GitHubActions
                 {
                     job.Env = envVariables.Item2;
                 }
+
+                job.AddStep(new NameStep
+                {
+                    Name = "Install Flubu",
+                    Run = "dotnet tool install --global FlubuCore.Tool --version 5.1.8"
+                });
 
                 int stepCount = 1;
                 foreach (var customStepsBeforeTarget in options.CustomStepsBeforeTargets)

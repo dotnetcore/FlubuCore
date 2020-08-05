@@ -15,6 +15,8 @@ namespace FlubuCore.BuildServers.Configurations
             OnPushOptions = new GitHubActionsPushOptions(this);
         }
 
+        protected internal string Name { get; set; } = "build";
+
         protected internal GitHubActionsPullRequestOptions OnPullRequestOptions { get; set; }
 
         protected internal GitHubActionsPushOptions OnPushOptions { get; set; }
@@ -109,6 +111,17 @@ namespace FlubuCore.BuildServers.Configurations
         public GitHubActionsOptions SetConfigFileName(string fileName)
         {
             ConfigFileName = fileName;
+            return this;
+        }
+
+        /// <summary>
+        /// Set's workflow name. Default is 'Build'.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public GitHubActionsOptions SetName(string name)
+        {
+            Name = name;
             return this;
         }
 
