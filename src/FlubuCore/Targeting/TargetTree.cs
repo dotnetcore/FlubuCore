@@ -389,7 +389,7 @@ namespace FlubuCore.Targeting
             }
         }
 
-        public List<ITargetInternal> GetTargetsInExecutionOrder(IFlubuSession session)
+        public List<ITargetInternal> GetTargetsInExecutionOrder(IFlubuSession session, bool includeTargetsWithoutTasks = true)
         {
             IEnumerable<string> targetNames = session.Args.MainCommands;
             if (targetNames == null || !targetNames.Any())
@@ -403,10 +403,10 @@ namespace FlubuCore.Targeting
                 targetNames = DefaultTargets.Select(t => t.TargetName);
             }
 
-            return GetTargetsInExecutionOrder(targetNames);
+            return GetTargetsInExecutionOrder(targetNames, includeTargetsWithoutTasks);
         }
 
-        public List<ITargetInternal> GetTargetsInExecutionOrder(IEnumerable<string> targetNames)
+        public List<ITargetInternal> GetTargetsInExecutionOrder(IEnumerable<string> targetNames, bool includeTargetsWithoutTasks = true)
         {
             var targetsInOrder = new List<ITargetInternal>();
 
@@ -427,6 +427,14 @@ namespace FlubuCore.Targeting
 
                 if (!targetsInOrder.Exists(t => t.TargetName.Equals(target.TargetName, StringComparison.OrdinalIgnoreCase)))
                 {
+                    if (!includeTargetsWithoutTasks)
+                    {
+                        if (!target.TasksGroups.Any())
+                        {
+                            return;
+                        }
+                    }
+
                     targetsInOrder.Add(target);
                 }
             }

@@ -151,7 +151,7 @@ namespace FlubuCore.Scripting
 
         private void RunBuild(IFlubuSession flubuSession)
         {
-            flubuSession.TargetTree.ResetTargetTree();
+             flubuSession.TargetTree.ResetTargetTree();
             ConfigureBuildProperties(flubuSession);
 
             ConfigureDefaultTargets(flubuSession);
@@ -392,7 +392,7 @@ namespace FlubuCore.Scripting
                     {
                         AzurePipelinesConfiguration config = new AzurePipelinesConfiguration();
 
-                        foreach (var target in flubuSession.TargetTree.GetTargetsInExecutionOrder(flubuSession))
+                        foreach (var target in flubuSession.TargetTree.GetTargetsInExecutionOrder(flubuSession, false))
                         {
                             _flubuConfiguration.AzurePipelineOptions.AddFlubuTargets(target.TargetName);
                         }
@@ -403,7 +403,7 @@ namespace FlubuCore.Scripting
                                 (_flubuConfiguration.AzurePipelineOptions.CustomTargets[i].image,
                                     flubuSession.TargetTree
                                         .GetTargetsInExecutionOrder(_flubuConfiguration.AzurePipelineOptions.CustomTargets[i]
-                                            .targets)
+                                            .targets, false)
                                         .Select(x => x.TargetName).ToList());
                         }
 
@@ -418,7 +418,7 @@ namespace FlubuCore.Scripting
                     {
                         GitHubActionsConfiguration config = new GitHubActionsConfiguration();
 
-                        foreach (var target in flubuSession.TargetTree.GetTargetsInExecutionOrder(flubuSession))
+                        foreach (var target in flubuSession.TargetTree.GetTargetsInExecutionOrder(flubuSession, false))
                         {
                             _flubuConfiguration.GitHubActionsOptions.AddFlubuTargets(target.TargetName);
                         }
@@ -429,7 +429,7 @@ namespace FlubuCore.Scripting
                                 (_flubuConfiguration.GitHubActionsOptions.CustomTargets[i].image,
                                     flubuSession.TargetTree
                                         .GetTargetsInExecutionOrder(_flubuConfiguration.GitHubActionsOptions.CustomTargets[i]
-                                            .targets)
+                                            .targets, false)
                                         .Select(x => x.TargetName).ToList());
                         }
 

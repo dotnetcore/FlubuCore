@@ -471,7 +471,7 @@ namespace FlubuCore.Targeting
                     {
                         if (context.BuildSystems().IsLocalBuild && !context.Properties.Get<bool>(PredefinedBuildProperties.IsWebApi))
                         {
-                            Console.Write($"{member.Name} requires value: ");
+                            context.LogInfo($"{member.Name} requires value: ");
                             string value = Console.ReadLine();
                             var propertyInfo = (PropertyInfo)member;
                             object parsedValue = MethodParameterModifier.ParseValueByType(value, propertyInfo.PropertyType);
