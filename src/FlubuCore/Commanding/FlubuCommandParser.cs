@@ -200,6 +200,9 @@ namespace FlubuCore.Commanding
                         case "githubactions":
                         case "githubaction":
                         case "github":
+                        case "actions":
+                        case "workflow":
+                        case "ghworkflow":
                         {
                             _parsed.GenerateContinousIntegrationConfigs.Add(BuildServerType.GitHubActions);
                             break;

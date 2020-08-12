@@ -133,6 +133,12 @@ namespace FlubuCore.BuildServers.Configurations.Models.GitHubActions
 
                 job.AddStep(new NameStep
                 {
+                    Name = "Checkout",
+                    Uses = "actions/checkout@v2"
+                });
+
+                job.AddStep(new NameStep
+                {
                     Name = "Install Flubu",
                     Run = "dotnet tool install --global FlubuCore.Tool --version 5.1.8"
                 });
