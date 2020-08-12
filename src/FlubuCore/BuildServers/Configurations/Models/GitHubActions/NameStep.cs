@@ -9,7 +9,7 @@ namespace FlubuCore.BuildServers.Configurations.Models.GitHubActions
     {
         public string Name { get; set; }
 
-        [YamlMember(Alias = "working-directory")]
+        [YamlMember(Alias = "working-directory", ApplyNamingConventions = false)]
         public string WorkingDirectory { get; set; }
 
         public string Uses { get; set; }
