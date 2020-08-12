@@ -35,10 +35,18 @@ namespace FlubuCore.BuildServers.Configurations.Models.AzurePipelines
             foreach (var vmImage in options.VmImages)
             {
                 var job = new JobItem();
+                job.Job = vmImage.Replace("-", " ");
+
                 job.Pool = new Pool()
                 {
                     VmImage = vmImage
                 };
+
+                job.AddStep(new ScriptItem
+                {
+                    DisplayName = "Install flubu",
+                    Script = "dotnet tool install --global FlubuCore.Tool --version 5.1.8"
+                });
 
                 foreach (var customStepsBeforeTarget in options.CustomStepsBeforeTargets)
                 {
