@@ -35,12 +35,22 @@ namespace FlubuCore.BuildServers.Configurations.Models.AzurePipelines
             foreach (var vmImage in options.VmImages)
             {
                 var job = new JobItem();
-                job.Job = vmImage.Replace("-", " ");
+                job.Job = vmImage.Replace("-", "_");
 
                 job.Pool = new Pool()
                 {
                     VmImage = vmImage
                 };
+
+                job.AddStep(new TaskItem
+                {
+                    DisplayName = "Install .net core sdk",
+                    Task = "DotNetCoreInstaller@1",
+                    Inputs = new TaskInputs
+                    {
+                        Version = "3.1.302"
+                    }
+                });
 
                 job.AddStep(new ScriptItem
                 {
