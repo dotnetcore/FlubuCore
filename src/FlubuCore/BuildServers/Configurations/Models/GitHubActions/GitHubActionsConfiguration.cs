@@ -6,6 +6,8 @@ using FlubuCore.BuildServers.Configurations.Models.AzurePipelines;
 using FlubuCore.BuildServers.Configurations.Models.AzurePipelines.Job;
 using FlubuCore.Infrastructure;
 using Microsoft.Extensions.Configuration.EnvironmentVariables;
+using YamlDotNet.Core;
+using YamlDotNet.Serialization;
 
 namespace FlubuCore.BuildServers.Configurations.Models.GitHubActions
 {
@@ -14,6 +16,9 @@ namespace FlubuCore.BuildServers.Configurations.Models.GitHubActions
         public string Name { get; set; }
 
         public On On { get; set; }
+
+        [YamlMember(Alias = "on")]
+        public string On2 { get; set; }
 
         public Dictionary<string, GitHubActionJob> Jobs { get; set; } = new Dictionary<string, GitHubActionJob>();
 
@@ -29,6 +34,10 @@ namespace FlubuCore.BuildServers.Configurations.Models.GitHubActions
             if (options.HasAnyOn)
             {
                 On = new On();
+            }
+            else
+            {
+                On2 = "[push, pull_request]";
             }
 
             if (options.HasAnyOnPullRequests)

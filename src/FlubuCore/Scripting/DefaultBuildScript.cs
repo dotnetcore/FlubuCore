@@ -436,7 +436,9 @@ namespace FlubuCore.Scripting
                         config.FromOptions(_flubuConfiguration.GitHubActionsOptions);
 
                         var yaml = serializer.Serialize(config);
-                        File.WriteAllText(_flubuConfiguration.GitHubActionsOptions.ConfigFileName, yaml);
+                        //// Removes ' because yamldotnet adds them when writting [] and this is not valid in github workflows.
+                        //// todo do this properly with yamldotnet probably by writing custom type converter.
+                        File.WriteAllText(_flubuConfiguration.GitHubActionsOptions.ConfigFileName, yaml.Replace('\'', ' '));
                         break;
                     }
 
