@@ -56,22 +56,26 @@ namespace FlubuCore.BuildServers.Configurations.Models.AppVeyor
                     new Only { Image = image }
                 };
 
-                f.BeforeBuild.Add(CreateBuild("dotnet tool install --global FlubuCore.Tool --version 5.1.8", image));
+                f.BeforeBuild.Add(CreateCommand("dotnet tool install --global FlubuCore.Tool --version 5.1.8", image));
 
                 foreach (var beforeBuild in options.BeforeBuilds)
                 {
                     if (beforeBuild.image.Equals("all", StringComparison.OrdinalIgnoreCase) || beforeBuild.image == image)
                     {
-                        f.BeforeBuild.Add(CreateBuild(beforeBuild.beforeScript, beforeBuild.image));
+                        f.BeforeBuild.Add(CreateCommand(beforeBuild.beforeScript, beforeBuild.image));
                     }
+                }
+
+                if (!string.IsNullOrEmpty(options.WorkingDirectory))
+                {
+                    f.BuildScript.Add(CreateCommand($"cd {options.WorkingDirectory}", image));
                 }
 
                 foreach (var script in options.CustomScriptsBeforeTarget)
                 {
                     if (script.image.Equals("all", StringComparison.OrdinalIgnoreCase) || script.image == image)
                     {
-                        f.BuildScript = new List<Build>();
-                        f.BuildScript.Add(CreateBuild(script.script, script.image));
+                        f.BuildScript.Add(CreateCommand(script.script, script.image));
                     }
                 }
 
@@ -81,22 +85,21 @@ namespace FlubuCore.BuildServers.Configurations.Models.AppVeyor
                 {
                     if (target.image.Equals("all", StringComparison.OrdinalIgnoreCase) || target.image == image)
                     {
-                        f.BuildScript.Add(CreateBuild($"flubu {target.target}", target.image));
+                        f.BuildScript.Add(CreateCommand($"flubu {target.target}", target.image));
                         customTargetAddedForImage = true;
                     }
                 }
 
                 if (!customTargetAddedForImage)
                 {
-                    f.BuildScript.Add(CreateBuild($"flubu {string.Join(" ", options.TargetNames)}", image));
+                    f.BuildScript.Add(CreateCommand($"flubu {string.Join(" ", options.TargetNames)}", image));
                 }
 
                 foreach (var script in options.CustomScriptsAfterTarget)
                 {
                     if (script.image.Equals("all", StringComparison.OrdinalIgnoreCase) || script.image == image)
                     {
-                        f.BuildScript = new List<Build>();
-                        f.BuildScript.Add(CreateBuild(script.script, script.image));
+                        f.BuildScript.Add(CreateCommand(script.script, script.image));
                     }
                 }
 
@@ -105,7 +108,7 @@ namespace FlubuCore.BuildServers.Configurations.Models.AppVeyor
             }
         }
 
-        private Build CreateBuild(string script, string image)
+        private Build CreateCommand(string script, string image)
         {
             var build = new Build();
             if (image.StartsWith("Visual"))
