@@ -276,6 +276,12 @@ namespace FlubuCore.Scripting
 
         protected virtual void AfterBuildExecution(IFlubuSession session)
         {
+            if (session.Args.GenerateContinousIntegrationConfigs != null &&
+                session.Args.GenerateContinousIntegrationConfigs.Count != 0)
+            {
+                return;
+            }
+
             session.TargetTree.LogBuildSummary(session);
         }
 
@@ -385,6 +391,7 @@ namespace FlubuCore.Scripting
 
                         var yaml = serializer.Serialize(config);
                         File.WriteAllText(_flubuConfiguration.TravisOptions.ConfigFileName, yaml);
+                        flubuSession.LogInfo($"Generated configuration file for travis: {_flubuConfiguration.TravisOptions.ConfigFileName}");
                         break;
                     }
 
@@ -410,7 +417,7 @@ namespace FlubuCore.Scripting
                         config.FromOptions(_flubuConfiguration.AzurePipelineOptions);
                         var yaml = serializer.Serialize(config);
                         File.WriteAllText(_flubuConfiguration.AzurePipelineOptions.ConfigFileName, yaml);
-
+                        flubuSession.LogInfo($"Generated configuration file for Azure pipeline: {_flubuConfiguration.AzurePipelineOptions.ConfigFileName}");
                         break;
                     }
 
@@ -439,6 +446,7 @@ namespace FlubuCore.Scripting
                         //// Removes ' because yamldotnet adds them when writting [] and this is not valid in github workflows.
                         //// todo do this properly with yamldotnet probably by writing custom type converter.
                         File.WriteAllText(_flubuConfiguration.GitHubActionsOptions.ConfigFileName, yaml.Replace('\'', ' '));
+                        flubuSession.LogInfo($"Generated configuration file for GitHub Actions: {_flubuConfiguration.GitHubActionsOptions.ConfigFileName}");
                         break;
                     }
 
@@ -480,6 +488,7 @@ namespace FlubuCore.Scripting
                         JenkinsConfigurationSerializer jenkinsConfigurationSerializer = new JenkinsConfigurationSerializer();
                         var jenkinsFile = jenkinsConfigurationSerializer.Serialize(configuration);
                         File.WriteAllText(_flubuConfiguration.JenkinsOptions.ConfigFileName, jenkinsFile);
+                        flubuSession.LogInfo($"Generated config for Jenkins: {_flubuConfiguration.JenkinsOptions.ConfigFileName}");
                         break;
                     }
 
@@ -491,6 +500,7 @@ namespace FlubuCore.Scripting
 
                         var yaml = serializer.Serialize(config);
                         File.WriteAllText(_flubuConfiguration.AppVeyorOptions.ConfigFileName, yaml);
+                        flubuSession.LogInfo($"Generated configuration file for AppVeyor: {_flubuConfiguration.AppVeyorOptions.ConfigFileName}");
                         break;
                     }
                 }
