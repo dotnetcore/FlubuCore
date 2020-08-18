@@ -22,12 +22,15 @@ jobs:
     - name: buildVersion
       working-directory: src
       run: flubu buildVersion --nd
-    - name: compile
+    - name: compile.linux
       working-directory: src
-      run: flubu compile --nd
-    - name: test
+      run: flubu compile.linux --nd
+    - name: test.linux
       working-directory: src
-      run: flubu test --nd
+      run: flubu test.linux --nd
+    - name: package.DotnetFlubu
+      working-directory: src
+      run: flubu package.DotnetFlubu --nd
   ubuntu-latest:
     name: ubuntu-latest
     runs-on: ubuntu-latest
@@ -39,12 +42,15 @@ jobs:
     - name: buildVersion
       working-directory: src
       run: flubu buildVersion --nd
-    - name: compile
+    - name: compile.linux
       working-directory: src
-      run: flubu compile --nd
-    - name: test
+      run: flubu compile.linux --nd
+    - name: test.linux
       working-directory: src
-      run: flubu test --nd
+      run: flubu test.linux --nd
+    - name: package.DotnetFlubu
+      working-directory: src
+      run: flubu package.DotnetFlubu --nd
   macos-latest:
     name: macos-latest
     runs-on: macos-latest
@@ -56,9 +62,12 @@ jobs:
     - name: buildVersion
       working-directory: src
       run: flubu buildVersion --nd
-    - name: compile
+    - name: compile.linux
       working-directory: src
-      run: flubu compile --nd
-    - name: test
+      run: flubu compile.linux --nd
+    - name: test.linux
       working-directory: src
-      run: flubu test --nd
+      run: flubu test.linux --nd
+    - name: package.DotnetFlubu
+      working-directory: src
+      run: flubu package.DotnetFlubu --nd
