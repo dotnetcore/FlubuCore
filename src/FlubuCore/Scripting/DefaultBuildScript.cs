@@ -375,7 +375,7 @@ namespace FlubuCore.Scripting
                 .DependsOn(prepareBuildDir, cleanOutput, generateCommonAssInfo);
         }
 
-          private void GenerateCiConfigs(IFlubuSession flubuSession, List<BuildServerType> generateCIConfigs, (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) targetsInfo)
+        private void GenerateCiConfigs(IFlubuSession flubuSession, List<BuildServerType> generateCIConfigs, (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) targetsInfo)
         {
             YamlConfigurationSerializer serializer = new YamlConfigurationSerializer();
             foreach (var buildServerType in generateCIConfigs)
