@@ -1,4 +1,4 @@
-## FlubuCore 6.0.0.0-preview2
+## FlubuCore 6.0.0.0-preview3
 
 ## FlubuCore 5.1.8.0
 - Added ServiceStatus And ServiceStop windows service control tasks.

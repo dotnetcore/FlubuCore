@@ -32,6 +32,7 @@ nav:
     - 'How to write and use plugins': 'write-plugins.md'
     - 'Tests and debuging': 'Tests-debugging.md' 
     - 'Execute script in console app or pack as global tool': 'execute-script-in-console-app-or-pack-as-global-tool.md'   
+    - 'Contionous integration configuration generation': 'CI-Generation.md'    
     - 'FlubuCore modules': 'flubu-modules.md'    
     - 'Web api' :
         - 'Getting started' : 'WebApi/getting-started.md'

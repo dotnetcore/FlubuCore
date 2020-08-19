@@ -190,6 +190,8 @@ flubu compile
 context.WaitForDebugger();
 ```
 
+* [Generate continous integration configuration files for Azure pipelines, Github actions, Appveyor, Travis and Jenkins.] (https://flubucore.dotnetcore.xyz/CI-Generation/) 
+
 - [透过 FlubuCore Web API 轻松实现远程部署自动化](https://flubucore-zh.dotnetcore.xyz/WebApi/getting-started/)
 
 - [可在其他 .NET 应用程序中使用 FlubuCore 任务](https://github.com/flubu-core/examples/blob/master/NetCore_csproj/BuildScript/BuildScriptTests.cs)。
