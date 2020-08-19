@@ -190,7 +190,7 @@ context.CreateTarget("Run.Libz")
     context.WaitForDebugger();
     ```
 
-* [Generate continous integration configuration files for Azure pipelines, Github actions, Appveyor, Travis and Jenkins.] (https://flubucore.dotnetcore.xyz/CI-Generation/) 
+* [Generate continous integration configuration files for Azure pipelines, Github actions, Appveyor, Travis and Jenkins.](https://flubucore.dotnetcore.xyz/CI-Generation/) 
 
 * [Easily automate deployments remotely via the FlubuCore Web API.](https://flubucore.dotnetcore.xyz/WebApi/getting-started/)
 
