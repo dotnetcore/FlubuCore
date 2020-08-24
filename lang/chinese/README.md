@@ -13,15 +13,15 @@
 [![Member project of .NET Core Community](https://img.shields.io/badge/member%20project%20of-NCC-9e20c9.svg)](https://github.com/dotnetcore)
 [![License](https://img.shields.io/github/license/dotnetcore/FlubuCore.svg)](https://github.com/dotnetcore/FlubuCore/blob/master/LICENSE)
 
-- [Introduction](#Introduction)
+- [介绍](#介绍)
 - [功能与优势](#功能与优势)
 - [入门](#入门)
 - [范例](#范例)
 - [贡献](#贡献)
-- [Backers and Sponsors](#Further-Development)
+- [支持者和赞助商](#支持者和赞助商)
 - [致谢](#致谢)
 
-## Introduction
+## 介绍
 
 “FlubuCore - Fluent Builder Core”，跨平台的构建与部署自动化系统，通过直观的 Fluent 接口，使用 C# 定义构建和部署脚本。这使你的代码获得自动完成、IntelliSense、调试、FlubuCore 自定义分析器，以及在脚本中对整个 .NET 生态的原生性访问。
 
@@ -190,7 +190,7 @@ flubu compile
 context.WaitForDebugger();
 ```
 
-* [Generate continous integration configuration files for Azure pipelines, Github actions, Appveyor, Travis and Jenkins.](https://flubucore.dotnetcore.xyz/CI-Generation/) 
+* [为 Azure pipelines、Github actions、Appveyor、Travis 和 Jenkins 生成持续集成配置文件](https://flubucore.dotnetcore.xyz/CI-Generation/) 
 
 - [透过 FlubuCore Web API 轻松实现远程部署自动化](https://flubucore-zh.dotnetcore.xyz/WebApi/getting-started/)
 
