@@ -265,7 +265,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
 
         private static PackageTask CreateZipPackageFromProjectsImplementation(TaskContext context, string zipPrefix, string targetFramework, string runtime, string destinationRootDir, Action<PackageTask> action, params string[] projects)
         {
-            var task = context.Tasks().PackageTask(string.Empty); // must be string.Empty because of a constuctor
+            var task = context.Tasks().PackageTask(destinationRootDir ?? string.Empty); // must be string.Empty because of a constuctor
 
             task.ZipPackage(zipPrefix);
 
