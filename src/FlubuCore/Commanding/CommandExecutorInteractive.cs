@@ -152,7 +152,7 @@ namespace FlubuCore.Commanding
             {
                 if (flubuSession.InteractiveMode)
                 {
-                    var commandLine = flubuConsole.ReadLine(Directory.GetCurrentDirectory());
+                    var commandLine = flubuConsole.ReadLine();
 
                     if (string.IsNullOrEmpty(commandLine))
                     {
@@ -248,7 +248,7 @@ namespace FlubuCore.Commanding
                 try
                 {
                     var flubuConsole = new FlubuConsole(_flubuSession.TargetTree, new List<Hint>());
-                    var commandLine = flubuConsole.ReadLine(Directory.GetCurrentDirectory());
+                    var commandLine = flubuConsole.ReadLine();
 
                     if (string.IsNullOrEmpty(commandLine))
                     {

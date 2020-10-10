@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
+using FlubuCore.Infrastructure.Terminal;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -180,8 +181,16 @@ namespace FlubuCore.Targeting
             string buildScriptLocation = null;
             while (!scriptFound)
             {
-                Console.Write("Enter path to script file (.cs) (enter to skip): ");
-                buildScriptLocation = Console.ReadLine();
+                var flubuConsole = new FlubuConsole(null, new List<Hint>(), options: o =>
+                {
+                    o.OnlyDirectoriesSuggestions = true;
+                    o.IncludeFileSuggestions = true;
+                    o.FileSuggestionsSearchPattern = "*.cs";
+                    o.InitialText = "Enter path to script file (.cs) (enter to skip):";
+                    o.WritePrompt = false;
+                });
+                buildScriptLocation = flubuConsole.ReadLine().Trim();
+
                 if (string.IsNullOrEmpty(buildScriptLocation) ||
                     (Path.GetExtension(buildScriptLocation) == ".cs" && File.Exists(buildScriptLocation)))
                 {
@@ -202,8 +211,15 @@ namespace FlubuCore.Targeting
             string csprojLocation = null;
             while (!csprojFound)
             {
-                Console.Write("Enter path to script project file(.csproj) location (enter to skip): ");
-                csprojLocation = Console.ReadLine();
+                var flubuConsole = new FlubuConsole(null, new List<Hint>(), options: o =>
+                {
+                    o.OnlyDirectoriesSuggestions = true;
+                    o.IncludeFileSuggestions = true;
+                    o.FileSuggestionsSearchPattern = "*.csproj";
+                    o.WritePrompt = false;
+                    o.InitialText = "Enter path to script project file(.csproj) location (enter to skip):";
+                });
+                csprojLocation = flubuConsole.ReadLine().Trim();
                 if (string.IsNullOrEmpty(csprojLocation) ||
                     (Path.GetExtension(csprojLocation) == ".csproj" && File.Exists(csprojLocation)))
                 {
@@ -224,10 +240,16 @@ namespace FlubuCore.Targeting
             string csprojLocation = null;
             while (!csprojFound)
             {
-                Console.Write("Enter flubu settings file location (enter to skip): ");
-                csprojLocation = Console.ReadLine();
-                if (string.IsNullOrEmpty(csprojLocation) ||
-                    (Path.GetExtension(csprojLocation) == ".json" && File.Exists(csprojLocation)))
+                var flubuConsole = new FlubuConsole(null, new List<Hint>(), options: o =>
+                {
+                    o.OnlyDirectoriesSuggestions = true;
+                    o.IncludeFileSuggestions = true;
+                    o.FileSuggestionsSearchPattern = "*.json";
+                    o.WritePrompt = false;
+                    o.InitialText = "Enter flubu settings file location (enter to skip):";
+                });
+                csprojLocation = flubuConsole.ReadLine().Trim();
+                if (string.IsNullOrEmpty(csprojLocation) || (Path.GetExtension(csprojLocation) == ".json" && File.Exists(csprojLocation)))
                 {
                     csprojFound = true;
                 }
