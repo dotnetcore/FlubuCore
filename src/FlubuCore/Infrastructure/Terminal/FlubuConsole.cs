@@ -629,7 +629,15 @@ namespace FlubuCore.Infrastructure.Terminal
             }
 
             DirectoryInfo objDirectoryInfo = new DirectoryInfo(searchPath);
-            var directories = objDirectoryInfo.GetDirectories("*.*");
+            DirectoryInfo[] directories;
+            try
+            {
+               directories = objDirectoryInfo.GetDirectories("*.*");
+            }
+            catch (DirectoryNotFoundException)
+            {
+                return;
+            }
 
             List<Hint> hintSource = new List<Hint>();
             hintSource.AddRange(directories.Select(d => new Hint() { Name = d.Name, OnlySimpleSearh = true }));
