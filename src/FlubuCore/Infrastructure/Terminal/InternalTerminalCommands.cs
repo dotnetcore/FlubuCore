@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FlubuCore.Infrastructure.Terminal
 {
-    public static class InternalCommands
+    public static class InternalTerminalCommands
     {
         public const string Cd = "cd";
 

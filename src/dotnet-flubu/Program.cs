@@ -40,8 +40,6 @@ namespace DotNet.Cli.Flubu
                 return statusCode;
             }
 
-            var cmdApp = _provider.GetRequiredService<CommandLineApplication>();
-
             ICommandExecutor executor = _provider.GetRequiredService<ICommandExecutor>();
 
             Console.CancelKeyPress += OnCancelKeyPress;
@@ -79,7 +77,7 @@ namespace DotNet.Cli.Flubu
             _logger.LogInformation($"Flubu v.{version}");
 
             IBuildScript script = null;
-            if (!commandArguments.IsFlubuSetup())
+            if (!commandArguments.IsInternalCommand())
             {
                 try
                 {

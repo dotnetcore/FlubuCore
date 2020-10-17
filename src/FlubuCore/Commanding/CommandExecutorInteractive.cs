@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using FlubuCore.Commanding.Internal;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
 using FlubuCore.Infrastructure.Terminal;
@@ -17,7 +18,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FlubuCore.Commanding
 {
-    public class CommandExecutorInteractive : ICommandExecutor
+    public class CommandExecutorInteractive : InternalCommandExecutor, ICommandExecutor
     {
         private readonly IFlubuSession _flubuSession;
 
@@ -52,9 +53,9 @@ namespace FlubuCore.Commanding
 
             if (_args.Help) return 1;
 
-            if (_args.MainCommands.Count == 1 && _args.MainCommands.First().Equals("setup", StringComparison.OrdinalIgnoreCase))
+            if (_args.IsInternalCommand())
             {
-                TargetTree.SetupFlubu();
+                ExecuteInternalCommand(_args.MainCommands);
                 return 0;
             }
 
@@ -108,7 +109,7 @@ namespace FlubuCore.Commanding
                         }
                     }
                 }
-                while (_flubuSession.InteractiveMode && InternalCommands.ReloadCommands.Contains(_flubuSession.InteractiveArgs.MainCommands[0], StringComparer.OrdinalIgnoreCase));
+                while (_flubuSession.InteractiveMode && InternalTerminalCommands.ReloadCommands.Contains(_flubuSession.InteractiveArgs.MainCommands[0], StringComparer.OrdinalIgnoreCase));
 
                 return result;
             }
@@ -185,7 +186,7 @@ namespace FlubuCore.Commanding
                     flubuSession.ScriptArgs = args.ScriptArguments;
                     _scriptProperties.InjectProperties(script, flubuSession);
 
-                    if (InternalCommands.InteractiveExitAndReloadCommands.Contains(args.MainCommands[0],
+                    if (InternalTerminalCommands.InteractiveExitAndReloadCommands.Contains(args.MainCommands[0],
                         StringComparer.OrdinalIgnoreCase))
                     {
                         break;
@@ -257,7 +258,7 @@ namespace FlubuCore.Commanding
 
                     var splitedLine = commandLine.Split(' ').ToList();
 
-                    if (InternalCommands.InteractiveExitOnlyCommands.Contains(splitedLine[0], StringComparer.OrdinalIgnoreCase))
+                    if (InternalTerminalCommands.InteractiveExitOnlyCommands.Contains(splitedLine[0], StringComparer.OrdinalIgnoreCase))
                     {
                         break;
                     }
@@ -282,7 +283,7 @@ namespace FlubuCore.Commanding
                         continue;
                     }
 
-                    if (!InternalCommands.ReloadCommands.Contains(splitedLine[0], StringComparer.OrdinalIgnoreCase))
+                    if (!InternalTerminalCommands.ReloadCommands.Contains(splitedLine[0], StringComparer.OrdinalIgnoreCase))
                     {
                         var command = splitedLine.First();
                         var runProgram = _flubuSession.Tasks().RunProgramTask(command).DoNotLogTaskExecutionInfo()

@@ -48,7 +48,7 @@ namespace FlubuCore.Infrastructure.Terminal
         /// <returns>Return's true.</returns>
         public bool ExecuteInternalCommand(string commandLine)
         {
-            if (commandLine.Trim().Equals(InternalCommands.Dir, StringComparison.OrdinalIgnoreCase))
+            if (commandLine.Trim().Equals(InternalTerminalCommands.Dir, StringComparison.OrdinalIgnoreCase))
             {
                 DirectoryInfo objDirectoryInfo = new DirectoryInfo(@".");
                 FileInfo[] allFiles = objDirectoryInfo.GetFiles("*.*", SearchOption.TopDirectoryOnly);
@@ -66,15 +66,15 @@ namespace FlubuCore.Infrastructure.Terminal
 
                 Console.WriteLine(string.Empty);
             }
-            else if (commandLine.Equals(InternalCommands.CdBack, StringComparison.OrdinalIgnoreCase))
+            else if (commandLine.Equals(InternalTerminalCommands.CdBack, StringComparison.OrdinalIgnoreCase))
             {
                 Directory.SetCurrentDirectory(Path.GetFullPath(".."));
             }
-            else if (commandLine.Equals(InternalCommands.CdBackToDisk, StringComparison.OrdinalIgnoreCase))
+            else if (commandLine.Equals(InternalTerminalCommands.CdBackToDisk, StringComparison.OrdinalIgnoreCase))
             {
                 Directory.SetCurrentDirectory(Path.GetPathRoot(Directory.GetCurrentDirectory()));
             }
-            else if (commandLine.StartsWith(InternalCommands.Cd, StringComparison.OrdinalIgnoreCase))
+            else if (commandLine.StartsWith(InternalTerminalCommands.Cd, StringComparison.OrdinalIgnoreCase))
             {
                 var splitedLine = commandLine.Split(' ').ToList();
                 if (splitedLine.Count > 1)
@@ -86,7 +86,7 @@ namespace FlubuCore.Infrastructure.Terminal
                     }
                 }
             }
-            else if (commandLine.StartsWith(InternalCommands.Cls, StringComparison.OrdinalIgnoreCase))
+            else if (commandLine.StartsWith(InternalTerminalCommands.Cls, StringComparison.OrdinalIgnoreCase))
             {
                 Console.Clear();
                 ConsoleUtils.WritePrompt(Directory.GetCurrentDirectory());
@@ -203,7 +203,7 @@ namespace FlubuCore.Infrastructure.Terminal
                         wasUserInput = true;
                         cursorPosition++;
 
-                        if (userInput.StartsWith(InternalCommands.Cd))
+                        if (userInput.StartsWith(InternalTerminalCommands.Cd))
                         {
                             UpdateDirectorySuggestionsForUserInput(userInput);
                             suggestion = GetFirstSuggestion();
@@ -282,7 +282,7 @@ namespace FlubuCore.Infrastructure.Terminal
 
                         wasUserInput = true;
 
-                        if (userInput.StartsWith(InternalCommands.Cd) || _options.OnlyDirectoriesSuggestions)
+                        if (userInput.StartsWith(InternalTerminalCommands.Cd) || _options.OnlyDirectoriesSuggestions)
                         {
                             UpdateDirectorySuggestionsForUserInput(userInput);
                         }
@@ -297,7 +297,7 @@ namespace FlubuCore.Infrastructure.Terminal
 
                 ClearConsoleLines(cursorPosition.StartTop, cursorPosition.Top);
                 var li = fullInput.TrimEnd().LastIndexOf(" ");
-                if (li == -1 && !fullInput.StartsWith(InternalCommands.Cd, StringComparison.OrdinalIgnoreCase) && !_options.OnlyDirectoriesSuggestions)
+                if (li == -1 && !fullInput.StartsWith(InternalTerminalCommands.Cd, StringComparison.OrdinalIgnoreCase) && !_options.OnlyDirectoriesSuggestions)
                 {
                     if (input.Key == ConsoleKey.Tab && _previousPressedKey == ConsoleKey.Tab && suggestion != null)
                     {
@@ -453,7 +453,7 @@ namespace FlubuCore.Infrastructure.Terminal
                 li = fullInput.Length - 1;
             }
 
-            if (!suggestionValue.StartsWith("-") && !fullInput.StartsWith(InternalCommands.Cd, StringComparison.OrdinalIgnoreCase) && !_options.OnlyDirectoriesSuggestions)
+            if (!suggestionValue.StartsWith("-") && !fullInput.StartsWith(InternalTerminalCommands.Cd, StringComparison.OrdinalIgnoreCase) && !_options.OnlyDirectoriesSuggestions)
             {
                 suggestionValue = $" {suggestionValue} ";
             }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FlubuCore.Commanding.Internal;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
 
@@ -54,14 +55,17 @@ namespace FlubuCore.Scripting
 
         public string FlubuHelpText { get; set; }
 
-        public bool IsFlubuSetup()
+        public bool IsInternalCommand()
         {
-            if (MainCommands == null)
+            if (MainCommands == null || MainCommands.Count == 0)
             {
                 return false;
             }
 
-            return MainCommands.Count == 1 && MainCommands.First().Equals("setup", StringComparison.OrdinalIgnoreCase);
+            var firstCommand = MainCommands.First();
+
+            return firstCommand.Equals(InternalFlubuCommands.Setup, StringComparison.OrdinalIgnoreCase) ||
+                   firstCommand.Equals(InternalFlubuCommands.New, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

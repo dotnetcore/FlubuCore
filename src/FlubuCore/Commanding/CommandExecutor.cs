@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using FlubuCore.Commanding.Internal;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
 using FlubuCore.IO.Wrappers;
@@ -14,7 +15,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FlubuCore.Commanding
 {
-    public class CommandExecutor : ICommandExecutor
+    public class CommandExecutor : InternalCommandExecutor, ICommandExecutor
     {
         private readonly CommandArguments _args;
         private readonly IScriptProvider _scriptProvider;
@@ -42,9 +43,9 @@ namespace FlubuCore.Commanding
 
             if (_args.Help) return 1;
 
-            if (_args.IsFlubuSetup())
+            if (_args.IsInternalCommand())
             {
-                TargetTree.SetupFlubu();
+                ExecuteInternalCommand(_args.MainCommands);
                 return 0;
             }
 
