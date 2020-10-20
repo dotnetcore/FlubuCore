@@ -28,16 +28,14 @@ namespace FlubuCore.Commanding
 
         private readonly IScriptProvider _scriptProvider;
 
-        private CommandArguments _args;
-
         public CommandExecutorInteractive(
             CommandArguments args,
             IScriptProvider scriptProvider,
             IFlubuSession flubuSession,
             IScriptProperties scriptProperties,
             ILogger<CommandExecutorInteractive> log)
+            : base(flubuSession, args)
         {
-            _args = args;
             _scriptProvider = scriptProvider;
             _flubuSession = flubuSession;
             _scriptProperties = scriptProperties;
@@ -46,16 +44,16 @@ namespace FlubuCore.Commanding
 
         public virtual async Task<int> ExecuteAsync()
         {
-            if (_args.DisableColoredLogging)
+            if (Args.DisableColoredLogging)
             {
                 FlubuConsoleLogger.DisableColloredLogging = true;
             }
 
-            if (_args.Help) return 1;
+            if (Args.Help) return 1;
 
-            if (_args.IsInternalCommand())
+            if (Args.IsInternalCommand())
             {
-                ExecuteInternalCommand(_args.MainCommands);
+                ExecuteInternalCommand();
                 return 0;
             }
 
@@ -70,7 +68,7 @@ namespace FlubuCore.Commanding
                     {
                         if (!_flubuSession.InteractiveMode)
                         {
-                            script = await _scriptProvider.GetBuildScriptAsync(_args);
+                            script = await _scriptProvider.GetBuildScriptAsync(Args);
                         }
                         else
                         {
@@ -80,7 +78,7 @@ namespace FlubuCore.Commanding
                     }
                     catch (BuildScriptLocatorException)
                     {
-                        if (!_args.InteractiveMode && !_flubuSession.InteractiveMode)
+                        if (Args.InteractiveMode && !_flubuSession.InteractiveMode)
                         {
                             throw;
                         }
@@ -90,11 +88,11 @@ namespace FlubuCore.Commanding
                         script = await SimpleFlubuInteractiveMode(script);
                     }
 
-                    _flubuSession.ScriptArgs = _args.ScriptArguments;
-                    _flubuSession.InteractiveMode = _args.InteractiveMode;
-                    _flubuSession.InteractiveArgs = _args;
+                    _flubuSession.ScriptArgs = Args.ScriptArguments;
+                    _flubuSession.InteractiveMode = Args.InteractiveMode;
+                    _flubuSession.InteractiveArgs = Args;
                     _flubuSession.TargetTree.BuildScript = script;
-                    _flubuSession.Properties.Set(BuildProps.IsWebApi, _args.IsWebApi);
+                    _flubuSession.Properties.Set(BuildProps.IsWebApi, Args.IsWebApi);
                     _flubuSession.TargetTree.ResetTargetTree();
 
                     if (script != null)
@@ -115,7 +113,7 @@ namespace FlubuCore.Commanding
             }
             catch (TaskExecutionException e)
             {
-                if (_args.RethrowOnException)
+                if (Args.RethrowOnException)
                     throw;
 
                 _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{e}", null, (t, ex) => t);
@@ -123,19 +121,19 @@ namespace FlubuCore.Commanding
             }
             catch (FlubuException e)
             {
-                if (_args.RethrowOnException)
+                if (Args.RethrowOnException)
                     throw;
 
-                var str = _args.Debug ? e.ToString() : e.Message;
+                var str = Args.Debug ? e.ToString() : e.Message;
                 _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{str}", null, (t, ex) => t);
                 return StatusCodes.BuildScriptNotFound;
             }
             catch (Exception e)
             {
-                if (_args.RethrowOnException)
+                if (Args.RethrowOnException)
                     throw;
 
-                var str = _args.Debug ? e.ToString() : e.Message;
+                var str = Args.Debug ? e.ToString() : e.Message;
                 _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{str}", null, (t, ex) => t);
                 return 3;
             }
@@ -274,8 +272,8 @@ namespace FlubuCore.Commanding
                         .Select(x => x.Trim()).ToArray());
                     _flubuSession.InteractiveArgs = args;
                     _flubuSession.ScriptArgs = args.ScriptArguments;
-                    _args = args;
-                    _args.InteractiveMode = true;
+                    Args = args;
+                    Args.InteractiveMode = true;
 
                     var internalCommandExecuted = flubuConsole.ExecuteInternalCommand(commandLine);
                     if (internalCommandExecuted)
