@@ -33,6 +33,15 @@ namespace FlubuCore.Infrastructure.Terminal
         /// Creates new instance of <see cref="FlubuConsole"/> class.
         /// </summary>
         /// <param name="hintsSourceDictionary">Collection containing input hints.</param>
+        public FlubuConsole(IReadOnlyCollection<Hint> defaultHints, IDictionary<string, IReadOnlyCollection<Hint>> hintsSourceDictionary = null, Action<FlubuConsoleOptions> options = null)
+        : this(null, defaultHints, hintsSourceDictionary, options)
+        {
+        }
+
+        /// <summary>
+        /// Creates new instance of <see cref="FlubuConsole"/> class.
+        /// </summary>
+        /// <param name="hintsSourceDictionary">Collection containing input hints.</param>
         public FlubuConsole(TargetTree targetTree, IReadOnlyCollection<Hint> defaultHints, IDictionary<string, IReadOnlyCollection<Hint>> hintsSourceDictionary = null, Action<FlubuConsoleOptions> options = null)
         {
             _options = new FlubuConsoleOptions();
