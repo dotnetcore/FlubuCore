@@ -22,13 +22,17 @@ namespace FlubuCore.Commanding.Internal
 
         private const string TemplateJsonFileName = "template.json";
 
+        private const string DefaultTemplateUrl = "https://github.com/flubu-core/FlubuCore.DefaultTemplate/archive/master.zip";
+
         private bool DefaultTemplateCommand => Args.MainCommands.Count == 1;
+
+
 
         internal async Task CreateNewProject()
         {
             if (DefaultTemplateCommand)
             {
-                await DownloadAndPrepareProject("https://github.com/flubu-core/EmptyTemplate/archive/master.zip");
+                await DownloadAndPrepareProject(DefaultTemplateUrl);
             }
         }
 
