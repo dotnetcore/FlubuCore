@@ -24,15 +24,22 @@ namespace FlubuCore.Commanding.Internal
 
         private const string DefaultTemplateUrl = "https://github.com/flubu-core/FlubuCore.DefaultTemplate/archive/master.zip";
 
+        private const string LibraryTemplateUrl = "https://github.com/flubu-core/FlubuCore.DefaultTemplate/archive/master.zip";
+
         private bool DefaultTemplateCommand => Args.MainCommands.Count == 1;
 
-
+        private bool LibraryTemplateCommand => Args.MainCommands.Count == 2 &&
+                                              (Args.MainCommands[1].Equals("lib", StringComparison.OrdinalIgnoreCase) || Args.MainCommands[1].Equals("library", StringComparison.OrdinalIgnoreCase));
 
         internal async Task CreateNewProject()
         {
             if (DefaultTemplateCommand)
             {
                 await DownloadAndPrepareProject(DefaultTemplateUrl);
+            }
+            else if (LibraryTemplateCommand)
+            {
+                await DownloadAndPrepareProject(LibraryTemplateUrl);
             }
         }
 
