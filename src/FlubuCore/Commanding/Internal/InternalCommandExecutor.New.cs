@@ -24,7 +24,7 @@ namespace FlubuCore.Commanding.Internal
 
         private const string DefaultTemplateUrl = "https://github.com/flubu-core/FlubuCore.DefaultTemplate/archive/master.zip";
 
-        private const string LibraryTemplateUrl = "https://github.com/flubu-core/FlubuCore.DefaultTemplate/archive/master.zip";
+        private const string LibraryTemplateUrl = "https://github.com/flubu-core/FlubuCore.LibraryTemplate/archive/master.zip";
 
         private bool DefaultTemplateCommand => Args.MainCommands.Count == 1 && Args.ScriptArguments.Count == 0;
 
@@ -45,55 +45,83 @@ namespace FlubuCore.Commanding.Internal
             }
             else if (CustomTemplateCommand)
             {
-                var customTemplateUrl = $"{Args.ScriptArguments["u"]}/archive/master.zip";
-                await DownloadAndPrepareProject(customTemplateUrl);
+                if (!TryGetTemplateUri(out var templateUri))
+                {
+                    FlubuSession.LogInfo("Entered uri is not well formed.");
+                    return;
+                }
+
+                await DownloadAndPrepareProject(templateUri);
             }
         }
 
-        internal async Task DownloadAndPrepareProject(string url)
+        internal async Task DownloadAndPrepareProject(string templateUri)
         {
             using (var client = new HttpClient())
             {
-                await client.DownloadFileAsync(url, TmpZipPath);
-                var rootDir = Path.GetFullPath(".");
-                var files = FlubuSession.Tasks().UnzipTask(TmpZipPath, rootDir).NoLog().Execute(FlubuSession);
-
-                string templateJsonPath = files.FirstOrDefault(x => x.EndsWith(TemplateJsonFileName, StringComparison.OrdinalIgnoreCase));
-                TemplateModel templateData = null;
-                if (templateJsonPath != null)
+                try
                 {
-                    var json = File.ReadAllText(templateJsonPath);
-                    templateData = JsonConvert.DeserializeObject<TemplateModel>(json);
-                }
+                    await client.DownloadFileAsync(templateUri, TmpZipPath);
+                    var rootDir = Path.GetFullPath(".");
 
-                var replacementTokens = GetReplacementTokens(templateData);
+                    var files = FlubuSession.Tasks().UnzipTask(TmpZipPath, rootDir).NoLog().Execute(FlubuSession);
 
-                foreach (var sourceFile in files)
-                {
-                    string relativePath = sourceFile.Replace(rootDir, string.Empty).TrimStart(Path.DirectorySeparatorChar);
-                    var destinationFile = Path.Combine(rootDir, relativePath
-                        .Substring(relativePath.IndexOf(Path.DirectorySeparatorChar))
-                        .TrimStart(Path.DirectorySeparatorChar));
-                    var destinationDir = Path.GetDirectoryName(destinationFile);
-
-                    if (replacementTokens.Any())
+                    if (!files.Any(x => x.EndsWith(".cs")))
                     {
-                        FlubuSession.Tasks().ReplaceTokensTask(sourceFile)
-                            .Replace(replacementTokens.ToArray()).Execute(FlubuSession);
+                       FlubuSession.LogInfo("Flubu template not found on specified url.");
+                       return;
                     }
 
-                    if (!string.IsNullOrEmpty(destinationDir))
+                    string templateJsonPath = files.FirstOrDefault(x => x.EndsWith(TemplateJsonFileName, StringComparison.OrdinalIgnoreCase));
+                    TemplateModel templateData = null;
+                    if (templateJsonPath != null)
                     {
-                        Directory.CreateDirectory(destinationDir);
+                        var json = File.ReadAllText(templateJsonPath);
+                        templateData = JsonConvert.DeserializeObject<TemplateModel>(json);
                     }
 
-                    File.Copy(sourceFile, destinationFile, true);
-                }
+                    var replacementTokens = GetReplacementTokens(templateData);
 
-                var tmp = files[0].Substring(rootDir.Length).TrimStart(Path.DirectorySeparatorChar);
-                var gitDirName = tmp.Substring(0, tmp.IndexOf(Path.DirectorySeparatorChar));
-                Directory.Delete(gitDirName, true);
-                File.Delete(TmpZipPath);
+                    foreach (var sourceFile in files)
+                    {
+                        string relativePath = sourceFile.Replace(rootDir, string.Empty).TrimStart(Path.DirectorySeparatorChar);
+
+                        var destinationFile = Path.Combine(rootDir, relativePath
+                            .Substring(relativePath.IndexOf(Path.DirectorySeparatorChar))
+                            .TrimStart(Path.DirectorySeparatorChar));
+
+                        var destinationDir = Path.GetDirectoryName(destinationFile);
+
+                        if (replacementTokens.Any())
+                        {
+                            FlubuSession.Tasks().ReplaceTokensTask(sourceFile)
+                                .Replace(replacementTokens.ToArray()).Execute(FlubuSession);
+                        }
+
+                        if (!string.IsNullOrEmpty(destinationDir))
+                        {
+                            Directory.CreateDirectory(destinationDir);
+                        }
+
+                        File.Copy(sourceFile, destinationFile, true);
+                    }
+
+                    var tmp = files[0].Substring(rootDir.Length).TrimStart(Path.DirectorySeparatorChar);
+                    var gitDirName = tmp.Substring(0, tmp.IndexOf(Path.DirectorySeparatorChar));
+                    Directory.Delete(gitDirName, true);
+                }
+                catch (InvalidDataException)
+                {
+                    FlubuSession.LogInfo("Flubu template not found on specified url.");
+                }
+                catch (HttpRequestException)
+                {
+                    FlubuSession.LogInfo("Flubu template not found on specified url.");
+                }
+                finally
+                {
+                    File.Delete(TmpZipPath);
+                }
             }
         }
 
@@ -120,6 +148,23 @@ namespace FlubuCore.Commanding.Internal
             }
 
             return replacmentTokens;
+        }
+
+        private bool TryGetTemplateUri(out string templateLocation)
+        {
+            templateLocation = Args.ScriptArguments["u"];
+            if (!Uri.IsWellFormedUriString(templateLocation, UriKind.Absolute))
+            {
+                return false;
+            }
+
+            if ((templateLocation.StartsWith("http") || templateLocation.StartsWith("https")) &&
+                !templateLocation.EndsWith("zip"))
+            {
+                templateLocation = $"{templateLocation}/archive/master.zip";
+            }
+
+            return true;
         }
     }
 }
