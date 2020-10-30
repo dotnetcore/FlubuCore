@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net.Http;
+using System.Reflection;
 using System.Reflection.Metadata;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using FlubuCore.Context;
@@ -12,6 +16,10 @@ using FlubuCore.Infrastructure.Terminal;
 using FlubuCore.IO;
 using FlubuCore.Scripting;
 using FlubuCore.Tasks.Packaging;
+using FlubuCore.Templating;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
 using Newtonsoft.Json;
 
 namespace FlubuCore.Commanding.Internal
@@ -21,6 +29,8 @@ namespace FlubuCore.Commanding.Internal
         private const string TmpZipPath = "./template.zip";
 
         private const string TemplateJsonFileName = "template.json";
+
+        private const string TemplateCsFileName = "template.cs";
 
         private const string DefaultTemplateUrl = "https://github.com/flubu-core/FlubuCore.DefaultTemplate/archive/master.zip";
 
@@ -73,11 +83,20 @@ namespace FlubuCore.Commanding.Internal
                     }
 
                     string templateJsonPath = files.FirstOrDefault(x => x.EndsWith(TemplateJsonFileName, StringComparison.OrdinalIgnoreCase));
+                    string templateCsFilePath = files.FirstOrDefault(x => x.EndsWith(TemplateCsFileName, StringComparison.OrdinalIgnoreCase));
                     TemplateModel templateData = null;
                     if (templateJsonPath != null)
                     {
-                        var json = File.ReadAllText(templateJsonPath);
-                        templateData = JsonConvert.DeserializeObject<TemplateModel>(json);
+                        templateData = GetTemplateDataFromJsonFile(templateJsonPath);
+                    }
+                    else if (templateCsFilePath != null)
+                    {
+                        templateData = await GetTemplateDataFromCsharpFile(templateCsFilePath);
+
+                        if (templateData == null)
+                        {
+                            FlubuSession.LogInfo("Template.cs must implement IFlubuTemplate interface.");
+                        }
                     }
 
                     var replacementTokens = GetReplacementTokens(templateData);
@@ -150,6 +169,45 @@ namespace FlubuCore.Commanding.Internal
             return replacmentTokens;
         }
 
+        private static TemplateModel GetTemplateDataFromJsonFile(string templateJsonPath)
+        {
+            TemplateModel templateData;
+            var json = File.ReadAllText(templateJsonPath);
+            templateData = JsonConvert.DeserializeObject<TemplateModel>(json);
+            return templateData;
+        }
+
+        private async Task<TemplateModel> GetTemplateDataFromCsharpFile(string templateCsFilePath)
+        {
+            TemplateModel templateData;
+            var assemblyInfos = GetAssemblyReferencesForTemplating();
+            var assemblyReferencesLocations = assemblyInfos.Select(x => x.FullPath).ToList();
+            var references = assemblyReferencesLocations.Select(i => MetadataReference.CreateFromFile(i));
+            ScriptOptions opts = ScriptOptions.Default
+                .WithEmitDebugInformation(true)
+                .WithFilePath(templateCsFilePath)
+                .WithFileEncoding(Encoding.UTF8)
+                .WithReferences(references);
+
+            var code = File.ReadAllText(templateCsFilePath);
+            Script script = CSharpScript
+                .Create(string.Join("\r\n", code), opts)
+                .ContinueWith("var sc = new Template();");
+
+            ScriptState result = await script.RunAsync();
+            IFlubuTemplate flubuTemplate = result.Variables[0].Value as IFlubuTemplate;
+
+            if (flubuTemplate == null)
+            {
+                return null;
+            }
+
+            var templateBuilder = new FlubuTemplateBuilder();
+            flubuTemplate.ConfigureTemplate(templateBuilder);
+            templateData = templateBuilder.Build();
+            return templateData;
+        }
+
         private bool TryGetTemplateUri(out string templateLocation)
         {
             templateLocation = Args.ScriptArguments["u"];
@@ -165,6 +223,32 @@ namespace FlubuCore.Commanding.Internal
             }
 
             return true;
+        }
+
+         private List<AssemblyInfo> GetAssemblyReferencesForTemplating()
+        {
+            var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
+            var flubuAss = typeof(IFlubuTemplate).GetTypeInfo().Assembly;
+            var objAss = typeof(object).GetTypeInfo().Assembly;
+            var linqAss = typeof(ILookup<string, string>).GetTypeInfo().Assembly;
+
+            List<AssemblyInfo> assemblyReferenceLocations = new List<AssemblyInfo>
+            {
+               new AssemblyInfo
+               {
+                   Name = "mscorlib",
+                   FullPath = Path.Combine(coreDir, "mscorlib.dll"),
+                   VersionStatus = VersionStatus.Sealed,
+               },
+               flubuAss.ToAssemblyInfo(),
+               objAss.ToAssemblyInfo(),
+               linqAss.ToAssemblyInfo(),
+            };
+
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Collections");
+
+            return assemblyReferenceLocations;
         }
     }
 }
