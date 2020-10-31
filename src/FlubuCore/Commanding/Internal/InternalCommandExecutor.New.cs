@@ -1,22 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Net.Http;
 using System.Reflection;
-using System.Reflection.Metadata;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using FlubuCore.Context;
 using FlubuCore.Infrastructure;
 using FlubuCore.Infrastructure.Terminal;
-using FlubuCore.IO;
 using FlubuCore.Scripting;
-using FlubuCore.Tasks.Packaging;
 using FlubuCore.Templating;
+using GlobExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
@@ -144,7 +138,7 @@ namespace FlubuCore.Commanding.Internal
             }
         }
 
-        private static List<Tuple<string, string>> GetReplacementTokens(TemplateModel templateData)
+        private List<Tuple<string, string>> GetReplacementTokens(TemplateModel templateData)
         {
             List<Tuple<string, string>> replacmentTokens = new List<Tuple<string, string>>();
 
@@ -155,13 +149,39 @@ namespace FlubuCore.Commanding.Internal
                     var initialText = !string.IsNullOrEmpty(token.Description)
                         ? token.Description
                         : $"Enter replacement value for {token.Token}";
+
+                    bool directoryAndFilesSuggestions = token.InputType.HasValue && token.InputType.Value == InputType.Files;
+
+                    string allowedFileExtensionGlobPattern = null;
+
+                    if (token.Files?.AllowedFileExtension != null)
+                    {
+                        allowedFileExtensionGlobPattern = token.Files.AllowedFileExtension.StartsWith("*.")
+                            ? token.Files.AllowedFileExtension
+                            : $"*.{token.Files.AllowedFileExtension}";
+                    }
+
                     var console = new FlubuConsole(new List<Hint>(), options: o =>
                     {
                         o.WritePrompt = false;
                         o.InitialText = initialText;
+                        o.OnlyDirectoriesSuggestions = directoryAndFilesSuggestions;
+                        o.IncludeFileSuggestions = directoryAndFilesSuggestions;
+                        o.FileSuggestionsSearchPattern = allowedFileExtensionGlobPattern;
                     });
 
-                    var newValue = console.ReadLine();
+                    bool isRightFileExtension = true;
+                    string newValue;
+                    do
+                    {
+                        newValue = console.ReadLine();
+                        if (!string.IsNullOrEmpty(allowedFileExtensionGlobPattern))
+                        {
+                            isRightFileExtension = CheckFileExtension(newValue, allowedFileExtensionGlobPattern);
+                        }
+                    }
+                    while (!isRightFileExtension);
+
                     replacmentTokens.Add(new Tuple<string, string>(token.Token, newValue));
                 }
             }
@@ -169,12 +189,10 @@ namespace FlubuCore.Commanding.Internal
             return replacmentTokens;
         }
 
-        private static TemplateModel GetTemplateDataFromJsonFile(string templateJsonPath)
+        private TemplateModel GetTemplateDataFromJsonFile(string templateJsonPath)
         {
-            TemplateModel templateData;
             var json = File.ReadAllText(templateJsonPath);
-            templateData = JsonConvert.DeserializeObject<TemplateModel>(json);
-            return templateData;
+            return JsonConvert.DeserializeObject<TemplateModel>(json);
         }
 
         private async Task<TemplateModel> GetTemplateDataFromCsharpFile(string templateCsFilePath)
@@ -225,7 +243,7 @@ namespace FlubuCore.Commanding.Internal
             return true;
         }
 
-         private List<AssemblyInfo> GetAssemblyReferencesForTemplating()
+        private List<AssemblyInfo> GetAssemblyReferencesForTemplating()
         {
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuAss = typeof(IFlubuTemplate).GetTypeInfo().Assembly;
@@ -234,21 +252,45 @@ namespace FlubuCore.Commanding.Internal
 
             List<AssemblyInfo> assemblyReferenceLocations = new List<AssemblyInfo>
             {
-               new AssemblyInfo
-               {
-                   Name = "mscorlib",
-                   FullPath = Path.Combine(coreDir, "mscorlib.dll"),
-                   VersionStatus = VersionStatus.Sealed,
-               },
-               flubuAss.ToAssemblyInfo(),
-               objAss.ToAssemblyInfo(),
-               linqAss.ToAssemblyInfo(),
+                new AssemblyInfo
+                {
+                    Name = "mscorlib",
+                    FullPath = Path.Combine(coreDir, "mscorlib.dll"),
+                    VersionStatus = VersionStatus.Sealed,
+                },
+                flubuAss.ToAssemblyInfo(),
+                objAss.ToAssemblyInfo(),
+                linqAss.ToAssemblyInfo(),
             };
 
             assemblyReferenceLocations.AddReferenceByAssemblyName("System");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Collections");
 
             return assemblyReferenceLocations;
+        }
+
+        private bool CheckFileExtension(string filePath, string allowedFileExtensionGLobPattern)
+        {
+            bool isRightFileExtension;
+            if (Glob.IsMatch(filePath, allowedFileExtensionGLobPattern))
+            {
+                if (File.Exists(filePath))
+                {
+                    isRightFileExtension = true;
+                }
+                else
+                {
+                    FlubuSession.LogInfo("File not found");
+                    isRightFileExtension = false;
+                }
+            }
+            else
+            {
+                isRightFileExtension = false;
+                FlubuSession.LogInfo("Not allowed file extension");
+            }
+
+            return isRightFileExtension;
         }
     }
 }
