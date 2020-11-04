@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FlubuCore.Context;
 using FlubuCore.Templating.Models;
 
 namespace FlubuCore.Templating.Tasks
@@ -22,7 +23,13 @@ namespace FlubuCore.Templating.Tasks
         public IFlubuTemplateTask GetFlubuTemplateTask(string taskName)
         {
            var task = _serviceProvider.GetService(Tasks[taskName]);
-           return (IFlubuTemplateTask)task;
+
+           if (task is IFlubuTemplateTask ret)
+           {
+               return ret;
+           }
+
+           throw new FlubuException($"Template task {taskName} must implement IFlubuTemplateTask interface.");
         }
     }
 }

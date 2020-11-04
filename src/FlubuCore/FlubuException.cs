@@ -2,13 +2,13 @@
 
 namespace FlubuCore
 {
-    public abstract class FlubuException : Exception
+    public class FlubuException : Exception
     {
-        protected FlubuException(string message)
+        public FlubuException(string message)
             : base(message)
         { }
 
-        protected FlubuException(string message, Exception inner)
+        public FlubuException(string message, Exception inner)
             : base(message, inner)
         { }
     }
