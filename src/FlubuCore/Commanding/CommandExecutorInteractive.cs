@@ -13,6 +13,7 @@ using FlubuCore.Infrastructure.Terminal;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
+using FlubuCore.Templating.Tasks;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.Logging;
@@ -34,8 +35,9 @@ namespace FlubuCore.Commanding
             IScriptProvider scriptProvider,
             IFlubuSession flubuSession,
             IScriptProperties scriptProperties,
-            ILogger<CommandExecutorInteractive> log)
-            : base(flubuSession, args)
+            ILogger<CommandExecutorInteractive> log,
+            IFlubuTemplateTasksExecutor flubuTemplateTasksExecutor)
+            : base(flubuSession, args, flubuTemplateTasksExecutor)
         {
             _scriptProvider = scriptProvider;
             _flubuSession = flubuSession;
@@ -54,7 +56,7 @@ namespace FlubuCore.Commanding
 
             if (Args.IsInternalCommand())
             {
-                ExecuteInternalCommand();
+                await ExecuteInternalCommand();
                 return 0;
             }
 

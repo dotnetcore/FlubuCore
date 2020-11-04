@@ -11,6 +11,8 @@ using FlubuCore.Infrastructure;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
+using FlubuCore.Templating;
+using FlubuCore.Templating.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace FlubuCore.Commanding
@@ -25,8 +27,9 @@ namespace FlubuCore.Commanding
             CommandArguments args,
             IScriptProvider scriptProvider,
             IFlubuSession flubuSession,
-            ILogger<CommandExecutor> log)
-            : base(flubuSession, args)
+            ILogger<CommandExecutor> log,
+            IFlubuTemplateTasksExecutor flubuTemplateTasksExecutor)
+            : base(flubuSession, args, flubuTemplateTasksExecutor)
         {
             _scriptProvider = scriptProvider;
             _log = log;

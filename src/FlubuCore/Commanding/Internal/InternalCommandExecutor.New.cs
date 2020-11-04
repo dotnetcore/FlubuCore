@@ -10,6 +10,7 @@ using FlubuCore.Infrastructure;
 using FlubuCore.Infrastructure.Terminal;
 using FlubuCore.Scripting;
 using FlubuCore.Templating;
+using FlubuCore.Templating.Models;
 using GlobExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
@@ -29,6 +30,11 @@ namespace FlubuCore.Commanding.Internal
         private const string DefaultTemplateUrl = "https://github.com/flubu-core/FlubuCore.DefaultTemplate/archive/master.zip";
 
         private const string LibraryTemplateUrl = "https://github.com/flubu-core/FlubuCore.LibraryTemplate/archive/master.zip";
+
+        private List<string> _templateTasksToExecute = new List<string>()
+        {
+            FlubuTemplateTaskName.ReplacementTokenTask
+        };
 
         private bool DefaultTemplateCommand => Args.MainCommands.Count == 1 && Args.ScriptArguments.Count == 0;
 
@@ -93,31 +99,31 @@ namespace FlubuCore.Commanding.Internal
                         }
                     }
 
-                    var replacementTokens = GetReplacementTokens(templateData);
+                    FlubuTemplateTasksExecutor.SetTasksToExecute(_templateTasksToExecute);
 
-                    foreach (var sourceFile in files)
+                    FlubuTemplateTasksExecutor.BeforeFileProcessing(templateData, files);
+
+                    foreach (var sourcefilePath in files)
                     {
-                        string relativePath = sourceFile.Replace(rootDir, string.Empty).TrimStart(Path.DirectorySeparatorChar);
+                        string relativePath = sourcefilePath.Replace(rootDir, string.Empty).TrimStart(Path.DirectorySeparatorChar);
 
-                        var destinationFile = Path.Combine(rootDir, relativePath
+                        var destinationFilePath = Path.Combine(rootDir, relativePath
                             .Substring(relativePath.IndexOf(Path.DirectorySeparatorChar))
                             .TrimStart(Path.DirectorySeparatorChar));
 
-                        var destinationDir = Path.GetDirectoryName(destinationFile);
-
-                        if (replacementTokens.Any())
-                        {
-                            FlubuSession.Tasks().ReplaceTokensTask(sourceFile)
-                                .Replace(replacementTokens.ToArray()).Execute(FlubuSession);
-                        }
+                        var destinationDir = Path.GetDirectoryName(destinationFilePath);
 
                         if (!string.IsNullOrEmpty(destinationDir))
                         {
                             Directory.CreateDirectory(destinationDir);
                         }
 
-                        File.Copy(sourceFile, destinationFile, true);
+                        FlubuTemplateTasksExecutor.BeforeFileCopy(sourcefilePath);
+                        File.Copy(sourcefilePath, destinationFilePath, true);
+                        FlubuTemplateTasksExecutor.AfterFileCopy(destinationFilePath);
                     }
+
+                    FlubuTemplateTasksExecutor.AfterFileProcessing(templateData);
 
                     var tmp = files[0].Substring(rootDir.Length).TrimStart(Path.DirectorySeparatorChar);
                     var gitDirName = tmp.Substring(0, tmp.IndexOf(Path.DirectorySeparatorChar));
@@ -136,57 +142,6 @@ namespace FlubuCore.Commanding.Internal
                     File.Delete(TmpZipPath);
                 }
             }
-        }
-
-        private List<Tuple<string, string>> GetReplacementTokens(TemplateModel templateData)
-        {
-            List<Tuple<string, string>> replacmentTokens = new List<Tuple<string, string>>();
-
-            if (templateData?.Tokens != null && templateData.Tokens.Count > 0)
-            {
-                foreach (var token in templateData.Tokens)
-                {
-                    var initialText = !string.IsNullOrEmpty(token.Description)
-                        ? token.Description
-                        : $"Enter replacement value for {token.Token}";
-
-                    bool directoryAndFilesSuggestions = token.InputType.HasValue && token.InputType.Value == InputType.Files;
-
-                    string allowedFileExtensionGlobPattern = null;
-
-                    if (token.Files?.AllowedFileExtension != null)
-                    {
-                        allowedFileExtensionGlobPattern = token.Files.AllowedFileExtension.StartsWith("*.")
-                            ? token.Files.AllowedFileExtension
-                            : $"*.{token.Files.AllowedFileExtension}";
-                    }
-
-                    var console = new FlubuConsole(new List<Hint>(), options: o =>
-                    {
-                        o.WritePrompt = false;
-                        o.InitialText = initialText;
-                        o.OnlyDirectoriesSuggestions = directoryAndFilesSuggestions;
-                        o.IncludeFileSuggestions = directoryAndFilesSuggestions;
-                        o.FileSuggestionsSearchPattern = allowedFileExtensionGlobPattern;
-                    });
-
-                    bool isRightFileExtension = true;
-                    string newValue;
-                    do
-                    {
-                        newValue = console.ReadLine();
-                        if (!string.IsNullOrEmpty(allowedFileExtensionGlobPattern))
-                        {
-                            isRightFileExtension = CheckFileExtension(newValue, allowedFileExtensionGlobPattern);
-                        }
-                    }
-                    while (!isRightFileExtension);
-
-                    replacmentTokens.Add(new Tuple<string, string>(token.Token, newValue));
-                }
-            }
-
-            return replacmentTokens;
         }
 
         private TemplateModel GetTemplateDataFromJsonFile(string templateJsonPath)
@@ -267,30 +222,6 @@ namespace FlubuCore.Commanding.Internal
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Collections");
 
             return assemblyReferenceLocations;
-        }
-
-        private bool CheckFileExtension(string filePath, string allowedFileExtensionGLobPattern)
-        {
-            bool isRightFileExtension;
-            if (Glob.IsMatch(filePath, allowedFileExtensionGLobPattern))
-            {
-                if (File.Exists(filePath))
-                {
-                    isRightFileExtension = true;
-                }
-                else
-                {
-                    FlubuSession.LogInfo("File not found");
-                    isRightFileExtension = false;
-                }
-            }
-            else
-            {
-                isRightFileExtension = false;
-                FlubuSession.LogInfo("Not allowed file extension");
-            }
-
-            return isRightFileExtension;
         }
     }
 }

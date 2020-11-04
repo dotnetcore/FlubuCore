@@ -1,8 +1,6 @@
-﻿using System.Security.AccessControl;
-
-namespace FlubuCore.Templating
+﻿namespace FlubuCore.Templating.Models
 {
-    public class TemplateReplacmentToken
+    public class TemplateReplacementToken
     {
         /// <summary>
         /// Token to be replaced in template files.

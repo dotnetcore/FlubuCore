@@ -1,8 +1,10 @@
-﻿namespace FlubuCore.Templating
+﻿using FlubuCore.Templating.Models;
+
+namespace FlubuCore.Templating
 {
     public interface IFlubuTemplateBuilder
     {
-        FlubuTemplateBuilder AddReplacementToken(TemplateReplacmentToken token);
+        FlubuTemplateBuilder AddReplacementToken(TemplateReplacementToken token);
 
         TemplateModel Build();
     }

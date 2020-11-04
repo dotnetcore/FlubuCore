@@ -22,6 +22,7 @@ using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Solution;
 using FlubuCore.Tasks.Testing;
 using FlubuCore.Tasks.Versioning;
+using FlubuCore.Templating.Tasks;
 using FlubuCore.WebApi.Client;
 using FlubuCore.WebApi.Controllers.Attributes;
 using FlubuCore.WebApi.Repository;
@@ -56,7 +57,9 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddScoped<IFlubuSession, FlubuSession>()
                 .AddScoped<ICommandFactory, CommandFactory>()
                 .AddSingleton<IScriptServiceProvider, ScriptServiceProvider>()
-                .AddScoped<CommandArguments, CommandArguments>();
+                .AddScoped<CommandArguments, CommandArguments>()
+                .AddSingleton<IFlubuTemplateTaskFactory, FlubuTemplateTaskFactory>()
+                .AddSingleton<IFlubuTemplateTasksExecutor, FlubuTemplateTasksExecutor>();
 
             var connectionStrings = configuration.GetSection("FlubuConnectionStrings");
             var liteDbConnectionString = connectionStrings["LiteDbConnectionString"];
