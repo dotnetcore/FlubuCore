@@ -190,9 +190,14 @@ namespace FlubuCore.Commanding.Internal
             }
 
             if ((templateLocation.StartsWith("http") || templateLocation.StartsWith("https")) &&
-                !templateLocation.EndsWith("zip"))
+                !templateLocation.EndsWith("zip") && !templateLocation.Contains("?"))
             {
                 templateLocation = $"{templateLocation}/archive/master.zip";
+                var token = Args.ScriptArguments["t"];
+                if (!string.IsNullOrEmpty(token))
+                {
+                    templateLocation = $"{templateLocation}?token={token}";
+                }
             }
 
             return true;
