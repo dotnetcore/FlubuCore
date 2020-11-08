@@ -27,7 +27,7 @@ namespace FlubuCore.Commanding.Internal
 
         private const string TemplateCsFileName = "template.cs";
 
-        private const string DefaultTemplateUrl = "https://github.com/flubu-core/FlubuCore.DefaultTemplate/archive/master.zip";
+        private const string EmptyTemplateUrl = "https://github.com/flubu-core/FlubuCore.DefaultTemplate/archive/master.zip";
 
         private const string LibraryTemplateUrl = "https://github.com/flubu-core/FlubuCore.LibraryTemplate/archive/master.zip";
 
@@ -36,7 +36,10 @@ namespace FlubuCore.Commanding.Internal
             FlubuTemplateTaskName.ReplacementTokenTask
         };
 
-        private bool DefaultTemplateCommand => Args.MainCommands.Count == 1 && Args.ScriptArguments.Count == 0;
+        private bool HelpTemplateCommand => Args.MainCommands.Count == 1 && Args.ScriptArguments.Count == 0;
+
+        private bool EmptyTemplateCommand => Args.MainCommands.Count == 2 &&
+                                               (Args.MainCommands[1].Equals("empty", StringComparison.OrdinalIgnoreCase) || Args.MainCommands[1].Equals("library", StringComparison.OrdinalIgnoreCase));
 
         private bool LibraryTemplateCommand => Args.MainCommands.Count == 2 &&
                                               (Args.MainCommands[1].Equals("lib", StringComparison.OrdinalIgnoreCase) || Args.MainCommands[1].Equals("library", StringComparison.OrdinalIgnoreCase));
@@ -45,9 +48,13 @@ namespace FlubuCore.Commanding.Internal
 
         internal async Task CreateNewProject()
         {
-            if (DefaultTemplateCommand)
+            if (HelpTemplateCommand)
             {
-                await DownloadAndPrepareProject(DefaultTemplateUrl);
+                ShowHelp();
+            }
+            else if (EmptyTemplateCommand)
+            {
+                await DownloadAndPrepareProject(EmptyTemplateUrl);
             }
             else if (LibraryTemplateCommand)
             {
@@ -142,6 +149,22 @@ namespace FlubuCore.Commanding.Internal
                     File.Delete(TmpZipPath);
                 }
             }
+        }
+
+        private static void ShowHelp()
+        {
+            Console.WriteLine("{0, -25}{1, -75}{2, -60}", "Template", "Description", "Template url");
+            Console.WriteLine(string.Empty);
+            Console.WriteLine("{0, -25}{1, -75}{2, -60}", "empty", "Default empty template with only build target", "https://github.com/flubu-core/FlubuCore.DefaultTemplate");
+            Console.WriteLine("{0, -25}{1, -75}{2, -60}", "lib", "Template for libraries. Includes build, pack, test, nuget push targets", "https://github.com/flubu-core/FlubuCore.LibraryTemplate");
+            Console.WriteLine("{0, -25}{1, -75}{2, -60}", "-u={CustomTemplateUrl}", "Custom template. provide github, gitlab repo url", "Your custom template url");
+            Console.WriteLine(string.Empty);
+            Console.WriteLine("Examples:");
+            Console.WriteLine("    flubu new lib");
+            Console.WriteLine("    flubu new -u=https://github.com/flubu-core/FlubuCore.CustomTemplate");
+            Console.WriteLine("    flubu new -u=https://github.com/flubu-core-private/FlubuCore.PrivateTemplate -t={enterAccessToken}");
+            Console.WriteLine("    flubu new -u=https://gitlab.com/flubu-core/FlubuCore.CustomTemplate/-/archive/master/FlubuCore.CustomTemplate-master.zip");
+            Console.WriteLine("    flubu new -u=https://gitlab.com/flubu-core-private/FlubuCore.PrivateTemplate/-/archive/master/FlubuCore.PrivateTemplate-master.zip?private_token={enterAccessToken}");
         }
 
         private TemplateModel GetTemplateDataFromJsonFile(string templateJsonPath)
