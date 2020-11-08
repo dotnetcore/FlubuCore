@@ -79,7 +79,7 @@ namespace FlubuCore.Commanding
 #if NET462
             _commandApp.Name = "flubu.exe";
 #else
-            _commandApp.Name = "dotnet flubu";
+            _commandApp.Name = "flubu";
 #endif
             _command = _commandApp.Argument("<Target> [build script arguments]", "The target to execute.", true);
             _scriptPath = _commandApp.Option("-s|--script <SCRIPT>", "Build script file to use.", CommandOptionType.SingleValue);
@@ -94,7 +94,12 @@ namespace FlubuCore.Commanding
             _noInteractive = _commandApp.Option("--noint", $"Disables interactive mode for all task members. Default values are used instead. {Environment.NewLine}", CommandOptionType.NoValue);
             _noColor = _commandApp.Option("--noColor", "Disables colored logging", CommandOptionType.NoValue);
             _generateContinousIntegrationConfigs = _commandApp.Option("--ci", "Generates configuration file for specified continous integration server. Supported values: Jenkins, AppVeyor, Travis, AzurePipelines, GithubActions", CommandOptionType.MultipleValue);
-            _commandApp.ExtendedHelpText = $"  <Target> help                                 Shows detailed help for specified target.";
+            _commandApp.ExtendedHelpText = @"
+Flubu internal commands:
+  <Target> help                                 Shows detailed help for specified target.
+  new                                           Creates new build script project from template. Execute 'flubu new' for list of templates.
+  setup                                         Store locations of build script, project file or flubu settings file into '.flubu' file.
+                                                You should execute this command at the root of your repository.";
 
             _commandApp.OnExecute(() => PrepareDefaultArguments());
 

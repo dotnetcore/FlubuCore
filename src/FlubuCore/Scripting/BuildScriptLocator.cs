@@ -166,7 +166,7 @@ namespace FlubuCore.Scripting
                 var extension = _path.GetExtension(args.Script);
                 if (string.IsNullOrEmpty(extension) || !extension.Equals(".cs"))
                 {
-                    throw new BuildScriptLocatorException($"The file specified ('{args.Script}') is not a csharp source code (.cs) file. See getting started on https://github.com/flubu-core/flubu.core/wiki");
+                    throw new BuildScriptLocatorException($"The file specified ('{args.Script}') is not a csharp source code (.cs) file. See getting started on https://flubucore.dotnetcore.xyz/getting-started/");
                 }
 
                 return args.Script;
@@ -178,8 +178,7 @@ namespace FlubuCore.Scripting
         private void ReportUnspecifiedBuildScript()
         {
             var errorMsg =
-                new StringBuilder(
-                     $"The build script file was not specified. Please specify it as the argument '-s={{PathToBuildScript}}' or run 'flubu setup' to store the location in a file or use some of the default paths for script file:{Environment.NewLine}");
+                new StringBuilder($"The build script file was not found.  Please specify location of the build script in the argument '-s={{PathToBuildScript}}' or run 'flubu setup' to store the location in a file or use some of the default paths for script file:{Environment.NewLine}");
             foreach (var defaultScriptLocation in DefaultScriptLocations)
                 errorMsg.AppendLine(defaultScriptLocation);
 
