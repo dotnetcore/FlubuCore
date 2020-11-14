@@ -1,4 +1,6 @@
-﻿namespace FlubuCore.Templating.Models
+﻿using System.Collections.Generic;
+
+namespace FlubuCore.Templating.Models
 {
     public class TemplateReplacementToken
     {
@@ -15,6 +17,8 @@
         public string DefaultValue { get; set; }
 
         public InputType? InputType { get; set; }
+
+        public List<string> Values { get; set; }
 
         /// <summary>
         /// Options for 'Files' InputType.

@@ -3,5 +3,6 @@
     public enum InputType
     {
         Files,
+        Hints
     }
 }

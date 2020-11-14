@@ -931,7 +931,7 @@ namespace FlubuCore.Infrastructure.Terminal
                     Key = "DefaultSuggestion", Value = _options.DefaultSuggestion, SuggestionColor = ConsoleColor.DarkGray
                 };
                 WriteSuggestion(suggestion);
-                WriteOnBottomLine("Press tab if you want to use suggested value.");
+                WriteOnBottomLine("Press tab if you want to use default value.");
                 Console.SetCursorPosition(_options.InitialText.Length, startLine);
                 return suggestion;
             }

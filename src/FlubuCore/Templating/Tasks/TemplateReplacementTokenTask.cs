@@ -66,7 +66,18 @@ namespace FlubuCore.Templating.Tasks
                             : $"*.{token.Files.AllowedFileExtension}";
                     }
 
-                    var console = new FlubuConsole(new List<Hint>(), options: o =>
+                    var hints = new List<Hint>();
+
+                    if (token.InputType == InputType.Hints)
+                    {
+                        hints.AddRange(token.Values.Select(value => new Hint()
+                        {
+                            Name = value,
+                            HintColor = ConsoleColor.DarkGray
+                        }));
+                    }
+
+                    var console = new FlubuConsole(hints, options: o =>
                     {
                         o.WritePrompt = false;
                         o.InitialText = initialText;
