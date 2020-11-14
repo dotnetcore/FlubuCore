@@ -15,5 +15,7 @@ namespace FlubuCore.Infrastructure.Terminal
         public bool IncludeFileSuggestions { get; set; } = false;
 
         public string FileSuggestionsSearchPattern { get; set; } = "*.*";
+
+        public string DefaultSuggestion { get; set; }
     }
 }

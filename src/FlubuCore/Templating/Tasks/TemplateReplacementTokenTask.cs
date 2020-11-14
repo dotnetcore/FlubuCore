@@ -73,6 +73,7 @@ namespace FlubuCore.Templating.Tasks
                         o.OnlyDirectoriesSuggestions = directoryAndFilesSuggestions;
                         o.IncludeFileSuggestions = directoryAndFilesSuggestions;
                         o.FileSuggestionsSearchPattern = allowedFileExtensionGlobPattern;
+                        o.DefaultSuggestion = token.DefaultValue;
                     });
 
                     bool isRightFileExtension = true;
