@@ -9,7 +9,7 @@ namespace FlubuCore.Templating.Tasks
     {
         void BeforeFileProcessing(TemplateModel template, List<string> files);
 
-        void BeforeFileCopy(string sourcefilePath);
+        void BeforeFileCopy(string sourceFilePath);
 
         void AfterFileCopy(string destinationFilePath);
 

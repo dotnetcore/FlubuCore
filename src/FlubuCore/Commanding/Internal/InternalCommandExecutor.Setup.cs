@@ -43,7 +43,6 @@ namespace FlubuCore.Commanding.Internal
 
             bool exit = false;
             bool showHelp = true;
-            string key;
             do
             {
                 if (showHelp)
@@ -57,7 +56,7 @@ namespace FlubuCore.Commanding.Internal
                 }
 
                 Console.Write("Choose: ");
-                key = Console.ReadLine();
+                var key = Console.ReadLine();
 
                 switch (key)
                 {
