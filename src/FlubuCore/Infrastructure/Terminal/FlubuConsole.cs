@@ -126,7 +126,7 @@ namespace FlubuCore.Infrastructure.Terminal
                 : _options.InitialText.Length;
             var cursorPosition = new ConsoleCursorPosition(length, Console.CursorTop, Console.WindowWidth);
             ClearConsoleLinesAndWriteInitialText(cursorPosition.StartTop, cursorPosition.Top);
-            Suggestion suggestion = InitialSuggestion(cursorPosition.StartTop);
+            Suggestion suggestion = InitialSuggestionAndHelp(cursorPosition.StartTop);
 
             while ((input = Console.ReadKey()).Key != ConsoleKey.Enter)
             {
@@ -307,6 +307,7 @@ namespace FlubuCore.Infrastructure.Terminal
                 }
 
                 ClearConsoleLinesAndWriteInitialText(cursorPosition.StartTop, cursorPosition.Top);
+
                 var li = fullInput.TrimEnd().LastIndexOf(" ");
                 if (li == -1 && !fullInput.StartsWith(InternalTerminalCommands.Cd, StringComparison.OrdinalIgnoreCase) && !_options.OnlyDirectoriesSuggestions)
                 {
@@ -922,7 +923,7 @@ namespace FlubuCore.Infrastructure.Terminal
             return _suggestionsForUserInput[_suggestionPosition];
         }
 
-        private Suggestion InitialSuggestion(int startLine)
+        private Suggestion InitialSuggestionAndHelp(int startLine)
         {
             if (!string.IsNullOrEmpty(_options.DefaultSuggestion))
             {
@@ -931,9 +932,15 @@ namespace FlubuCore.Infrastructure.Terminal
                     Key = "DefaultSuggestion", Value = _options.DefaultSuggestion, SuggestionColor = ConsoleColor.DarkGray
                 };
                 WriteSuggestion(suggestion);
-                WriteOnBottomLine("Press tab if you want to use default value.");
+                WriteOnBottomLine($"Press tab if you want to use default value. {_options.InitialHelp}");
                 Console.SetCursorPosition(_options.InitialText.Length, startLine);
                 return suggestion;
+            }
+
+            if (!string.IsNullOrEmpty(_options.InitialHelp))
+            {
+                WriteOnBottomLine(_options.InitialHelp);
+                Console.SetCursorPosition(_options.InitialText.Length, startLine);
             }
 
             return null;

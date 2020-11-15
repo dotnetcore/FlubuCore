@@ -116,6 +116,7 @@ namespace FlubuCore.Templating.Tasks
                             {
                                 o.WritePrompt = false;
                                 o.InitialText = initialText;
+                                o.InitialHelp = token.Help;
                                 o.OnlyDirectoriesSuggestions = directoryAndFilesSuggestions;
                                 o.IncludeFileSuggestions = directoryAndFilesSuggestions;
                                 o.FileSuggestionsSearchPattern = allowedFileExtensionGlobPattern;

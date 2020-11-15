@@ -10,6 +10,8 @@ namespace FlubuCore.Infrastructure.Terminal
 
         public string InitialText { get; set; }
 
+        public string InitialHelp { get; set; }
+
         public bool WritePrompt { get; set; } = true;
 
         public bool IncludeFileSuggestions { get; set; } = false;

@@ -101,11 +101,7 @@ namespace FlubuCore.Commanding.Internal
                     }
                     else if (templateCsFilePath != null)
                     {
-                        Stopwatch sw = new Stopwatch();
-                        sw.Start();
                         var flubuTemplate = await GetTemplateFromCsharpFile(templateCsFilePath);
-                        sw.Stop();
-                        Console.WriteLine($"Elapsed: {sw.ElapsedMilliseconds}");
                         switch (flubuTemplate)
                         {
                             case null:
