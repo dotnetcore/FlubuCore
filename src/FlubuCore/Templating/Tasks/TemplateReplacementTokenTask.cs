@@ -89,8 +89,7 @@ namespace FlubuCore.Templating.Tasks
                                 ? token.Description
                                 : $"Enter replacement value for token {token.Token}";
 
-                            bool directoryAndFilesSuggestions =
-                                token.InputType.HasValue && token.InputType.Value == InputType.Files;
+                            bool directoryAndFilesSuggestions = token.InputType == InputType.Files;
 
                             string allowedFileExtensionGlobPattern = null;
 

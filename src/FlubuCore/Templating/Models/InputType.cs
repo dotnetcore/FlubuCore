@@ -2,6 +2,7 @@
 {
     public enum InputType
     {
+        Text,
         Files,
         Hints,
         Options,

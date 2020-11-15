@@ -27,7 +27,7 @@ namespace FlubuCore.Templating.Models
         /// <summary>
         /// Input type of the replacement token.
         /// </summary>
-        public InputType? InputType { get; set; }
+        public InputType InputType { get; set; }
 
         /// <summary>
         /// Values for <see cref="InputType"/> Hint and Options.
