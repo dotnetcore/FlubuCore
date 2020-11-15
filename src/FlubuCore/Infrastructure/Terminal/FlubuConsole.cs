@@ -123,7 +123,7 @@ namespace FlubuCore.Infrastructure.Terminal
             var wasUserInput = false;
             var length = string.IsNullOrEmpty(_options.InitialText)
                 ? _currentDirectory.Length + ConsoleUtils.Prompt.Length - 1
-                : _options.InitialText.Length + 1;
+                : _options.InitialText.Length;
             var cursorPosition = new ConsoleCursorPosition(length, Console.CursorTop, Console.WindowWidth);
             ClearConsoleLinesAndWriteInitialText(cursorPosition.StartTop, cursorPosition.Top);
             Suggestion suggestion = InitialSuggestion(cursorPosition.StartTop);
