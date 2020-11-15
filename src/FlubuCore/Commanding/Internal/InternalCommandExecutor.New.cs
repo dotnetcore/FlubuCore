@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace FlubuCore.Commanding.Internal
 
         private const string LibraryTemplateUrl = "https://github.com/flubu-core/FlubuCore.LibraryTemplate/archive/master.zip";
 
-        private List<string> _templateTasksToExecute = new List<string>()
+        private readonly List<string> _templateTasksToExecute = new List<string>()
         {
             FlubuTemplateTaskName.ReplacementTokenTask
         };
@@ -100,8 +101,11 @@ namespace FlubuCore.Commanding.Internal
                     }
                     else if (templateCsFilePath != null)
                     {
+                        Stopwatch sw = new Stopwatch();
+                        sw.Start();
                         var flubuTemplate = await GetTemplateFromCsharpFile(templateCsFilePath);
-
+                        sw.Stop();
+                        Console.WriteLine($"Elapsed: {sw.ElapsedMilliseconds}");
                         switch (flubuTemplate)
                         {
                             case null:
@@ -187,8 +191,28 @@ namespace FlubuCore.Commanding.Internal
 
         private async Task<IFlubuTemplate> GetTemplateFromCsharpFile(string templateCsFilePath)
         {
-            var assemblyInfos = GetAssemblyReferencesForTemplating();
+            var assemblyInfos = ScriptLoader.GetDefaultReferences();
             var assemblyReferencesLocations = assemblyInfos.Select(x => x.FullPath).ToList();
+            var flubuCoreAssembly = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
+
+            // Enumerate all assemblies referenced by FlubuCore
+            // and provide them as references to the build script we're about to
+            // compile.
+            AssemblyName[] flubuReferencedAssemblies = flubuCoreAssembly.GetReferencedAssemblies();
+            foreach (var referencedAssembly in flubuReferencedAssemblies)
+            {
+                Assembly loadedAssembly = Assembly.Load(referencedAssembly);
+                if (string.IsNullOrEmpty(loadedAssembly.Location))
+                    continue;
+
+                assemblyInfos.AddOrUpdateAssemblyInfo(new AssemblyInfo
+                {
+                    Name = referencedAssembly.Name,
+                    Version = referencedAssembly.Version,
+                    FullPath = loadedAssembly.Location,
+                });
+            }
+
             var references = assemblyReferencesLocations.Select(i => MetadataReference.CreateFromFile(i));
             ScriptOptions opts = ScriptOptions.Default
                 .WithEmitDebugInformation(true)
@@ -229,30 +253,30 @@ namespace FlubuCore.Commanding.Internal
             return true;
         }
 
-        private List<AssemblyInfo> GetAssemblyReferencesForTemplating()
-        {
-            var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
-            var flubuAss = typeof(IFlubuTemplate).GetTypeInfo().Assembly;
-            var objAss = typeof(object).GetTypeInfo().Assembly;
-            var linqAss = typeof(ILookup<string, string>).GetTypeInfo().Assembly;
+        //private List<AssemblyInfo> GetAssemblyReferencesForTemplating()
+        //{
+        //    var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
+        //    var flubuAss = typeof(IFlubuTemplate).GetTypeInfo().Assembly;
+        //    var objAss = typeof(object).GetTypeInfo().Assembly;
+        //    var linqAss = typeof(ILookup<string, string>).GetTypeInfo().Assembly;
 
-            List<AssemblyInfo> assemblyReferenceLocations = new List<AssemblyInfo>
-            {
-                new AssemblyInfo
-                {
-                    Name = "mscorlib",
-                    FullPath = Path.Combine(coreDir, "mscorlib.dll"),
-                    VersionStatus = VersionStatus.Sealed,
-                },
-                flubuAss.ToAssemblyInfo(),
-                objAss.ToAssemblyInfo(),
-                linqAss.ToAssemblyInfo(),
-            };
+        //    List<AssemblyInfo> assemblyReferenceLocations = new List<AssemblyInfo>
+        //    {
+        //        new AssemblyInfo
+        //        {
+        //            Name = "mscorlib",
+        //            FullPath = Path.Combine(coreDir, "mscorlib.dll"),
+        //            VersionStatus = VersionStatus.Sealed,
+        //        },
+        //        flubuAss.ToAssemblyInfo(),
+        //        objAss.ToAssemblyInfo(),
+        //        linqAss.ToAssemblyInfo(),
+        //    };
 
-            assemblyReferenceLocations.AddReferenceByAssemblyName("System");
-            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Collections");
+        //    assemblyReferenceLocations.AddReferenceByAssemblyName("System");
+        //    assemblyReferenceLocations.AddReferenceByAssemblyName("System.Collections");
 
-            return assemblyReferenceLocations;
-        }
+        //    return assemblyReferenceLocations;
+        //}
     }
 }

@@ -130,7 +130,7 @@ namespace FlubuCore.Infrastructure.Terminal
 
             while ((input = Console.ReadKey()).Key != ConsoleKey.Enter)
             {
-                var writeSugestionToConsole = false;
+                var writeSuggestionToConsole = false;
                 int positionToDelete;
                 if (_previousPressedKey == ConsoleKey.Tab && input.Key != ConsoleKey.Tab)
                 {
@@ -179,7 +179,7 @@ namespace FlubuCore.Infrastructure.Terminal
                             suggestion = GetNextSuggestion();
                             if (suggestion != null)
                             {
-                                writeSugestionToConsole = true;
+                                writeSuggestionToConsole = true;
                                 userInput = suggestion.Value + ' ';
                             }
                         }
@@ -187,7 +187,7 @@ namespace FlubuCore.Infrastructure.Terminal
                         {
                             if (suggestion != null)
                             {
-                                writeSugestionToConsole = true;
+                                writeSuggestionToConsole = true;
                                 userInput = suggestion.Value + ' ';
                                 ////UpdateSuggestionsForUserInput(userInput);
                                 suggestion = GetFirstSuggestion();
@@ -324,7 +324,7 @@ namespace FlubuCore.Infrastructure.Terminal
                 }
                 else
                 {
-                    if (!writeSugestionToConsole)
+                    if (!writeSuggestionToConsole)
                     {
                         ConsoleUtils.Write(userInput, ConsoleColor.Green);
                         fullInput = userInput;
@@ -337,7 +337,7 @@ namespace FlubuCore.Infrastructure.Terminal
 
                 if (userInput.Any())
                 {
-                    if (suggestion != null && suggestion.Value != userInput && writeSugestionToConsole == false)
+                    if (suggestion != null && suggestion.Value != userInput && writeSuggestionToConsole == false)
                     {
                         WriteSuggestion(suggestion);
                         WriteOnBottomLine(suggestion.Help);

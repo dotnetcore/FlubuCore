@@ -265,13 +265,12 @@ namespace FlubuCore.Scripting
 
         private IEnumerable<MetadataReference> GetBuildScriptReferences(CommandArguments args, ProjectFileAnalyzerResult projectFileAnalyzerResult, ScriptAnalyzerResult scriptAnalyzerResult, bool oldWay, string pathToBuildScript)
         {
-            var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuCoreAssembly = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
 
             //// Default assemblies that should be referenced.
             var assemblyReferences = oldWay
                 ? GetBuildScriptReferencesForOldWayBuildScriptCreation()
-                : GetDefaultReferences(coreDir);
+                : GetDefaultReferences();
 
             // Enumerate all assemblies referenced by FlubuCore
             // and provide them as references to the build script we're about to
@@ -323,8 +322,9 @@ namespace FlubuCore.Scripting
             return references;
         }
 
-        private List<AssemblyInfo> GetDefaultReferences(string coreDir)
+        internal static List<AssemblyInfo> GetDefaultReferences()
         {
+            var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuAss = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
             var objAss = typeof(object).GetTypeInfo().Assembly;
             var linqAss = typeof(ILookup<string, string>).GetTypeInfo().Assembly;
@@ -397,7 +397,7 @@ namespace FlubuCore.Scripting
             return assemblyReferenceLocations;
         }
 
-        private List<AssemblyInfo> GetBuildScriptReferencesForOldWayBuildScriptCreation()
+        private static List<AssemblyInfo> GetBuildScriptReferencesForOldWayBuildScriptCreation()
         {
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuAss = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
