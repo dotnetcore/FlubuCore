@@ -103,6 +103,7 @@ namespace FlubuCore.Commanding.Internal
                         if (templateData == null)
                         {
                             FlubuSession.LogInfo("Template.cs must implement IFlubuTemplate interface.");
+                            return;
                         }
                     }
 
