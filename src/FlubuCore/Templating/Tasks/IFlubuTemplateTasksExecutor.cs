@@ -9,6 +9,8 @@ namespace FlubuCore.Templating.Tasks
     {
         void SetTasksToExecute(List<string> tasks);
 
+        void AddTaskToExecute(IFlubuTemplateTask task);
+
         void BeforeFileProcessing(TemplateModel template, List<string> files);
 
         void BeforeFileCopy(string sourcefilePath);

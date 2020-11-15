@@ -24,6 +24,11 @@ namespace FlubuCore.Templating.Tasks
             }
         }
 
+        public void AddTaskToExecute(IFlubuTemplateTask task)
+        {
+            _tasks.Add(task);
+        }
+
         public void BeforeFileProcessing(TemplateModel template, List<string> files)
         {
             ExecuteTasks(task => task.BeforeFileProcessing(template, files));

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -11,6 +12,7 @@ using FlubuCore.Infrastructure.Terminal;
 using FlubuCore.Scripting;
 using FlubuCore.Templating;
 using FlubuCore.Templating.Models;
+using FlubuCore.Templating.Tasks;
 using GlobExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
@@ -98,22 +100,31 @@ namespace FlubuCore.Commanding.Internal
                     }
                     else if (templateCsFilePath != null)
                     {
-                        templateData = await GetTemplateDataFromCsharpFile(templateCsFilePath);
+                        var flubuTemplate = await GetTemplateFromCsharpFile(templateCsFilePath);
 
-                        if (templateData == null)
+                        switch (flubuTemplate)
                         {
-                            FlubuSession.LogInfo("Template.cs must implement IFlubuTemplate interface.");
-                            return;
+                            case null:
+                                FlubuSession.LogInfo("Template.cs must implement IFlubuTemplate interface.");
+                                return;
+                            //// ReSharper disable once SuspiciousTypeConversion.Global
+                            case IFlubuTemplateTask flubuTask:
+                                FlubuTemplateTasksExecutor.AddTaskToExecute(flubuTask);
+                                break;
                         }
+
+                        var templateBuilder = new FlubuTemplateBuilder();
+                        flubuTemplate.ConfigureTemplate(templateBuilder);
+                        templateData = templateBuilder.Build();
                     }
 
                     FlubuTemplateTasksExecutor.SetTasksToExecute(_templateTasksToExecute);
 
                     FlubuTemplateTasksExecutor.BeforeFileProcessing(templateData, files);
 
-                    foreach (var sourcefilePath in files)
+                    foreach (var sourceFilePath in files)
                     {
-                        string relativePath = sourcefilePath.Replace(rootDir, string.Empty).TrimStart(Path.DirectorySeparatorChar);
+                        string relativePath = sourceFilePath.Replace(rootDir, string.Empty).TrimStart(Path.DirectorySeparatorChar);
 
                         var destinationFilePath = Path.Combine(rootDir, relativePath
                             .Substring(relativePath.IndexOf(Path.DirectorySeparatorChar))
@@ -126,8 +137,8 @@ namespace FlubuCore.Commanding.Internal
                             Directory.CreateDirectory(destinationDir);
                         }
 
-                        FlubuTemplateTasksExecutor.BeforeFileCopy(sourcefilePath);
-                        File.Copy(sourcefilePath, destinationFilePath, true);
+                        FlubuTemplateTasksExecutor.BeforeFileCopy(sourceFilePath);
+                        File.Copy(sourceFilePath, destinationFilePath, true);
                         FlubuTemplateTasksExecutor.AfterFileCopy(destinationFilePath);
                     }
 
@@ -174,9 +185,8 @@ namespace FlubuCore.Commanding.Internal
             return JsonConvert.DeserializeObject<TemplateModel>(json);
         }
 
-        private async Task<TemplateModel> GetTemplateDataFromCsharpFile(string templateCsFilePath)
+        private async Task<IFlubuTemplate> GetTemplateFromCsharpFile(string templateCsFilePath)
         {
-            TemplateModel templateData;
             var assemblyInfos = GetAssemblyReferencesForTemplating();
             var assemblyReferencesLocations = assemblyInfos.Select(x => x.FullPath).ToList();
             var references = assemblyReferencesLocations.Select(i => MetadataReference.CreateFromFile(i));
@@ -194,15 +204,7 @@ namespace FlubuCore.Commanding.Internal
             ScriptState result = await script.RunAsync();
             IFlubuTemplate flubuTemplate = result.Variables[0].Value as IFlubuTemplate;
 
-            if (flubuTemplate == null)
-            {
-                return null;
-            }
-
-            var templateBuilder = new FlubuTemplateBuilder();
-            flubuTemplate.ConfigureTemplate(templateBuilder);
-            templateData = templateBuilder.Build();
-            return templateData;
+            return flubuTemplate;
         }
 
         private bool TryGetTemplateUri(out string templateLocation)
