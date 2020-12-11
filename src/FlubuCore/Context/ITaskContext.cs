@@ -25,12 +25,6 @@ namespace FlubuCore.Context
         ITarget CreateTarget(string name);
 
         /// <summary>
-        /// Interaction with various build systems.
-        /// </summary>
-        /// <returns></returns>
-        IBuildServer BuildSystems();
-
-        /// <summary>
         /// Interaction with various build servers(continous integration / continous delivery servers).
         /// </summary>
         /// <returns></returns>

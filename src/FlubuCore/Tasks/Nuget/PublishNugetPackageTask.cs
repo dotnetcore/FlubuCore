@@ -139,7 +139,7 @@ namespace FlubuCore.Tasks.Nuget
             DoLogInfo($"NuGet package file {nupkgFileName} created");
 
             // do not push new packages from a local build
-            if (context.BuildSystems().IsLocalBuild && _skipPushOnLocalBuild)
+            if (context.BuildServers().IsLocalBuild && _skipPushOnLocalBuild)
             {
                 context.LogInfo("pushing package on local build is disabled in build script...Skiping.");
                 return 1;

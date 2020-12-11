@@ -50,12 +50,6 @@ namespace FlubuCore.Context
             return _fluentFactory.GetTargetFluentInterface(target, (ITaskContextInternal)this);
         }
 
-        [Obsolete("BuildSystems were renamed to BuildServers.", true)]
-        public IBuildServer BuildSystems()
-        {
-            return _buildServers;
-        }
-
         public IBuildServer BuildServers()
         {
             return _buildServers;
