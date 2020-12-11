@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using FlubuCore.Commanding;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
 using FlubuCore.Context.FluentInterface.Interfaces;
@@ -35,7 +34,7 @@ public class  BuildScript : DefaultBuildScript
 
     protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
     {
-        context.Properties.Set(BuildProps.BuildDir, "output");
+        context.Properties.Set(DotNetBuildProps.BuildDir, "output");
     }
 
     protected override void ConfigureTargets(ITaskContext context)

@@ -1,4 +1,4 @@
-﻿namespace FlubuCore.Tasks.Iis.Interfaces{    public interface ICreateWebApplicationTask : ITaskOfT<int, ICreateWebApplicationTask>    {        ICreateWebApplicationTask Mode(CreateWebApplicationMode mode);        ICreateWebApplicationTask LocalPath(string localPath);        /// <summary>
+﻿namespace FlubuCore.Tasks.Iis.Interfaces{    public interface ICreateWebApplicationTask : ITaskOfT<int, ICreateWebApplicationTask>    {        ICreateWebApplicationTask LocalPath(string localPath);        /// <summary>
         /// Application Name.
         /// </summary>
         /// <param name="applicationName"></param>
