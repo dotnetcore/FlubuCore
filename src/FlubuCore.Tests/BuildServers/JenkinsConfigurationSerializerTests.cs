@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FlubuCore.BuildServers.Configurations;
 using FlubuCore.BuildServers.Configurations.Models.Jenkins;
 using Xunit;
@@ -59,7 +60,7 @@ namespace FlubuCore.Tests.BuildServers
                 }
             });
 
-            Assert.Equal(expectedPipeLine, jenkinsPipeline);
+            Assert.Equal(expectedPipeLine.Replace(Environment.NewLine, string.Empty), jenkinsPipeline.Replace(Environment.NewLine, string.Empty));
         }
 
         [Fact]
@@ -113,7 +114,7 @@ namespace FlubuCore.Tests.BuildServers
                 }
             });
 
-            Assert.Equal(expectedPipeLine, jenkinsPipeline);
+            Assert.Equal(expectedPipeLine.Replace(Environment.NewLine, string.Empty), jenkinsPipeline.Replace(Environment.NewLine, string.Empty));
         }
 
         [Fact]
@@ -140,7 +141,7 @@ namespace FlubuCore.Tests.BuildServers
                 }
             });
 
-            Assert.Equal(expectedPipeLine, jenkinsPipeline);
+            Assert.Equal(expectedPipeLine.Replace(Environment.NewLine, string.Empty), jenkinsPipeline.Replace(Environment.NewLine, string.Empty));
         }
 
         [Fact]
@@ -176,7 +177,7 @@ namespace FlubuCore.Tests.BuildServers
                 }
             });
 
-            Assert.Equal(expectedPipeLine, jenkinsPipeline);
+            Assert.Equal(expectedPipeLine.Replace(Environment.NewLine, string.Empty), jenkinsPipeline.Replace(Environment.NewLine, string.Empty));
         }
 
         [Fact]
@@ -201,7 +202,7 @@ namespace FlubuCore.Tests.BuildServers
                }
             });
 
-            Assert.Equal(expectedPipeLine, jenkinsPipeline);
+            Assert.Equal(expectedPipeLine.Replace(Environment.NewLine, string.Empty), jenkinsPipeline.Replace(Environment.NewLine, string.Empty));
         }
 
         [Fact]
@@ -259,7 +260,7 @@ namespace FlubuCore.Tests.BuildServers
                 }
             });
 
-            Assert.Equal(expectedPipeLine, jenkinsPipeline);
+            Assert.Equal(expectedPipeLine.Replace(Environment.NewLine, string.Empty), jenkinsPipeline.Replace(Environment.NewLine, string.Empty));
         }
     }
 }
