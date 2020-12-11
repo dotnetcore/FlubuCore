@@ -89,23 +89,6 @@ namespace FlubuCore.Context
             return context.SetBuildVersion(new BuildVersion(new Version(major, minor, build, revision)));
         }
 
-        [Obsolete("Use GetBuildVersion() method instead.", true)]
-        public static BuildVersion GetBuildVersionWithQuality(this IBuildPropertiesSession context)
-        {
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// Get's the build version quality (e.g. version suffix).
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        [Obsolete("Use GetBuildVersion() method instead.", true)]
-        public static string GetBuildVersionQuality(this IBuildPropertiesSession context)
-        {
-            return context.TryGet<string>(BuildProps.BuildVersionQuality);
-        }
-
         public static BuildVersion SetBuildVersion(this ITaskContext context, BuildVersion version)
         {
             context.Properties.SetBuildVersion(version);
@@ -115,30 +98,6 @@ namespace FlubuCore.Context
         public static BuildVersion SetBuildVersion(this ITaskContext context, int major, int minor, int build, int revision)
         {
             return context.Properties.SetBuildVersion(major, minor, build, revision);
-        }
-
-        /// <summary>
-        /// Set's the build version quality (e.g. version suffix).
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        [Obsolete("Use SetBuildVersion() method instead", true)]
-        public static string SetBuildVersionQuality(this ITaskContextInternal context, string versionQuality)
-        {
-            context.Properties.Set(BuildProps.BuildVersionQuality, versionQuality);
-            return versionQuality;
-        }
-
-        /// <summary>
-        /// Set's the build version with quality (e.g. version suffix).
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        [Obsolete("Use SetBuildVersion() method instead", true)]
-        public static BuildVersion SetBuildVersionWithQuality(this ITaskContextInternal context, BuildVersion version)
-        {
-            context.Properties.Set(BuildProps.BuildVersionWithQuality, version);
-            return version;
         }
 
         public static string GetFlubuWebApiBaseUrl(this IBuildPropertiesSession context)
@@ -302,12 +261,6 @@ namespace FlubuCore.Context
         }
 
         public static FullPath GetRootDirectory(this IBuildPropertiesContext context)
-        {
-            return new FullPath(context.Properties.GetProductRootDir());
-        }
-
-        [Obsolete("This extension method is replaced by 'GetRootDirectory'.", error: true)]
-        public static FullPath RootDirectory(this IBuildPropertiesContext context)
         {
             return new FullPath(context.Properties.GetProductRootDir());
         }

@@ -111,30 +111,6 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         CleanOutputTask CleanOutputTask();
 
         /// <summary>
-        /// Task runs nunit tests that are in specified project with command line options for nunit v3.
-        /// </summary>
-        /// <param name="projectName"></param>
-        /// <returns></returns>
-        [Obsolete("Use 'NunitTask' instead.", true)]
-        NUnitTask NUnitTaskForNunitV3(params string[] projectName);
-
-        /// <summary>
-        /// Task runs nunit tests that are in specified project with command line options for nunit v2.
-        /// </summary>
-        /// <param name="projectName"></param>
-        /// <returns></returns>
-        [Obsolete("Use 'NunitTask' instead.", true)]
-        NUnitTask NUnitTaskForNunitV2(params string[] projectName);
-
-        /// <summary>
-        /// Task runs nunit tests that are in specified project without any default command line options.
-        /// </summary>
-        /// <param name="projectName"></param>
-        /// <returns></returns>
-        [Obsolete("Use 'NunitTask' instead.", true)]
-        NUnitTask NUnitTaskByProjectName(params string[] projectName);
-
-        /// <summary>
         /// Task runs NUnit tests that are in specified project.
         /// </summary>
         /// <param name="cmdOptions">Adds default command line options for specified NUnit version.</param>

@@ -196,14 +196,6 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// Condition to be checked before target is executed. If <see cref="condition"/> is not meet execution of script fails.
         /// </summary>
         /// <param name="condition">The condition to be checked.</param>
-        /// <returns></returns>
-        [Obsolete("Use Must(Func<bool, ITaskContext> condition)", true)]
-        TTargetFluentInterface Must(Func<bool> condition);
-
-        /// <summary>
-        /// Condition to be checked before target is executed. If <see cref="condition"/> is not meet execution of script fails.
-        /// </summary>
-        /// <param name="condition">The condition to be checked.</param>
         /// <param name="message">The message displayed in logs when condition is not meet. </param>
         /// <returns></returns>
         TTargetFluentInterface Must(Func<ITaskContext, bool> condition, string message = null);

@@ -469,7 +469,7 @@ namespace FlubuCore.Targeting
 
                     if (member.GetValue(context.TargetTree.BuildScript) == null)
                     {
-                        if (context.BuildSystems().IsLocalBuild && !context.Properties.Get<bool>(PredefinedBuildProperties.IsWebApi))
+                        if (context.BuildServers().IsLocalBuild && !context.Properties.Get<bool>(PredefinedBuildProperties.IsWebApi))
                         {
                             context.LogInfo($"{member.Name} requires value: ");
                             string value = Console.ReadLine();
