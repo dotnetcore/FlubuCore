@@ -68,22 +68,6 @@ namespace FlubuCore.Tasks.Solution
         }
 
         /// <summary>
-        /// Msbuild version to be used for build.
-        /// </summary>
-        [Obsolete("Use fluent interface instead", true)]
-        public Version ToolsVersion
-        {
-            get => _toolsVersion;
-            set => _toolsVersion = value;
-        }
-
-        /// <summary>
-        /// Should we use solution directory for working folder
-        /// </summary>
-        [Obsolete("Use fluent interface instead", true)]
-        public bool UseSolutionDirAsWorkingDir { get; set; }
-
-        /// <summary>
         /// Solution filename to build.
         /// </summary>
         /// <param name="solutionFileName"></param>

@@ -53,18 +53,6 @@ namespace FlubuCore.Tasks.Versioning
         internal List<string> AdditionalProperties { get; } = new List<string>();
 
         /// <summary>
-        /// Use fixed version instead of fetching one from <see cref="IBuildPropertiesSession"/> build property named: <see cref="BuildProps.BuildVersion"/>
-        /// </summary>
-        /// <param name="version"></param>
-        /// <returns></returns>
-        [Obsolete("Use set version instead")]
-        public UpdateNetCoreVersionTask FixedVersion(BuildVersion version)
-        {
-            _version = version;
-            return this;
-        }
-
-        /// <summary>
         /// Set version field count in csproj Version property. Default is 3
         /// </summary>
         /// <param name="versionFieldCount"></param>
@@ -84,18 +72,6 @@ namespace FlubuCore.Tasks.Versioning
         {
             _addPackageVersion = true;
             _packageVersionFieldCount = versionFieldCount;
-            return this;
-        }
-
-        /// <summary>
-        /// Use fixed version instead of fetching one from <see cref="IBuildPropertiesSession"/> build property named: <see cref="BuildProps.BuildVersion"/>
-        /// </summary>
-        /// <param name="version"></param>
-        /// <returns></returns>
-        [Obsolete]
-        public UpdateNetCoreVersionTask SetVersion(BuildVersion version)
-        {
-            _version = version;
             return this;
         }
 

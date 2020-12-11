@@ -131,14 +131,6 @@ namespace FlubuCore.Tasks.NetCore
             return this;
         }
 
-        [Obsolete("This method is replaced by 'OutputDirectory'.", error: true)]
-        [ArgKey("--output", "-o")]
-        public DotnetBuildTask Output(string output)
-        {
-            WithArgumentsKeyFromAttribute(output);
-            return this;
-        }
-
         /// <summary>
         ///  Disables incremental build.
         /// </summary>

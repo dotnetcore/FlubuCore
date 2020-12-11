@@ -42,18 +42,6 @@ namespace FlubuCore.Scripting
         /// </summary>
         protected FullPath RootDirectory => new FullPath(_flubuSession.Properties.GetProductRootDir());
 
-        [Obsolete("Define your own 'OutputDirectory' in build script.", true)]
-        protected FullPath OutputDirectory
-        {
-            get
-            {
-                var outputDir = _flubuSession.Properties.GetOutputDir();
-                return Path.IsPathRooted(outputDir)
-                    ? new FullPath(outputDir)
-                    : RootDirectory.CombineWith(new LocalPath(outputDir));
-            }
-        }
-
         public int Run(IFlubuSession flubuSession)
         {
             _flubuSession = flubuSession;

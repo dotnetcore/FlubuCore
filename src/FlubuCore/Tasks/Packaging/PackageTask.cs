@@ -159,13 +159,6 @@ namespace FlubuCore.Tasks.Packaging
             return this;
         }
 
-        [Obsolete("Use ZipPackage with AddVersionPostFix parameter set to true instead.")]
-        public PackageTask ZipPrefix(string zipPrefix)
-        {
-            _zipPrefix = zipPrefix;
-            return this;
-        }
-
         protected override int DoExecute(ITaskContextInternal context)
         {
             if (_sourcePackagingInfos.Count == 0)
