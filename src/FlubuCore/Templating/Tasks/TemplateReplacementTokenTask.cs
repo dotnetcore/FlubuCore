@@ -138,7 +138,11 @@ namespace FlubuCore.Templating.Tasks
                             }
                             while (!isRightFileExtension);
 
-                            replacementTokens.Add(new Tuple<string, string>(token.Token, newValue));
+                            if (!string.IsNullOrEmpty(newValue))
+                            {
+                                replacementTokens.Add(new Tuple<string, string>(token.Token, newValue));
+                            }
+
                             break;
                         }
                     }
