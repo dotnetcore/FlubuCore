@@ -30,7 +30,10 @@ namespace FlubuCore.Templating.Tasks
             if (_replacementTokens.Any())
             {
                 _flubuSession.Tasks().ReplaceTokensTask(sourceFilePath)
-                    .Replace(_replacementTokens.ToArray()).Execute(_flubuSession);
+                    .Replace(_replacementTokens.ToArray())
+                    .DoNotLogTaskExecutionInfo()
+                    .NoLog()
+                    .Execute(_flubuSession);
             }
         }
 

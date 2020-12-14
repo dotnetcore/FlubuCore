@@ -232,6 +232,12 @@ namespace FlubuCore.Tasks
             return this as TTask;
         }
 
+        public TTask DoNotLogTaskExecutionInfo()
+        {
+            LogTaskExecutionInfo = false;
+            return this as TTask;
+        }
+
         /// <inheritdoc />
         [DisableForMember]
         public void ExecuteVoid(ITaskContext context)

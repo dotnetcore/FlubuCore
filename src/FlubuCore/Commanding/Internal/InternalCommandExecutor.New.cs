@@ -81,10 +81,15 @@ namespace FlubuCore.Commanding.Internal
             {
                 try
                 {
+                    FlubuSession.LogInfo($"Creating Flubu template '{Args.MainCommands[1]}'.");
                     await client.DownloadFileAsync(templateUri, TmpZipPath);
                     var rootDir = Path.GetFullPath(".");
 
-                    var files = FlubuSession.Tasks().UnzipTask(TmpZipPath, rootDir).NoLog().Execute(FlubuSession);
+                    var files = FlubuSession.Tasks()
+                        .UnzipTask(TmpZipPath, rootDir)
+                        .NoLog()
+                        .DoNotLogTaskExecutionInfo()
+                        .Execute(FlubuSession);
 
                     if (!files.Any(x => x.EndsWith(".cs")))
                     {
@@ -147,6 +152,7 @@ namespace FlubuCore.Commanding.Internal
                     var tmp = files[0].Substring(rootDir.Length).TrimStart(Path.DirectorySeparatorChar);
                     var gitDirName = tmp.Substring(0, tmp.IndexOf(Path.DirectorySeparatorChar));
                     Directory.Delete(gitDirName, true);
+                    FlubuSession.LogInfo($"The template '{Args.MainCommands[1]}' was created successfully.");
                 }
                 catch (InvalidDataException)
                 {
@@ -248,31 +254,5 @@ namespace FlubuCore.Commanding.Internal
 
             return true;
         }
-
-        //private List<AssemblyInfo> GetAssemblyReferencesForTemplating()
-        //{
-        //    var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
-        //    var flubuAss = typeof(IFlubuTemplate).GetTypeInfo().Assembly;
-        //    var objAss = typeof(object).GetTypeInfo().Assembly;
-        //    var linqAss = typeof(ILookup<string, string>).GetTypeInfo().Assembly;
-
-        //    List<AssemblyInfo> assemblyReferenceLocations = new List<AssemblyInfo>
-        //    {
-        //        new AssemblyInfo
-        //        {
-        //            Name = "mscorlib",
-        //            FullPath = Path.Combine(coreDir, "mscorlib.dll"),
-        //            VersionStatus = VersionStatus.Sealed,
-        //        },
-        //        flubuAss.ToAssemblyInfo(),
-        //        objAss.ToAssemblyInfo(),
-        //        linqAss.ToAssemblyInfo(),
-        //    };
-
-        //    assemblyReferenceLocations.AddReferenceByAssemblyName("System");
-        //    assemblyReferenceLocations.AddReferenceByAssemblyName("System.Collections");
-
-        //    return assemblyReferenceLocations;
-        //}
     }
 }

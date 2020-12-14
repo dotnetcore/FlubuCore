@@ -137,12 +137,6 @@ namespace FlubuCore.Tasks.Process
             return _errorOutput.ToString();
         }
 
-        public IRunProgramTask DoNotLogTaskExecutionInfo()
-        {
-            LogTaskExecutionInfo = false;
-            return this;
-        }
-
         /// <inheritdoc />
         public IRunProgramTask DoNotLogOutput()
         {
