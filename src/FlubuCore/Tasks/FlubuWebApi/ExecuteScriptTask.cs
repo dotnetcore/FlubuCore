@@ -82,7 +82,7 @@ namespace FlubuCore.Tasks.FlubuWebApi
             catch (WebApiException e)
             {
                 WriteLogs(e.Logs, _logsForegroundColor);
-                throw new TaskExecutionException("Execute script failed!", 99);
+                throw new TaskExecutionException($"Execute script failed! ErrorCode: '{e.ErrorCode}', ErrorMessage:'{e.ErrorMessage}'", 99);
             }
 
             return 0;
