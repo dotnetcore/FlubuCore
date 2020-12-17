@@ -150,14 +150,14 @@ public class  BuildScript : DefaultBuildScript
 
     private void TargetPackageDotnetFlubu(ITaskContext context)
     {
-        context.CoreTasks().Publish("dotnet-flubu").Framework("netcoreapp2.0").Execute(context);
+        context.CoreTasks().Publish("dotnet-flubu").Framework("netcoreapp3.1").Execute(context);
         if (!Directory.Exists(Output.CombineWith("dotnet-flubu")))
         {
             Directory.CreateDirectory(@"output/dotnet-flubu");
         }
 
         context.Tasks().PackageTask(Output.CombineWith("dotnet-flubu"))
-            .AddDirectoryToPackage(@"dotnet-flubu/bin/Release/netcoreapp2.0/publish", "", true)
+            .AddDirectoryToPackage(@"dotnet-flubu/bin/Release/netcoreapp3.1/publish", "", true)
             .ZipPackage("dotnet-flubu", true)
             .Execute(context);
     }
