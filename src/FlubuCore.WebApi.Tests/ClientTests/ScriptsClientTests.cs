@@ -78,7 +78,7 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             };
 
            var ex = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(req));
-           Assert.Equal(ErrorCodes.TargetNotFound, ex.ErrorMessage);
+           Assert.Equal(ErrorCodes.TargetNotFound, ex.ErrorCode);
         }
 
         [Fact]
