@@ -33,6 +33,7 @@ nav:
     - 'Tests and debuging': 'Tests-debugging.md' 
     - 'Execute script in console app or pack as global tool': 'execute-script-in-console-app-or-pack-as-global-tool.md'   
     - 'Contionous integration configuration generation': 'CI-Generation.md'    
+    - 'FlubuCore templates': 'flubu-templates.md'
     - 'FlubuCore modules': 'flubu-modules.md'    
     - 'Web api' :
         - 'Getting started' : 'WebApi/getting-started.md'
