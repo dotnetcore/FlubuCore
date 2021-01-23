@@ -914,8 +914,8 @@
                 
                   <h1>FlubuCore templates</h1>
                 
-                <p>With FlubuCore templates it is possible to create new build or deploy scripts in no time. All you have to do is:</p>
-<h2 id="installing-built-in-templates">Installing built-in templates<a class="headerlink" href="#installing-built-in-templates" title="Permanent link">&para;</a></h2>
+                <h2 id="installing-built-in-templates">Installing built-in templates<a class="headerlink" href="#installing-built-in-templates" title="Permanent link">&para;</a></h2>
+<p>With FlubuCore templates it is possible to create new build or deploy scripts in no time. All you have to do is:</p>
 <ul>
 <li>Install FlubuCore global tool <code>dotnet tool install --global FlubuCore.Tool</code></li>
 <li>Install template with <code>flubu new &lt;TemplateName&gt;</code> Available templates names: <code>empty</code>, <code>lib</code></li>
@@ -924,16 +924,20 @@
 </ul>
 <h2 id="creating-and-installing-custom-templates">Creating and installing custom templates.<a class="headerlink" href="#creating-and-installing-custom-templates" title="Permanent link">&para;</a></h2>
 <p>It is also possible to create custom templates on github or gitlab servers with just few steps. Add files to the repository that your template should contain such as your Flubu build script file, Flubu project file etc. Anything that is needed in your build project can be added to template.</p>
-<p>Sample of template repository can be found at <a href="https://github.com/flubu-core/FlubuCore.DefaultTemplate">https://github.com/flubu-core/FlubuCore.DefaultTemplate</a> (can be installed with <code>flubu new empty</code>) and <a href="https://github.com/flubu-core/FlubuCore.LibraryTemplate">https://github.com/flubu-core/FlubuCore.LibraryTemplate</a> (can be installed with <code>flubu new lib</code></p>
+<p>Sample of template repository can be found at <a href="#https://github.com/flubu-core/FlubuCore.DefaultTemplate">default template.</a> This template can be installed with <code>flubu new empty</code> and <a href="#https://github.com/flubu-core/FlubuCore.LibraryTemplate">library template.</a> This template can be installed with <code>flubu new lib</code></p>
 <p>Each template can also contain template configuration file. Configuration file can be in json(Template.json) format or in cs (Template.cs) format. </p>
 <p>Custom template can be installed with command <code>flubu new -u={RepositoryUrl}</code> for example <code>flubu new -u=https://github.com/flubu-core/FlubuCore.DefaultTemplate</code></p>
-<p>Advantages of configuration file in json format:
- - Abit faster installation of template as cs file needs to be compiled first
- - Some prefere configuration in json over fluent interface
- - Probably more suitable for simple templates</p>
-<p>Advanatages of configuration file in cs format:
- - Intelisene with code completion and help. 
- - It is possible to add custom code to template for custom template processing when installing the template.  </p>
+<p>Advantages of configuration file in json format:</p>
+<ul>
+<li>Abit faster installation of template as cs file needs to be compiled first</li>
+<li>Some prefere configuration in json over fluent interface</li>
+<li>Probably more suitable for simple templates</li>
+</ul>
+<p>Advanatages of configuration file in cs format:</p>
+<ul>
+<li>Intelisene with code completion and help. </li>
+<li>It is possible to add custom code to template for custom template processing when installing the template.  </li>
+</ul>
 <h3 id="configuration-file-options">Configuration file options<a class="headerlink" href="#configuration-file-options" title="Permanent link">&para;</a></h3>
 <h4 id="replacementtokens">ReplacementTokens<a class="headerlink" href="#replacementtokens" title="Permanent link">&para;</a></h4>
 <p>Each file in template can contain replacement tokens. Replacement tokens will be replaced in interactive mode when installing the template. Replacement tokens must be defined in configuration file.</p>
