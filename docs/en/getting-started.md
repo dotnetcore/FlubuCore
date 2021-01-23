@@ -13,10 +13,9 @@
 ##### Or Install with FlubuCore template
 
 - In console navigate where your solution is located.
-- Run `dotnet new -i FlubuCore.Template`
-- Run `dotnet new FlubuCore`
+- Install FlubuCore global tool or local tool `dotnet tool install --global FlubuCore.Tool`
+- Run `flubu new empty` (for available templates run  `flubu new`)
 - This will add BuildScript.csproj with FlubuCore references and FlubuCore script template
-
 
 <a name="Write-and-run-your-first-build-script-in-.net-core"></a>
 #### Write and run your first build script in .NET core
