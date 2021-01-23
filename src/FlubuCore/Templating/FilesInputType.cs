@@ -6,6 +6,9 @@ namespace FlubuCore.Templating
 {
     public class FilesInputType
     {
+        /// <summary>
+        /// Allowed file extension.
+        /// </summary>
         public string AllowedFileExtension { get; set; }
     }
 }

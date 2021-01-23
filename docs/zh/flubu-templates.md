@@ -1,6 +1,6 @@
-With FlubuCore templates it is possible to create new build or deploy scripts in no time. All you have to do is:
-
 ## Installing built-in templates
+
+With FlubuCore templates it is possible to create new build or deploy scripts in no time. All you have to do is:
 
 - Install FlubuCore global tool `dotnet tool install --global FlubuCore.Tool`
 - Install template with `flubu new <TemplateName>` Available templates names: `empty`, `lib`
@@ -11,20 +11,22 @@ With FlubuCore templates it is possible to create new build or deploy scripts in
 
 It is also possible to create custom templates on github or gitlab servers with just few steps. Add files to the repository that your template should contain such as your Flubu build script file, Flubu project file etc. Anything that is needed in your build project can be added to template.
  
- Sample of template repository can be found at https://github.com/flubu-core/FlubuCore.DefaultTemplate (can be installed with `flubu new empty`) and https://github.com/flubu-core/FlubuCore.LibraryTemplate (can be installed with `flubu new lib`
+ Sample of template repository can be found at [default template.](#https://github.com/flubu-core/FlubuCore.DefaultTemplate) This template can be installed with `flubu new empty`.  [library template.](#https://github.com/flubu-core/FlubuCore.LibraryTemplate) This template can be installed with `flubu new lib`
 
  Each template can also contain template configuration file. Configuration file can be in json(Template.json) format or in cs (Template.cs) format. 
  
  Custom template can be installed with command `flubu new -u={RepositoryUrl}` for example `flubu new -u=https://github.com/flubu-core/FlubuCore.DefaultTemplate`
  
 Advantages of configuration file in json format:
- - Abit faster installation of template as cs file needs to be compiled first
- - Some prefere configuration in json over fluent interface
- - Probably more suitable for simple templates
+
+- Abit faster installation of template as cs file needs to be compiled first
+- Some prefere configuration in json over fluent interface
+- Probably more suitable for simple templates
  
 Advanatages of configuration file in cs format:
- - Intelisene with code completion and help. 
- - It is possible to add custom code to template for custom template processing when installing the template.  
+
+- Intelisene with code completion and help. 
+- It is possible to add custom code to template for custom template processing when installing the template.  
  
  
 ### Configuration file options
