@@ -83,12 +83,13 @@ namespace FlubuCore.Commanding
                     {
                         if (Args.InteractiveMode && !_flubuSession.InteractiveMode)
                         {
+                            _flubuSession.LogInfo("Build script not found.");
+                            script = await SimpleFlubuInteractiveMode(script);
+                        }
+                        else
+                        {
                             throw;
                         }
-
-                        _flubuSession.LogInfo("Build script not found.");
-
-                        script = await SimpleFlubuInteractiveMode(script);
                     }
 
                     _flubuSession.ScriptArgs = Args.ScriptArguments;
