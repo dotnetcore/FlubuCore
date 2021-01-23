@@ -122,7 +122,7 @@ namespace FlubuCore.Infrastructure.Terminal
             var fullInput = string.Empty;
             var wasUserInput = false;
             var length = string.IsNullOrEmpty(_options.InitialText)
-                ? _currentDirectory.Length + ConsoleUtils.Prompt.Length - 1
+                ? _currentDirectory.Length + ConsoleUtils.Prompt.Length
                 : _options.InitialText.Length;
             var cursorPosition = new ConsoleCursorPosition(length, Console.CursorTop, Console.WindowWidth);
             ClearConsoleLinesAndWriteInitialText(cursorPosition.StartTop, cursorPosition.Top);
