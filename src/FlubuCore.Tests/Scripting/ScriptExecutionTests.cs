@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface;
@@ -44,10 +45,18 @@ namespace FlubuCore.Tests.Scripting
         [Fact]
         public async System.Threading.Tasks.Task LoadDefaultScript()
         {
-            CommandArguments args = new CommandArguments();
-            _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns("e.cs");
+            var scriptFileName = "e.cs";
 
-            _fileLoader.Setup(i => i.ReadAllLines("e.cs"))
+            var asmbFileName = _loader.GetBuildScriptAssemblyFileName(scriptFileName, fullPath: false);
+            if (File.Exists(asmbFileName))
+            {
+                File.Delete(asmbFileName);
+            }
+
+            CommandArguments args = new CommandArguments();
+            _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns(scriptFileName);
+
+            _fileLoader.Setup(i => i.ReadAllLines(scriptFileName))
                 .Returns(new List<string>
                 {
                     "using System;",
@@ -71,10 +80,12 @@ namespace FlubuCore.Tests.Scripting
             _analyzer.Setup(i => i.Analyze(It.IsAny<List<string>>()))
                 .Returns(new ScriptAnalyzerResult() { ClassName = "MyBuildScript" });
 
+            FlubuConfiguration configuration = new FlubuConfiguration();
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync(args);
             var provider = new ServiceCollection()
                 .AddSingleton<IScriptProperties, ScriptProperties>()
                 .AddSingleton<ITargetCreator, TargetCreator>()
+                .AddSingleton(configuration)
                 .BuildServiceProvider();
 
             var targetTree = new TargetTree(provider, new CommandArguments());
@@ -82,23 +93,33 @@ namespace FlubuCore.Tests.Scripting
                 _loggerTaskSession.Object,
                 targetTree,
                 new CommandArguments(),
-                new ScriptFactory(provider),
+                new ScriptServiceProvider(provider),
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),
                 new BuildPropertiesSession(targetTree),
-                new BuildSystem()));
+                new BuildServer()));
         }
 
         [Fact]
         public async Task LoadSimpleScript()
         {
+            var scriptFileName = "e3.cs";
+
+            var asmbFileName = _loader.GetBuildScriptAssemblyFileName(scriptFileName, fullPath: false);
+            if (File.Exists(asmbFileName))
+            {
+                File.Delete(asmbFileName);
+            }
+
             CommandArguments args = new CommandArguments();
-            _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns("e3.cs");
-            _fileLoader.Setup(i => i.ReadAllLines("e3.cs"))
+            _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns(scriptFileName);
+
+            _fileLoader.Setup(i => i.ReadAllLines(scriptFileName))
                 .Returns(new List<string>
                 {
                     "using FlubuCore.Scripting;",
                     "using System;",
+                    "using FlubuCore;",
                     "using FlubuCore.Context;",
                     "using Microsoft.Extensions.DependencyInjection;",
                     "using Microsoft.Extensions.Logging;",
@@ -115,7 +136,7 @@ namespace FlubuCore.Tests.Scripting
                     "    {",
                     "    }",
 
-                    "    public void Configure(ILoggerFactory loggerFactory)",
+                    "    public void Configure(IFlubuConfigurationBuilder configurationBuilder, ILoggerFactory loggerFactory)",
                     "    {",
                     "    }",
                     "}",
@@ -126,9 +147,11 @@ namespace FlubuCore.Tests.Scripting
 
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync(args);
 
+            FlubuConfiguration configuration = new FlubuConfiguration();
             var provider = new ServiceCollection()
                 .AddSingleton<IScriptProperties, ScriptProperties>()
                 .AddSingleton<ITargetCreator, TargetCreator>()
+                .AddSingleton(configuration)
                 .BuildServiceProvider();
 
             var targetTree = new TargetTree(provider, new CommandArguments());
@@ -137,19 +160,27 @@ namespace FlubuCore.Tests.Scripting
                 _loggerTaskSession.Object,
                 targetTree,
                 new CommandArguments(),
-                new ScriptFactory(provider),
+                new ScriptServiceProvider(provider),
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),
                 new BuildPropertiesSession(targetTree),
-                new BuildSystem()));
+                new BuildServer()));
         }
 
         [Fact]
         public async System.Threading.Tasks.Task LoadDefaultScriptWithAnotherClass()
         {
+            var scriptFileName = "e2.cs";
+
+            var asmbFileName = _loader.GetBuildScriptAssemblyFileName(scriptFileName, fullPath: false);
+            if (File.Exists(asmbFileName))
+            {
+                File.Delete(asmbFileName);
+            }
+
             CommandArguments args = new CommandArguments();
-            _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns("e2.cs");
-            _fileLoader.Setup(i => i.ReadAllLines("e2.cs"))
+            _scriptLocator.Setup(x => x.FindBuildScript(args)).Returns(scriptFileName);
+            _fileLoader.Setup(i => i.ReadAllLines(scriptFileName))
                 .Returns(new List<string>
                 {
                     "using System;",
@@ -175,22 +206,23 @@ namespace FlubuCore.Tests.Scripting
 
             _analyzer.Setup(i => i.Analyze(It.IsAny<List<string>>()))
                 .Returns(new ScriptAnalyzerResult() { ClassName = "MyBuildScript" });
-
+            FlubuConfiguration configuration = new FlubuConfiguration();
             IBuildScript t = await _loader.FindAndCreateBuildScriptInstanceAsync(args);
             var provider = new ServiceCollection()
                 .AddSingleton<IScriptProperties, ScriptProperties>()
                 .AddSingleton<ITargetCreator, TargetCreator>()
+                .AddSingleton(configuration)
                 .BuildServiceProvider();
             var targetTree = new TargetTree(provider, new CommandArguments());
             t.Run(new FlubuSession(
                 _loggerTaskSession.Object,
                 targetTree,
                 new CommandArguments(),
-                new ScriptFactory(provider),
+                new ScriptServiceProvider(provider),
                 new DotnetTaskFactory(provider),
                 new FluentInterfaceFactory(provider),
                 new BuildPropertiesSession(targetTree),
-                new BuildSystem()));
+                new BuildServer()));
         }
     }
 }

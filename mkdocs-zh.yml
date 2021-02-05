@@ -38,11 +38,15 @@ nav:
     - '编写与使用插件': 'write-plugins.md'
     - '测试与调试': 'Tests-debugging.md'    
     - 'Execute script in console app or pack as global tool': 'execute-script-in-console-app-or-pack-as-global-tool.md'   
-    - 'FlubuCore modules': 'flubu-modules.md'    
+    - 'Contionous integration configuration generation': 'CI-Generation.md'   
+    - 'FlubuCore modules': 'flubu-modules.md'   
+    - 'FlubuCore templates': 'flubu-templates.md'    
     - 'Web Api' :
         - '入门' : 'WebApi/getting-started.md'
     - '插件精选': 
         - '插件': 'AwesomePlugins/awesome-plugins.md'
+    - 'FAQ': 
+        - 'FlubuCore': 'FAQ/faq.md'  
     - '示例' :
         - 'Index' : 'https://github.com/dotnetcore/FlubuCore.Examples'   
   

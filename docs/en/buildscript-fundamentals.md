@@ -37,6 +37,8 @@ protected override void ConfigureTargets(ITaskContext context)
 }
 ```
 
+After target is defined. Target can be executed from console `Flubu compile`
+
 Target's can also be defined with attributes on method.
 
 ```C#
@@ -136,9 +138,9 @@ protected override void ConfigureTargets(ITaskContext context)
 
 <a name="Custom-code"></a>
 
-### **Write custom c# code (tasks)**
+### **Write custom c# code (custom tasks)**
 
-Following example executes some custom code. You can also use built in flubu tasks in custom code as shown in example.
+Following example executes custom code. You can also use built in flubu tasks in custom code as shown in example.
 
 ```C#
 protected override void ConfigureTargets(ITaskContext context)
@@ -155,7 +157,7 @@ private static void CustomCodeExample(ITaskContext context)
 }
 ```
 
-You can also have parameters in methods:
+You can also add parameters to methods:
 
 ```C#
 protected override void ConfigureTargets(ITaskContext context)

@@ -8,12 +8,6 @@ using System.Text.RegularExpressions;
 using FlubuCore.Infrastructure.Terminal.Commands;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks.Attributes;
-using FlubuCore.Tasks.Git;
-using FlubuCore.Tasks.MsSql;
-using FlubuCore.Tasks.NetCore;
-using FlubuCore.Tasks.Testing;
-using FlubuCore.Tasks.Versioning;
-using NuGet.Packaging;
 
 namespace FlubuCore.Infrastructure.Terminal
 {
@@ -33,13 +27,25 @@ namespace FlubuCore.Infrastructure.Terminal
         private string _currentDirectory;
         private Suggestion _lastSuggestion;
         private ConsoleKey _previousPressedKey = ConsoleKey.Clear;
+        private FlubuConsoleOptions _options;
 
         /// <summary>
         /// Creates new instance of <see cref="FlubuConsole"/> class.
         /// </summary>
         /// <param name="hintsSourceDictionary">Collection containing input hints.</param>
-        public FlubuConsole(TargetTree targetTree, IReadOnlyCollection<Hint> defaultHints, IDictionary<string, IReadOnlyCollection<Hint>> hintsSourceDictionary = null)
+        public FlubuConsole(IReadOnlyCollection<Hint> defaultHints, IDictionary<string, IReadOnlyCollection<Hint>> hintsSourceDictionary = null, Action<FlubuConsoleOptions> options = null)
+        : this(null, defaultHints, hintsSourceDictionary, options)
         {
+        }
+
+        /// <summary>
+        /// Creates new instance of <see cref="FlubuConsole"/> class.
+        /// </summary>
+        /// <param name="hintsSourceDictionary">Collection containing input hints.</param>
+        public FlubuConsole(TargetTree targetTree, IReadOnlyCollection<Hint> defaultHints, IDictionary<string, IReadOnlyCollection<Hint>> hintsSourceDictionary = null, Action<FlubuConsoleOptions> options = null)
+        {
+            _options = new FlubuConsoleOptions();
+            options?.Invoke(_options);
             _targetTree = targetTree;
             InitializeHints(defaultHints, hintsSourceDictionary);
         }
@@ -51,7 +57,7 @@ namespace FlubuCore.Infrastructure.Terminal
         /// <returns>Return's true.</returns>
         public bool ExecuteInternalCommand(string commandLine)
         {
-            if (commandLine.Trim().Equals(InternalCommands.Dir, StringComparison.OrdinalIgnoreCase))
+            if (commandLine.Trim().Equals(InternalTerminalCommands.Dir, StringComparison.OrdinalIgnoreCase))
             {
                 DirectoryInfo objDirectoryInfo = new DirectoryInfo(@".");
                 FileInfo[] allFiles = objDirectoryInfo.GetFiles("*.*", SearchOption.TopDirectoryOnly);
@@ -69,15 +75,15 @@ namespace FlubuCore.Infrastructure.Terminal
 
                 Console.WriteLine(string.Empty);
             }
-            else if (commandLine.Equals(InternalCommands.CdBack, StringComparison.OrdinalIgnoreCase))
+            else if (commandLine.Equals(InternalTerminalCommands.CdBack, StringComparison.OrdinalIgnoreCase))
             {
                 Directory.SetCurrentDirectory(Path.GetFullPath(".."));
             }
-            else if (commandLine.Equals(InternalCommands.CdBackToDisk, StringComparison.OrdinalIgnoreCase))
+            else if (commandLine.Equals(InternalTerminalCommands.CdBackToDisk, StringComparison.OrdinalIgnoreCase))
             {
                 Directory.SetCurrentDirectory(Path.GetPathRoot(Directory.GetCurrentDirectory()));
             }
-            else if (commandLine.StartsWith(InternalCommands.Cd, StringComparison.OrdinalIgnoreCase))
+            else if (commandLine.StartsWith(InternalTerminalCommands.Cd, StringComparison.OrdinalIgnoreCase))
             {
                 var splitedLine = commandLine.Split(' ').ToList();
                 if (splitedLine.Count > 1)
@@ -89,7 +95,7 @@ namespace FlubuCore.Infrastructure.Terminal
                     }
                 }
             }
-            else if (commandLine.StartsWith(InternalCommands.Cls, StringComparison.OrdinalIgnoreCase))
+            else if (commandLine.StartsWith(InternalTerminalCommands.Cls, StringComparison.OrdinalIgnoreCase))
             {
                 Console.Clear();
                 ConsoleUtils.WritePrompt(Directory.GetCurrentDirectory());
@@ -107,20 +113,24 @@ namespace FlubuCore.Infrastructure.Terminal
         /// </summary>
         /// <param name="inputRegex"></param>
         /// <returns></returns>
-        public string ReadLine(string currentDirectory, string inputRegex = ".*")
+        public string ReadLine(string inputRegex = ".*")
         {
             ConsoleKeyInfo input;
-            _currentDirectory = currentDirectory;
-            Suggestion suggestion = null;
+            _currentDirectory = Directory.GetCurrentDirectory();
+
             var userInput = string.Empty;
             var fullInput = string.Empty;
-            var readLine = string.Empty;
             var wasUserInput = false;
-            var cursorPosition = new ConsoleCursorPosition(currentDirectory.Length + ConsoleUtils.Prompt.Length - 1, Console.CursorTop, Console.WindowWidth);
-            ClearConsoleLines(cursorPosition.StartTop, cursorPosition.Top);
+            var length = string.IsNullOrEmpty(_options.InitialText)
+                ? _currentDirectory.Length + ConsoleUtils.Prompt.Length
+                : _options.InitialText.Length;
+            var cursorPosition = new ConsoleCursorPosition(length, Console.CursorTop, Console.WindowWidth);
+            ClearConsoleLinesAndWriteInitialText(cursorPosition.StartTop, cursorPosition.Top);
+            Suggestion suggestion = InitialSuggestionAndHelp(cursorPosition.StartTop);
+
             while ((input = Console.ReadKey()).Key != ConsoleKey.Enter)
             {
-                var writeSugestionToConsole = false;
+                var writeSuggestionToConsole = false;
                 int positionToDelete;
                 if (_previousPressedKey == ConsoleKey.Tab && input.Key != ConsoleKey.Tab)
                 {
@@ -169,7 +179,7 @@ namespace FlubuCore.Infrastructure.Terminal
                             suggestion = GetNextSuggestion();
                             if (suggestion != null)
                             {
-                                writeSugestionToConsole = true;
+                                writeSuggestionToConsole = true;
                                 userInput = suggestion.Value + ' ';
                             }
                         }
@@ -177,7 +187,7 @@ namespace FlubuCore.Infrastructure.Terminal
                         {
                             if (suggestion != null)
                             {
-                                writeSugestionToConsole = true;
+                                writeSuggestionToConsole = true;
                                 userInput = suggestion.Value + ' ';
                                 ////UpdateSuggestionsForUserInput(userInput);
                                 suggestion = GetFirstSuggestion();
@@ -204,7 +214,7 @@ namespace FlubuCore.Infrastructure.Terminal
                         wasUserInput = true;
                         cursorPosition++;
 
-                        if (userInput.StartsWith(InternalCommands.Cd))
+                        if (userInput.StartsWith(InternalTerminalCommands.Cd))
                         {
                             UpdateDirectorySuggestionsForUserInput(userInput);
                             suggestion = GetFirstSuggestion();
@@ -283,7 +293,7 @@ namespace FlubuCore.Infrastructure.Terminal
 
                         wasUserInput = true;
 
-                        if (userInput.StartsWith(InternalCommands.Cd))
+                        if (userInput.StartsWith(InternalTerminalCommands.Cd) || _options.OnlyDirectoriesSuggestions)
                         {
                             UpdateDirectorySuggestionsForUserInput(userInput);
                         }
@@ -296,11 +306,10 @@ namespace FlubuCore.Infrastructure.Terminal
                         break;
                 }
 
-                readLine = suggestion != null ? suggestion.Value : userInput.TrimEnd(' ');
+                ClearConsoleLinesAndWriteInitialText(cursorPosition.StartTop, cursorPosition.Top);
 
-                ClearConsoleLines(cursorPosition.StartTop, cursorPosition.Top);
                 var li = fullInput.TrimEnd().LastIndexOf(" ");
-                if (li == -1 && !fullInput.StartsWith(InternalCommands.Cd, StringComparison.OrdinalIgnoreCase))
+                if (li == -1 && !fullInput.StartsWith(InternalTerminalCommands.Cd, StringComparison.OrdinalIgnoreCase) && !_options.OnlyDirectoriesSuggestions)
                 {
                     if (input.Key == ConsoleKey.Tab && _previousPressedKey == ConsoleKey.Tab && suggestion != null)
                     {
@@ -316,7 +325,7 @@ namespace FlubuCore.Infrastructure.Terminal
                 }
                 else
                 {
-                    if (!writeSugestionToConsole)
+                    if (!writeSuggestionToConsole)
                     {
                         ConsoleUtils.Write(userInput, ConsoleColor.Green);
                         fullInput = userInput;
@@ -329,7 +338,7 @@ namespace FlubuCore.Infrastructure.Terminal
 
                 if (userInput.Any())
                 {
-                    if (suggestion != null && suggestion.Value != userInput && writeSugestionToConsole == false)
+                    if (suggestion != null && suggestion.Value != userInput && writeSuggestionToConsole == false)
                     {
                         WriteSuggestion(suggestion);
                         WriteOnBottomLine(suggestion.Help);
@@ -362,47 +371,6 @@ namespace FlubuCore.Infrastructure.Terminal
             Console.WriteLine(string.Empty);
             AddCommandToHistory(fullInput);
             return fullInput;
-        }
-
-        private static string WriteSugestionAsUserInput(string userInput, Suggestion suggestion, int li, ref string fullInput, ref ConsoleCursorPosition cursorPosition)
-        {
-            var suggestionValue = userInput;
-            suggestionValue = suggestionValue.TrimEnd();
-            if (li == -1)
-            {
-                li = fullInput.Length - 1;
-            }
-
-            if (!suggestionValue.StartsWith("-") && !fullInput.StartsWith(InternalCommands.Cd, StringComparison.OrdinalIgnoreCase))
-            {
-                suggestionValue = $" {suggestionValue} ";
-            }
-            else
-            {
-                if (fullInput.Contains("\\"))
-                {
-                    li = li + fullInput.Split(' ').Last().Split('\\').First().Length + 2;
-                }
-                else if (fullInput.Contains("/"))
-                {
-                    li = li + fullInput.Split(' ').Last().Split('/').First().Length + 2;
-                }
-                else
-                {
-                    suggestionValue = $" {suggestionValue}";
-                }
-            }
-
-            if (suggestion.SuggestionType == HintType.Value)
-            {
-                suggestionValue = $" -{suggestion.Key}={suggestionValue.Trim()}";
-            }
-
-            fullInput = $"{fullInput.Substring(0, li)}{suggestionValue}";
-            suggestionValue = fullInput;
-            ConsoleUtils.Write(fullInput, ConsoleColor.Green);
-            cursorPosition = cursorPosition.SetLength(fullInput.Length);
-            return suggestionValue;
         }
 
         private static void WriteSuggestion(Suggestion suggestion)
@@ -488,6 +456,62 @@ namespace FlubuCore.Infrastructure.Terminal
             Console.Write(new string(' ', Console.WindowWidth - 1));
         }
 
+        private string WriteSugestionAsUserInput(string userInput, Suggestion suggestion, int li, ref string fullInput, ref ConsoleCursorPosition cursorPosition)
+        {
+            var suggestionValue = userInput;
+            suggestionValue = suggestionValue.TrimEnd();
+            if (li == -1)
+            {
+                li = fullInput.Length - 1;
+            }
+
+            if (!suggestionValue.StartsWith("-") && !fullInput.StartsWith(InternalTerminalCommands.Cd, StringComparison.OrdinalIgnoreCase) && !_options.OnlyDirectoriesSuggestions)
+            {
+                suggestionValue = $" {suggestionValue} ";
+            }
+            else
+            {
+                if (fullInput.Contains("\\"))
+                {
+                    li = li + fullInput.Split(' ').Last().Split('\\').First().Length + 2;
+                }
+                else if (fullInput.Contains("/"))
+                {
+                    li = li + fullInput.Split(' ').Last().Split('/').First().Length + 2;
+                }
+                else
+                {
+                    suggestionValue = $" {suggestionValue}";
+                }
+            }
+
+            if (suggestion.SuggestionType == HintType.Value)
+            {
+                suggestionValue = $" -{suggestion.Key}={suggestionValue.Trim()}";
+            }
+
+            fullInput = $"{fullInput.Substring(0, li)}{suggestionValue}";
+            suggestionValue = fullInput;
+            ConsoleUtils.Write(fullInput, ConsoleColor.Green);
+            cursorPosition = cursorPosition.SetLength(fullInput.Length);
+            return suggestionValue;
+        }
+
+        private void ClearConsoleLinesAndWriteInitialText(int startline, int endline)
+        {
+            ClearConsoleLines(startline, endline);
+            var text = !string.IsNullOrEmpty(_options.InitialText) ? _options.InitialText : _currentDirectory;
+
+            if (_options.WritePrompt)
+            {
+                ConsoleUtils.WritePrompt(text);
+            }
+            else
+            {
+                ConsoleUtils.Write(text, ConsoleColor.Green);
+            }
+        }
+
         private void ClearConsoleLines(int startline, int endline)
         {
             for (var i = startline; i <= endline; i++)
@@ -497,8 +521,6 @@ namespace FlubuCore.Infrastructure.Terminal
             }
 
             Console.SetCursorPosition(0, startline);
-            ConsoleUtils.WritePrompt(_currentDirectory);
-            Console.SetCursorPosition(_currentDirectory.Length + 1, startline);
         }
 
         private void UpdateSuggestionsForUserInput(string userInput)
@@ -622,9 +644,24 @@ namespace FlubuCore.Infrastructure.Terminal
             }
 
             DirectoryInfo objDirectoryInfo = new DirectoryInfo(searchPath);
-            var directories = objDirectoryInfo.GetDirectories("*.*");
+            DirectoryInfo[] directories;
+            try
+            {
+               directories = objDirectoryInfo.GetDirectories("*.*");
+            }
+            catch (DirectoryNotFoundException)
+            {
+                return;
+            }
+
             List<Hint> hintSource = new List<Hint>();
             hintSource.AddRange(directories.Select(d => new Hint() { Name = d.Name, OnlySimpleSearh = true }));
+            if (_options.IncludeFileSuggestions)
+            {
+                var files = objDirectoryInfo.GetFiles(_options.FileSuggestionsSearchPattern);
+                hintSource.AddRange(files.Select(d => new Hint() { Name = d.Name, OnlySimpleSearh = true }));
+            }
+
             var lastInput = splitedDirectories.Last();
             GetSuggestionFromHints(hintSource, lastInput, "*");
         }
@@ -636,21 +673,7 @@ namespace FlubuCore.Infrastructure.Terminal
                 _suggestionsForUserInput = null;
                 return;
             }
-#if NETSTANDARD1_6
-            //simple case then user's input is equal to start of hint
-            var hints = hintSource
-                .Where(item => item.Name.Length > lastInput.Length && item.Name.Substring(0, lastInput.Length) == lastInput)
-                .Select(hint => new Suggestion
-                {
-                    Value = hint.Name,
-                    Help = hint.Help,
-                    Key = hintSourceKey,
-                    SuggestionColor = hint.HintColor,
-                    SuggestionType = hint.HintType,
-                    HighlightIndexes = Enumerable.Range(0, lastInput.Length).ToArray()
-                })
-                .ToList();
-#else
+
             //simple case then user's input is equal to start of hint
             var hints = hintSource
                 .Where(item => item.Name.Length > lastInput.Length && item.Name.Substring(0, lastInput.Length)
@@ -665,7 +688,6 @@ namespace FlubuCore.Infrastructure.Terminal
                     HighlightIndexes = Enumerable.Range(0, lastInput.Length).ToArray()
                 })
                 .ToList();
-#endif
 
             //more complex case: tokenize hint and try to search user input from beginning of tokens
             foreach (var item in hintSource)
@@ -673,13 +695,8 @@ namespace FlubuCore.Infrastructure.Terminal
                 var parts = item.Name.Split(new[] { ' ', ';', '-', '_' }, StringSplitOptions.RemoveEmptyEntries);
 
                 string candidate;
-#if NETSTANDARD1_6
-                candidate =
- parts.FirstOrDefault(part => part.Length >= lastInput.Length && part.Substring(0, lastInput.Length) == lastInput);
-#else
                 candidate = parts.FirstOrDefault(part => part.Length >= lastInput.Length && part.Substring(0, lastInput.Length)
                                                              .Equals(lastInput, StringComparison.InvariantCultureIgnoreCase));
-#endif
                 if (candidate != null)
                 {
                     hints.Add(new Suggestion
@@ -716,11 +733,7 @@ namespace FlubuCore.Infrastructure.Terminal
                     }
 
                     var substring = item.Name.Substring(startIndex);
-#if NETSTANDARD1_6
-                    var idx = substring.IndexOf(lastInput[i]);
-#else
                     var idx = substring.IndexOf(lastInput[i].ToString(), StringComparison.OrdinalIgnoreCase);
-#endif
                     if (idx < 0)
                     {
                         //no such symbol in the hints source item
@@ -762,6 +775,12 @@ namespace FlubuCore.Infrastructure.Terminal
         private List<Hint> GetHintsFromTarget(string targetName, string prefix)
         {
             List<Hint> targetSpecificHints = new List<Hint>();
+
+            if (_targetTree == null)
+            {
+                return targetSpecificHints;
+            }
+
             if (_targetTree.HasTarget(targetName))
             {
                 List<ITargetInternal> targets = new List<ITargetInternal>();
@@ -902,6 +921,29 @@ namespace FlubuCore.Infrastructure.Terminal
             }
 
             return _suggestionsForUserInput[_suggestionPosition];
+        }
+
+        private Suggestion InitialSuggestionAndHelp(int startLine)
+        {
+            if (!string.IsNullOrEmpty(_options.DefaultSuggestion))
+            {
+                var suggestion = new Suggestion
+                {
+                    Key = "DefaultSuggestion", Value = _options.DefaultSuggestion, SuggestionColor = ConsoleColor.DarkGray
+                };
+                WriteSuggestion(suggestion);
+                WriteOnBottomLine($"Press tab if you want to use default value. {_options.InitialHelp}");
+                Console.SetCursorPosition(_options.InitialText.Length, startLine);
+                return suggestion;
+            }
+
+            if (!string.IsNullOrEmpty(_options.InitialHelp))
+            {
+                WriteOnBottomLine(_options.InitialHelp);
+                Console.SetCursorPosition(_options.InitialText.Length, startLine);
+            }
+
+            return null;
         }
 
         private void InitializeHints(IReadOnlyCollection<Hint> defaultHints, IDictionary<string, IReadOnlyCollection<Hint>> hintsSourceDictionary)

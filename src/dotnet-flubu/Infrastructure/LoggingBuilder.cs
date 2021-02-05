@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 
 namespace DotNet.Cli.Flubu.Infrastructure
 {
-#if !NETCOREAPP1_0 && !NETCOREAPP1_1
     public class LoggingBuilder : ILoggingBuilder
     {
         public LoggingBuilder(IServiceCollection services)
@@ -18,5 +17,4 @@ namespace DotNet.Cli.Flubu.Infrastructure
 
         public IServiceCollection Services { get; }
     }
-#endif
 }

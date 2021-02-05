@@ -40,8 +40,6 @@ namespace DotNet.Cli.Flubu
                 return statusCode;
             }
 
-            var cmdApp = _provider.GetRequiredService<CommandLineApplication>();
-
             ICommandExecutor executor = _provider.GetRequiredService<ICommandExecutor>();
 
             Console.CancelKeyPress += OnCancelKeyPress;
@@ -65,16 +63,13 @@ namespace DotNet.Cli.Flubu
                 .AddParserComponents()
                 .AddScriptAnalyzers();
 
-            Services
-#if !NETCOREAPP1_0 && !NETCOREAPP1_1
-                .AddFlubuLogging(startUpServiceCollection);
-#else
-                .AddFlubuLogging();
-#endif
+            Services.AddFlubuLogging(startUpServiceCollection);
+
             var startupProvider = startUpServiceCollection.BuildServiceProvider();
             var parser = startupProvider.GetRequiredService<IFlubuCommandParser>();
             var commandArguments = parser.Parse(args);
             IScriptProvider scriptProvider = startupProvider.GetRequiredService<IScriptProvider>();
+            IFlubuConfigurationBuilder flubuConfigurationBuilder = new FlubuConfigurationBuilder();
             ILoggerFactory loggerFactory = startupProvider.GetRequiredService<ILoggerFactory>();
             loggerFactory.AddProvider(new FlubuLoggerProvider());
             _logger = startupProvider.GetRequiredService<ILogger<CommandExecutor>>();
@@ -82,7 +77,7 @@ namespace DotNet.Cli.Flubu
             _logger.LogInformation($"Flubu v.{version}");
 
             IBuildScript script = null;
-            if (!commandArguments.IsFlubuSetup())
+            if (!commandArguments.IsInternalCommand())
             {
                 try
                 {
@@ -112,8 +107,10 @@ namespace DotNet.Cli.Flubu
             if (script != null)
             {
                 script.ConfigureServices(Services);
-                script.Configure(loggerFactory);
+                script.Configure(flubuConfigurationBuilder, loggerFactory);
             }
+
+            Services.AddSingleton(flubuConfigurationBuilder.Build());
 
             _provider = Services.BuildServiceProvider();
             return 0;

@@ -72,41 +72,41 @@ namespace FlubuCore.Tasks.Versioning
             int? buildNumber = null, revisionNumber = null;
             if (!_disableDefaultBuildSystems)
             {
-                switch (context.BuildSystems().RunningOn)
+                switch (context.BuildServers().RunningOn)
                 {
-                    case BuildSystemType.AppVeyor:
-                        buildNumber = ParseBuildNumber(context.BuildSystems().AppVeyor().BuildNumber);
+                    case BuildServerType.AppVeyor:
+                        buildNumber = ParseBuildNumber(context.BuildServers().AppVeyor().BuildNumber);
                         break;
 
-                    case BuildSystemType.Bamboo:
-                        buildNumber = ParseBuildNumber(context.BuildSystems().Bamboo().BuildNumber);
+                    case BuildServerType.Bamboo:
+                        buildNumber = ParseBuildNumber(context.BuildServers().Bamboo().BuildNumber);
                         break;
 
-                    case BuildSystemType.Bitrise:
-                        buildNumber = ParseBuildNumber(context.BuildSystems().BitRise().BuildNumber);
+                    case BuildServerType.Bitrise:
+                        buildNumber = ParseBuildNumber(context.BuildServers().BitRise().BuildNumber);
                         break;
 
-                    case BuildSystemType.ContinousCl:
-                        buildNumber = ParseBuildNumber(context.BuildSystems().ContinuaCl().BuildNumber);
+                    case BuildServerType.ContinousCl:
+                        buildNumber = ParseBuildNumber(context.BuildServers().ContinuaCl().BuildNumber);
                         break;
 
-                    case BuildSystemType.Jenkins:
+                    case BuildServerType.Jenkins:
                     {
-                        buildNumber = ParseBuildNumber(context.BuildSystems().Jenkins().BuildNumber);
-                        revisionNumber = ParseBuildNumber(context.BuildSystems().Jenkins().SvnRevisionId);
+                        buildNumber = ParseBuildNumber(context.BuildServers().Jenkins().BuildNumber);
+                        revisionNumber = ParseBuildNumber(context.BuildServers().Jenkins().SvnRevisionId);
                         break;
                     }
 
-                    case BuildSystemType.TFS:
-                        buildNumber = ParseBuildNumber(context.BuildSystems().TeamFoundationServer().BuildNumber);
+                    case BuildServerType.TFS:
+                        buildNumber = ParseBuildNumber(context.BuildServers().TeamFoundationServer().BuildNumber);
                         break;
 
-                    case BuildSystemType.TeamCity:
-                        buildNumber = ParseBuildNumber(context.BuildSystems().TeamCity().BuildNumber);
+                    case BuildServerType.TeamCity:
+                        buildNumber = ParseBuildNumber(context.BuildServers().TeamCity().BuildNumber);
                         break;
 
-                    case BuildSystemType.TravisCI:
-                        buildNumber = ParseBuildNumber(context.BuildSystems().Travis().BuildNumber);
+                    case BuildServerType.TravisCI:
+                        buildNumber = ParseBuildNumber(context.BuildServers().Travis().BuildNumber);
                         break;
                 }
             }

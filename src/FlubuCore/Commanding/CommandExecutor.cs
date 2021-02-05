@@ -5,61 +5,63 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using FlubuCore.Commanding.Internal;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
+using FlubuCore.Templating;
+using FlubuCore.Templating.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace FlubuCore.Commanding
 {
-    public class CommandExecutor : ICommandExecutor
+    public class CommandExecutor : InternalCommandExecutor, ICommandExecutor
     {
-        private readonly CommandArguments _args;
         private readonly IScriptProvider _scriptProvider;
-        private readonly IFlubuSession _flubuSession;
+
         private readonly ILogger<CommandExecutor> _log;
 
         public CommandExecutor(
             CommandArguments args,
             IScriptProvider scriptProvider,
             IFlubuSession flubuSession,
-            ILogger<CommandExecutor> log)
+            ILogger<CommandExecutor> log,
+            IFlubuTemplateTasksExecutor flubuTemplateTasksExecutor)
+            : base(flubuSession, args, flubuTemplateTasksExecutor)
         {
-            _args = args;
             _scriptProvider = scriptProvider;
-            _flubuSession = flubuSession;
             _log = log;
         }
 
         public virtual async Task<int> ExecuteAsync()
         {
-            if (_args.DisableColoredLogging)
+            if (Args.DisableColoredLogging)
             {
                 FlubuConsoleLogger.DisableColloredLogging = true;
             }
 
-            if (_args.Help) return 1;
+            if (Args.Help) return 1;
 
-            if (_args.IsFlubuSetup())
+            if (Args.IsInternalCommand())
             {
-                TargetTree.SetupFlubu();
+                await ExecuteInternalCommand();
                 return 0;
             }
 
             try
             {
-                    var script = await _scriptProvider.GetBuildScriptAsync(_args);
-                    _flubuSession.ScriptArgs = _args.ScriptArguments;
-                    _flubuSession.TargetTree.BuildScript = script;
-                    _flubuSession.Properties.Set(BuildProps.IsWebApi, _args.IsWebApi);
-                    var result = script.Run(_flubuSession);
+                    var script = await _scriptProvider.GetBuildScriptAsync(Args);
+                    FlubuSession.ScriptArgs = Args.ScriptArguments;
+                    FlubuSession.TargetTree.BuildScript = script;
+                    FlubuSession.Properties.Set(BuildProps.IsWebApi, Args.IsWebApi);
+                    var result = script.Run(FlubuSession);
                     return result;
             }
             catch (TaskExecutionException e)
             {
-                if (_args.RethrowOnException)
+                if (Args.RethrowOnException)
                     throw;
 
                 _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{e.ToString()}", null, (t, ex) => t);
@@ -67,19 +69,19 @@ namespace FlubuCore.Commanding
             }
             catch (FlubuException e)
             {
-                if (_args.RethrowOnException)
+                if (Args.RethrowOnException)
                     throw;
 
-                var str = _args.Debug ? e.ToString() : e.Message;
+                var str = Args.Debug ? e.ToString() : e.Message;
                 _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{str}", null, (t, ex) => t);
                 return StatusCodes.BuildScriptNotFound;
             }
             catch (Exception e)
             {
-                if (_args.RethrowOnException)
+                if (Args.RethrowOnException)
                     throw;
 
-                var str = _args.Debug ? e.ToString() : e.Message;
+                var str = Args.Debug ? e.ToString() : e.Message;
                 _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{str}", null, (t, ex) => t);
                 return 3;
             }

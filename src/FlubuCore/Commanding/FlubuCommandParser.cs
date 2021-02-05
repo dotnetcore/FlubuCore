@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using FlubuCore.Context;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using McMaster.Extensions.CommandLineUtils;
@@ -56,6 +57,8 @@ namespace FlubuCore.Commanding
 
         private CommandOption _interactiveMode;
 
+        private CommandOption _generateContinousIntegrationConfigs;
+
         public FlubuCommandParser(
             CommandLineApplication commandApp,
             IFlubuConfigurationProvider flubuConfigurationProvider,
@@ -76,7 +79,7 @@ namespace FlubuCore.Commanding
 #if NET462
             _commandApp.Name = "flubu.exe";
 #else
-            _commandApp.Name = "dotnet flubu";
+            _commandApp.Name = "flubu";
 #endif
             _command = _commandApp.Argument("<Target> [build script arguments]", "The target to execute.", true);
             _scriptPath = _commandApp.Option("-s|--script <SCRIPT>", "Build script file to use.", CommandOptionType.SingleValue);
@@ -90,8 +93,13 @@ namespace FlubuCore.Commanding
             _dryRun = _commandApp.Option("--dryRun", "Performs a dry run of the specified target.", CommandOptionType.NoValue);
             _noInteractive = _commandApp.Option("--noint", $"Disables interactive mode for all task members. Default values are used instead. {Environment.NewLine}", CommandOptionType.NoValue);
             _noColor = _commandApp.Option("--noColor", "Disables colored logging", CommandOptionType.NoValue);
-
-            _commandApp.ExtendedHelpText = $"  <Target> help                                 Shows detailed help for specified target.";
+            _generateContinousIntegrationConfigs = _commandApp.Option("--ci", "Generates configuration file for specified continous integration server. Supported values: Jenkins, AppVeyor, Travis, AzurePipelines, GithubActions", CommandOptionType.MultipleValue);
+            _commandApp.ExtendedHelpText = @"
+Flubu internal commands:
+  <Target> help                                 Shows detailed help for specified target.
+  new                                           Creates new build script project from template. Execute 'flubu new' for list of templates.
+  setup                                         Store locations of build script, project file or flubu settings file into '.flubu' file.
+                                                You should execute this command at the root of your repository.";
 
             _commandApp.OnExecute(() => PrepareDefaultArguments());
 
@@ -159,6 +167,56 @@ namespace FlubuCore.Commanding
 
             if (_isDebug.HasValue())
                 _parsed.Debug = true;
+
+            if (_generateContinousIntegrationConfigs.HasValue())
+            {
+                _parsed.GenerateContinousIntegrationConfigs = new List<BuildServerType>();
+                foreach (var value in _generateContinousIntegrationConfigs.Values)
+                {
+                    switch (value.ToLower())
+                    {
+                        case "jenkins":
+                        {
+                            _parsed.GenerateContinousIntegrationConfigs.Add(BuildServerType.Jenkins);
+                            break;
+                        }
+
+                        case "appveyor":
+                        {
+                            _parsed.GenerateContinousIntegrationConfigs.Add(BuildServerType.AppVeyor);
+                            break;
+                        }
+
+                        case "travis":
+                        case "travisci":
+                        {
+                            _parsed.GenerateContinousIntegrationConfigs.Add(BuildServerType.TravisCI);
+                            break;
+                        }
+
+                        case "azurepipelines":
+                        case "azurepipeline":
+                        case "azure":
+                        {
+                            _parsed.GenerateContinousIntegrationConfigs.Add(BuildServerType.AzurePipelines);
+                            break;
+                        }
+
+                        case "githubactions":
+                        case "githubaction":
+                        case "github":
+                        case "actions":
+                        case "workflow":
+                        case "ghworkflow":
+                        {
+                            _parsed.GenerateContinousIntegrationConfigs.Add(BuildServerType.GitHubActions);
+                            break;
+                        }
+                    }
+                }
+
+                _parsed.GenerateContinousIntegrationConfigs = _parsed.GenerateContinousIntegrationConfigs.Distinct().ToList();
+            }
 
             PrepareRemaingCommandsAndScriptArgs();
 

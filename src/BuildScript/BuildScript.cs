@@ -35,7 +35,7 @@ public class  BuildScript : DefaultBuildScript
 
     protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
     {
-        context.Properties.Set(BuildProps.BuildDir, "output");
+        context.Properties.Set(DotNetBuildProps.BuildDir, "output");
     }
 
     protected override void ConfigureTargets(ITaskContext context)
@@ -150,14 +150,14 @@ public class  BuildScript : DefaultBuildScript
 
     private void TargetPackageDotnetFlubu(ITaskContext context)
     {
-        context.CoreTasks().Publish("dotnet-flubu").Framework("netcoreapp2.0").Execute(context);
+        context.CoreTasks().Publish("dotnet-flubu").Framework("netcoreapp3.1").Execute(context);
         if (!Directory.Exists(Output.CombineWith("dotnet-flubu")))
         {
             Directory.CreateDirectory(@"output/dotnet-flubu");
         }
 
         context.Tasks().PackageTask(Output.CombineWith("dotnet-flubu"))
-            .AddDirectoryToPackage(@"dotnet-flubu/bin/Release/netcoreapp2.0/publish", "", true)
+            .AddDirectoryToPackage(@"dotnet-flubu/bin/Release/netcoreapp3.1/publish", "", true)
             .ZipPackage("dotnet-flubu", true)
             .Execute(context);
     }
@@ -271,8 +271,8 @@ public class  BuildScript : DefaultBuildScript
             .AddTask(x => x.PackageTask(Output.CombineWith("WebApiPackages\\net462"))
                 .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\net462\win7-x64\publish", "FlubuCore.WebApi", true)
                 .AddDirectoryToPackage(@"FlubuCore.WebApi.Updater\bin\Release\net462", "FlubuCore.WebApi", true)
-                .AddFileToPackage("BuildScript\\DeployScript.cs", "")
-                .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
+                .AddFileToPackage("Deploy\\DeployScript.cs", "")
+                .AddFileToPackage("Deploy\\DeploymentConfig.json", "")
                 .AddFileToPackage(Output.CombineWith("flubu.exe"), "")
                 .AddFileToPackage(Output.CombineWith("flubu.exe.config"), "")
                 .AddFileToPackage(Output.CombineWith("FlubuCore.dll"), "")
@@ -287,8 +287,8 @@ public class  BuildScript : DefaultBuildScript
             .AddTask(x => x.PackageTask(Output.CombineWith("WebApiPackages\\NetCore2.0\\Windows"))
                 .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp2.0\publish", "FlubuCore.WebApi", true)
                 .AddDirectoryToPackage(@"FlubuCore.WebApi.Updater\bin\Release\netcoreapp2.0", "FlubuCore.WebApi", true)
-                .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
-                .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
+                .AddFileToPackage("Deploy\\DeploymentScript.cs", "")
+                .AddFileToPackage("Deploy\\DeploymentConfig.json", "")
                 .AddFileToPackage("output\\flubu.exe", "")
                 .AddFileToPackage("output\\flubu.exe.config", "")
                 .AddFileToPackage("output\\FlubuCore.dll", "")
@@ -303,8 +303,8 @@ public class  BuildScript : DefaultBuildScript
             .AddTask(x => x.PackageTask(Output.CombineWith("WebApiPackages\\NetCore2.1\\Windows"))
                 .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp2.1\publish", "FlubuCore.WebApi", true)
                 .AddDirectoryToPackage(@"FlubuCore.WebApi.Updater\bin\Release\netcoreapp2.0", "FlubuCore.WebApi", true)
-                .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
-                .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
+                .AddFileToPackage("Deploy\\DeploymentScript.cs", "")
+                .AddFileToPackage("Deploy\\DeploymentConfig.json", "")
                 .AddFileToPackage("output\\flubu.exe", "")
                 .AddFileToPackage("output\\flubu.exe.config", "")
                 .AddFileToPackage("output\\FlubuCore.dll", "")
@@ -319,10 +319,10 @@ public class  BuildScript : DefaultBuildScript
             .AddTask(x => x.PackageTask(Output.CombineWith("WebApiPackages\\NetCore2.0\\Linux"))
                 .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp2.0\publish", "FlubuCore.WebApi", true)
                 .AddDirectoryToPackage(@"FlubuCore.WebApi.Updater\bin\Release\netcoreapp2.0", "FlubuCore.WebApi", true)
-                .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
-                .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
-                .AddFileToPackage("BuildScript\\NetCore2.0\\Deploy.csproj", "")
-                .AddFileToPackage("BuildScript\\Deploy.bat", "")
+                .AddFileToPackage("Deploy\\DeploymentScript.cs", "")
+                .AddFileToPackage("Deploy\\DeploymentConfig.json", "")
+                .AddFileToPackage("Deploy\\NetCore2.0\\Deploy.csproj", "")
+                .AddFileToPackage("Deploy\\Deploy.bat", "")
                 .AddFileToPackage(@"packages\Newtonsoft.Json\12.0.3\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
                 .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard2.0\LiteDB.dll", "lib")
                 .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard2.0\LiteDB.dll", "")
@@ -334,10 +334,10 @@ public class  BuildScript : DefaultBuildScript
             .AddTask(x => x.PackageTask(Output.CombineWith("WebApiPackages\\NetCore2.1\\Linux"))
                 .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp2.1\publish", "FlubuCore.WebApi", true)
                 .AddDirectoryToPackage(@"FlubuCore.WebApi.Updater\bin\Release\netcoreapp2.0", "FlubuCore.WebApi", true)
-                .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
-                .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
-                .AddFileToPackage("BuildScript\\NetCore2.0\\Deploy.csproj", "")
-                .AddFileToPackage("BuildScript\\Deploy.bat", "")
+                .AddFileToPackage("Deploy\\DeploymentScript.cs", "")
+                .AddFileToPackage("Deploy\\DeploymentConfig.json", "")
+                .AddFileToPackage("Deploy\\NetCore2.0\\Deploy.csproj", "")
+                .AddFileToPackage("Deploy\\Deploy.bat", "")
                 .AddFileToPackage(@"packages\Newtonsoft.Json\12.0.3\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
                 .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard2.0\LiteDB.dll", "lib")
                 .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
@@ -348,10 +348,10 @@ public class  BuildScript : DefaultBuildScript
             .AddTask(x => x.PackageTask(Output.CombineWith("WebApiPackages\\NetCore3.1\\Linux"))
                 .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp3.1\publish", "FlubuCore.WebApi", true)
                 .AddDirectoryToPackage(@"FlubuCore.WebApi.Updater\bin\Release\netcoreapp2.0", "FlubuCore.WebApi", true)
-                .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
-                .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
-                .AddFileToPackage("BuildScript\\NetCore3.1\\Deploy.csproj", "")
-                .AddFileToPackage("BuildScript\\Deploy.bat", "")
+                .AddFileToPackage("Deploy\\DeploymentScript.cs", "")
+                .AddFileToPackage("Deploy\\DeploymentConfig.json", "")
+                .AddFileToPackage("Deploy\\NetCore3.1\\Deploy.csproj", "")
+                .AddFileToPackage("Deploy\\Deploy.bat", "")
                 .AddFileToPackage(@"packages\Newtonsoft.Json\12.0.3\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
                 .AddFileToPackage(@"packages\litedb\4.1.2\lib\netstandard2.0\LiteDB.dll", "lib")
                 .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
@@ -362,8 +362,8 @@ public class  BuildScript : DefaultBuildScript
             .AddTask(x => x.PackageTask(Output.CombineWith("WebApiPackages\\NetCore3.1\\Windows"))
                 .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\netcoreapp3.1\publish", "FlubuCore.WebApi", true)
                 .AddDirectoryToPackage(@"FlubuCore.WebApi.Updater\bin\Release\netcoreapp2.0", "FlubuCore.WebApi", true)
-                .AddFileToPackage("BuildScript\\DeploymentScript.cs", "")
-                .AddFileToPackage("BuildScript\\DeploymentConfig.json", "")
+                .AddFileToPackage("Deploy\\DeploymentScript.cs", "")
+                .AddFileToPackage("Deploy\\DeploymentConfig.json", "")
                 .AddFileToPackage("output\\flubu.exe", "")
                 .AddFileToPackage("output\\flubu.exe.config", "")
                 .AddFileToPackage("output\\FlubuCore.dll", "")

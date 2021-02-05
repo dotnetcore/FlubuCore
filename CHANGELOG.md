@@ -1,3 +1,22 @@
+## FlubuCore 6.0.0.0
+- CI configuration generation for azure pipelines, github actions, jenkins travis and appveyor. More can be read at https://flubucore.dotnetcore.xyz/CI-Generation/
+- Simplified creation of new build scripts with FlubuCore templates. More can be read at https://flubucore.dotnetcore.xyz/flubu-templates/
+- .net 5.0 support
+- new analyzers for Build property attributes and task attributes
+- Directories and files suggestions for `flubu setup` command 
+- Dropped support for .net standard 1.6
+- (albyrock87) Added Gitlab CI variables to BuildServer.
+- (seanstride)removed obsolete APIs 
+- (jenzy)CreateZipPackageFromProjectsImplementation should pass destinationRootDir to PackageTask
+- (huanlin)Show working folder with full path in logs
+- (huanlin)Wrong log info about executing npm process
+- UnzipTask: returns list of extracted files.
+- UpdateNetCoreVersionTask: Added option to Update all projects version in solution 
+- ReplaceTokenTask: Don't replace token if empty value is entered.
+- DotnetNugetPushTask: Added SkipDuplicate option
+- Build server jenkins: Addded IsPullRequest property.
+- WebApi: Imporeved logging of exceptions on web api execute script task.  
+
 ## FlubuCore 5.1.8.0
 - Added ServiceStatus And ServiceStop windows service control tasks.
 - NugetPublishTask: Packages can be now published with version quality suffix.

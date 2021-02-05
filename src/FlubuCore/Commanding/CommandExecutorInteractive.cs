@@ -1,26 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-#if !NETSTANDARD1_6
 using System.Drawing;
-#endif
 using System.IO;
 using System.Linq;
-using System.Reflection;
+using System.Net.Http;
 using System.Threading.Tasks;
+using FlubuCore.Commanding.Internal;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure;
 using FlubuCore.Infrastructure.Terminal;
 using FlubuCore.IO.Wrappers;
 using FlubuCore.Scripting;
 using FlubuCore.Targeting;
+using FlubuCore.Templating.Tasks;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.Logging;
 
 namespace FlubuCore.Commanding
 {
-    public class CommandExecutorInteractive : ICommandExecutor
+    public class CommandExecutorInteractive : InternalCommandExecutor, ICommandExecutor
     {
         private readonly IFlubuSession _flubuSession;
 
@@ -30,16 +30,15 @@ namespace FlubuCore.Commanding
 
         private readonly IScriptProvider _scriptProvider;
 
-        private CommandArguments _args;
-
         public CommandExecutorInteractive(
             CommandArguments args,
             IScriptProvider scriptProvider,
             IFlubuSession flubuSession,
             IScriptProperties scriptProperties,
-            ILogger<CommandExecutorInteractive> log)
+            ILogger<CommandExecutorInteractive> log,
+            IFlubuTemplateTasksExecutor flubuTemplateTasksExecutor)
+            : base(flubuSession, args, flubuTemplateTasksExecutor)
         {
-            _args = args;
             _scriptProvider = scriptProvider;
             _flubuSession = flubuSession;
             _scriptProperties = scriptProperties;
@@ -48,16 +47,16 @@ namespace FlubuCore.Commanding
 
         public virtual async Task<int> ExecuteAsync()
         {
-            if (_args.DisableColoredLogging)
+            if (Args.DisableColoredLogging)
             {
                 FlubuConsoleLogger.DisableColloredLogging = true;
             }
 
-            if (_args.Help) return 1;
+            if (Args.Help) return 1;
 
-            if (_args.MainCommands.Count == 1 && _args.MainCommands.First().Equals("setup", StringComparison.OrdinalIgnoreCase))
+            if (Args.IsInternalCommand())
             {
-                TargetTree.SetupFlubu();
+                await ExecuteInternalCommand();
                 return 0;
             }
 
@@ -72,7 +71,7 @@ namespace FlubuCore.Commanding
                     {
                         if (!_flubuSession.InteractiveMode)
                         {
-                            script = await _scriptProvider.GetBuildScriptAsync(_args);
+                            script = await _scriptProvider.GetBuildScriptAsync(Args);
                         }
                         else
                         {
@@ -82,21 +81,22 @@ namespace FlubuCore.Commanding
                     }
                     catch (BuildScriptLocatorException)
                     {
-                        if (!_args.InteractiveMode && !_flubuSession.InteractiveMode)
+                        if (Args.InteractiveMode && !_flubuSession.InteractiveMode)
+                        {
+                            _flubuSession.LogInfo("Build script not found.");
+                            script = await SimpleFlubuInteractiveMode(script);
+                        }
+                        else
                         {
                             throw;
                         }
-
-                        _flubuSession.LogInfo("Build script not found.");
-
-                        script = await SimpleFlubuInteractiveMode(script);
                     }
 
-                    _flubuSession.ScriptArgs = _args.ScriptArguments;
-                    _flubuSession.InteractiveMode = _args.InteractiveMode;
-                    _flubuSession.InteractiveArgs = _args;
+                    _flubuSession.ScriptArgs = Args.ScriptArguments;
+                    _flubuSession.InteractiveMode = Args.InteractiveMode;
+                    _flubuSession.InteractiveArgs = Args;
                     _flubuSession.TargetTree.BuildScript = script;
-                    _flubuSession.Properties.Set(BuildProps.IsWebApi, _args.IsWebApi);
+                    _flubuSession.Properties.Set(BuildProps.IsWebApi, Args.IsWebApi);
                     _flubuSession.TargetTree.ResetTargetTree();
 
                     if (script != null)
@@ -111,13 +111,13 @@ namespace FlubuCore.Commanding
                         }
                     }
                 }
-                while (_flubuSession.InteractiveMode && InternalCommands.ReloadCommands.Contains(_flubuSession.InteractiveArgs.MainCommands[0], StringComparer.OrdinalIgnoreCase));
+                while (_flubuSession.InteractiveMode && InternalTerminalCommands.ReloadCommands.Contains(_flubuSession.InteractiveArgs.MainCommands[0], StringComparer.OrdinalIgnoreCase));
 
                 return result;
             }
             catch (TaskExecutionException e)
             {
-                if (_args.RethrowOnException)
+                if (Args.RethrowOnException)
                     throw;
 
                 _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{e}", null, (t, ex) => t);
@@ -125,19 +125,19 @@ namespace FlubuCore.Commanding
             }
             catch (FlubuException e)
             {
-                if (_args.RethrowOnException)
+                if (Args.RethrowOnException)
                     throw;
 
-                var str = _args.Debug ? e.ToString() : e.Message;
+                var str = Args.Debug ? e.ToString() : e.Message;
                 _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{str}", null, (t, ex) => t);
                 return StatusCodes.BuildScriptNotFound;
             }
             catch (Exception e)
             {
-                if (_args.RethrowOnException)
+                if (Args.RethrowOnException)
                     throw;
 
-                var str = _args.Debug ? e.ToString() : e.Message;
+                var str = Args.Debug ? e.ToString() : e.Message;
                 _log.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{str}", null, (t, ex) => t);
                 return 3;
             }
@@ -155,14 +155,18 @@ namespace FlubuCore.Commanding
             {
                 if (flubuSession.InteractiveMode)
                 {
-                    var commandLine = flubuConsole.ReadLine(Directory.GetCurrentDirectory());
+                    var commandLine = flubuConsole.ReadLine();
 
                     if (string.IsNullOrEmpty(commandLine))
                     {
                         continue;
                     }
 
-                    var parser = new FlubuCommandParser(new CommandLineApplication(false), null, null, null);
+                    var cmdApp = new CommandLineApplication()
+                    {
+                        UnrecognizedArgumentHandling = UnrecognizedArgumentHandling.CollectAndContinue
+                    };
+                    var parser = new FlubuCommandParser(cmdApp, null, null, null);
                     var args = parser.Parse(commandLine.Split(' ')
 
                         .Where(x => !string.IsNullOrWhiteSpace(x))
@@ -184,7 +188,7 @@ namespace FlubuCore.Commanding
                     flubuSession.ScriptArgs = args.ScriptArguments;
                     _scriptProperties.InjectProperties(script, flubuSession);
 
-                    if (InternalCommands.InteractiveExitAndReloadCommands.Contains(args.MainCommands[0],
+                    if (InternalTerminalCommands.InteractiveExitAndReloadCommands.Contains(args.MainCommands[0],
                         StringComparer.OrdinalIgnoreCase))
                     {
                         break;
@@ -214,11 +218,7 @@ namespace FlubuCore.Commanding
                         }
                         catch (TaskExecutionException e)
                         {
-#if !NETSTANDARD1_6
                             flubuSession.LogError($"ERROR: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}", Color.Red);
-#else
-                            flubuSession.LogError($"error: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}");
-#endif
                         }
                         catch (ArgumentException)
                         {
@@ -238,11 +238,7 @@ namespace FlubuCore.Commanding
                 }
                 catch (Exception e)
                 {
-#if !NETSTANDARD1_6
                      flubuSession.LogError($"ERROR: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}", Color.Red);
-#else
-                    flubuSession.LogError($"error: {(flubuSession.Args.Debug ? e.ToString() : e.Message)}");
-#endif
                 }
             }
             while (flubuSession.InteractiveMode);
@@ -255,7 +251,7 @@ namespace FlubuCore.Commanding
                 try
                 {
                     var flubuConsole = new FlubuConsole(_flubuSession.TargetTree, new List<Hint>());
-                    var commandLine = flubuConsole.ReadLine(Directory.GetCurrentDirectory());
+                    var commandLine = flubuConsole.ReadLine();
 
                     if (string.IsNullOrEmpty(commandLine))
                     {
@@ -264,20 +260,24 @@ namespace FlubuCore.Commanding
 
                     var splitedLine = commandLine.Split(' ').ToList();
 
-                    if (InternalCommands.InteractiveExitOnlyCommands.Contains(splitedLine[0], StringComparer.OrdinalIgnoreCase))
+                    if (InternalTerminalCommands.InteractiveExitOnlyCommands.Contains(splitedLine[0], StringComparer.OrdinalIgnoreCase))
                     {
                         break;
                     }
 
-                    var parser = new FlubuCommandParser(new CommandLineApplication(false), null, null, null);
+                    var cmdApp = new CommandLineApplication()
+                    {
+                        UnrecognizedArgumentHandling = UnrecognizedArgumentHandling.CollectAndContinue
+                    };
+                    var parser = new FlubuCommandParser(cmdApp, null, null, null);
                     var args = parser.Parse(commandLine.Split(' ')
 
                         .Where(x => !string.IsNullOrWhiteSpace(x))
                         .Select(x => x.Trim()).ToArray());
                     _flubuSession.InteractiveArgs = args;
                     _flubuSession.ScriptArgs = args.ScriptArguments;
-                    _args = args;
-                    _args.InteractiveMode = true;
+                    Args = args;
+                    Args.InteractiveMode = true;
 
                     var internalCommandExecuted = flubuConsole.ExecuteInternalCommand(commandLine);
                     if (internalCommandExecuted)
@@ -285,7 +285,7 @@ namespace FlubuCore.Commanding
                         continue;
                     }
 
-                    if (!InternalCommands.ReloadCommands.Contains(splitedLine[0], StringComparer.OrdinalIgnoreCase))
+                    if (!InternalTerminalCommands.ReloadCommands.Contains(splitedLine[0], StringComparer.OrdinalIgnoreCase))
                     {
                         var command = splitedLine.First();
                         var runProgram = _flubuSession.Tasks().RunProgramTask(command).DoNotLogTaskExecutionInfo()

@@ -17,6 +17,7 @@ using FlubuCore.Tasks.Solution;
 using FlubuCore.Tasks.Testing;
 using FlubuCore.Tasks.Text;
 using FlubuCore.Tasks.Versioning;
+using FlubuCore.Templating.Tasks;
 using FlubuCore.WebApi.Client;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,7 +30,7 @@ namespace FlubuCore.Infrastructure
         {
             services
                 .AddSingleton<IFluentInterfaceFactory, FluentInterfaceFactory>()
-                .AddSingleton<IScriptFactory, ScriptFactory>()
+                .AddSingleton<IScriptServiceProvider, ScriptServiceProvider>()
                 .AddSingleton<IFileWrapper, FileWrapper>()
                 .AddSingleton<IPathWrapper, PathWrapper>()
                 .AddSingleton<IDirectoryWrapper, DirectoryWrapper>()
@@ -37,14 +38,18 @@ namespace FlubuCore.Infrastructure
                 .AddSingleton<TargetTree>()
                 .AddSingleton<IFlubuSession, FlubuSession>()
                 .AddSingleton<IFlubuEnvironmentService, FlubuEnvironmentService>()
-                .AddSingleton<IBuildSystem, BuildSystem>()
+                .AddSingleton<IBuildServer, BuildServer>()
                 .AddSingleton<INugetPackageResolver, NugetPackageResolver>()
                 .AddSingleton<ICommandFactory, CommandFactory>()
                 .AddSingleton<ITaskFactory, DotnetTaskFactory>()
-                .AddSingleton<FlubuCore.Infrastructure.IHttpClientFactory, FlubuCore.Infrastructure.HttpClientFactory>()
+                .AddSingleton<IHttpClientFactory, HttpClientFactory>()
                 .AddSingleton<IWebApiClientFactory, WebApiClientFactory>()
                 .AddSingleton<IScriptProperties, ScriptProperties>()
-                .AddSingleton<ITargetCreator, TargetCreator>();
+                .AddSingleton<ITargetCreator, TargetCreator>()
+                .AddSingleton<IFlubuTemplateTaskFactory, FlubuTemplateTaskFactory>()
+                .AddSingleton<IFlubuTemplateTasksExecutor, FlubuTemplateTasksExecutor>()
+                .AddTemplateTasks();
+
             return services;
         }
 
@@ -89,6 +94,12 @@ namespace FlubuCore.Infrastructure
                 .AddTask<TouchFileTask>()
                 .AddTask<GitSubmoduleTask>()
                 .AddTask<GitVersionTask>();
+        }
+
+        private static IServiceCollection AddTemplateTasks(this IServiceCollection services)
+        {
+            services.AddTransient<TemplateReplacementTokenTask>();
+            return services;
         }
     }
 }

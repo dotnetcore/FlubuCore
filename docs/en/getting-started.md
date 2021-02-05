@@ -13,10 +13,9 @@
 ##### Or Install with FlubuCore template
 
 - In console navigate where your solution is located.
-- Run `dotnet new -i FlubuCore.Template`
-- Run `dotnet new FlubuCore`
+- Install FlubuCore global tool or local tool `dotnet tool install --global FlubuCore.Tool`
+- Run `flubu new empty` (for available templates run  `flubu new`)
 - This will add BuildScript.csproj with FlubuCore references and FlubuCore script template
-
 
 <a name="Write-and-run-your-first-build-script-in-.net-core"></a>
 #### Write and run your first build script in .NET core
@@ -29,7 +28,7 @@ Following code adds compile target to flubu commands. Compile target compiles th
 ```C#
 public class MyBuildScript : DefaultBuildScript
 {	
-    protected override void ConfigureTargets(ITaskContext session)
+    protected override void ConfigureTargets(ITaskContext context)
     {
         var compile = context.CreateTarget("compile")
 			.SetDescription("Compiles the solution.")
@@ -65,10 +64,10 @@ project.json:
 - Run `dotnet flubu compile` This command will compile your solution.
 
 <a name="Run-build-script-core-with-global-tool"></a>
-#### Run build script in .NET core with global tool
+#### Run build script in .NET core with local or global tool
 
 - .net core sdk 2.1.300 or greater must be installed.
-- Install FlubuCore global tool: `dotnet tool install --global FlubuCore.GlobalTool`
+- Install FlubuCore local or global tool: `dotnet tool install --global FlubuCore.Tool`
 - Run `flubu compile` where build script is located. It will compile your solution.
 
 This is very basic build script just for you to see how simple it is to get you started. FlubuCore has to offer a lot of nice features. Read more about them at [Build script fundamentals]. 

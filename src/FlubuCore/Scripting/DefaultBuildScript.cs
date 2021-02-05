@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-#if !NETSTANDARD1_6
 using System.Drawing;
-#endif
+using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using FlubuCore.BuildServers.Configurations;
+using FlubuCore.BuildServers.Configurations.Models;
+using FlubuCore.BuildServers.Configurations.Models.AppVeyor;
+using FlubuCore.BuildServers.Configurations.Models.AzurePipelines;
+using FlubuCore.BuildServers.Configurations.Models.GitHubActions;
+using FlubuCore.BuildServers.Configurations.Models.Jenkins;
+using FlubuCore.BuildServers.Configurations.Models.Travis;
 using FlubuCore.Context;
+using FlubuCore.Context.FluentInterface;
+using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.IO;
 using FlubuCore.Targeting;
 using FlubuCore.Tasks.Attributes;
@@ -27,28 +35,19 @@ namespace FlubuCore.Scripting
 
         private ITargetCreator _targetCreator;
 
+        private FlubuConfiguration _flubuConfiguration;
+
         /// <summary>
         /// Get's product root directory.
         /// </summary>
         protected FullPath RootDirectory => new FullPath(_flubuSession.Properties.GetProductRootDir());
 
-        [Obsolete("Define your own 'OutputDirectory' in build script.", true)]
-        protected FullPath OutputDirectory
-        {
-            get
-            {
-                var outputDir = _flubuSession.Properties.GetOutputDir();
-                return Path.IsPathRooted(outputDir)
-                    ? new FullPath(outputDir)
-                    : RootDirectory.CombineWith(new LocalPath(outputDir));
-            }
-        }
-
         public int Run(IFlubuSession flubuSession)
         {
             _flubuSession = flubuSession;
-            _scriptProperties = flubuSession.ScriptFactory.CreateScriptProperties();
-            _targetCreator = flubuSession.ScriptFactory.CreateTargetCreator();
+            _scriptProperties = flubuSession.ScriptServiceProvider.GetScriptProperties();
+            _targetCreator = flubuSession.ScriptServiceProvider.GetTargetCreator();
+            _flubuConfiguration = flubuSession.ScriptServiceProvider.GetFlubuConfiguration();
 
             try
             {
@@ -87,11 +86,7 @@ namespace FlubuCore.Scripting
 
                 if (!flubuSession.Args.RethrowOnException)
                 {
-#if !NETSTANDARD1_6
                     flubuSession.LogError($"ERROR: {e.Message}", Color.Red);
-#else
-                    flubuSession.LogError($"error: {e.Message}");
-#endif
                 }
 
                 AfterBuildExecution(flubuSession);
@@ -107,11 +102,7 @@ namespace FlubuCore.Scripting
 
                 if (!flubuSession.Args.RethrowOnException)
                 {
-#if !NETSTANDARD1_6
                     flubuSession.LogError($"ERROR: {e}", Color.Red);
-#else
-                    flubuSession.LogError($"error: {e}");
-#endif
                 }
 
                 AfterBuildExecution(flubuSession);
@@ -126,7 +117,7 @@ namespace FlubuCore.Scripting
         {
         }
 
-        public virtual void Configure(ILoggerFactory loggerFactory)
+        public virtual void Configure(IFlubuConfigurationBuilder configurationBuilder, ILoggerFactory loggerFactory)
         {
         }
 
@@ -148,7 +139,7 @@ namespace FlubuCore.Scripting
 
         private void RunBuild(IFlubuSession flubuSession)
         {
-            flubuSession.TargetTree.ResetTargetTree();
+             flubuSession.TargetTree.ResetTargetTree();
             ConfigureBuildProperties(flubuSession);
 
             ConfigureDefaultTargets(flubuSession);
@@ -180,7 +171,20 @@ namespace FlubuCore.Scripting
                     }
                 }
 
-                ExecuteTarget(flubuSession, targetsInfo);
+                var generateCIConfigs = flubuSession.Args.GenerateContinousIntegrationConfigs;
+                if (generateCIConfigs != null)
+                {
+                    GenerateCiConfigs(flubuSession, generateCIConfigs, targetsInfo);
+                }
+                else
+                {
+                    if (!flubuSession.Args.IsWebApi)
+                    {
+                        GenerateCiConfigs(flubuSession, _flubuConfiguration.GenerateOnBuild(), targetsInfo);
+                    }
+
+                    ExecuteTarget(flubuSession, targetsInfo);
+                }
             }
             else
             {
@@ -260,6 +264,12 @@ namespace FlubuCore.Scripting
 
         protected virtual void AfterBuildExecution(IFlubuSession session)
         {
+            if (session.Args.GenerateContinousIntegrationConfigs != null &&
+                session.Args.GenerateContinousIntegrationConfigs.Count != 0)
+            {
+                return;
+            }
+
             session.TargetTree.LogBuildSummary(session);
         }
 
@@ -351,6 +361,138 @@ namespace FlubuCore.Scripting
                 .SetDescription("Compile the VS solution")
                 .AddTask(x => x.CompileSolutionTask())
                 .DependsOn(prepareBuildDir, cleanOutput, generateCommonAssInfo);
+        }
+
+        private void GenerateCiConfigs(IFlubuSession flubuSession, List<BuildServerType> generateCIConfigs, (List<string> targetsToRun, bool unknownTarget, List<string> notFoundTargets) targetsInfo)
+        {
+            YamlConfigurationSerializer serializer = new YamlConfigurationSerializer();
+            foreach (var buildServerType in generateCIConfigs)
+            {
+                switch (buildServerType)
+                {
+                    case BuildServerType.TravisCI:
+                    {
+                        TravisConfiguration config = new TravisConfiguration();
+                        _flubuConfiguration.TravisOptions.Scripts.Add($"flubu {string.Join(" ", targetsInfo.targetsToRun)}");
+
+                        config.FromOptions(_flubuConfiguration.TravisOptions);
+
+                        var yaml = serializer.Serialize(config);
+                        File.WriteAllText(_flubuConfiguration.TravisOptions.ConfigFileName, yaml);
+                        flubuSession.LogInfo($"Generated configuration file for travis: {_flubuConfiguration.TravisOptions.ConfigFileName}");
+                        break;
+                    }
+
+                    case BuildServerType.AzurePipelines:
+                    {
+                        AzurePipelinesConfiguration config = new AzurePipelinesConfiguration();
+
+                        foreach (var target in flubuSession.TargetTree.GetTargetsInExecutionOrder(flubuSession, false))
+                        {
+                            _flubuConfiguration.AzurePipelineOptions.AddFlubuTargets(target.TargetName);
+                        }
+
+                        for (var i = 0; i < _flubuConfiguration.AzurePipelineOptions.CustomTargets.Count; i++)
+                        {
+                            _flubuConfiguration.AzurePipelineOptions.CustomTargets[i] =
+                                (_flubuConfiguration.AzurePipelineOptions.CustomTargets[i].image,
+                                    flubuSession.TargetTree
+                                        .GetTargetsInExecutionOrder(_flubuConfiguration.AzurePipelineOptions.CustomTargets[i]
+                                            .targets, false)
+                                        .Select(x => x.TargetName).ToList());
+                        }
+
+                        config.FromOptions(_flubuConfiguration.AzurePipelineOptions);
+                        var yaml = serializer.Serialize(config);
+                        File.WriteAllText(_flubuConfiguration.AzurePipelineOptions.ConfigFileName, yaml);
+                        flubuSession.LogInfo($"Generated configuration file for Azure pipeline: {_flubuConfiguration.AzurePipelineOptions.ConfigFileName}");
+                        break;
+                    }
+
+                    case BuildServerType.GitHubActions:
+                    {
+                        GitHubActionsConfiguration config = new GitHubActionsConfiguration();
+
+                        foreach (var target in flubuSession.TargetTree.GetTargetsInExecutionOrder(flubuSession, false))
+                        {
+                            _flubuConfiguration.GitHubActionsOptions.AddFlubuTargets(target.TargetName);
+                        }
+
+                        for (var i = 0; i < _flubuConfiguration.GitHubActionsOptions.CustomTargets.Count; i++)
+                        {
+                            _flubuConfiguration.GitHubActionsOptions.CustomTargets[i] =
+                                (_flubuConfiguration.GitHubActionsOptions.CustomTargets[i].image,
+                                    flubuSession.TargetTree
+                                        .GetTargetsInExecutionOrder(_flubuConfiguration.GitHubActionsOptions.CustomTargets[i]
+                                            .targets, false)
+                                        .Select(x => x.TargetName).ToList());
+                        }
+
+                        config.FromOptions(_flubuConfiguration.GitHubActionsOptions);
+
+                        var yaml = serializer.Serialize(config);
+                        //// Removes ' because yamldotnet adds them when writting [] and this is not valid in github workflows.
+                        //// todo do this properly with yamldotnet probably by writing custom type converter.
+                        File.WriteAllText(_flubuConfiguration.GitHubActionsOptions.ConfigFileName, yaml.Replace('\'', ' '));
+                        flubuSession.LogInfo($"Generated configuration file for GitHub Actions: {_flubuConfiguration.GitHubActionsOptions.ConfigFileName}");
+                        break;
+                    }
+
+                    case BuildServerType.Jenkins:
+                    {
+                        JenkinsPipeline configuration = new JenkinsPipeline();
+
+                        foreach (var target in flubuSession.TargetTree.GetTargetsInExecutionOrder(flubuSession))
+                        {
+                            _flubuConfiguration.JenkinsOptions.AddFlubuTargets(target.TargetName);
+                        }
+
+                        if (!_flubuConfiguration.JenkinsOptions.RemoveBuiltInCheckoutStage)
+                        {
+                            var rt = flubuSession.Tasks()
+                                .RunProgramTask("git")
+                                .WithArguments("rev-parse", "--is-inside-work-tree")
+                                .NoLog()
+                                .DoNotLogTaskExecutionInfo()
+                                .DoNotFailOnError()
+                                .CaptureOutput()
+                                .CaptureErrorOutput();
+
+                            rt.Execute(flubuSession);
+
+                            var errorOutput = rt.GetErrorOutput();
+
+                            if (string.IsNullOrEmpty(errorOutput))
+                            {
+                                _flubuConfiguration.JenkinsOptions.AddCustomStageBeforeTargets(s =>
+                                {
+                                    s.Name = "Checkout";
+                                    s.AddStep(JenkinsBuiltInSteps.CheckoutStep);
+                                });
+                            }
+                        }
+
+                        configuration.FromOptions(_flubuConfiguration.JenkinsOptions);
+                        JenkinsConfigurationSerializer jenkinsConfigurationSerializer = new JenkinsConfigurationSerializer();
+                        var jenkinsFile = jenkinsConfigurationSerializer.Serialize(configuration);
+                        File.WriteAllText(_flubuConfiguration.JenkinsOptions.ConfigFileName, jenkinsFile);
+                        flubuSession.LogInfo($"Generated config for Jenkins: {_flubuConfiguration.JenkinsOptions.ConfigFileName}");
+                        break;
+                    }
+
+                    case BuildServerType.AppVeyor:
+                    {
+                        AppVeyorConfiguration config = new AppVeyorConfiguration();
+                        _flubuConfiguration.AppVeyorOptions.AddFlubuTargets(targetsInfo.targetsToRun.ToArray());
+                        config.FromOptions(_flubuConfiguration.AppVeyorOptions);
+
+                        var yaml = serializer.Serialize(config);
+                        File.WriteAllText(_flubuConfiguration.AppVeyorOptions.ConfigFileName, yaml);
+                        flubuSession.LogInfo($"Generated configuration file for AppVeyor: {_flubuConfiguration.AppVeyorOptions.ConfigFileName}");
+                        break;
+                    }
+                }
+            }
         }
 
         private void TargetPrepareBuildDir(ITaskContext context)

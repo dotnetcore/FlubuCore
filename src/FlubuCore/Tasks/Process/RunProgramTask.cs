@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-#if  !NETSTANDARD1_6
 using System.Drawing;
-#endif
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -139,12 +137,6 @@ namespace FlubuCore.Tasks.Process
             return _errorOutput.ToString();
         }
 
-        public IRunProgramTask DoNotLogTaskExecutionInfo()
-        {
-            LogTaskExecutionInfo = false;
-            return this;
-        }
-
         /// <inheritdoc />
         public IRunProgramTask DoNotLogOutput()
         {
@@ -250,12 +242,9 @@ namespace FlubuCore.Tasks.Process
                 commandArgs = !arg.maskArg ? $"{commandArgs} {arg.arg}" : $"{commandArgs} ####";
             }
 
-            DoLogInfo($"Running program from '{workingFolder}':");
-#if  !NETSTANDARD1_6
-            DoLogInfo($"{command.CommandName} {commandArgs}{Environment.NewLine}", Color.DarkCyan);
-#else
-            DoLogInfo($"{command.CommandName} {commandArgs}{Environment.NewLine}");
-#endif
+            DoLogInfo($"Running program from '{Path.GetFullPath(workingFolder)}':");
+            DoLogInfo($"{cmd}{commandArgs}{Environment.NewLine}", Color.DarkCyan);
+
             int res = command.Execute()
                 .ExitCode;
 

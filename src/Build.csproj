@@ -9,7 +9,10 @@
     <Compile Remove=".vs\**" />
     <Compile Remove="Backup1\**" />
     <Compile Remove="Backup\**" />
+    <Compile Remove="BuildScript\NetCore2.0\**" />
+    <Compile Remove="BuildScript\NetCore3.1\**" />
     <Compile Remove="build\**" />
+    <Compile Remove="Deploy\**" />
     <Compile Remove="dotnet-flubu\**" />
     <Compile Remove="Flubu.SystemTests\**" />
     <Compile Remove="Flubu.Tests\**" />
@@ -28,6 +31,7 @@
     <Compile Remove="FlubuCore.Runner\**" />
     <Compile Remove="FlubuCore.TaskGenerator.Tests\**" />
     <Compile Remove="FlubuCore.TaskGenerator\**" />
+    <Compile Remove="FlubuCore.Templating\**" />
     <Compile Remove="FlubuCore.Tests\**" />
     <Compile Remove="FlubuCore.Tool\**" />
     <Compile Remove="FlubuCore.WebApi.Client\**" />
@@ -45,7 +49,10 @@
     <EmbeddedResource Remove=".vs\**" />
     <EmbeddedResource Remove="Backup1\**" />
     <EmbeddedResource Remove="Backup\**" />
+    <EmbeddedResource Remove="BuildScript\NetCore2.0\**" />
+    <EmbeddedResource Remove="BuildScript\NetCore3.1\**" />
     <EmbeddedResource Remove="build\**" />
+    <EmbeddedResource Remove="Deploy\**" />
     <EmbeddedResource Remove="dotnet-flubu\**" />
     <EmbeddedResource Remove="Flubu.SystemTests\**" />
     <EmbeddedResource Remove="Flubu.Tests\**" />
@@ -64,6 +71,7 @@
     <EmbeddedResource Remove="FlubuCore.Runner\**" />
     <EmbeddedResource Remove="FlubuCore.TaskGenerator.Tests\**" />
     <EmbeddedResource Remove="FlubuCore.TaskGenerator\**" />
+    <EmbeddedResource Remove="FlubuCore.Templating\**" />
     <EmbeddedResource Remove="FlubuCore.Tests\**" />
     <EmbeddedResource Remove="FlubuCore.Tool\**" />
     <EmbeddedResource Remove="FlubuCore.WebApi.Client\**" />
@@ -81,7 +89,10 @@
     <None Remove=".vs\**" />
     <None Remove="Backup1\**" />
     <None Remove="Backup\**" />
+    <None Remove="BuildScript\NetCore2.0\**" />
+    <None Remove="BuildScript\NetCore3.1\**" />
     <None Remove="build\**" />
+    <None Remove="Deploy\**" />
     <None Remove="dotnet-flubu\**" />
     <None Remove="Flubu.SystemTests\**" />
     <None Remove="Flubu.Tests\**" />
@@ -100,6 +111,7 @@
     <None Remove="FlubuCore.Runner\**" />
     <None Remove="FlubuCore.TaskGenerator.Tests\**" />
     <None Remove="FlubuCore.TaskGenerator\**" />
+    <None Remove="FlubuCore.Templating\**" />
     <None Remove="FlubuCore.Tests\**" />
     <None Remove="FlubuCore.Tool\**" />
     <None Remove="FlubuCore.WebApi.Client\**" />
@@ -129,13 +141,7 @@
     <DotNetCliToolReference Include="dotnet-flubu" Version="5.1.8" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="BuildScript\NetCore2.0\Deploy.csproj" />
-    <None Include="BuildScript\NetCore3.1\Deploy.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="LiteDB" Version="4.1.2" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="FlubuCore.WebApi\FlubuCore.WebApi.csproj" />
+    <PackageReference Include="FlubuCore" Version="5.1.8" />
+    <PackageReference Include="LiteDB" Version="5.0.8" />
   </ItemGroup>
 </Project>

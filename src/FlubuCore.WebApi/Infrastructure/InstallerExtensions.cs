@@ -22,6 +22,7 @@ using FlubuCore.Tasks.NetCore;
 using FlubuCore.Tasks.Solution;
 using FlubuCore.Tasks.Testing;
 using FlubuCore.Tasks.Versioning;
+using FlubuCore.Templating.Tasks;
 using FlubuCore.WebApi.Client;
 using FlubuCore.WebApi.Controllers.Attributes;
 using FlubuCore.WebApi.Repository;
@@ -50,13 +51,15 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddSingleton<FlubuCore.Infrastructure.IHttpClientFactory, FlubuCore.Infrastructure.HttpClientFactory>()
                 .AddSingleton<IScriptProperties, ScriptProperties>()
                 .AddSingleton<ITargetCreator, TargetCreator>()
-                .AddSingleton<IBuildSystem, BuildSystem>()
+                .AddSingleton<IBuildServer, BuildServer>()
                 .AddScoped<IBuildPropertiesSession, BuildPropertiesSession>()
                 .AddScoped<TargetTree>()
                 .AddScoped<IFlubuSession, FlubuSession>()
                 .AddScoped<ICommandFactory, CommandFactory>()
-                .AddSingleton<IScriptFactory, ScriptFactory>()
-                .AddScoped<CommandArguments, CommandArguments>();
+                .AddSingleton<IScriptServiceProvider, ScriptServiceProvider>()
+                .AddScoped<CommandArguments, CommandArguments>()
+                .AddSingleton<IFlubuTemplateTaskFactory, FlubuTemplateTaskFactory>()
+                .AddSingleton<IFlubuTemplateTasksExecutor, FlubuTemplateTasksExecutor>();
 
             var connectionStrings = configuration.GetSection("FlubuConnectionStrings");
             var liteDbConnectionString = connectionStrings["LiteDbConnectionString"];

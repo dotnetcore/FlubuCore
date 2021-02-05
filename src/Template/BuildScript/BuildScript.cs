@@ -1,15 +1,14 @@
 ﻿using FlubuCore.Context;
 using FlubuCore.Scripting;
 using System;
+using FlubuCore.Context.Attributes.BuildProperties;
 
 namespace BuildScript
 {
     public class BuildScript : DefaultBuildScript
     {
-        protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-        {
-            context.Properties.Set(BuildProps.SolutionFileName, "Todo");
-        }
+        [SolutionFileName]
+        public string SolutionFileName { get; set; } = "Todo";
 
         protected override void ConfigureTargets(ITaskContext context)
         {

@@ -6,10 +6,10 @@ namespace FlubuCore.ConsoleTestApp
     {
         static void Main(string[] args)
         {
-            args = new[] {"Test"};
+            args = new[] { "Build", "--ci=jenkins" };
             var engine = new FlubuEngine();
 
-            int scriptId = 1; // for easy switching test scripts.
+            int scriptId = 0; // for easy switching test scripts.
 
             switch (scriptId)
             {

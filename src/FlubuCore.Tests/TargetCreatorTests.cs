@@ -32,7 +32,7 @@ namespace FlubuCore.Tests
                 .AddTransient<IToolsFluentInterface, ToolsFluentInterface>()
                 .AddSingleton<IHttpClientFactory, HttpClientFactory>()
                 .BuildServiceProvider();
-            _flubuSession = new FlubuSession(new Mock<ILogger<FlubuSession>>().Object, new TargetTree(null, null), new CommandArguments(), new ScriptFactory(sp),  new Mock<ITaskFactory>().Object, new FluentInterfaceFactory(sp), null, null);
+            _flubuSession = new FlubuSession(new Mock<ILogger<FlubuSession>>().Object, new TargetTree(null, null), new CommandArguments(), new ScriptServiceProvider(sp),  new Mock<ITaskFactory>().Object, new FluentInterfaceFactory(sp), null, null);
             _targetCreator = new TargetCreator();
         }
 

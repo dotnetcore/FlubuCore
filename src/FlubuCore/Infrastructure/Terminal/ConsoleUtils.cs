@@ -8,7 +8,7 @@ namespace FlubuCore.Infrastructure.Terminal
 
         public static void WriteLine(string line, ConsoleColor color)
         {
-            var currentColor = System.Console.ForegroundColor;
+            var currentColor = Console.ForegroundColor;
             System.Console.ForegroundColor = color;
             System.Console.WriteLine(line);
             System.Console.ForegroundColor = currentColor;
@@ -16,15 +16,15 @@ namespace FlubuCore.Infrastructure.Terminal
 
         public static void Write(string line, ConsoleColor color)
         {
-            var currentColor = System.Console.ForegroundColor;
+            var currentColor = Console.ForegroundColor;
             System.Console.ForegroundColor = color;
             System.Console.Write(line);
             System.Console.ForegroundColor = currentColor;
         }
 
-        public static void WritePrompt(string currentDirectory)
+        public static void WritePrompt(string text)
         {
-            Write($"{currentDirectory}{Prompt}", ConsoleColor.Green);
+            Write($"{text}{Prompt}", ConsoleColor.Green);
         }
     }
 }

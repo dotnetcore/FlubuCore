@@ -136,20 +136,20 @@ namespace FlubuCore.Scripting
                 }
             }
 
-            File.Delete(NugetPackageResolveConstants.GeneratedProjectFileName);
-
             return assemblyReferences;
         }
 
         private List<AssemblyInfo> ResolveNugetPackagesFromDirectives(List<NugetPackageReference> packageReferences, string pathToBuildScript, List<AssemblyInfo> assemblyReferences)
         {
-            bool nugetPropsFileExists = _file.Exists("./obj/FlubuGen.csproj.nuget.g.props");
+            var scriptDir = Path.GetDirectoryName(pathToBuildScript);
+            const string nugetPropsFile = "./obj/FlubuGen.csproj.nuget.g.props";
+            bool nugetPropsFileExists = _file.Exists(nugetPropsFile);
             bool mustRestoreNugetPackages = true;
 
             if (!string.IsNullOrEmpty(pathToBuildScript) && nugetPropsFileExists)
             {
                 var buildScriptModifiedTime = File.GetLastWriteTime(pathToBuildScript);
-                var nugetProsModifiedTime = File.GetLastWriteTime("./obj/FlubuGen.csproj.nuget.g.props");
+                var nugetProsModifiedTime = File.GetLastWriteTime(nugetPropsFile);
                 if (nugetProsModifiedTime > buildScriptModifiedTime)
                 {
                     mustRestoreNugetPackages = false;
@@ -162,17 +162,17 @@ namespace FlubuCore.Scripting
             {
                 if (nugetPropsFileExists)
                 {
-                    File.Delete("./obj/FlubuGen.csproj.nuget.g.props");
+                    File.Delete(nugetPropsFile);
                 }
 
                 CreateNugetProjectFile(targetFramework, packageReferences);
                 RestoreNugetPackages(NugetPackageResolveConstants.GeneratedProjectFileName);
             }
 
-            var document = XDocument.Load("./obj/FlubuGen.csproj.nuget.g.props");
+            var document = XDocument.Load(nugetPropsFile);
             var packageFolders = document.Descendants().Single(d => d.Name.LocalName == "NuGetPackageFolders").Value.Split(';');
-
-            var dependencyContext = ReadDependencyContext("./obj/project.assets.json");
+            const string projectAssetsJsonFile = "./obj/project.assets.json";
+            var dependencyContext = ReadDependencyContext(projectAssetsJsonFile);
 
             var compileLibraries = dependencyContext.CompileLibraries.ToList();
             foreach (var packageReference in packageReferences)

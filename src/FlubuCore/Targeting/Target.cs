@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-#if !NETSTANDARD1_6
 using System.Drawing;
-#endif
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -471,9 +469,9 @@ namespace FlubuCore.Targeting
 
                     if (member.GetValue(context.TargetTree.BuildScript) == null)
                     {
-                        if (context.BuildSystems().IsLocalBuild && !context.Properties.Get<bool>(PredefinedBuildProperties.IsWebApi))
+                        if (context.BuildServers().IsLocalBuild && !context.Properties.Get<bool>(PredefinedBuildProperties.IsWebApi))
                         {
-                            Console.Write($"{member.Name} requires value: ");
+                            context.LogInfo($"{member.Name} requires value: ");
                             string value = Console.ReadLine();
                             var propertyInfo = (PropertyInfo)member;
                             object parsedValue = MethodParameterModifier.ParseValueByType(value, propertyInfo.PropertyType);
@@ -508,11 +506,7 @@ namespace FlubuCore.Targeting
                     ? $"Executing target {TargetName}"
                     : $"Executing target '{TargetName}' asynchronous.";
 
-#if !NETSTANDARD1_6
                 context.LogInfo(message, Color.DimGray);
-#else
-                context.LogInfo(message);
-#endif
             }
 
             context.IncreaseDepth();

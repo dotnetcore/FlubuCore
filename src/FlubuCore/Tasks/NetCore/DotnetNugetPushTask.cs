@@ -169,7 +169,7 @@ namespace FlubuCore.Tasks.NetCore
             _packagePath.MustNotBeNullOrEmpty("packagePath (path to .nupkg) must not be null or empty.");
 
             // do not push new packages from a local build
-            if (context.BuildSystems().IsLocalBuild && _skipPushOnLocalBuild)
+            if (context.BuildServers().IsLocalBuild && _skipPushOnLocalBuild)
             {
                 context.LogInfo("pushing package on local build is disabled in build script...Skiping.");
                 return 1;

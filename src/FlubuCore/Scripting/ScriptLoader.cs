@@ -66,11 +66,22 @@ namespace FlubuCore.Scripting
             _nugetPackageResolver = nugetPackageResolver;
         }
 
+        public string GetBuildScriptAssemblyFileName(string buildScriptFileName, bool fullPath)
+        {
+            var assemblyFileName = Path.Combine(Path.GetDirectoryName(buildScriptFileName), "bin", Path.GetFileName(buildScriptFileName));
+            assemblyFileName = Path.ChangeExtension(assemblyFileName, "dll");
+            if (fullPath)
+            {
+                return Path.GetFullPath(assemblyFileName);
+            }
+
+            return assemblyFileName;
+        }
+
         public async Task<IBuildScript> FindAndCreateBuildScriptInstanceAsync(CommandArguments args)
         {
             string buildScriptFilePath = _buildScriptLocator.FindBuildScript(args);
-            var buildScriptAssemblyPath = Path.Combine(Path.GetDirectoryName(buildScriptFilePath), "bin", Path.GetFileName(buildScriptFilePath));
-            buildScriptAssemblyPath = Path.ChangeExtension(buildScriptAssemblyPath, "dll");
+            var buildScriptAssemblyPath = GetBuildScriptAssemblyFileName(buildScriptFilePath, fullPath: false);
 
             List<string> code = _file.ReadAllLines(buildScriptFilePath);
             ScriptAnalyzerResult scriptAnalyzerResult = _scriptAnalyzer.Analyze(code);
@@ -174,17 +185,7 @@ namespace FlubuCore.Scripting
                 }
             }
 
-#if NETSTANDARD1_6
-             using (FileStream dllStream = new FileStream(buildScriptAssemblyPath, FileMode.Open, FileAccess.Read))
-             {
-                using (FileStream pdbStream = new FileStream(Path.ChangeExtension(buildScriptAssemblyPath, "pdb"), FileMode.Open, FileAccess.Read))
-                {
-                   return AssemblyLoadContext.Default.LoadFromStream(dllStream, pdbStream);
-                }
-             }
-#else
             return Assembly.Load(File.ReadAllBytes(buildScriptAssemblyPath), File.ReadAllBytes(Path.ChangeExtension(buildScriptAssemblyPath, "pdb")));
-#endif
         }
 
         private Assembly CompileBuildScript(string buildScriptAssemblyPath, string buildScriptFilePath, IEnumerable<MetadataReference> references, string code)
@@ -257,26 +258,19 @@ namespace FlubuCore.Scripting
                     File.WriteAllBytes(buildScriptAssemblyPath, dllData);
                     File.WriteAllBytes(Path.ChangeExtension(buildScriptAssemblyPath, "pdb"), pdbData);
 
-#if NETSTANDARD1_6
-                    dllStream.Seek(0, SeekOrigin.Begin);
-                    pdbStream.Seek(0, SeekOrigin.Begin);
-                    return AssemblyLoadContext.Default.LoadFromStream(dllStream, pdbStream);
-#else
                     return Assembly.Load(dllData, pdbData);
-#endif
                 }
             }
         }
 
         private IEnumerable<MetadataReference> GetBuildScriptReferences(CommandArguments args, ProjectFileAnalyzerResult projectFileAnalyzerResult, ScriptAnalyzerResult scriptAnalyzerResult, bool oldWay, string pathToBuildScript)
         {
-            var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuCoreAssembly = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
 
             //// Default assemblies that should be referenced.
             var assemblyReferences = oldWay
                 ? GetBuildScriptReferencesForOldWayBuildScriptCreation()
-                : GetDefaultReferences(coreDir);
+                : GetDefaultReferences();
 
             // Enumerate all assemblies referenced by FlubuCore
             // and provide them as references to the build script we're about to
@@ -328,8 +322,9 @@ namespace FlubuCore.Scripting
             return references;
         }
 
-        private List<AssemblyInfo> GetDefaultReferences(string coreDir)
+        internal static List<AssemblyInfo> GetDefaultReferences()
         {
+            var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuAss = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
             var objAss = typeof(object).GetTypeInfo().Assembly;
             var linqAss = typeof(ILookup<string, string>).GetTypeInfo().Assembly;
@@ -402,7 +397,7 @@ namespace FlubuCore.Scripting
             return assemblyReferenceLocations;
         }
 
-        private List<AssemblyInfo> GetBuildScriptReferencesForOldWayBuildScriptCreation()
+        private static List<AssemblyInfo> GetBuildScriptReferencesForOldWayBuildScriptCreation()
         {
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuAss = typeof(DefaultBuildScript).GetTypeInfo().Assembly;

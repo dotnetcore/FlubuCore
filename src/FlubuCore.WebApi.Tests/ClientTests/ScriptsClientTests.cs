@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using FlubuCore.WebApi.Client;
 using FlubuCore.WebApi.Model;
 using Xunit;
@@ -50,6 +51,34 @@ namespace FlubuCore.WebApi.Tests.ClientTests
             var response = await Client.ExecuteScriptAsync(req);
             Assert.InRange(response.Logs.Count, 11, 12);
             Assert.True(File.Exists("test.txt"));
+        }
+
+        [Fact]
+        public async Task ExecuteScript_ExecuteSimpleScript_NonExistTarget()
+        {
+            var token = await Client.GetTokenAsync(new GetTokenRequest { Username = "User", Password = "password" });
+            Client.Token = token.Token;
+
+            await Client.UploadScriptAsync(new UploadScriptRequest
+            {
+                FilePath = "SimpleScript.cs"
+            });
+
+            if (File.Exists("test.txt"))
+                File.Delete("test.txt");
+
+            Assert.False(File.Exists("test.txt"));
+
+            Assert.False(File.Exists("test.txt"));
+            var req = new ExecuteScriptRequest
+            {
+                ScriptFileName = "SimpleScript.cs",
+                TargetToExecute = "NonExist",
+                ScriptArguments = new Dictionary<string, string>()
+            };
+
+           var ex = await Assert.ThrowsAsync<WebApiException>(async () => await Client.ExecuteScriptAsync(req));
+           Assert.Equal(ErrorCodes.TargetNotFound, ex.ErrorCode);
         }
 
         [Fact]

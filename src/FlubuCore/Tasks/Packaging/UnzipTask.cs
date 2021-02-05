@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace FlubuCore.Tasks.Packaging
 {
-    public class UnzipTask : TaskBase<int, UnzipTask>
+    public class UnzipTask : TaskBase<List<string>, UnzipTask>
     {
         private readonly string _fileName;
         private readonly string _destination;
@@ -36,14 +36,14 @@ namespace FlubuCore.Tasks.Packaging
             set { _description = value; }
         }
 
-        protected override int DoExecute(ITaskContextInternal context)
+        protected override List<string> DoExecute(ITaskContextInternal context)
         {
             OSPlatform os = context.Properties.GetOSPlatform();
             DoLogInfo($"Extract {_fileName} to {_destination}");
 
             if (!Directory.Exists(_destination))
                 Directory.CreateDirectory(_destination);
-
+            List<string> extractedFiles = new List<string>();
             using (Stream zip = File.OpenRead(_fileName))
             using (ZipArchive archive = new ZipArchive(zip, ZipArchiveMode.Read))
             {
@@ -74,7 +74,7 @@ namespace FlubuCore.Tasks.Packaging
 
                     if (metadata == null)
                     {
-                        ExtractToFiles(entry, os, new List<string> { zipFile });
+                        extractedFiles.AddRange(ExtractToFiles(entry, os, new List<string> { zipFile }));
                         continue;
                     }
 
@@ -86,15 +86,16 @@ namespace FlubuCore.Tasks.Packaging
                         continue;
                     }
 
-                    ExtractToFiles(entry, os, metaItem.DestinationFiles);
+                    extractedFiles.AddRange(ExtractToFiles(entry, os, metaItem.DestinationFiles));
                 }
             }
 
-            return 0;
+            return extractedFiles;
         }
 
-        private void ExtractToFiles(ZipArchiveEntry entry, OSPlatform os, List<string> files)
+        private List<string> ExtractToFiles(ZipArchiveEntry entry, OSPlatform os, List<string> files)
         {
+            List<string> extractedFiles = new List<string>();
             foreach (string zipFile in files)
             {
                 string tmpFile = zipFile;
@@ -118,7 +119,10 @@ namespace FlubuCore.Tasks.Packaging
 
                 DoLogInfo($"inflating: {file}");
                 entry.ExtractToFile(file, true);
+                extractedFiles.Add(file);
             }
+
+            return extractedFiles;
         }
     }
 }

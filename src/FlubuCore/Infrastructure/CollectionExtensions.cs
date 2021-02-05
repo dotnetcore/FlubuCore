@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace FlubuCore.Infrastructure
@@ -10,6 +11,16 @@ namespace FlubuCore.Infrastructure
         {
             foreach (T obj in items)
                 collection.Add(obj);
+        }
+
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> source)
+        {
+            if (source == null)
+            {
+                return true;
+            }
+
+            return source.Any() == false;
         }
     }
 }

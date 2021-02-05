@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-#if !NETSTANDARD1_6
 using System.Drawing;
-#endif
 
 using FlubuCore.Context;
 using FlubuCore.WebApi.Client;
@@ -20,7 +18,6 @@ namespace FlubuCore.Tasks.FlubuWebApi
 
         protected IWebApiClientFactory WebApiClientFactory { get; set; }
 
-#if !NETSTANDARD1_6
         public void WriteLogs(List<string> logs, Color? foregroundColor)
         {
             if (foregroundColor == null)
@@ -38,19 +35,5 @@ namespace FlubuCore.Tasks.FlubuWebApi
                 DoLogInfo(log, foregroundColor.Value);
             }
         }
-#else
-      public void WriteLogs(List<string> logs)
-        {
-            if (logs == null)
-            {
-                return;
-            }
-
-            foreach (var log in logs)
-            {
-                DoLogInfo(log);
-            }
-        }
-#endif
     }
 }

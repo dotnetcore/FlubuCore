@@ -139,6 +139,8 @@ src/GlobalToolTest/.vs/
 src/FlubuCore.ConsoleTestApp/.vs/
 src/FlubuCore.ConsoleTestApp/bin/
 src/FlubuCore.ConsoleTestApp/obj/
+src/Deploy/bin/
+src/Deploy/obj/
 src/FlubuCore.Tool/bin/
 src/FlubuCore.Tool/obj/
 src/FlubuCore.WebApi.Client/.vs/FlubuCore.WebApi.Client/v16/.suo
@@ -147,3 +149,7 @@ src/FlubuCore.WebApi.Client/.vs/
 /src/FlubuCore.Tests/TestData/TestCsProj.csproj.user
 /src/FlubuCore.Tests/TestData/obj/Debug
 /src/flubu.sln.DotSettings.user
+src/Template/BuildScript/obj/
+src/Template/BuildScript/bin/
+src/Template/.vs/
+src/dotnet-flubu/dotnet-flubu.csproj.user

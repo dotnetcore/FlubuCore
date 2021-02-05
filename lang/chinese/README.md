@@ -9,19 +9,19 @@
 [![NuGet Badge](https://buildstats.info/nuget/flubucore)](https://www.nuget.org/packages/FlubuCore/)
 [![Gitter](https://img.shields.io/gitter/room/FlubuCore/Lobby.svg)](https://gitter.im/FlubuCore/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Twitter](https://img.shields.io/badge/twitter-flubucore-brightgreen.svg?logo=twitter)](https://twitter.com/FlubuC)
-[![Member project of .NET Foundation](https://img.shields.io/badge/.NET-Foundation-68217a.svg)](https://dotnetfoundation.org/)
+[![Member project of .NET Foundation](https://img.shields.io/badge/.NET-Foundation-68217a.svg)](https://dotnetfoundation.org/projects/flubucore)
 [![Member project of .NET Core Community](https://img.shields.io/badge/member%20project%20of-NCC-9e20c9.svg)](https://github.com/dotnetcore)
 [![License](https://img.shields.io/github/license/dotnetcore/FlubuCore.svg)](https://github.com/dotnetcore/FlubuCore/blob/master/LICENSE)
 
-- [Introduction](#Introduction)
+- [介绍](#介绍)
 - [功能与优势](#功能与优势)
 - [入门](#入门)
 - [范例](#范例)
 - [贡献](#贡献)
-- [Backers and Sponsors](#Further-Development)
+- [支持者和赞助商](#支持者和赞助商)
 - [致谢](#致谢)
 
-## Introduction
+## 介绍
 
 “FlubuCore - Fluent Builder Core”，跨平台的构建与部署自动化系统，通过直观的 Fluent 接口，使用 C# 定义构建和部署脚本。这使你的代码获得自动完成、IntelliSense、调试、FlubuCore 自定义分析器，以及在脚本中对整个 .NET 生态的原生性访问。
 
@@ -31,7 +31,7 @@
 
 - FlubuCore runner (.NET 4.62+)  `flubu.exe Default`
 - FlubuCore dotnet cli tool (.NET Core 1.0+)  `dotnet flubu Default`
-- FlubuCore global tool (.NET Core 2.1+) `flubu Default`
+- FlubuCore local or global tool (.NET Core 2.1+) `flubu Default`
 
 ## 功能与优势
 
@@ -51,8 +51,7 @@ protected override void ConfigureTargets(ITaskContext context)
             .WithArguments("--force"); //you can add your own custom arguments on each task
 
     var branch = context.BuildSystems().Travis().Branch;
-
-    //// Examine travis.yaml to see how to pass api key from travis to FlubuCore build script.
+  
     var nugetPush = context.CreateTarget("Nuget.publish")
         .SetDescription("Publishes nuget package.")
         .DependsOn(pack)
@@ -178,10 +177,10 @@ context.CreateTarget("Example")`
 
 flubu 将执行 `dotnet build MySolution.sln -c Debug`
 
-- [完整的 .NET Core 支持，包括全局 CLI 工具](https://flubucore-zh.dotnetcore.xyz/getting-started#getting-started-net-core)
+- [完整的 .NET Core 支持，包括本地或全局 CLI 工具](https://flubucore-zh.dotnetcore.xyz/getting-started#getting-started-net-core)
 
 ```
-dotnet tool install --global FlubuCore.GlobalTool
+dotnet tool install --global FlubuCore.Tool
 flubu compile
 ```
 
@@ -190,6 +189,8 @@ flubu compile
 ```cs
 context.WaitForDebugger();
 ```
+
+* [为 Azure pipelines、Github actions、Appveyor、Travis 和 Jenkins 生成持续集成配置文件](https://flubucore.dotnetcore.xyz/CI-Generation/) 
 
 - [透过 FlubuCore Web API 轻松实现远程部署自动化](https://flubucore-zh.dotnetcore.xyz/WebApi/getting-started/)
 
@@ -211,7 +212,7 @@ FlubuCore 用起来非常简单:-) 而且她的文档也非常完整。
 
 可在[构建脚本的原理](https://flubucore-zh.dotnetcore.xyz/buildscript-fundamentals) 一章中查阅 FlubuCore 提供的完整功能列表。
 
-一旦你定义了构建与部署脚本（build and deployment scripts），以下 Wiki 张杰将解释如何运行它们：
+一旦你定义了构建与部署脚本（build and deployment scripts），以下 Wiki 章节将解释如何运行它们：
 
 - 针对 .NET Framework 项目，请使用 [FlubuCore.Runner](https://flubucore-zh.dotnetcore.xyz/getting-started#Installation.net)
 - 针对 .NET Core 项目，请使用 [FlubuCore CLI global tool](https://flubucore-zh.dotnetcore.xyz/getting-started#Installation-.net-core)
