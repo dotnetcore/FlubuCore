@@ -23,6 +23,18 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         GitPushTask Push();
 
         /// <summary>
+        /// Task removes untracked files from the working tree.
+        /// </summary>
+        /// <returns></returns>
+        GitCleanTask Clean();
+
+        /// <summary>
+        /// Download objects and refs from remote repository
+        /// </summary>
+        /// <returns></returns>
+        GitFetchTask Fetch();
+
+        /// <summary>
         /// Clones specified existring git repository into specified directory.
         /// </summary>
         /// <param name="repository">Url of the repository to clone.</param>

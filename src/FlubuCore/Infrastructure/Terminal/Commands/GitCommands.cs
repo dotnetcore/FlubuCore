@@ -10,6 +10,8 @@ namespace FlubuCore.Infrastructure.Terminal.Commands
         public static Dictionary<string, Type> SupportedExternalProcesses { get; } = new Dictionary<string, Type>()
         {
             { "git add", typeof(GitAddTask) },
+            { "git clean", typeof(GitCleanTask) },
+            { "git fetch", typeof(GitFetchTask) },
             { "git checkout", typeof(GitCheckoutTask) },
             { "git clone", typeof(GitCloneTask) },
             { "git commit", typeof(GitCommitTask) },
