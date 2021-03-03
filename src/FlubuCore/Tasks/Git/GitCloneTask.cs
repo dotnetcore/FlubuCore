@@ -119,7 +119,7 @@ namespace FlubuCore.Tasks.Git
         protected override int DoExecute(ITaskContextInternal context)
         {
             _repository.MustNotBeNullOrEmpty("Url of the repository to clone must not be empty.");
-            WithArguments(_directory, _repository);
+            WithArguments(_repository, _directory);
             return base.DoExecute(context);
         }
     }
