@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using FlubuCore.Context;
 using FlubuCore.Infrastructure.Terminal;
+using FlubuCore.Tasks;
 using FlubuCore.Templating.Models;
 using GlobExpressions;
 
@@ -32,7 +33,7 @@ namespace FlubuCore.Templating.Tasks
                 _flubuSession.Tasks().ReplaceTokensTask(sourceFilePath)
                     .Replace(_replacementTokens.ToArray())
                     .DoNotLogTaskExecutionInfo()
-                    .NoLog()
+                    .WithLogLevel(LogLevel.None)
                     .Execute(_flubuSession);
             }
         }

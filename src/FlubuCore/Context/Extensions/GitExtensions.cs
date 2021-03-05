@@ -1,4 +1,6 @@
-﻿namespace FlubuCore.Context
+﻿using FlubuCore.Tasks;
+
+namespace FlubuCore.Context
 {
     public class Git
     {
@@ -19,7 +21,7 @@
 
             int resultCode = task.WithArguments("rev-parse", "--abbrev-ref", "HEAD")
                 .CaptureOutput()
-                .NoLog()
+                .WithLogLevel(LogLevel.None)
                 .DoNotLogTaskExecutionInfo()
                 .Execute(_taskContext);
 
@@ -41,7 +43,7 @@
 
             int resultCode = task.WithArguments("rev-parse", "--show-toplevel")
                 .CaptureOutput()
-                .NoLog()
+                .WithLogLevel(LogLevel.None)
                 .DoNotLogTaskExecutionInfo()
                 .Execute(_taskContext);
 
@@ -63,7 +65,7 @@
 
             int resultCode = task.WithArguments("config", "--get", "remote.origin.url")
                 .CaptureOutput()
-                .NoLog()
+                .WithLogLevel(LogLevel.None)
                 .DoNotLogTaskExecutionInfo()
                 .Execute(_taskContext);
 
@@ -81,7 +83,7 @@
 
             int resultCode = task.WithArguments("rev-parse", branchName)
                 .CaptureOutput()
-                .NoLog()
+                .WithLogLevel(LogLevel.None)
                 .DoNotLogTaskExecutionInfo()
                 .Execute(_taskContext);
 

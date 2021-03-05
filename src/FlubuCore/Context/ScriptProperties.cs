@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using FlubuCore.Infrastructure.Terminal;
 using FlubuCore.Scripting;
+using FlubuCore.Tasks;
 using FlubuCore.Tasks.Attributes;
 using FlubuCore.Tasks.Solution.VSSolutionBrowsing;
 using FlubuCore.Tasks.Versioning;
@@ -209,7 +210,7 @@ namespace FlubuCore.Context
                 return;
             }
 
-            var task = flubuSession.Tasks().FetchBuildVersionFromFileTask().NoLog()
+            var task = flubuSession.Tasks().FetchBuildVersionFromFileTask().WithLogLevel(LogLevel.None)
                 .When(() => fetchBuildVersion.AllowSuffix, t => t.AllowSuffix())
                 .When(() => !string.IsNullOrEmpty(fetchBuildVersion.ProjectVersionFileName),
                     t => t.ProjectVersionFileName(fetchBuildVersion.ProjectVersionFileName))
@@ -242,7 +243,7 @@ namespace FlubuCore.Context
                 return;
             }
 
-            var task = flubuSession.Tasks().GitVersionTask().NoLog();
+            var task = flubuSession.Tasks().GitVersionTask().WithLogLevel(LogLevel.None);
             task.LogTaskExecutionInfo = false;
 
             var gitVersion = task.Execute(flubuSession);

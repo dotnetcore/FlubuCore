@@ -1,4 +1,6 @@
-﻿namespace FlubuCore.Tasks.Process
+﻿using System;
+
+namespace FlubuCore.Tasks.Process
 {
     public interface IExternalProcess<out T>
         where T : ITask
@@ -42,6 +44,14 @@
         /// Do not log output to the console.
         /// </summary>
         /// <returns></returns>
+        [Obsolete("Use `WithOutputLogLevel(LogLevel.None)` instead.")]
         T DoNotLogOutput();
+
+        /// <summary>
+        /// Sets external process log level
+        /// </summary>
+        /// <param name="logLevel"></param>
+        /// <returns></returns>
+        T WithOutputLogLevel(LogLevel logLevel);
     }
 }

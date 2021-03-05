@@ -452,7 +452,7 @@ namespace FlubuCore.Scripting
                             var rt = flubuSession.Tasks()
                                 .RunProgramTask("git")
                                 .WithArguments("rev-parse", "--is-inside-work-tree")
-                                .NoLog()
+                                .WithLogLevel(Tasks.LogLevel.None)
                                 .DoNotLogTaskExecutionInfo()
                                 .DoNotFailOnError()
                                 .CaptureOutput()
