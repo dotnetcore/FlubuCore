@@ -132,9 +132,16 @@ namespace FlubuCore.Commanding.Internal
                     {
                         string relativePath = sourceFilePath.Replace(rootDir, string.Empty).TrimStart(Path.DirectorySeparatorChar);
 
-                        var destinationFilePath = Path.Combine(rootDir, relativePath
-                            .Substring(relativePath.IndexOf(Path.DirectorySeparatorChar))
-                            .TrimStart(Path.DirectorySeparatorChar));
+                        relativePath = relativePath
+                             .Substring(relativePath.IndexOf(Path.DirectorySeparatorChar))
+                             .TrimStart(Path.DirectorySeparatorChar);
+
+                        if (templateData != null && templateData.SkipFiles.Contains(relativePath))
+                        {
+                            continue;
+                        }
+
+                        var destinationFilePath = Path.Combine(rootDir, relativePath);
 
                         var destinationDir = Path.GetDirectoryName(destinationFilePath);
 
@@ -144,6 +151,7 @@ namespace FlubuCore.Commanding.Internal
                         }
 
                         FlubuTemplateTasksExecutor.BeforeFileCopy(sourceFilePath);
+
                         File.Copy(sourceFilePath, destinationFilePath, true);
                         FlubuTemplateTasksExecutor.AfterFileCopy(destinationFilePath);
                     }

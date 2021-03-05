@@ -6,6 +6,6 @@ namespace FlubuCore.Templating.Models
     {
         public List<TemplateReplacementToken> Tokens { get; set; }
 
-        public List<string> SkipFiles { get; set; }
+        public List<string> SkipFiles { get; set; } = new List<string>();
     }
 }

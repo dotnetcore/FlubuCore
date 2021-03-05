@@ -7,9 +7,17 @@ namespace FlubuCore.Templating
     {
         private List<TemplateReplacementToken> _replacementTokens = new List<TemplateReplacementToken>();
 
+        private List<string> _filesToSkip = new List<string>();
+
         public FlubuTemplateBuilder AddReplacementToken(TemplateReplacementToken token)
         {
             _replacementTokens.Add(token);
+            return this;
+        }
+
+        public FlubuTemplateBuilder AddFileToSkip(string file)
+        {
+            _filesToSkip = new List<string>();
             return this;
         }
 
@@ -17,7 +25,8 @@ namespace FlubuCore.Templating
         {
             return new TemplateModel
             {
-                Tokens = _replacementTokens
+                Tokens = _replacementTokens,
+                SkipFiles = _filesToSkip
             };
         }
     }
