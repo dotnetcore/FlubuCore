@@ -75,5 +75,10 @@ namespace FlubuCore.BuildServers.Configurations.Models.Jenkins
         /// For example: options { timestamps() }
         /// </summary>
         public bool TimeStamps { get; set; }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool AnsiColors { get; set; }
     }
 }

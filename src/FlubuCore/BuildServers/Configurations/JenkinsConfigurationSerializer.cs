@@ -146,6 +146,11 @@ namespace FlubuCore.BuildServers.Configurations
                     sb.Append(indent).AppendLine("timestamps()");
                 }
 
+                if (options.AnsiColors)
+                {
+                    sb.Append(indent).AppendLine("ansiColor('xterm')");
+                }
+
                 if (options.BuildDiscarder.HasValue)
                 {
                     sb.Append(indent).AppendFormat("buildDiscarder(logRotator(numToKeepStr: '{0}')) }", options.BuildDiscarder.Value);
