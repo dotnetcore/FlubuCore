@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using FlubuCore.Infrastructure;
 using FlubuCore.Infrastructure.Terminal;
 using FlubuCore.Scripting;
+using FlubuCore.Tasks;
 using FlubuCore.Templating;
 using FlubuCore.Templating.Models;
 using FlubuCore.Templating.Tasks;
@@ -87,7 +88,7 @@ namespace FlubuCore.Commanding.Internal
 
                     var files = FlubuSession.Tasks()
                         .UnzipTask(TmpZipPath, rootDir)
-                        .NoLog()
+                        .WithLogLevel(LogLevel.None)
                         .DoNotLogTaskExecutionInfo()
                         .Execute(FlubuSession);
 

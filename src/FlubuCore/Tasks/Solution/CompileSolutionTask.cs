@@ -234,7 +234,7 @@ namespace FlubuCore.Tasks.Solution
 
             WithArguments($"/clp:{string.Join(";", _loggingOptions.ToArray())}");
 
-            if (NoOutputLog)
+            if (OutputLogLevel == Tasks.LogLevel.None)
                 WithArguments("/noconlog");
 
             AddPrefixToAdditionalOptionKey(PrefixProcessors.AddSlashPrefixToAdditionalOptionKey);

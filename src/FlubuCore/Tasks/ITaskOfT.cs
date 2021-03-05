@@ -32,7 +32,14 @@ namespace FlubuCore.Tasks
         /// Do not log messages.
         /// </summary>
         /// <returns></returns>
+        [Obsolete("Use `WithLogLevel(LogLevel.None)` instead")]
         TTask NoLog();
+
+        /// <summary>
+        /// Sets task's log level
+        /// </summary>
+        /// <returns></returns>
+        TTask WithLogLevel(LogLevel logLevel);
 
         /// <summary>
         /// Do not fail task if error occurs.

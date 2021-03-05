@@ -50,7 +50,7 @@ namespace FlubuCore.Tasks.MsSql
         /// Return output of the sqlcmd command.
         /// </summary>
         /// <returns></returns>
-        public string GetOutput()
+        public override string GetOutput()
         {
             return _output;
         }
@@ -59,7 +59,7 @@ namespace FlubuCore.Tasks.MsSql
         /// Return output of the sqlcmd command.
         /// </summary>
         /// <returns></returns>
-        public string GetErrorOutput()
+        public override string GetErrorOutput()
         {
             return _errorOutput;
         }
@@ -191,11 +191,9 @@ namespace FlubuCore.Tasks.MsSql
             {
                 IRunProgramTask task = context.Tasks().RunProgramTask(program);
 
-                if (NoOutputLog)
-                    task.DoNotLogOutput();
+                task.WithOutputLogLevel(OutputLogLevel);
 
-                if (DoNotLog)
-                    task.NoLog();
+                task.WithLogLevel(TaskLogLevel);
 
                 var args = ValidateAndGetArgumentsFlat();
 

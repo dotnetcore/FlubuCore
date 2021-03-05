@@ -54,9 +54,9 @@ namespace FlubuCore.Tasks.Process
         protected string ExecutablePath { get; set; }
 
         /// <summary>
-        /// Do not log to console if possible.
+        /// Sets the process log level.
         /// </summary>
-        protected bool NoOutputLog { get; set; }
+        protected LogLevel OutputLogLevel { get; private set; } = LogLevel.Info;
 
         protected virtual string AdditionalOptionPrefix { get; set; } = "/o:";
 
@@ -187,9 +187,17 @@ namespace FlubuCore.Tasks.Process
         }
 
         /// <inheritdoc />
+        [Obsolete("Use `WithOutputLogLevel(LogLevel.None)` instead.")]
         public TTask DoNotLogOutput()
         {
-            NoOutputLog = true;
+            OutputLogLevel = LogLevel.None;
+            return this as TTask;
+        }
+
+        /// <inheritdoc />
+        public TTask WithOutputLogLevel(LogLevel logLevel)
+        {
+            OutputLogLevel = logLevel;
             return this as TTask;
         }
 
@@ -265,11 +273,9 @@ namespace FlubuCore.Tasks.Process
                           .DoNotLogTaskExecutionInfo()
                           .WorkingFolder(ExecuteWorkingFolder);
 
-            if (NoOutputLog)
-                _task.DoNotLogOutput();
+            _task.WithOutputLogLevel(OutputLogLevel);
 
-            if (DoNotLog)
-                _task.NoLog();
+            _task.WithLogLevel(TaskLogLevel);
 
             if (KeepProgramOutput)
                 _task.CaptureOutput();

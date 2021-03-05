@@ -93,9 +93,9 @@ namespace FlubuCore.Tasks
         protected ITaskContext Context { get; private set; }
 
         /// <summary>
-        /// If set to true, task should not log anything.
+        /// Sets the tasks log level.
         /// </summary>
-        protected bool DoNotLog { get; private set; }
+        protected LogLevel TaskLogLevel { get; private set; } = LogLevel.Info;
 
         /// <summary>
         /// Number of retries in case of an exception.
@@ -149,9 +149,17 @@ namespace FlubuCore.Tasks
         }
 
         /// <inheritdoc />
+        [Obsolete("Use `WithLogLevel(LogLevel.None)` instead")]
         public TTask NoLog()
         {
-            DoNotLog = true;
+            TaskLogLevel = LogLevel.None;
+            return this as TTask;
+        }
+
+        /// <inheritdoc />
+        public TTask WithLogLevel(LogLevel logLevel)
+        {
+            TaskLogLevel = logLevel;
             return this as TTask;
         }
 
@@ -584,7 +592,7 @@ namespace FlubuCore.Tasks
         /// <param name="message"></param>
         protected void DoLogInfo(string message)
         {
-            if (DoNotLog)
+            if (TaskLogLevel < LogLevel.Info)
                 return;
 
             LogSequentially(message);
@@ -596,7 +604,7 @@ namespace FlubuCore.Tasks
         /// <param name="message"></param>
         protected void DoLogInfo(string message, Color foregroundColor)
         {
-            if (DoNotLog)
+            if (TaskLogLevel < LogLevel.Info)
                 return;
 
             LogSequentially(message, foregroundColor);
@@ -620,7 +628,7 @@ namespace FlubuCore.Tasks
         /// <param name="message"></param>
         protected void DoLogError(string message)
         {
-            if (DoNotLog)
+            if (TaskLogLevel < LogLevel.Error)
                 return;
 
             LogErrorSequentially(message);
@@ -632,7 +640,7 @@ namespace FlubuCore.Tasks
         /// <param name="message"></param>
         protected void DoLogError(string message, Color foregroundColor)
         {
-            if (DoNotLog)
+            if (TaskLogLevel < LogLevel.Error)
                 return;
 
             if (SequentialLogging)

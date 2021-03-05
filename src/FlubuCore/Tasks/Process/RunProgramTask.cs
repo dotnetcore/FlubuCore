@@ -28,7 +28,7 @@ namespace FlubuCore.Tasks.Process
 
         private bool _captureErrorOutput;
 
-        private bool _doNotLogOutput;
+        private LogLevel _outputLogLevel = LogLevel.Info;
 
         private string _description;
 
@@ -138,9 +138,17 @@ namespace FlubuCore.Tasks.Process
         }
 
         /// <inheritdoc />
+        [Obsolete("Use `WithOutputLogLevel(LogLevel.None)` instead.")]
         public IRunProgramTask DoNotLogOutput()
         {
-            _doNotLogOutput = true;
+            _outputLogLevel = LogLevel.None;
+            return this;
+        }
+
+        /// <inheritdoc />
+        public IRunProgramTask WithOutputLogLevel(LogLevel logLevel)
+        {
+            _outputLogLevel = logLevel;
             return this;
         }
 
@@ -219,7 +227,7 @@ namespace FlubuCore.Tasks.Process
                 .WorkingDirectory(workingFolder)
                 .OnErrorLine(l =>
                 {
-                    if (!_doNotLogOutput)
+                    if (_outputLogLevel >= LogLevel.Error)
                         DoLogInfo(l);
 
                     if (_captureErrorOutput)
@@ -227,7 +235,7 @@ namespace FlubuCore.Tasks.Process
                 })
                 .OnOutputLine(l =>
                 {
-                    if (!_doNotLogOutput)
+                    if (_outputLogLevel >= LogLevel.Info)
                         DoLogInfo(l);
 
                     if (_captureOutput)
