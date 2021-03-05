@@ -20,6 +20,8 @@ namespace FlubuCore.Targeting
         /// </summary>
         bool SequentialLogging { get; set; }
 
+        bool TargetHasTasks { get; }
+
         string Description { get; }
 
         /// <summary>

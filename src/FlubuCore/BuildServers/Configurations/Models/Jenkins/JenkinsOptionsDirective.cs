@@ -75,10 +75,11 @@ namespace FlubuCore.BuildServers.Configurations.Models.Jenkins
         /// For example: options { timestamps() }
         /// </summary>
         public bool TimeStamps { get; set; }
-        
+
         /// <summary>
-        /// 
+        /// Enables colored logs in jenkins console output. Jenkins ANSIColor plugin must be installed in jenkins.
         /// </summary>
+        /// <returns></returns>
         public bool AnsiColors { get; set; }
     }
 }
