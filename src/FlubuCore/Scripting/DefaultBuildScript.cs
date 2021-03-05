@@ -442,9 +442,12 @@ namespace FlubuCore.Scripting
                     {
                         JenkinsPipeline configuration = new JenkinsPipeline();
 
-                        foreach (var target in flubuSession.TargetTree.GetTargetsInExecutionOrder(flubuSession))
+                        foreach (ITargetInternal target in flubuSession.TargetTree.GetTargetsInExecutionOrder(flubuSession))
                         {
-                            _flubuConfiguration.JenkinsOptions.AddFlubuTargets(target.TargetName);
+                            if (target.TargetHasTasks)
+                            {
+                                _flubuConfiguration.JenkinsOptions.AddFlubuTargets(target.TargetName);
+                            }
                         }
 
                         if (!_flubuConfiguration.JenkinsOptions.RemoveBuiltInCheckoutStage)

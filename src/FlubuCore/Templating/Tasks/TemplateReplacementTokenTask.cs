@@ -71,7 +71,7 @@ namespace FlubuCore.Templating.Tasks
                             do
                             {
                                 Console.Write($"Choose replacement value for token '{token.Token}':");
-                                var key = Console.ReadLine();
+                                var key = Console.ReadLine().Trim();
                                 if (int.TryParse(key, out chosenOption))
                                 {
                                     if (chosenOption >= 0 && chosenOption < token.Values.Count)
@@ -130,7 +130,7 @@ namespace FlubuCore.Templating.Tasks
                             string newValue;
                             do
                             {
-                                newValue = console.ReadLine();
+                                newValue = console.ReadLine().Trim();
                                 if (!string.IsNullOrEmpty(allowedFileExtensionGlobPattern))
                                 {
                                     isRightFileExtension =

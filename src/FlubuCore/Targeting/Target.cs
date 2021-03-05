@@ -58,6 +58,8 @@ namespace FlubuCore.Targeting
 
         public string TargetName { get; }
 
+        public bool TargetHasTasks => _taskGroups.Count != 0;
+
         public override string TaskName => TargetName;
 
         public override bool IsTarget { get; } = true;

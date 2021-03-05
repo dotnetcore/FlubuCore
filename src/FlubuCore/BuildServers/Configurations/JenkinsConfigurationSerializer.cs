@@ -66,23 +66,26 @@ namespace FlubuCore.BuildServers.Configurations
         {
             sb.AppendBlockWithNewLine($"stage('{stage.Name}')", (s) =>
             {
-                if (!string.IsNullOrEmpty(stage.WorkingDirectory))
+                sb.AppendBlock("steps", (s2) =>
                 {
-                    s.AppendBlock($"dir('{stage.WorkingDirectory}')", s2 =>
+                    if (!string.IsNullOrEmpty(stage.WorkingDirectory))
+                    {
+                        s.AppendBlock($"dir('{stage.WorkingDirectory}')", s3 =>
                         {
                             foreach (var stageStep in stage.Steps)
                             {
-                                s2.AppendIndent(16).AppendLine(stageStep);
+                                s2.AppendIndent(20).AppendLine(stageStep);
                             }
-                        }, 12);
-                }
-                else
-                {
-                    foreach (var stageStep in stage.Steps)
-                    {
-                        s.AppendIndent(12).AppendLine(stageStep);
+                        }, 16);
                     }
-                }
+                    else
+                    {
+                        foreach (var stageStep in stage.Steps)
+                        {
+                            s.AppendIndent(16).AppendLine(stageStep);
+                        }
+                    }
+                }, 12);
             }, 8);
         }
 
@@ -141,6 +144,11 @@ namespace FlubuCore.BuildServers.Configurations
                 if (options.TimeStamps)
                 {
                     sb.Append(indent).AppendLine("timestamps()");
+                }
+
+                if (options.AnsiColors)
+                {
+                    sb.Append(indent).AppendLine("ansiColor('xterm')");
                 }
 
                 if (options.BuildDiscarder.HasValue)

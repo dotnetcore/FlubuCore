@@ -25,6 +25,16 @@ namespace FlubuCore.BuildServers.Configurations
         }
 
         /// <summary>
+        /// Enables colored logs in jenkins console output. Jenkins ANSIColor plugin must be installed in jenkins.
+        /// </summary>
+        /// <returns></returns>
+        public JenkinsOptionsOptions EnableAnsiColors()
+        {
+            _options.Options.AnsiColors = true;
+            return this;
+        }
+
+        /// <summary>
         /// Perform the automatic source control checkout in a subdirectory of the workspace.
         /// For example: options { checkoutToSubdirectory('foo')
         /// </summary>

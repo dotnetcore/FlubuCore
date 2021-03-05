@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 using FlubuCore.Infrastructure;
 
@@ -47,7 +48,8 @@ namespace FlubuCore.BuildServers.Configurations.Models.Jenkins
                     stage.WorkingDirectory = options.WorkingDirectory;
                 }
 
-                stage.Steps.Add($"flubu {targetName} --nd");
+                var command = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "bat" : "sh";
+                stage.Steps.Add($"{command} 'flubu {targetName} --nd'");
 
                 Stages.Add(stage);
             }
