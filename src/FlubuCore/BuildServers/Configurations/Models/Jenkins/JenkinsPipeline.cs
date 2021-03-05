@@ -49,7 +49,7 @@ namespace FlubuCore.BuildServers.Configurations.Models.Jenkins
                 }
 
                 var command = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "bat" : "sh";
-                stage.Steps.Add($"{command} flubu {targetName} --nd");
+                stage.Steps.Add($"{command} 'flubu {targetName} --nd'");
 
                 Stages.Add(stage);
             }
