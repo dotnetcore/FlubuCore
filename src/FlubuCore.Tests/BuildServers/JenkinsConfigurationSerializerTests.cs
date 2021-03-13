@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using FlubuCore.BuildServers.Configurations;
 using FlubuCore.BuildServers.Configurations.Models.Jenkins;
 using Xunit;
@@ -23,15 +24,21 @@ namespace FlubuCore.Tests.BuildServers
 
     stages {
         stage('Build') {
-            flubu build
+            steps {
+                flubu build
+            }
         }
 
         stage('Test') {
-            flubu test
+            steps {
+                flubu test
+            }
         }
 
         stage('Package') {
-            flubu package
+            steps {
+                flubu package
+            }
         }
 
     }
@@ -71,18 +78,24 @@ namespace FlubuCore.Tests.BuildServers
 
     stages {
         stage('Build') {
-            dir('src') {
-                flubu build
+            steps {
+                dir('src') {
+                    flubu build
+                }
             }
         }
 
         stage('Test') {
-            flubu test
+            steps {
+                flubu test
+            }
         }
 
         stage('Package') {
-            dir('src') {
-                flubu package
+            steps {
+                dir('src') {
+                    flubu package
+                }
             }
         }
 
@@ -113,7 +126,8 @@ namespace FlubuCore.Tests.BuildServers
                     },
                 }
             });
-
+            File.WriteAllText(@"d:\_pipeline.txt", jenkinsPipeline);
+            File.WriteAllText(@"d:\_pipeline2.txt", expectedPipeLine);
             Assert.Equal(ReplaceNewlines(expectedPipeLine, string.Empty), ReplaceNewlines(jenkinsPipeline, string.Empty));
         }
 
@@ -218,8 +232,10 @@ namespace FlubuCore.Tests.BuildServers
 
     stages {
         stage('Build') {
-            dir('src') {
-                flubu build
+            steps {
+                dir('src') {
+                    flubu build
+                }
             }
         }
 
