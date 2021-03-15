@@ -465,23 +465,48 @@ namespace FlubuCore.Infrastructure.Terminal
                 li = fullInput.Length - 1;
             }
 
-            if (!suggestionValue.StartsWith("-") && !fullInput.StartsWith(InternalTerminalCommands.Cd, StringComparison.OrdinalIgnoreCase) && !_options.OnlyDirectoriesSuggestions)
+            bool startsWithCd = fullInput.StartsWith(InternalTerminalCommands.Cd, StringComparison.OrdinalIgnoreCase);
+            if (!suggestionValue.StartsWith("-") && !startsWithCd && !_options.OnlyDirectoriesSuggestions)
             {
                 suggestionValue = $" {suggestionValue} ";
             }
             else
             {
-                if (fullInput.Contains("\\"))
+                if (fullInput.Contains(@"\") && startsWithCd)
                 {
-                    li = li + fullInput.Split(' ').Last().Split('\\').First().Length + 2;
+                    var splitedInputs = fullInput.Split(' ').Last().Split('\\');
+
+                    foreach (var spllitedInput in splitedInputs)
+                    {
+                        li = li + spllitedInput.Length + 1;
+                    }
                 }
-                else if (fullInput.Contains("/"))
+                else if (fullInput.Contains("/") && startsWithCd)
                 {
-                    li = li + fullInput.Split(' ').Last().Split('/').First().Length + 2;
+                    var splitedInputs = fullInput.Split(' ').Last().Split('/');
+
+                    foreach (var spllitedInput in splitedInputs)
+                    {
+                        li = li + spllitedInput.Length + 1;
+                    }
                 }
                 else
                 {
-                    suggestionValue = $" {suggestionValue}";
+                    if (suggestion.SuggestionType != HintType.DirectoryOrFile)
+                    {
+                        suggestionValue = $" {suggestionValue}";
+                    }
+                    else if (startsWithCd)
+                    {
+                        li++;
+                    }
+                    else
+                    {
+                        if (fullInput.Contains("/") || fullInput.Contains(@"\"))
+                        {
+                            li++;
+                        }
+                    }
                 }
             }
 
@@ -655,11 +680,11 @@ namespace FlubuCore.Infrastructure.Terminal
             }
 
             List<Hint> hintSource = new List<Hint>();
-            hintSource.AddRange(directories.Select(d => new Hint() { Name = d.Name, OnlySimpleSearh = true }));
+            hintSource.AddRange(directories.Select(d => new Hint() { Name = d.Name, OnlySimpleSearh = true, HintType = HintType.DirectoryOrFile }));
             if (_options.IncludeFileSuggestions)
             {
                 var files = objDirectoryInfo.GetFiles(_options.FileSuggestionsSearchPattern);
-                hintSource.AddRange(files.Select(d => new Hint() { Name = d.Name, OnlySimpleSearh = true }));
+                hintSource.AddRange(files.Select(d => new Hint() { Name = d.Name, OnlySimpleSearh = true, HintType = HintType.DirectoryOrFile }));
             }
 
             var lastInput = splitedDirectories.Last();

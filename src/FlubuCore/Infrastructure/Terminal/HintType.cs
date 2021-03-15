@@ -7,6 +7,7 @@ namespace FlubuCore.Infrastructure.Terminal
     public enum HintType
     {
         Default,
-        Value
+        Value,
+        DirectoryOrFile
     }
 }
