@@ -1,3 +1,19 @@
+## FlubuCore 6.1.0.0
+- (albyrock87) Introduced LogLevel instead of NoOutputLog / NoLog on external process tasks. 
+- (albyrock87) Added git fetch task
+- (albyrock87) Added git clean task
+- FlubuTemplating: Added option to skip files to be copied from a template
+- Jenkins configuration generation: Added AnsiColor option
+- Jenkins configuration generation: Added missing step block in stage block.
+- Jenkins configuration generation: Added proper command exectuor when adding flubu target to a step in pipeline. 
+- Jenkins configuration generation: Target without tasks are not added anymore as steps in pipeline.
+- Jenkins configuration generation: Wraps executed command into single quote.
+- (Albyrock87) Fixed git clone syntax
+- Fixed directory suggestions in interactive mode.
+- TemplateReplacementTokenTask: Readed values from console are trimed now. 
+- FlubuCore.Tool for .net 5.0
+- Fixed FlubuCore.Tool nuget publishing
+
 ## FlubuCore 6.0.0.0
 - CI configuration generation for azure pipelines, github actions, jenkins travis and appveyor. More can be read at https://flubucore.dotnetcore.xyz/CI-Generation/
 - Simplified creation of new build scripts with FlubuCore templates. More can be read at https://flubucore.dotnetcore.xyz/flubu-templates/
