@@ -1,12 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-using DotNet.Cli.Flubu.Infrastructure;
-using FlubuCore.Commanding;
-using FlubuCore.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+﻿using System.Threading.Tasks;
 
-namespace FlubuCore.GlobalTool
+namespace FlubuCore.Tool
 {
     public class Program
     {

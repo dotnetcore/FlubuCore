@@ -22,7 +22,7 @@ public class  BuildScript : DefaultBuildScript
 
     [BuildConfiguration] public string BuildConfiguration { get; set; } = "Release";
 
-    List<string> _projectsToPack = new List<string>()
+    private readonly List<string> _projectsToPack = new List<string>()
     {
         "FlubuCore.WebApi.Model",
         "FlubuCore.WebApi.Client",
@@ -51,7 +51,7 @@ public class  BuildScript : DefaultBuildScript
         var compile = context
             .CreateTarget("compile")
             .SetDescription("Compiles the VS solution")
-            .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj", "FlubuCore.Tests/FlubuCore.Tests.csproj", "FlubuCore.WebApi.Model/FlubuCore.WebApi.Model.csproj", "FlubuCore.WebApi.Client/FlubuCore.WebApi.Client.csproj", "FlubuCore.WebApi/FlubuCore.WebApi.csproj", "FlubuCore.GlobalTool/FlubuCore.GlobalTool.csproj"))
+            .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj", "FlubuCore.Tests/FlubuCore.Tests.csproj", "FlubuCore.WebApi.Model/FlubuCore.WebApi.Model.csproj", "FlubuCore.WebApi.Client/FlubuCore.WebApi.Client.csproj", "FlubuCore.WebApi/FlubuCore.WebApi.csproj", "FlubuCore.GlobalTool/FlubuCore.GlobalTool.csproj", "FlubuCore.Tool/FlubuCore.Tool.csproj"))
             .AddCoreTask(x => x.Build())
             .DependsOn(buildVersion);
 
@@ -194,7 +194,7 @@ public class  BuildScript : DefaultBuildScript
             .ApiKey(NugetApiKey).Execute(context);
 
         context.CoreTasks().NugetPush(Output.CombineWith($"FlubuCore.Tool.{nugetVersion}.nupkg"))
-            .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.GlobalTool. exception: {e.Message}"); })
+            .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.Tool. exception: {e.Message}"); })
             .ServerUrl("https://www.nuget.org/api/v2/package")
             .ApiKey(NugetApiKey).Execute(context);
 
