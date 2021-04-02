@@ -48,7 +48,7 @@ protected override void ConfigureTargets(ITaskContext context)
         .AddCoreTask(x => x.Pack()
             .NoBuild()
             .OutputDirectory(OutputDirectory)
-            .WithArguments("--force"); //you can add your own custom arguments on each task
+            .WithArguments("--force")); //you can add your own custom arguments on each task
 
     var branch = context.BuildSystems().Travis().Branch;
   
@@ -57,11 +57,11 @@ protected override void ConfigureTargets(ITaskContext context)
         .DependsOn(pack)
         .AddCoreTask(x => x.NugetPush($"{OutputDirectory}/NetCoreOpenSource.nupkg")
             .ServerUrl("https://www.nuget.org/api/v2/package")
-             .ApiKey(NugetApiKey)
+            .ApiKey(NugetApiKey)
         )
-        .When((c) => c.BuildSystems().RunningOn == BuildSystemType.TravisCI
-                     && !string.IsNullOrEmpty(branch)
-                     && branch.EndsWith("stable", StringComparison.OrdinalIgnoreCase));
+        .When(c => c.BuildSystems().RunningOn == BuildSystemType.TravisCI
+                    && !string.IsNullOrEmpty(branch)
+                    && branch.EndsWith("stable", StringComparison.OrdinalIgnoreCase));
 }
 ```
 
@@ -82,11 +82,11 @@ context.CreateTarget("run.tests")
 
 ```cs
 context.CreateTarget("DoExample")
-        .Do((c) =>
+        .Do(c =>
         {
-            //// write your awesome code.
+            // write your awesome code.
             File.Copy("NotSoAwesome.txt", Path.Combine(OutputDirectory, "JustAnExample.txt") );
-            //// Access flubu built in tasks in DO if needed.
+            // Access flubu built in tasks in DO if needed.
             c.Tasks().GenerateT4Template("example.TT").Execute(c);                
         })
         .AddTask(x => x.CompileSolutionTask())
