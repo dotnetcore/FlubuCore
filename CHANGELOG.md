@@ -1,3 +1,6 @@
+## FlubuCore 6.1.1.0
+- Support for C# 9.0 features in flubu scripts.
+
 ## FlubuCore 6.1.0.0
 - (albyrock87) Introduced LogLevel instead of NoOutputLog / NoLog on external process tasks. 
 - (albyrock87) Added git fetch task
