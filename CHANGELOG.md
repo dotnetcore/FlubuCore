@@ -1,3 +1,6 @@
+## FlubuCore 6.1.2.0
+- Fixed WaitForServiceStopTask, invalid cast.
+
 ## FlubuCore 6.1.1.0
 - Support for C# 9.0 features in flubu scripts.
 

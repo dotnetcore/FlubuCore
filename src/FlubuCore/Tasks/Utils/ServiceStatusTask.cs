@@ -5,12 +5,12 @@ using FlubuCore.Context;
 namespace FlubuCore.Tasks.Utils
 {
     /// <summary>
-    /// Query windows service status with sc.exe command.
+    ///     Query windows service status with sc.exe command.
     /// </summary>
-    public class ServiceStatusTask : ServiceControlTaskBase<ServiceControlTask>
+    public class ServiceStatusTask : ServiceControlTaskBase<ServiceStatusTask>
     {
+        private readonly Regex _state = new Regex("(STATE\\s*:\\s)(\\d)", RegexOptions.Compiled);
         private string _description;
-        private Regex _state = new Regex("(STATE\\s*:\\s)(\\d)", RegexOptions.Compiled);
 
         public ServiceStatusTask(string serviceName)
             : base("queryex", serviceName)
@@ -19,17 +19,9 @@ namespace FlubuCore.Tasks.Utils
 
         protected override string Description
         {
-            get
-            {
-                if (string.IsNullOrEmpty(_description))
-                {
-                    return $"{Command} service '{ServiceName}'";
-                }
+            get => string.IsNullOrEmpty(_description) ? $"{Command} service '{ServiceName}'" : _description;
 
-                return _description;
-            }
-
-            set { _description = value; }
+            set => _description = value;
         }
 
         protected override int DoExecute(ITaskContextInternal context)
@@ -55,10 +47,9 @@ namespace FlubuCore.Tasks.Utils
                 return ServiceStatus.Unknown;
 
             var status = match.Groups[2];
-            if (!Enum.TryParse<ServiceStatus>(status.Value, true, out var parsed))
-                return ServiceStatus.Unknown;
-
-            return parsed;
+            return !Enum.TryParse<ServiceStatus>(status.Value, true, out var parsed)
+                ? ServiceStatus.Unknown
+                : parsed;
         }
     }
 }
