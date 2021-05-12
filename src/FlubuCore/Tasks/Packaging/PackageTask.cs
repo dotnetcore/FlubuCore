@@ -175,7 +175,7 @@ namespace FlubuCore.Tasks.Packaging
             IDirectoryFilesLister directoryFilesLister = new DirectoryFilesLister();
             StandardPackageDef packageDef = new StandardPackageDef();
 
-            CopyProcessor copyProcessor = new CopyProcessor(context, copier, df);
+            CopyProcessor copyProcessor = new CopyProcessor(context, copier, df, _logFiles);
 
             List<string> sourceIds = new List<string>();
 
@@ -186,7 +186,7 @@ namespace FlubuCore.Tasks.Packaging
                 {
                     var sourceFullPath = new FullPath(sourceToPackage.SourcePath);
                     sourceId = sourceFullPath.GetHashCode().ToString();
-                    DirectorySource directorySource = new DirectorySource(context, directoryFilesLister, sourceId, sourceFullPath, sourceToPackage.Recursive, sourceToPackage.DirectoryFilters);
+                    DirectorySource directorySource = new DirectorySource(context, directoryFilesLister, sourceId, sourceFullPath, sourceToPackage.Recursive, sourceToPackage.DirectoryFilters, _logFiles);
                     directorySource.SetFileFilter(sourceToPackage.FileFilters);
                     packageDef.AddFilesSource(directorySource);
                 }

@@ -16,6 +16,8 @@ namespace FlubuCore.Packaging
 
         private readonly bool _recursive = true;
 
+        private readonly bool _logFiles = true;
+
         public DirectorySource(
             ITaskContextInternal taskContext,
             IDirectoryFilesLister directoryFilesLister,
@@ -32,7 +34,8 @@ namespace FlubuCore.Packaging
             string id,
             FullPath directoryName,
             bool recursive,
-            IFilter filter)
+            IFilter filter,
+            bool logFiles = true)
         {
             _taskContext = taskContext;
             _directoryFilesLister = directoryFilesLister;
@@ -40,6 +43,7 @@ namespace FlubuCore.Packaging
             _recursive = recursive;
             DirectoryFilter = filter;
             _directoryPath = directoryName;
+            _logFiles = logFiles;
         }
 
         public string Id
@@ -86,7 +90,7 @@ namespace FlubuCore.Packaging
                 FileFullPath fileNameFullPath = new FileFullPath(fileName);
                 LocalPath debasedFileName = fileNameFullPath.ToFullPath().DebasePath(_directoryPath);
 
-                if (!LoggingHelper.LogIfFilteredOut(fileName, FileFilter, _taskContext, true))
+                if (!LoggingHelper.LogIfFilteredOut(fileName, FileFilter, _taskContext, _logFiles))
                 {
                     continue;
                 }
