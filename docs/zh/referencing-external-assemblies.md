@@ -1,6 +1,6 @@
 ## **在构建脚本中引用外部程序集**
 
-FlubuCore 会自动从构建脚本的 csproj 文件中加载所有程序集引用（assemblies references）和 nuget 包。csproj 文件必须位于[指定位置](https://github.com/dotnetcore/FlubuCore/blob/master/src/FlubuCore/Scripting/Analysis/ProjectFileAnalyzer.cs)。如果不是程序集引用和 nuget 引用的话，FlubuCore 就不会在执行时自动加载它们。
+FlubuCore 会自动从构建脚本的 csproj 文件中加载所有程序集引用（assemblies references）和 nuget 包。csproj 文件必须位于[指定位置](https://github.com/dotnetcore/FlubuCore/blob/develop/src/FlubuCore/Scripting/Analysis/ProjectFileAnalyzer.cs)。如果不是程序集引用和 nuget 引用的话，FlubuCore 就不会在执行时自动加载它们。
 
 !!! Note
 	你可以在构建脚本中通过添加特性（attribute）的方式禁用引用程序集和 nuget 包。

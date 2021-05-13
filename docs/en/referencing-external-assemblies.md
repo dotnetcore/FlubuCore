@@ -1,6 +1,6 @@
 ## **Referencing external assemblies in build script**
 
-FlubuCore loads all assemblies references and nuget packages automatically from build script csproj. Csproj must be at on of the location specified [here](https://github.com/flubu-core/flubu.core/blob/master/FlubuCore/Scripting/Analysis/ProjectFileAnalyzer.cs) If not assembly and nuget references will not be loaded automatically when executing script.
+FlubuCore loads all assemblies references and nuget packages automatically from build script csproj file. Csproj must be at on of the location specified [here](https://github.com/dotnetcore/FlubuCore/blob/develop/src/FlubuCore/Scripting/Analysis/ProjectFileAnalyzer.cs) or the path to the csproj file must be specified in .flubu file.  If not assembly and nuget references will not be loaded automatically when executing script.
 
 !!! Note
 	You can also disable referencing assemblies and nuget packages from build script by adding attribute to build script.
