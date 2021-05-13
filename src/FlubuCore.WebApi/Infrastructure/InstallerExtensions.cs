@@ -106,6 +106,7 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddScoped<IScriptAnalyzer, ScriptAnalyzer>()
                 .AddScoped<IScriptProcessor, CsDirectiveProcessor>()
                 .AddScoped<IScriptProcessor, ClassDirectiveProcessor>()
+                .AddScoped<IScriptProcessor, InterfaceDirectiveProcessor>()
                 .AddScoped<IScriptProcessor, AssemblyDirectiveProcessor>()
                 .AddScoped<IScriptProcessor, ReferenceDirectiveProcessor>()
                 .AddScoped<IScriptProcessor, NamespaceProcessor>()

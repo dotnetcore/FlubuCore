@@ -45,6 +45,7 @@ namespace DotNet.Cli.Flubu.Infrastructure
                 .AddSingleton<IScriptAnalyzer, ScriptAnalyzer>()
                 .AddSingleton<IScriptProcessor, CsDirectiveProcessor>()
                 .AddSingleton<IScriptProcessor, ClassDirectiveProcessor>()
+                .AddSingleton<IScriptProcessor, InterfaceDirectiveProcessor>()
                 .AddSingleton<IScriptProcessor, AssemblyDirectiveProcessor>()
                 .AddSingleton<IScriptProcessor, ReferenceDirectiveProcessor>()
                 .AddSingleton<IScriptProcessor, NamespaceProcessor>()

@@ -28,7 +28,7 @@ namespace FlubuCore.Scripting.Analysis
                 {
                     bool ret = processor.Process(analyzerResult, line, i);
 
-                    if (!string.IsNullOrEmpty(analyzerResult.ClassName))
+                    if (!string.IsNullOrEmpty(analyzerResult.ClassName) || !string.IsNullOrEmpty(analyzerResult.InterfaceName))
                     {
                         RemoveNamespace(lines, analyzerResult);
                         return analyzerResult;

@@ -50,6 +50,8 @@ namespace FlubuCore.Tests.Scripting
         [InlineData("Foo\r\npublic class _LameScript123 \r\n{\r\n}", "_LameScript123", false)]
         [InlineData("Foo\r\nbooo\r\npublic class BuildScript", "BuildScript", false)]
         [InlineData("Foo\r\npublic class BuildScriptpartial    : Base\r\n{\r\n}", "BuildScriptpartial", false)]
+        [InlineData("class _LameScript123 \r\n{\r\n}", "_LameScript123", false)]
+        [InlineData("protected class _LameScript123 \r\n{\r\n}", "_LameScript123", false)]
         public void GetClassNameFromBuildScriptCodeTest(string code, string expectedClassName, bool isPartial)
         {
             ClassDirectiveProcessor pr = new ClassDirectiveProcessor(_fileWrapper.Object, _pathWrapper.Object);
@@ -57,6 +59,24 @@ namespace FlubuCore.Tests.Scripting
             pr.Process(res, code, 1);
             Assert.Equal(expectedClassName, res.ClassName);
             Assert.Equal(isPartial, res.IsPartial);
+        }
+
+        [Theory]
+        [InlineData("Foo\r\npublic interface SomeBuildScript : Base\r\n{\r\n}", "SomeBuildScript", false)]
+        [InlineData("Foo\r\npublic interface BuildScript    : Base\r\n{\r\n}", "BuildScript", false)]
+        [InlineData("Foo\r\npublic partial interface BuildScript    : Base\r\n{\r\n}", "BuildScript", true)]
+        [InlineData("Foo\r\npublic   interface Deploy : Base\r\n{\r\n}", "Deploy", false)]
+        [InlineData("Foo\r\npublic interface _LameScript123 \r\n{\r\n}", "_LameScript123", false)]
+        [InlineData("Foo\r\nbooo\r\npublic interface BuildScript", "BuildScript", false)]
+        [InlineData("Foo\r\npublic interface BuildScriptpartial    : Base\r\n{\r\n}", "BuildScriptpartial", false)]
+        [InlineData("interface _LameScript123 \r\n{\r\n}", "_LameScript123", false)]
+        [InlineData("protected interface _LameScript123 \r\n{\r\n}", "_LameScript123", false)]
+        public void GetInterfaceNameFromBuildScriptCodeTest(string code, string expectedInterfaceName, bool isPartial)
+        {
+            InterfaceDirectiveProcessor pr = new InterfaceDirectiveProcessor();
+            ScriptAnalyzerResult res = new ScriptAnalyzerResult();
+            pr.Process(res, code, 1);
+            Assert.Equal(expectedInterfaceName, res.InterfaceName);
         }
 
         [Theory]

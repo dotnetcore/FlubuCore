@@ -12,6 +12,8 @@ namespace FlubuCore.Scripting.Analysis
 
         public string BaseClassName { get; set; }
 
+        public string InterfaceName { get; set; }
+
         public bool IsPartial { get; set; }
 
         public string Namespace { get; set; }
