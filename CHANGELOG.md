@@ -1,5 +1,6 @@
 ## FlubuCore 6.1.3.0-preview1
 - Fixed Interface compilation in script when interface was in a namespace
+- (Jenzy) PackageTask: Added option to DisableLogging of copied files. 
 
 ## FlubuCore 6.1.2.0
 - Fixed WaitForServiceStopTask, invalid cast.
