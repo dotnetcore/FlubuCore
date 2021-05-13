@@ -1,3 +1,6 @@
+## FlubuCore 6.1.3.0-preview1
+- Fixed Interface compilation in script when interface was in a namespace
+
 ## FlubuCore 6.1.2.0
 - Fixed WaitForServiceStopTask, invalid cast.
 
