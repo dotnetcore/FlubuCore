@@ -54,7 +54,7 @@ namespace FlubuCore.Targeting
         {
             if (_targets.ContainsKey(targetName))
             {
-                throw new ArgumentException($"Target with the name '{targetName}' already exists");
+                throw new ArgumentException($"Target with the name '{targetName}' already exists. Rename duplicated target.");
             }
 
             ITargetInternal target = new Target(this, targetName, _args);
@@ -66,7 +66,7 @@ namespace FlubuCore.Targeting
         {
             if (_targets.ContainsKey(target.TargetName))
             {
-                throw new ArgumentException($"Target with the name '{target.TargetName}' already exists");
+                throw new ArgumentException($"Target with the name '{target.TargetName}' already exists. Rename duplicated target.");
             }
 
             _targets.Add(target.TargetName, target);
