@@ -1,5 +1,10 @@
+## FlubuCore 6.1.4.0
+- Fixed load of targets from target attribute in interactive mode.
+- Adds Flubu tool type to jenkins configuration options. 
+- Improved duplicated target error message.
+
 ## FlubuCore 6.1.3.0
-- Fixed Interface compilation in script when interface was in a namespace
+- Fixed Interface compilation in script when interface was in a namespace.
 - (Jenzy) PackageTask: Added option to DisableLogging of copied files. 
 
 ## FlubuCore 6.1.2.0
