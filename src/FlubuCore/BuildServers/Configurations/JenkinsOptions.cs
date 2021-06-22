@@ -29,7 +29,15 @@ namespace FlubuCore.BuildServers.Configurations
 
         protected internal Dictionary<string, string> Environment { get; set; } = new Dictionary<string, string>();
 
+        protected internal FlubuToolType FlubuToolType { get; set; }
+
         protected internal bool RemoveBuiltInCheckoutStage { get; set; }
+
+        public JenkinsOptions SetFlubuToolType(FlubuToolType flubuToolType)
+        {
+            FlubuToolType = flubuToolType;
+            return this;
+        }
 
         public JenkinsOptions AddEnvironment(string key, string value)
         {

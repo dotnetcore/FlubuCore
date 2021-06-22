@@ -18,8 +18,21 @@ namespace FlubuCore.BuildServers.Configurations.Models.Jenkins
 
         public List<JenkinsPost> Post { get; set; }
 
+        public string FlubuCommand { get; set; }
+
         public void FromOptions(JenkinsOptions options)
         {
+            switch (options.FlubuToolType)
+            {
+                case FlubuToolType.GlobalTool:
+                    FlubuCommand = "flubu";
+                    break;
+                case FlubuToolType.LocalTool:
+                case FlubuToolType.CliTool:
+                    FlubuCommand = "dotnet flubu";
+                    break;
+            }
+
             Options = options.Options;
 
             if (options.Environment != null && options.Environment.Count != 0)
@@ -49,7 +62,7 @@ namespace FlubuCore.BuildServers.Configurations.Models.Jenkins
                 }
 
                 var command = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "bat" : "sh";
-                stage.Steps.Add($"{command} 'flubu {targetName} --nd'");
+                stage.Steps.Add($"{command} '{FlubuCommand} {targetName} --nd'");
 
                 Stages.Add(stage);
             }
