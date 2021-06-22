@@ -24,6 +24,8 @@ namespace FlubuCore.Commanding
     {
         private readonly IFlubuSession _flubuSession;
 
+        private readonly ITargetCreator _targetCreator;
+
         private readonly IScriptProperties _scriptProperties;
 
         private readonly ILogger<CommandExecutorInteractive> _log;
@@ -34,6 +36,7 @@ namespace FlubuCore.Commanding
             CommandArguments args,
             IScriptProvider scriptProvider,
             IFlubuSession flubuSession,
+            ITargetCreator targetCreator,
             IScriptProperties scriptProperties,
             ILogger<CommandExecutorInteractive> log,
             IFlubuTemplateTasksExecutor flubuTemplateTasksExecutor)
@@ -41,6 +44,7 @@ namespace FlubuCore.Commanding
         {
             _scriptProvider = scriptProvider;
             _flubuSession = flubuSession;
+            _targetCreator = targetCreator;
             _scriptProperties = scriptProperties;
             _log = log;
         }
@@ -145,6 +149,8 @@ namespace FlubuCore.Commanding
 
         protected virtual void FlubuInteractiveMode(IFlubuSession flubuSession, IBuildScript script)
          {
+             _targetCreator.CreateTargetFromMethodAttributes(script, flubuSession);
+             _scriptProperties.InjectProperties(script, flubuSession);
             flubuSession.InteractiveMode = true;
             var flubuConsole = InitializeFlubuConsole(flubuSession, script);
             flubuSession.TargetTree.ScriptArgsHelp = _scriptProperties.GetPropertiesHelp(script);
@@ -186,7 +192,6 @@ namespace FlubuCore.Commanding
 
                     flubuSession.InteractiveArgs = args;
                     flubuSession.ScriptArgs = args.ScriptArguments;
-                    _scriptProperties.InjectProperties(script, flubuSession);
 
                     if (InternalTerminalCommands.InteractiveExitAndReloadCommands.Contains(args.MainCommands[0],
                         StringComparer.OrdinalIgnoreCase))
