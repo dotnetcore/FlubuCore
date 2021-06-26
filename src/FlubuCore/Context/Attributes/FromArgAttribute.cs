@@ -11,7 +11,27 @@ namespace FlubuCore.Context
     public class FromArgAttribute : Attribute
     {
         /// <summary>
-        /// FromArg is used to pass command line arguments, settings from json configuration file or environment variables to script.
+        /// FromArg is used to pass command line arguments, settings from json configuration file or environment variables to script properties.
+        /// </summary>
+        /// <param name="argKey">The argument key.</param>
+        public FromArgAttribute(string argKey)
+        {
+            ArgKey = argKey;
+        }
+
+        /// <summary>
+        /// FromArg is used to pass command line arguments, settings from json configuration file or environment variables to script properties.
+        /// </summary>
+        /// <param name="argKey">The argument key.</param>
+        /// <param name="help">Argument help displayed in FlubuCore tool.</param>
+        public FromArgAttribute(string argKey, string help)
+        {
+            ArgKey = argKey;
+            Help = help;
+        }
+
+        /// <summary>
+        /// FromArg is used to pass command line arguments, settings from json configuration file or environment variables to script properties.
         /// </summary>
         /// <param name="argKey">The argument key.</param>
         /// <param name="help">Argument help displayed in FlubuCore tool.</param>
