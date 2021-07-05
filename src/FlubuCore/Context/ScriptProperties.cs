@@ -34,7 +34,7 @@ namespace FlubuCore.Context
             List<Hint> hints = new List<Hint>();
             foreach (var property in props)
             {
-                var attributes = property.GetCustomAttributes<FromArgAttribute>(false).ToList();
+                var attributes = property.GetCustomAttributes<FromArgAttribute>(true).ToList();
                 if (attributes.Count == 0)
                 {
                     hints.Add(new Hint { Name = $"-{property.Name}" });
@@ -67,7 +67,7 @@ namespace FlubuCore.Context
                 var type = property.PropertyType;
                 if (type.IsEnum)
                 {
-                    var attribute = property.GetCustomAttribute<FromArgAttribute>(false);
+                    var attribute = property.GetCustomAttribute<FromArgAttribute>(true);
                     string argKey = null;
 
                     if (attribute != null)
@@ -105,7 +105,7 @@ namespace FlubuCore.Context
             List<string> help = new List<string>();
             foreach (var property in props)
             {
-                var attributes = property.GetCustomAttributes<FromArgAttribute>(false).ToList();
+                var attributes = property.GetCustomAttributes<FromArgAttribute>(true).ToList();
                 foreach (var fromArgAttribute in attributes)
                 {
                     var key = $"-{fromArgAttribute.ArgKey.Replace("|", "|-")}";
@@ -142,7 +142,7 @@ namespace FlubuCore.Context
 
         private static void InjectPropertiesFromScriptArg(IBuildScript buildScript, IFlubuSession flubuSession,  PropertyInfo property)
         {
-            var attributes = property.GetCustomAttributes<FromArgAttribute>(false).ToList();
+            var attributes = property.GetCustomAttributes<FromArgAttribute>(true).ToList();
             string argKey = null;
             foreach (var fromArgAttribute in attributes)
             {

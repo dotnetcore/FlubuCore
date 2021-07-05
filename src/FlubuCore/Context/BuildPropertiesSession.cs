@@ -238,7 +238,7 @@ namespace FlubuCore.Context
 
                 foreach (var propertyInfo in props)
                 {
-                    var attr = propertyInfo.GetCustomAttribute<BuildPropertyAttribute>();
+                    var attr = propertyInfo.GetCustomAttribute<BuildPropertyAttribute>(true);
                     if (attr != null)
                     {
                         _propertyInfos.Add(attr.BuildProperty, propertyInfo);

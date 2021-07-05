@@ -22,7 +22,7 @@ namespace FlubuCore.Targeting
             var methods = buildScriptType.GetRuntimeMethods().Where(x => x.DeclaringType == buildScriptType).ToList();
             foreach (var methodInfo in methods)
             {
-                var attributes = methodInfo.GetCustomAttributes<TargetAttribute>(false).ToList();
+                var attributes = methodInfo.GetCustomAttributes<TargetAttribute>(true).ToList();
 
                 if (attributes.Count == 0)
                 {
@@ -65,7 +65,7 @@ namespace FlubuCore.Targeting
                     for (int i = 0; i < parameterInfos.Length; i++)
                     {
                         ParameterInfo parameter = parameterInfos[i];
-                        var paramAttributes = parameter.GetCustomAttributes<FromArgAttribute>(false).ToList();
+                        var paramAttributes = parameter.GetCustomAttributes<FromArgAttribute>(true).ToList();
                         foreach (var fromArgAttribute in paramAttributes)
                         {
                             if (!flubuSession.Args.ScriptArguments.ContainsKey(fromArgAttribute.ArgKey))
