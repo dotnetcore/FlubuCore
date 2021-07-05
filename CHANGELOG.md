@@ -1,3 +1,5 @@
+## FlubuCore 6.1.5.0
+
 ## FlubuCore 6.1.4.0
 - Fixed load of targets from target attribute in interactive mode.
 - Adds Flubu tool type to jenkins configuration options. 
