@@ -47,6 +47,6 @@ namespace FlubuCore.Context
 
         public string Help { get; }
 
-        public char Seperator { get; }
+        public char Seperator { get; } = ',';
     }
 }
