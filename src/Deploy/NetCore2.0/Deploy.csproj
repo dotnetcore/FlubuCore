@@ -3,6 +3,6 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>  
    <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-flubu" Version="6.1.5" />
+    <DotNetCliToolReference Include="dotnet-flubu" Version="6.1.6" />
   </ItemGroup>
 </Project>
