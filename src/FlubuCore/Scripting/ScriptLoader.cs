@@ -25,6 +25,8 @@ using TypeInfo = System.Reflection.TypeInfo;
 
 namespace FlubuCore.Scripting
 {
+    using System.Security.Cryptography;
+
     public class ScriptLoader : IScriptLoader
     {
         public static readonly string[] DefaultScriptReferencesLocations =
@@ -335,7 +337,7 @@ namespace FlubuCore.Scripting
             var reflectionAss = typeof(MethodInfo).GetTypeInfo().Assembly;
             var runtimeInteropAss = typeof(OSPlatform).GetTypeInfo().Assembly;
             var globalization = typeof(System.Globalization.CultureInfo).GetTypeInfo().Assembly;
-
+            var security = typeof(RandomNumberGenerator).Assembly;
             List<AssemblyInfo> assemblyReferenceLocations = new List<AssemblyInfo>
             {
                new AssemblyInfo
@@ -357,7 +359,8 @@ namespace FlubuCore.Scripting
                linqExpAss.ToAssemblyInfo(),
                reflectionAss.ToAssemblyInfo(),
                runtimeInteropAss.ToAssemblyInfo(),
-               globalization.ToAssemblyInfo()
+               globalization.ToAssemblyInfo(),
+               security.ToAssemblyInfo(),
             };
 
             assemblyReferenceLocations.AddReferenceByAssemblyName("System");
