@@ -25,7 +25,6 @@ using FlubuCore.Tasks.Versioning;
 using FlubuCore.Templating.Tasks;
 using FlubuCore.WebApi.Client;
 using FlubuCore.WebApi.Controllers.Attributes;
-using FlubuCore.WebApi.Repository;
 using FlubuCore.WebApi.Services;
 using LiteDB;
 using Microsoft.DotNet.Cli.Utils;
@@ -35,6 +34,12 @@ using Octokit;
 
 namespace FlubuCore.WebApi.Infrastructure
 {
+    using FlubuCore.LiteDb;
+    using FlubuCore.LiteDb.Infrastructure;
+    using FlubuCore.LiteDb.Repository;
+
+    using NuGet.Protocol.Core.Types;
+
     public static class InstallerExtensions
     {
         public static IServiceCollection AddCoreComponentsForWebApi(this IServiceCollection services,  IConfigurationRoot configuration)

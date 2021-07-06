@@ -9,7 +9,6 @@ using FlubuCore.Context;
 using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Controllers.Exceptions;
 using FlubuCore.WebApi.Model;
-using FlubuCore.WebApi.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
@@ -17,6 +16,8 @@ using Microsoft.Extensions.Options;
 
 namespace FlubuCore.WebApi.Controllers.Attributes
 {
+    using FlubuCore.LiteDb.Repository;
+
     public class ApiExceptionFilter : ExceptionFilterAttribute
     {
         private readonly ILogger<ApiExceptionFilter> _logger;

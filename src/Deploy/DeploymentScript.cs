@@ -5,21 +5,21 @@ using System.Linq;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
-using FlubuCore.WebApi;
-using FlubuCore.WebApi.Infrastructure;
-using FlubuCore.WebApi.Models;
-using FlubuCore.WebApi.Repository;
 using LiteDB;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-//#ass .\FlubuCore.WebApi\FlubuCore.WebApi.dll
-//#ass .\FlubuCore.WebApi\FlubuCore.WebApi.Model.dll
+//#ass .\FlubuCore.WebApi\FlubuCore.LiteDb.dll
 //#ass .\lib\Newtonsoft.Json.dll
 //#ass .\lib\LiteDB.dll
 
 namespace DeploymentScript
 {
+    using FlubuCore.LiteDb;
+    using FlubuCore.LiteDb.Infrastructure;
+    using FlubuCore.LiteDb.Models;
+    using FlubuCore.LiteDb.Repository;
+
     public class DeploymentScript : DefaultBuildScript
     {
         protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
@@ -55,7 +55,7 @@ namespace DeploymentScript
             bool createDb = false;
             var dbFileName = Files.GetFileNameFromConnectionString(connectionString);
             var isPathRooted = Path.IsPathRooted(dbFileName);
-
+  
             if (!config.IsUpdate)
             {
                 if (config.RecreateDatabase)

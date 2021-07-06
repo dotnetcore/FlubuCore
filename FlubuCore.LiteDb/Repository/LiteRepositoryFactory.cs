@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using LiteDB;
-
-namespace FlubuCore.WebApi.Repository
+﻿namespace FlubuCore.LiteDb.Repository
 {
+    using System.Collections.Generic;
+
+    using LiteDB;
+
     public class LiteRepositoryFactory : ILiteRepositoryFactory
     {
         private static readonly IDictionary<string, LiteDatabase> LiteDatabases = new Dictionary<string, LiteDatabase>();

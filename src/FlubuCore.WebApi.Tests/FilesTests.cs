@@ -6,6 +6,8 @@ using Xunit;
 
 namespace Flubu.Tests
 {
+    using FlubuCore.LiteDb.Infrastructure;
+
     public class FilesTests
     {
         [Theory]

@@ -337,6 +337,7 @@ namespace FlubuCore.Scripting
             var reflectionAss = typeof(MethodInfo).GetTypeInfo().Assembly;
             var runtimeInteropAss = typeof(OSPlatform).GetTypeInfo().Assembly;
             var globalization = typeof(System.Globalization.CultureInfo).GetTypeInfo().Assembly;
+            var security = typeof(RandomNumberGenerator).Assembly;
             var reflectionTypeExtensions = typeof(TypeExtensions).Assembly;
             List<AssemblyInfo> assemblyReferenceLocations = new List<AssemblyInfo>
             {
@@ -360,6 +361,7 @@ namespace FlubuCore.Scripting
                reflectionAss.ToAssemblyInfo(),
                runtimeInteropAss.ToAssemblyInfo(),
                globalization.ToAssemblyInfo(),
+               security.ToAssemblyInfo(),
                reflectionTypeExtensions.ToAssemblyInfo()
             };
 
@@ -393,7 +395,6 @@ namespace FlubuCore.Scripting
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Xml.XPath");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Xml.Serialization");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Data.Common");
-            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Security.Cryptography.Algorithms");
 #if NETSTANDARD2_0
             var systemAss = typeof(Console).GetTypeInfo().Assembly;
             assemblyReferenceLocations.Add(systemAss.ToAssemblyInfo());

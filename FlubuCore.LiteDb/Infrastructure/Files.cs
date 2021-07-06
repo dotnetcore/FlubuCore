@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace FlubuCore.WebApi.Infrastructure
+﻿namespace FlubuCore.LiteDb.Infrastructure
 {
+    using System;
+
     public static class Files
     {
         public static string GetFileNameFromConnectionString(string connectionString)

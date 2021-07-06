@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FlubuCore.WebApi.Infrastructure;
-
-namespace FlubuCore.WebApi.Repository
+﻿namespace FlubuCore.LiteDb.Repository
 {
+    using FlubuCore.LiteDb.Infrastructure;
+
     public class RepositoryFactory : IRepositoryFactory
     {
         private readonly ILiteRepositoryFactory _liteRepositoryFactory;

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace FlubuCore.WebApi.Repository.Exceptions
+﻿namespace FlubuCore.LiteDb.Repository.Exceptions
 {
+    using System;
+
     public class NotUniqueException : Exception
     {
         public NotUniqueException(string message)

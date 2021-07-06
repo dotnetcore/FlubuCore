@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using FlubuCore.Services;
-using FlubuCore.WebApi.Models;
-using FlubuCore.WebApi.Repository;
 using LiteDB;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 
 namespace FlubuCore.WebApi.Tests.ClientTests
 {
+    using FlubuCore.LiteDb;
+    using FlubuCore.LiteDb.Models;
+    using FlubuCore.LiteDb.Repository;
+
     public class ClientFixture : IDisposable
     {
         private IUserRepository _repository;

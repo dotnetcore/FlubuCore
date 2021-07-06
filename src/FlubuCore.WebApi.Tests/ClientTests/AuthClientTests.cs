@@ -8,12 +8,13 @@ using FlubuCore.Services;
 using FlubuCore.WebApi.Client;
 using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Model;
-using FlubuCore.WebApi.Models;
-using FlubuCore.WebApi.Repository;
 using Xunit;
 
 namespace FlubuCore.WebApi.Tests.ClientTests
 {
+    using FlubuCore.LiteDb;
+    using FlubuCore.LiteDb.Repository;
+
     [Collection("Client tests")]
     public class AuthClientTests : ClientBaseTests
     {

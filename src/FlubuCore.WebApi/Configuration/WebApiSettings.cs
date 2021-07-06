@@ -13,8 +13,6 @@ namespace FlubuCore.WebApi.Configuration
 
         public List<TimeFrame> TimeFrames { get; set; }
 
-        public int MaxFailedLoginAttempts { get; set; }
-
         public bool SecurityNotificationsEnabled { get; set; }
 
         public List<NotificationFilter> NotificationFilters { get; set; }

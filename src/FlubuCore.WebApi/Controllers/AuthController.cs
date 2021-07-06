@@ -11,8 +11,6 @@ using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Controllers.Attributes;
 using FlubuCore.WebApi.Controllers.Exceptions;
 using FlubuCore.WebApi.Model;
-using FlubuCore.WebApi.Models;
-using FlubuCore.WebApi.Repository;
 using FlubuCore.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -25,6 +23,10 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace FlubuCore.WebApi.Controllers
 {
+    using FlubuCore.LiteDb;
+    using FlubuCore.LiteDb.Models;
+    using FlubuCore.LiteDb.Repository;
+
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {

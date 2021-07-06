@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 using FlubuCore.Services;
 using FlubuCore.WebApi.Client;
 using FlubuCore.WebApi.Model;
-using FlubuCore.WebApi.Models;
-using FlubuCore.WebApi.Repository;
 using Xunit;
 
 namespace FlubuCore.WebApi.Tests.ClientTests

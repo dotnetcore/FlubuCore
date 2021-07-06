@@ -12,6 +12,8 @@ using Microsoft.Extensions.Options;
 
 namespace FlubuCore.WebApi.Controllers.Attributes
 {
+    using FlubuCore.LiteDb.Infrastructure;
+
     public class RestrictApiAccessFilter : ActionFilterAttribute
     {
         private readonly WebApiSettings _webApiSettings;

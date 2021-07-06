@@ -1,8 +1,8 @@
-﻿using System;
-using System.Security.Cryptography;
-
-namespace FlubuCore.WebApi
+﻿namespace FlubuCore.LiteDb
 {
+    using System;
+    using System.Security.Cryptography;
+
     public class HashService : IHashService
     {
         public const int SaltByteSize = 26;

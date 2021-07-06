@@ -12,7 +12,6 @@ using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Controllers.Attributes;
 using FlubuCore.WebApi.Controllers.Exceptions;
 using FlubuCore.WebApi.Model;
-using FlubuCore.WebApi.Repository;
 using LiteDB;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -31,6 +30,8 @@ using FileMode = System.IO.FileMode;
 
 namespace FlubuCore.WebApi.Controllers
 {
+    using FlubuCore.LiteDb.Repository;
+
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     public class ScriptsController : ControllerBase

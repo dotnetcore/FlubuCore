@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FlubuCore.WebApi.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlubuCore.WebApi.Controllers
 {
+    using FlubuCore.LiteDb.Repository;
+
     [Route("api/[controller]")]
     public class HealthCheckController : Controller
     {

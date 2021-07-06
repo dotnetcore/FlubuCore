@@ -1,4 +1,4 @@
-﻿namespace FlubuCore.WebApi
+﻿namespace FlubuCore.LiteDb
 {
     public interface IHashService
     {

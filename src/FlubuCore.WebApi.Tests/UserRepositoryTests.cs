@@ -4,12 +4,14 @@ using System.IO;
 using System.Text;
 using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Models;
-using FlubuCore.WebApi.Repository;
 using LiteDB;
 using Xunit;
 
 namespace FlubuCore.WebApi.Tests
 {
+    using FlubuCore.LiteDb.Models;
+    using FlubuCore.LiteDb.Repository;
+
     public class UserRepositoryTests : DatabaseBaseTests
     {
         private IUserRepository _userRepository;

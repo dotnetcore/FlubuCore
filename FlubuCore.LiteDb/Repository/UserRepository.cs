@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using FlubuCore.WebApi.Configuration;
-using FlubuCore.WebApi.Models;
-using FlubuCore.WebApi.Repository.Exceptions;
-using LiteDB;
-using Newtonsoft.Json;
-using FileMode = System.IO.FileMode;
-
-namespace FlubuCore.WebApi.Repository
+﻿namespace FlubuCore.LiteDb.Repository
 {
+    using System.Collections.Generic;
+
+    using FlubuCore.LiteDb.Models;
+
+    using LiteDB;
+
     public class UserRepository : IUserRepository
     {
         private readonly LiteRepository _repository;

@@ -153,3 +153,5 @@ src/Template/BuildScript/obj/
 src/Template/BuildScript/bin/
 src/Template/.vs/
 src/dotnet-flubu/dotnet-flubu.csproj.user
+FlubuCore.LiteDb/bin/
+FlubuCore.LiteDb/obj/

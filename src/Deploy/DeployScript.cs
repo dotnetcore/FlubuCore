@@ -5,18 +5,11 @@ using System.Linq;
 using System.Text;
 using FlubuCore.Context;
 using FlubuCore.Scripting;
-using FlubuCore.WebApi;
-using FlubuCore.WebApi.Infrastructure;
-using FlubuCore.WebApi.Models;
-using FlubuCore.WebApi.Repository;
 using LiteDB;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-//#ass  .\lib\netstandard.dll
 //#ass  .\lib\System.Reflection.TypeExtensions.dll
-//#ass .\FlubuCore.WebApi\FlubuCore.WebApi.exe
-//#ass .\FlubuCore.WebApi\FlubuCore.WebApi.Model.dll
 //#ass .\lib\Newtonsoft.Json.dll
 //#ass .\lib\LiteDB.dll
 //#ass .\lib\System.Security.Cryptography.Algorithms.dll
@@ -26,6 +19,11 @@ using Newtonsoft.Json.Linq;
 /// </summary>
 namespace DeploymentScript
 {
+    using FlubuCore.LiteDb;
+    using FlubuCore.LiteDb.Infrastructure;
+    using FlubuCore.LiteDb.Models;
+    using FlubuCore.LiteDb.Repository;
+
     public class DeployScript : DefaultBuildScript
     {
         protected override void ConfigureBuildProperties(IBuildPropertiesContext context)

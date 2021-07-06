@@ -24,6 +24,8 @@ using Logger = Serilog.Core.Logger;
 
 namespace FlubuCore.WebApi
 {
+    using FlubuCore.LiteDb;
+
     public class Startup
     {
         private string _secretKey;
@@ -155,6 +157,8 @@ namespace FlubuCore.WebApi
                 Configuration.GetSection(nameof(WebAppSettings)).Bind(settings));
             services.Configure<NotificationSettings>(settings =>
                 Configuration.GetSection(nameof(NotificationSettings)).Bind(settings));
+            services.Configure<LiteDbSettings>(settings =>
+                Configuration.GetSection(nameof(LiteDbSettings)).Bind(settings));
 
             var tokenValidationParameters = new TokenValidationParameters
             {

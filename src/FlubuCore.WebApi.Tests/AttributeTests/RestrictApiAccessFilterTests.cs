@@ -20,6 +20,8 @@ using Xunit;
 
 namespace FlubuCore.WebApi.Tests.AttributeTests
 {
+    using FlubuCore.LiteDb.Infrastructure;
+
     public class RestrictApiAccessFilterTests
     {
         private RestrictApiAccessFilter _filter;
