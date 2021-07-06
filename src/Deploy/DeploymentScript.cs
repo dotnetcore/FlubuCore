@@ -13,13 +13,10 @@ using LiteDB;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-//#ass  .\lib\netstandard.dll
-//#ass  .\lib\System.Reflection.TypeExtensions.dll
 //#ass .\FlubuCore.WebApi\FlubuCore.WebApi.dll
 //#ass .\FlubuCore.WebApi\FlubuCore.WebApi.Model.dll
 //#ass .\lib\Newtonsoft.Json.dll
 //#ass .\lib\LiteDB.dll
-//#ass .\lib\System.Security.Cryptography.Algorithms.dll
 
 namespace DeploymentScript
 {
@@ -27,6 +24,7 @@ namespace DeploymentScript
     {
         protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
         {
+         
         }
 
         protected override void ConfigureTargets(ITaskContext session)

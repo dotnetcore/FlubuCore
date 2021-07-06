@@ -338,6 +338,7 @@ namespace FlubuCore.Scripting
             var runtimeInteropAss = typeof(OSPlatform).GetTypeInfo().Assembly;
             var globalization = typeof(System.Globalization.CultureInfo).GetTypeInfo().Assembly;
             var security = typeof(RandomNumberGenerator).Assembly;
+            var reflectionTypeExtensions = typeof(TypeExtensions).Assembly;
             List<AssemblyInfo> assemblyReferenceLocations = new List<AssemblyInfo>
             {
                new AssemblyInfo
@@ -361,6 +362,7 @@ namespace FlubuCore.Scripting
                runtimeInteropAss.ToAssemblyInfo(),
                globalization.ToAssemblyInfo(),
                security.ToAssemblyInfo(),
+               reflectionTypeExtensions.ToAssemblyInfo()
             };
 
             assemblyReferenceLocations.AddReferenceByAssemblyName("System");
