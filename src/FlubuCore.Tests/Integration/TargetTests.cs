@@ -220,7 +220,7 @@ namespace FlubuCore.Tests.Integration
             await target1.ExecuteVoidAsync(Context);
             sw.Stop();
 
-            Assert.True(sw.ElapsedMilliseconds > 2999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds > 2979, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
             Assert.True(sw.ElapsedMilliseconds < 5999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
