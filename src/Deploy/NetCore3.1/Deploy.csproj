@@ -3,6 +3,6 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>  
    <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-flubu" Version="5.1.1" />
+    <DotNetCliToolReference Include="dotnet-flubu" Version="6.1.5" />
   </ItemGroup>
 </Project>
