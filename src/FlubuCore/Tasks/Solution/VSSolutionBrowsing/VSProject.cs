@@ -185,6 +185,34 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
             }
         }
 
+        public ProjectType ProjectType
+        {
+            get
+            {
+                if (ProjectDetails == null || string.IsNullOrEmpty(ProjectDetails.ProjectSdk))
+                {
+                    return ProjectType.Unknown;
+                }
+
+                if (ProjectDetails.ProjectSdk.Equals("Microsoft.NET.Sdk", StringComparison.OrdinalIgnoreCase))
+                {
+                    return ProjectType.LibraryOrConsoleApp;
+                }
+
+                if (ProjectDetails.ProjectSdk.Equals("Microsoft.NET.Sdk.Web", StringComparison.OrdinalIgnoreCase))
+                {
+                    return ProjectType.WebApp;
+                }
+
+                if (ProjectDetails.ProjectSdk.Equals("Microsoft.NET.Sdk.Worker", StringComparison.OrdinalIgnoreCase))
+                {
+                    return ProjectType.Service;
+                }
+
+                return ProjectType.Unknown;
+            }
+        }
+
         /// <summary>
         /// Gets the output path for a specified VisualStudio project. The output path is relative
         /// to the directory where the project file is located.

@@ -1,3 +1,6 @@
+## FlubuCore 6.2.0.0-preview1
+- Added project type to vs solution/project browsing
+
 ## FlubuCore 6.1.6.0
 
 ## FlubuCore 6.1.4.0

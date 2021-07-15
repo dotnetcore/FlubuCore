@@ -36,6 +36,8 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
         /// <value>A read-only collection of project properties.</value>
         public IDictionary<string, string> Properties => _properties;
 
+        public string ProjectSdk { get; set; }
+
         public bool IsNetCoreProjectType { get; private set; }
 
         /// <summary>
@@ -148,6 +150,7 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
             if (!string.IsNullOrEmpty(sdk))
             {
                 IsNetCoreProjectType = true;
+                ProjectSdk = sdk;
             }
 
             xmlReader.Read();

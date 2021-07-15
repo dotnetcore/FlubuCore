@@ -9,6 +9,8 @@ using GlobExpressions;
 
 namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
 {
+    using System.Linq;
+
     /// <summary>
     /// Represents a VisualStudio solution.
     /// </summary>
@@ -184,6 +186,11 @@ namespace FlubuCore.Tasks.Solution.VSSolutionBrowsing
             }
 
             throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Project {0} not found.", projectName));
+        }
+
+        public List<VSProject> FindProjectsByProjectType(ProjectType projectType)
+        {
+            return _projects.Where(x => x.ProjectType == projectType).ToList();
         }
 
         /// <summary>
