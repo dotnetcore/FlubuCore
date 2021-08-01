@@ -150,6 +150,7 @@ namespace FlubuCore.Commanding
         protected virtual void FlubuInteractiveMode(IFlubuSession flubuSession, IBuildScript script)
          {
              _targetCreator.CreateTargetFromMethodAttributes(script, flubuSession);
+             BuildPropertiesSession.ResetPropertyInfos();
              _scriptProperties.InjectProperties(script, flubuSession);
             flubuSession.InteractiveMode = true;
             var flubuConsole = InitializeFlubuConsole(flubuSession, script);

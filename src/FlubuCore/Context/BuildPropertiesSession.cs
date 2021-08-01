@@ -222,6 +222,11 @@ namespace FlubuCore.Context
             _properties.Remove(propertyName);
         }
 
+        internal static void ResetPropertyInfos()
+        {
+            _propertyInfos = null;
+        }
+
         private void InitializePropertyInfos()
         {
             if (_propertyInfos != null)
