@@ -46,8 +46,7 @@ namespace FlubuCore.WebApi.Tests.AttributeTests
         public async Task EmailNotificationDisabled()
         {
             _webApiSettings.SecurityNotificationsEnabled = false;
-            _filter = new EmailNotificationFilterImpl(_notificationService.Object, _webApiOptions.Object,
-                new NotificationFilter[0]);
+            _filter = new EmailNotificationFilterImpl(new NotificationFilter[0], _notificationService.Object, _webApiOptions.Object);
             await _filter.OnActionExecutionAsync(_context, Target);
 
             _notificationService.VerifyAll();
@@ -58,8 +57,7 @@ namespace FlubuCore.WebApi.Tests.AttributeTests
         {
             _webApiSettings.SecurityNotificationsEnabled = true;
             _webApiSettings.NotificationFilters = new List<NotificationFilter>() { NotificationFilter.ExecuteScript };
-            _filter = new EmailNotificationFilterImpl(_notificationService.Object, _webApiOptions.Object,
-                new[] { NotificationFilter.FailedGetToken });
+            _filter = new EmailNotificationFilterImpl(new[] { NotificationFilter.FailedGetToken }, _notificationService.Object, _webApiOptions.Object);
             await _filter.OnActionExecutionAsync(_context, Target);
 
             _notificationService.VerifyAll();
@@ -70,8 +68,7 @@ namespace FlubuCore.WebApi.Tests.AttributeTests
         {
             _webApiSettings.SecurityNotificationsEnabled = true;
             _webApiSettings.NotificationFilters = null;
-            _filter = new EmailNotificationFilterImpl(_notificationService.Object, _webApiOptions.Object,
-                new[] { NotificationFilter.ExecuteScript });
+            _filter = new EmailNotificationFilterImpl(new[] { NotificationFilter.ExecuteScript }, _notificationService.Object, _webApiOptions.Object);
             _notificationService.Setup(x => x.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask);
 
             await _filter.OnActionExecutionAsync(_context, Target);
@@ -84,8 +81,7 @@ namespace FlubuCore.WebApi.Tests.AttributeTests
         {
             _webApiSettings.SecurityNotificationsEnabled = true;
             _webApiSettings.NotificationFilters = new List<NotificationFilter>();
-            _filter = new EmailNotificationFilterImpl(_notificationService.Object, _webApiOptions.Object,
-                new[] { NotificationFilter.ExecuteScript });
+            _filter = new EmailNotificationFilterImpl(new[] { NotificationFilter.ExecuteScript }, _notificationService.Object, _webApiOptions.Object);
             _notificationService.Setup(x => x.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask);
 
             await _filter.OnActionExecutionAsync(_context, Target);
@@ -98,8 +94,7 @@ namespace FlubuCore.WebApi.Tests.AttributeTests
         {
             _webApiSettings.SecurityNotificationsEnabled = true;
             _webApiSettings.NotificationFilters = new List<NotificationFilter>() { NotificationFilter.ExecuteScript, NotificationFilter.GetToken };
-            _filter = new EmailNotificationFilterImpl(_notificationService.Object, _webApiOptions.Object,
-                new[] { NotificationFilter.ExecuteScript });
+            _filter = new EmailNotificationFilterImpl(new[] { NotificationFilter.ExecuteScript }, _notificationService.Object, _webApiOptions.Object);
             _notificationService.Setup(x => x.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask);
 
             await _filter.OnActionExecutionAsync(_context, Target);
