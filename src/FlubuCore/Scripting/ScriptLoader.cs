@@ -492,12 +492,20 @@ namespace FlubuCore.Scripting
 
                     namespaces.Add(additionalCodeAnalyzerResult.Namespace);
 
-                    var usings = additionalCode.Where(x => x.StartsWith("using"));
-
+                    var usings = additionalCode.Where(
+                        x =>
+                            {
+                                x = x.TrimStart();
+                                return x.StartsWith("using");
+                            });
                     analyzerResult.AssemblyReferences.AddRange(additionalCodeAnalyzerResult.AssemblyReferences);
 
                     code.InsertRange(1, usings);
-                    code.AddRange(additionalCode.Where(x => !x.StartsWith("using")));
+                    code.AddRange(additionalCode.Where(x =>
+                        {
+                            x = x.TrimStart();
+                            return !x.StartsWith("using");
+                        }));
                 }
                 else
                 {
