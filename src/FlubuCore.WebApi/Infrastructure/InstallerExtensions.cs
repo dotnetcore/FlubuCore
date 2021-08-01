@@ -62,6 +62,7 @@ namespace FlubuCore.WebApi.Infrastructure
                 .AddScoped<IFlubuSession, FlubuSession>()
                 .AddScoped<ICommandFactory, CommandFactory>()
                 .AddSingleton<IScriptServiceProvider, ScriptServiceProvider>()
+                .AddSingleton<IWebApiClientFactory, WebApiClientFactory>()
                 .AddScoped<CommandArguments, CommandArguments>()
                 .AddSingleton<IFlubuTemplateTaskFactory, FlubuTemplateTaskFactory>()
                 .AddSingleton<IFlubuTemplateTasksExecutor, FlubuTemplateTasksExecutor>();
@@ -76,12 +77,11 @@ namespace FlubuCore.WebApi.Infrastructure
             services.AddSingleton(db);
             services.AddScoped<ApiExceptionFilter>();
             services.AddScoped<ValidateRequestModelAttribute>();
-            services.AddScoped<EmailNotificationFilter>();
             services.AddScoped<RestrictApiAccessFilter>();
             services.AddTransient<IHashService, HashService>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ISecurityRepository, SecurityRepository>();
-            services.AddTransient<INotificationService, NotificationService>();
+            services.AddScoped<INotificationService, NotificationService>();
             services.AddTransient<INugetPackageResolver, NugetPackageResolver>();
             services.AddTransient<ITargetExtractor, TargetExtractor>();
 

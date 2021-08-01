@@ -20,7 +20,7 @@ namespace FlubuCore.WebApi.Controllers.Attributes
         }
     }
 
-    public class EmailNotificationFilterImpl : ActionFilterAttribute
+    public class EmailNotificationFilterImpl : IAsyncActionFilter
     {
         private readonly INotificationService _notificationService;
 
@@ -28,14 +28,14 @@ namespace FlubuCore.WebApi.Controllers.Attributes
 
         private readonly List<NotificationFilter> _notificationFilters;
 
-        public EmailNotificationFilterImpl(INotificationService notificationService, IOptions<WebApiSettings> webApiOptions, NotificationFilter[] notificationFilters)
+        public EmailNotificationFilterImpl(NotificationFilter[] notificationFilters, INotificationService notificationService, IOptions<WebApiSettings> webApiOptions)
         {
             _notificationService = notificationService;
             _webApiSettings = webApiOptions.Value;
             _notificationFilters = notificationFilters.ToList();
         }
 
-        public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             if (!_webApiSettings.SecurityNotificationsEnabled)
             {
