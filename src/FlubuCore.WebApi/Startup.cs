@@ -69,7 +69,7 @@ namespace FlubuCore.WebApi
                 .AddTasksForWebApi();
 
             ConfigureAuthenticationServices(services);
-#if !NETCOREAPP3_1
+#if !NETCOREAPP3_1 && !NET5_0
             ConfigureSwagger(services);
  #endif
         }
@@ -85,15 +85,27 @@ namespace FlubuCore.WebApi
             loggerFactory.AddFile("Logs/Flubu-{Date}.txt");
             app.UseDeveloperExceptionPage();
             app.UseAuthentication();
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
             app.UseStaticFiles();
-#if !NETCOREAPP3_1
+
+#if !NET5_0
+            app.UseMvc(routes =>
+                {
+                    routes.MapRoute(
+                        name: "default",
+                        template: "{controller=Home}/{action=Index}/{id?}");
+                });
+#else
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
+#endif
+
+#if !NETCOREAPP3_1 && !NET5_0
             app.UseSwagger(c =>
             {
                 c.PreSerializeFilters.Add((swagger, httpReq) => swagger.Host = httpReq.Host.Value);

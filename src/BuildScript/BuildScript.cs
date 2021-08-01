@@ -71,6 +71,7 @@ public class  BuildScript : DefaultBuildScript
             .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("netcoreapp2.1"))
             .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("netcoreapp2.0"))
             .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("netcoreapp3.1"))
+            .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("net5.0"))
             .AddCoreTask(x => x.Publish("FlubuCore.WebApi").Framework("net462").AddRuntime(Runtime.Win7X64));
         
 
@@ -374,6 +375,36 @@ public class  BuildScript : DefaultBuildScript
                 .AddFileToPackage(@"packages\System.Security.Cryptography.Algorithms.dll", "lib")
                 .AddFileToPackage(@"packages\netstandard.dll", "lib")
                 .DisableLogging()
-                .ZipPackage("FlubuCore.WebApi-NetCoreApp3.1-WindowsInstaller", true));
+                .ZipPackage("FlubuCore.WebApi-NetCoreApp3.1-WindowsInstaller", true))
+              .AddTask(x => x.PackageTask(Output.CombineWith("WebApiPackages\\Net5.0\\Linux"))
+                .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\net5.0\publish", "FlubuCore.WebApi", true)
+                .AddDirectoryToPackage(@"FlubuCore.WebApi.Updater\bin\Release\netcoreapp2.0", "FlubuCore.WebApi", true)
+                .AddFileToPackage("Deploy\\DeploymentScript.cs", "")
+                .AddFileToPackage("Deploy\\DeploymentConfig.json", "")
+                .AddFileToPackage("Deploy\\NetCore3.1\\Deploy.csproj", "")
+                .AddFileToPackage("Deploy\\Deploy.bat", "")
+                .AddFileToPackage(@"packages\Newtonsoft.Json\12.0.3\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
+                .AddFileToPackage(@"packages\litedb\5.0.8\lib\netstandard2.0\LiteDB.dll", "lib")
+                .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
+                .AddFileToPackage(@"packages\System.Security.Cryptography.Algorithms.dll", "lib")
+                .AddFileToPackage(@"packages\netstandard.dll", "lib")
+                .DisableLogging()
+                .ZipPackage("FlubuCore.WebApi-Net5.0-LinuxMacInstaller", true))
+            .AddTask(x => x.PackageTask(Output.CombineWith("WebApiPackages\\Net5.0\\Windows"))
+                .AddDirectoryToPackage(@"FlubuCore.WebApi\bin\Release\net5.0\publish", "FlubuCore.WebApi", true)
+                .AddDirectoryToPackage(@"FlubuCore.WebApi.Updater\bin\Release\netcoreapp2.0", "FlubuCore.WebApi", true)
+                .AddFileToPackage("Deploy\\DeploymentScript.cs", "")
+                .AddFileToPackage("Deploy\\DeploymentConfig.json", "")
+                .AddFileToPackage("output\\flubu.exe", "")
+                .AddFileToPackage("output\\flubu.exe.config", "")
+                .AddFileToPackage("output\\FlubuCore.dll", "")
+                .AddFileToPackage(@"packages\Newtonsoft.Json\12.0.3\lib\netstandard1.3\Newtonsoft.Json.dll", "lib")
+                .AddFileToPackage(@"packages\litedb\5.0.8\\lib\netstandard2.0\LiteDB.dll", "lib")
+                .AddFileToPackage(@"packages\litedb\5.0.8\\lib\netstandard2.0\LiteDB.dll", "")
+                .AddFileToPackage(@"packages\System.Reflection.TypeExtensions.dll", "lib")
+                .AddFileToPackage(@"packages\System.Security.Cryptography.Algorithms.dll", "lib")
+                .AddFileToPackage(@"packages\netstandard.dll", "lib")
+                .DisableLogging()
+                .ZipPackage("FlubuCore.WebApi-Net5.0-WindowsInstaller", true));
     }
 }
