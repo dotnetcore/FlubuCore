@@ -166,7 +166,25 @@ namespace FlubuCore.Scripting
                 }
             }
 
-            foreach (var csFile in scriptAnalyzerResult.CsFiles)
+            List<string> csFiles = new List<string>();
+            foreach (var csDirectory in scriptAnalyzerResult.CsDirectories)
+            {
+                if (Directory.Exists(csDirectory.Item1.path))
+                {
+                    var searchOption = csDirectory.Item1.includeSubDirectories
+                                           ? SearchOption.AllDirectories
+                                           : SearchOption.TopDirectoryOnly;
+
+                    csFiles.AddRange(Directory.GetFiles(csDirectory.Item1.path, "*.cs", searchOption));
+                }
+                else
+                {
+                    _log.LogInformation($"Directory not found: '{csDirectory.Item1.path}'.");
+                }
+            }
+
+            csFiles.AddRange(scriptAnalyzerResult.CsFiles);
+            foreach (var csFile in csFiles)
             {
                 if (File.Exists(csFile))
                 {
@@ -458,7 +476,6 @@ namespace FlubuCore.Scripting
                 }
             }
 
-            csFiles.AddRange(analyzerResult.CsFiles);
             List<string> namespaces = new List<string>();
             foreach (var file in csFiles)
             {
