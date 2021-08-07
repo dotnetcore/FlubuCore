@@ -476,6 +476,7 @@ namespace FlubuCore.Scripting
                 }
             }
 
+            csFiles.AddRange(analyzerResult.CsFiles);
             List<string> namespaces = new List<string>();
             foreach (var file in csFiles)
             {
