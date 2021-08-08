@@ -124,8 +124,19 @@ namespace FlubuCore.Tasks.Packaging
         }
 
         /// <summary>
+        /// Adds Group of directories and files to package.
+        /// </summary>
+        /// <param name="package"></param>
+        /// <returns></returns>
+        public PackageTask Add(PackageBuilder package)
+        {
+            _sourcePackagingInfos.AddRange(package.SourcePackagingInfo);
+            return this;
+        }
+
+        /// <summary>
         /// If <c>true</c> zip is optimized by removing duplicated files. When unzipped those files are copied to original locations.
-        /// For unzipping Unzip task has to be used.
+        /// For unzipping Unzip task has to be used otherwise duplicated files are lost.
         /// </summary>
         /// <returns></returns>
         public PackageTask OptimizeZip()
