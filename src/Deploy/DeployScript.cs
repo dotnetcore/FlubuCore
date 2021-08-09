@@ -27,10 +27,6 @@ namespace DeploymentScript
 
     public class DeployScript : DefaultBuildScript
     {
-        protected override void ConfigureBuildProperties(IBuildPropertiesContext context)
-        {
-        }
-
         protected override void ConfigureTargets(ITaskContext session)
         {
             session.CreateTarget("Deploy")
@@ -173,10 +169,7 @@ namespace DeploymentScript
             {
                 throw new ArgumentException("DeploymentPath is not a legal path. Did you use double '\\'?");
             }
-else
-            {
 
-            }
 
             if (config.IsUpdate)
             {
