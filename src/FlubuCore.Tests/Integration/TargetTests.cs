@@ -85,7 +85,7 @@ namespace FlubuCore.Tests.Integration
             sw.Stop();
 
             var elapsed = sw.Elapsed;
-            Assert.True(sw.ElapsedMilliseconds >= 2900, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds >= 2990, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
             Assert.True(sw.ElapsedMilliseconds < 5999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
@@ -124,7 +124,7 @@ namespace FlubuCore.Tests.Integration
             await target1.ExecuteVoidAsync(Context);
             sw.Stop();
 
-            Assert.True(sw.ElapsedMilliseconds > 5999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds > 5990, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
             Assert.True(sw.ElapsedMilliseconds < 8999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
@@ -145,7 +145,7 @@ namespace FlubuCore.Tests.Integration
             await target1.ExecuteVoidAsync(Context);
             sw.Stop();
 
-            Assert.True(sw.ElapsedMilliseconds > 8999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
+            Assert.True(sw.ElapsedMilliseconds > 8990, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
             Assert.True(sw.ElapsedMilliseconds < 11999, $"Task took to complete {sw.ElapsedMilliseconds} miliseconds");
         }
 
