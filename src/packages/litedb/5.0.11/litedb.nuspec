@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>LiteDB</id>
+    <version>5.0.11</version>
+    <title>LiteDB</title>
+    <authors>Maurício David</authors>
+    <owners>Maurício David</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="file">LICENSE</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <icon>icon_64x64.png</icon>
+    <projectUrl>https://www.litedb.org/</projectUrl>
+    <description>LiteDB - A lightweight embedded .NET NoSQL document store in a single datafile
+Signed by signpath.io from repository 'https://github.com/mbdavid/LiteDB' commit '6520f09deb4a03ac3590bb7ae5609cad1616bf3e' (see contained AppVeyorSettings.json file for build settings).</description>
+    <copyright>MIT</copyright>
+    <tags>database nosql embedded</tags>
+    <repository type="git" url="https://github.com/mbdavid/LiteDB" branch="master" commit="6520f09deb4a03ac3590bb7ae5609cad1616bf3e" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.5" />
+      <group targetFramework=".NETStandard1.3">
+        <dependency id="NETStandard.Library" version="1.6.1" exclude="Build,Analyzers" />
+        <dependency id="System.Reflection.TypeExtensions" version="4.5.1" exclude="Build,Analyzers" />
+        <dependency id="System.Security.Cryptography.Algorithms" version="4.3.1" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System" targetFramework=".NETFramework4.5" />
+      <frameworkAssembly assemblyName="System.Runtime" targetFramework=".NETFramework4.5" />
+    </frameworkAssemblies>
+  </metadata>
+</package>

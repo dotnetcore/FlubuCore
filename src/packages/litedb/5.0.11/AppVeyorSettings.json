@@ -1,0 +1,433 @@
+{
+  "project": {
+    "projectId": 216651,
+    "accountId": 43558,
+    "accountName": "mbdavid",
+    "builds": [],
+    "name": "LiteDB",
+    "slug": "litedb",
+    "repositoryType": "gitHub",
+    "repositoryScm": "git",
+    "repositoryName": "mbdavid/LiteDB",
+    "isPrivate": false,
+    "isGitHubApp": false,
+    "skipBranchesWithoutAppveyorYml": false,
+    "enableSecureVariablesInPullRequests": false,
+    "enableSecureVariablesInPullRequestsFromSameRepo": false,
+    "enableDeploymentInPullRequests": false,
+    "saveBuildCacheInPullRequests": false,
+    "rollingBuilds": false,
+    "rollingBuildsDoNotCancelRunningBuilds": false,
+    "rollingBuildsOnlyForPullRequests": false,
+    "alwaysBuildClosedPullRequests": false,
+    "tags": "",
+    "securityDescriptor": {
+      "accessRightDefinitions": [
+        {
+          "name": "View",
+          "description": "View"
+        },
+        {
+          "name": "RunBuild",
+          "description": "Run build"
+        },
+        {
+          "name": "Update",
+          "description": "Update settings"
+        },
+        {
+          "name": "Delete",
+          "description": "Delete project"
+        }
+      ],
+      "roleAces": [
+        {
+          "roleId": 74746,
+          "name": "Administrator",
+          "isAdmin": true,
+          "accessRights": [
+            {
+              "name": "View",
+              "allowed": true
+            },
+            {
+              "name": "RunBuild",
+              "allowed": true
+            },
+            {
+              "name": "Update",
+              "allowed": true
+            },
+            {
+              "name": "Delete",
+              "allowed": true
+            }
+          ]
+        },
+        {
+          "roleId": 74747,
+          "name": "User",
+          "isAdmin": false,
+          "accessRights": [
+            {
+              "name": "View"
+            },
+            {
+              "name": "RunBuild"
+            },
+            {
+              "name": "Update"
+            },
+            {
+              "name": "Delete"
+            }
+          ]
+        }
+      ]
+    },
+    "disablePushWebhooks": false,
+    "disablePullRequestWebhooks": false,
+    "created": "2016-07-14T22:57:53.7825897+00:00",
+    "updated": "2019-10-31T13:49:13.3778374+00:00"
+  },
+  "settings": {
+    "projectId": 216651,
+    "accountId": 43558,
+    "accountName": "mbdavid",
+    "builds": [],
+    "name": "LiteDB",
+    "slug": "litedb",
+    "versionFormat": "5.0.{build}",
+    "nextBuildNumber": 597,
+    "repositoryType": "gitHub",
+    "repositoryScm": "git",
+    "repositoryName": "mbdavid/LiteDB",
+    "repositoryBranch": "master",
+    "webhookId": "sfe8he0vik18m033",
+    "webhookUrl": "https://ci.appveyor.com/api/github/webhook?id=sfe8he0vik18m033",
+    "statusBadgeId": "sfe8he0vik18m033",
+    "isPrivate": false,
+    "isGitHubApp": false,
+    "ignoreAppveyorYml": false,
+    "skipBranchesWithoutAppveyorYml": false,
+    "enableSecureVariablesInPullRequests": false,
+    "enableSecureVariablesInPullRequestsFromSameRepo": false,
+    "enableDeploymentInPullRequests": false,
+    "saveBuildCacheInPullRequests": false,
+    "rollingBuilds": false,
+    "rollingBuildsDoNotCancelRunningBuilds": false,
+    "rollingBuildsOnlyForPullRequests": false,
+    "alwaysBuildClosedPullRequests": false,
+    "configuration": {
+      "isBaseConfig": false,
+      "doNotIncrementBuildNumberOnPullRequests": false,
+      "hotFixScripts": [],
+      "initScripts": [],
+      "branchesMode": "include",
+      "includeBranches": [
+        {
+          "value": "master"
+        }
+      ],
+      "excludeBranches": [],
+      "skipTags": false,
+      "skipNonTags": false,
+      "skipBranchWithPullRequests": false,
+      "skipCommitsFiles": [],
+      "onlyCommitsFiles": [],
+      "cloneScripts": [],
+      "onBuildSuccessScripts": [],
+      "onBuildErrorScripts": [],
+      "onBuildFinishScripts": [],
+      "patchAssemblyInfo": false,
+      "assemblyInfoFile": "**\\AssemblyInfo.*",
+      "assemblyVersionFormat": "{version}",
+      "assemblyFileVersionFormat": "{version}",
+      "assemblyInformationalVersionFormat": "{version}",
+      "patchDotnetCsproj": false,
+      "dotnetCsprojFile": "**\\*.csproj",
+      "dotnetCsprojVersionFormat": "{version}",
+      "dotnetCsprojVersionPrefixFormat": "{version}",
+      "dotnetCsprojPackageVersionFormat": "{version}",
+      "dotnetCsprojAssemblyVersionFormat": "{version}",
+      "dotnetCsprojFileVersionFormat": "{version}",
+      "dotnetCsprojInformationalVersionFormat": "{version}",
+      "buildCloud": [],
+      "operatingSystem": [
+        {
+          "value": "Visual Studio 2019"
+        }
+      ],
+      "services": [],
+      "stacks": [],
+      "shallowClone": false,
+      "forceHttpsClone": false,
+      "environmentVariables": [],
+      "environmentVariablesMatrix": [],
+      "installScripts": [],
+      "hostsEntries": [],
+      "cacheEntries": [],
+      "configureNuGetProjectSource": false,
+      "configureNuGetAccountSource": false,
+      "disableNuGetPublishOnPullRequests": false,
+      "disableNuGetPublishForOctopusPackages": false,
+      "buildMode": "msbuild",
+      "platform": [],
+      "configuration": [],
+      "msBuildProjectFileName": "LiteDB.sln",
+      "packageWebApplicationProjects": false,
+      "packageWebApplicationProjectsXCopy": false,
+      "packageWebApplicationProjectsBeanstalk": false,
+      "packageWebApplicationProjectsOctopus": false,
+      "packageAzureWebJobProjects": false,
+      "packageAzureCloudServiceProjects": false,
+      "packageNuGetProjects": true,
+      "packageNuGetSymbols": false,
+      "useSnupkgFormat": false,
+      "packageAspNetCoreProjects": false,
+      "packageDotnetConsoleProjects": true,
+      "includeNuGetReferences": false,
+      "msBuildInParallel": false,
+      "msBuildVerbosity": "minimal",
+      "buildScripts": [],
+      "beforeBuildScripts": [],
+      "beforePackageScripts": [],
+      "afterBuildScripts": [],
+      "testMode": "auto",
+      "testAssemblies": [],
+      "testCategories": [],
+      "testCategoriesMatrix": [],
+      "testScripts": [],
+      "beforeTestScripts": [],
+      "afterTestScripts": [],
+      "deployMode": "providers",
+      "deployments": [],
+      "deployScripts": [],
+      "beforeDeployScripts": [],
+      "afterDeployScripts": [],
+      "onImageBakeScripts": [],
+      "xamarinRegisterAndroidProduct": false,
+      "xamarinRegisterIosProduct": false,
+      "matrixFastFinish": false,
+      "matrixAllowFailures": [],
+      "matrixExclude": [],
+      "matrixOnly": [],
+      "matrixExcept": [],
+      "artifacts": [],
+      "notifications": []
+    },
+    "tags": "",
+    "nuGetFeed": {
+      "nuGetFeedId": 222671,
+      "id": "litedb-3m20urarh6qf",
+      "name": "Project LiteDB",
+      "accountId": 43558,
+      "projectId": 216651,
+      "isPrivateProject": false,
+      "apiKey": "oe85h8kaux0n91wtlk8miaaw",
+      "publishingEnabled": false,
+      "created": "2016-07-14T22:57:58.7044535+00:00",
+      "updated": "2020-01-21T09:24:50.6912492+00:00"
+    },
+    "securityDescriptor": {
+      "accessRightDefinitions": [
+        {
+          "name": "View",
+          "description": "View"
+        },
+        {
+          "name": "RunBuild",
+          "description": "Run build"
+        },
+        {
+          "name": "Update",
+          "description": "Update settings"
+        },
+        {
+          "name": "Delete",
+          "description": "Delete project"
+        }
+      ],
+      "roleAces": [
+        {
+          "roleId": 74746,
+          "name": "Administrator",
+          "isAdmin": true,
+          "accessRights": [
+            {
+              "name": "View",
+              "allowed": true
+            },
+            {
+              "name": "RunBuild",
+              "allowed": true
+            },
+            {
+              "name": "Update",
+              "allowed": true
+            },
+            {
+              "name": "Delete",
+              "allowed": true
+            }
+          ]
+        },
+        {
+          "roleId": 74747,
+          "name": "User",
+          "isAdmin": false,
+          "accessRights": [
+            {
+              "name": "View"
+            },
+            {
+              "name": "RunBuild"
+            },
+            {
+              "name": "Update"
+            },
+            {
+              "name": "Delete"
+            }
+          ]
+        }
+      ]
+    },
+    "disablePushWebhooks": false,
+    "disablePullRequestWebhooks": false,
+    "created": "2016-07-14T22:57:53.7825897+00:00",
+    "updated": "2019-10-31T13:49:13.3778374+00:00"
+  },
+  "images": [
+    {
+      "buildWorkerImageId": 1355,
+      "name": "Previous macos",
+      "osType": "MacOS"
+    },
+    {
+      "buildWorkerImageId": 1354,
+      "name": "Previous macos-mojave",
+      "osType": "MacOS"
+    },
+    {
+      "buildWorkerImageId": 1642,
+      "name": "Previous Ubuntu2004",
+      "buildCloudName": "pro-ubuntu",
+      "osType": "Linux"
+    },
+    {
+      "buildWorkerImageId": 1641,
+      "name": "Ubuntu2004",
+      "buildCloudName": "pro-ubuntu",
+      "osType": "Linux"
+    },
+    {
+      "buildWorkerImageId": 886,
+      "name": "Visual Studio 2019",
+      "buildCloudName": "pro-vs2019;pro-ubuntu;azure-westus",
+      "osType": "Windows"
+    },
+    {
+      "buildWorkerImageId": 362,
+      "name": "Visual Studio 2017",
+      "buildCloudName": "pro-vs2017",
+      "osType": "Windows"
+    },
+    {
+      "buildWorkerImageId": 34,
+      "name": "Visual Studio 2015",
+      "osType": "Windows"
+    },
+    {
+      "buildWorkerImageId": 38,
+      "name": "Visual Studio 2013",
+      "buildCloudName": "pro-ubuntu",
+      "osType": "Windows"
+    },
+    {
+      "buildWorkerImageId": 964,
+      "name": "Previous Visual Studio 2019",
+      "buildCloudName": "pro-vs2019",
+      "osType": "Windows"
+    },
+    {
+      "buildWorkerImageId": 368,
+      "name": "Previous Visual Studio 2017",
+      "buildCloudName": "pro-vs2017",
+      "osType": "Windows"
+    },
+    {
+      "buildWorkerImageId": 36,
+      "name": "Previous Visual Studio 2015",
+      "osType": "Windows"
+    },
+    {
+      "buildWorkerImageId": 39,
+      "name": "Previous Visual Studio 2013",
+      "buildCloudName": "pro-ubuntu",
+      "osType": "Windows"
+    },
+    {
+      "buildWorkerImageId": 639,
+      "name": "Ubuntu",
+      "buildCloudName": "pro-ubuntu",
+      "osType": "Linux"
+    },
+    {
+      "buildWorkerImageId": 649,
+      "name": "Ubuntu1804",
+      "buildCloudName": "pro-ubuntu",
+      "osType": "Linux"
+    },
+    {
+      "buildWorkerImageId": 650,
+      "name": "Ubuntu1604",
+      "buildCloudName": "pro-ubuntu",
+      "osType": "Linux"
+    },
+    {
+      "buildWorkerImageId": 640,
+      "name": "Previous Ubuntu",
+      "buildCloudName": "pro-ubuntu",
+      "osType": "Linux"
+    },
+    {
+      "buildWorkerImageId": 674,
+      "name": "Previous Ubuntu1804",
+      "buildCloudName": "pro-ubuntu",
+      "osType": "Linux"
+    },
+    {
+      "buildWorkerImageId": 673,
+      "name": "Previous Ubuntu1604",
+      "buildCloudName": "pro-ubuntu",
+      "osType": "Linux"
+    },
+    {
+      "buildWorkerImageId": 1217,
+      "name": "macOS",
+      "buildCloudName": "macos-pro",
+      "osType": "MacOS"
+    },
+    {
+      "buildWorkerImageId": 1218,
+      "name": "macOS-Mojave",
+      "buildCloudName": "macos-pro",
+      "osType": "MacOS"
+    },
+    {
+      "buildWorkerImageId": 735,
+      "name": "Visual Studio 2019 Preview",
+      "buildCloudName": "pro-vs2019;azure-westus",
+      "osType": "Windows"
+    },
+    {
+      "buildWorkerImageId": 40,
+      "name": "WMF 5",
+      "buildCloudName": "gce",
+      "osType": "Windows"
+    }
+  ],
+  "buildClouds": [],
+  "defaultImageName": "Visual Studio 2015"
+}
