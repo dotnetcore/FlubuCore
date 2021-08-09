@@ -436,7 +436,7 @@ namespace FlubuCore.Scripting
             var linqAss = typeof(ILookup<string, string>).GetTypeInfo().Assembly;
             var linqExpAss = typeof(Expression).GetTypeInfo().Assembly;
             var runtimeInteropAss = typeof(OSPlatform).GetTypeInfo().Assembly;
-        
+
             List<AssemblyInfo> assemblyReferenceLocations = new List<AssemblyInfo>
             {
                 new AssemblyInfo
