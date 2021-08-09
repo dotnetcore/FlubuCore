@@ -441,7 +441,7 @@ namespace FlubuCore.Scripting
                     VersionStatus = VersionStatus.Sealed,
                 },
                 flubuAss.ToAssemblyInfo(),
-                objAss.ToAssemblyInfo(),
+                objAss.ToAssemblyInfo(VersionStatus.Sealed),
                 ioAss.ToAssemblyInfo(),
                 linqAss.ToAssemblyInfo(),
                 linqExpAss.ToAssemblyInfo(),

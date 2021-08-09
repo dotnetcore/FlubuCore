@@ -34,13 +34,19 @@ namespace FlubuCore.Scripting
             }
         }
 
-        internal static AssemblyInfo ToAssemblyInfo(this Assembly assembly)
+        internal static AssemblyInfo ToAssemblyInfo(this Assembly assembly, VersionStatus? versionStatus = null)
         {
             AssemblyInfo info = new AssemblyInfo();
             info.FullPath = assembly.Location;
             var assemblyName = assembly.GetName();
             info.Name = assemblyName.Name;
             info.Version = assemblyName.Version;
+
+            if (versionStatus.HasValue)
+            {
+                info.VersionStatus = versionStatus.Value;
+            }
+
             return info;
         }
 
