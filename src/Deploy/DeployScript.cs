@@ -9,6 +9,7 @@ using LiteDB;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
+//#ass .\FlubuCore.WebApi\FlubuCore.LiteDb.dll
 //#ass  .\lib\System.Reflection.TypeExtensions.dll
 //#ass .\lib\Newtonsoft.Json.dll
 //#ass .\lib\LiteDB.dll
