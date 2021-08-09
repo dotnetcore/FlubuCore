@@ -593,7 +593,7 @@ namespace FlubuCore.Scripting
                 .WithFilePath(buildScriptFIlePath)
                 .WithFileEncoding(Encoding.UTF8)
                 .WithReferences(references);
-         
+
             Script script = CSharpScript
                 .Create(string.Join("\r\n", code), opts)
                 .ContinueWith(string.Format("var sc = new {0}();", analyzerResult.ClassName));
