@@ -39,6 +39,10 @@
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net462|AnyCPU'">
     <DocumentationFile>bin\Release\net462\win7-x64\FlubuCore.WebApi.xml</DocumentationFile>
   </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net5.0|AnyCPU'">
+    <DocumentationFile>bin\Release\net50\FlubuCore.WebApi.xml</DocumentationFile>
+  </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.0|AnyCPU'">
     <DocumentationFile>bin\Debug\netcoreapp2.0\FlubuCore.WebApi.xml</DocumentationFile>
@@ -51,6 +55,9 @@
   </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net462|AnyCPU'">
     <DocumentationFile>bin\Debug\net462\win7-x64\FlubuCore.WebApi.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net5.0|AnyCPU'">
+    <DocumentationFile>bin\Debug\net5.0\FlubuCore.WebApi.xml</DocumentationFile>
   </PropertyGroup>
  
   <ItemGroup>
@@ -99,6 +106,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
+    <ProjectReference Include="..\FlubuCore.LiteDb\FlubuCore.LiteDb.csproj" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
@@ -108,6 +116,7 @@
   </ItemGroup>
   
     <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
+      <ProjectReference Include="..\FlubuCore.LiteDb\FlubuCore.LiteDb.csproj" />
       <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
@@ -117,14 +126,19 @@
     </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+    <ProjectReference Include="..\FlubuCore.LiteDb\FlubuCore.LiteDb.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
+    <ProjectReference Include="..\FlubuCore.LiteDb\FlubuCore.LiteDb.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.0" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
+    <ProjectReference Include="..\FlubuCore.LiteDb\FlubuCore.LiteDb.csproj" >
+      <SetTargetFramework>TargetFramework=net462</SetTargetFramework>
+    </ProjectReference>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
@@ -136,7 +150,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FlubuCore.LiteDb\FlubuCore.LiteDb.csproj" />
+ 
     <ProjectReference Include="..\FlubuCore.WebApi.Client\FlubuCore.WebApi.Client.csproj" />
     <ProjectReference Include="..\FlubuCore.WebApi.Model\FlubuCore.WebApi.Model.csproj" />
     <ProjectReference Include="..\FlubuCore\FlubuCore.csproj" />
