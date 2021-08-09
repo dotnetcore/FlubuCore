@@ -317,6 +317,10 @@ namespace FlubuCore.Scripting
                 : _nugetPackageResolver.ResolveNugetPackagesFromDirectives(scriptAnalyzerResult.NugetPackageReferences, pathToBuildScript));
 
             AddAssemblyReferencesFromCsproj(projectFileAnalyzerResult, assemblyReferences);
+            foreach (var objAss in assemblyReferences)
+            {
+                _log.LogInformation($"Assembly {objAss.Name}, Version: {objAss.Version}, FullPath: {objAss.FullPath}");
+            }
 
             var assemblyReferencesLocations = assemblyReferences.Select(x => x.FullPath).ToList();
             assemblyReferencesLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
@@ -432,7 +436,7 @@ namespace FlubuCore.Scripting
             var linqAss = typeof(ILookup<string, string>).GetTypeInfo().Assembly;
             var linqExpAss = typeof(Expression).GetTypeInfo().Assembly;
             var runtimeInteropAss = typeof(OSPlatform).GetTypeInfo().Assembly;
-            _log.LogInformation($"Assembly {objAss.GetName().Name}, Version: {objAss.GetName().Version}");
+        
             List<AssemblyInfo> assemblyReferenceLocations = new List<AssemblyInfo>
             {
                 new AssemblyInfo
@@ -441,8 +445,13 @@ namespace FlubuCore.Scripting
                     FullPath = Path.Combine(coreDir, "mscorlib.dll"),
                     VersionStatus = VersionStatus.Sealed,
                 },
+                new AssemblyInfo
+                {
+                    Name = "System.Runtime",
+                    FullPath = Path.Combine(coreDir, "System.Runtime.dll"),
+                    VersionStatus = VersionStatus.Sealed
+                },
                 flubuAss.ToAssemblyInfo(),
-                objAss.ToAssemblyInfo(VersionStatus.Sealed),
                 ioAss.ToAssemblyInfo(),
                 linqAss.ToAssemblyInfo(),
                 linqExpAss.ToAssemblyInfo(),
@@ -584,7 +593,7 @@ namespace FlubuCore.Scripting
                 .WithFilePath(buildScriptFIlePath)
                 .WithFileEncoding(Encoding.UTF8)
                 .WithReferences(references);
-
+         
             Script script = CSharpScript
                 .Create(string.Join("\r\n", code), opts)
                 .ContinueWith(string.Format("var sc = new {0}();", analyzerResult.ClassName));
