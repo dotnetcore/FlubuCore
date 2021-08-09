@@ -28,6 +28,7 @@
     <Compile Remove="FlubuCore.Analyzer\**" />
     <Compile Remove="FlubuCore.ConsoleTestApp\**" />
     <Compile Remove="FlubuCore.GlobalTool\**" />
+    <Compile Remove="FlubuCore.LiteDb\**" />
     <Compile Remove="FlubuCore.Runner\**" />
     <Compile Remove="FlubuCore.TaskGenerator.Tests\**" />
     <Compile Remove="FlubuCore.TaskGenerator\**" />
@@ -68,6 +69,7 @@
     <EmbeddedResource Remove="FlubuCore.Analyzer\**" />
     <EmbeddedResource Remove="FlubuCore.ConsoleTestApp\**" />
     <EmbeddedResource Remove="FlubuCore.GlobalTool\**" />
+    <EmbeddedResource Remove="FlubuCore.LiteDb\**" />
     <EmbeddedResource Remove="FlubuCore.Runner\**" />
     <EmbeddedResource Remove="FlubuCore.TaskGenerator.Tests\**" />
     <EmbeddedResource Remove="FlubuCore.TaskGenerator\**" />
@@ -108,6 +110,7 @@
     <None Remove="FlubuCore.Analyzer\**" />
     <None Remove="FlubuCore.ConsoleTestApp\**" />
     <None Remove="FlubuCore.GlobalTool\**" />
+    <None Remove="FlubuCore.LiteDb\**" />
     <None Remove="FlubuCore.Runner\**" />
     <None Remove="FlubuCore.TaskGenerator.Tests\**" />
     <None Remove="FlubuCore.TaskGenerator\**" />
