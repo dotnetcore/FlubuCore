@@ -239,7 +239,7 @@ namespace FlubuCore.Scripting
                             _log.LogWarning($"ScriptError:{diagnostic.Id}: {diagnostic.GetMessage()}");
                             if (errorMsgDefined)
                             {
-                                continue;
+                                break;
                             }
 
                             switch (diagnostic.Id)
