@@ -420,7 +420,7 @@ namespace FlubuCore.Scripting
             return assemblyReferenceLocations;
         }
 
-        private static List<AssemblyInfo> GetBuildScriptReferencesForOldWayBuildScriptCreation()
+        private List<AssemblyInfo> GetBuildScriptReferencesForOldWayBuildScriptCreation()
         {
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuAss = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
@@ -432,6 +432,7 @@ namespace FlubuCore.Scripting
             var linqAss = typeof(ILookup<string, string>).GetTypeInfo().Assembly;
             var linqExpAss = typeof(Expression).GetTypeInfo().Assembly;
             var runtimeInteropAss = typeof(OSPlatform).GetTypeInfo().Assembly;
+            _log.LogInformation($"Assembly {objAss.GetName().Name}, Version: {objAss.GetName().Version}");
             List<AssemblyInfo> assemblyReferenceLocations = new List<AssemblyInfo>
             {
                 new AssemblyInfo
