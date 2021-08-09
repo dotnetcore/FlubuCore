@@ -45,144 +45,144 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically.</param>
+        /// <param name="zipFileName">Zip file name. Version will be added automatically as postfix.</param>
         /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/publish.</param>
         /// <param name="projects">Name of the project to add to add.</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
-        public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipPrefix, string targetFramework, Action<PackageTask> action, params string[] projects)
+        public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipFileName, string targetFramework, Action<PackageTask> action, params string[] projects)
         {
             var core = (CoreTaskFluentInterface)coreTask;
-            return CreateZipPackageFromProjectsImplementation(core.Context, zipPrefix, targetFramework, null, string.Empty,
+            return CreateZipPackageFromProjectsImplementation(core.Context, zipFileName, targetFramework, null, string.Empty,
                 action, projects);
         }
 
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically.</param>
+        /// <param name="zipFileName">Zip file name. Version will be added automatically as postfix.</param>
         /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/publish.</param>
         /// <param name="projects">Name of the project to add to add.</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
-        public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipPrefix, string targetFramework, string runtime, Action<PackageTask> packageTaskOptions, params string[] projects)
+        public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipFileName, string targetFramework, string runtime, Action<PackageTask> packageTaskOptions, params string[] projects)
         {
             var core = (CoreTaskFluentInterface)coreTask;
-            return CreateZipPackageFromProjectsImplementation(core.Context, zipPrefix, targetFramework, runtime, string.Empty, packageTaskOptions, projects);
+            return CreateZipPackageFromProjectsImplementation(core.Context, zipFileName, targetFramework, runtime, string.Empty, packageTaskOptions, projects);
         }
 
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically.</param>
+        /// <param name="zipFileName">Zip file name. Version will be added automatically as postfix.</param>
         /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="projects">Name of the project to add to add.</param>
         /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="destinationRootDir">Name of the directory that the source directory will be copied to.</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
-        public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipPrefix, string targetFramework, string runtime, string destinationRootDir, Action<PackageTask> packageTaskOptions, params string[] projects)
+        public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipFileName, string targetFramework, string runtime, string destinationRootDir, Action<PackageTask> packageTaskOptions, params string[] projects)
         {
             var core = (CoreTaskFluentInterface)coreTask;
-            return CreateZipPackageFromProjectsImplementation(core.Context, zipPrefix, targetFramework, runtime, destinationRootDir, packageTaskOptions, projects);
+            return CreateZipPackageFromProjectsImplementation(core.Context, zipFileName, targetFramework, runtime, destinationRootDir, packageTaskOptions, projects);
         }
 
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically.</param>
+        /// <param name="zipFileName">Zip file name. Version will be added automatically as postfix.</param>
         /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/publish.</param>
         /// <param name="projects">Name of the project to add to add.</param>
         /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="destinationRootDir">Name of the directory that the source directory will be copied to.</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
-        public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipPrefix, string targetFramework, string project, Action<PackageTask> packageTaskOptions = null, string runtime = null, string destinationRootDir = "")
+        public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipFileName, string targetFramework, string project, Action<PackageTask> packageTaskOptions = null, string runtime = null, string destinationRootDir = "")
         {
             var core = (CoreTaskFluentInterface)coreTask;
-            return CreateZipPackageFromProjectsImplementation(core.Context, zipPrefix, targetFramework, runtime, destinationRootDir, packageTaskOptions, project);
+            return CreateZipPackageFromProjectsImplementation(core.Context, zipFileName, targetFramework, runtime, destinationRootDir, packageTaskOptions, project);
         }
 
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically.</param>
+        /// <param name="zipFileName">Zip file name. Version will be added automatically as postfix.</param>
         /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="projects">Name of the project to add to add.</param>
         /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="destinationRootDir">Name of the directory that the source directory will be copied to.</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
-        public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipPrefix, string targetFramework,
+        public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipFileName, string targetFramework,
             string project, string project2, Action<PackageTask> packageTaskOptions = null, string runtime = null, string destinationRootDir = "")
         {
             var core = (CoreTaskFluentInterface)coreTask;
-            return CreateZipPackageFromProjectsImplementation(core.Context, zipPrefix, targetFramework, runtime, destinationRootDir,  packageTaskOptions, project, project2);
+            return CreateZipPackageFromProjectsImplementation(core.Context, zipFileName, targetFramework, runtime, destinationRootDir,  packageTaskOptions, project, project2);
         }
 
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically.</param>
+        /// <param name="zipFileName">Zip file name. Version will be added automatically as postfix.</param>
         /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="projects">Name of the project to add to add.</param>
         /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="destinationRootDir">Name of the directory that the source directory will be copied to.</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
-        public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipPrefix, string targetFramework,
+        public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipFileName, string targetFramework,
             string project, string project2, string project3, Action<PackageTask> packageTaskOptions = null, string runtime = null, string destinationRootDir = "")
         {
             var core = (CoreTaskFluentInterface)coreTask;
-            return CreateZipPackageFromProjectsImplementation(core.Context, zipPrefix, targetFramework, runtime, destinationRootDir, packageTaskOptions, project, project2, project3);
+            return CreateZipPackageFromProjectsImplementation(core.Context, zipFileName, targetFramework, runtime, destinationRootDir, packageTaskOptions, project, project2, project3);
         }
 
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically.</param>
+        /// <param name="zipFileName">Zip file name. Version will be added automatically as postfix.</param>
         /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="projects">Name of the project to add to add.</param>
         /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="destinationRootDir">Name of the directory that the source directory will be copied to.</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
-        public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipPrefix, string targetFramework,
+        public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipFileName, string targetFramework,
             string project, string project2, string project3, string project4, Action<PackageTask> packageTaskOptions = null, string runtime = null, string destinationRootDir = "")
         {
             var core = (CoreTaskFluentInterface)coreTask;
-            return CreateZipPackageFromProjectsImplementation(core.Context, zipPrefix, targetFramework, runtime, destinationRootDir, packageTaskOptions, project, project2, project3, project4);
+            return CreateZipPackageFromProjectsImplementation(core.Context, zipFileName, targetFramework, runtime, destinationRootDir, packageTaskOptions, project, project2, project3, project4);
         }
 
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically.</param>
+        /// <param name="zipFileName">Zip file name. Version will be added automatically as postfix.</param>
         /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="projects">Name of the project to add to add.</param>
         /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="destinationRootDir">Name of the directory that the source directory will be copied to.</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
-        public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipPrefix, string targetFramework,
+        public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipFileName, string targetFramework,
             string project, string project2, string project3, string project4, string project5, Action<PackageTask> packageTaskOptions = null, string runtime = null, string destinationRootDir = "")
         {
             var core = (CoreTaskFluentInterface)coreTask;
-            return CreateZipPackageFromProjectsImplementation(core.Context, zipPrefix, targetFramework, runtime, destinationRootDir, packageTaskOptions, project, project2, project3, project4, project5);
+            return CreateZipPackageFromProjectsImplementation(core.Context, zipFileName, targetFramework, runtime, destinationRootDir, packageTaskOptions, project, project2, project3, project4, project5);
         }
 
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically.</param>
+        /// <param name="zipFileName">Zip file prefix. Version will be added automatically.</param>
         /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="projects">Name of the project to add to add.</param>
         /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="destinationRootDir">Name of the directory that the source directory will be copied to.</param>
         /// <returns><see cref="PackageTask"/> instance.</returns>
-        public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipPrefix, string targetFramework,
+        public static PackageTask CreateZipPackageFromProjects(this ICoreTaskFluentInterface coreTask, string zipFileName, string targetFramework,
             string project, string project2, string project3, string project4, string project5, string project6, Action<PackageTask> action = null, string runtime = null, string destinationRootDir = "")
         {
            var core = (CoreTaskFluentInterface)coreTask;
-           return CreateZipPackageFromProjectsImplementation(core.Context, zipPrefix, targetFramework, runtime, destinationRootDir, action, project, project2, project3, project4, project5, project6);
+           return CreateZipPackageFromProjectsImplementation(core.Context, zipFileName, targetFramework, runtime, destinationRootDir, action, project, project2, project3, project4, project5, project6);
         }
 
         /// <summary>
         /// Create ZIP file with specified folders. Returns PackageTask to add additional properties.
         /// </summary>
-        /// <param name="zipPrefix">Zip file prefix. Version will be added automatically.</param>
+        /// <param name="zipFileName">Zip file prefix. Version will be added automatically.</param>
         /// <param name="targetFramework">Framework to use for package folder. Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
         /// <param name="projects">Name of the project to add to add.</param>
         /// <param name="runtime">Runtime to use for package folder.  Folder is combined as follows {project}/bin/Release/{targetFramework}/{runtime}/publish.</param>
@@ -190,7 +190,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
         /// <returns><see cref="PackageTask"/> instance.</returns>
         public static PackageTask CreateZipPackageFromProjects(
             this ICoreTaskFluentInterface coreTask,
-            string zipPrefix,
+            string zipFileName,
             string targetFramework,
             string project,
             string project2,
@@ -206,7 +206,7 @@ namespace FlubuCore.Context.FluentInterface.TaskExtensions
             var core = (CoreTaskFluentInterface)coreTask;
             return CreateZipPackageFromProjectsImplementation(
                 core.Context,
-                zipPrefix,
+                zipFileName,
                 targetFramework,
                 runtime,
                 destinationRootDir,
