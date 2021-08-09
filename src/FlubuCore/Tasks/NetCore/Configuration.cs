@@ -7,6 +7,6 @@ namespace FlubuCore.Tasks.NetCore
     public enum Configuration
     {
         Release,
-        Build
+        Debug
     }
 }
