@@ -37,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deploy", "Deploy\Deploy.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.Tool", "FlubuCore.Tool\FlubuCore.Tool.csproj", "{1EC21B6A-AE85-467F-BFE4-956E3245B1E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlubuCore.LiteDb", "..\FlubuCore.LiteDb\FlubuCore.LiteDb.csproj", "{A501F246-9963-49CB-BF5C-A704D339FCFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.LiteDb", "FlubuCore.LiteDb\FlubuCore.LiteDb.csproj", "{A501F246-9963-49CB-BF5C-A704D339FCFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
