@@ -23,6 +23,7 @@
     <DefineConstants>NET5_0;</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net462'">
+    <ReferringTargetFrameworkForProjectReferences>.NET462</ReferringTargetFrameworkForProjectReferences>
     <RuntimeIdentifiers>win7-x64;win7-x86</RuntimeIdentifiers>
     <DefineConstants>NET462;</DefineConstants>
   </PropertyGroup>
