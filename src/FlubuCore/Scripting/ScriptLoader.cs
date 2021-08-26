@@ -317,10 +317,6 @@ namespace FlubuCore.Scripting
                 : _nugetPackageResolver.ResolveNugetPackagesFromDirectives(scriptAnalyzerResult.NugetPackageReferences, pathToBuildScript));
 
             AddAssemblyReferencesFromCsproj(projectFileAnalyzerResult, assemblyReferences);
-            foreach (var objAss in assemblyReferences)
-            {
-                _log.LogInformation($"Assembly {objAss.Name}, Version: {objAss.Version}, FullPath: {objAss.FullPath}");
-            }
 
             var assemblyReferencesLocations = assemblyReferences.Select(x => x.FullPath).ToList();
             assemblyReferencesLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));

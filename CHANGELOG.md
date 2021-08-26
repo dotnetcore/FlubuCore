@@ -1,5 +1,13 @@
-## FlubuCore 6.2.0.0-preview1
+## FlubuCore 6.2.0.03
 - Added project type to vs solution/project browsing
+- PackageTask: Option to Add Group of directories and files to package.
+- PackageTask: Changed parameter name from ZipPrefix to ZipFileName
+- Included directories cs files are now also watched when buildscript is reompiled
+- Moved BeforeBuildExecution right after Configure Targets.
+- Fixed compilation of usings when usings have trailing whitespace in included cs files
+- Fixed Configuration Debug enum
+- Fixed include of cs files in build script
+- Fixed reload of script in interactive mode when build property was fetched from attribute after reload.
 
 ## FlubuCore 6.1.6.0
 

@@ -257,8 +257,6 @@ namespace FlubuCore.Scripting
         {
         }
 
-        protected virtual void Before
-
         protected virtual void BeforeBuildExecution(ITaskContext context)
         {
         }
