@@ -474,21 +474,11 @@ namespace FlubuCore.Infrastructure.Terminal
             {
                 if (fullInput.Contains(@"\") && startsWithCd)
                 {
-                    var splitedInputs = fullInput.Split(' ').Last().Split('\\');
-
-                    foreach (var spllitedInput in splitedInputs)
-                    {
-                        li = li + spllitedInput.Length + 1;
-                    }
+                    li = fullInput.LastIndexOf("\\") + 1;
                 }
                 else if (fullInput.Contains("/") && startsWithCd)
                 {
-                    var splitedInputs = fullInput.Split(' ').Last().Split('/');
-
-                    foreach (var spllitedInput in splitedInputs)
-                    {
-                        li = li + spllitedInput.Length + 1;
-                    }
+                    li = fullInput.LastIndexOf("/") + 1;
                 }
                 else
                 {
@@ -502,9 +492,17 @@ namespace FlubuCore.Infrastructure.Terminal
                     }
                     else
                     {
-                        if (fullInput.Contains("/") || fullInput.Contains(@"\"))
+                        if (fullInput.Contains(@"\"))
                         {
-                            li++;
+                            li = fullInput.LastIndexOf("\\") + 1;
+                        }
+                        else if (fullInput.Contains("/"))
+                        {
+                            li = fullInput.LastIndexOf("/") + 1;
+                        }
+                        else
+                        {
+                            li = 0;
                         }
                     }
                 }
