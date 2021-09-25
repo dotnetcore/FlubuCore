@@ -161,6 +161,10 @@ namespace FlubuCore.Commanding.Internal
                     var tmp = files[0].Substring(rootDir.Length).TrimStart(Path.DirectorySeparatorChar);
                     var gitDirName = tmp.Substring(0, tmp.IndexOf(Path.DirectorySeparatorChar));
                     Directory.Delete(gitDirName, true);
+                    File.Delete("Template.cs");
+                    File.Delete("TemplateBak.cs");
+                    File.Delete("Template.json");
+                    File.Delete("TemplateBak.cs");
                     FlubuSession.LogInfo($"The template '{Args.MainCommands[1]}' was created successfully.");
                 }
                 catch (InvalidDataException)
