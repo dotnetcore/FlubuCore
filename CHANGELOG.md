@@ -1,4 +1,10 @@
-## FlubuCore 6.2.0.03
+## FlubuCore 6.3.0.0
+- Dependencies can now be added to group of tasks in target.
+- Added ExecuteOnlyWhen to group of tasks in target. Tasks in group are only executed when condition is meet.
+- Fixed directory and file suggestions in flubu interactive mode.
+- Template files are now deleted after script project is created with template.
+
+## FlubuCore 6.2.0.0
 - Added project type to vs solution/project browsing
 - PackageTask: Option to Add Group of directories and files to package.
 - PackageTask: Changed parameter name from ZipPrefix to ZipFileName
