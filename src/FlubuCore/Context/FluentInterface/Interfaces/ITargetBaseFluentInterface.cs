@@ -222,6 +222,41 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// </summary>
         /// <returns></returns>
         TTargetFluentInterface SequentialLogging(bool enable);
+
+        /// <summary>
+        ///     Specifies targets on which this target depends on.
+        /// </summary>
+        /// <param name="targetNames">The dependency target names.</param>
+        /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
+        TTargetFluentInterface DependsOn(params string[] targetNames);
+
+        /// <summary>
+        ///     Specifies targets on which this target depends on. Execution of dependant targets is synchronus.
+        /// </summary>
+        /// <param name="targets">The dependency target names.</param>
+        /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
+        TTargetFluentInterface DependsOn(params ITargetInternal[] targets);
+
+        /// <summary>
+        ///     Specifies targets on which this target depends on. Execution of dependant targets is asynchronus.
+        /// </summary>
+        /// <param name="targets">The dependency target names.</param>
+        /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
+        TTargetFluentInterface DependsOnAsync(params ITargetInternal[] targets);
+
+        /// <summary>
+        ///     Specifies targets on which this target depends on.
+        /// </summary>
+        /// <param name="targets">The dependency target names.</param>
+        /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
+        TTargetFluentInterface DependsOn(params ITarget[] targets);
+
+        /// <summary>
+        /// Specifies targets on which this target depends on. Execution of dependant targets is asynchronus.
+        /// </summary>
+        /// <param name="targets">The dependency target names.</param>
+        /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
+        TTargetFluentInterface DependsOnAsync(params ITarget[] targets);
     }
 
     public interface ITargetBaseFluentInterface

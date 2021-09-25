@@ -33,6 +33,56 @@ namespace FlubuCore.Context.FluentInterface
 
         protected int ActionCount { get; set; }
 
+        public TTargetFluentInterface DependsOn(params string[] targetNames)
+        {
+            LastTargetAction = TargetAction.AddDependency;
+            ActionCount = targetNames.Length;
+            Target.DependsOn(targetNames);
+            return this as TTargetFluentInterface;
+        }
+
+        public TTargetFluentInterface DependsOn(params ITargetInternal[] targets)
+        {
+            LastTargetAction = TargetAction.AddDependency;
+            ActionCount = targets.Length;
+            Target.DependsOn(targets);
+            return this as TTargetFluentInterface;
+        }
+
+        public TTargetFluentInterface DependsOn(params ITarget[] targets)
+        {
+            LastTargetAction = TargetAction.AddDependency;
+            ActionCount = targets.Length;
+            foreach (var t in targets)
+            {
+                var target = (TargetFluentInterface)t;
+                Target.DependsOn(target.Target);
+            }
+
+            return this as TTargetFluentInterface;
+        }
+
+        public TTargetFluentInterface DependsOnAsync(params ITargetInternal[] targets)
+        {
+            LastTargetAction = TargetAction.AddDependency;
+            ActionCount = targets.Length;
+            Target.DependsOnAsync(targets);
+            return this as TTargetFluentInterface;
+        }
+
+        public TTargetFluentInterface DependsOnAsync(params ITarget[] targets)
+        {
+            LastTargetAction = TargetAction.AddDependency;
+            ActionCount = targets.Length;
+            foreach (var t in targets)
+            {
+                var target = (TargetFluentInterface)t;
+                Target.DependsOnAsync(target.Target);
+            }
+
+            return this as TTargetFluentInterface;
+        }
+
         public TTargetFluentInterface AddTask(params ITask[] tasks)
         {
             ActionCount = tasks.Length;

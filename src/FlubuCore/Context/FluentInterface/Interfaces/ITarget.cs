@@ -170,41 +170,6 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         new ITarget DoAsync<T, T1, T2, T3, T4>(Func<ITaskContext, T, T1, T2, T3, T4, Task> doAction, T param, T1 param2, T2 param3, T3 param4, T4 param5, Action<DoTaskAsync6<T, T1, T2, T3, T4>> doOptions = null);
 
         /// <summary>
-        ///     Specifies targets on which this target depends on.
-        /// </summary>
-        /// <param name="targetNames">The dependency target names.</param>
-        /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        ITarget DependsOn(params string[] targetNames);
-
-        /// <summary>
-        ///     Specifies targets on which this target depends on. Execution of dependant targets is synchronus.
-        /// </summary>
-        /// <param name="targets">The dependency target names.</param>
-        /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        ITarget DependsOn(params ITargetInternal[] targets);
-
-        /// <summary>
-        ///     Specifies targets on which this target depends on. Execution of dependant targets is asynchronus.
-        /// </summary>
-        /// <param name="targets">The dependency target names.</param>
-        /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        ITarget DependsOnAsync(params ITargetInternal[] targets);
-
-        /// <summary>
-        ///     Specifies targets on which this target depends on.
-        /// </summary>
-        /// <param name="targets">The dependency target names.</param>
-        /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        ITarget DependsOn(params ITarget[] targets);
-
-        /// <summary>
-        /// Specifies targets on which this target depends on. Execution of dependant targets is asynchronus.
-        /// </summary>
-        /// <param name="targets">The dependency target names.</param>
-        /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
-        ITarget DependsOnAsync(params ITarget[] targets);
-
-        /// <summary>
         ///     Sets the target as the default target for the runner.
         /// </summary>
         /// <returns>This same instance of <see cref="ITargetInternal" />.</returns>
