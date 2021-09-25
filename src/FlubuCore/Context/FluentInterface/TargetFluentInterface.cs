@@ -11,56 +11,6 @@ namespace FlubuCore.Context.FluentInterface
 {
     public class TargetFluentInterface : TargetBaseFluentInterface<ITarget>, ITarget
     {
-        public ITarget DependsOn(params string[] targetNames)
-        {
-            LastTargetAction = TargetAction.AddDependency;
-            ActionCount = targetNames.Length;
-            Target.DependsOn(targetNames);
-            return this;
-        }
-
-        public ITarget DependsOn(params ITargetInternal[] targets)
-        {
-            LastTargetAction = TargetAction.AddDependency;
-            ActionCount = targets.Length;
-            Target.DependsOn(targets);
-            return this;
-        }
-
-        public ITarget DependsOn(params ITarget[] targets)
-        {
-            LastTargetAction = TargetAction.AddDependency;
-            ActionCount = targets.Length;
-            foreach (var t in targets)
-            {
-                var target = (TargetFluentInterface)t;
-                Target.DependsOn(target.Target);
-            }
-
-            return this;
-        }
-
-        public ITarget DependsOnAsync(params ITargetInternal[] targets)
-        {
-            LastTargetAction = TargetAction.AddDependency;
-            ActionCount = targets.Length;
-            Target.DependsOnAsync(targets);
-            return this;
-        }
-
-        public ITarget DependsOnAsync(params ITarget[] targets)
-        {
-            LastTargetAction = TargetAction.AddDependency;
-            ActionCount = targets.Length;
-            foreach (var t in targets)
-            {
-                var target = (TargetFluentInterface)t;
-                Target.DependsOnAsync(target.Target);
-            }
-
-            return this;
-        }
-
         public ITarget SetAsDefault()
         {
             LastTargetAction = TargetAction.Other;
@@ -85,7 +35,7 @@ namespace FlubuCore.Context.FluentInterface
             return this;
         }
 
-        public ITarget Group(Action<ITargetBaseFluentInterfaceOfT<ITarget>> targetAction, Action<ITaskContext> onFinally = null, Action<ITaskContext, Exception> onError = null, Func<ITaskContext, bool> when = null, bool cleanupOnCancel = false)
+        public ITarget Group(Action<ITargetBaseFluentInterfaceOfT<ITarget>> targetAction, Action<ITaskContext> onFinally = null, Action<ITaskContext, Exception> onError = null, Func<ITaskContext, bool> when = null, Func<ITaskContext, bool> executeOnlyWhen = null,  bool cleanupOnCancel = false)
         {
             LastTargetAction = TargetAction.Other;
             ActionCount = 0;
@@ -94,7 +44,8 @@ namespace FlubuCore.Context.FluentInterface
                 GroupId = Guid.NewGuid().ToString(),
                 OnErrorAction = onError,
                 FinallyAction = onFinally,
-                CleanupOnCancel = cleanupOnCancel
+                ExecuteOnlyWhen = executeOnlyWhen,
+                CleanupOnCancel = cleanupOnCancel,
             };
 
             var conditionMeet = when?.Invoke(Context);

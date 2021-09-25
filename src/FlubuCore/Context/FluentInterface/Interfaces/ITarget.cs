@@ -253,8 +253,10 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         /// <param name="targetAction">specify tasks to add in target action.</param>
         /// <param name="onFinally">action that will be taken when all task finish or when error occures.</param>
         /// <param name="onError">action that will be taken on any task actions.</param>
-        /// <param name="when">Tasks will be added only if specified condition is meet.</param>
+        /// <param name="when">Tasks in group will be added to target only if specified condition is meet. When condition is executed when target is configured</param>
+        /// <param name="executeOnlyWhen">Tasks in group will be executed. When condition is executed when target is executed. </param>
+        /// <param name="cleanupOnCancel">onFinally is executed even if script execution is cancelled with ctrl+c etc.</param>
         /// <returns></returns>
-        ITarget Group(Action<ITargetBaseFluentInterfaceOfT<ITarget>> targetAction, Action<ITaskContext> onFinally = null, Action<ITaskContext, Exception> onError = null, Func<ITaskContext, bool> when = null, bool cleanupOnCancel = false);
+        ITarget Group(Action<ITargetBaseFluentInterfaceOfT<ITarget>> targetAction, Action<ITaskContext> onFinally = null, Action<ITaskContext, Exception> onError = null, Func<ITaskContext, bool> when = null,  Func<ITaskContext, bool> executeOnlyWhen = null, bool cleanupOnCancel = false);
     }
 }

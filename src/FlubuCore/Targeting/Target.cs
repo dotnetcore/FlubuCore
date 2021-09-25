@@ -528,6 +528,18 @@ namespace FlubuCore.Targeting
             for (int i = 0; i < taskGroupsCount; i++)
             {
                 int tasksCount = _taskGroups[i].Tasks.Count;
+
+                bool shouldExecute = true;
+                if (_taskGroups[i].ExecuteOnlyWhen != null)
+                {
+                    shouldExecute = _taskGroups[i].ExecuteOnlyWhen.Invoke(context);
+                }
+
+                if (!shouldExecute)
+                {
+                    continue;
+                }
+
                 if (_taskGroups[i].CleanupOnCancel)
                 {
                     CleanUpStore.AddCleanupAction(_taskGroups[i].FinallyAction);

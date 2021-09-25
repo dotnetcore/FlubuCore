@@ -22,5 +22,7 @@ namespace FlubuCore.Targeting
         public bool CleanupOnCancel { get; set; }
 
         public Action<ITaskContext, Exception> OnErrorAction { get; set; }
+
+        public Func<ITaskContext, bool> ExecuteOnlyWhen { get; set; }
     }
 }
