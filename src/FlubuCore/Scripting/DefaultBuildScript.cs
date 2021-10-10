@@ -51,6 +51,7 @@ namespace FlubuCore.Scripting
 
             try
             {
+                BeforeBuildExecution(flubuSession);
                 RunBuild(flubuSession);
                 flubuSession.Complete();
                 AfterBuildExecution(flubuSession);
@@ -137,7 +138,6 @@ namespace FlubuCore.Scripting
 
         private void RunBuild(IFlubuSession flubuSession)
         {
-            BeforeBuildExecution(flubuSession);
             flubuSession.TargetTree.ResetTargetTree();
             ConfigureDefaultProps(flubuSession);
             ConfigureBuildProperties(flubuSession);
@@ -149,7 +149,7 @@ namespace FlubuCore.Scripting
             _targetCreator.CreateTargetFromMethodAttributes(this, flubuSession);
 
             ConfigureTargets(flubuSession);
-
+            OnBuildInitialized(flubuSession);
             if (!flubuSession.Args.InteractiveMode)
             {
                 var targetsInfo = ParseCmdLineArgs(flubuSession.Args.MainCommands, flubuSession.TargetTree);
@@ -215,7 +215,9 @@ namespace FlubuCore.Scripting
                 BeforeTargetExecution(flubuSession);
                 foreach (var targetToRun in targetsInfo.targetsToRun)
                 {
+                    BeforeEachTargetExecution(flubuSession);
                     flubuSession.TargetTree.RunTarget(flubuSession, targetToRun);
+                    AfterEachTargetExecution(flubuSession);
                 }
 
                 AfterTargetExecution(flubuSession);
@@ -250,18 +252,58 @@ namespace FlubuCore.Scripting
             AssertAllTargetDependenciesWereExecuted(flubuSession);
         }
 
+        /// <summary>
+        /// Event that happens before all targets get executed.
+        /// </summary>
+        /// <param name="context"></param>
         protected virtual void BeforeTargetExecution(ITaskContext context)
         {
         }
 
+        /// <summary>
+        /// Event that happens after all targets get executed.
+        /// </summary>
+        /// <param name="context"></param>
         protected virtual void AfterTargetExecution(ITaskContext context)
         {
         }
 
+        /// <summary>
+        /// Event that happens before each target get executed.
+        /// </summary>
+        /// <param name="context"></param>
+        protected virtual void BeforeEachTargetExecution(ITaskContext context)
+        {
+        }
+
+        /// <summary>
+        /// Event that happens after each target get executed.
+        /// </summary>
+        /// <param name="context"></param>
+        protected virtual void AfterEachTargetExecution(ITaskContext context)
+        {
+        }
+
+        /// <summary>
+        /// Event that happens before build is executed. Target's and properties are not yet configured.
+        /// </summary>
+        /// <param name="context"></param>
         protected virtual void BeforeBuildExecution(ITaskContext context)
         {
         }
 
+        /// <summary>
+        /// Event that happens when build is initialized. Target's and properties are configured.
+        /// </summary>
+        /// <param name="context"></param>
+        protected virtual void OnBuildInitialized(ITaskContext context)
+        {
+        }
+
+        /// <summary>
+        /// Event that happens when build is finished.
+        /// </summary>
+        /// <param name="context"></param>
         protected virtual void AfterBuildExecution(IFlubuSession session)
         {
             if (session.Args.GenerateContinousIntegrationConfigs != null &&
@@ -273,6 +315,11 @@ namespace FlubuCore.Scripting
             session.TargetTree.LogBuildSummary(session);
         }
 
+        /// <summary>
+        /// Event that happends when build has failed.
+        /// </summary>
+        /// <param name="session"></param>
+        /// <param name="ex"></param>
         protected virtual void OnBuildFailed(IFlubuSession session, Exception ex)
         {
         }

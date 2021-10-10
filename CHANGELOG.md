@@ -1,4 +1,8 @@
+## FlubuCore 6.3.1.0
+- Fixes BeforeBuildExecution event.
+
 ## FlubuCore 6.3.0.0
+- Adds OnBuildInitialzed, BeforeEachTargetExecuion and AfterEachTargetExecution events.
 - Dependencies can now be added to group of tasks in target.
 - Added ExecuteOnlyWhen to group of tasks in target. Tasks in group are only executed when condition is meet.
 - Fixed directory and file suggestions in flubu interactive mode.
