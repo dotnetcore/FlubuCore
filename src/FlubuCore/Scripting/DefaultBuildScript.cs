@@ -137,6 +137,7 @@ namespace FlubuCore.Scripting
 
         private void RunBuild(IFlubuSession flubuSession)
         {
+            BeforeBuildExecution(flubuSession);
             flubuSession.TargetTree.ResetTargetTree();
             ConfigureDefaultProps(flubuSession);
             ConfigureBuildProperties(flubuSession);
@@ -146,7 +147,7 @@ namespace FlubuCore.Scripting
             _scriptProperties.InjectProperties(this, flubuSession);
 
             _targetCreator.CreateTargetFromMethodAttributes(this, flubuSession);
-            BeforeBuildExecution(flubuSession);
+
             ConfigureTargets(flubuSession);
 
             if (!flubuSession.Args.InteractiveMode)
