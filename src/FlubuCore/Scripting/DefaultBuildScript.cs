@@ -51,7 +51,6 @@ namespace FlubuCore.Scripting
 
             try
             {
-                BeforeBuildExecution(flubuSession);
                 RunBuild(flubuSession);
                 flubuSession.Complete();
                 AfterBuildExecution(flubuSession);
@@ -140,16 +139,16 @@ namespace FlubuCore.Scripting
         {
             flubuSession.TargetTree.ResetTargetTree();
             ConfigureDefaultProps(flubuSession);
+            BeforeBuildExecution(flubuSession);
             ConfigureBuildProperties(flubuSession);
-
             ConfigureDefaultTargets(flubuSession);
 
             _scriptProperties.InjectProperties(this, flubuSession);
 
             _targetCreator.CreateTargetFromMethodAttributes(this, flubuSession);
-
-            ConfigureTargets(flubuSession);
             OnBuildInitialized(flubuSession);
+            ConfigureTargets(flubuSession);
+
             if (!flubuSession.Args.InteractiveMode)
             {
                 var targetsInfo = ParseCmdLineArgs(flubuSession.Args.MainCommands, flubuSession.TargetTree);
@@ -293,7 +292,7 @@ namespace FlubuCore.Scripting
         }
 
         /// <summary>
-        /// Event that happens when build is initialized. Target's and properties are configured.
+        /// Event that happens when build is initialized. build properties are configured, target's are not yet configured.
         /// </summary>
         /// <param name="context"></param>
         protected virtual void OnBuildInitialized(ITaskContext context)

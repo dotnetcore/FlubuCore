@@ -1,4 +1,4 @@
-## FlubuCore 6.3.1.0
+## FlubuCore 6.3.2.0
 - Fixes BeforeBuildExecution event.
 
 ## FlubuCore 6.3.0.0
