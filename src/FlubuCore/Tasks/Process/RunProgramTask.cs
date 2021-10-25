@@ -250,8 +250,9 @@ namespace FlubuCore.Tasks.Process
                 commandArgs = !arg.maskArg ? $"{commandArgs} {arg.arg}" : $"{commandArgs} ####";
             }
 
-            DoLogInfo($"Running program from '{Path.GetFullPath(workingFolder)}':");
-            DoLogInfo($"{cmd}{commandArgs}{Environment.NewLine}", Color.DarkCyan);
+            //// do not change to DoLogInfo as this log is important and it should be always loged.
+            context.LogInfo($"Running program from '{Path.GetFullPath(workingFolder)}':");
+            context.LogInfo($"{cmd}{commandArgs}{Environment.NewLine}", Color.DarkCyan);
 
             int res = command.Execute()
                 .ExitCode;
