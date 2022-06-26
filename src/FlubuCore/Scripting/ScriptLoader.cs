@@ -406,6 +406,7 @@ namespace FlubuCore.Scripting
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Net.Primitives");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Net.WebClient");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Net.Http");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.Net.Mail");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Private.Xml");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Private.CoreLib");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Text.Json");
