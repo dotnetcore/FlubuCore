@@ -1,3 +1,9 @@
+## FlubuCore 6.4.0.0
+- .net 6.0 support
+- added support for finding and using MSBuild 17.0 in builds(CompileSolutionTask).
+- PackageTask logs takes into account WithLogLevel.
+- Adds System.Net.Mail to default references.
+
 ## FlubuCore 6.3.2.0
 - Fixes BeforeBuildExecution event.
 
