@@ -13,6 +13,7 @@ namespace FlubuCore.Services
             FlubuEnvironment.FillVersionsFromMsBuildToolsVersionsRegPath(toolsVersions);
             FlubuEnvironment.FillVersion15FromVisualStudio2017(toolsVersions);
             FlubuEnvironment.FillMsBuild16Path(toolsVersions);
+            FlubuEnvironment.FillMsBuild17Path(toolsVersions);
             return toolsVersions;
         }
 

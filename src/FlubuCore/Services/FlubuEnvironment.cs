@@ -126,5 +126,26 @@ namespace FlubuCore.Services
                 }
             }
         }
+
+        internal static void FillMsBuild17Path(SortedDictionary<Version, string> toolsVersions)
+        {
+            string programFilesX86DirPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+
+            foreach (var vsEdition in _vsEditions)
+            {
+                var msbuildPath = Path.Combine(programFilesX86DirPath, "Microsoft Visual Studio/2022", vsEdition, "MSBuild/Current/Bin");
+
+                if (Directory.Exists(msbuildPath))
+                {
+                    if (Environment.Is64BitOperatingSystem)
+                    {
+                        msbuildPath = Path.Combine(msbuildPath, "amd64");
+                    }
+
+                    toolsVersions.Add(new Version("17.0"), msbuildPath);
+                    return;
+                }
+            }
+        }
     }
 }
