@@ -149,6 +149,7 @@ namespace FlubuCore.Tasks.Packaging
         /// Disables logging of filtered out files and files to be copied / zipped.
         /// </summary>
         /// <returns></returns>
+        [Obsolete("Use WithLogLevel instead.")]
         public PackageTask DisableLogging()
         {
             _logFiles = false;
@@ -175,6 +176,11 @@ namespace FlubuCore.Tasks.Packaging
             if (_sourcePackagingInfos.Count == 0)
             {
                 return 0;
+            }
+
+            if (TaskLogLevel < LogLevel.Info)
+            {
+                _logFiles = false;
             }
 
             if (string.IsNullOrEmpty(_destinationRootDir))
@@ -238,12 +244,6 @@ namespace FlubuCore.Tasks.Packaging
                 zipFile = Path.Combine(_destinationRootDir, tmp);
 
                 DoLogInfo($"Creating zip file {zipFile}");
-
-                if (TaskLogLevel < LogLevel.Info)
-                {
-                    _logFiles = false;
-                }
-
                 ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(zipFile), df, _optimizeZip, sourceIds, _logFiles);
                 zipProcessor.Process(copiedPackageDef);
             }
