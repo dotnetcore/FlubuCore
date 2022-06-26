@@ -1,3 +1,7 @@
+## FlubuCore 6.4.1.0
+- Fixed usage of dynamic in build scripts.
+- Fixed FlubuCore DotNetCliToolReference (broken in 6.4.0)
+
 ## FlubuCore 6.4.0.0
 - .net 6.0 support
 - added support for finding and using MSBuild 17.0 in builds(CompileSolutionTask).
