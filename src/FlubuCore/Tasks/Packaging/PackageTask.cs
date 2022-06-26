@@ -239,6 +239,11 @@ namespace FlubuCore.Tasks.Packaging
 
                 DoLogInfo($"Creating zip file {zipFile}");
 
+                if (TaskLogLevel < LogLevel.Info)
+                {
+                    _logFiles = false;
+                }
+
                 ZipProcessor zipProcessor = new ZipProcessor(context, zipper, new FileFullPath(zipFile), df, _optimizeZip, sourceIds, _logFiles);
                 zipProcessor.Process(copiedPackageDef);
             }
