@@ -1,4 +1,4 @@
-## FlubuCore 6.4.1.0
+## FlubuCore 6.4.2.0
 - Fixed usage of dynamic in build scripts.
 - Fixed FlubuCore DotNetCliToolReference (broken in 6.4.0)
 
