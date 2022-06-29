@@ -414,6 +414,7 @@ namespace FlubuCore.Scripting
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Xml.XPath");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Xml.Serialization");
             assemblyReferenceLocations.AddReferenceByAssemblyName("System.Data.Common");
+            assemblyReferenceLocations.AddReferenceByAssemblyName("System.ComponentModel.Primitives");
             assemblyReferenceLocations.AddReferenceByAssemblyName("Microsoft.CSharp");
 #if NETSTANDARD2_0
             var systemAss = typeof(Console).GetTypeInfo().Assembly;
