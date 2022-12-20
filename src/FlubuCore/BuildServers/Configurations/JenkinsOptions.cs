@@ -31,11 +31,25 @@ namespace FlubuCore.BuildServers.Configurations
 
         protected internal FlubuToolType FlubuToolType { get; set; }
 
+        /// <summary>
+        /// When enabled (by default) it fixes jenkins multibranch issue if branch contains "/" in the name. More info. https://issues.jenkins.io/browse/JENKINS-30744
+        /// </summary>
+        protected internal bool CustomWorkspaceFlubuFeature { get; set; }
+
         protected internal bool RemoveBuiltInCheckoutStage { get; set; }
 
         public JenkinsOptions SetFlubuToolType(FlubuToolType flubuToolType)
         {
             FlubuToolType = flubuToolType;
+            return this;
+        }
+
+        /// <summary>
+        /// When enabled (by default) it fixes jenkins multibranch issue if branch contains "/" in the name. More info. https://issues.jenkins.io/browse/JENKINS-30744
+        /// </summary>
+        public JenkinsOptions DisableCustomWorkspaceFlubuFeature()
+        {
+            CustomWorkspaceFlubuFeature = true;
             return this;
         }
 

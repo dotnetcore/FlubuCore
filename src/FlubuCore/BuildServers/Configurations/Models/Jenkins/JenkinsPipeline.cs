@@ -20,6 +20,11 @@ namespace FlubuCore.BuildServers.Configurations.Models.Jenkins
 
         public string FlubuCommand { get; set; }
 
+        /// <summary>
+        /// When enabled (by default) it fixes jenkins multibranch issue if branch contains / in the name. https://issues.jenkins.io/browse/JENKINS-30744
+        /// </summary>
+        public bool DisableCustomWorkspaceFlubuFeature { get; set; }
+
         public void FromOptions(JenkinsOptions options)
         {
             switch (options.FlubuToolType)
@@ -34,6 +39,8 @@ namespace FlubuCore.BuildServers.Configurations.Models.Jenkins
             }
 
             Options = options.Options;
+
+            DisableCustomWorkspaceFlubuFeature = options.CustomWorkspaceFlubuFeature;
 
             if (options.Environment != null && options.Environment.Count != 0)
             {

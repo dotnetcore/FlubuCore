@@ -18,6 +18,15 @@ namespace FlubuCore.BuildServers.Configurations
         {
             StringBuilder stringBuilder = new StringBuilder();
 
+
+            if (!pipeline.DisableCustomWorkspaceFlubuFeature)
+            {
+                stringBuilder.AppendBlockWithNewLine("def getWorkspace()", sb =>
+                {
+                    sb.AppendIndent(4).Append(@"pwd().replace(""%2F"", ""_"")");
+                });
+            }
+
             stringBuilder.AppendBlock("pipeline", sb =>
             {
                 sb.Append(new string(' ', 4)).Append("agent ").AppendLine(pipeline.Agent).AppendLine();
