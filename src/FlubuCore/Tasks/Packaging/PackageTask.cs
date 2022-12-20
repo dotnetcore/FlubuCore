@@ -242,7 +242,7 @@ namespace FlubuCore.Tasks.Packaging
                     var version = context.Properties.GetBuildVersion().Version;
                    if (version == null)
                    {
-                       throw new TaskExecutionException("Context property ""Build version must be set when adding version as postfix to filename", 99);
+                       throw new TaskExecutionException("Build version must be set when adding version as postfix to filename", 1);
                    }
                 }
 
