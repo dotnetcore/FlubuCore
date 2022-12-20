@@ -237,6 +237,15 @@ namespace FlubuCore.Tasks.Packaging
                     zipFile = zipFile.Substring(0, zipFile.Length - 4);
                 }
 
+                if (_addVersionAsPostFixToZipFileName)
+                {
+                    var version = context.Properties.GetBuildVersion().Version;
+                   if (version == null)
+                   {
+                       throw new TaskExecutionException("Context property ""Build version must be set when adding version as postfix to filename", 99);
+                   }
+                }
+
                 string tmp = _addVersionAsPostFixToZipFileName
                     ? $"{zipFile}_{context.Properties.GetBuildVersion().Version.ToString(_versionFieldCount)}.zip"
                     : $"{zipFile}.zip";
