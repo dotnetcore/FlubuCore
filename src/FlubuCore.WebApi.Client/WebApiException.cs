@@ -13,6 +13,12 @@ namespace FlubuCore.WebApi.Client
             StatusCode = statusCode;
         }
 
+        public WebApiException(HttpStatusCode statusCode, string message, Exception ex)
+            : base(message, ex)
+        {
+            StatusCode = statusCode;
+        }
+
         public HttpStatusCode StatusCode { get; set; }
 
         public string ErrorCode { get; set; }

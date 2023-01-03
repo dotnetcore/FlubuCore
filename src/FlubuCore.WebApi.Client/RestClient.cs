@@ -193,9 +193,9 @@ namespace FlubuCore.WebApi.Client
                         ? JsonConvert.DeserializeObject<ErrorModel>(errorString)
                         : new ErrorModel();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    throw new WebApiException(HttpStatusCode.InternalServerError, errorString);
+                    throw new WebApiException(HttpStatusCode.InternalServerError, $"Deserialization failed: StatusCode: {response.StatusCode} Headers: {response.Headers}, RequestMessage:  {response.RequestMessage}, Content: {errorString}", e);
                 }
 
                 throw new WebApiException(response.StatusCode, errorString)
@@ -217,8 +217,15 @@ namespace FlubuCore.WebApi.Client
 
             var jsonString = await response.Content.ReadAsStringAsync();
 
-            var result = JsonConvert.DeserializeObject<T>(jsonString);
-            return result;
+            try
+            {
+                var result = JsonConvert.DeserializeObject<T>(jsonString);
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new WebApiException(HttpStatusCode.InternalServerError, $"Deserialization failed: StatusCode: {response.StatusCode} Headers: {response.Headers}, RequestMessage:  {response.RequestMessage}, Content: {jsonString}", e);
+            }
         }
 
         protected virtual void GetAllClientMethods()
