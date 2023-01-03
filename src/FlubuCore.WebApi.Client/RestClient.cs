@@ -195,7 +195,7 @@ namespace FlubuCore.WebApi.Client
                 }
                 catch (Exception e)
                 {
-                    throw new WebApiException(HttpStatusCode.InternalServerError, $"Deserialization failed: StatusCode: {response.StatusCode} Headers: {response.Headers}, RequestMessage:  {response.RequestMessage}, Content: {errorString}", e);
+                    throw new WebApiException(response.StatusCode, $"Deserialization failed: StatusCode: {response.StatusCode} Headers: {response.Headers}, RequestMessage:  {response.RequestMessage}, Content: {errorString}", e);
                 }
 
                 throw new WebApiException(response.StatusCode, errorString)
