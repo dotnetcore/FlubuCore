@@ -199,11 +199,6 @@ public class  BuildScript : DefaultBuildScript
             .ServerUrl("https://www.nuget.org/api/v2/package")
             .ApiKey(NugetApiKey).Execute(context);
 
-        context.CoreTasks().NugetPush(Output.CombineWith($"FlubuCore.GlobalTool.{nugetVersion}.nupkg"))
-            .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.GlobalTool. exception: {e.Message}"); })
-            .ServerUrl("https://www.nuget.org/api/v2/package")
-            .ApiKey(NugetApiKey).Execute(context);
-
         context.CoreTasks().NugetPush(Output.CombineWith("FlubuCore.Analyzers.1.0.4.nupkg"))
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore.Analyzer. exception: {e.Message}"); })
             .ServerUrl("https://www.nuget.org/api/v2/package")
