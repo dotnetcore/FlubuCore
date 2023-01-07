@@ -47,6 +47,7 @@ namespace FlubuCore.Tests.BuildServers
 ";
             var jenkinsPipeline = _writer.Serialize(new JenkinsPipeline
             {
+                DisableCustomWorkspaceFlubuFeature = true,
                 Stages = new List<Stage>()
                 {
                     new Stage
@@ -105,6 +106,7 @@ namespace FlubuCore.Tests.BuildServers
 ";
             var jenkinsPipeline = _writer.Serialize(new JenkinsPipeline
             {
+                DisableCustomWorkspaceFlubuFeature = true,
                 Stages = new List<Stage>()
                 {
                     new Stage
@@ -147,6 +149,7 @@ namespace FlubuCore.Tests.BuildServers
 ";
             var jenkinsPipeline = _writer.Serialize(new JenkinsPipeline
             {
+                DisableCustomWorkspaceFlubuFeature = true,
                 Options = new JenkinsOptionsDirective()
                 {
                     CheckoutToSubDirectory = "subfolder",
@@ -176,6 +179,7 @@ namespace FlubuCore.Tests.BuildServers
 ";
             var jenkinsPipeline = _writer.Serialize(new JenkinsPipeline
             {
+                DisableCustomWorkspaceFlubuFeature = true,
                 Post = new List<JenkinsPost>()
                 {
                     new JenkinsPost()
@@ -209,6 +213,7 @@ namespace FlubuCore.Tests.BuildServers
 ";
             var jenkinsPipeline = _writer.Serialize(new JenkinsPipeline
             {
+               DisableCustomWorkspaceFlubuFeature = true,
                Environment = new Dictionary<string, string>()
                {
                    { "A", "123" },
@@ -251,6 +256,7 @@ namespace FlubuCore.Tests.BuildServers
 
             var jenkinsPipeline = _writer.Serialize(new JenkinsPipeline
             {
+                DisableCustomWorkspaceFlubuFeature = true,
                 Options = new JenkinsOptionsDirective()
                 {
                    TimeStamps = true

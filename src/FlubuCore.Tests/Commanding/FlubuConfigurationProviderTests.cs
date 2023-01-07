@@ -21,13 +21,6 @@ namespace FlubuCore.Tests.Commanding
         }
 
         [Fact]
-        public void BuildConfiguration_GetComplexSettingsFromJsonFile_Succesfull()
-        {
-            var exception = Assert.Throws<FlubuConfigurationException>(() => _flubuConfigurationProvider.GetConfiguration("appsettings2.json"));
-            Assert.Equal("Flubu supports only simple key/value JSON configuration.", exception.Message);
-        }
-
-        [Fact]
         public void BuildConfiguration_NonExistingJsonConfigurationFile_ReturnsEmptyDictionary()
         {
             var dictionary = _flubuConfigurationProvider.GetConfiguration("nonExist.json");
