@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Build", "Build.csproj", "{D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.WebApi.Tests", "FlubuCore.WebApi.Tests\FlubuCore.WebApi.Tests.csproj", "{ED30D289-E70F-4EC7-8AA3-568A1C4FD412}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.GlobalTool", "FlubuCore.GlobalTool\FlubuCore.GlobalTool.csproj", "{4DD2CF38-B943-49DA-94DC-D9C16A4104ED}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analyzers And Extensions", "Analyzers And Extensions", "{A995EB83-A953-43F1-B986-23AF162ACEC9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlubuCore.Analyzers", "FlubuCore.Analyzers\FlubuCore.Analyzers.csproj", "{F23082E6-7DAC-43E1-8D00-3901880D0FD5}"
@@ -133,18 +131,6 @@ Global
 		{ED30D289-E70F-4EC7-8AA3-568A1C4FD412}.Release|x64.Build.0 = Release|Any CPU
 		{ED30D289-E70F-4EC7-8AA3-568A1C4FD412}.Release|x86.ActiveCfg = Release|Any CPU
 		{ED30D289-E70F-4EC7-8AA3-568A1C4FD412}.Release|x86.Build.0 = Release|Any CPU
-		{4DD2CF38-B943-49DA-94DC-D9C16A4104ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4DD2CF38-B943-49DA-94DC-D9C16A4104ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4DD2CF38-B943-49DA-94DC-D9C16A4104ED}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{4DD2CF38-B943-49DA-94DC-D9C16A4104ED}.Debug|x64.Build.0 = Debug|Any CPU
-		{4DD2CF38-B943-49DA-94DC-D9C16A4104ED}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{4DD2CF38-B943-49DA-94DC-D9C16A4104ED}.Debug|x86.Build.0 = Debug|Any CPU
-		{4DD2CF38-B943-49DA-94DC-D9C16A4104ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4DD2CF38-B943-49DA-94DC-D9C16A4104ED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4DD2CF38-B943-49DA-94DC-D9C16A4104ED}.Release|x64.ActiveCfg = Release|Any CPU
-		{4DD2CF38-B943-49DA-94DC-D9C16A4104ED}.Release|x64.Build.0 = Release|Any CPU
-		{4DD2CF38-B943-49DA-94DC-D9C16A4104ED}.Release|x86.ActiveCfg = Release|Any CPU
-		{4DD2CF38-B943-49DA-94DC-D9C16A4104ED}.Release|x86.Build.0 = Release|Any CPU
 		{F23082E6-7DAC-43E1-8D00-3901880D0FD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F23082E6-7DAC-43E1-8D00-3901880D0FD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F23082E6-7DAC-43E1-8D00-3901880D0FD5}.Debug|x64.ActiveCfg = Debug|Any CPU
