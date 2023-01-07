@@ -18,7 +18,6 @@ namespace FlubuCore.BuildServers.Configurations
         {
             StringBuilder stringBuilder = new StringBuilder();
 
-
             if (!pipeline.DisableCustomWorkspaceFlubuFeature)
             {
                 stringBuilder.AppendBlockWithNewLine("def getWorkspace()", sb =>
