@@ -1,8 +1,15 @@
+## FlubuCore 7.0.0.0
+- Added support for .net 7.0.
+- Updated nuget packages.
+- PackageTask: Added version check when using version as postfix in zip file name.
+- Added more info to rest client when deserialization fails.
+- Jenkins configuration generation: Added option to disable custom workspace.
+
 ## FlubuCore 6.4.4.0
-- Adds System.Net.Requests to default references.
+- Added System.Net.Requests to default references.
 
 ## FlubuCore 6.4.3.0
-- Adds System.ComponentModel.Primitives to default references.
+- Added System.ComponentModel.Primitives to default references.
 
 ## FlubuCore 6.4.2.0
 - Fixed usage of dynamic in build scripts.
