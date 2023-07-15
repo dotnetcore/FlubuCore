@@ -75,7 +75,8 @@ public class  BuildScript : DefaultBuildScript
 
         var packageWebApi = context.CreateTarget("Package.WebApi")
             .SetDescription("Packages web api into zip deployment package.")
-                .AddTasks(PackageWebApi);
+            .DependsOn(publishWebApi)
+            .AddTasks(PackageWebApi);
 
         var flubuRunnerMerge = context.CreateTarget("merge")
             .SetDescription("Merge's all assemblyes into .net flubu console application executable.")
