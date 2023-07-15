@@ -40,7 +40,6 @@ namespace FlubuCore.WebApi.Tests.ClientTests
 
             Assert.False(File.Exists("test.txt"));
 
-            Assert.False(File.Exists("test.txt"));
             var req = new ExecuteScriptRequest
             {
                 ScriptFileName = "SimpleScript.cs",

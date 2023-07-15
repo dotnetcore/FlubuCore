@@ -2,11 +2,12 @@
 using FlubuCore.Context;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Scripting;
+using FlubuCore.Scripting.Attributes;
 using Moq;
 
-//#nuget: Moq, 4.8.2
 namespace FlubuCore.WebApi.Tests
 {
+    [NugetPackage("Moq", "4.8.2")]
     public class SimpleScript : DefaultBuildScript
     {
         public string RequiredParam { get; set; }

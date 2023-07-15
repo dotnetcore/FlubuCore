@@ -69,7 +69,7 @@ namespace FlubuCore.WebApi
                 .AddTasksForWebApi();
 
             ConfigureAuthenticationServices(services);
-#if !NETCOREAPP3_1 && !NET5_0
+#if NET462 || NETCOREAPP3_1
             ConfigureSwagger(services);
  #endif
         }
@@ -87,7 +87,7 @@ namespace FlubuCore.WebApi
             app.UseAuthentication();
             app.UseStaticFiles();
 
-#if !NET5_0
+#if NET462 || NETCOREAPP3_1
             app.UseMvc(routes =>
                 {
                     routes.MapRoute(
@@ -105,7 +105,7 @@ namespace FlubuCore.WebApi
             });
 #endif
 
-#if !NETCOREAPP3_1 && !NET5_0
+#if NET462 || NETCOREAPP3_1
             app.UseSwagger(c =>
             {
                 c.PreSerializeFilters.Add((swagger, httpReq) => swagger.Host = httpReq.Host.Value);
