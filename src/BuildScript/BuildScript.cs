@@ -39,7 +39,6 @@ public class  BuildScript : DefaultBuildScript
 
     protected override void ConfigureTargets(ITaskContext context)
     {
-        context.CreateTarget
         var buildVersion = context.CreateTarget("buildVersion")
             .SetAsHidden()
             .SetDescription("Fetches flubu version from CHANGELOG.md file.")
