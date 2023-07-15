@@ -29,7 +29,6 @@ public class  BuildScript : DefaultBuildScript
         "FlubuCore",
         "dotnet-flubu",
         "FlubuCore.Tool",
-        "FlubuCore.GlobalTool",
         "FlubuCore.Analyzers",
     };
 
@@ -40,6 +39,7 @@ public class  BuildScript : DefaultBuildScript
 
     protected override void ConfigureTargets(ITaskContext context)
     {
+        context.CreateTarget
         var buildVersion = context.CreateTarget("buildVersion")
             .SetAsHidden()
             .SetDescription("Fetches flubu version from CHANGELOG.md file.")
@@ -51,7 +51,7 @@ public class  BuildScript : DefaultBuildScript
         var compile = context
             .CreateTarget("compile")
             .SetDescription("Compiles the VS solution")
-            .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj", "FlubuCore.Tests/FlubuCore.Tests.csproj", "FlubuCore.WebApi.Model/FlubuCore.WebApi.Model.csproj", "FlubuCore.WebApi.Client/FlubuCore.WebApi.Client.csproj", "FlubuCore.WebApi/FlubuCore.WebApi.csproj", "FlubuCore.GlobalTool/FlubuCore.GlobalTool.csproj", "FlubuCore.Tool/FlubuCore.Tool.csproj"))
+            .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj", "FlubuCore.Tests/FlubuCore.Tests.csproj", "FlubuCore.WebApi.Model/FlubuCore.WebApi.Model.csproj", "FlubuCore.WebApi.Client/FlubuCore.WebApi.Client.csproj", "FlubuCore.WebApi/FlubuCore.WebApi.csproj", "FlubuCore.Tool/FlubuCore.Tool.csproj"))
             .AddCoreTask(x => x.Build())
             .DependsOn(buildVersion);
 
