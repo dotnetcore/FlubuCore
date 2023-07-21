@@ -13,5 +13,7 @@
         /// task fails with exception if application pool doesn't exists. Otherwise not.
         /// </summary>
         IDeleteAppPoolTask FailIfNotExist();
+
+        IDeleteAppPoolTask ForServer(string serverName);
     }
 }

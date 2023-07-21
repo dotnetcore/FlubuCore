@@ -12,12 +12,10 @@ namespace FlubuCore.Tasks.Iis
     public class AddWebsiteBindingTask : TaskBase<int, IAddWebsiteBindingTask>, IAddWebsiteBindingTask
     {
         private string _siteName;
-
         private string _bindProtocol;
-
         private string _certificateStore;
-
         private string _certificateHash;
+        private string _serverName;
 
         protected override string Description { get; set; }
 
@@ -45,6 +43,12 @@ namespace FlubuCore.Tasks.Iis
             return this;
         }
 
+        public IAddWebsiteBindingTask ForServer(string serverName)
+        {
+            _serverName = serverName;
+            return this;
+        }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
             if (string.IsNullOrEmpty(_siteName))
@@ -55,12 +59,16 @@ namespace FlubuCore.Tasks.Iis
                 (string.IsNullOrEmpty(_certificateStore) || string.IsNullOrEmpty(_certificateHash)))
                 throw new TaskExecutionException("Certificate store or hash not set for SSL protocol", 1);
 
-            using (ServerManager manager = new ServerManager())
+            ServerManager serverManager = string.IsNullOrEmpty(_serverName)
+                ? new ServerManager()
+                : ServerManager.OpenRemote(_serverName);
+
+            using (serverManager)
             {
-                Site site = manager.Sites[_siteName];
+                Site site = serverManager.Sites[_siteName];
 
                 //// See if this binding is already on some site
-                if (manager.Sites.Where(st => st.Bindings.Where(b => b.Protocol == _bindProtocol).Any()).Any())
+                if (serverManager.Sites.Where(st => st.Bindings.Where(b => b.Protocol == _bindProtocol).Any()).Any())
                 {
                     DoLogInfo($"Binding for protocol '{_bindProtocol}' already exists! Doing nothing.");
                     return 0;
@@ -72,7 +80,7 @@ namespace FlubuCore.Tasks.Iis
                 binding.CertificateHash = Encoding.UTF8.GetBytes(_certificateHash);
                 site.Bindings.Add(binding);
 
-                manager.CommitChanges();
+                serverManager.CommitChanges();
             }
 
             return 0;

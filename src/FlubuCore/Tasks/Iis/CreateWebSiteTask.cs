@@ -30,6 +30,8 @@ namespace FlubuCore.Tasks.Iis
         /// </summary>
         private string _physicalPath;
 
+        private string _serverName;
+
         private string _applicationPoolName = "DefaultAppPool";
 
         private IList<MimeType> _mimeTypes;
@@ -63,21 +65,27 @@ namespace FlubuCore.Tasks.Iis
             return new CreateWebsiteBindingProtocol(this);
         }
 
-        public CreateWebsiteTask WebsiteMode(CreateWebApplicationMode value)
+        public ICreateWebsiteTask WebsiteMode(CreateWebApplicationMode value)
         {
             _siteMode = value;
             return this;
         }
 
-        public CreateWebsiteTask ApplicationPoolName(string applicationPool)
+        public ICreateWebsiteTask ApplicationPoolName(string applicationPool)
         {
             _applicationPoolName = applicationPool;
             return this;
         }
 
-        public CreateWebsiteTask AddMimeType(MimeType mimeType)
+        public ICreateWebsiteTask AddMimeType(MimeType mimeType)
         {
             _mimeTypes.Add(mimeType);
+            return this;
+        }
+
+        public ICreateWebsiteTask ForServer(string serverName)
+        {
+            _serverName = serverName;
             return this;
         }
 
@@ -88,7 +96,12 @@ namespace FlubuCore.Tasks.Iis
         protected override int DoExecute(ITaskContextInternal context)
         {
             Validate();
-            using (ServerManager serverManager = new ServerManager())
+
+            ServerManager serverManager = string.IsNullOrEmpty(_serverName)
+                ? new ServerManager()
+                : ServerManager.OpenRemote(_serverName);
+
+            using (serverManager)
             {
                 var webSiteExists = WebsiteExists(serverManager, _webSiteName);
 

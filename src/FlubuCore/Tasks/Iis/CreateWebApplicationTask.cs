@@ -18,6 +18,7 @@ namespace FlubuCore.Tasks.Iis
         private string _applicationPoolName = "DefaultAppPool";
         private CreateWebApplicationMode _mode = CreateWebApplicationMode.FailIfAlreadyExists;
         private string _description;
+        private string _serverName;
 
         public CreateWebApplicationTask(string applicationName)
         {
@@ -84,9 +85,21 @@ namespace FlubuCore.Tasks.Iis
             return this;
         }
 
+        public ICreateWebApplicationTask ForServer(string serverName)
+        {
+            _serverName = serverName;
+            return this;
+        }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
-            using (ServerManager serverManager = new ServerManager())
+            ServerManager serverManager = string.IsNullOrEmpty(_serverName)
+                ? new ServerManager()
+                : ServerManager.OpenRemote(_serverName);
+
+            string vdirPath = "/" + _applicationName;
+
+            using (serverManager)
             {
                 if (!WebsiteExists(serverManager, _websiteName))
                 {
@@ -96,7 +109,6 @@ namespace FlubuCore.Tasks.Iis
 
                 Site site = serverManager.Sites[_websiteName];
 
-                string vdirPath = "/" + _applicationName;
                 foreach (Application application in site.Applications)
                 {
                     if (application.Path == vdirPath)
@@ -122,16 +134,20 @@ namespace FlubuCore.Tasks.Iis
                         return 0;
                     }
                 }
+            }
 
-                using (ServerManager manager = new ServerManager())
-                {
-                    Site defaultSite = manager.Sites[_websiteName];
-                    Application ourApplication = defaultSite.Applications.Add(vdirPath, _localPath);
-                    ourApplication.ApplicationPoolName = _applicationPoolName;
-                    var config = ourApplication.GetWebConfiguration();
-                    AddMimeTypes(config, _mimeTypes);
-                    manager.CommitChanges();
-                }
+            serverManager = string.IsNullOrEmpty(_serverName)
+                ? new ServerManager()
+                : ServerManager.OpenRemote(_serverName);
+
+            using (serverManager)
+            {
+                Site defaultSite = serverManager.Sites[_websiteName];
+                Application ourApplication = defaultSite.Applications.Add(vdirPath, _localPath);
+                ourApplication.ApplicationPoolName = _applicationPoolName;
+                var config = ourApplication.GetWebConfiguration();
+                AddMimeTypes(config, _mimeTypes);
+                serverManager.CommitChanges();
             }
 
             return 0;

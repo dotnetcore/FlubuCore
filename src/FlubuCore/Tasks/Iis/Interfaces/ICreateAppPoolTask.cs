@@ -21,5 +21,7 @@ namespace FlubuCore.Tasks.Iis
         ICreateAppPoolTask ManagedRuntimeVersion(string managedRuntimeVersion);
 
         ICreateAppPoolTask Mode(CreateApplicationPoolMode mode);
+
+        ICreateAppPoolTask ForServer(string serverName);
     }
 }

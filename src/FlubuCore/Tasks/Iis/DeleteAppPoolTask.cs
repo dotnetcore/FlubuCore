@@ -10,6 +10,7 @@ namespace FlubuCore.Tasks.Iis
 
         private bool _failIfNotExist;
         private string _description;
+        private string _serverName;
 
         public DeleteAppPoolTask(string appPoolName)
         {
@@ -43,9 +44,19 @@ namespace FlubuCore.Tasks.Iis
             return this;
         }
 
+        public IDeleteAppPoolTask ForServer(string serverName)
+        {
+            _serverName = serverName;
+            return this;
+        }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
-            using (ServerManager serverManager = new ServerManager())
+            ServerManager serverManager = string.IsNullOrEmpty(_serverName)
+                ? new ServerManager()
+                : ServerManager.OpenRemote(_serverName);
+
+            using (serverManager)
             {
                 ApplicationPoolCollection applicationPoolCollection = serverManager.ApplicationPools;
 

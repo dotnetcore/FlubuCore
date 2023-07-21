@@ -10,7 +10,7 @@ namespace FlubuCore.Tasks.Iis
 
         private bool _classicManagedPipelineMode;
         private string _description;
-
+        private string _serverName;
         private string _managedRuntimeVersion;
 
         private CreateApplicationPoolMode _mode;
@@ -55,9 +55,19 @@ namespace FlubuCore.Tasks.Iis
             return this;
         }
 
+        public ICreateAppPoolTask ForServer(string serverName)
+        {
+            _serverName = serverName;
+            return this;
+        }
+
         protected override int DoExecute(ITaskContextInternal context)
         {
-            using (var serverManager = new ServerManager())
+            ServerManager serverManager = string.IsNullOrEmpty(_serverName)
+                ? new ServerManager()
+                : ServerManager.OpenRemote(_serverName);
+
+            using (serverManager)
             {
                 var applicationPoolCollection = serverManager.ApplicationPools;
 

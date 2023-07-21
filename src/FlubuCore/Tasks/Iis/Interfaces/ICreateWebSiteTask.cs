@@ -22,20 +22,22 @@ namespace FlubuCore.Tasks.Iis
         /// </summary>
         /// <param name="value">The website Mode <see cref="CreateWebApplicationMode"/> </param>
         /// <returns>The Iis7CreateWebSiteTask.</returns>
-        CreateWebsiteTask WebsiteMode(CreateWebApplicationMode value);
+        ICreateWebsiteTask WebsiteMode(CreateWebApplicationMode value);
 
         /// <summary>
         /// Set web site application pool name.
         /// </summary>
         /// <param name="applicationPool">The application pool name</param>
         /// <returns>The  Iis7CreateWebSiteTask.</returns>
-        CreateWebsiteTask ApplicationPoolName(string applicationPool);
+        ICreateWebsiteTask ApplicationPoolName(string applicationPool);
 
         /// <summary>
         ///  Add MimeType. Can be used multiple times.
         /// </summary>
         /// <param name="mimeType">The mime type</param>
         /// <returns>The  Iis7CreateWebSiteTask.</returns>
-        CreateWebsiteTask AddMimeType(MimeType mimeType);
+        ICreateWebsiteTask AddMimeType(MimeType mimeType);
+
+        ICreateWebsiteTask ForServer(string serverName);
     }
 }
