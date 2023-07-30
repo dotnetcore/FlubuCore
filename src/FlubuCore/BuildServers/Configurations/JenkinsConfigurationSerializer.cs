@@ -9,8 +9,11 @@ namespace FlubuCore.BuildServers.Configurations
 {
     public class JenkinsConfigurationSerializer
     {
+        private JenkinsPipelineOptions _jenkinsPipelineOptions;
+
         public string Serialize(JenkinsPipeline pipeline)
         {
+            _jenkinsPipelineOptions = pipeline.JenkinsPipelineOptions;
             return BuildJenkinsPipeline(pipeline).ToString();
         }
 
@@ -18,7 +21,7 @@ namespace FlubuCore.BuildServers.Configurations
         {
             StringBuilder stringBuilder = new StringBuilder();
 
-            if (!pipeline.DisableCustomWorkspaceFlubuFeature)
+            if (!pipeline.JenkinsPipelineOptions.DisableCustomWorkspaceFlubuFeature)
             {
                 stringBuilder.AppendBlockWithNewLine("def getWorkspace()", sb =>
                 {
@@ -63,38 +66,60 @@ namespace FlubuCore.BuildServers.Configurations
 
             sb.AppendBlockWithNewLine("stages", (s) =>
             {
+                if (!_jenkinsPipelineOptions.DisableCustomWorkspaceFlubuFeature)
+                {
+                    AddCustomCheckoutStage(s);
+                }
+
                 foreach (var stage in stages)
                 {
-                    AppendStage(sb, stage);
+                    AppendFlubuStage(sb, stage);
                 }
             }, 4);
         }
 
-        private void AppendStage(StringBuilder sb, Stage stage)
+        private void AppendFlubuStage(StringBuilder sb, Stage stage)
         {
             sb.AppendBlockWithNewLine($"stage('{stage.Name}')", (s) =>
             {
-                sb.AppendBlock("steps", (s2) =>
+                s.AppendBlock("steps", (s2) =>
                 {
-                    if (!string.IsNullOrEmpty(stage.WorkingDirectory))
+                    if (!_jenkinsPipelineOptions.DisableCustomWorkspaceFlubuFeature)
                     {
-                        s.AppendBlock($"dir('{stage.WorkingDirectory}')", s3 =>
+                        s2.AppendBlock("ws(getWorkspace())", (s3) =>
                         {
-                            foreach (var stageStep in stage.Steps)
-                            {
-                                s2.AppendIndent(20).AppendLine(stageStep);
-                            }
+                            AppendStageStepsWithWorkingDirectory(stage, s3, 4);
                         }, 16);
                     }
                     else
                     {
-                        foreach (var stageStep in stage.Steps)
-                        {
-                            s.AppendIndent(16).AppendLine(stageStep);
-                        }
+                        AppendStageStepsWithWorkingDirectory(stage, s2, 0);
                     }
                 }, 12);
             }, 8);
+        }
+
+        private void AppendStageStepsWithWorkingDirectory(Stage stage, StringBuilder s, int increaseIndent)
+        {
+            if (!string.IsNullOrEmpty(stage.WorkingDirectory))
+            {
+                s.AppendBlock($"dir('{stage.WorkingDirectory}')", s3 =>
+                {
+                    AppendStageSteps(stage, s, 20 + increaseIndent);
+                }, 16 + increaseIndent);
+            }
+            else
+            {
+                AppendStageSteps(stage, s, 16 + increaseIndent);
+            }
+        }
+
+        private void AppendStageSteps(Stage stage, StringBuilder s, int indent)
+        {
+            foreach (var stageStep in stage.Steps)
+            {
+                s.AppendIndent(indent).AppendLine(stageStep);
+            }
         }
 
         private void AppendPost(StringBuilder sb, List<JenkinsPost> posts)
@@ -123,12 +148,28 @@ namespace FlubuCore.BuildServers.Configurations
         {
             if (options == null)
             {
+                if (!_jenkinsPipelineOptions.DisableCustomWorkspaceFlubuFeature)
+                {
+                    sb.AppendBlockWithNewLine("options", (s) =>
+                    {
+                        var indent = new string(' ', 8);
+
+                        sb.Append(indent).AppendLine("skipDefaultCheckout()");
+                    }, 4);
+                }
+
                 return;
             }
 
             sb.AppendBlockWithNewLine("options", (s) =>
             {
                 var indent = new string(' ', 8);
+
+                if (!_jenkinsPipelineOptions.DisableCustomWorkspaceFlubuFeature)
+                {
+                    sb.Append(indent).AppendLine("skipDefaultCheckout()");
+                }
+
                 if (options.DisableConcurrentBuilds)
                 {
                     sb.Append(indent).AppendLine("disableConcurrentBuilds()");
@@ -201,6 +242,34 @@ namespace FlubuCore.BuildServers.Configurations
                     sb.AppendLine();
                 }
             }, 4);
+        }
+
+        private void AddCustomCheckoutStage(StringBuilder s)
+        {
+            s.AppendBlockWithNewLine($"stage('Checkout')", (s2) =>
+            {
+                s2.AppendBlock("steps", (s3) =>
+                {
+                    s3.AppendBlock("ws(getWorkspace())", (s4) =>
+                    {
+                        s4.AppendIndent(20).AppendLine("checkout([");
+                        s4.AppendIndent(24).AppendLine("$class: 'GitSCM', ");
+                        s4.AppendIndent(24).AppendLine("branches: scm.branches,");
+                        s4.AppendIndent(24).AppendLine("doGenerateSubmoduleConfigurations: false,");
+                        s4.AppendIndent(24).AppendLine("extensions: [[");
+                        s4.AppendIndent(28).AppendLine("$class: 'SubmoduleOption',");
+                        s4.AppendIndent(28).AppendLine("disableSubmodules: false,");
+                        s4.AppendIndent(28).AppendLine("parentCredentials: true,");
+                        s4.AppendIndent(28).AppendLine("recursiveSubmodules: true,");
+                        s4.AppendIndent(28).AppendLine("reference: '',");
+                        s4.AppendIndent(28).AppendLine("trackingSubmodules: false");
+                        s4.AppendIndent(24).AppendLine("]],");
+                        s4.AppendIndent(24).AppendLine("submoduleCfg: [],");
+                        s4.AppendIndent(24).AppendLine("userRemoteConfigs: scm.userRemoteConfigs");
+                        s4.AppendIndent(20).AppendLine("])");
+                    }, 16);
+                }, 12);
+            }, 8);
         }
     }
 }

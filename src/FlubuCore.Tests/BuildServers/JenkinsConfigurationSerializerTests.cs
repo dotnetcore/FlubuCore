@@ -47,7 +47,10 @@ namespace FlubuCore.Tests.BuildServers
 ";
             var jenkinsPipeline = _writer.Serialize(new JenkinsPipeline
             {
-                DisableCustomWorkspaceFlubuFeature = true,
+                JenkinsPipelineOptions = new JenkinsPipelineOptions()
+                {
+                    DisableCustomWorkspaceFlubuFeature = true
+                },
                 Stages = new List<Stage>()
                 {
                     new Stage
@@ -74,39 +77,72 @@ namespace FlubuCore.Tests.BuildServers
         [Fact]
         public void Pipeline_StagesWithWorkingDirectoryTest()
         {
-            const string expectedPipeLine = @"pipeline {
+            const string expectedPipeLine = @"def getWorkspace() {
+    pwd().replace(""%2F"", ""_"")}pipeline {
     agent any
 
+    options {
+        skipDefaultCheckout()
+    }
+
     stages {
+        stage('Checkout') {
+            steps {
+                ws(getWorkspace()) {
+                    checkout([
+                        $class: 'GitSCM', 
+                        branches: scm.branches,
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions: [[
+                            $class: 'SubmoduleOption',
+                            disableSubmodules: false,
+                            parentCredentials: true,
+                            recursiveSubmodules: true,
+                            reference: '',
+                            trackingSubmodules: false
+                        ]],
+                        submoduleCfg: [],
+                        userRemoteConfigs: scm.userRemoteConfigs
+                    ])
+                }
+            }
+        }
         stage('Build') {
             steps {
-                dir('src') {
-                    flubu build
+                ws(getWorkspace()) {
+                    dir('src') {
+                        flubu build
+                    }
                 }
             }
         }
 
         stage('Test') {
             steps {
-                flubu test
-            }
-        }
-
-        stage('Package') {
-            steps {
-                dir('src') {
-                    flubu package
+                ws(getWorkspace()) {
+                    flubu test
                 }
             }
         }
-
+        stage('Package') {
+            steps {
+                ws(getWorkspace()) {
+                    dir('src') {
+                        flubu package
+                    }
+                }
+            }
+        }
     }
 
 }
 ";
             var jenkinsPipeline = _writer.Serialize(new JenkinsPipeline
             {
-                DisableCustomWorkspaceFlubuFeature = true,
+                JenkinsPipelineOptions = new JenkinsPipelineOptions()
+                {
+                    DisableCustomWorkspaceFlubuFeature = false
+                },
                 Stages = new List<Stage>()
                 {
                     new Stage
@@ -128,8 +164,9 @@ namespace FlubuCore.Tests.BuildServers
                     },
                 }
             });
-            File.WriteAllText(@"d:\_pipeline.txt", jenkinsPipeline);
-            File.WriteAllText(@"d:\_pipeline2.txt", expectedPipeLine);
+
+            // File.WriteAllText(@"d:\_pipeline.txt", jenkinsPipeline);
+            // File.WriteAllText(@"d:\_pipeline2.txt", expectedPipeLine);
             Assert.Equal(ReplaceNewlines(expectedPipeLine, string.Empty), ReplaceNewlines(jenkinsPipeline, string.Empty));
         }
 
@@ -149,7 +186,10 @@ namespace FlubuCore.Tests.BuildServers
 ";
             var jenkinsPipeline = _writer.Serialize(new JenkinsPipeline
             {
-                DisableCustomWorkspaceFlubuFeature = true,
+                JenkinsPipelineOptions = new JenkinsPipelineOptions()
+                {
+                    DisableCustomWorkspaceFlubuFeature = true
+                },
                 Options = new JenkinsOptionsDirective()
                 {
                     CheckoutToSubDirectory = "subfolder",
@@ -179,7 +219,10 @@ namespace FlubuCore.Tests.BuildServers
 ";
             var jenkinsPipeline = _writer.Serialize(new JenkinsPipeline
             {
-                DisableCustomWorkspaceFlubuFeature = true,
+                JenkinsPipelineOptions = new JenkinsPipelineOptions()
+                {
+                    DisableCustomWorkspaceFlubuFeature = true
+                },
                 Post = new List<JenkinsPost>()
                 {
                     new JenkinsPost()
@@ -213,7 +256,10 @@ namespace FlubuCore.Tests.BuildServers
 ";
             var jenkinsPipeline = _writer.Serialize(new JenkinsPipeline
             {
-               DisableCustomWorkspaceFlubuFeature = true,
+               JenkinsPipelineOptions = new JenkinsPipelineOptions()
+               {
+                   DisableCustomWorkspaceFlubuFeature = true
+               },
                Environment = new Dictionary<string, string>()
                {
                    { "A", "123" },
@@ -256,7 +302,10 @@ namespace FlubuCore.Tests.BuildServers
 
             var jenkinsPipeline = _writer.Serialize(new JenkinsPipeline
             {
-                DisableCustomWorkspaceFlubuFeature = true,
+                JenkinsPipelineOptions = new JenkinsPipelineOptions()
+                {
+                    DisableCustomWorkspaceFlubuFeature = true
+                },
                 Options = new JenkinsOptionsDirective()
                 {
                    TimeStamps = true
@@ -285,9 +334,74 @@ namespace FlubuCore.Tests.BuildServers
             Assert.Equal(ReplaceNewlines(expectedPipeLine, string.Empty), ReplaceNewlines(jenkinsPipeline, string.Empty));
         }
 
-        private static string ReplaceNewlines(string blockOfText, string replaceWith)
-        {
-            return blockOfText.Replace("\r\n", replaceWith).Replace("\n", replaceWith).Replace("\r", replaceWith);
+   [Fact]
+    public void Pipeline_SimpleAllTestWithCustomWorkspaceFeatureEnabled()
+    {
+        const string expectedPipeLine = @"def getWorkspace() {
+    pwd().replace(""%2F"", ""_"")}pipeline {
+    agent any
+
+    options {
+        disableConcurrentBuilds()
+        timestamps()
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                dir('src') {
+                    flubu build
+                }
+            }
         }
+
+    }
+
+    post {
+        always {
+            Some post step always
+        }
+    }
+}
+";
+
+        var jenkinsPipeline = _writer.Serialize(new JenkinsPipeline
+        {
+            JenkinsPipelineOptions = new JenkinsPipelineOptions()
+            {
+                DisableCustomWorkspaceFlubuFeature = false
+            },
+            Options = new JenkinsOptionsDirective()
+            {
+                TimeStamps = true
+            },
+
+            Stages = new List<Stage>()
+            {
+                new Stage
+                {
+                    Name = "Build",
+                    WorkingDirectory = "src",
+                    Steps = new List<string>() { "flubu build" }
+                },
+            },
+
+            Post = new List<JenkinsPost>()
+            {
+                new JenkinsPost()
+                {
+                    Condition = JenkinsPostConditions.Always,
+                    Steps = new List<string>() { "Some post step always" }
+                },
+            }
+        });
+
+        Assert.Equal(ReplaceNewlines(expectedPipeLine, string.Empty), ReplaceNewlines(jenkinsPipeline, string.Empty));
+    }
+
+    private static string ReplaceNewlines(string blockOfText, string replaceWith)
+    {
+        return blockOfText.Replace("\r\n", replaceWith).Replace("\n", replaceWith).Replace("\r", replaceWith);
+    }
     }
 }

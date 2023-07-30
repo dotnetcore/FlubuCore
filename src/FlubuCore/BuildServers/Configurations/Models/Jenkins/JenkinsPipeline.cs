@@ -20,10 +20,7 @@ namespace FlubuCore.BuildServers.Configurations.Models.Jenkins
 
         public string FlubuCommand { get; set; }
 
-        /// <summary>
-        /// When enabled (by default) it fixes jenkins multibranch issue if branch contains / in the name. https://issues.jenkins.io/browse/JENKINS-30744
-        /// </summary>
-        public bool DisableCustomWorkspaceFlubuFeature { get; set; }
+        public JenkinsPipelineOptions JenkinsPipelineOptions { get; set; } = new JenkinsPipelineOptions();
 
         public void FromOptions(JenkinsOptions options)
         {
@@ -40,7 +37,7 @@ namespace FlubuCore.BuildServers.Configurations.Models.Jenkins
 
             Options = options.Options;
 
-            DisableCustomWorkspaceFlubuFeature = options.CustomWorkspaceFlubuFeature;
+            JenkinsPipelineOptions.DisableCustomWorkspaceFlubuFeature = options.CustomWorkspaceFlubuFeature;
 
             if (options.Environment != null && options.Environment.Count != 0)
             {
@@ -84,5 +81,13 @@ namespace FlubuCore.BuildServers.Configurations.Models.Jenkins
                 Post = options.JenkinsPosts;
             }
         }
+    }
+
+    public class JenkinsPipelineOptions
+    {
+        /// <summary>
+        /// When enabled (by default) it fixes jenkins multibranch issue if branch contains / in the name. https://issues.jenkins.io/browse/JENKINS-30744
+        /// </summary>
+        public bool DisableCustomWorkspaceFlubuFeature { get; set; }
     }
 }
