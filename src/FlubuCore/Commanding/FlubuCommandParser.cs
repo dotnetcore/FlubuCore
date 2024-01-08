@@ -129,7 +129,7 @@ Flubu internal commands:
             _parsed.Help = false;
             _parsed.MainCommands = _command.Values.Where(x => !x.StartsWith("/")).ToList();
             _parsed.Script = _scriptPath.Value();
-            _parsed.AssemblyDirectories = _assemblyDirectories.Values;
+            _parsed.AssemblyDirectories = _assemblyDirectories.Values.ToList();
             if (_targetsToExecute.HasValue())
             {
                 _parsed.TargetsToExecute = _targetsToExecute.Value().Split(',').ToList();

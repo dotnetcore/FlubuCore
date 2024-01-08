@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net462;net5.0;net7.0;</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net462;net5.0;net7.0;net8.0</TargetFrameworks>
     <WarningsAsErrors>true</WarningsAsErrors>
     <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1701;1702;1705;1591;1573;1572;1574</NoWarn>
-  <Version>5.1.8</Version><AssemblyVersion>5.1.8.0</AssemblyVersion><FileVersion>5.1.8.0</FileVersion></PropertyGroup>
+  <Version>8.0.0</Version><AssemblyVersion>8.0.0.0</AssemblyVersion><FileVersion>8.0.0.0</FileVersion></PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
     <ReferringTargetFrameworkForProjectReferences>.NETStandard,Version=v2.0</ReferringTargetFrameworkForProjectReferences>
     <DefineConstants>NETCOREAPP3_1;</DefineConstants>
@@ -82,8 +82,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
-    <PackageReference Include="LiteDB" Version="5.0.11" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.25.1" />
+    <PackageReference Include="LiteDB" Version="5.0.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.0.3" />
     <PackageReference Include="Octokit" Version="0.47.0" />
     <PackageReference Include="Serilog.Sinks.LiteDB" Version="1.0.29" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
@@ -115,17 +117,20 @@
     <ProjectReference Include="..\FlubuCore.LiteDb\FlubuCore.LiteDb.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.0" />
   </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <ProjectReference Include="..\FlubuCore.LiteDb\FlubuCore.LiteDb.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.0" />
+  </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
     <ProjectReference Include="..\FlubuCore.LiteDb\FlubuCore.LiteDb.csproj">
       <SetTargetFramework>TargetFramework=net462</SetTargetFramework>
     </ProjectReference>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
