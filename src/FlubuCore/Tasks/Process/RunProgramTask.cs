@@ -24,9 +24,9 @@ namespace FlubuCore.Tasks.Process
 
         private string _workingFolder;
 
-        private bool _captureOutput;
+        private bool _captureOutput = true;
 
-        private bool _captureErrorOutput;
+        private bool _captureErrorOutput = true;
 
         private LogLevel _outputLogLevel = LogLevel.Info;
 
@@ -111,9 +111,23 @@ namespace FlubuCore.Tasks.Process
         }
 
         /// <inheritdoc />
+        public IRunProgramTask CaptureOutput(bool capture)
+        {
+            _captureOutput = capture;
+            return this;
+        }
+
+        /// <inheritdoc />
         public IRunProgramTask CaptureErrorOutput()
         {
             _captureErrorOutput = true;
+            return this;
+        }
+
+        /// <inheritdoc />
+        public IRunProgramTask CaptureErrorOutput(bool capture)
+        {
+            _captureErrorOutput = false;
             return this;
         }
 
@@ -222,25 +236,35 @@ namespace FlubuCore.Tasks.Process
             ICommand command = _commandFactory.Create(cmd, _arguments.Select(x => x.arg));
             string workingFolder = _workingFolder ?? rootDir;
             command
-                .CaptureStdErr()
-                .CaptureStdOut()
-                .WorkingDirectory(workingFolder)
-                .OnErrorLine(l =>
-                {
-                    if (_outputLogLevel >= LogLevel.Error)
-                        DoLogInfo(l);
+                .WorkingDirectory(workingFolder);
 
-                    if (_captureErrorOutput)
-                        _errorOutput.AppendLine(l);
-                })
-                .OnOutputLine(l =>
-                {
-                    if (_outputLogLevel >= LogLevel.Info)
-                        DoLogInfo(l);
+            if (_captureOutput)
+            {
+                command
+                    .CaptureStdOut()
+                    .OnOutputLine(l =>
+                    {
+                        if (_outputLogLevel >= LogLevel.Info)
+                            DoLogInfo(l);
 
-                    if (_captureOutput)
-                        _output.AppendLine(l);
-                });
+                        if (_captureOutput)
+                            _output.AppendLine(l);
+                    });
+            }
+
+            if (_captureErrorOutput)
+            {
+                command
+                    .CaptureStdErr()
+                    .OnErrorLine(l =>
+                    {
+                        if (_outputLogLevel >= LogLevel.Error)
+                            DoLogInfo(l);
+
+                        if (_captureErrorOutput)
+                            _errorOutput.AppendLine(l);
+                    });
+            }
 
             string commandArgs = null;
             ProcessAdditionalOptions(context);

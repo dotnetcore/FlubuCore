@@ -34,6 +34,18 @@ namespace FlubuCore.Tasks.Process
         IRunProgramTask CaptureErrorOutput();
 
         /// <summary>
+        ///     Capture output of the running program.
+        /// </summary>
+        /// <returns></returns>
+        IRunProgramTask CaptureOutput(bool capture);
+
+        /// <summary>
+        ///     Capture error output of the running program.
+        /// </summary>
+        /// <returns></returns>
+        IRunProgramTask CaptureErrorOutput(bool capture);
+
+        /// <summary>
         ///     Gets the whole output of the executed command.
         /// </summary>
         /// <returns></returns>
