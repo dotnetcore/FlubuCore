@@ -127,7 +127,7 @@ namespace FlubuCore.Tasks.Process
         /// <inheritdoc />
         public IRunProgramTask CaptureErrorOutput(bool capture)
         {
-            _captureErrorOutput = false;
+            _captureErrorOutput = capture;
             return this;
         }
 
