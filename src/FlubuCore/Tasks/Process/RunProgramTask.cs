@@ -40,6 +40,8 @@ namespace FlubuCore.Tasks.Process
 
         private Func<string, string> _addPrefixToAdditionalOptionKey = null;
 
+        private HashSet<int> _doNotFailOnExitCodes = null;
+
         /// <inheritdoc />
         public RunProgramTask(ICommandFactory commandFactory, string programToExecute)
         {
@@ -200,6 +202,14 @@ namespace FlubuCore.Tasks.Process
             return this;
         }
 
+        /// <inheritdoc />
+        public IRunProgramTask DoNotFailOnExitCodes(params int[] exitCodes)
+        {
+            _doNotFailOnExitCodes = new HashSet<int>(exitCodes);
+            _doNotFailOnExitCodes.Add(0);
+            return this;
+        }
+
         public IRunProgramTask Executable(string executableFullFilePath)
         {
             _programToExecute = executableFullFilePath;
@@ -281,7 +291,9 @@ namespace FlubuCore.Tasks.Process
             int res = command.Execute()
                 .ExitCode;
 
-            if (!DoNotFail && res != 0)
+            bool isSuccess = _doNotFailOnExitCodes != null ? _doNotFailOnExitCodes.Contains(res) : res == 0;
+
+            if (!DoNotFail && !isSuccess)
                 context.Fail($"External program {cmd} failed with {res}.", res);
 
             return res;

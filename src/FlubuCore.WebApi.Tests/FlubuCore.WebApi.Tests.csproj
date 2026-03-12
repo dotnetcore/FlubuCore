@@ -29,6 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FlubuCore.WebApi.Client\FlubuCore.WebApi.Client.csproj" />
     <ProjectReference Include="..\FlubuCore.WebApi.Model\FlubuCore.WebApi.Model.csproj" />
+    <ProjectReference Include="..\FlubuCore.WebApi\FlubuCore.WebApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>

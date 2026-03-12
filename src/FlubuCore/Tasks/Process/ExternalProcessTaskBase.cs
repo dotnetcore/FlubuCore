@@ -19,6 +19,8 @@ namespace FlubuCore.Tasks.Process
 
         private char _additionalOptionKeyValueSeperator;
 
+        private int[] _doNotFailOnExitCodes;
+
         private IRunProgramTask _task;
 
         protected ExternalProcessTaskBase()
@@ -242,6 +244,18 @@ namespace FlubuCore.Tasks.Process
             return this as TTask;
         }
 
+        /// <summary>
+        /// Specifies non-zero exit codes that should not cause the task to fail.
+        /// By default any non-zero exit code fails the task.
+        /// </summary>
+        /// <param name="exitCodes">Exit codes that indicate success.</param>
+        /// <returns></returns>
+        public TTask DoNotFailOnExitCodes(params int[] exitCodes)
+        {
+            _doNotFailOnExitCodes = exitCodes;
+            return this as TTask;
+        }
+
         public TTask ChangeDefaultAdditionalOptionPrefix(string newPrefix)
         {
             AdditionalOptionPrefix = newPrefix;
@@ -291,6 +305,9 @@ namespace FlubuCore.Tasks.Process
             {
                 _task.WithArguments(arg.arg, arg.maskArg);
             }
+
+            if (_doNotFailOnExitCodes != null)
+                _task.DoNotFailOnExitCodes(_doNotFailOnExitCodes);
 
             var result = _task
                 .ChangeDefaultAdditionalOptionPrefix(AdditionalOptionPrefix)

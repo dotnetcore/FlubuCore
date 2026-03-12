@@ -71,5 +71,13 @@ namespace FlubuCore.Tasks.Process
         IRunProgramTask ChangeAdditionalOptionKeyValueSeperator(char newSeperator);
 
         IRunProgramTask AddPrefixToAdditionalOptionKey(Func<string, string> action);
+
+        /// <summary>
+        /// Specifies non-zero exit codes that should not cause the task to fail.
+        /// By default any non-zero exit code fails the task.
+        /// </summary>
+        /// <param name="exitCodes">Exit codes that indicate success.</param>
+        /// <returns></returns>
+        IRunProgramTask DoNotFailOnExitCodes(params int[] exitCodes);
     }
 }
