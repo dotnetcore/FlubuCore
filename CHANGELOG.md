@@ -1,4 +1,8 @@
+## FlubuCore 10.0.1.0
+- Fixed CaptureOutput on RunProgramTask
+
 ## FlubuCore 10.0.0.0
+- Updated to .net 10
 
 ## FlubuCore 9.0.0.0
 ## FlubuCore 8.0.0.0

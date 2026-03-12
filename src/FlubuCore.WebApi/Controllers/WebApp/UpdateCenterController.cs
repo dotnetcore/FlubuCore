@@ -16,12 +16,7 @@ using FlubuCore.WebApi.Models.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-#if NETCOREAPP3_1
-    using Microsoft.Extensions.Hosting;
-#else
-    using IHostApplicationLifetime = Microsoft.AspNetCore.Hosting.IApplicationLifetime;
-    using IHostEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
-#endif
+using Microsoft.Extensions.Hosting;
 using Octokit;
 
 namespace FlubuCore.WebApi.Controllers.WebApp
@@ -121,10 +116,7 @@ namespace FlubuCore.WebApi.Controllers.WebApp
             }
             else
             {
-                bool is64BitProcess = true;
-#if NET462
-                is64BitProcess = Environment.Is64BitProcess;
-#endif
+                bool is64BitProcess = Environment.Is64BitProcess;
                 var filteredAssets = latestRelease.Assets.Where(x => x.Name.Contains("Net462"));
 
                 if (is64BitProcess)

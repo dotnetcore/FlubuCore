@@ -13,12 +13,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-#if NETCOREAPP3_1
-    using Microsoft.Extensions.Hosting;
-#else
-    using IHostEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
-#endif
 
 namespace FlubuCore.WebApi.Controllers.WebApp
 {

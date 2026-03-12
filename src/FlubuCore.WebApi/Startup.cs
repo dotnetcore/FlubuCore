@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Text;
 using FlubuCore.WebApi.Configuration;
@@ -7,15 +7,11 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-#if NETCOREAPP3_1
-    using Microsoft.Extensions.Hosting;
-#else
-using IHostEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
-#endif
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -50,9 +46,6 @@ namespace FlubuCore.WebApi
         {
             services.AddMvc(options =>
                 {
-#if NETCOREAPP3_1
-                     options.EnableEndpointRouting = false;
-#endif
                 })
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
@@ -69,9 +62,6 @@ namespace FlubuCore.WebApi
                 .AddTasksForWebApi();
 
             ConfigureAuthenticationServices(services);
-#if NET462 || NETCOREAPP3_1
-            ConfigureSwagger(services);
- #endif
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,14 +77,6 @@ namespace FlubuCore.WebApi
             app.UseAuthentication();
             app.UseStaticFiles();
 
-#if NET462 || NETCOREAPP3_1
-            app.UseMvc(routes =>
-                {
-                    routes.MapRoute(
-                        name: "default",
-                        template: "{controller=Home}/{action=Index}/{id?}");
-                });
-#else
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
@@ -102,49 +84,6 @@ namespace FlubuCore.WebApi
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
-#endif
-
-#if NET462 || NETCOREAPP3_1
-            app.UseSwagger(c =>
-            {
-                c.PreSerializeFilters.Add((swagger, httpReq) => swagger.Host = httpReq.Host.Value);
-            });
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
-            });
-#endif
-        }
-
-        private static void ConfigureSwagger(IServiceCollection services)
-        {
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1", new Info
-                {
-                    Version = "v1",
-                    Title = "A1 API",
-                    Description = "A1 API",
-                    TermsOfService = "None",
-                });
-
-                options.CustomSchemaIds(x => x.FullName);
-                var basePath = AppContext.BaseDirectory;
-                var webApifilePath = Path.Combine(basePath, "FlubuCore.WebApi.xml");
-                var modelfilePath = Path.Combine(basePath, "FlubuCore.WebApi.Model.xml");
-                options.IncludeXmlComments(webApifilePath);
-                options.IncludeXmlComments(modelfilePath);
-                options.DescribeAllEnumsAsStrings();
-                options.AddSecurityDefinition("Bearer",
-                    new ApiKeyScheme()
-                    {
-                        In = "header",
-                        Description =
-                            "Please insert JWT with Bearer into field. Example value(Enter token without braces.): Bearer {JwtToken} ",
-                        Name = "Authorization",
-                        Type = "apiKey"
-                    });
             });
         }
 
