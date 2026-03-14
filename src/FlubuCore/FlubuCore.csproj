@@ -54,6 +54,7 @@
     <PackageReference Include="System.ServiceProcess.ServiceController" Version="7.0.0" />    
     <PackageReference Include="FlubuCore.Analyzers" Version="1.0.4" />
     <PackageReference Include="FlubuCore.DotNet.Cli.Utils" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="7.0.0" />
     <PackageReference Include="Glob" Version="1.1.9" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="3.1.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.9.2" />

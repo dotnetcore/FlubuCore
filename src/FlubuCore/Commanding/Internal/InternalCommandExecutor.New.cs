@@ -206,7 +206,7 @@ namespace FlubuCore.Commanding.Internal
 
         private async Task<IFlubuTemplate> GetTemplateFromCsharpFile(string templateCsFilePath)
         {
-            var assemblyInfos = ScriptLoader.GetDefaultReferences();
+            var assemblyInfos = ScriptLoader.GetDefaultReferencesLegacy();
             var assemblyReferencesLocations = assemblyInfos.Select(x => x.FullPath).ToList();
             var flubuCoreAssembly = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
 

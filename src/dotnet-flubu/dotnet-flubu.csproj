@@ -28,6 +28,7 @@
     <RootNamespace>DotNet.Cli.Flubu</RootNamespace>
     <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1701;1702;1705;1591;1573;1572;1574</NoWarn>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net462'">
     <RuntimeIdentifiers>win7-x64;win7-x86</RuntimeIdentifiers>

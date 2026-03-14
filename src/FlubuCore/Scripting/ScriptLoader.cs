@@ -7,6 +7,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 #if !NET462
 using System.Runtime.Loader;
+using Microsoft.Extensions.DependencyModel;
+using Microsoft.Extensions.DependencyModel.Resolution;
 #endif
 using System.Text;
 using System.Threading.Tasks;
@@ -290,7 +292,11 @@ namespace FlubuCore.Scripting
             //// Default assemblies that should be referenced.
             var assemblyReferences = oldWay
                 ? GetBuildScriptReferencesForOldWayBuildScriptCreation()
-                : GetDefaultReferences();
+#if NET462
+                : GetDefaultReferencesLegacy();
+#else
+                : GetDefaultCompileReferences();
+#endif
 
             // Enumerate all assemblies referenced by FlubuCore
             // and provide them as references to the build script we're about to
@@ -318,31 +324,148 @@ namespace FlubuCore.Scripting
 
             AddAssemblyReferencesFromCsproj(projectFileAnalyzerResult, assemblyReferences);
 
-            var assemblyReferencesLocations = assemblyReferences.Select(x => x.FullPath).ToList();
-            assemblyReferencesLocations.AddRange(FindAssemblyReferencesInDirectories(args.AssemblyDirectories));
-            assemblyReferencesLocations =
-                assemblyReferencesLocations.Distinct().Where(x => !string.IsNullOrEmpty(x)).ToList();
+            // Compute directory assembly paths once (FlubuLib dirs + user dirs)
+            var directoryAssemblyPaths = FindAssemblyReferencesInDirectories(args.AssemblyDirectories);
 
-            var references = assemblyReferencesLocations.Select(i =>
-            {
-                return MetadataReference.CreateFromFile(i);
-            });
+            // Build compile references (all assemblies — both ref and implementation)
+            var compileReferencePaths = assemblyReferences
+                .Select(x => x.FullPath)
+                .Concat(directoryAssemblyPaths)
+                .Where(x => !string.IsNullOrEmpty(x))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            var references = compileReferencePaths.Select(i => MetadataReference.CreateFromFile(i));
+
 #if !NET462
-            foreach (var assemblyReferenceLocation in assemblyReferencesLocations)
+            // Runtime loading: only load explicitly added assemblies (script refs, NuGet,
+            // csproj refs, FlubuLib directories). Do NOT load host DependencyContext
+            // compile libraries — the runtime already manages those.
+            // Also filter out ref assemblies from directories.
+            var runtimeLoadPaths = assemblyReferences
+                .Where(x => !x.IsCompileOnly && !x.IsFromDependencyContext && !string.IsNullOrEmpty(x.FullPath))
+                .Select(x => x.FullPath)
+                .Concat(directoryAssemblyPaths.Where(x => !IsReferenceAssemblyPath(x)))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            foreach (var assemblyPath in runtimeLoadPaths)
             {
                 try
                 {
-                    AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyReferenceLocation);
+                    AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyPath);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    _log.LogDebug($"Could not load assembly into ALC: '{assemblyPath}': {ex.Message}");
                 }
             }
 #endif
             return references;
         }
 
-        internal static List<AssemblyInfo> GetDefaultReferences()
+#if !NET462
+        internal List<AssemblyInfo> GetDefaultCompileReferences()
+        {
+            var dependencyContext = DependencyContext.Default;
+            if (dependencyContext == null)
+            {
+                throw new ScriptLoaderExcetpion(
+                    "DependencyContext.Default is null. The host application must be built with " +
+                    "PreserveCompilationContext=true. If running as a dotnet tool, ensure the tool " +
+                    "package includes compilation references.");
+            }
+
+            var assemblyReferences = new List<AssemblyInfo>();
+
+            // CompositeCompilationAssemblyResolver is required because
+            // AppBaseCompilationAssemblyResolver alone cannot handle libraries with
+            // type "reference" (dotnet/runtime#2866). The chain handles refs/ dir,
+            // NuGet package cache, and reference assembly paths.
+            var appBase = AppContext.BaseDirectory;
+            var resolver = new CompositeCompilationAssemblyResolver(new ICompilationAssemblyResolver[]
+            {
+                new AppBaseCompilationAssemblyResolver(appBase),
+                new ReferenceAssemblyPathResolver(),
+                new PackageCompilationAssemblyResolver(),
+            });
+
+            bool resolvedAny = false;
+
+            foreach (var compileLib in dependencyContext.CompileLibraries)
+            {
+                try
+                {
+                    var paths = compileLib.ResolveReferencePaths(resolver).ToList();
+                    if (paths.Count > 0)
+                    {
+                        resolvedAny = true;
+                    }
+
+                    foreach (var path in paths)
+                    {
+                        var name = Path.GetFileNameWithoutExtension(path);
+                        bool isRefAssembly = IsReferenceAssemblyPath(path)
+                            || string.Equals(compileLib.Type, "reference", StringComparison.OrdinalIgnoreCase);
+
+                        assemblyReferences.Add(new AssemblyInfo
+                        {
+                            Name = name,
+                            FullPath = path,
+                            VersionStatus = isRefAssembly ? VersionStatus.Sealed : VersionStatus.NotAvailable,
+                            IsCompileOnly = isRefAssembly,
+                            IsFromDependencyContext = true,
+                        });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _log.LogWarning(
+                        $"Could not resolve compile library '{compileLib.Name}' (type={compileLib.Type}): {ex.Message}");
+                }
+            }
+
+            if (!resolvedAny)
+            {
+                throw new ScriptLoaderExcetpion(
+                    "Could not resolve any compile-time references from DependencyContext. " +
+                    "Ensure the host application is built with PreserveCompilationContext=true " +
+                    "and that compilation references are available at runtime.");
+            }
+
+            if (!assemblyReferences.Any(x => string.Equals(x.Name, "System.Runtime", StringComparison.OrdinalIgnoreCase)))
+            {
+                throw new ScriptLoaderExcetpion(
+                    "System.Runtime was not found in resolved compile-time references. " +
+                    "The host application's DependencyContext appears incomplete. " +
+                    "Ensure PreserveCompilationContext=true is set and the application is published correctly.");
+            }
+
+            // Include FlubuCore implementation assembly if not already present
+            // from DependencyContext (it will be there when FlubuCore is a project
+            // reference from the host app).
+            var flubuAss = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
+            var flubuName = flubuAss.GetName().Name;
+            if (!assemblyReferences.Any(x => string.Equals(x.Name, flubuName, StringComparison.OrdinalIgnoreCase)))
+            {
+                assemblyReferences.Add(flubuAss.ToAssemblyInfo());
+            }
+
+            return assemblyReferences;
+        }
+
+        /// <summary>
+        /// Returns true if the path is inside a ref/ or refs/ subdirectory,
+        /// indicating it is a reference-only assembly (metadata, no IL bodies).
+        /// </summary>
+        private static bool IsReferenceAssemblyPath(string path)
+        {
+            var normalized = path.Replace('\\', '/');
+            return normalized.Contains("/ref/") || normalized.Contains("/refs/");
+        }
+#endif
+
+        internal static List<AssemblyInfo> GetDefaultReferencesLegacy()
         {
             var coreDir = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
             var flubuAss = typeof(DefaultBuildScript).GetTypeInfo().Assembly;
@@ -571,9 +694,16 @@ namespace FlubuCore.Scripting
 
         private List<string> FindAssemblyReferencesInDirectories(List<string> directories)
         {
-            List<string> assemblyLocations = new List<string>();
-            directories.AddRange(DefaultScriptReferencesLocations);
-            foreach (var assemblyReferencesLocation in directories)
+            var searchDirs = new List<string>();
+            if (directories != null)
+            {
+                searchDirs.AddRange(directories);
+            }
+
+            searchDirs.AddRange(DefaultScriptReferencesLocations);
+
+            var assemblyLocations = new List<string>();
+            foreach (var assemblyReferencesLocation in searchDirs.Distinct(StringComparer.OrdinalIgnoreCase))
             {
                 if (_directory.Exists(assemblyReferencesLocation))
                 {

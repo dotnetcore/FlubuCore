@@ -73,10 +73,11 @@ namespace FlubuCore.Scripting
                     return;
                 }
 
-                var compare = existedItem.Version?.CompareTo(item.Version);
-                if (compare == -1)
+                // Null existing version means the entry is replaceable by any versioned item.
+                if (existedItem.Version == null || existedItem.Version.CompareTo(item.Version) < 0)
                 {
                     existedItem.Version = item.Version;
+                    existedItem.FullPath = item.FullPath;
                 }
             }
             else

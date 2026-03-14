@@ -13,6 +13,10 @@ namespace FlubuCore.Scripting
         public VersionStatus VersionStatus { get; set; }
 
         public string FullPath { get; set; }
+
+        public bool IsCompileOnly { get; set; }
+
+        public bool IsFromDependencyContext { get; set; }
     }
 
 #pragma warning disable SA1201 // Elements should appear in the correct order

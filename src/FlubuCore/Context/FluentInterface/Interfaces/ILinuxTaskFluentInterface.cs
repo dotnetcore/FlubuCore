@@ -13,6 +13,15 @@ namespace FlubuCore.Context.FluentInterface.Interfaces
         SystemCtlTask SystemCtlTask(string command, string service);
 
         /// <summary>
+        /// Run's system ctl on a remote host.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="service"></param>
+        /// <param name="host"></param>
+        /// <returns></returns>
+        SystemCtlTask SystemCtlTask(string command, string service, string host);
+
+        /// <summary>
         /// Run specified command on the remote host.
         /// </summary>
         /// <param name="host"></param>

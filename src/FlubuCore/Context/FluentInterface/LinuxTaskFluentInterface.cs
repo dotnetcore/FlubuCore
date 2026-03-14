@@ -29,7 +29,12 @@ namespace FlubuCore.Context.FluentInterface
 
         public SystemCtlTask SystemCtlTask(string command, string service)
         {
-            return Context.CreateTask<SystemCtlTask>(command, service);
+            return Context.CreateTask<SystemCtlTask>(command, service, string.Empty);
+        }
+
+        public SystemCtlTask SystemCtlTask(string command, string service, string host)
+        {
+            return Context.CreateTask<SystemCtlTask>(command, service, host);
         }
     }
 }
