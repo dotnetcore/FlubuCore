@@ -78,7 +78,7 @@ namespace FlubuCore.WebApi.Controllers.Attributes
 
         private void HandleHttpError(ExceptionContext context)
         {
-            _logger.LogWarning($"HttpError occured: {0}", context.Exception);
+            _logger.LogWarning("HttpError occured: {0}", context.Exception);
             var httpError = (HttpError)context.Exception;
             context.HttpContext.Response.StatusCode = (int)httpError.StatusCode;
             if (httpError.StatusCode == HttpStatusCode.NotFound && string.IsNullOrEmpty(httpError.ErrorCode))
