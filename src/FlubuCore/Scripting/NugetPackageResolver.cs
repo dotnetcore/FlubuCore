@@ -43,19 +43,19 @@ namespace FlubuCore.Scripting
             const string nugetPropsFile = "./obj/FlubuGen.csproj.nuget.g.props";
             const string projectAssetsJsonFile = "./obj/project.assets.json";
             bool nugetPropsFileExists = _file.Exists(nugetPropsFile);
-            bool mustRestoreNugetPackages = true;
+            bool mustRestore = true;
 
-            if (!string.IsNullOrEmpty(pathToBuildScript) && nugetPropsFileExists)
+            if (!string.IsNullOrEmpty(pathToBuildScript) && nugetPropsFileExists && _file.Exists(projectAssetsJsonFile))
             {
                 var buildScriptModifiedTime = File.GetLastWriteTime(pathToBuildScript);
                 var nugetPropsModifiedTime = File.GetLastWriteTime(nugetPropsFile);
                 if (nugetPropsModifiedTime > buildScriptModifiedTime)
                 {
-                    mustRestoreNugetPackages = false;
+                    mustRestore = false;
                 }
             }
 
-            if (mustRestoreNugetPackages)
+            if (mustRestore)
             {
                 if (nugetPropsFileExists)
                 {
@@ -66,12 +66,17 @@ namespace FlubuCore.Scripting
                 RestoreNugetPackages(NugetPackageResolveConstants.GeneratedProjectFileName);
             }
 
-            var assemblyReferences = ResolvePackagesFromLockFile(
-                projectAssetsJsonFile, packageReferences, hostFramework);
-
-            File.Delete(NugetPackageResolveConstants.GeneratedProjectFileName);
-
-            return assemblyReferences;
+            try
+            {
+                return ResolvePackagesFromLockFile(projectAssetsJsonFile, packageReferences, hostFramework);
+            }
+            finally
+            {
+                if (File.Exists(NugetPackageResolveConstants.GeneratedProjectFileName))
+                {
+                    File.Delete(NugetPackageResolveConstants.GeneratedProjectFileName);
+                }
+            }
         }
 
         public List<AssemblyInfo> ResolveNugetPackagesFromFlubuCsproj(ProjectFileAnalyzerResult analyzerResult)
@@ -91,10 +96,11 @@ namespace FlubuCore.Scripting
             var csprojDir = Path.GetDirectoryName(csprojLocation);
             var csprojFileName = Path.GetFileName(csprojLocation);
             var nugetPropsLocation = Path.Combine(csprojDir, "obj", csprojFileName + ".nuget.g.props");
+            var projectAssetsJsonPath = Path.Combine(csprojDir, "obj", "project.assets.json");
             bool nugetPropsFileExists = _file.Exists(nugetPropsLocation);
-            bool mustRestoreNugetPackages = true;
+            bool mustRestore = true;
 
-            if (nugetPropsFileExists)
+            if (nugetPropsFileExists && _file.Exists(projectAssetsJsonPath))
             {
 #pragma warning disable SA1305 // Field names should not use Hungarian notation
                 var csProjModifiedTime = File.GetLastWriteTime(csprojLocation);
@@ -102,11 +108,11 @@ namespace FlubuCore.Scripting
                 var nugetPropsModifiedTime = File.GetLastWriteTime(nugetPropsLocation);
                 if (nugetPropsModifiedTime > csProjModifiedTime)
                 {
-                    mustRestoreNugetPackages = false;
+                    mustRestore = false;
                 }
             }
 
-            if (mustRestoreNugetPackages)
+            if (mustRestore)
             {
                 if (nugetPropsFileExists)
                 {
@@ -117,16 +123,22 @@ namespace FlubuCore.Scripting
             }
 
             var hostFramework = GetHostFramework();
-            var projectAssetsJsonPath = Path.Combine(csprojDir, "obj", "project.assets.json");
-
             return ResolvePackagesFromLockFile(projectAssetsJsonPath, nugetReferences, hostFramework);
         }
 
         private static NuGetFramework GetHostFramework()
         {
-            var attr = Assembly
-                .GetEntryAssembly()
-                .GetCustomAttribute<TargetFrameworkAttribute>();
+            var entryAssembly = Assembly.GetEntryAssembly();
+            if (entryAssembly == null)
+            {
+                throw new ScriptException("Could not determine host framework: entry assembly is null.");
+            }
+
+            var attr = entryAssembly.GetCustomAttribute<TargetFrameworkAttribute>();
+            if (attr == null)
+            {
+                throw new ScriptException("Could not determine host framework: TargetFrameworkAttribute not found on entry assembly.");
+            }
 
             return NuGetFramework.Parse(attr.FrameworkName);
         }
@@ -136,6 +148,11 @@ namespace FlubuCore.Scripting
             IEnumerable<NugetPackageReference> packageReferences,
             NuGetFramework hostFramework)
         {
+            if (!File.Exists(projectAssetsJsonPath))
+            {
+                throw new ScriptException($"NuGet assets file not found at '{projectAssetsJsonPath}'. Run 'dotnet restore' first.");
+            }
+
             var assemblyReferences = new List<AssemblyInfo>();
             var resolvedDependencies = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var lockFile = new LockFileFormat().Read(projectAssetsJsonPath);
@@ -143,13 +160,9 @@ namespace FlubuCore.Scripting
             var target = lockFile.GetTarget(hostFramework, runtimeIdentifier: null);
             if (target == null)
             {
-                target = lockFile.Targets.FirstOrDefault();
-            }
-
-            if (target == null)
-            {
+                var availableTargets = string.Join(", ", lockFile.Targets.Select(t => t.TargetFramework.GetShortFolderName()));
                 throw new ScriptException(
-                    $"No targets found in {projectAssetsJsonPath} for framework {hostFramework.GetShortFolderName()}.");
+                    $"No target found in {projectAssetsJsonPath} for framework '{hostFramework.GetShortFolderName()}'. Available targets: {availableTargets}");
             }
 
             var packageFolders = lockFile.PackageFolders
@@ -169,29 +182,25 @@ namespace FlubuCore.Scripting
                         $"Nuget package '{packageReference.Id}' '{packageReference.Version}' not found.");
                 }
 
-                if (targetLib.CompileTimeAssemblies != null && targetLib.CompileTimeAssemblies.Count != 0 &&
-                    !targetLib.CompileTimeAssemblies.All(a => a.Path.EndsWith("_._")))
-                {
-                    bool packageFound = AddAssemblyReference(targetLib, lockFile, packageFolders, assemblyReferences);
+                bool hasCompileAssemblies = HasCompileAssemblies(targetLib);
 
+                if (hasCompileAssemblies)
+                {
+                    bool packageFound = AddAssemblyReferences(targetLib, lockFile, packageFolders, assemblyReferences);
                     if (!packageFound)
                     {
                         throw new ScriptException($"Nuget package {packageReference.Id} not found.");
                     }
+                }
 
+                if (targetLib.Dependencies.Count != 0)
+                {
                     ResolveDependencies(targetLib, targetLibraries, lockFile, packageFolders, assemblyReferences, resolvedDependencies);
                 }
-                else
+                else if (!hasCompileAssemblies)
                 {
-                    if (targetLib.Dependencies.Count != 0)
-                    {
-                        ResolveDependencies(targetLib, targetLibraries, lockFile, packageFolders, assemblyReferences, resolvedDependencies);
-                    }
-                    else
-                    {
-                        throw new ScriptException(
-                            $"Nuget package '{packageReference.Id}' '{packageReference.Version}' not found for framework {hostFramework.GetShortFolderName()}.");
-                    }
+                    throw new ScriptException(
+                        $"Nuget package '{packageReference.Id}' '{packageReference.Version}' not found for framework {hostFramework.GetShortFolderName()}.");
                 }
             }
 
@@ -218,36 +227,40 @@ namespace FlubuCore.Scripting
                 var dep = targetLibraries.FirstOrDefault(
                     x => x.Name.Equals(dependency.Id, StringComparison.OrdinalIgnoreCase));
 
-                if (dep?.CompileTimeAssemblies != null &&
-                    dep.CompileTimeAssemblies.Count != 0 &&
-                    !dep.CompileTimeAssemblies.All(a => a.Path.EndsWith("_._")))
+                if (dep == null)
                 {
-                    bool packageFound = AddAssemblyReference(dep, lockFile, packageFolders, assemblyReferences);
+                    continue;
+                }
 
+                if (HasCompileAssemblies(dep))
+                {
+                    bool packageFound = AddAssemblyReferences(dep, lockFile, packageFolders, assemblyReferences);
                     if (!packageFound)
                     {
                         throw new ScriptException($"Nuget package {dependency.Id} not found.");
                     }
+                }
 
+                if (dep.Dependencies.Count != 0)
+                {
                     ResolveDependencies(dep, targetLibraries, lockFile, packageFolders, assemblyReferences, resolvedDependencies);
                 }
             }
         }
 
-        private static bool AddAssemblyReference(
+        private static bool HasCompileAssemblies(LockFileTargetLibrary targetLib)
+        {
+            return targetLib.CompileTimeAssemblies != null &&
+                   targetLib.CompileTimeAssemblies.Count != 0 &&
+                   !targetLib.CompileTimeAssemblies.All(a => a.Path.EndsWith("_._"));
+        }
+
+        private static bool AddAssemblyReferences(
             LockFileTargetLibrary targetLib,
             LockFile lockFile,
             string[] packageFolders,
             List<AssemblyInfo> assemblyReferences)
         {
-            var existingRef = assemblyReferences.FirstOrDefault(x =>
-                x.Name.Equals(targetLib.Name, StringComparison.OrdinalIgnoreCase));
-
-            if (existingRef != null || targetLib.Name == "System.Runtime")
-            {
-                return true;
-            }
-
             var library = lockFile.Libraries.FirstOrDefault(l =>
                 l.Name.Equals(targetLib.Name, StringComparison.OrdinalIgnoreCase));
 
@@ -256,10 +269,29 @@ namespace FlubuCore.Scripting
                 return false;
             }
 
+            bool anyFound = false;
+
             foreach (var compileAsm in targetLib.CompileTimeAssemblies)
             {
                 if (compileAsm.Path.EndsWith("_._"))
                 {
+                    continue;
+                }
+
+                var assemblyName = Path.GetFileNameWithoutExtension(compileAsm.Path);
+
+                if (assemblyName == "System.Runtime")
+                {
+                    anyFound = true;
+                    continue;
+                }
+
+                var existingRef = assemblyReferences.FirstOrDefault(x =>
+                    x.Name.Equals(assemblyName, StringComparison.OrdinalIgnoreCase));
+
+                if (existingRef != null)
+                {
+                    anyFound = true;
                     continue;
                 }
 
@@ -277,19 +309,63 @@ namespace FlubuCore.Scripting
                                 targetLib.Version.Revision > 0 ? targetLib.Version.Revision : 0)
                             : new Version(0, 0, 0);
 
+                        bool isRefAssembly = compileAsm.Path.Contains("/ref/") || compileAsm.Path.Contains("\\ref\\");
+                        string runtimePath = null;
+
+                        if (isRefAssembly)
+                        {
+                            runtimePath = ResolveRuntimeAssembly(targetLib, library, assemblyName, packageFolders);
+                        }
+
                         assemblyReferences.Add(new AssemblyInfo
                         {
-                            Name = targetLib.Name,
+                            Name = assemblyName,
                             FullPath = assemblyPath,
                             Version = version,
+                            IsCompileOnly = isRefAssembly,
+                            RuntimePath = runtimePath,
                         });
 
-                        return true;
+                        anyFound = true;
+                        break;
                     }
                 }
             }
 
-            return false;
+            return anyFound;
+        }
+
+        private static string ResolveRuntimeAssembly(
+            LockFileTargetLibrary targetLib,
+            LockFileLibrary library,
+            string assemblyName,
+            string[] packageFolders)
+        {
+            if (targetLib.RuntimeAssemblies == null)
+            {
+                return null;
+            }
+
+            var runtimeAsm = targetLib.RuntimeAssemblies.FirstOrDefault(
+                a => !a.Path.EndsWith("_._") &&
+                     Path.GetFileNameWithoutExtension(a.Path)
+                         .Equals(assemblyName, StringComparison.OrdinalIgnoreCase));
+
+            if (runtimeAsm == null)
+            {
+                return null;
+            }
+
+            foreach (var packageFolder in packageFolders)
+            {
+                var runtimePath = Path.Combine(packageFolder, library.Path, runtimeAsm.Path);
+                if (File.Exists(runtimePath))
+                {
+                    return runtimePath;
+                }
+            }
+
+            return null;
         }
 
         private void CreateNugetProjectFile(string targetFramework, List<NugetPackageReference> scriptPackageReferences)
@@ -341,7 +417,7 @@ namespace FlubuCore.Scripting
                 return;
             }
 
-            var msBuildPath = Path.Combine(msbuilds.Last().Value, "msbuild.exe");
+            var msBuildPath = Path.Combine(msbuild.Value, "msbuild.exe");
             ICommand command = _commandFactory.Create(msBuildPath, new List<string>() { "/t:restore", csprojLocation });
             command.CaptureStdErr().WorkingDirectory(Directory.GetCurrentDirectory()).Execute();
             _packagesRestored = true;

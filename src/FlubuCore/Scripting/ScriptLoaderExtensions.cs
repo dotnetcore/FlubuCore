@@ -60,30 +60,45 @@ namespace FlubuCore.Scripting
 
         internal static void AddOrUpdateAssemblyInfo(this List<AssemblyInfo> assemblyInfos, AssemblyInfo item)
         {
-            var existedItem = assemblyInfos.FirstOrDefault(x => x.Name == item.Name);
-            if (existedItem != null)
-            {
-                if (existedItem.VersionStatus == VersionStatus.Sealed)
-                {
-                    return;
-                }
+            var existedItem = assemblyInfos.FirstOrDefault(
+                x => string.Equals(x.Name, item.Name, StringComparison.OrdinalIgnoreCase));
 
-                if (item.Version == null)
-                {
-                    return;
-                }
-
-                // Null existing version means the entry is replaceable by any versioned item.
-                if (existedItem.Version == null || existedItem.Version.CompareTo(item.Version) < 0)
-                {
-                    existedItem.Version = item.Version;
-                    existedItem.FullPath = item.FullPath;
-                }
-            }
-            else
+            if (existedItem == null)
             {
                 assemblyInfos.Add(item);
+                return;
             }
+
+            if (existedItem.VersionStatus == VersionStatus.Sealed)
+            {
+                return;
+            }
+
+            bool shouldReplace = false;
+
+            if (item.Version != null &&
+                (existedItem.Version == null || existedItem.Version.CompareTo(item.Version) < 0))
+            {
+                shouldReplace = true;
+            }
+            else if (item.Version == null && !string.IsNullOrEmpty(item.FullPath))
+            {
+                // Explicit path-based references (e.g. csproj HintPath, script refs)
+                // can replace existing entries even without a version.
+                shouldReplace = true;
+            }
+
+            if (!shouldReplace)
+            {
+                return;
+            }
+
+            existedItem.Version = item.Version;
+            existedItem.FullPath = item.FullPath;
+            existedItem.RuntimePath = item.RuntimePath;
+            existedItem.IsCompileOnly = item.IsCompileOnly;
+            existedItem.IsFromDependencyContext = item.IsFromDependencyContext;
+            existedItem.VersionStatus = item.VersionStatus;
         }
     }
 }

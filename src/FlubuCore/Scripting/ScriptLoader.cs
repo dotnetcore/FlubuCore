@@ -343,8 +343,9 @@ namespace FlubuCore.Scripting
             // compile libraries — the runtime already manages those.
             // Also filter out ref assemblies from directories.
             var runtimeLoadPaths = assemblyReferences
-                .Where(x => !x.IsCompileOnly && !x.IsFromDependencyContext && !string.IsNullOrEmpty(x.FullPath))
-                .Select(x => x.FullPath)
+                .Where(x => !x.IsFromDependencyContext && !string.IsNullOrEmpty(x.FullPath))
+                .Where(x => !x.IsCompileOnly || !string.IsNullOrEmpty(x.RuntimePath))
+                .Select(x => !string.IsNullOrEmpty(x.RuntimePath) ? x.RuntimePath : x.FullPath)
                 .Concat(directoryAssemblyPaths.Where(x => !IsReferenceAssemblyPath(x)))
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToList();

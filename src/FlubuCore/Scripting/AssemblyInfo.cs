@@ -14,6 +14,11 @@ namespace FlubuCore.Scripting
 
         public string FullPath { get; set; }
 
+        /// <summary>
+        /// Path to the runtime implementation assembly when <see cref="FullPath"/> points to a ref assembly.
+        /// </summary>
+        public string RuntimePath { get; set; }
+
         public bool IsCompileOnly { get; set; }
 
         public bool IsFromDependencyContext { get; set; }
