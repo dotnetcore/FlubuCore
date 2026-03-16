@@ -27,7 +27,6 @@ public class  BuildScript : DefaultBuildScript
         "FlubuCore.WebApi.Model",
         "FlubuCore.WebApi.Client",
         "FlubuCore",
-        "dotnet-flubu",
         "FlubuCore.Tool",
         "FlubuCore.Analyzers",
     };
@@ -50,7 +49,7 @@ public class  BuildScript : DefaultBuildScript
         var compile = context
             .CreateTarget("compile")
             .SetDescription("Compiles the VS solution")
-            .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj", "FlubuCore.Tests/FlubuCore.Tests.csproj", "FlubuCore.WebApi.Model/FlubuCore.WebApi.Model.csproj", "FlubuCore.WebApi.Client/FlubuCore.WebApi.Client.csproj", "FlubuCore.WebApi/FlubuCore.WebApi.csproj", "FlubuCore.Tool/FlubuCore.Tool.csproj"))
+            .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "FlubuCore.Tests/FlubuCore.Tests.csproj", "FlubuCore.WebApi.Model/FlubuCore.WebApi.Model.csproj", "FlubuCore.WebApi.Client/FlubuCore.WebApi.Client.csproj", "FlubuCore.WebApi/FlubuCore.WebApi.csproj", "FlubuCore.Tool/FlubuCore.Tool.csproj"))
             .AddCoreTask(x => x.Build())
             .DependsOn(buildVersion);
 
@@ -94,12 +93,8 @@ public class  BuildScript : DefaultBuildScript
             DependsOn(buildVersion);
 
         var packageFlubuRunner = context.CreateTarget("package.FlubuRunner")
-            .SetDescription("Packages .net 4.62 FlubuCore runner into zip.")
+            .SetDescription("Packages FlubuCore runner into zip.")
             .Do(TargetPackageFlubuRunner);
-
-        var packageDotnetFlubu = context.CreateTarget("package.DotnetFlubu")
-            .SetDescription("Packages dotnet-flubu tool into zip.")
-            .Do(TargetPackageDotnetFlubu);
 
         context.CreateTarget("rebuild")
             .SetDescription("Rebuilds the solution")
@@ -107,7 +102,7 @@ public class  BuildScript : DefaultBuildScript
             .DependsOn(compile, flubuTests);
 
         var branch = context.BuildServers().AppVeyor().BranchName;
-        
+
         context.CreateTarget("rebuild.server")
             .SetDescription("Rebuilds the solution and publishes nuget packages.")
             .SequentialLogging(true)
@@ -115,7 +110,6 @@ public class  BuildScript : DefaultBuildScript
             .DependsOn(pack, publishWebApi)
             .DependsOnAsync(flubuRunnerMerge)
             .DependsOn(packageFlubuRunner)
-            .DependsOn(packageDotnetFlubu)
             .DependsOn(packageWebApi)
             .DependsOn(nugetPublish).When((c) =>
                 c.BuildServers().RunningOn == BuildServerType.AppVeyor && branch != null && branch.Contains("stable", StringComparison.OrdinalIgnoreCase));
@@ -124,7 +118,7 @@ public class  BuildScript : DefaultBuildScript
         var compileLinux = context
             .CreateTarget("compile.linux")
             .SetDescription("Compiles the VS solution")
-            .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "dotnet-flubu/dotnet-flubu.csproj", "FlubuCore.Tests/FlubuCore.Tests.csproj", "FlubuCore.GlobalTool/FlubuCore.GlobalTool.csproj"))
+            .AddCoreTask(x => x.UpdateNetCoreVersionTask("FlubuCore/FlubuCore.csproj", "FlubuCore.Tests/FlubuCore.Tests.csproj", "FlubuCore.Tool/FlubuCore.Tool.csproj"))
             .AddCoreTask(x => x.Restore())
             .DependsOn(buildVersion);
 
@@ -135,7 +129,7 @@ public class  BuildScript : DefaultBuildScript
 
         context.CreateTarget("rebuild.linux")
             .SetDescription("Rebuilds the solution.")
-            .DependsOn(compileLinux, flubuTestsLinux, packageDotnetFlubu);
+            .DependsOn(compileLinux, flubuTestsLinux);
     }
 
     private void TargetPackageFlubuRunner(ITaskContext context)
@@ -145,20 +139,6 @@ public class  BuildScript : DefaultBuildScript
             .AddFileToPackage(Output.CombineWith("flubu.exe.config"), "flubu.runner")
             .AddFileToPackage(Output.CombineWith("flubucore.dll"), "flubu.runner")
             .ZipPackage("Flubu runner", true)
-            .Execute(context);
-    }
-
-    private void TargetPackageDotnetFlubu(ITaskContext context)
-    {
-        context.CoreTasks().Publish("dotnet-flubu").Framework("netcoreapp3.1").Execute(context);
-        if (!Directory.Exists(Output.CombineWith("dotnet-flubu")))
-        {
-            Directory.CreateDirectory(@"output/dotnet-flubu");
-        }
-
-        context.Tasks().PackageTask(Output.CombineWith("dotnet-flubu"))
-            .AddDirectoryToPackage(@"dotnet-flubu/bin/Release/netcoreapp3.1/publish", "", true)
-            .ZipPackage("dotnet-flubu", true)
             .Execute(context);
     }
 
@@ -185,11 +165,6 @@ public class  BuildScript : DefaultBuildScript
 
         context.CoreTasks().NugetPush(Output.CombineWith($"FlubuCore.{nugetVersion}.nupkg"))
             .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish FlubuCore. exception: {e.Message}"); })
-            .ServerUrl("https://www.nuget.org/api/v2/package")
-            .ApiKey(NugetApiKey).Execute(context);
-
-        context.CoreTasks().NugetPush(Output.CombineWith($"dotnet-flubu.{nugetVersion}.nupkg"))
-            .DoNotFailOnError(e => { Console.WriteLine($"Failed to publish dotnet-flubu. exception: {e.Message}"); })
             .ServerUrl("https://www.nuget.org/api/v2/package")
             .ApiKey(NugetApiKey).Execute(context);
 
@@ -222,7 +197,7 @@ public class  BuildScript : DefaultBuildScript
             .WithArguments("--exclude", "FlubuCore.dll")
             .WithArguments("--move")
             .Execute(context);
-        
+
         progTask = context.Tasks().RunProgramTask(@"tools\LibZ.Tool\1.2.0\tools\libz.exe");
 
         progTask

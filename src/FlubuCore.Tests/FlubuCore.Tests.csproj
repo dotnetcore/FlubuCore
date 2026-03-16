@@ -77,7 +77,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\dotnet-flubu\dotnet-flubu.csproj" />
     <ProjectReference Include="..\FlubuCore\FlubuCore.csproj" />
   </ItemGroup>
   <ItemGroup>

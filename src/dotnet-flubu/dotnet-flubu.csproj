@@ -1,31 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net462;netcoreapp3.1;net5.0;net6.0;net7.0</TargetFrameworks>
+    <TargetFramework>net462</TargetFramework>
     <WarningsAsErrors>true</WarningsAsErrors>
     <AssemblyName>dotnet-flubu</AssemblyName>
     <OutputType>Exe</OutputType>
-    <PackageId>dotnet-flubu</PackageId>
-    <PackageTags>dotnet;flubu;flubucore;build;builder;script;buildscript;automation;VisualStudio</PackageTags>
-    <Authors>Marko Zorec;Zoro Zorec;Micheal Tsai</Authors>
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/dotnetcore/FlubuCore</PackageProjectUrl>
-    <PackageReleaseNotes>https://github.com/dotnetcore/FlubuCore/blob/master/CHANGELOG.md</PackageReleaseNotes>
-    <Description>
-      This package includes the FlubuCore dotnet cli tool for executing FlubuCore scripts.
-
-      FlubuCore is a cross platform build and deployment automation system for building projects and executing deployment scripts using C# code.
-
-      Documentation can be found at: https://github.com/dotnetcore/FlubuCore
-
-      Detailed examples can be found at: https://github.com/dotnetcore/FlubuCore.Examples
-    </Description>
+    <RootNamespace>DotNet.Cli.Flubu</RootNamespace>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <AssemblyVersion>10.0.1.0</AssemblyVersion>
     <FileVersion>10.0.1.0</FileVersion>
     <Version>10.0.1</Version>
-    <RootNamespace>DotNet.Cli.Flubu</RootNamespace>
     <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1701;1702;1705;1591;1573;1572;1574</NoWarn>
     <PreserveCompilationContext>true</PreserveCompilationContext>
@@ -37,12 +22,6 @@
     <DefineConstants>TRACE;NETSTANDARD2_0</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="flubureadme.txt">
-      <PackageCopyToOutput>true</PackageCopyToOutput>
-      <Pack>true</Pack>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +31,5 @@
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-
   </ItemGroup>
 </Project>

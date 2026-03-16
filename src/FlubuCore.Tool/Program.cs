@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 
 namespace FlubuCore.Tool
 {
@@ -6,7 +6,7 @@ namespace FlubuCore.Tool
     {
         public static async Task<int> Main(string[] args)
         {
-            return await DotNet.Cli.Flubu.Program.Main(args);
+            return await FlubuEntryPoint.MainAsync(args);
         }
     }
 }

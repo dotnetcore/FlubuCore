@@ -83,7 +83,7 @@ namespace FlubuCore.Scripting
         {
             var nugetReferences = analyzerResult.NugetReferences.Where(x =>
                             !x.Id.Equals("FlubuCore", StringComparison.OrdinalIgnoreCase) &&
-                            !x.Id.Equals("dotnet-flubu", StringComparison.OrdinalIgnoreCase) &&
+                            !x.Id.Equals("FlubuCore.Tool", StringComparison.OrdinalIgnoreCase) &&
                             !x.Id.Equals("FlubuCore.Runner", StringComparison.OrdinalIgnoreCase) &&
                             !x.Id.StartsWith("StyleCop", StringComparison.OrdinalIgnoreCase)).ToList();
 

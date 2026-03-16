@@ -1,5 +1,4 @@
 ﻿using System;
-using DotNet.Cli.Flubu.Infrastructure;
 using FlubuCore.Commanding;
 using FlubuCore.Infrastructure;
 using FlubuCore.Scripting;

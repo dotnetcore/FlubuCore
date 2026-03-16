@@ -160,9 +160,7 @@ namespace FlubuCore.Commanding
             // Strip leading "flubu" or "flubu.exe" command name
             if (tokens.Count > 0 &&
                 (tokens[0].Equals("flubu", StringComparison.OrdinalIgnoreCase) ||
-                 tokens[0].Equals("flubu.exe", StringComparison.OrdinalIgnoreCase) ||
-                 tokens[0].EndsWith("dotnet-flubu", StringComparison.OrdinalIgnoreCase) ||
-                 tokens[0].EndsWith("dotnet-flubu.exe", StringComparison.OrdinalIgnoreCase)))
+                 tokens[0].Equals("flubu.exe", StringComparison.OrdinalIgnoreCase)))
             {
                 tokens.RemoveAt(0);
             }
