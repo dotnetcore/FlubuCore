@@ -86,15 +86,14 @@ namespace FlubuCore.Commanding
             var tokens = TokenizeCommandLine(partialCommandLine);
             var wordToComplete = GetWordToComplete(partialCommandLine, tokens);
 
-            var targetNames = DiscoverTargets(flubuSession, script, targetCreator);
-            var scriptArgs = DiscoverScriptArgs(script, scriptProperties);
-
             if (wordToComplete.StartsWith("-"))
             {
+                var scriptArgs = DiscoverScriptArgs(script, scriptProperties);
                 var candidates = BuiltInOptions.Concat(scriptArgs).ToList();
                 return FilterCandidates(candidates, wordToComplete);
             }
 
+            var targetNames = DiscoverTargets(flubuSession, script, targetCreator);
             var targetCandidates = targetNames.Concat(BuiltInCommands).ToList();
             return FilterCandidates(targetCandidates, wordToComplete);
         }
@@ -122,7 +121,7 @@ namespace FlubuCore.Commanding
 
                 return flubuSession.TargetTree.GetTargetNames().ToList();
             }
-            catch
+            catch (Exception)
             {
                 return new List<string>();
             }
@@ -143,7 +142,7 @@ namespace FlubuCore.Commanding
                     .Select(h => h.Name)
                     .ToList();
             }
-            catch
+            catch (Exception)
             {
                 return new List<string>();
             }

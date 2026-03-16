@@ -51,7 +51,7 @@ namespace FlubuCore.Commanding
                 {
                     script = await _scriptProvider.GetBuildScriptAsync(Args);
                 }
-                catch
+                catch (Exception)
                 {
                     // Continue without script — completions will only include built-in options
                 }
