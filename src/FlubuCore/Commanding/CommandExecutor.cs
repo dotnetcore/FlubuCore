@@ -44,6 +44,28 @@ namespace FlubuCore.Commanding
 
             if (Args.Help) return 1;
 
+            if (Args.IsCompletionMode)
+            {
+                IBuildScript script = null;
+                try
+                {
+                    script = await _scriptProvider.GetBuildScriptAsync(Args);
+                }
+                catch
+                {
+                    // Continue without script — completions will only include built-in options
+                }
+
+                var completionProvider = new ShellCompletionProvider();
+                completionProvider.WriteCompletions(
+                    Args.CompletionInput,
+                    FlubuSession,
+                    script,
+                    FlubuSession.ScriptServiceProvider.GetScriptProperties(),
+                    FlubuSession.ScriptServiceProvider.GetTargetCreator());
+                return 0;
+            }
+
             if (Args.IsInternalCommand())
             {
                 await ExecuteInternalCommand();

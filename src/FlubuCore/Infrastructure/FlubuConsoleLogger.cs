@@ -47,6 +47,8 @@ namespace FlubuCore.Infrastructure
 
         public static bool DisableColloredLogging { get; set; }
 
+        public static bool SuppressAllLogging { get; set; }
+
         public static int Depth
         {
             get { return _depth; }
@@ -186,7 +188,7 @@ namespace FlubuCore.Infrastructure
 
         public bool IsEnabled(LogLevel logLevel)
         {
-            return true;
+            return !SuppressAllLogging;
         }
 
         public IDisposable BeginScope<TState>(TState state)

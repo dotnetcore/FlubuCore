@@ -55,6 +55,20 @@ namespace FlubuCore.Scripting
 
         public string FlubuHelpText { get; set; }
 
+        /// <summary>
+        /// When set, the CLI outputs completion candidates for this partial command line and exits.
+        /// </summary>
+        public string CompletionInput { get; set; }
+
+        /// <summary>
+        /// When set, the CLI outputs the shell completion registration script for the specified shell and exits.
+        /// </summary>
+        public string SetupCompletionsShell { get; set; }
+
+        public bool IsCompletionMode => CompletionInput != null;
+
+        public bool IsSetupCompletionsMode => SetupCompletionsShell != null;
+
         public bool IsInternalCommand()
         {
             if (MainCommands == null || MainCommands.Count == 0)

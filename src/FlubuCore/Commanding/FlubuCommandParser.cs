@@ -59,6 +59,10 @@ namespace FlubuCore.Commanding
 
         private CommandOption _generateContinousIntegrationConfigs;
 
+        private CommandOption _completions;
+
+        private CommandOption _setupCompletions;
+
         public FlubuCommandParser(
             CommandLineApplication commandApp,
             IFlubuConfigurationProvider flubuConfigurationProvider,
@@ -94,6 +98,8 @@ namespace FlubuCore.Commanding
             _noInteractive = _commandApp.Option("--noint", $"Disables interactive mode for all task members. Default values are used instead. {Environment.NewLine}", CommandOptionType.NoValue);
             _noColor = _commandApp.Option("--noColor", "Disables colored logging", CommandOptionType.NoValue);
             _generateContinousIntegrationConfigs = _commandApp.Option("--ci", "Generates configuration file for specified continous integration server. Supported values: Jenkins, AppVeyor, Travis, AzurePipelines, GithubActions", CommandOptionType.MultipleValue);
+            _completions = _commandApp.Option("--completions <PARTIAL_COMMAND>", "Output completion candidates for the given partial command line.", CommandOptionType.SingleValue);
+            _setupCompletions = _commandApp.Option("--setup-completions <SHELL>", "Output shell completion registration script. Supported shells: bash, zsh, pwsh, fish.", CommandOptionType.SingleValue);
             _commandApp.ExtendedHelpText = @"
 Flubu internal commands:
   <Target> help                                 Shows detailed help for specified target.
@@ -167,6 +173,12 @@ Flubu internal commands:
 
             if (_isDebug.HasValue())
                 _parsed.Debug = true;
+
+            if (_completions.HasValue())
+                _parsed.CompletionInput = _completions.Value();
+
+            if (_setupCompletions.HasValue())
+                _parsed.SetupCompletionsShell = _setupCompletions.Value();
 
             if (_generateContinousIntegrationConfigs.HasValue())
             {

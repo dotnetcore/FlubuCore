@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,6 +32,21 @@ namespace DotNet.Cli.Flubu
             if (args == null)
             {
                 args = new string[0];
+            }
+
+            // Handle --setup-completions before any DI/script loading
+            var setupIdx = Array.FindIndex(args,
+                a => a.Equals("--setup-completions", StringComparison.OrdinalIgnoreCase));
+            if (setupIdx >= 0 && setupIdx + 1 < args.Length)
+            {
+                ShellCompletionProvider.WriteSetupScript(args[setupIdx + 1]);
+                return 0;
+            }
+
+            // Suppress all logging when generating completions
+            if (args.Any(a => a.Equals("--completions", StringComparison.OrdinalIgnoreCase)))
+            {
+                FlubuConsoleLogger.SuppressAllLogging = true;
             }
 
             var statusCode = await FlubuStartup(args);
@@ -85,7 +101,7 @@ namespace DotNet.Cli.Flubu
                 }
                 catch (BuildScriptLocatorException e)
                 {
-                    if (!commandArguments.InteractiveMode)
+                    if (!commandArguments.InteractiveMode && !commandArguments.IsCompletionMode)
                     {
                         var str = commandArguments.Debug ? e.ToString() : e.Message;
                         _logger.Log(LogLevel.Error, 1, $"EXECUTION FAILED:\r\n{str}", null, (t, ex) => t);
