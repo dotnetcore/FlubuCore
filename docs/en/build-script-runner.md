@@ -50,6 +50,45 @@ It displays all tasks with description that will be executed by target. It also 
  that you don't need to execute script at the root directory of the project. Meaning if your project is for example located at "c:\_git\myproject" you can execute script inside any subfolder of that location. The location where a 
  .flubu file is found will be used as the "work directory" during a build process, and a correct "work directory" is crucial to use relative paths in our build scripts.
 
+### **Shell tab completion**
+
+FlubuCore supports shell tab completion for target names, options, and script arguments. Once set up, you can type `flubu <tab>` and get completions directly in your terminal — no need to run `flubu help` or switch to interactive mode.
+
+#### Setup
+
+Add one of the following to your shell profile:
+
+**Bash** (~/.bashrc):
+```bash
+eval "$(flubu --setup-completions bash)"
+```
+
+**Zsh** (~/.zshrc):
+```bash
+eval "$(flubu --setup-completions zsh)"
+```
+
+**PowerShell** ($PROFILE):
+```powershell
+flubu --setup-completions pwsh | Invoke-Expression
+```
+
+**Fish** (~/.config/fish/config.fish):
+```fish
+flubu --setup-completions fish | source
+```
+
+#### What completes
+
+| Input | Completes with |
+|-------|---------------|
+| `flubu <tab>` | All target names from your build script |
+| `flubu cl<tab>` | Targets starting with "cl" (e.g. `clean`) |
+| `flubu --<tab>` | Options: `--parallel`, `--dryRun`, `--noColor`, `--nodeps`, `--script`, etc. |
+| `flubu -<tab>` | Script arguments defined with `[FromArg]` attributes |
+
+Completions are dynamic — targets are discovered from your build script on each tab press. When you add a new target and save the file, it appears in completions immediately.
+
 ### **Default build script locations**
 
 - "Build.cs"

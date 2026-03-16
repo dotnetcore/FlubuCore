@@ -69,6 +69,7 @@ project.json:
 - .net core sdk 2.1.300 or greater must be installed.
 - Install FlubuCore local or global tool: `dotnet tool install --global FlubuCore.Tool`
 - Run `flubu compile` where build script is located. It will compile your solution.
+- Optionally enable [shell tab completion](build-script-runner.md#shell-tab-completion) for target and option completions in your terminal.
 
 This is very basic build script just for you to see how simple it is to get you started. FlubuCore has to offer a lot of nice features. Read more about them at [Build script fundamentals]. 
 You should also take a look at [.net core examples] they will give you hints how to write your build script and see most of the main flubu features in action. 
