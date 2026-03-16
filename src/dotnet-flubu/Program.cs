@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -44,7 +43,7 @@ namespace DotNet.Cli.Flubu
             }
 
             // Suppress all logging when generating completions
-            if (args.Any(a => a.Equals("--completions", StringComparison.OrdinalIgnoreCase)))
+            if (Array.Exists(args, a => a.Equals("--completions", StringComparison.OrdinalIgnoreCase)))
             {
                 FlubuConsoleLogger.SuppressAllLogging = true;
             }
