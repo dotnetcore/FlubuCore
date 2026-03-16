@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Threading;
-using System.Threading.Tasks;
 using FlubuCore.Context;
+using FlubuCore.LiteDb.Repository;
 using FlubuCore.WebApi.Configuration;
 using FlubuCore.WebApi.Controllers.Exceptions;
 using FlubuCore.WebApi.Model;
@@ -16,15 +13,13 @@ using Microsoft.Extensions.Options;
 
 namespace FlubuCore.WebApi.Controllers.Attributes
 {
-    using FlubuCore.LiteDb.Repository;
-
     public class ApiExceptionFilter : ExceptionFilterAttribute
     {
         private readonly ILogger<ApiExceptionFilter> _logger;
 
         private readonly IRepositoryFactory _repositoryFactory;
 
-        private WebApiSettings _webApiSettings;
+        private readonly WebApiSettings _webApiSettings;
 
         public ApiExceptionFilter(ILogger<ApiExceptionFilter> logger, IRepositoryFactory repositoryFactory,  IOptions<WebApiSettings> webApiOptions)
         {
@@ -95,6 +90,16 @@ namespace FlubuCore.WebApi.Controllers.Attributes
             {
                 Thread.Sleep(2000);
                 var logs = _repositoryFactory.CreateSerilogRepository().GetExecuteScriptLogs(context.HttpContext.TraceIdentifier);
+
+                var error = new ErrorModel
+                {
+                    ErrorCode = httpError.ErrorCode,
+                    ErrorMessage = httpError.ErrorMessage,
+                    Logs = logs,
+                    StackTrace = _webApiSettings.IncludeStackTrace ? context.Exception.StackTrace : null
+                };
+
+                context.Result = new JsonResult(error);
             }
             else
             {
