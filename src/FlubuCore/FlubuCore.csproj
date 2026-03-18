@@ -51,34 +51,34 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />    
-    <PackageReference Include="System.ServiceProcess.ServiceController" Version="7.0.0" />    
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="10.0.5" />    
     <PackageReference Include="FlubuCore.Analyzers" Version="1.0.4" />
     <PackageReference Include="FlubuCore.DotNet.Cli.Utils" Version="3.1.2" />
-    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="10.0.5" />
     <PackageReference Include="Glob" Version="1.1.9" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.0" />
     <PackageReference Include="NuGet.ProjectModel" Version="6.11.1" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.9.2" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.9.2" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.9.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="7.0.0" />        
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="7.0.0" />    
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="7.0.0" />    
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />    
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="5.3.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.3.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="5.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="10.0.5" />        
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.5" />    
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="10.0.5" />    
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.5" />    
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.5" />
     <PackageReference Include="Microsoft.Web.Administration" Version="11.1.0" />    
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="SSH.NET" Version="2020.0.2" />  
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="SSH.NET" Version="2025.1.0" />  
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Pastel" Version="4.1.0" />
-    <PackageReference Include="YamlDotNet" Version="8.1.2" />
+    <PackageReference Include="Pastel" Version="7.0.1" />
+    <PackageReference Include="YamlDotNet" Version="16.3.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlubuCore.WebApi.Client\FlubuCore.WebApi.Client.csproj" />

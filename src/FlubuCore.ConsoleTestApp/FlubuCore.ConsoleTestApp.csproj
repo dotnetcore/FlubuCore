@@ -9,4 +9,8 @@
     <ProjectReference Include="..\FlubuCore\FlubuCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.72" />
+  </ItemGroup>
+
 </Project>

@@ -6,8 +6,7 @@
     <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1701;1702;1705;1591;1573;1572;1574</NoWarn>
   <Version>10.0.1</Version><AssemblyVersion>10.0.1.0</AssemblyVersion><FileVersion>10.0.1.0</FileVersion></PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|
-  AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\net10.0\FlubuCore.WebApi.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -43,13 +42,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
     <PackageReference Include="LiteDB" Version="5.0.17" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.0.1" />
-    <PackageReference Include="Octokit" Version="0.47.0" />
-    <PackageReference Include="Serilog.Sinks.LiteDB" Version="1.0.29" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.3.9" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.3.9" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.16.0" />
+    <PackageReference Include="Octokit" Version="14.0.0" />
+    <PackageReference Include="Serilog.Sinks.LiteDB" Version="1.0.32" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -57,9 +56,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="4.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="4.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="4.0.1" />
-    <PackageReference Include="MailKit" Version="2.6.0" />
+    <PackageReference Include="MailKit" Version="4.15.1" />
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="3.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.0-preview.1.25120.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.5" />
     <ProjectReference Include="..\FlubuCore.LiteDb\FlubuCore.LiteDb.csproj" />
   </ItemGroup>
   <ItemGroup>

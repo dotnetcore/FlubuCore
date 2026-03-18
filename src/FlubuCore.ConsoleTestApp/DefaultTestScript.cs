@@ -5,6 +5,7 @@ using FlubuCore.Context.Attributes;
 using FlubuCore.Context.FluentInterface.Interfaces;
 using FlubuCore.Scripting;
 using Microsoft.Extensions.Logging;
+using Dapper;
 
 namespace FlubuCore.ConsoleTestApp
 {
@@ -14,6 +15,7 @@ namespace FlubuCore.ConsoleTestApp
 
         protected override void ConfigureTargets(ITaskContext context)
         {
+            Dapper.DbString test = new Dapper.DbString("Test");
             var clean = context.CreateTarget("Clean").AddCoreTask(x => x.Clean());
 
             context.CreateTarget("Build")
