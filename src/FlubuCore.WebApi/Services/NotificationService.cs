@@ -21,10 +21,10 @@ namespace FlubuCore.WebApi.Services
         public async Task SendEmailAsync(string subject, string body)
         {
             var message = new MimeMessage();
-            message.From.Add(new MailboxAddress(_settings.EmailFrom));
+            message.From.Add(new MailboxAddress(null, _settings.EmailFrom));
             foreach (var emailTo in _settings.EmailTo)
             {
-                message.To.Add(new MailboxAddress(emailTo));
+                message.To.Add(new MailboxAddress(null, emailTo));
             }
 
             message.Subject = subject;

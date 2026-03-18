@@ -41,7 +41,7 @@ namespace FlubuCore.WebApi.Controllers.Attributes
                 return;
             }
 
-            ValidationResult validationResult = validator.Validate(request);
+            ValidationResult validationResult = validator.Validate(new ValidationContext<object>(request));
             if (validationResult.IsValid)
             {
                 return;
