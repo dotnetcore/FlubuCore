@@ -677,7 +677,7 @@ namespace FlubuCore.Targeting
                 if (taskBase.TaskExecuted)
                 {
                     throw new ScriptException(
-                        $"Calling Execute method on task in AddTask is not valid becasuse FlubuCore calls execute on AddTask implicitly and task would be executed every time build script is runned regardles which target is executed. Remove Execute method on task ${taskBase.TaskName}.");
+                        $"Task '{taskBase.TaskName}' was already executed. Do not call Execute() inside AddTask/AddCoreTask — the target executes tasks automatically. Remove the .Execute() call.");
                 }
             }
         }
