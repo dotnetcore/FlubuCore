@@ -116,6 +116,18 @@ namespace FlubuCore.Tasks.Text
         /// <param name="path">Json path to the element to be updated</param>
         /// <param name="value">New value of the json element</param>
         /// <returns></returns>
+        public UpdateJsonFileTask Update(string path, bool value)
+        {
+            _updates.Add(path, new JValue(value));
+            return this;
+        }
+
+        /// <summary>
+        ///  Updates json property/element with specified value,
+        /// </summary>
+        /// <param name="path">Json path to the element to be updated</param>
+        /// <param name="value">New value of the json element</param>
+        /// <returns></returns>
         public UpdateJsonFileTask Update(string path, DateTime value)
         {
             _updates.Add(path, new JValue(value));
